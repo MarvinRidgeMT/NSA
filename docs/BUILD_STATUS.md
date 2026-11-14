@@ -273,3 +273,24 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 `web/`, `blender/bundle_v2.py`, `blender/test_bundle_v2.py`, `blender/build_from_nasa_bundle.py` (v2) and
 `run_blender_bundle_v2.command` were written by Claude (Anthropic) on the `b-experience` branch. Commits carry a
 `Co-Authored-By: Claude` line. The `codex-snapshot` content was written largely by OpenAI Codex.
+
+### Integration branch `integration` (14 Nov 2026, ~16:40 UTC)
+
+Base: `origin/a-science` (`5029e7f`). On top, the four b-experience commits were cherry-picked:
+`a192e59` web viewer, `6f91208` Blender bundle-v2, `acc7062` South Pole map (PGDA 69), and `01613f1` the science-bundle-v2
+adapter. The only conflicts were `.gitignore` and this file. Both were resolved by keeping a-science's content and adding
+b-experience's. No a-science file was changed.
+
+`npm run dev` in `web/` now lists `data/bundles/site01_2026-11-14_14d.json` first, so the app opens on real Site01 margins,
+events and the 22-scenario 5D table.
+
+| Suite | Result |
+|---|---|
+| `python -m unittest discover -s science/tests -t .` | 25/25 |
+| `python -m unittest discover -s blender -p 'test_*.py'` | 17 pass, 1 skipped (needs a Codex source bundle, not on this branch) |
+| `cd app && npm test` | 13/13 |
+| `cd web && npm ci && npx tsc && npx vitest run` | 32 pass, 1 skipped (Codex bundle); `vite build` OK |
+| `cd web && npx playwright test` | 14 pass, 1 skipped (Codex bundle) |
+
+Not on this branch: Codex's uncommitted work in the original folder (app/ UI changes, POLARIS-X5D-v2 source cases in
+app/data, docs edits). That still needs Codex's own commit and then a merge into `integration`.
