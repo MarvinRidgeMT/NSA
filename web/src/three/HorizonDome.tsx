@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { Html, Line, OrbitControls } from '@react-three/drei';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
+import { useWheelGuard } from './wheelGuard';
 import * as THREE from 'three';
 import type { View } from '../store/view';
 
@@ -113,10 +114,12 @@ function Dome({ v }: { v: View }) {
 }
 
 export default function HorizonDome({ v }: { v: View }) {
+  const wrap = useRef<HTMLDivElement>(null);
+  useWheelGuard(wrap);
   if (!v.series?.skyline) return <p className="note">No skyline in this bundle.</p>;
   const crit = v.series.skyline.critical?.map((c) => c.distance_m).filter((d): d is number => d != null && Number.isFinite(d)) ?? [];
   return (
-    <div className="scene3d" data-testid="horizon-dome">
+    <div className="scene3d" data-testid="horizon-dome" ref={wrap}>
       <Canvas camera={{ position: [R0 * 0.9, R0 * 0.55, R0 * 1.3], fov: 50, near: 1, far: R0 * 20 }} gl={{ preserveDrawingBuffer: true }}>
         <Dome v={v} />
       </Canvas>

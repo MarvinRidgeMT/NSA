@@ -204,3 +204,4 @@ footer { color: var(--muted); font-size: 11px; text-align: center; padding: 12px
 .dome-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-2); margin-top: 6px; }
 .dk { display: inline-block; width: 12px; height: 10px; border-radius: 2px; }
 .dk.near { background: #45d9c9; } .dk.far { background: #9d7bea; } .dk.ramp { width: 40px; background: linear-gradient(90deg, #45d9c9, #9d7bea); }
+.polar-overlay .leader { stroke: rgba(255,255,255,.7); stroke-width: 1; }

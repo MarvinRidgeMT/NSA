@@ -108,8 +108,8 @@ export function ProvenanceDrawer({ v, open, onClose }: { v: View | null; open: b
             {ds.ephemeris.source} · {ds.ephemeris.frame} · {ds.ephemeris.angleType ?? ''} · {ds.ephemeris.samples.length} samples ({ds.ephemeris.sampling})
           </p>
           <ul className="links">
-            {ds.ephemeris.records.map((r) => (
-              <li key={r.target} className="mono small">
+            {ds.ephemeris.records.map((r, i) => (
+              <li key={`${i}-${r.target}`} className="mono small">
                 {r.target}: {r.sha256 ? String(r.sha256) : 'no hash'} {r.rawFile ? `· ${String(r.rawFile)}` : ''}
               </li>
             ))}

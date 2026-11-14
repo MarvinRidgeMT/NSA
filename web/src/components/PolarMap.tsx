@@ -5,6 +5,27 @@ import type { View } from '../store/view';
 const SIZE = 560; // SVG view box (square)
 type Grey = { w: number; h: number; v: Uint8ClampedArray };
 
+/** Greedy label placement: push a label down until it no longer overlaps earlier ones. */
+type LabelIn = { id: string; px: number; py: number; text: string };
+function placeLabels(items: LabelIn[]) {
+  const out: Record<string, { x: number; y: number; shifted: boolean }> = {};
+  const boxes: [number, number, number, number][] = [];
+  for (const it of [...items].sort((a, b) => a.py - b.py)) {
+    const w = it.text.length * 7.2 + 4;
+    const x = Math.min(it.px + 12, SIZE - w);
+    let y = it.py + 4;
+    const hit = () => boxes.some(([bx, by, bw, bh]) => x < bx + bw && x + w > bx && y - 12 < by + bh && y + 3 > by);
+    let shifted = false;
+    while (hit()) {
+      y += 15;
+      shifted = true;
+    }
+    boxes.push([x, y - 12, w, 15]);
+    out[it.id] = { x, y, shifted };
+  }
+  return out;
+}
+
 function fmtPct(v: number | null | undefined, d = 1) {
   return v === null || v === undefined ? '—' : `${v.toFixed(d)} %`;
 }
@@ -78,6 +99,19 @@ export function PolarMap({ v }: { v: View | null }) {
   const bundleSite = v?.dataset.site;
   const bundleXY = bundleSite ? latLonToXY(bundleSite.latitudePlanetocentricDeg, bundleSite.longitudeEastDeg) : null;
   const selRoi = meta.rois.find((r) => r.id === sel) ?? null;
+  const inFrame = (x: number, y: number) => x >= 0 && x <= SIZE && y >= 0 && y <= SIZE;
+  const pinItems: LabelIn[] =
+    area === 'overview'
+      ? sites.map((s) => {
+          const rs = meta.rois.filter((r) => r.site === s);
+          const cx = rs.reduce((a, r) => a + r.centroidXY[0], 0) / rs.length;
+          const cy = rs.reduce((a, r) => a + r.centroidXY[1], 0) / rs.length;
+          return { id: s, px: F.toX(cx), py: F.toY(cy), text: s };
+        })
+      : [];
+  const bundleIn = bundleXY ? inFrame(F.toX(bundleXY[0]), F.toY(bundleXY[1])) : false;
+  if (bundleXY && bundleIn) pinItems.push({ id: '__bundle', px: F.toX(bundleXY[0]), py: F.toY(bundleXY[1]) + 8, text: 'loaded bundle observer' });
+  const labels = placeLabels(pinItems);
   const scaleKm = area === 'overview' ? 50 : 1;
 
   const onMove = (e: React.MouseEvent<SVGSVGElement>) => {
@@ -99,7 +133,7 @@ export function PolarMap({ v }: { v: View | null }) {
   return (
     <section className="panel polar" aria-labelledby="pm-title" data-testid="polar-map">
       <div className="panel-head">
-        <h2 id="pm-title">South Pole map · where would you land?</h2>
+        <h2 id="pm-title">South Pole visibility reference</h2>
         <span className="badge badge-nasa" data-testid="pgda69-badge">
           NASA PGDA 69 · reference product
         </span>
@@ -160,14 +194,15 @@ export function PolarMap({ v }: { v: View | null }) {
               );
             })}
             {area === 'overview' &&
-              sites.map((s) => {
-                const rs = meta.rois.filter((r) => r.site === s);
-                const cx = rs.reduce((a, r) => a + r.centroidXY[0], 0) / rs.length;
-                const cy = rs.reduce((a, r) => a + r.centroidXY[1], 0) / rs.length;
+              pinItems
+                .filter((p) => p.id !== '__bundle')
+                .map(({ id: s, px, py }) => {
+                const L = labels[s];
                 return (
                   <g key={s} className="site-pin" onClick={() => setArea(s)} role="button" tabIndex={0} aria-label={`Zoom to ${s}`} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setArea(s)} data-testid={`pin-${s}`}>
-                    <circle cx={F.toX(cx)} cy={F.toY(cy)} r={7} />
-                    <text x={F.toX(cx) + 10} y={F.toY(cy) + 4}>
+                    <circle cx={px} cy={py} r={7} />
+                    {L.shifted && <line x1={px + 5} y1={py + 3} x2={L.x - 2} y2={L.y - 4} className="leader" />}
+                    <text x={L.x} y={L.y}>
                       {s}
                     </text>
                   </g>
@@ -182,10 +217,13 @@ export function PolarMap({ v }: { v: View | null }) {
                   </text>
                 </g>
               ))}
-            {bundleXY && F.toX(bundleXY[0]) >= 0 && F.toX(bundleXY[0]) <= SIZE && F.toY(bundleXY[1]) >= 0 && F.toY(bundleXY[1]) <= SIZE && (
+            {bundleXY && bundleIn && (
               <g className="bundle-site" data-testid="bundle-site-marker">
                 <path d={`M${F.toX(bundleXY[0])},${F.toY(bundleXY[1]) - 8}l7,14h-14z`} />
-                <text x={F.toX(bundleXY[0]) + 10} y={F.toY(bundleXY[1]) + 14}>
+                {labels.__bundle?.shifted && (
+                  <line x1={F.toX(bundleXY[0])} y1={F.toY(bundleXY[1]) + 6} x2={labels.__bundle.x - 2} y2={labels.__bundle.y - 4} className="leader" />
+                )}
+                <text x={labels.__bundle?.x ?? F.toX(bundleXY[0]) + 10} y={labels.__bundle?.y ?? F.toY(bundleXY[1]) + 14}>
                   loaded bundle observer
                 </text>
               </g>
