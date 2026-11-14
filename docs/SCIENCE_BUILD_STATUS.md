@@ -220,3 +220,41 @@ SOURCE-BASED UNVALIDATED. Spec: `claude/IMPLEMENTATION_PROMPT_DECISION_EVIDENCE_
   not sharp (broad low rise), and it lies inside the 5 m tile (it is what the clones perturb). Earth loss is from far
   80 m-LDEM terrain >120 km away at every site, outside the clone tiles (relevant to A3 coverage).
 - Some docs say "the ~16 m rise". The solver says the blocker is ~16 m **away** and ~1.6 m **high**.
+
+## 9. A3 Coverage Gauge + A4 margin series (14 Nov, 13:20–13:37 ET)
+
+SOURCE-BASED UNVALIDATED. Spec: IMPLEMENTATION_PROMPT A3, A4. A1 is on GitHub as `13d23d4`.
+
+- `science/coverage.py` → `derived.coverage`: critical hours = hourly samples with |margin| < 1.0°; `covered_frac` = share of
+  them whose controlling skyline sample (A1 `per_bin.source` at the body's azimuth) is `near_5m`, i.e. inside the clone tile;
+  `uncovered_ridges` = A1 ridge ids behind uncovered critical hours. Top level = Sun (spec shape), `earth` alongside, plus
+  `all_hours_covered_frac` (same test over every hour, comparable to the batch gauge). `covered_frac` is null when there are
+  no critical hours.
+- `science/margins.py` → `derived.margin_series`: per hourly sample the nominal Sun/Earth margin (copied from `samples`) and
+  min/max over **PGDA 78 clones 1–20** (near field = clone, ground height from the clone, same far DEM / 1 m ray step /
+  280 km). Nominal Horizons az/el reused for every clone (observer-height parallax < 1e-8°). Also per clone: hourly Sun and
+  Sun+Earth visible %, and per sample the number of clones with the centre visible.
+- Schema: `derived.coverage`, `derived.margin_series` added (same one-line `derived` entry). Viewer export: each scenario
+  carries `coverage` and `margin_series`; `derived.coverage` = baseline scenario.
+- Tests 40 → **47** (`test_coverage.py`: ridge outside the tile → 0, inside → 1, threshold, bundles reproducible;
+  `test_margins.py`: margin sign = visibility flag at every sample, clone min/max consistent with clone counts, clone 1
+  recomputed).
+
+| Bundle | Sun critical h / covered | Sun all-hours covered | Earth critical h / covered | Sun % over 20 clones | Sun+Earth % over 20 clones |
+|---|---|---|---|---|---|
+| Site04 ROI3, 1 m | 39 h / **100 %** | 34.4 % | 35 h / 100 % | **87.5–97.3** | 64.4–74.5 |
+| Site04 ROI3, 10 m | 0 / — | 0 % | 30 h / **0 %** | 100 | 78.6 (all clones) |
+| Site04 ROI4, 1 m and 10 m | 0 / — | 0 % | 30 h / 0 % | 100 | 78.6 (all clones) |
+| Site01 ROI6, 1 m | 0 / — | 9.5 % | 33 h / 0 % | 100 | 81.6 (all clones) |
+| Site01 ROI6, 10 m | 0 / — | 0 % | 33 h / 0 % | 100 | 81.6 (all clones) |
+
+- Reading: at Site04 ROI3 with a 1 m mast every near-critical Sun hour is controlled by terrain inside the clone tile, so
+  the 20-clone spread is meaningful there. Every near-critical **Earth** hour at a 10 m mast (and at Site01 ROI6 / Site04 ROI4)
+  is controlled by far terrain the clones do not change: "every clone agrees" on Earth says nothing about terrain
+  uncertainty (wording rule: show `covered_frac` next to any such claim).
+- Cross-check with the batch (BATCH_RESULTS_CLOUD / THIRD, 20 clones, 1 m step):
+  - Site04 ROI3 1 m Sun range: repo 87.5–97.3 % vs batch 87.2–97.0 %, i.e. **1 hourly sample higher at each end** (same
+    direction and size as the nominal gap explained in A_SCIENCE_STATUS 13:06: bin-centre placement).
+  - Sun+Earth: repo 64.4–74.5 % vs batch 62.6–74.8 %; the minimum differs by 6 samples (Earth side). Not investigated.
+  - Batch coverage gauge (inscribed-radius test, all hours): Site04 ROI3 Sun 34.1 / Earth 58.5 %, Site01 ROI6 Sun 11.0 /
+    Earth 0 %; repo 34.4 / 61.1 % and 9.5 / 0 %. Same picture, different tie-breaking.

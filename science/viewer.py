@@ -137,6 +137,8 @@ def scenario(sid, mast, b, near, far, ox, oy, n, baseline=False):
                         'Metrics use bisection-refined crossing intervals; strips show the hourly samples.'),
         'observer': {'xM': 0.0, 'yM': 0.0, 'groundM': b['site']['height_m'], 'mastM': mast},
         'attribution': b.get('derived', {}).get('attribution'),  # A1 Ridge of Record (science/attribution.py)
+        'coverage': b.get('derived', {}).get('coverage'),  # A3 Coverage Gauge (science/coverage.py)
+        'margin_series': b.get('derived', {}).get('margin_series'),  # A4 nominal + clone min/max margins (science/margins.py)
         'skyline': {'azimuthDeg': sk['azimuth_deg'], 'elevationDeg': sk['elevation_deg'], 'reachM': sk['valid_reach_m'],
                     'coverage': ['full' if st == 'complete' else 'truncated' for st in sk['status']]},
         'samples': {'sun': series['sun'], 'earth': series['earth'], 'both': {'visible': both}},
@@ -194,6 +196,9 @@ def dataset(sid, masts):
             # A1: the baseline (first-mast) scenario's attribution; every scenario also carries its own.
             'attribution': None if b0.get('derived', {}).get('attribution') is None else
             {**b0['derived']['attribution'], 'scenarioId': 'baseline', 'mast_m': masts[0]},
+            # A3: same convention (baseline scenario; every scenario carries its own).
+            'coverage': None if b0.get('derived', {}).get('coverage') is None else
+            {**b0['derived']['coverage'], 'scenarioId': 'baseline', 'mast_m': masts[0]},
         },
     }
 

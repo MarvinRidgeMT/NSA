@@ -86,6 +86,18 @@ shift from the toterr raster) and `repair`.
 - Hours are hourly samples × step (both window endpoints included), body azimuth → nearest bin; loss = centre not visible.
   Interval metrics (§4) remain the numbers to quote for visibility %.
 
+## 5c. derived.coverage (A3, optional)
+- `critical_threshold_deg` (1.0), `n_critical_h`, `covered_frac` (0–1 or null if no critical hours), `uncovered_ridges`
+  (A1 ids), `all_hours_covered_frac`, `n_hours` — for the Sun; the same keys under `earth`. `wording_rule`, `method`, `label`.
+- Covered = the controlling skyline sample at the body's azimuth (nearest bin) is from the 5 m clone tile.
+
+## 5d. derived.margin_series (A4, optional)
+- `t_unix` (= samples), `n_clones`, `clone_ids`; for `sun` and `earth`: `*_margin_deg` (nominal), `*_margin_clone_min_deg`,
+  `*_margin_clone_max_deg`, `*_n_clones_visible` (per sample), `*_center_visible_pct_hourly_by_clone`;
+  `sun_and_earth_center_visible_pct_hourly_by_clone`; `clones[]` (ground height, tile SHA-256); `method`; `label`.
+- Margin = body centre elevation − skyline (deg); visible = perpendicular margin > 0 (§3). Clone spread = N of N terrain
+  models tested, not a probability.
+
 ## 6. UI rules
 
 1. Show `validation_status.overall` and each `label` next to the numbers.
