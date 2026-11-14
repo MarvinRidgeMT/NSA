@@ -20,9 +20,9 @@ describe('one store drives every view', () => {
     for (const k of [0, 7, 23, 47]) {
       s.setSampleIndex(k);
       const { result } = renderHook(() => useView());
-      expect(result.current!.sun.marginDeg).toBe(sc.samples.sun.marginDeg[k]);
-      expect(result.current!.earth.marginDeg).toBe(sc.samples.earth.marginDeg[k]);
-      expect(result.current!.sun.visible).toBe(sc.samples.sun.visible[k]);
+      expect(result.current!.sun.marginDeg).toBe(sc.samples!.sun.marginDeg[k]);
+      expect(result.current!.earth.marginDeg).toBe(sc.samples!.earth.marginDeg[k]);
+      expect(result.current!.sun.visible).toBe(sc.samples!.sun.visible[k]);
       expect(result.current!.sun.az).toBe(s.loaded!.bundle.datasets[0].ephemeris.samples[k].sun.az);
     }
   });

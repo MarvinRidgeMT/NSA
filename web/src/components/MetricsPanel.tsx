@@ -1,4 +1,5 @@
 import { fmtSigned, type TargetView, type View } from '../store/view';
+import type { Metric } from '../bundle/types';
 
 function visText(t: TargetView): string {
   if (t.visible === undefined) return 'not in bundle';
@@ -6,7 +7,16 @@ function visText(t: TargetView): string {
   return t.visible ? 'VISIBLE' : 'BLOCKED';
 }
 
-function Now({ name, t, cls }: { name: 'sun' | 'earth'; t: TargetView; cls: string }) {
+function fmtMetric(m: Metric, v: number) {
+  if (m.unit === 'fraction') return v.toFixed(3);
+  return `${v.toFixed(m.unit === '%' ? 1 : 2)} ${m.unit}`;
+}
+
+function Now({ name, t, cls, v }: { name: 'sun' | 'earth'; t: TargetView; cls: string; v: View }) {
+  const ser = v.series?.samples?.[name];
+  const k = v.br.exact;
+  const disk = ser?.diskFraction && k !== null ? ser.diskFraction[k] : undefined;
+  const hitLabel = ser?.firstHitKind === 'horizon-setting-cell' ? 'Blocking cell' : 'First hit';
   return (
     <article className={`now ${cls}`} data-testid={`now-${name}`}>
       <h3>{name === 'sun' ? 'Sun' : 'Earth'}</h3>
@@ -21,12 +31,20 @@ function Now({ name, t, cls }: { name: 'sun' | 'earth'; t: TargetView; cls: stri
         <dd data-testid={`${name}-margin`} data-value={t.marginDeg ?? ''} className={t.marginDeg === null ? '' : t.marginDeg > 0 ? 'ok' : 'bad'}>
           {t.marginDeg === null ? 'not in bundle' : fmtSigned(t.marginDeg, 4)}
         </dd>
-        <dt>State</dt>
+        <dt>Centre</dt>
         <dd data-testid={`${name}-state`}>
           {t.visible === false ? '✕ ' : t.visible ? '● ' : ''}
           {visText(t)}
         </dd>
-        <dt>First hit</dt>
+        {disk !== undefined && (
+          <>
+            <dt>Disk visible</dt>
+            <dd data-testid={`${name}-disk`} data-value={Number.isFinite(disk) ? disk : ''}>
+              {Number.isFinite(disk) ? `${(disk * 100).toFixed(1)} %` : '—'}
+            </dd>
+          </>
+        )}
+        <dt>{hitLabel}</dt>
         <dd>{t.firstHitM === undefined ? '—' : t.firstHitM === null ? 'clear' : `${(t.firstHitM / 1000).toFixed(2)} km`}</dd>
       </dl>
     </article>
@@ -35,15 +53,24 @@ function Now({ name, t, cls }: { name: 'sun' | 'earth'; t: TargetView; cls: stri
 
 export function MetricsPanel({ v }: { v: View }) {
   const sc = v.scenario;
+  const hasConstraints = !!sc?.metrics.some((m) => m.constraint);
+  const hasDelta = !!sc?.metrics.some((m) => m.delta !== undefined);
   return (
     <section className="panel" aria-labelledby="mx-title">
       <div className="panel-head">
         <h2 id="mx-title">Metrics & constraints</h2>
-        <span className="muted">{v.br.exact === null ? 'margins interpolated between bundle samples' : 'exact bundle sample'}</span>
+        <span className="muted">
+          {v.dataset.snapToSamples ? 'exact bundle sample (contract: no interpolation)' : v.br.exact === null ? 'margins interpolated between bundle samples' : 'exact bundle sample'}
+        </span>
       </div>
+      {v.seriesIsBaseline && (
+        <p className="note small" data-testid="series-note">
+          “{sc?.label}” carries scenario metrics only. The time-dependent values below are the baseline’s.
+        </p>
+      )}
       <div className="now-grid">
-        <Now name="sun" t={v.sun} cls="sun" />
-        <Now name="earth" t={v.earth} cls="earth" />
+        <Now name="sun" t={v.sun} cls="sun" v={v} />
+        <Now name="earth" t={v.earth} cls="earth" v={v} />
         <article className="now both" data-testid="now-both">
           <h3>Both</h3>
           <p className="big">{v.both === undefined ? 'not in bundle' : v.both === null ? 'transition' : v.both ? '● together' : '✕ not together'}</p>
@@ -56,21 +83,29 @@ export function MetricsPanel({ v }: { v: View }) {
             <tr>
               <th scope="col">Metric ({sc.label})</th>
               <th scope="col">Value</th>
-              <th scope="col">Limit</th>
-              <th scope="col">Margin</th>
-              <th scope="col">Result</th>
+              {hasDelta && <th scope="col">vs baseline</th>}
+              {hasConstraints && (
+                <>
+                  <th scope="col">Limit</th>
+                  <th scope="col">Margin</th>
+                  <th scope="col">Result</th>
+                </>
+              )}
             </tr>
           </thead>
           <tbody>
             {sc.metrics.map((m) => (
               <tr key={m.id} data-testid={`metric-${m.id}`}>
                 <th scope="row">{m.label}</th>
-                <td data-value={m.value}>
-                  {m.value.toFixed(m.unit === '%' ? 1 : 2)} {m.unit}
-                </td>
-                <td>{m.constraint ? `${m.constraint.op} ${m.constraint.threshold} ${m.unit}` : '—'}</td>
-                <td data-value={m.marginToLimit ?? ''}>{m.marginToLimit === undefined ? '—' : fmtSigned(m.marginToLimit, 2, ` ${m.unit}`)}</td>
-                <td className={m.pass === undefined ? '' : m.pass ? 'ok' : 'bad'}>{m.pass === undefined ? '—' : m.pass ? '✓ PASS' : '✕ FAIL'}</td>
+                <td data-value={m.value}>{fmtMetric(m, m.value)}</td>
+                {hasDelta && <td data-value={m.delta ?? ''}>{m.delta === undefined ? '—' : fmtSigned(m.delta, m.unit === 'fraction' ? 3 : m.unit === '%' ? 1 : 2, m.unit === 'fraction' ? '' : ` ${m.unit}`)}</td>}
+                {hasConstraints && (
+                  <>
+                    <td>{m.constraint ? `${m.constraint.op} ${m.constraint.threshold} ${m.unit}` : '—'}</td>
+                    <td data-value={m.marginToLimit ?? ''}>{m.marginToLimit === undefined ? '—' : fmtSigned(m.marginToLimit, 2, ` ${m.unit}`)}</td>
+                    <td className={m.pass === undefined ? '' : m.pass ? 'ok' : 'bad'}>{m.pass === undefined ? '—' : m.pass ? '✓ PASS' : '✕ FAIL'}</td>
+                  </>
+                )}
               </tr>
             ))}
           </tbody>
@@ -80,6 +115,9 @@ export function MetricsPanel({ v }: { v: View }) {
           This bundle carries raw inputs only (DEM + JPL ephemeris). Visibility, margins and constraint results must come from the science branch
           (`derived` block); the viewer does not compute them.
         </p>
+      )}
+      {sc && !hasConstraints && (
+        <p className="muted small">No mission limits are defined in this bundle, so no PASS/FAIL is shown. Limits are a team decision, not a viewer default.</p>
       )}
     </section>
   );

@@ -16,6 +16,8 @@ export interface PolarisState {
   scenarioId: string | null;
   utcMs: number | null;
   timeError: string | null;
+  /** informational: e.g. the requested time was snapped to the nearest bundle sample */
+  timeNote: string | null;
   selectedFailureId: string | null;
   playing: boolean;
 
@@ -62,6 +64,7 @@ export const usePolaris = create<PolarisState>((set, get) => {
     scenarioId: null,
     utcMs: null,
     timeError: null,
+    timeNote: null,
     selectedFailureId: null,
     playing: false,
 
@@ -108,8 +111,19 @@ export const usePolaris = create<PolarisState>((set, get) => {
     /** Refuses (returns false, sets timeError) for any time outside coverage. */
     setTime: (ms) => {
       try {
-        bracket(timesOf(get()), ms);
-        set({ utcMs: ms, timeError: null });
+        const t = timesOf(get());
+        const br = bracket(t, ms);
+        const ds = get().loaded?.bundle.datasets[get().datasetIdx];
+        if (ds?.snapToSamples && br.exact === null) {
+          const k = br.f <= 0.5 ? br.i0 : br.i1;
+          set({
+            utcMs: t[k],
+            timeError: null,
+            timeNote: `This bundle's contract allows sample times only: snapped ${new Date(ms).toISOString().replace('.000Z', 'Z')} to the nearest sample.`,
+          });
+          return true;
+        }
+        set({ utcMs: ms, timeError: null, timeNote: null });
         return true;
       } catch (e) {
         set({ timeError: e instanceof CoverageError ? `Refused: ${e.message}. The viewer never extrapolates.` : String(e) });
@@ -121,7 +135,7 @@ export const usePolaris = create<PolarisState>((set, get) => {
       const t = timesOf(get());
       if (!t.length) return;
       const k = Math.max(0, Math.min(t.length - 1, i));
-      set({ utcMs: t[k], timeError: null });
+      set({ utcMs: t[k], timeError: null, timeNote: null });
     },
 
     stepSample: (delta) => {
@@ -136,8 +150,8 @@ export const usePolaris = create<PolarisState>((set, get) => {
     selectFailure: (id) => {
       const s = get();
       if (!id) return set({ selectedFailureId: null });
-      const sc = s.loaded?.bundle.datasets[s.datasetIdx].derived?.scenarios.find((x) => x.id === s.scenarioId);
-      const f = sc?.failures.find((x) => x.id === id);
+      const scs = s.loaded?.bundle.datasets[s.datasetIdx].derived?.scenarios ?? [];
+      const f = scs.flatMap((x) => x.failures).find((x) => x.id === id);
       if (!f) return;
       set({ selectedFailureId: id, playing: false });
       get().setSampleIndex(f.sampleIndex);

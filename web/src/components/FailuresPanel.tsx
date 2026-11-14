@@ -54,8 +54,8 @@ export function CrossSection({ f }: { f: Failure }) {
 
 export function FailuresPanel({ v }: { v: View }) {
   const { selectFailure } = usePolaris.getState();
-  const sc = v.scenario;
-  if (!sc) return null;
+  const sc = v.series;
+  if (!sc || sc.failures.length === 0) return null;
   return (
     <section className="panel" aria-labelledby="fl-title">
       <div className="panel-head">

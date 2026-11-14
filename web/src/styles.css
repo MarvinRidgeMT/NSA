@@ -77,7 +77,9 @@ h3 { font-size: 13px; margin: 10px 0 4px; }
 .chart .tick { fill: var(--muted); font-size: 11px; }
 .chart .chart-label { fill: var(--ink); font-size: 12px; font-weight: 600; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
 .chart .chart-note { fill: var(--muted); font-size: 13px; }
-.chart .skyline { fill: #3b4656; stroke: #b9c3d1; stroke-width: 1.5; fill-opacity: .55; }
+.chart .skyline, .chart .skyline-fill { fill: #3b4656; fill-opacity: .55; }
+.chart .skyline-line { fill: none; stroke: #b9c3d1; stroke-width: 1.5; }
+.chart .skyline-truncated { fill: none; stroke: #e0a73a; stroke-width: 2; stroke-dasharray: 4 3; }
 .chart .sun .target-dot { fill: var(--sun); stroke: var(--surface); stroke-width: 2; }
 .chart .earth .target-dot { fill: var(--earth); stroke: var(--surface); stroke-width: 2; }
 .chart .sun .margin-line { stroke: var(--sun); stroke-width: 2; }
@@ -182,3 +184,23 @@ footer { color: var(--muted); font-size: 11px; text-align: center; padding: 12px
 .caveats { margin-top: 10px; color: var(--ink-2); font-size: 13px; }
 .caveats summary { cursor: pointer; color: var(--ink); }
 @media (max-width: 1100px) { .polar-body { grid-template-columns: 1fr; } }
+
+/* science-bundle-v2: scenarios, events, dome */
+.small { font-size: 12px; }
+.table-scroll { overflow-x: auto; }
+.scen td { white-space: nowrap; }
+.scen tr.fam th { background: var(--surface-2); color: var(--ink-2); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+.scen tr.sel { background: #10262a; }
+.scen tr.repair th button { color: var(--both); }
+.delta { font-size: 11px; margin-left: 4px; }
+.offset-grid { margin: 0 0 10px; }
+.offset-grid figcaption { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+.og { display: grid; grid-template-columns: repeat(3, minmax(0, 92px)); gap: 3px; }
+.og-cell { border: 1px solid var(--line); border-radius: 6px; padding: 6px 4px; display: flex; flex-direction: column; align-items: center; cursor: pointer; font-variant-numeric: tabular-nums; }
+.og-cell.centre { outline: 2px dashed rgba(255,255,255,.5); outline-offset: -4px; }
+.og-cell.sel { border-color: #fff; border-width: 2px; }
+.og-val { font-weight: 700; font-size: 15px; }
+.og-pos { font-size: 10px; opacity: .8; }
+.dome-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-2); margin-top: 6px; }
+.dk { display: inline-block; width: 12px; height: 10px; border-radius: 2px; }
+.dk.near { background: #45d9c9; } .dk.far { background: #9d7bea; } .dk.ramp { width: 40px; background: linear-gradient(90deg, #45d9c9, #9d7bea); }

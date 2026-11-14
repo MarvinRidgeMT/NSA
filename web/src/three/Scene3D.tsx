@@ -6,6 +6,7 @@ import { gridDirection } from '../bundle/frame';
 import type { Dem } from '../bundle/types';
 import { usePolaris } from '../store/store';
 import type { View } from '../store/view';
+import HorizonDome from './HorizonDome';
 
 /**
  * Axes: bundle grid (x = grid east, y = grid north, z = up, metres) is drawn as
@@ -25,9 +26,9 @@ export interface Observer {
 
 /** Observer from the scenario, else the DEM sample nearest the crop centre (display placement only). */
 export function observerFor(v: View): Observer {
-  const o = v.scenario?.observer;
-  if (o) return { x: o.xM, y: o.yM, ground: o.groundM, mast: o.mastM, source: 'bundle' };
-  const d = v.dataset.dem;
+  const o = v.series?.observer;
+  if (o && Number.isFinite(o.xM)) return { x: o.xM, y: o.yM, ground: o.groundM, mast: o.mastM, source: 'bundle' };
+  const d = v.dataset.dem!;
   const i = Math.round(-d.originX / d.spacing);
   const j = Math.round(-d.originY / d.spacing);
   const ci = Math.min(d.n - 1, Math.max(0, i));
@@ -122,12 +123,13 @@ function Ray({
 
 function Scene({ v }: { v: View }) {
   const obs = observerFor(v);
-  const { g, halfExtent } = useDemGeometry(v.dataset.dem, obs);
-  const edge = v.dataset.dem.validCoverageRadiusM ?? halfExtent;
+  const dem = v.dataset.dem!;
+  const { g, halfExtent } = useDemGeometry(dem, obs);
+  const edge = dem.validCoverageRadiusM ?? halfExtent;
   const { selectFailure } = usePolaris.getState();
   const sunDir = gridDirection(v.basis, v.sun.az, Math.max(v.sun.el, 0.5));
   const light = toThree(sunDir[0], sunDir[1], sunDir[2]).multiplyScalar(halfExtent * 2);
-  const failures = v.scenario?.failures ?? [];
+  const failures = v.series?.failures ?? [];
   const n = gridDirection(v.basis, 0, 0);
   const north = toThree(n[0], n[1], 0).multiplyScalar(halfExtent * 0.9);
 
@@ -177,7 +179,13 @@ function Scene({ v }: { v: View }) {
 }
 
 export default function Scene3D({ v }: { v: View }) {
-  const half = ((v.dataset.dem.n - 1) * v.dataset.dem.spacing) / 2;
+  if (!v.dataset.dem) return <HorizonDome v={v} />;
+  return <DemScene v={v} />;
+}
+
+function DemScene({ v }: { v: View }) {
+  const dem = v.dataset.dem!;
+  const half = ((dem.n - 1) * dem.spacing) / 2;
   const obs = observerFor(v);
   return (
     <div className="scene3d" data-testid="scene3d">
@@ -185,7 +193,7 @@ export default function Scene3D({ v }: { v: View }) {
         <Scene v={v} />
       </Canvas>
       <p className="scene-note">
-        DEM {v.dataset.dem.n}×{v.dataset.dem.n} @ {v.dataset.dem.spacing} m (display decimated to ≤{MAX_AXIS}²), 1:1 vertical. Observer{' '}
+        DEM {dem.n}×{dem.n} @ {dem.spacing} m (display decimated to ≤{MAX_AXIS}²), 1:1 vertical. Observer{' '}
         {obs.source === 'bundle' ? `from bundle, mast ${obs.mast} m` : 'placed at crop centre for display (no scenario in bundle)'}. Rays end at the bundle's first-hit
         distance; red octahedra are bundle critical cells — click one.
       </p>
