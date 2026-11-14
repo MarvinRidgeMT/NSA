@@ -15,3 +15,6 @@ app/data/source/**/*.tif
 dist/*.zip
 tmp/
 .DS_Store
+
+# PGDA 69 / 78 downloads for tools/pgda69 (re-fetched with pinned SHA-256)
+data/raw/pgda69/

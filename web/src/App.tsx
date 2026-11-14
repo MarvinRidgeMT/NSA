@@ -9,6 +9,7 @@ import { MetricsPanel } from './components/MetricsPanel';
 import { FailuresPanel } from './components/FailuresPanel';
 import { ProvenanceDrawer } from './components/ProvenanceDrawer';
 import { CesiumMoon } from './three/CesiumMoon';
+import { PolarMap } from './components/PolarMap';
 import type { BundleIndexEntry } from './bundle/types';
 
 const Scene3D = lazy(() => import('./three/Scene3D'));
@@ -124,6 +125,9 @@ export default function App() {
             </div>
           </>
         )}
+        <Guard label="South Pole map">
+          <PolarMap v={v} />
+        </Guard>
       </main>
       <footer>
         POLARIS X · b-experience viewer · research prototype, not flight software · the viewer reads science-bundle-v2 and computes no skylines, visibility or metrics
