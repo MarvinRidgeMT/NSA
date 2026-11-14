@@ -16,3 +16,6 @@ app/data/source/**/*.tif
 # release zips
 dist/*.zip
 .DS_Store
+
+# scratch output from other tools
+tmp/
