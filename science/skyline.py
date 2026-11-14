@@ -29,7 +29,8 @@ def _distances(step_near, near_cut, step_far, max_range):
 
 
 def compute_skyline(lat, lon, obs_height_m, mast_m, near=None, far=None, bins=720,
-                    max_range_m=150_000.0, step_m=None, near_range_m=None, far_step_m=None):
+                    max_range_m=150_000.0, step_m=None, near_range_m=None, far_step_m=None,
+                    with_gap=False, gap_sep_cells=2):
     if near is None and far is None:
         raise ValueError('need at least one DEM')
     step_near = step_m or (near.step if near is not None else far.step)
@@ -78,6 +79,20 @@ def compute_skyline(lat, lon, obs_height_m, mast_m, near=None, far=None, bins=72
                      'grid_y_m': round(float(y[i, j]), 2), 'height_m': round(float(h[i, j]), 3),
                      'dem': names[int(src[i, j])]})
 
+    gap = None
+    if with_gap:
+        # Runner-up: best elevation among samples at least gap_sep_cells DEM cells (of the DEM that
+        # supplied the controlling sample) away from it along the ray. gap_deg = best - runner-up.
+        cell = {1: near.step if near is not None else None, 2: far.step if far is not None else None}
+        gap = []
+        for i in range(bins):
+            if k[i] < 0:
+                gap.append(None); continue
+            j = k[i]; sep = gap_sep_cells * cell[int(src[i, j])]
+            far_mask = np.abs(d - d[j]) >= sep
+            cand = np.where(far_mask & np.isfinite(el_masked[i]), el_masked[i], np.nan)
+            gap.append(None if not np.isfinite(cand).any() else round(float(el_masked[i, j] - np.nanmax(cand)), 5))
+
     # Upper bound on what terrain beyond max_range could contribute, using the
     # max height present in the far DEM (smooth-sphere geometry).
     beyond = None
@@ -92,7 +107,7 @@ def compute_skyline(lat, lon, obs_height_m, mast_m, near=None, far=None, bins=72
     range_limited = [bool(beyond is not None and e is not None and e < beyond) for e in out_el]
     dip = -math.degrees(math.acos(frames.R_MOON_M / (frames.R_MOON_M + obs_height_m + mast_m))) \
         if obs_height_m + mast_m > 0 else 0.0
-    return {
+    out = {
         'bins': bins, 'azimuth_deg': az.tolist(), 'elevation_deg': out_el, 'status': status,
         'critical': crit, 'valid_reach_m': reach,
         'n_truncated': int(sum(s == 'truncated' for s in status)),
@@ -107,6 +122,13 @@ def compute_skyline(lat, lon, obs_height_m, mast_m, near=None, far=None, bins=72
                                   'smooth_sphere_dip_deg is the bare-sphere geometric dip at this observer height.'},
         'method': 'great-circle rays, closed-form polar stereographic, bilinear DEM, Moon-fixed 3D elevation vs local up, single ray per bin centre, no refraction',
     }
+    if with_gap:
+        out['runner_up_gap_deg'] = gap
+        out['critical_source'] = [None if k[i] < 0 else ('near_5m' if int(src[i, k[i]]) == 1 else 'far_80m')
+                                  for i in range(bins)]
+        out['critical_index'] = [None if k[i] < 0 else int(k[i]) for i in range(bins)]
+        out['gap_sep_cells'] = gap_sep_cells
+    return out
 
 
 def _near_extent(near, lat, lon):

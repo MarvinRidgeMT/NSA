@@ -188,3 +188,35 @@ has no error raster.
 - `python3 -m unittest discover -s science/tests -t .` → exit 0, 34 tests OK.
 - Note: `generator.git_commit` in these bundles names the commit the regeneration ran on in Claude's workspace. After
   `git am` on another machine, that commit has a different hash but the same tree.
+
+## 8. A1 Ridge of Record (14 Nov, 13:10–13:20 ET)
+
+SOURCE-BASED UNVALIDATED. Spec: `claude/IMPLEMENTATION_PROMPT_DECISION_EVIDENCE_2026-11-14.md` A1.
+
+- `science/skyline.py`: new opt-in `with_gap=True` adds per bin `runner_up_gap_deg` (controlling elevation minus the best
+  elevation among ray samples ≥ 2 DEM cells away, cell of the DEM that supplied the controlling sample),
+  `critical_source` (`near_5m` / `far_80m`) and `critical_index`. Default output is unchanged (all bundles reproduce).
+- `science/attribution.py` (new): clusters bins into ridges (adjacent bins whose controlling points are within 2 far-field
+  cells = 160 m, **plus the ray spacing D·Δθ** — without that allowance every ridge beyond ~18 km split into single bins),
+  attributes each hourly Sun/Earth sample to the nearest bin, and counts `ctrl_h` / `*_loss_h` per ridge.
+  `of_record` = the ridge cost at least one Sun or Earth sample. `python3 -m science.attribution --write <bundle>` recomputes
+  the skyline, **refuses to write unless it reproduces the stored skyline exactly**, and writes `derived.attribution`.
+- Schema: optional `derived.attribution` block (one added line). Viewer export: each scenario carries its own
+  `attribution`; `derived.attribution` = the baseline (first mast) scenario's.
+- Tests 34 → **40** (`science/tests/test_attribution.py`): planted plateau (SYNTHETIC) is the only ridge of record and its
+  span is 80–100° within one bin; +50 m raises its Sun loss hours; loss hours = blocked samples; per-bin shapes; circular
+  wrap of clusters; the real Site04 ROI3 bundle lists ridges and its Sun loss hours equal its blocked samples.
+- Real results (14-day window, hourly samples):
+
+| Bundle | Ridges of record | Sun loss | Earth loss | Main Sun blocker |
+|---|---|---|---|---|
+| Site04 ROI3, 1 m | 3 | 19 h | 75 h | R3: near_5m, 12–169 m away (mean 16 m), az 78–144°, +1.6 m above the site ground, all 19 Sun-loss hours |
+| Site04 ROI3, 10 m | 3 | 0 h | 72 h | none (Earth: far_80m ridges ~128–132 km, az ~151–158°) |
+| Site04 ROI4, 1 m / 10 m | 2 / 2 | 0 h | 72 h | none |
+| Site01 ROI6, 1 m / 10 m | 3 / 3 | 0 h | 62 h | none (Earth: far_80m ridges ~137–141 km, az ~131–137°) |
+
+- Reading: at Site04 ROI3 the 1 m mast's Sun loss comes from a ~1.6 m rise right next to the lander, not distant
+  terrain; at 10 m it vanishes. The runner-up gap at that rise is tiny (0.0003°), so its exact position along the ray is
+  not sharp (broad low rise), and it lies inside the 5 m tile (it is what the clones perturb). Earth loss is from far
+  80 m-LDEM terrain >120 km away at every site, outside the clone tiles (relevant to A3 coverage).
+- Some docs say "the ~16 m rise". The solver says the blocker is ~16 m **away** and ~1.6 m **high**.

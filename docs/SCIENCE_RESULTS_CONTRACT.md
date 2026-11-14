@@ -74,6 +74,18 @@ new skyline, new Horizons samples where position or time changes, and new events
 grid, ±100 m), `mast-height` (2/5/10 m), `arrival-shift` (±12 h), `dem-uncertainty` (product-78 clones, or a ±1σ
 shift from the toterr raster) and `repair`.
 
+## 5b. derived.attribution (A1 Ridge of Record, optional)
+- `ridges[]`: `id` (R1…, sorted by Sun+Earth loss hours, then Sun control hours), `centroid_lat`/`centroid_lon` (mean grid
+  position of the ridge's controlling points), `dist_km` (mean range) and `dist_range_km`, `az_span_deg` [a, b] (bin
+  centres, clockwise from a to b; may wrap through 0°), `n_bins`, `height_m` (max DEM height, 1737.4 km sphere datum),
+  `relief_m` (vs the site ground), `max_elev_deg`, `min_gap_deg`, `source` (`near_5m` / `far_80m` / `mixed`),
+  `sun_loss_h`, `earth_loss_h`, `ctrl_h` (= `sun_ctrl_h`), `earth_ctrl_h`, `of_record`.
+  Only clusters that held the Sun or Earth azimuth at least once are listed; `n_clusters_total` counts all.
+- `per_bin` (720 each): `ridge_idx` (index into `ridges`, or null), `ctrl_idx` (controlling sample index on the ray),
+  `ctrl_dist_m`, `gap_deg` (runner-up gap), `source`.
+- Hours are hourly samples × step (both window endpoints included), body azimuth → nearest bin; loss = centre not visible.
+  Interval metrics (§4) remain the numbers to quote for visibility %.
+
 ## 6. UI rules
 
 1. Show `validation_status.overall` and each `label` next to the numbers.

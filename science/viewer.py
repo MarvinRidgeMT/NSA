@@ -136,6 +136,7 @@ def scenario(sid, mast, b, near, far, ox, oy, n, baseline=False):
                         f'(sha256 {hashlib.sha256(json.dumps(b, sort_keys=True).encode()).hexdigest()[:16]}…). '
                         'Metrics use bisection-refined crossing intervals; strips show the hourly samples.'),
         'observer': {'xM': 0.0, 'yM': 0.0, 'groundM': b['site']['height_m'], 'mastM': mast},
+        'attribution': b.get('derived', {}).get('attribution'),  # A1 Ridge of Record (science/attribution.py)
         'skyline': {'azimuthDeg': sk['azimuth_deg'], 'elevationDeg': sk['elevation_deg'], 'reachM': sk['valid_reach_m'],
                     'coverage': ['full' if st == 'complete' else 'truncated' for st in sk['status']]},
         'samples': {'sun': series['sun'], 'earth': series['earth'], 'both': {'visible': both}},
@@ -190,6 +191,9 @@ def dataset(sid, masts):
             'sourceBundles': [{'file': p.relative_to(ROOT).as_posix(), 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()}
                               for p in paths],
             'scenarios': [scenario(sid, m, b, near, far, ox, oy, CROP_N, baseline=(i == 0)) for i, (m, b) in enumerate(zip(masts, bs))],
+            # A1: the baseline (first-mast) scenario's attribution; every scenario also carries its own.
+            'attribution': None if b0.get('derived', {}).get('attribution') is None else
+            {**b0['derived']['attribution'], 'scenarioId': 'baseline', 'mast_m': masts[0]},
         },
     }
 
