@@ -144,3 +144,41 @@ footer { color: var(--muted); font-size: 11px; text-align: center; padding: 12px
   .topbar { flex-direction: column; align-items: stretch; }
   .topbar > * { min-width: 0; max-width: 100%; }
 }
+
+/* South Pole map (NASA PGDA 69) */
+.polar { margin-top: 12px; }
+.badge-nasa { color: #9fd3ff; border-color: #3b6c94; background: #0d1d2c; }
+.polar-controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; margin-bottom: 10px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; padding: 2px; margin: 0; }
+.seg-btn { flex-direction: row; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 6px; cursor: pointer; text-transform: none; letter-spacing: 0; font-size: 13px; color: var(--ink-2); }
+.seg-btn input { position: absolute; opacity: 0; pointer-events: none; }
+.seg-btn:focus-within { outline: 2px solid var(--focus); outline-offset: 1px; }
+.seg-btn.on.sun { background: #3a2a10; color: var(--sun); }
+.seg-btn.on.earth { background: #0f2a3d; color: var(--earth); }
+.polar-body { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: 16px; align-items: start; }
+.polar-map { position: relative; }
+.polar-canvas, .polar-overlay { width: 100%; aspect-ratio: 1 / 1; display: block; border-radius: 8px; }
+.polar-canvas { image-rendering: pixelated; background: #0a0c12; }
+.polar-overlay { position: absolute; inset: 0; cursor: crosshair; }
+.polar-overlay .grat { fill: none; stroke: rgba(200, 215, 235, .22); stroke-width: 1; }
+.polar-overlay .grat-label { fill: rgba(220, 230, 245, .7); font-size: 11px; }
+.polar-overlay .site-pin { cursor: pointer; }
+.polar-overlay .site-pin circle { fill: none; stroke: #fff; stroke-width: 2; }
+.polar-overlay .site-pin text, .polar-overlay .roi text, .polar-overlay .bundle-site text, .polar-overlay .scalebar text, .polar-overlay .hover-tip text { fill: #fff; font-size: 12px; font-weight: 600; paint-order: stroke; stroke: #05080d; stroke-width: 3px; }
+.polar-overlay .site-pin:focus-visible circle, .polar-overlay .roi:focus-visible path { stroke: var(--focus); }
+.polar-overlay .roi { cursor: pointer; }
+.polar-overlay .roi path { fill: rgba(255, 255, 255, .06); stroke: #fff; stroke-width: 1.5; }
+.polar-overlay .roi.sel path { stroke: var(--both); stroke-width: 3; fill: rgba(69, 217, 201, .15); }
+.polar-overlay .bundle-site path { fill: var(--bad); stroke: #fff; stroke-width: 1.5; }
+.polar-overlay .scalebar line { stroke: #fff; stroke-width: 3; }
+.polar-overlay .hover-tip circle { fill: none; stroke: #fff; stroke-width: 1.5; }
+.polar-legend { display: flex; align-items: center; gap: 8px; margin: 8px 0; font-size: 12px; color: var(--muted); }
+.polar-legend .ramp { flex: 1; height: 10px; border-radius: 3px; }
+.nodata-key { width: 12px; height: 10px; background: repeating-linear-gradient(135deg, #28303c 0 3px, #3a4555 3px 6px); display: inline-block; border-radius: 2px; }
+.rois { margin-top: 0; }
+.rois tr.sel { background: #0f2a2a; }
+.linkish { background: none; border: 0; padding: 0; color: var(--ink); text-decoration: underline dotted; cursor: pointer; font-weight: 600; }
+.roi-detail { margin-top: 10px; font-size: 13px; }
+.caveats { margin-top: 10px; color: var(--ink-2); font-size: 13px; }
+.caveats summary { cursor: pointer; color: var(--ink); }
+@media (max-width: 1100px) { .polar-body { grid-template-columns: 1fr; } }
