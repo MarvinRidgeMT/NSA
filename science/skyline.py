@@ -89,6 +89,7 @@ def compute_skyline(lat, lon, obs_height_m, mast_m, near=None, far=None, bins=72
         Pb = (frames.R_MOON_M + hmax) * frames.unit(la_b, lo_b)
         beyond = float(np.max(frames.elevation_angle_deg(P_obs, up, Pb)))
 
+    range_limited = [bool(beyond is not None and e is not None and e < beyond) for e in out_el]
     dip = -math.degrees(math.acos(frames.R_MOON_M / (frames.R_MOON_M + obs_height_m + mast_m))) \
         if obs_height_m + mast_m > 0 else 0.0
     return {
@@ -98,7 +99,8 @@ def compute_skyline(lat, lon, obs_height_m, mast_m, near=None, far=None, bins=72
         'max_range_m': float(max_range_m), 'near_cut_m': float(near_cut),
         'step_near_m': float(step_near), 'step_far_m': None if step_far is None else float(step_far),
         'n_samples_per_bin': int(d.size),
-        'beyond_range_max_possible_elev_deg': beyond, 'beyond_range_reference_height_m': hmax,
+        'beyond_range_max_possible_elev_deg': beyond,
+        'range_limited': range_limited, 'n_range_limited': int(sum(range_limited)), 'beyond_range_reference_height_m': hmax,
         'flat_baseline': {'elevation_deg': 0.0,
                           'smooth_sphere_dip_deg': round(dip, 5),
                           'note': 'Flat-horizon control: mathematical horizon (0 deg) for every bin; '

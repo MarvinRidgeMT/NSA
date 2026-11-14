@@ -135,3 +135,31 @@ class CogRoundTrip(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class CoverageGaps(unittest.TestCase):
+    def test_gap_is_truncated_never_fabricated(self):
+        lat, lon = SITE01
+        dem = _ridge_dem(lat, lon, 90.0)          # covers ~6 km
+        sky = compute_skyline(lat, lon, 0.0, 2.0, near=dem, far=None, bins=72,
+                              max_range_m=20_000.0, step_m=20.0)
+        self.assertEqual(sky['n_truncated'], 72)
+        self.assertTrue(all(s == 'truncated' for s in sky['status']))
+        # angles that are reported come only from real samples (lower bounds)
+        for e, r in zip(sky['elevation_deg'], sky['valid_reach_m']):
+            self.assertTrue(e is None or r > 0)
+
+    def test_nodata_hole_truncates_only_affected_bins(self):
+        lat, lon = SITE01
+        dem = _ridge_dem(lat, lon, 90.0)
+        x0, y0 = frames.stereo_forward(lat, lon)
+        # punch a NaN hole 1 km due local north
+        n = frames.local_north_in_grid(lon)
+        hx, hy = x0 + 1000 * n[0], y0 + 1000 * n[1]
+        c = int((hx - dem.x_left) / dem.step); r = int((dem.y_top - hy) / dem.step)
+        dem.Z[r - 5:r + 5, c - 5:c + 5] = np.nan
+        sky = compute_skyline(lat, lon, 0.0, 2.0, near=dem, far=None, bins=72,
+                              max_range_m=5000.0, step_m=20.0)
+        self.assertEqual(sky['status'][0], 'truncated')
+        self.assertEqual(sky['status'][36], 'complete')
+        self.assertLess(sky['valid_reach_m'][0], 1000.0)
