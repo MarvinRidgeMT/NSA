@@ -1,0 +1,86 @@
+import { fmtSigned, type TargetView, type View } from '../store/view';
+
+function visText(t: TargetView): string {
+  if (t.visible === undefined) return 'not in bundle';
+  if (t.visible === null) return 'transition (between samples)';
+  return t.visible ? 'VISIBLE' : 'BLOCKED';
+}
+
+function Now({ name, t, cls }: { name: 'sun' | 'earth'; t: TargetView; cls: string }) {
+  return (
+    <article className={`now ${cls}`} data-testid={`now-${name}`}>
+      <h3>{name === 'sun' ? 'Sun' : 'Earth'}</h3>
+      <dl>
+        <dt>Azimuth</dt>
+        <dd data-testid={`${name}-az`}>{t.az.toFixed(2)}°</dd>
+        <dt>Elevation</dt>
+        <dd data-testid={`${name}-el`}>{t.el.toFixed(3)}°</dd>
+        <dt>Skyline</dt>
+        <dd>{t.horizonElDeg === null ? '—' : `${t.horizonElDeg.toFixed(3)}°`}</dd>
+        <dt>Margin</dt>
+        <dd data-testid={`${name}-margin`} data-value={t.marginDeg ?? ''} className={t.marginDeg === null ? '' : t.marginDeg > 0 ? 'ok' : 'bad'}>
+          {t.marginDeg === null ? 'not in bundle' : fmtSigned(t.marginDeg, 4)}
+        </dd>
+        <dt>State</dt>
+        <dd data-testid={`${name}-state`}>
+          {t.visible === false ? '✕ ' : t.visible ? '● ' : ''}
+          {visText(t)}
+        </dd>
+        <dt>First hit</dt>
+        <dd>{t.firstHitM === undefined ? '—' : t.firstHitM === null ? 'clear' : `${(t.firstHitM / 1000).toFixed(2)} km`}</dd>
+      </dl>
+    </article>
+  );
+}
+
+export function MetricsPanel({ v }: { v: View }) {
+  const sc = v.scenario;
+  return (
+    <section className="panel" aria-labelledby="mx-title">
+      <div className="panel-head">
+        <h2 id="mx-title">Metrics & constraints</h2>
+        <span className="muted">{v.br.exact === null ? 'margins interpolated between bundle samples' : 'exact bundle sample'}</span>
+      </div>
+      <div className="now-grid">
+        <Now name="sun" t={v.sun} cls="sun" />
+        <Now name="earth" t={v.earth} cls="earth" />
+        <article className="now both" data-testid="now-both">
+          <h3>Both</h3>
+          <p className="big">{v.both === undefined ? 'not in bundle' : v.both === null ? 'transition' : v.both ? '● together' : '✕ not together'}</p>
+        </article>
+      </div>
+      {sc ? (
+        <table className="constraints" data-testid="constraints">
+          <caption className="sr-only">Scenario metrics from the bundle</caption>
+          <thead>
+            <tr>
+              <th scope="col">Metric ({sc.label})</th>
+              <th scope="col">Value</th>
+              <th scope="col">Limit</th>
+              <th scope="col">Margin</th>
+              <th scope="col">Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sc.metrics.map((m) => (
+              <tr key={m.id} data-testid={`metric-${m.id}`}>
+                <th scope="row">{m.label}</th>
+                <td data-value={m.value}>
+                  {m.value.toFixed(m.unit === '%' ? 1 : 2)} {m.unit}
+                </td>
+                <td>{m.constraint ? `${m.constraint.op} ${m.constraint.threshold} ${m.unit}` : '—'}</td>
+                <td data-value={m.marginToLimit ?? ''}>{m.marginToLimit === undefined ? '—' : fmtSigned(m.marginToLimit, 2, ` ${m.unit}`)}</td>
+                <td className={m.pass === undefined ? '' : m.pass ? 'ok' : 'bad'}>{m.pass === undefined ? '—' : m.pass ? '✓ PASS' : '✕ FAIL'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p className="note" data-testid="no-derived">
+          This bundle carries raw inputs only (DEM + JPL ephemeris). Visibility, margins and constraint results must come from the science branch
+          (`derived` block); the viewer does not compute them.
+        </p>
+      )}
+    </section>
+  );
+}
