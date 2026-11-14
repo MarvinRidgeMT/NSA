@@ -4,6 +4,7 @@ import { fmtUtc, type View } from '../store/view';
 
 export function TimeBar({ v }: { v: View }) {
   const timeError = usePolaris((s) => s.timeError);
+  const timeNote = usePolaris((s) => s.timeNote);
   const playing = usePolaris((s) => s.playing);
   const { setSampleIndex, stepSample, setTime, setPlaying } = usePolaris.getState();
   const [draft, setDraft] = useState(fmtUtc(v.utcMs));
@@ -80,6 +81,11 @@ export function TimeBar({ v }: { v: View }) {
           coverage {fmtUtc(v.times[0])} → {fmtUtc(v.times[n - 1])}
         </span>
       </form>
+      {timeNote && !timeError && (
+        <p className="note" role="status" data-testid="time-note">
+          {timeNote}
+        </p>
+      )}
       {timeError && (
         <p className="error" role="alert" data-testid="time-error">
           {timeError}
