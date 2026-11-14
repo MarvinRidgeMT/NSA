@@ -71,5 +71,31 @@ class NegativeCases(unittest.TestCase):
             jsonschema.validate(self.b, SCHEMA)
 
 
+
+class ScenarioContract(unittest.TestCase):
+    def test_g5_scenarios_complete_and_traceable(self):
+        import hashlib
+        found = False
+        for p in BUNDLES:
+            b = json.loads(p.read_text())
+            if not b['scenarios']:
+                continue
+            found = True
+            with self.subTest(p.name):
+                fam = [s['family'] for s in b['scenarios']]
+                self.assertEqual(fam.count('position-offset'), 9)
+                self.assertEqual(fam.count('mast-height'), 3)
+                self.assertEqual(fam.count('arrival-shift'), 2)
+                self.assertGreaterEqual(fam.count('dem-uncertainty'), 2)
+                self.assertEqual(fam.count('repair'), 1)
+                for s in b['scenarios']:
+                    for h in s['horizons_raw']:
+                        self.assertEqual(hashlib.sha256((ROOT / h['path']).read_bytes()).hexdigest(), h['sha256'])
+                rep = next(s for s in b['scenarios'] if s['family'] == 'repair')
+                self.assertEqual(rep['parameters']['mast_m'], 10.0)
+        if not found:
+            self.skipTest('no bundle with scenarios yet')
+
+
 if __name__ == '__main__':
     unittest.main()
