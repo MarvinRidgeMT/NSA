@@ -230,12 +230,13 @@ def assemble(site_id, r, start, days, step_h, mast_m, command, scenarios=None):
         'bundle_id': f'{site_id}_{start[:10]}_{days}d',
         'generated_utc': H.unix_to_iso(dt.datetime.now(dt.timezone.utc).timestamp()),
         'generator': {'code': 'science/ (POLARIS X a-science)', 'git_commit': _git(), 'command': command},
-        'validation_status': validation_status(),
+        'validation_status': validation_status(site_check(site_id, r)),
         'site': {'id': site_id, 'name': s['name'], 'lat_deg': s['lat'], 'lon_deg_east': s['lon'],
                  'height_m': round(r['h'], 3), 'height_source': 'bilinear sample of near-field DEM (product 78, 5 m) at site',
                  'height_far_dem_m': round(r['h_far'], 3), 'observer_mast_m': mast_m,
                  'observer_eye_height_m': round(r['h'] + mast_m, 3),
                  'grid_x_m': round(r['x'], 3), 'grid_y_m': round(r['y'], 3),
+                 'slope_deg_5m_50m_baseline': round(site_slope(near, r['x'], r['y']), 3),
                  'coordinates_source': 'archived app SITES table (Mazarico et al. 2011 numbering); ' + LABEL},
         'frame': FRAME,
         'datum': {'reference_surface': 'sphere', 'radius_m': frames.R_MOON_M,
@@ -296,7 +297,26 @@ LIMITATIONS = [
 ]
 
 
-def validation_status():
+def site_slope(near, x, y, d=25.0):
+    gx = (near.sample(x + d, y) - near.sample(x - d, y)) / (2 * d)
+    gy = (near.sample(x, y + d) - near.sample(x, y - d)) / (2 * d)
+    return float(np.degrees(np.arctan(np.hypot(gx, gy))))
+
+
+def site_check(site_id, r):
+    near = r['near']; l, b, rr, t = near.bounds
+    cx, cy = (l + rr) / 2, (b + t) / 2
+    off = math.hypot(r['x'] - cx, r['y'] - cy)
+    slope = site_slope(near, r['x'], r['y'])
+    ev = (f'Site coordinate is {off:.1f} m from the centre of the product-78 tile ({cx:.0f}, {cy:.0f}) m: the archived '
+          f'app appears to use tile centres as sites. Local slope at the point (5 m DEM, 50 m baseline) = {slope:.1f} deg.')
+    status = 'fail' if slope > 15.0 else 'not-run'
+    if status == 'fail':
+        ev += ' Slope > 15 deg: this point is not a plausible landing site; results describe the tile centre only.'
+    return {'id': 'site-coordinate-source', 'status': status, 'evidence': ev}
+
+
+def validation_status(site_chk=None):
     return {'overall': LABEL,
             'checks': [
                 {'id': 'grid-enu-rotation', 'status': 'pass', 'evidence': 'science/tests/test_frames.py GridEnuRotation, RidgeRegression'},
@@ -307,8 +327,7 @@ def validation_status():
                 {'id': 'independent-illumination-comparison', 'status': 'not-run',
                  'evidence': 'No comparison yet against published Site01/Site04 illumination (e.g. Barker et al. 2021, Mazarico et al. 2011).'},
                 {'id': 'me-frame-tie-de421-vs-horizons', 'status': 'not-run', 'evidence': ''},
-                {'id': 'site-coordinate-source', 'status': 'not-run', 'evidence': ''},
-            ]}
+            ] + ([site_chk] if site_chk else [{'id': 'site-coordinate-source', 'status': 'not-run', 'evidence': ''}])}
 
 
 def fixture_from(bundle, n=50):
