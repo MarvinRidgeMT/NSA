@@ -169,3 +169,12 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 `web/`, `blender/bundle_v2.py`, `blender/test_bundle_v2.py`, `blender/build_from_nasa_bundle.py` (v2) and
 `run_blender_bundle_v2.command` were written by Claude (Anthropic) on the `b-experience` branch. Commits carry a
 `Co-Authored-By: Claude` line. The `codex-snapshot` content was written largely by OpenAI Codex.
+
+
+## Science results branch (`a-science`, Sid)
+
+`science/` is a separate Python package that fixes the grid-vs-local azimuth bug (`app/src/science.js` horizonProfile still has it).
+It computes a 720-bin skyline to 280 km from LDEM 80 m + product-78 5 m, Horizons Sun/Earth events refined by bisection,
+and G5 scenarios for Site01/Site04. Outputs go to `data/bundles/*.json` (format `polaris-science-results-v1`,
+`schemas/science-results-v1.schema.json`). Contract: `docs/SCIENCE_RESULTS_CONTRACT.md`. Full log: `docs/SCIENCE_BUILD_STATUS.md`.
+Tests: `python3 -m unittest discover -s science/tests -t .` (deps in `requirements-science.txt`). All values are SOURCE-BASED UNVALIDATED.

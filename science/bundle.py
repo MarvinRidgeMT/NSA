@@ -1,4 +1,4 @@
-"""Build a science-bundle-v2 for one site / window.
+"""Build a polaris-science-results-v1 for one site / window.
 
   python3 -m science.bundle --site site01 --start "2026-11-14 00:00" --days 14 --step-h 1 \
       --mast 2 --out data/bundles/site01_2026-11-14_14d.json --fixture data/bundles/fixtures/site01_ui_fixture_50.json
@@ -226,7 +226,7 @@ def assemble(site_id, r, start, days, step_h, mast_m, command, scenarios=None):
     hraw = [dict(role=f'{b}-hourly', **_m(man, src['path'])) for b, src in zip(('sun', 'earth'), r['src'])]
     hraw += [dict(role='bisection', **_m(man, src['path'])) for src in r['raws']]
     bundle = {
-        'schema': 'science-bundle-v2',
+        'schema': 'polaris-science-results-v1',
         'bundle_id': f'{site_id}_{start[:10]}_{days}d',
         'generated_utc': H.unix_to_iso(dt.datetime.now(dt.timezone.utc).timestamp()),
         'generator': {'code': 'science/ (POLARIS X a-science)', 'git_commit': _git(), 'command': command},

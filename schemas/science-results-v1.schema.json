@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://polaris-x.local/schemas/science-results-v1.schema.json",
-  "title": "POLARIS X science-bundle-v2",
+  "title": "POLARIS X polaris-science-results-v1",
   "description": "Single numeric authority for the POLARIS X viewer and Blender. See docs/SCIENCE_RESULTS_CONTRACT.md.",
   "type": "object",
   "required": ["schema", "bundle_id", "generated_utc", "generator", "validation_status", "site", "frame", "datum",
                "time", "skyline", "samples", "events", "metrics", "scenarios", "provenance", "limitations"],
   "properties": {
-    "schema": {"const": "science-bundle-v2"},
+    "schema": {"const": "polaris-science-results-v1"},
     "bundle_id": {"type": "string"},
     "generated_utc": {"$ref": "#/$defs/utc"},
     "generator": {"type": "object", "required": ["git_commit", "command"],

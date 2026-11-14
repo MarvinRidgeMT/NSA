@@ -1,4 +1,4 @@
-"""T4 tests: emitted bundles validate against science-bundle-v2 and obey the contract."""
+"""T4 tests: emitted bundles validate against polaris-science-results-v1 and obey the contract."""
 import json
 import unittest
 from pathlib import Path
@@ -6,7 +6,7 @@ from pathlib import Path
 import jsonschema
 
 ROOT = Path(__file__).resolve().parents[2]
-SCHEMA = json.loads((ROOT / 'schemas' / 'science-bundle-v2.schema.json').read_text())
+SCHEMA = json.loads((ROOT / 'schemas' / 'science-results-v1.schema.json').read_text())
 BUNDLES = sorted((ROOT / 'data' / 'bundles').glob('*.json')) + sorted((ROOT / 'data' / 'bundles' / 'fixtures').glob('*.json'))
 
 

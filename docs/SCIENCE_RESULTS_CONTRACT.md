@@ -1,4 +1,10 @@
-# POLARIS X — Scientific Contract (science-bundle-v2)
+# POLARIS X — Science Results Contract (polaris-science-results-v1)
+
+> **How this relates to `main`.** `docs/SCIENTIFIC_CONTRACT.md` and `schemas/science-bundle-v2.schema.json` on `main`
+> describe the Codex *source* bundles (raw DEM crops + Horizons samples, `datasets[]`). This file describes the
+> *results* produced by `science/` (720-bin skyline to 280 km, bisected events, metrics, G5 scenarios). It was renamed
+> from "science-bundle-v2" to avoid a name clash. Next step: export these results into the viewer's proposed
+> `datasets[i].derived` block (`web/docs/VIEWER_BUNDLE_CONTRACT.md`) so `web/` can show them.
 
 Status of every number in a bundle: **SOURCE-BASED UNVALIDATED** until the `not-run` checks in
 `validation_status.checks` pass. Schema: `schemas/science-results-v1.schema.json` (JSON Schema 2020-12).
