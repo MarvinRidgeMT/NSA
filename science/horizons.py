@@ -107,15 +107,43 @@ def fetch(params, tag, raw_dir=RAW_DIR, retries=3):
     path.write_bytes(body)
     sha = hashlib.sha256(body).hexdigest()
     man_p = raw_dir / 'MANIFEST.json'
+    with _ManifestLock(raw_dir):
+        _update_manifest(man_p, path, sha, body, params)
+    return body.decode('utf-8'), sha, path.relative_to(ROOT).as_posix()
+
+
+class _ManifestLock:
+    """Cross-platform exclusive lock (O_EXCL lock file) so parallel bundle builds cannot
+    interleave read-modify-write of MANIFEST.json."""
+    def __init__(self, raw_dir, timeout_s=120.0):
+        self.p = Path(raw_dir) / 'MANIFEST.lock'; self.timeout_s = timeout_s
+
+    def __enter__(self):
+        import os
+        t0 = time.time()
+        while True:
+            try:
+                self.fd = os.open(self.p, os.O_CREAT | os.O_EXCL | os.O_WRONLY); return self
+            except FileExistsError:
+                if time.time() - t0 > self.timeout_s:
+                    raise TimeoutError(f'stale lock {self.p}; delete it if no build is running')
+                time.sleep(0.05)
+
+    def __exit__(self, *exc):
+        import os
+        os.close(self.fd); os.remove(self.p)
+
+
+def _update_manifest(man_p, path, sha, body, params):
     man = json.loads(man_p.read_text()) if man_p.exists() else []
-    man = [m for m in man if m['path'] != str(path.relative_to(ROOT))]
+    man = [m for m in man if m['path'] != path.relative_to(ROOT).as_posix()]
     q = {k: v for k, v in params.items() if k != 'TLIST'}
     if 'TLIST' in params:
         q['TLIST_count'] = params['TLIST'].count("'") // 2
-    man.append({'path': str(path.relative_to(ROOT)), 'sha256': sha, 'bytes': len(body),
+    man.append({'path': path.relative_to(ROOT).as_posix(), 'sha256': sha, 'bytes': len(body),
                 'retrieved_utc': unix_to_iso(time.time()), 'api': API, 'params': q})
-    man_p.write_text(json.dumps(man, indent=1))
-    return body.decode('utf-8'), sha, str(path.relative_to(ROOT))
+    tmp = man_p.with_suffix('.json.tmp')
+    tmp.write_text(json.dumps(man, indent=1)); tmp.replace(man_p)
 
 
 def ephemeris(target, lat, lon, height_m, start, stop, step, tag):

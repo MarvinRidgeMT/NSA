@@ -25,7 +25,30 @@ SITES = {
                'p78_clone': P78 + '/Site04/Clones/Site04_final_adj_5mpp_{:04d}_err.tif'},
 }
 
+# Real landing points: PGDA product 78 published ROI polygons (centroid of the polygon
+# vertices; polar stereographic R=1737400, lat/lon on the sphere). The site01/site04
+# entries above are the product-78 TILE CENTRES (Site04's centre is on a ~31.6 deg slope
+# inside Shackleton) and are kept only so the earlier bundles stay reproducible.
+ROI_SOURCE = ('PGDA product 78 ROI shapefile (Barker et al. 2021), polygon-vertex centroid, '
+              'fetched 2026-11-14 (fetch_extra_nasa_data.sh, SHA-256 pinned)')
+_ROIS = {
+    'site01_roi6': ('site01', 6, -89.47409, -137.38130),
+    'site04_roi3': ('site04', 3, -89.78012, -156.32023),
+    'site04_roi4': ('site04', 4, -89.78480, -155.94606),
+}
+for _sid, (_tile, _n, _lat, _lon) in _ROIS.items():
+    _base = SITES[_tile]
+    SITES[_sid] = {**{k: v for k, v in _base.items() if k.startswith('p78')},
+                   'name': f'{_base["name"].split(" (")[0]} ({_tile.capitalize()} ROI{_n})',
+                   'lat': _lat, 'lon': _lon, 'tile': _tile, 'roi': _n,
+                   'coordinates_source': ROI_SOURCE}
+
 FAR_HALF_M = 290_000.0
+# Near-field ray step for ROI bundles. The default (= DEM pixel, 5 m) is NOT converged for
+# low masts: at Site04 ROI3, 1 m mast, Sun-centre visibility is 98.5 % at 5 m, 95.6 % at
+# 2.5 m, 94.7 % at 1.25 m and 94.4 % at both 1.0 m and 0.5 m (14-28 Nov 2026, 1 h).
+# 1 m is the converged value used for ROI bundles (~1.5x skyline cost).
+NEAR_RAY_STEP_M = 1.0
 MAX_RANGE_M = 280_000.0
 LDEM_LOCAL = CACHE / 'ldem' / 'LDEM_80S_80MPP_ADJ.TIF'
 LDEM_SHA256 = '82030dcbdd7c4bb0c7d858e9b4b293b9f2cda5a543ba31ec0f42784bd6beee5a'  # whole file, 2026-11-14

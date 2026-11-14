@@ -162,7 +162,14 @@ def metrics(rows_sun, rows_earth, events):
         'min_sun_margin_deg': round(min(r['m']['margin_deg'] for r in rows_sun), 5),
         'min_earth_margin_deg': round(min(r['m']['margin_deg'] for r in rows_earth), 5),
         'max_earth_margin_deg': round(max(r['m']['margin_deg'] for r in rows_earth), 5),
+        # Fraction of the hourly Horizons samples with the centre above the skyline (includes both window
+        # endpoints). This is the definition used by the standalone polaris_batch package, kept for comparison.
+        'sun_center_visible_pct_hourly_samples': round(100 * np.mean([r['m']['margin_perp_deg'] > 0 for r in rows_sun]), 3),
+        'earth_center_visible_pct_hourly_samples': round(100 * np.mean([r['m']['margin_perp_deg'] > 0 for r in rows_earth]), 3),
+        'sun_and_earth_center_visible_pct_hourly_samples': round(100 * np.mean(
+            [a['m']['margin_perp_deg'] > 0 and b['m']['margin_perp_deg'] > 0 for a, b in zip(rows_sun, rows_earth)]), 3),
         'method': {'visible_pct': 'centre-visibility intervals bounded by bisection-refined crossings (+-0.5 s) over the window',
+                   'visible_pct_hourly_samples': 'share of hourly samples (both endpoints included) with centre above skyline',
                    'disk_mean': 'trapezoid over hourly Horizons samples of the visible-disk fraction',
                    'margins': 'el - skyline(az) at hourly samples'},
         'disclaimer': 'Local geometric visibility only: not certified illumination, power, or DSN link availability.',
@@ -185,13 +192,18 @@ def build(site_id, start, days, step_h, mast_m, near=None, far=None, events_on=T
           h_override=None, lat_lon_override=None, skyline_override=None):
     s, near, far, x, y, h_near, h_far = site_setup(site_id, mast_m, near, far)
     s = dict(s)
+    if sites.SITES[site_id].get('roi') is not None:
+        # Raw-file tags must be unique per mast: bisection times depend on the skyline, so
+        # a run at another mast would otherwise overwrite this run's archived responses.
+        tag_suffix = f'm{mast_m:g}' + (f'_{tag_suffix}' if tag_suffix else '')
     if lat_lon_override:
         s['lat'], s['lon'] = lat_lon_override
         x, y = frames.stereo_forward(s['lat'], s['lon'])
         h_near = float(near.sample(x, y)); h_far = float(far.sample(x, y))
     h = h_override if h_override is not None else h_near
+    step = sites.NEAR_RAY_STEP_M if sites.SITES[site_id].get('roi') is not None else None  # tile-centre bundles unchanged
     sky = skyline_override or compute_skyline(s['lat'], s['lon'], h, mast_m, near=near, far=far, bins=720,
-                                              max_range_m=sites.MAX_RANGE_M)
+                                              max_range_m=sites.MAX_RANGE_M, step_m=step)
     stop = (dt.datetime.fromisoformat(start) + dt.timedelta(days=days)).strftime('%Y-%m-%d %H:%M')
     rs, src_s = body_series(site_id, s, h, 'sun', start, stop, step_h, sky, tag_suffix)
     re_, src_e = body_series(site_id, s, h, 'earth', start, stop, step_h, sky, tag_suffix)
@@ -225,9 +237,10 @@ def assemble(site_id, r, start, days, step_h, mast_m, command, scenarios=None):
     man = {m['path']: m for m in json.loads((H.RAW_DIR / 'MANIFEST.json').read_text())}
     hraw = [dict(role=f'{b}-hourly', **_m(man, src['path'])) for b, src in zip(('sun', 'earth'), r['src'])]
     hraw += [dict(role='bisection', **_m(man, src['path'])) for src in r['raws']]
+    from . import frame_tie
     bundle = {
         'schema': 'polaris-science-results-v1',
-        'bundle_id': f'{site_id}_{start[:10]}_{days}d',
+        'bundle_id': f'{site_id}_{start[:10]}_{days}d' + (f'_mast{mast_m:g}m' if s.get('roi') is not None else ''),
         'generated_utc': H.unix_to_iso(dt.datetime.now(dt.timezone.utc).timestamp()),
         'generator': {'code': 'science/ (POLARIS X a-science)', 'git_commit': _git(), 'command': command},
         'validation_status': validation_status(site_check(site_id, r)),
@@ -237,7 +250,8 @@ def assemble(site_id, r, start, days, step_h, mast_m, command, scenarios=None):
                  'observer_eye_height_m': round(r['h'] + mast_m, 3),
                  'grid_x_m': round(r['x'], 3), 'grid_y_m': round(r['y'], 3),
                  'slope_deg_5m_50m_baseline': round(site_slope(near, r['x'], r['y']), 3),
-                 'coordinates_source': 'archived app SITES table (Mazarico et al. 2011 numbering); ' + LABEL},
+                 'coordinates_source': s.get('coordinates_source',
+                                              'archived app SITES table (Mazarico et al. 2011 numbering); product-78 tile centre') + '; ' + LABEL},
         'frame': FRAME,
         'datum': {'reference_surface': 'sphere', 'radius_m': frames.R_MOON_M,
                   'heights': 'metres above the 1737.4 km reference sphere (LOLA LDEM convention)',
@@ -257,6 +271,13 @@ def assemble(site_id, r, start, days, step_h, mast_m, command, scenarios=None):
             'horizons_raw': hraw},
         'limitations': LIMITATIONS,
     }
+    if s.get('roi') is not None:  # ROI bundles carry the frame-tie bound computed from their own samples/events
+        rep = frame_tie.check_bundle(bundle)
+        for c in bundle['validation_status']['checks']:
+            if c['id'] == 'me-frame-tie-de421-vs-horizons':
+                c['status'], c['evidence'] = rep['status'], frame_tie.evidence(rep)
+        bundle['frame']['body_fixed_frame'] = ('DEMs: MOON_ME (DE421) per PGDA README; Horizons: MEAN_ME high precision (DE441). '
+                                               'Offset not applied; bounded by science/frame_tie.py (see validation_status).')
     return bundle
 
 
@@ -292,8 +313,10 @@ LIMITATIONS = [
     'Skyline bins with status "truncated" are lower bounds; "range_limited" bins could be raised by terrain beyond max_range_m.',
     'Visible-disk fraction treats the local skyline as a straight line across the disk (slope from adjacent bins); no limb darkening.',
     'Horizons observer altitude uses DEM height without the mast (sub-mm parallax effect).',
-    'DE421 MOON_ME (DEM) vs Horizons MEAN_ME frame tie not independently validated.',
-    'Site coordinates come from the archived app table and are not independently validated.',
+    'DE421 MOON_ME (DEM) vs Horizons MEAN_ME (DE441) frame offset is not applied; ROI bundles bound its effect '
+    '(<= 1.8e-5 deg, ~0.53 m, NAIF moon_de440_220930.tf) in validation_status.',
+    'Tile-centre bundles (site01, site04) use archived app coordinates; ROI bundles use product-78 ROI centroids, '
+    'and a centroid is a single representative point of a polygon, not a surveyed landing point.',
 ]
 
 
@@ -310,6 +333,11 @@ def site_check(site_id, r):
     slope = site_slope(near, r['x'], r['y'])
     ev = (f'Site coordinate is {off:.1f} m from the centre of the product-78 tile ({cx:.0f}, {cy:.0f}) m: the archived '
           f'app appears to use tile centres as sites. Local slope at the point (5 m DEM, 50 m baseline) = {slope:.1f} deg.')
+    roi = sites.SITES[site_id].get('roi')
+    if roi is not None:
+        ev = (f'Site is the published product-78 ROI{roi} centroid ({sites.ROI_SOURCE}), {off:.1f} m from the tile '
+              f'centre. Local slope at the point (5 m DEM, 50 m baseline) = {slope:.1f} deg.')
+        return {'id': 'site-coordinate-source', 'status': 'fail' if slope > 15.0 else 'pass', 'evidence': ev}
     status = 'fail' if slope > 15.0 else 'not-run'
     if status == 'fail':
         ev += ' Slope > 15 deg: this point is not a plausible landing site; results describe the tile centre only.'
