@@ -258,3 +258,33 @@ SOURCE-BASED UNVALIDATED. Spec: IMPLEMENTATION_PROMPT A3, A4. A1 is on GitHub as
   - Sun+Earth: repo 64.4–74.5 % vs batch 62.6–74.8 %; the minimum differs by 6 samples (Earth side). Not investigated.
   - Batch coverage gauge (inscribed-radius test, all hours): Site04 ROI3 Sun 34.1 / Earth 58.5 %, Site01 ROI6 Sun 11.0 /
     Earth 0 %; repo 34.4 / 61.1 % and 9.5 / 0 %. Same picture, different tie-breaking.
+
+## 10. A2 Certainty Height (14 Nov, 13:40–14:10 ET)
+
+SOURCE-BASED UNVALIDATED. Spec: IMPLEMENTATION_PROMPT A2. A3 + A4 were committed as `d14af8d` (patch to Sid).
+
+- `science/certainty.py` → `derived.certainty` (same block in both mast bundles of a site): for masts
+  1, 1.25, 1.5, 1.75, 2, 3, 5, 7, 10, 15 m (the polaris_batch v2 `certainty` set) × nominal DEM + PGDA 78 clones 1–20, a
+  skyline per DEM and mast (repo solver, 1 m near step, 280 km), then hourly Sun-centre and Sun+Earth visible %.
+  `certainty_curve` rows = {mast_m, metric, nominal, min, p10, median, p90, max, n_clones, pass{req: "k/N"}, by_clone}.
+  `certainty_height_m` = smallest tested mast where the nominal DEM **and** every clone have 100 % Sun centre (the batch
+  definition); `certainty_height_by_requirement_m` also gives Sun ≥ 70 % and Sun+Earth ≥ 40 % (team requirements, Anish 13:50 ET; flat aliases
+  `derived.certainty_curve` / `derived.certainty_height_m` are also written). `batch_reference` quotes the batch values from the project docs (not recomputed).
+- Viewer export: `derived.certainty_curve`, `derived.certainty_height_m`, `derived.certainty` per dataset.
+- Tests 47 → **50** (`test_certainty.py`): monotonic in mast on every DEM; the bundle's own mast row equals the bundle metric
+  and the A4 per-clone values; certainty-height definition.
+- Run: `python3 -m science.certainty --bundle data/bundles/<site>_2026-11-14_14d_mast1m.json --out data/cache/certainty/<site>.json`
+  (~13 min per site, 2 cores), then `python3 -m science.certainty --write data/cache/certainty/<site>.json`.
+
+| Site | Certainty Height (100 % Sun, every DEM) | Sun ≥ 70 % (team) | Sun+Earth ≥ 40 % (team) | Batch |
+|---|---|---|---|---|
+| Site04 ROI3 | **1.75 m** | 1 m | 1 m | 1.75 m (identical) |
+| Site01 ROI6 | **1 m** (lowest tested) | 1 m | 1 m | ≤ 1 m (identical) |
+| Site04 ROI4 | **1 m** (lowest tested) | 1 m | 1 m | not run in the batch |
+
+Site04 ROI3 Sun-centre % over 20 clones: 1 m 87.5–97.3 (0/20 at 100 %), 1.25 m 91.4–100 (6/20), 1.5 m 96.4–100
+(16/20), 1.75 m 100 (20/20). Batch: 1.25 m 91.1–100, 1.5 m 96.1–100. The repo again reads one hourly sample higher at the low
+end (bin placement); the Certainty Height is the same.
+- Per-clone check against the batch CSV now in the repo (`data/batch/2026-11-14/clone_sweep/clone_sweep_runs.csv`, Site04 ROI3,
+  1 m, Sun samples of 337): exact on 6/20 clones, otherwise −3 to +5 samples, both signs (mean +0.4). Not a systematic offset:
+  each clone has its own knife-edge hours. Quote ranges, not single clones.

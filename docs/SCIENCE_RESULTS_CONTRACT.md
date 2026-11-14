@@ -98,6 +98,13 @@ shift from the toterr raster) and `repair`.
 - Margin = body centre elevation − skyline (deg); visible = perpendicular margin > 0 (§3). Clone spread = N of N terrain
   models tested, not a probability.
 
+## 5e. derived.certainty (A2, optional; same block in every mast bundle of a site)
+- `masts_m`, `clone_ids`, `certainty_curve[]` = {`mast_m`, `metric` (`sun_center_pct` / `both_center_pct`), `nominal`, `min`,
+  `p10`, `median`, `p90`, `max`, `n_clones`, `pass` {requirement: "k/N" over clones}, `nominal_pass`, `by_clone`}.
+- `certainty_height_m`: smallest tested mast where the nominal DEM and every clone have 100 % Sun centre
+  (`certainty_height_primary_requirement`); `certainty_height_by_requirement_m` for all requirements; null = none tested.
+- `batch_reference`: polaris_batch values quoted from the project docs, for comparison only.
+
 ## 6. UI rules
 
 1. Show `validation_status.overall` and each `label` next to the numbers.
