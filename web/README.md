@@ -43,3 +43,7 @@ npm run e2e         # builds, serves on :4173, runs Playwright, writes docs/scre
 
 `public/bundles/demo-fixture.json` is synthetic terrain and an invented sky. Regenerate it with `npm run demo-fixture`.
 It is always labelled DEMO: a banner, the badge, and `[DEMO]` in the bundle list.
+
+## Use of AI
+
+This viewer was written by Claude (Anthropic) under the team's direction; commits carry a `Co-Authored-By: Claude` line.

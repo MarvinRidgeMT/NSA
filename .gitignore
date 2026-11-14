@@ -1,3 +1,17 @@
 data/cache/
 __pycache__/
 *.pyc
+
+# --- from b-experience ---
+.venv/
+node_modules/
+*.blend1
+web/dist/
+web/test-results/
+web/playwright-report/
+web/public/bundles/*.json
+!web/public/bundles/demo-fixture.json
+app/data/source/**/*.tif
+dist/*.zip
+tmp/
+.DS_Store
