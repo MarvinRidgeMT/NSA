@@ -1,0 +1,21 @@
+# environments and dependencies
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+# Blender autosave copies
+*.blend1
+# build / test outputs
+web/dist/
+web/test-results/
+web/playwright-report/
+web/public/bundles/*.json
+!web/public/bundles/demo-fixture.json
+# large upstream NASA rasters (re-download: see docs/DATA_PROVENANCE.md); SHA-256 recorded in the bundles
+app/data/source/**/*.tif
+# release zips
+dist/*.zip
+.DS_Store
+
+# scratch output from other tools
+tmp/

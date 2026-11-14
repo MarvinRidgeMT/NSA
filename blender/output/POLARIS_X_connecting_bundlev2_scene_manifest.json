@@ -1,0 +1,180 @@
+{
+  "schema": "POLARIS-X-scene-manifest-v2",
+  "generatedUTC": "2026-11-14T15:07:35Z",
+  "bundle": {
+    "file": "polaris-source-site01-2026-11-14-v2.json",
+    "sha256": "6a16ee59965e47afe54527c0b2bcdd90c6d40ba40a2423ca964e7da8e89a4fb6",
+    "bytes": 10644153,
+    "format": "POLARIS-X5D-v2",
+    "schemaVersion": "2.0.0",
+    "generatedUTC": "2026-11-14T11:44:08.087545Z"
+  },
+  "status": "SOURCE-BASED UNVALIDATED",
+  "demo": false,
+  "site": {
+    "siteId": "connecting",
+    "name": "Connecting Ridge / Site01",
+    "latitudePlanetocentricDeg": -89.4632,
+    "longitudeEastDeg": -137.49
+  },
+  "scenario": null,
+  "derivedOutputsPresent": false,
+  "blenderVersion": "5.3.0",
+  "units": "1 Blender unit = 1 metre",
+  "axes": {
+    "x": "grid east (south-polar stereographic)",
+    "y": "grid north",
+    "z": "elevation relative to observer ground (m)",
+    "gltf": "exported Y-up (glTF convention): gltf (x, y, z) = blender (x, z, -y)"
+  },
+  "verticalExaggeration": 1.0,
+  "origin": {
+    "gridX": -0.8551856672020222,
+    "gridY": 39.25503812404895,
+    "groundElevationM": 1946.4264,
+    "source": "DEM node nearest crop centre (display only)"
+  },
+  "observerMastM": 2.0,
+  "frame": {
+    "localNorthInGrid": [
+      -0.6757188764954561,
+      -0.7371594128461757
+    ],
+    "localEastInGrid": [
+      -0.7371594128461757,
+      0.6757188764954561
+    ],
+    "source": "derived-from-longitude",
+    "azimuthConvention": "clockwise from north: N=0, E=90, S=180, W=270"
+  },
+  "dem": {
+    "layer": "regional_horizon_dem",
+    "n": 401,
+    "spacingM": 80.0,
+    "meshVerticesPerAxis": 201,
+    "cropValuesSha256": "d27c5aa679cd00ffee0a95ce36e0049b3189b477a6e14efb941eecac92d73b5d",
+    "source": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF"
+  },
+  "sunLamp": "SUN lamp +Z aimed toward the bundle JPL Sun direction (lamp shines along -Z); keyframed per sample with CONSTANT interpolation; energy 0 when el <= -0.27 deg",
+  "rays": "blocked rays end at bundle firstHitM (horizontal) when derived outputs exist; otherwise drawn to the DEM coverage edge and marked not evaluated",
+  "frameToUtc": {
+    "first": {
+      "frame": 1,
+      "sampleIndex": 0,
+      "utc": "2026-11-14T14:00:00Z"
+    },
+    "last": {
+      "frame": 337,
+      "sampleIndex": 336,
+      "utc": "2026-11-28T14:00:00Z"
+    },
+    "rule": "frame = sampleIndex + 1"
+  },
+  "renders": [
+    {
+      "label": "start",
+      "frame": 1,
+      "sampleIndex": 0,
+      "utc": "2026-11-14T14:00:00Z",
+      "sun": {
+        "az": 256.984524,
+        "el": 1.43575,
+        "lampTowardSunGrid": [
+          0.870129493,
+          -0.492185804,
+          0.025055942
+        ],
+        "ray": {
+          "state": "not evaluated",
+          "firstHitM": null
+        }
+      },
+      "earth": {
+        "az": 135.424493,
+        "el": -4.411757,
+        "ray": {
+          "state": "not evaluated",
+          "firstHitM": null
+        }
+      },
+      "png": "POLARIS_X_connecting_bundlev2_start_frame001.png",
+      "pngPixelSha256": "752df06c4da34a5f80e3a5758466b851b69e551ede6f6585e1b615db19f213a6",
+      "pngFileSha256AtRender": "5ffcebbfa7da50605d08a3f2c7d87a92e7ed89e4bedacc4eb8bda2676d26c26c"
+    },
+    {
+      "label": "mid",
+      "frame": 169,
+      "sampleIndex": 168,
+      "utc": "2026-11-21T14:00:00Z",
+      "sun": {
+        "az": 171.859171,
+        "el": 1.006913,
+        "lampTowardSunGrid": [
+          0.564435782,
+          0.82528991,
+          0.017573043
+        ],
+        "ray": {
+          "state": "not evaluated",
+          "firstHitM": null
+        }
+      },
+      "earth": {
+        "az": 130.800117,
+        "el": 4.615719,
+        "ray": {
+          "state": "not evaluated",
+          "firstHitM": null
+        }
+      },
+      "png": "POLARIS_X_connecting_bundlev2_mid_frame169.png",
+      "pngPixelSha256": "25779ca43046f21eab8082823dd3da90ba51c7ed8f1deed103611ca92daefe02",
+      "pngFileSha256AtRender": "3b6e8a20cba79c7b9d6c2893c469f5eaf45d1712dce814937d913f368c4c3dd2"
+    },
+    {
+      "label": "end",
+      "frame": 337,
+      "sampleIndex": 336,
+      "utc": "2026-11-28T14:00:00Z",
+      "sun": {
+        "az": 86.931659,
+        "el": 1.515837,
+        "lampTowardSunGrid": [
+          -0.77200161,
+          0.63506987,
+          0.02645326
+        ],
+        "ray": {
+          "state": "not evaluated",
+          "firstHitM": null
+        }
+      },
+      "earth": {
+        "az": 142.128138,
+        "el": 1.801296,
+        "ray": {
+          "state": "not evaluated",
+          "firstHitM": null
+        }
+      },
+      "png": "POLARIS_X_connecting_bundlev2_end_frame337.png",
+      "pngPixelSha256": "76e4438bab62cc0c56200d12bf2eb32eb0fad88d9dd4cda1eee35682eaa209c6",
+      "pngFileSha256AtRender": "f35721e0e6939387e099c8fc303b5aae4e62d43ae972f3813c97ced0b2b6e34d"
+    }
+  ],
+  "assets": {
+    "blend": {
+      "file": "POLARIS_X_connecting_bundlev2.blend",
+      "sha256": "15e828d3b0dc4e019201bec96b939d5ddef75de4d5f2e7f2694d3462570df608"
+    },
+    "glb": {
+      "file": "POLARIS_X_connecting_bundlev2.glb",
+      "sha256": "454051ec9c027ec34c9c0b11f994e230cfaf49d6208219c6f4e1e58ff29f46e8"
+    }
+  },
+  "limitations": [
+    "Blender places geometry from bundle values only; it computes no skyline, visibility, margin or metric.",
+    "Lighting energy, the dim world fill light, materials and camera are presentation choices; only the Sun lamp DIRECTION comes from the bundle.",
+    "Visibility is target centre above a finite-DEM skyline; not power, not a DSN link."
+  ]
+}

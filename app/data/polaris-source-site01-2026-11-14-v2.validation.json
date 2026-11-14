@@ -1,0 +1,73 @@
+{
+  "bundle": "app/data/polaris-source-site01-2026-11-14-v2.json",
+  "bundleSha256": "6a16ee59965e47afe54527c0b2bcdd90c6d40ba40a2423ca964e7da8e89a4fb6",
+  "validation": {
+    "status": "SOURCE_BASED_UNVALIDATED",
+    "reason": "Official sources and coordinate/parser gates pass; no independent illumination result has been completed",
+    "gates": [
+      {
+        "gate": "official_source_identifiers",
+        "status": "PASS",
+        "evidence": "PGDA products 78/90 and JPL Horizons URLs recorded"
+      },
+      {
+        "gate": "independent_illumination_comparison",
+        "status": "NOT_RUN",
+        "evidence": "NASA SVS/reference observation comparison not yet executed"
+      },
+      {
+        "gate": "flight_or_mission_certification",
+        "status": "NOT_APPLICABLE",
+        "evidence": "Research prototype only"
+      }
+    ]
+  },
+  "datasets": [
+    {
+      "siteId": "connecting",
+      "validation": {
+        "status": "SOURCE_BASED_UNVALIDATED",
+        "gates": [
+          {
+            "gate": "moon_projection_and_longitude",
+            "status": "PASS",
+            "siteId": "connecting",
+            "input": {
+              "latitudePlanetocentricDeg": -89.4632,
+              "longitudeEastDeg": -137.49
+            },
+            "projectedMeters": {
+              "x": -10999.144814332798,
+              "y": -11999.255038124049
+            },
+            "expectedProjectedMeters": {
+              "x": -11000.0,
+              "y": -12000.0
+            },
+            "projectedErrorMeters": 1.1341563922177018,
+            "roundTripErrorDegrees": {
+              "latitude": 0.0,
+              "longitude": 0.0
+            },
+            "basis": "IAU Moon sphere R=1737400 m; south polar stereographic; east-positive longitude"
+          },
+          {
+            "gate": "regional_dem_orientation_and_nodata",
+            "status": "PASS",
+            "evidence": "401x401 crop; rows flipped to +Y north; no masked/nonfinite pixels"
+          },
+          {
+            "gate": "jpl_response_metadata_and_columns",
+            "status": "PASS",
+            "evidence": "MEAN_ME, east-positive longitude, UTC, AIRLESS and apparent AZ/EL columns verified in both raw responses"
+          },
+          {
+            "gate": "local_5m_uncertainty_inputs",
+            "status": "PASS",
+            "evidence": "local=True, rms_error=True, clone_ids=['001', '002', '050', '100']"
+          }
+        ]
+      }
+    }
+  ]
+}

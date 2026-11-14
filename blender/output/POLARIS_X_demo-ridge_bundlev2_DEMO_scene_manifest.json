@@ -1,0 +1,192 @@
+{
+  "schema": "POLARIS-X-scene-manifest-v2",
+  "generatedUTC": "2026-11-14T15:06:54Z",
+  "bundle": {
+    "file": "demo-fixture.json",
+    "sha256": "2c70acc42496ea6b926b79907cea0e4e934711ba0068f51cac368bdfb6ff6a01",
+    "bytes": 253112,
+    "format": "POLARIS-X5D-v2",
+    "schemaVersion": "2.0.0",
+    "generatedUTC": "2026-11-14T00:00:00Z"
+  },
+  "status": "DEMO",
+  "demo": true,
+  "site": {
+    "siteId": "demo-ridge",
+    "name": "DEMO Ridge (synthetic)",
+    "latitudePlanetocentricDeg": -89.5,
+    "longitudeEastDeg": -137.49
+  },
+  "scenario": "baseline",
+  "derivedOutputsPresent": true,
+  "blenderVersion": "5.3.0",
+  "units": "1 Blender unit = 1 metre",
+  "axes": {
+    "x": "grid east (south-polar stereographic)",
+    "y": "grid north",
+    "z": "elevation relative to observer ground (m)",
+    "gltf": "exported Y-up (glTF convention): gltf (x, y, z) = blender (x, z, -y)"
+  },
+  "verticalExaggeration": 1.0,
+  "origin": {
+    "gridX": -0.0,
+    "gridY": 0.0,
+    "groundElevationM": 1500.0,
+    "source": "bundle scenario"
+  },
+  "observerMastM": 2.0,
+  "frame": {
+    "localNorthInGrid": [
+      -0.6757188764954561,
+      -0.7371594128461757
+    ],
+    "localEastInGrid": [
+      -0.7371594128461757,
+      0.6757188764954561
+    ],
+    "source": "bundle",
+    "azimuthConvention": "clockwise from north: N=0, E=90, S=180, W=270"
+  },
+  "dem": {
+    "layer": "synthetic",
+    "n": 121,
+    "spacingM": 50.0,
+    "meshVerticesPerAxis": 121,
+    "cropValuesSha256": null,
+    "source": "synthetic"
+  },
+  "sunLamp": "SUN lamp +Z aimed toward the bundle JPL Sun direction (lamp shines along -Z); keyframed per sample with CONSTANT interpolation; energy 0 when el <= -0.27 deg",
+  "rays": "blocked rays end at bundle firstHitM (horizontal) when derived outputs exist; otherwise drawn to the DEM coverage edge and marked not evaluated",
+  "frameToUtc": {
+    "first": {
+      "frame": 1,
+      "sampleIndex": 0,
+      "utc": "2026-11-14T14:00:00Z"
+    },
+    "last": {
+      "frame": 48,
+      "sampleIndex": 47,
+      "utc": "2026-11-16T13:00:00Z"
+    },
+    "rule": "frame = sampleIndex + 1"
+  },
+  "renders": [
+    {
+      "label": "start",
+      "frame": 1,
+      "sampleIndex": 0,
+      "utc": "2026-11-14T14:00:00Z",
+      "sun": {
+        "az": 210.0,
+        "el": 1.45,
+        "lampTowardSunGrid": [
+          0.953464011,
+          0.300443104,
+          0.025304573
+        ],
+        "ray": {
+          "state": "blocked",
+          "firstHitM": 1400.0
+        }
+      },
+      "earth": {
+        "az": 135.0,
+        "el": 4.5464,
+        "ray": {
+          "state": "clear",
+          "firstHitM": null
+        }
+      },
+      "bundleMarginDeg": {
+        "sun": -1.6045,
+        "earth": 1.5345
+      },
+      "png": "POLARIS_X_demo-ridge_bundlev2_DEMO_start_frame001.png",
+      "pngPixelSha256": "4af4b102e3774e18a3b061f3dde590e90aabf4e214b1212011fba3b6aafacce1",
+      "pngFileSha256AtRender": "f35ddba84097cdff3678a708011874541f23d2faec35cf5ec834008607854695"
+    },
+    {
+      "label": "mid",
+      "frame": 25,
+      "sampleIndex": 24,
+      "utc": "2026-11-15T14:00:00Z",
+      "sun": {
+        "az": 30.0,
+        "el": 0.4038,
+        "lampTowardSunGrid": [
+          -0.953745733,
+          -0.300531876,
+          0.007047581
+        ],
+        "ray": {
+          "state": "blocked",
+          "firstHitM": 2150.0
+        }
+      },
+      "earth": {
+        "az": 131.4733,
+        "el": 3.9904,
+        "ray": {
+          "state": "clear",
+          "firstHitM": null
+        }
+      },
+      "bundleMarginDeg": {
+        "sun": -0.1736,
+        "earth": 0.5024
+      },
+      "png": "POLARIS_X_demo-ridge_bundlev2_DEMO_mid_frame025.png",
+      "pngPixelSha256": "bbb5384b02466fbd38a18a7c9fba314cf01d42cbe1d45cf0aa9dd438f95a173a",
+      "pngFileSha256AtRender": "88d3424537653d25d7757aedcf1b5d03d135cb6c450112c11a6277f093803553"
+    },
+    {
+      "label": "end",
+      "frame": 48,
+      "sampleIndex": 47,
+      "utc": "2026-11-16T13:00:00Z",
+      "sun": {
+        "az": 202.5,
+        "el": 1.0026,
+        "lampTowardSunGrid": [
+          0.906242769,
+          0.422395397,
+          0.017497778
+        ],
+        "ray": {
+          "state": "blocked",
+          "firstHitM": 1400.0
+        }
+      },
+      "earth": {
+        "az": 140.346,
+        "el": 2.8691,
+        "ray": {
+          "state": "clear",
+          "firstHitM": null
+        }
+      },
+      "bundleMarginDeg": {
+        "sun": -1.9373,
+        "earth": 0.8835
+      },
+      "png": "POLARIS_X_demo-ridge_bundlev2_DEMO_end_frame048.png",
+      "pngPixelSha256": "ced31061b94617c4eeaa4ab50ccb90b12085b9a54a399571b6162b59b471ba89",
+      "pngFileSha256AtRender": "da3117c66506d555184592937c686ad814c117b9d7e80428c43a425b58d46e0d"
+    }
+  ],
+  "assets": {
+    "blend": {
+      "file": "POLARIS_X_demo-ridge_bundlev2_DEMO.blend",
+      "sha256": "766151c4841b812d4919e9b6b06a9ab8cff84e10b7c1e8ace41389ce2e1cb6f5"
+    },
+    "glb": {
+      "file": "POLARIS_X_demo-ridge_bundlev2_DEMO.glb",
+      "sha256": "c374b4a32a6e8e70467a2cf686249fe7cda79d78128fd92c33b2c8f1f88d6e68"
+    }
+  },
+  "limitations": [
+    "Blender places geometry from bundle values only; it computes no skyline, visibility, margin or metric.",
+    "Lighting energy, the dim world fill light, materials and camera are presentation choices; only the Sun lamp DIRECTION comes from the bundle.",
+    "Visibility is target centre above a finite-DEM skyline; not power, not a DSN link."
+  ]
+}

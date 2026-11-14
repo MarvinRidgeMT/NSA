@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://polaris-x.local/schemas/science-bundle-v2.schema.json",
+  "title": "POLARIS X science bundle v2",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["format", "schemaVersion", "generatedUTC", "validation", "contract", "datasets"],
+  "properties": {
+    "format": {"const": "POLARIS-X5D-v2"},
+    "schemaVersion": {"const": "2.0.0"},
+    "generatedUTC": {"type": "string", "format": "date-time"},
+    "validation": {
+      "type": "object",
+      "required": ["status", "gates"],
+      "properties": {
+        "status": {"enum": ["SOURCE_BASED_UNVALIDATED", "VALIDATED_NASA_JPL"]},
+        "gates": {"type": "array"}
+      }
+    },
+    "contract": {
+      "type": "object",
+      "required": ["localAxes", "time", "scenarioAxis", "visibility"]
+    },
+    "datasets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["siteId", "site", "dem", "ephemeris", "validation"],
+        "properties": {
+          "siteId": {"type": "string", "minLength": 1},
+          "site": {
+            "type": "object",
+            "required": ["latitudePlanetocentricDeg", "longitudeEastDeg", "projectedMeters"]
+          },
+          "dem": {"$ref": "#/$defs/dem"},
+          "localDem": {
+            "anyOf": [{"$ref": "#/$defs/dem"}, {"type": "null"}]
+          },
+          "uncertainty": {
+            "type": "object",
+            "properties": {
+              "totalZRms": {
+                "anyOf": [{"$ref": "#/$defs/dem"}, {"type": "null"}]
+              },
+              "clones": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["id", "dem"],
+                  "properties": {
+                    "id": {"type": "string"},
+                    "dem": {"$ref": "#/$defs/dem"}
+                  }
+                }
+              }
+            }
+          },
+          "ephemeris": {"$ref": "#/$defs/ephemeris"},
+          "validation": {
+            "type": "object",
+            "required": ["status", "gates"]
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "dem": {
+      "type": "object",
+      "required": [
+        "kind",
+        "n",
+        "spacing",
+        "originX",
+        "originY",
+        "values",
+        "source",
+        "verticalUnits",
+        "frame",
+        "rowOrder"
+      ],
+      "properties": {
+        "kind": {"const": "nasa"},
+        "n": {"type": "integer", "minimum": 4, "maximum": 1201},
+        "spacing": {"type": "number", "exclusiveMinimum": 0},
+        "originX": {"type": "number"},
+        "originY": {"type": "number"},
+        "values": {"type": "array", "items": {"type": "number"}},
+        "verticalUnits": {"const": "meters"},
+        "frame": {"type": "string"},
+        "rowOrder": {"const": "south-to-north after explicit source flip"}
+      }
+    },
+    "ephemeris": {
+      "type": "object",
+      "required": [
+        "kind",
+        "source",
+        "frame",
+        "longitudeConvention",
+        "azimuthConvention",
+        "timeScale",
+        "samples",
+        "records"
+      ],
+      "properties": {
+        "kind": {"const": "jpl-horizons-observer-ephemeris"},
+        "timeScale": {"const": "UTC"},
+        "samples": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["time", "sun", "earth"],
+            "properties": {
+              "time": {"type": "string", "format": "date-time"},
+              "sun": {"$ref": "#/$defs/azEl"},
+              "earth": {"$ref": "#/$defs/azEl"}
+            }
+          }
+        }
+      }
+    },
+    "azEl": {
+      "type": "object",
+      "required": ["az", "el"],
+      "properties": {
+        "az": {"type": "number", "minimum": 0, "maximum": 360},
+        "el": {"type": "number", "minimum": -90, "maximum": 90}
+      }
+    }
+  }
+}

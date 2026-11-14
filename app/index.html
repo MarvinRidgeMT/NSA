@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="theme-color" content="#030609"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 5 58 32 32 59 6 32Z' fill='%23020609' stroke='%2377f5db' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='8' fill='none' stroke='%2377f5db' stroke-width='3'/%3E%3C/svg%3E"/>
+  <title>POLARIS X | Lunar Mission Intelligence</title>
+  <link rel="stylesheet" href="./src/styles.css"/>
+</head>
+<body>
+<div id="app" class="experience-shell">
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="POLARIS X home">
+      <span class="brand-mark" aria-hidden="true"><i></i></span>
+      <span><strong>POLARIS <b>X</b></strong><small>LUNAR MISSION INTELLIGENCE</small></span>
+    </a>
+    <div class="top-mission">
+      <span class="mission-kicker">SOUTH POLAR DIGITAL TWIN</span>
+      <span class="mission-code" id="missionId">PX–2026–A01</span>
+    </div>
+    <div class="top-status">
+      <span class="live-dot"></span><span id="dataStatus">ILLUSTRATIVE MODEL</span>
+      <span class="separator"></span><time id="utcClock">2026-11-14 14:00 UTC</time>
+    </div>
+    <div class="header-actions">
+      <button class="round-button" id="helpBtn" title="Mission guide" aria-label="Mission guide">?</button>
+      <button class="glass-button capture-button" id="captureBtn" title="Save scene image">CAPTURE</button>
+      <button class="glass-button" id="fullscreenBtn" title="Toggle fullscreen">FULLSCREEN</button>
+      <button class="primary-button" id="exportBtn">EXPORT REPORT</button>
+    </div>
+  </header>
+
+  <main class="world-stage">
+    <section class="scene-section" aria-label="Interactive lunar environment">
+      <div class="scene-view" id="sceneHost">
+        <canvas id="moonCanvas" aria-label="Interactive three-dimensional lunar terrain. Drag to orbit and scroll to zoom."></canvas>
+        <div id="cesiumHost" hidden></div>
+        <div class="star-layer star-layer-a"></div>
+        <div class="star-layer star-layer-b"></div>
+        <div class="scene-grid"></div>
+        <div class="scene-vignette"></div>
+
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="teal-blip"></span> ACTIVE STUDY REGION</p>
+          <h1 id="heroSiteName">Connecting Ridge</h1>
+          <p id="heroSiteCode">SITE01 · LUNAR SOUTH POLE</p>
+          <div class="hero-rule"></div>
+          <span>Terrain-aware illumination and Earth visibility</span>
+        </div>
+
+        <div class="scene-topline">
+          <span id="renderSource">PROCEDURAL PREVIEW</span>
+          <span class="demo-flag">DEMO DATA</span>
+        </div>
+
+        <div class="view-hud target-hud">
+          <div><i class="legend-sun"></i><span>SUN</span><b id="sunHud">—</b></div>
+          <div><i class="legend-earth"></i><span>EARTH</span><b id="earthHud">—</b></div>
+        </div>
+
+        <div class="observer-hud">
+          <span>OBSERVER <b id="observerHud">+2 m</b></span>
+          <span>AZIMUTH <b id="azHud">0° — 360°</b></span>
+        </div>
+
+        <div class="surface-node-label" aria-hidden="true"><i></i><span>PX SURFACE NODE<small>SCHEMATIC MARKER · SCALE EXAGGERATED</small></span></div>
+
+        <div class="scene-side-controls">
+          <div class="camera-choice" role="group" aria-label="Camera presets">
+            <button id="cameraOblique" title="Perspective camera" class="camera-active">PERSPECTIVE</button>
+            <button id="cameraTop" title="Overhead terrain camera">OVERHEAD</button>
+            <button id="cameraHorizon" title="Low horizon camera">HORIZON</button>
+          </div>
+          <label class="view-color-label" for="colorMode">SURFACE LAYER</label>
+          <select id="colorMode" aria-label="Terrain color mode">
+            <option value="natural">REGOLITH</option><option value="elevation">ELEVATION</option><option value="illumination">ILLUMINATION</option>
+          </select>
+          <label class="rays-check"><input type="checkbox" id="showRays" checked/> TARGET RAYS</label>
+        </div>
+
+        <div class="scene-legend">
+          <span class="scene-pill"><i class="scene-circle"></i> 3D TERRAIN</span>
+          <span class="scene-pill" id="meshStats">BUILDING SOURCE MESH…</span>
+          <span class="scene-pill" id="modelBadge">REGOLITH LIGHTING · VISUAL</span>
+          <span class="scene-pill">RELIEF ×2.4 · VISUAL</span>
+          <span class="scene-pill" id="sceneCaption">DRAG TO ORBIT · WHEEL TO ZOOM</span>
+        </div>
+
+        <div class="scene-bottom-tools">
+          <div class="scene-toggle" role="group" aria-label="Scene scale">
+            <button class="active" id="localMode">LOCAL TERRAIN</button><button id="globeMode">GLOBAL MOON</button>
+          </div>
+          <div class="zoom-controls">
+            <button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="resetCamera" aria-label="Reset camera">⌖</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="tool-rail" aria-label="Experience tools">
+      <button id="missionToggle" aria-label="Open mission controls" aria-expanded="false"><span>☰</span><small>MISSION</small></button>
+      <button id="analysisToggle" aria-label="Open scientific analysis" aria-expanded="false"><span>⌁</span><small>ANALYSIS</small></button>
+      <button id="cinematicBtn" aria-label="Toggle cinematic camera motion" aria-pressed="true"><span>◌</span><small>DRIFT</small></button>
+    </nav>
+
+    <aside class="mission-drawer" id="missionDrawer" aria-label="Mission controls">
+      <div class="drawer-header">
+        <div><p class="eyebrow">MISSION CONTROL</p><h2>Scenario configuration</h2></div>
+        <button id="missionClose" aria-label="Close mission controls">×</button>
+      </div>
+      <div class="drawer-scroll">
+        <section class="control-section">
+          <div class="section-top"><h3>Landing region</h3><span class="tag">SPATIAL</span></div>
+          <label for="siteSelect">Lunar study site</label><select id="siteSelect"></select>
+          <div class="site-mini"><span id="siteCoords">89.4632° S / 137.4900° W</span><span>● South polar region</span></div>
+        </section>
+
+        <section class="control-section">
+          <div class="section-top"><h3>Mission window</h3><span class="tag">4D TIME</span></div>
+          <label for="startDate">Mission start (UTC)</label><input type="datetime-local" id="startDate" value="2026-11-14T14:00"/>
+          <label for="duration">Analysis duration</label><select id="duration"><option value="24">24 hours</option><option value="72" selected>72 hours</option><option value="168">7 Earth days</option><option value="336">14 Earth days</option></select>
+        </section>
+
+        <section class="control-section">
+          <div class="section-top"><h3>Surface observer</h3><span class="tag">3D</span></div>
+          <label for="observerHeight">Observer height <span class="right-value" id="heightValue">2 m</span></label><input id="observerHeight" type="range" min="1" max="20" value="2" step="1"/>
+          <label for="offsetEast">Offset east <span class="right-value" id="eastValue">0 m</span></label><input id="offsetEast" type="range" min="-1000" max="1000" value="0" step="100"/>
+          <label for="offsetNorth">Offset north <span class="right-value" id="northValue">0 m</span></label><input id="offsetNorth" type="range" min="-1000" max="1000" value="0" step="100"/>
+        </section>
+
+        <section class="control-section">
+          <div class="section-top"><h3>Scenario envelope</h3><span class="tag gold">5D</span></div>
+          <p class="sidebar-copy">Select a deterministic terrain realization or mission assumption. These cases are not probabilities.</p>
+          <label for="terrainScenario">Terrain realization</label><select id="terrainScenario"><option value="default">Regional horizon DEM</option></select>
+          <label for="uncertainty">Terrain perturbation <span class="right-value" id="uncertaintyValue">0 m</span></label><input id="uncertainty" type="range" min="-50" max="50" value="0" step="5"/>
+          <label for="maxDark">Max darkness tolerated <span class="right-value" id="darkValue">24 h</span></label><input id="maxDark" type="range" min="1" max="72" value="24" step="1"/>
+          <label for="maxBlackout">Max Earth obstruction <span class="right-value" id="blackoutValue">20 h</span></label><input id="maxBlackout" type="range" min="1" max="72" value="20" step="1"/>
+          <button id="resetScenario" class="outline-button wide">RESET SCENARIO</button>
+        </section>
+
+        <section class="control-section">
+          <div class="section-top"><h3>Scientific inputs</h3><span class="tag">EVIDENCE</span></div>
+          <div class="source-box"><div><span class="source-indicator demo" id="demDot"></span><span id="demLabel">Synthetic crater DEM</span></div><div><span class="source-indicator demo" id="ephDot"></span><span id="ephemLabel">Approximate sky geometry</span></div></div>
+          <label for="bundleInput" class="upload-button">IMPORT NASA/JPL BUNDLE</label><input type="file" id="bundleInput" accept="application/json,.json" hidden/>
+          <button id="cesiumBtn" class="outline-button wide">ENABLE CESIUM MOON</button>
+          <p class="sources-note">Visual tiles and numerical terrain remain separate. Source status is preserved in every result.</p>
+        </section>
+      </div>
+    </aside>
+
+    <section class="mission-summary" aria-label="Current mission summary">
+      <div class="summary-head"><span class="live-dot"></span><span>LIVE GEOMETRY</span><b id="insightKind">MODEL OUTPUT</b></div>
+      <strong id="liveInsight">Computing terrain-aware access…</strong>
+      <p id="liveInsightSub">The target rays show current terrain obstruction.</p>
+      <div class="summary-metrics">
+        <div><span>SUN ACCESS</span><strong><b id="sunPct">—</b>%</strong><small id="sunDark">Longest shadow: — h</small><i><em id="sunTrack"></em></i></div>
+        <div><span>EARTH VISIBILITY</span><strong><b id="earthPct">—</b>%</strong><small id="earthDark">Longest obstruction: — h</small><i><em id="earthTrack"></em></i></div>
+        <div><span>SIMULTANEOUS</span><strong><b id="bothPct">—</b>%</strong><small id="bothDesc">Sun and Earth above horizon</small><i><em id="bothTrack"></em></i></div>
+        <div class="decision"><span>CONSTRAINTS</span><strong id="decisionText">—</strong><small id="decisionDetail">User-defined thresholds</small></div>
+      </div>
+    </section>
+
+    <section class="time-console" aria-label="Simulation time controls">
+      <div class="time-live"><span class="live-dot"></span><b>MISSION TIME</b><small id="timePosition">+0.0 h</small></div>
+      <button id="prevTime" aria-label="Previous hour">‹</button><button id="playBtn" class="play-button" aria-label="Play simulation">▶</button><button id="nextTime" aria-label="Next hour">›</button>
+      <input id="timeScrub" type="range" min="0" max="71" value="0" step="1" aria-label="Simulation time"/>
+      <select aria-label="Playback speed" id="speed"><option value="1">1×</option><option value="3" selected>3×</option><option value="8">8×</option><option value="24">24×</option></select>
+    </section>
+
+    <section class="analysis-deck" id="analysisDeck" aria-label="Scientific analysis deck">
+      <header class="analysis-header">
+        <div><p class="eyebrow">SCIENTIFIC WORKSPACE</p><h2>Mission geometry & resilience</h2></div>
+        <div class="analysis-status"><span class="live-dot"></span> SYNCHRONIZED TO SCENE</div>
+        <button id="analysisClose" aria-label="Close scientific analysis">×</button>
+      </header>
+      <div class="analysis-scroll">
+        <div class="analysis-grid">
+          <section class="panel timeline-panel"><div class="panel-head"><div><p class="eyebrow">TIME DEPENDENCE</p><h2>Geometric visibility timeline</h2></div><span class="panel-tag" id="timelineTag">72 h / 1 h steps</span></div><div class="chart-labels"><span><i class="legend-sun"></i> Solar access</span><span><i class="legend-earth"></i> Direct-to-Earth</span><span><i class="legend-both"></i> Combined</span></div><canvas id="timelineCanvas" class="plot" width="820" height="190" role="img" aria-label="Sun, Earth, and combined geometric visibility timeline. Click to seek."></canvas><p class="footnote">Visibility denotes target centers above the finite modeled terrain skyline.</p></section>
+          <section class="panel angle-panel"><div class="panel-head"><div><p class="eyebrow">TERRAIN GEOMETRY</p><h2>360° horizon profile</h2></div><span class="panel-tag">AZIMUTH</span></div><div class="chart-labels"><span><i class="legend-terrain"></i> Terrain skyline</span><span><i class="legend-sun"></i> Sun</span><span><i class="legend-earth"></i> Earth</span></div><canvas id="horizonCanvas" class="plot" width="650" height="230" role="img" aria-label="Terrain horizon by azimuth with target markers."></canvas><p class="footnote" id="horizonCaption">Select a time to inspect obstruction direction and margin.</p></section>
+        </div>
+        <div class="analysis-grid">
+          <section class="panel profile-panel"><div class="panel-head"><div><p class="eyebrow">OBSTRUCTION GEOMETRY</p><h2>Cross-section / line of sight</h2></div><span class="panel-tag">RAY TRACE</span></div><div class="inline-choice" role="group" aria-label="Cross-section target"><button id="profileSun" class="selected">SUN</button><button id="profileEarth">EARTH</button></div><canvas id="profileCanvas" class="plot" width="720" height="260" role="img" aria-label="Terrain and target ray cross-section."></canvas><div class="profile-explanation" id="profileExplanation">Computing line-of-sight conditions…</div></section>
+          <section class="panel comparison-panel"><div class="panel-head"><div><p class="eyebrow">SPATIAL ALTERNATIVES</p><h2>Four-site comparison</h2></div><span class="panel-tag">SAME WINDOW</span></div><div id="comparisonGrid" class="comparison-grid"></div><p class="footnote">Source mode is shown independently for every study site.</p></section>
+        </div>
+        <div class="analysis-grid">
+          <section class="panel"><div class="panel-head"><div><p class="eyebrow">THE FIFTH DIMENSION</p><h2>Resilience stress tests</h2></div><button class="text-button" id="runStress">RECOMPUTE</button></div><div id="stressTable" class="stress-table" role="table" aria-label="Mission scenario results"></div><div class="scenario-summary" id="scenarioSummary">Calculating scenario envelope…</div><canvas id="stressCanvas" class="plot" width="720" height="195" role="img" aria-label="Scenario visibility comparison."></canvas></section>
+          <section class="panel provenance"><div class="panel-head"><div><p class="eyebrow">SCIENTIFIC TRACEABILITY</p><h2>Evidence inspector</h2></div><span class="panel-tag">AUDITABLE</span></div><div class="evidence-item"><span>TERRAIN SOURCE</span><strong id="terrainSource">Synthetic surface</strong></div><div class="evidence-item"><span>SKY GEOMETRY</span><strong id="skySource">Analytic approximation</strong></div><div class="evidence-item"><span>OBSERVER</span><strong id="observerSource">—</strong></div><div class="evidence-item"><span>RAY-CAST EXTENT</span><strong id="reachSource">—</strong></div><div class="evidence-item"><span>ANGLE CONVENTION</span><strong>North = 0°, clockwise</strong></div><div class="evidence-item"><span>LIMITATIONS</span><strong>Point target · finite DEM · sampled UTC</strong></div><div class="provenance-links"><a href="https://pgda.gsfc.nasa.gov/products/90" target="_blank" rel="noopener noreferrer">NASA LOLA ↗</a><a href="https://ssd-api.jpl.nasa.gov/doc/horizons.html" target="_blank" rel="noopener noreferrer">JPL Horizons ↗</a><a href="https://cesium.com/platform/cesium-ion/content/cesium-moon/" target="_blank" rel="noopener noreferrer">Cesium Moon ↗</a></div><button class="outline-button wide" id="inspectData">VIEW METHOD & ASSUMPTIONS</button></section>
+        </div>
+        <footer><span>POLARIS X · RESEARCH PROTOTYPE</span><span>Not flight software · Source status preserved</span></footer>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="modal"><form method="dialog"><button class="modal-close" value="close" aria-label="Close">×</button><p class="eyebrow">POLARIS X</p><h2 id="modalTitle">Scientific method</h2><div id="modalBody"></div><button value="close" class="primary-button">CLOSE</button></form></dialog>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+</div>
+<script>
+  // A bundled runtime is used only for direct file:// launches. Localhost keeps
+  // native ES modules for development and testing.
+  const runtime=document.createElement('script');
+  if(location.protocol==='file:')runtime.src='./dist/polaris-file.js';
+  else{runtime.type='module';runtime.src='./src/main.js';}
+  document.body.appendChild(runtime);
+</script>
+</body>
+</html>
