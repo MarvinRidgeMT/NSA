@@ -1,10 +1,10 @@
 {
- "schema": "science-bundle-v2",
+ "schema": "polaris-science-results-v1",
  "bundle_id": "site04_roi4_2026-11-14_14d_mast10m",
- "generated_utc": "2026-11-14T16:29:27.509Z",
+ "generated_utc": "2026-11-14T17:00:27.969Z",
  "generator": {
   "code": "science/ (POLARIS X a-science)",
-  "git_commit": "5029e7fb063229667804da3852b42c2e9b426293-dirty",
+  "git_commit": "284f16d1d330301f7622ddd0bd6bff0de795c2e4",
   "command": "python3 -m science.bundle --site site04_roi4 --mast 10 --out data/bundles/site04_roi4_2026-11-14_14d_mast10m.json"
  },
  "validation_status": {
@@ -19768,248 +19768,248 @@
    {
     "role": "sun-hourly",
     "path": "data/raw/horizons/site04_roi4_sun_20261114_m10.txt",
-    "sha256": "ff2b3822b4b81fb595b66064d53f7d1b0918b0584e567a31296c67c991b770ea",
-    "retrieved_utc": "2026-11-14T16:28:57.980Z"
+    "sha256": "e79427cef1cdc2152b3b3dea6c7a7480620bec76cb78f99cc55434cd07c9e2a1",
+    "retrieved_utc": "2026-11-14T17:00:02.759Z"
    },
    {
     "role": "earth-hourly",
     "path": "data/raw/horizons/site04_roi4_earth_20261114_m10.txt",
-    "sha256": "bf4917aaaf09d7f5915390e9f60259893cbd17feb1a7c54aea6dfffbc38554a7",
-    "retrieved_utc": "2026-11-14T16:28:58.857Z"
+    "sha256": "558be694dc1d10717e92b90c329cfc2787291df28072f6d01b13847e1c06fcd8",
+    "retrieved_utc": "2026-11-14T17:00:03.629Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it01.txt",
-    "sha256": "4cccba78e86eece7ee651cf5cead96efa50d4104cd91a3f2e59bbb9b7b4f0f1b",
-    "retrieved_utc": "2026-11-14T16:28:59.724Z"
+    "sha256": "a1e1342e46e648e79e885787ed07943946903521a76cab0c045f5577a7e46fef",
+    "retrieved_utc": "2026-11-14T17:00:04.247Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it02.txt",
-    "sha256": "de5d60302e4a0af69f42b738209358278b59c0f12c45df3569e60b284adb27f0",
-    "retrieved_utc": "2026-11-14T16:29:00.486Z"
+    "sha256": "28477250df957e435d8b1d7fb6ce1bf871cc10f3277c67bb00a8b064ff70822f",
+    "retrieved_utc": "2026-11-14T17:00:04.851Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it03.txt",
-    "sha256": "05b6b4c5f9b4dddcf1cee766354218253815a8f12f8586543942c5d923213fff",
-    "retrieved_utc": "2026-11-14T16:29:01.217Z"
+    "sha256": "8a0e04b25673ddd1aef9376b78b392f90e9eb06a07f40b5e1b6fe9fe606fade9",
+    "retrieved_utc": "2026-11-14T17:00:05.406Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it04.txt",
-    "sha256": "248c7ac9953031071ab56af0427d275ac5c33d4e571fba6c763e86933f70399e",
-    "retrieved_utc": "2026-11-14T16:29:02.010Z"
+    "sha256": "aedb66e8cd04c4efe42561c184a2851a97bd11e8cdcb7392bd51e6bd53a19c76",
+    "retrieved_utc": "2026-11-14T17:00:06.011Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it05.txt",
-    "sha256": "2b5ba39f22ecdfccf03072ef449f1741ec15f9d140f29a941768e62ebf304dd2",
-    "retrieved_utc": "2026-11-14T16:29:02.793Z"
+    "sha256": "a9de834b2d25a953607166a620d5748dd3f44ea006050e21905c07892dc28e89",
+    "retrieved_utc": "2026-11-14T17:00:06.604Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it06.txt",
-    "sha256": "e972379235b2f896b13a0c0397da9489c5dfaa7cab19ce5e0e5eb294c9cdb042",
-    "retrieved_utc": "2026-11-14T16:29:03.509Z"
+    "sha256": "377b6a518f8a87e1c2746c8ad061669de7199ddd9ac284457aab3dfd15ca49dd",
+    "retrieved_utc": "2026-11-14T17:00:07.311Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it07.txt",
-    "sha256": "e6cba82c5a94ed280b88c84360045b7072b4938f1ce13176e94c3c81b88a3dcf",
-    "retrieved_utc": "2026-11-14T16:29:04.171Z"
+    "sha256": "cfda15ed81379ed4b186ff539ff10d5cff07400d39f8a7222e5c191ceccfe1f8",
+    "retrieved_utc": "2026-11-14T17:00:07.905Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it08.txt",
-    "sha256": "ee86ca598fc6926d4aa3d8b6a8a0481ac0efd708a39934d71d65e3f3de2130e5",
-    "retrieved_utc": "2026-11-14T16:29:04.930Z"
+    "sha256": "781addf933a81f9feb0022d19038f82bbae32e2c8c2783ec7a6102ec7bfa3903",
+    "retrieved_utc": "2026-11-14T17:00:08.613Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it09.txt",
-    "sha256": "62daa5b1b2aea192324421412fbe9ab37be0975e64c52844988ce0c06a20e351",
-    "retrieved_utc": "2026-11-14T16:29:05.622Z"
+    "sha256": "5fc0693216f670ebf44f9c8a6fc975c1d56eae173638198247355ef98f96c7fa",
+    "retrieved_utc": "2026-11-14T17:00:09.231Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it10.txt",
-    "sha256": "a74e703dc65af91c5082fef793e00c2dba11a269b4563694150738084fd9b635",
-    "retrieved_utc": "2026-11-14T16:29:06.301Z"
+    "sha256": "583e42ddfe3cf126af0a20035c6375a11971c923e5bf841e4238d9d335281797",
+    "retrieved_utc": "2026-11-14T17:00:09.875Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it11.txt",
-    "sha256": "5bfb6fba3f653fbe5830489ff31760fc07ba5fed0597f5c9ec7ff6529d423ded",
-    "retrieved_utc": "2026-11-14T16:29:06.973Z"
+    "sha256": "7500708146bbadbccc3b489b576730acc1f47f7ce74bde1ee40d00218ade54c8",
+    "retrieved_utc": "2026-11-14T17:00:10.507Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it12.txt",
-    "sha256": "bd47ebec998958f14df7b1840da67adf08f3e0ae141e40b1d517064eab043dc7",
-    "retrieved_utc": "2026-11-14T16:29:07.715Z"
+    "sha256": "0c9e583626a03694bea3af98927a285c3d431fd04e517b34e2b9bab60e9924bd",
+    "retrieved_utc": "2026-11-14T17:00:11.081Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_center_bisectm10_it13.txt",
-    "sha256": "e2409b55d04272a6dc8c16d0bac20dd296f68fed48e528131ee2ab9e388d75dc",
-    "retrieved_utc": "2026-11-14T16:29:08.407Z"
+    "sha256": "e9e434b974a67978debcb587dd3eeb584a6a6756557ab544e76349092a95f60b",
+    "retrieved_utc": "2026-11-14T17:00:11.712Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it01.txt",
-    "sha256": "392ffe99042baf98b8e09b395959d5f3b830047d87f268dafc6d622028ec8e6e",
-    "retrieved_utc": "2026-11-14T16:29:09.151Z"
+    "sha256": "194961746e0a5f7d73afe8cec9f3f22528fe899b95f6cdef6699515bdc0d3d04",
+    "retrieved_utc": "2026-11-14T17:00:12.314Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it02.txt",
-    "sha256": "fd754bd54c384166d0ae756557951391b09552d999c068aa436da9b6a860ae76",
-    "retrieved_utc": "2026-11-14T16:29:09.881Z"
+    "sha256": "99d092625144719d382950786865a8bb94043b72894c8442302c1e0fecd47e59",
+    "retrieved_utc": "2026-11-14T17:00:12.964Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it03.txt",
-    "sha256": "7f8f25f9dcbf34bbcffd7e38e5264f920358d0ee98d6ce10029a984a40069ca1",
-    "retrieved_utc": "2026-11-14T16:29:10.676Z"
+    "sha256": "9ea791cf66798f31d384ee7cfa5c0e360ded0ad989e1e6649d96c6f51a1bc4ea",
+    "retrieved_utc": "2026-11-14T17:00:13.575Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it04.txt",
-    "sha256": "a2f7963676778f92dd0456e86de5130542f47cf74ec1ebfa307a46b27598276f",
-    "retrieved_utc": "2026-11-14T16:29:11.335Z"
+    "sha256": "fc0d4fd912b80e350d5490c00c8788010f4f7ec6b5517135be2615a77e558961",
+    "retrieved_utc": "2026-11-14T17:00:14.194Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it05.txt",
-    "sha256": "d21c3b98c6f3cf87bfc25ba1dbb5a5023d7c3cd92e565cb818358ea3753d2236",
-    "retrieved_utc": "2026-11-14T16:29:12.088Z"
+    "sha256": "b12e7aa5db805df722c0f1b09f0da73dbb3c4c696963eb5d8baa97b00042e491",
+    "retrieved_utc": "2026-11-14T17:00:14.808Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it06.txt",
-    "sha256": "243352f60c0c3c4d35dabd1e980cd22ebd4e66222240155aac300beb4d24ad01",
-    "retrieved_utc": "2026-11-14T16:29:12.833Z"
+    "sha256": "06d93624dfbaa3937f2151b06629b73c5db7d329c8ecf9bf12ba5439409442ff",
+    "retrieved_utc": "2026-11-14T17:00:15.291Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it07.txt",
-    "sha256": "73f000f49b7093404ee80d084080adce703f2b4ae5a843fb7bd0c51de3da9678",
-    "retrieved_utc": "2026-11-14T16:29:13.466Z"
+    "sha256": "7a22a2074b01ee651c6baa371cf8192ab5f5d49f518ea87cf43f53d0e07a2ea7",
+    "retrieved_utc": "2026-11-14T17:00:15.895Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it08.txt",
-    "sha256": "4f3717ae6b1a061903e8182986ffa885e2965c09c4d2a395088ead4f6f2515ed",
-    "retrieved_utc": "2026-11-14T16:29:14.032Z"
+    "sha256": "04a9d659e18a96ae751e342213323dd3a0088d494240da16bd9cc45b44935bc2",
+    "retrieved_utc": "2026-11-14T17:00:16.512Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it09.txt",
-    "sha256": "19da5136bcd51fe66d1895f8f335d59d66da7595864318d43116d6c8fb60c5bc",
-    "retrieved_utc": "2026-11-14T16:29:14.736Z"
+    "sha256": "ec95a2ae8a86519f922853b9e77e76e3d721e7328247c543ef7e31b1456a5a82",
+    "retrieved_utc": "2026-11-14T17:00:17.101Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it10.txt",
-    "sha256": "53ff1e85cb23f95de3d1e00b129860f3b5df856efdb617f533a937e30c06d813",
-    "retrieved_utc": "2026-11-14T16:29:15.503Z"
+    "sha256": "96456489987199445e2fd54e8649dfec00bf818d1acfe78003b2a69c38c38b89",
+    "retrieved_utc": "2026-11-14T17:00:17.667Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it11.txt",
-    "sha256": "c9f9aa914eca3bf3b035be3337fd340f0a892b8ae13e0447d0190520d5059704",
-    "retrieved_utc": "2026-11-14T16:29:16.137Z"
+    "sha256": "4b201bc544fed7b98ac882878b34591d18b0b617d1cf55f8d79b362512dfc12c",
+    "retrieved_utc": "2026-11-14T17:00:18.259Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it12.txt",
-    "sha256": "3c5c8926a011e276e340004c4b88b784bff7394dae0fc7402297f8b6b5e3a279",
-    "retrieved_utc": "2026-11-14T16:29:16.756Z"
+    "sha256": "6ea57f0b68692dc70829007027f66cc7a462d6d00a7ea164a46c21ed6680912a",
+    "retrieved_utc": "2026-11-14T17:00:18.869Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_upper_limb_bisectm10_it13.txt",
-    "sha256": "1526caee90e684c600034a1e078b717b4f625b67ec490d210ce3987e44503148",
-    "retrieved_utc": "2026-11-14T16:29:17.449Z"
+    "sha256": "aad891db4ea85a3fc233dc4a1d8df480af94d9f859ba8651874fb7be6bd8b660",
+    "retrieved_utc": "2026-11-14T17:00:19.499Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it01.txt",
-    "sha256": "713fc35cc75ceac497b384a996ccbf8485e6c30711b726fbe2d2c7321541e2d4",
-    "retrieved_utc": "2026-11-14T16:29:18.180Z"
+    "sha256": "1e279ad15fd6c9a86db9f27330121ef577a77b75d77584e64f6028865d4b9d74",
+    "retrieved_utc": "2026-11-14T17:00:20.137Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it02.txt",
-    "sha256": "2a83a89e0531d5c04dc3f1b7ccd8eef2462d49a8126cbbafd382f62f069bf7bb",
-    "retrieved_utc": "2026-11-14T16:29:18.849Z"
+    "sha256": "59f3c40d97e70c0f126c99bbaec3a22c2a513472750aad5ead40803bacfd36af",
+    "retrieved_utc": "2026-11-14T17:00:20.713Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it03.txt",
-    "sha256": "420d0ed5981f5e12a0fc899807e01953163650d8c2a87510140e894d75268510",
-    "retrieved_utc": "2026-11-14T16:29:19.577Z"
+    "sha256": "fd894738ac5d90b9053dac10ed60ad55d5d279108631fbd9f2064cfb4c836d21",
+    "retrieved_utc": "2026-11-14T17:00:21.271Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it04.txt",
-    "sha256": "2a7f386e63d1e780c365018ae7c23fc5d024188da1078b1703d2a6604c1a12ab",
-    "retrieved_utc": "2026-11-14T16:29:20.306Z"
+    "sha256": "2e913366757b77216441d8d779bcadd9b30e50e556e5ec988f28ccc679798331",
+    "retrieved_utc": "2026-11-14T17:00:21.928Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it05.txt",
-    "sha256": "9b35629c3dd0c8033b574c0e3a19e15779607f86adfa5d10311af87c17c22e1c",
-    "retrieved_utc": "2026-11-14T16:29:21.034Z"
+    "sha256": "a7ed2dc5ce22249a5ab6aa829716e49ba0b2e80ccfc4730931b69295af229409",
+    "retrieved_utc": "2026-11-14T17:00:22.539Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it06.txt",
-    "sha256": "cd403d472e11b445f65b663047627db123dc7ad7eb4dcd0ca7d1611aa08062e9",
-    "retrieved_utc": "2026-11-14T16:29:21.732Z"
+    "sha256": "7292c7b6a877f18c168fb9dd94521bb2cb2d74a1ee44c79f276b0341bd6cb024",
+    "retrieved_utc": "2026-11-14T17:00:23.202Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it07.txt",
-    "sha256": "6f823b37e5c1e06655235a6651c3ba7ea2f4db5e060d99e73a49418ab618e182",
-    "retrieved_utc": "2026-11-14T16:29:22.362Z"
+    "sha256": "3f46c517ce604a779bff7bf77ca6ae77a75c5e28699261cd86283736d205b0cd",
+    "retrieved_utc": "2026-11-14T17:00:23.783Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it08.txt",
-    "sha256": "5b4455563b734b5268878b6f5bfabc86c8b45c89cdb8c603f7e693fe31fdd126",
-    "retrieved_utc": "2026-11-14T16:29:23.189Z"
+    "sha256": "59ccefbc779795963240e85e3ade3aab6bb4e9727b11217a71745748cef8f949",
+    "retrieved_utc": "2026-11-14T17:00:24.443Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it09.txt",
-    "sha256": "adac99529bbadffce21fa74d4b28e1263ec085b7709c7035813e6a980c07268c",
-    "retrieved_utc": "2026-11-14T16:29:23.938Z"
+    "sha256": "1db86dbb7145d482b0b3a4f15902a3f6f236af8f2239de5264b427b9c2dcaa80",
+    "retrieved_utc": "2026-11-14T17:00:25.084Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it10.txt",
-    "sha256": "7910392345b65ee6d7ad84f00aa193d6306abc927fcd2a96cde13ba0e0507eed",
-    "retrieved_utc": "2026-11-14T16:29:24.573Z"
+    "sha256": "9d5e14ea63b3b162a59caee9906cfee357592cb281045fa9d23f370363229a3e",
+    "retrieved_utc": "2026-11-14T17:00:25.737Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it11.txt",
-    "sha256": "4705ca3d9c6e30cec75f69d53cb5372ecb43d692e780ff103f3112d0a465b615",
-    "retrieved_utc": "2026-11-14T16:29:25.314Z"
+    "sha256": "712b8189293eba8e8186b825967c184e7d734b065f89aae9286469c987055b8c",
+    "retrieved_utc": "2026-11-14T17:00:26.324Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it12.txt",
-    "sha256": "0f78465412aaac28b693dc6101d5bbbb893c0c6264fb7e6299a0a80ed1e27836",
-    "retrieved_utc": "2026-11-14T16:29:26.108Z"
+    "sha256": "a640ee62d4cb3f698a594db092ba2644a7b3a16b5ee30425df7f325b094b9a03",
+    "retrieved_utc": "2026-11-14T17:00:26.810Z"
    },
    {
     "role": "bisection",
     "path": "data/raw/horizons/site04_roi4_earth_lower_limb_bisectm10_it13.txt",
-    "sha256": "130e3aa1803a2f908d73658ec96024111b74633f5e131e86bad237812e2abf66",
-    "retrieved_utc": "2026-11-14T16:29:26.885Z"
+    "sha256": "08671b1976754ffed4f579307024c3bb7d44da9a06a1db93cc54e383f651dc7d",
+    "retrieved_utc": "2026-11-14T17:00:27.424Z"
    }
   ]
  },

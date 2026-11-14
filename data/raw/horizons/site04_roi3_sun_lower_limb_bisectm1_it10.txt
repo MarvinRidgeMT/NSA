@@ -4,7 +4,7 @@ API SOURCE: NASA/JPL Horizons API
 
 
 *******************************************************************************
-Ephemeris / API_USER Sat Nov 14 08:28:15 2026 Pasadena, USA      / Horizons    
+Ephemeris / API_USER Sat Nov 14 08:58:28 2026 Pasadena, USA      / Horizons    
 *******************************************************************************
 Target body name: Sun (10)                        {source: DE441}
 Center body name: Moon (301)                      {source: DE441}

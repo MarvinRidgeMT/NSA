@@ -176,3 +176,15 @@ has no error raster.
   viewer and Blender should read the bundle instead.
 - Range-read transport: `/vsicurl` is flaky through this sandbox's proxy (empty tiles; corrupted strips). The far field
   was verified bit-identical. The near field is downloaded whole.
+
+## 7. ROI bundles ported onto the rebased branch (14 Nov, ~12:00 ET)
+
+- The ROI work (`d0990c2` on Sid's Windows PC, built on the old pre-rebase branch) was replayed onto the rebased
+  `a-science` with `git am -3`. There was one conflict, in `science/bundle.py` (schema name), resolved to
+  `polaris-science-results-v1`. `requirements.txt` was dropped because main's `requirements-science.txt` covers it.
+- All 6 ROI bundles and `data/viewer/polaris-x5d-roi-2026-11-14-v2.json` were regenerated with fresh Horizons pulls, so they
+  carry the new schema name and generator commit. Every metric is identical to the PC's run (e.g. Site01 ROI6 1 m:
+  Sun 100 %, Sun+Earth 81.772 % interval / 81.602 % hourly; Site04 ROI3 1 m: Sun 94.213 % / 94.362 %, longest Sun gap 19.44 h).
+- `python3 -m unittest discover -s science/tests -t .` → exit 0, 34 tests OK.
+- Note: `generator.git_commit` in these bundles names the commit the regeneration ran on in Claude's workspace. After
+  `git am` on another machine, that commit has a different hash but the same tree.
