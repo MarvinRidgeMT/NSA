@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { Html, Line, OrbitControls } from '@react-three/drei';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
+import { useWheelGuard } from './wheelGuard';
 import * as THREE from 'three';
 import { gridDirection } from '../bundle/frame';
 import type { Dem } from '../bundle/types';
@@ -184,11 +185,13 @@ export default function Scene3D({ v }: { v: View }) {
 }
 
 function DemScene({ v }: { v: View }) {
+  const wrap = useRef<HTMLDivElement>(null);
+  useWheelGuard(wrap);
   const dem = v.dataset.dem!;
   const half = ((dem.n - 1) * dem.spacing) / 2;
   const obs = observerFor(v);
   return (
-    <div className="scene3d" data-testid="scene3d">
+    <div className="scene3d" data-testid="scene3d" ref={wrap}>
       <Canvas camera={{ position: [half * 0.7, half * 0.42, half * 0.95], fov: 45, near: 1, far: half * 20 }} gl={{ preserveDrawingBuffer: true }}>
         <Scene v={v} />
       </Canvas>

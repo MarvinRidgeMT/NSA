@@ -107,7 +107,7 @@ export default function App() {
                 <section className="panel" aria-labelledby="s3-title">
                   <div className="panel-head">
                     <h2 id="s3-title">Local terrain 3D</h2>
-                    <span className="muted">drag to orbit · scroll to zoom</span>
+                    <span className="muted">drag to orbit · pinch or ⌘/Ctrl + scroll to zoom</span>
                   </div>
                   {gl ? (
                     <Guard label="3D view">
