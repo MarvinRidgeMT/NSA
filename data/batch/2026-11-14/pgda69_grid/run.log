@@ -1,0 +1,89 @@
+[data] far-field LDEM 80 m -> data/external/pgda90/LDEM_80S_80MPP_ADJ.TIF
+[data] Site01 nominal 5 m DEM
+[horizons] Site01 grid anchor -89.45724,-137.49378
+[data] Site04 nominal 5 m DEM
+[horizons] Site04 grid anchor -89.77452,-156.49065
+[data] Site07 nominal 5 m DEM
+[horizons] Site07 grid anchor -88.80650,123.66128
+[data] Site11 nominal 5 m DEM
+[horizons] Site11 grid anchor -88.68795,-68.44340
+[run] 3528 grid jobs on 2 workers
+[run] 50/3528 (173 s)
+[run] 100/3528 (243 s)
+[run] 150/3528 (316 s)
+[run] 200/3528 (393 s)
+[run] 250/3528 (479 s)
+[run] 300/3528 (527 s)
+[run] 350/3528 (605 s)
+[run] 400/3528 (682 s)
+[run] 450/3528 (764 s)
+[run] 500/3528 (837 s)
+[run] 550/3528 (914 s)
+[run] 600/3528 (992 s)
+[run] 650/3528 (1081 s)
+[run] 700/3528 (1131 s)
+[run] 750/3528 (1208 s)
+[run] 800/3528 (1269 s)
+[run] 850/3528 (1313 s)
+[run] 900/3528 (1349 s)
+[run] 950/3528 (1386 s)
+[run] 1000/3528 (1422 s)
+[run] 1050/3528 (1462 s)
+[run] 1100/3528 (1497 s)
+[run] 1150/3528 (1534 s)
+[run] 1200/3528 (1569 s)
+[run] 1250/3528 (1607 s)
+[run] 1300/3528 (1642 s)
+[run] 1350/3528 (1677 s)
+[run] 1400/3528 (1712 s)
+[run] 1450/3528 (1750 s)
+[run] 1500/3528 (1782 s)
+[run] 1550/3528 (1817 s)
+[run] 1600/3528 (1853 s)
+[run] 1650/3528 (1891 s)
+[run] 1700/3528 (1926 s)
+[run] 1750/3528 (1963 s)
+[run] 1800/3528 (1998 s)
+[run] 1850/3528 (2038 s)
+[run] 1900/3528 (2072 s)
+[run] 1950/3528 (2109 s)
+[run] 2000/3528 (2145 s)
+[run] 2050/3528 (2184 s)
+[run] 2100/3528 (2218 s)
+[run] 2150/3528 (2254 s)
+[run] 2200/3528 (2287 s)
+[run] 2250/3528 (2327 s)
+[run] 2300/3528 (2362 s)
+[run] 2350/3528 (2397 s)
+[run] 2400/3528 (2431 s)
+[run] 2450/3528 (2471 s)
+[run] 2500/3528 (2504 s)
+[run] 2550/3528 (2540 s)
+[run] 2600/3528 (2573 s)
+[run] 2650/3528 (2611 s)
+[run] 2700/3528 (2644 s)
+[run] 2750/3528 (2679 s)
+[run] 2800/3528 (2712 s)
+[run] 2850/3528 (2749 s)
+[run] 2900/3528 (2783 s)
+[run] 2950/3528 (2819 s)
+[run] 3000/3528 (2853 s)
+[run] 3050/3528 (2893 s)
+[run] 3100/3528 (2928 s)
+[run] 3150/3528 (2965 s)
+[run] 3200/3528 (3003 s)
+[run] 3250/3528 (3049 s)
+[run] 3300/3528 (3087 s)
+[run] 3350/3528 (3125 s)
+[run] 3400/3528 (3160 s)
+[run] 3450/3528 (3206 s)
+[run] 3500/3528 (3244 s)
+[Site01 fine] n=441  sun: rho 0.787, r 0.716, bias +0.51, median|d| 2.94  earth: rho 0.939, r 0.965, bias +1.25, median|d| 0.07
+[Site01 coarse] n=441  sun: rho 0.765, r 0.668, bias +3.33, median|d| 2.43  earth: rho 0.93, r 0.96, bias +2.35, median|d| 0.07
+[Site04 fine] n=441  sun: rho 0.927, r 0.837, bias -2.35, median|d| 3.23  earth: rho 0.862, r 0.866, bias +1.38, median|d| 1.39
+[Site04 coarse] n=441  sun: rho 0.927, r 0.831, bias -0.78, median|d| 2.84  earth: rho 0.871, r 0.874, bias +4.48, median|d| 1.24
+[Site07 fine] n=441  sun: rho 0.715, r 0.783, bias +0.13, median|d| 3.37  earth: rho 0.9, r 0.946, bias +2.32, median|d| 0.81
+[Site07 coarse] n=441  sun: rho 0.705, r 0.773, bias +2.30, median|d| 2.85  earth: rho 0.895, r 0.941, bias +4.08, median|d| 1.57
+[Site11 fine] n=441  sun: rho 0.74, r 0.802, bias -2.37, median|d| 3.01  earth: rho 0.981, r 0.992, bias -0.48, median|d| 0.03
+[Site11 coarse] n=441  sun: rho 0.732, r 0.765, bias +0.07, median|d| 2.05  earth: rho 0.98, r 0.994, bias +0.63, median|d| 0.03
+wrote results/pgda69_grid/ in 3268 s

@@ -1,0 +1,385 @@
+{
+ "summary": [
+  {
+   "site": "Site01",
+   "variant": "fine",
+   "n_points": 441,
+   "sun": {
+    "spearman_rho": 0.787,
+    "pearson_r": 0.716,
+    "mean_bias_pct_pts": 0.51,
+    "median_abs_pct_pts": 2.94,
+    "rms_pct_pts": 9.68
+   },
+   "earth": {
+    "spearman_rho": 0.939,
+    "pearson_r": 0.965,
+    "mean_bias_pct_pts": 1.25,
+    "median_abs_pct_pts": 0.07,
+    "rms_pct_pts": 6.55
+   }
+  },
+  {
+   "site": "Site01",
+   "variant": "coarse",
+   "n_points": 441,
+   "sun": {
+    "spearman_rho": 0.765,
+    "pearson_r": 0.668,
+    "mean_bias_pct_pts": 3.33,
+    "median_abs_pct_pts": 2.43,
+    "rms_pct_pts": 10.8
+   },
+   "earth": {
+    "spearman_rho": 0.93,
+    "pearson_r": 0.96,
+    "mean_bias_pct_pts": 2.35,
+    "median_abs_pct_pts": 0.07,
+    "rms_pct_pts": 7.23
+   }
+  },
+  {
+   "site": "Site04",
+   "variant": "fine",
+   "n_points": 441,
+   "sun": {
+    "spearman_rho": 0.927,
+    "pearson_r": 0.837,
+    "mean_bias_pct_pts": -2.35,
+    "median_abs_pct_pts": 3.23,
+    "rms_pct_pts": 6.37
+   },
+   "earth": {
+    "spearman_rho": 0.862,
+    "pearson_r": 0.866,
+    "mean_bias_pct_pts": 1.38,
+    "median_abs_pct_pts": 1.39,
+    "rms_pct_pts": 8.88
+   }
+  },
+  {
+   "site": "Site04",
+   "variant": "coarse",
+   "n_points": 441,
+   "sun": {
+    "spearman_rho": 0.927,
+    "pearson_r": 0.831,
+    "mean_bias_pct_pts": -0.78,
+    "median_abs_pct_pts": 2.84,
+    "rms_pct_pts": 6.21
+   },
+   "earth": {
+    "spearman_rho": 0.871,
+    "pearson_r": 0.874,
+    "mean_bias_pct_pts": 4.48,
+    "median_abs_pct_pts": 1.24,
+    "rms_pct_pts": 9.51
+   }
+  },
+  {
+   "site": "Site07",
+   "variant": "fine",
+   "n_points": 441,
+   "sun": {
+    "spearman_rho": 0.715,
+    "pearson_r": 0.783,
+    "mean_bias_pct_pts": 0.13,
+    "median_abs_pct_pts": 3.37,
+    "rms_pct_pts": 6.56
+   },
+   "earth": {
+    "spearman_rho": 0.9,
+    "pearson_r": 0.946,
+    "mean_bias_pct_pts": 2.32,
+    "median_abs_pct_pts": 0.81,
+    "rms_pct_pts": 6.79
+   }
+  },
+  {
+   "site": "Site07",
+   "variant": "coarse",
+   "n_points": 441,
+   "sun": {
+    "spearman_rho": 0.705,
+    "pearson_r": 0.773,
+    "mean_bias_pct_pts": 2.3,
+    "median_abs_pct_pts": 2.85,
+    "rms_pct_pts": 6.85
+   },
+   "earth": {
+    "spearman_rho": 0.895,
+    "pearson_r": 0.941,
+    "mean_bias_pct_pts": 4.08,
+    "median_abs_pct_pts": 1.57,
+    "rms_pct_pts": 7.91
+   }
+  },
+  {
+   "site": "Site11",
+   "variant": "fine",
+   "n_points": 441,
+   "sun": {
+    "spearman_rho": 0.74,
+    "pearson_r": 0.802,
+    "mean_bias_pct_pts": -2.37,
+    "median_abs_pct_pts": 3.01,
+    "rms_pct_pts": 5.32
+   },
+   "earth": {
+    "spearman_rho": 0.981,
+    "pearson_r": 0.992,
+    "mean_bias_pct_pts": -0.48,
+    "median_abs_pct_pts": 0.03,
+    "rms_pct_pts": 3.7
+   }
+  },
+  {
+   "site": "Site11",
+   "variant": "coarse",
+   "n_points": 441,
+   "sun": {
+    "spearman_rho": 0.732,
+    "pearson_r": 0.765,
+    "mean_bias_pct_pts": 0.07,
+    "median_abs_pct_pts": 2.05,
+    "rms_pct_pts": 4.75
+   },
+   "earth": {
+    "spearman_rho": 0.98,
+    "pearson_r": 0.994,
+    "mean_bias_pct_pts": 0.63,
+    "median_abs_pct_pts": 0.03,
+    "rms_pct_pts": 3.22
+   }
+  }
+ ],
+ "manifest": {
+  "created_utc": "2026-11-14T18:09:59+00:00",
+  "command": "/home/claude/polaris_batch/polaris_batch/pgda69_compare.py --grid Site01,Site04,Site07,Site11 --grid-n 21 --workers 2 --out results/pgda69_grid",
+  "args": {
+   "data": "data/external",
+   "out": "results/pgda69_grid",
+   "roi_csv": "/home/claude/polaris_batch/data/polaris_roi_sites.csv",
+   "sites": null,
+   "rois": null,
+   "start": "2026-01-01 00:00",
+   "stop": "2044-08-08 00:00",
+   "step": "6h",
+   "mast": 1.0,
+   "variants": "fine,coarse",
+   "n_az": 720,
+   "workers": 2,
+   "grid": "Site01,Site04,Site07,Site11",
+   "grid_n": 21,
+   "grid_stride": 2
+  },
+  "host": "vm",
+  "python": "3.13.18",
+  "cpu_count": 2,
+  "label": "SOURCE-BASED, UNVALIDATED unless the comparison below says otherwise",
+  "runtime_s": 3267.5,
+  "horizons_raw": {
+   "Site01_grid": {
+    "sun": [
+     {
+      "file": "horizons_10_fbfc10f35b11e7e5667e.txt",
+      "sha256": "e3cb771f01025b9630d29221366cfec9fc2723b5d105fc872ed1c30d1ca27de0"
+     },
+     {
+      "file": "horizons_10_56c113fa7f0d97c84510.txt",
+      "sha256": "b8e8a62c157ca4f04f6d31540bdca8788537aecf85396286608486be68018e67"
+     },
+     {
+      "file": "horizons_10_839cc3753de0fbf09fcb.txt",
+      "sha256": "e99238cd78fd96a7a79d36f58897b9ff3580c82d7a5a3fbb1b2f2811cae9ffe1"
+     },
+     {
+      "file": "horizons_10_16ad12e8633106f95330.txt",
+      "sha256": "ec61db78c082db18c8b1c2c7420e49112b7bfbd6196d33d6f1d7e7e5804b0e7f"
+     },
+     {
+      "file": "horizons_10_c471c8d0c82f33944f60.txt",
+      "sha256": "f05b50e8414bdef78ade46c694c58fa26f3d3ea4473ca6d99adc5765017f7c96"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_33451de7d6f5c6f52236.txt",
+      "sha256": "2d00c99e0274e2bf844d3af059b47015e19ebf3390d5cfafaddb691b19e524f7"
+     },
+     {
+      "file": "horizons_399_11f935345304ed8bd03d.txt",
+      "sha256": "8b4662e19edba027a83f7da67c12861c6a14bd98176f643ecee58bd3a4815981"
+     },
+     {
+      "file": "horizons_399_0c5fe9573869dd1ca70f.txt",
+      "sha256": "569c0e31c59804c1dc2b47601f872d77e83bbc053a431f1b9634256290ee3b19"
+     },
+     {
+      "file": "horizons_399_e32f73d4388fc843baec.txt",
+      "sha256": "b5839eebc492843de8fc29655c6f1b3ac05a7e5e1079dbfdddf687b0f0728a61"
+     },
+     {
+      "file": "horizons_399_ca972dacb74a0b82f2f9.txt",
+      "sha256": "2521903b28c3c13fd8e75ace9d96a873095d181bcb7cec640a3c0b520f3bbd0d"
+     }
+    ],
+    "anchor_lonlat": [
+     -137.49377683392797,
+     -89.45724027720195
+    ]
+   },
+   "Site04_grid": {
+    "sun": [
+     {
+      "file": "horizons_10_54e8323bdc78d1ca72a6.txt",
+      "sha256": "6478421321fb6fedb26e9b8627ccec2485ccd59b3cf63f72978715b6b7b43434"
+     },
+     {
+      "file": "horizons_10_3525bbc7a286eea0ff54.txt",
+      "sha256": "3956431fdc2323ca42e2878dc088ffb0a46c90d3c216061412b3a0a8b9ad296c"
+     },
+     {
+      "file": "horizons_10_440efaeeb3efdc8b4005.txt",
+      "sha256": "3b0825490bc94438eb80d8ccb17f6a5058b9ccb3ba6b8e4a1e0f9a1aa1cfe12b"
+     },
+     {
+      "file": "horizons_10_588b36018b3aa63a3ca6.txt",
+      "sha256": "d448662f2f4dfce0731f17a247ac66660ec61a1d8031e570a053489e383390d5"
+     },
+     {
+      "file": "horizons_10_ab05409e84a544c58bdc.txt",
+      "sha256": "c828f2116bc3eab11ccc424465e1e3de193ee46c5f6e481268b8459fd0b1a0fc"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_9953fc9d2cda50fe25c1.txt",
+      "sha256": "8d3f577d0c84847e6138c5a81fa2f74bbb1e0fd7f5837d1c21ba37c497f2ce44"
+     },
+     {
+      "file": "horizons_399_4118c8c5567d5ad4ffbf.txt",
+      "sha256": "988b5cbcb537998596d462d670768db316c9212a1ad9a8160ba418c65f7f3f6b"
+     },
+     {
+      "file": "horizons_399_05ad5bddab0d4fe44bed.txt",
+      "sha256": "d10627398e6ef6709ee5486b0563b7756b216a4ae34d0d774fb7752c1f6f810a"
+     },
+     {
+      "file": "horizons_399_a2ec163203f23a82fdda.txt",
+      "sha256": "f7a623db46362c2294bfff4bf57c810098e7ef72e8d284ac4cab72eb82bdb864"
+     },
+     {
+      "file": "horizons_399_6504affe1c321813a128.txt",
+      "sha256": "873c4f133a6c68ac659df502bed98d142c06ffb678ae9883174e12ba70829b7c"
+     }
+    ],
+    "anchor_lonlat": [
+     -156.49065163997795,
+     -89.7745212248434
+    ]
+   },
+   "Site07_grid": {
+    "sun": [
+     {
+      "file": "horizons_10_bd6f74dfbe8d3a83e88f.txt",
+      "sha256": "aa9aeacf064538f37f6d04aea05af98dafb3db2b42a2005f8486c6caf04e3001"
+     },
+     {
+      "file": "horizons_10_a8977c12327b52d17dda.txt",
+      "sha256": "6edf61947f495218e9f281e3572335ded172fc985310407e7548b0ca8d3dfa04"
+     },
+     {
+      "file": "horizons_10_d2f786fbbf8fd4ff742a.txt",
+      "sha256": "8a391c6c2953a52b1e1fed5f4a3d37b87351044ef978a9685a0084a9c7dd4ca3"
+     },
+     {
+      "file": "horizons_10_ff6836b2676eff496e0b.txt",
+      "sha256": "eb76244f8c3a80f92e92e223763a3f60d5d3764a80b627577f8b4763807ca79f"
+     },
+     {
+      "file": "horizons_10_525cdae7cca90bffc4d8.txt",
+      "sha256": "ba591c761a938f56bf1c4585886dc8213625a100f3751213764ff968914903fa"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_69d6602ab431f13aa56e.txt",
+      "sha256": "a37548b0dd5dd402f965e1864f44cd6a8c8cdd071830bf267adfd37f9473c7c3"
+     },
+     {
+      "file": "horizons_399_0d3e6824355a06a517e7.txt",
+      "sha256": "5bf9c6641b624bdd58fed1a1a6b23591f9451e278c8aa67b378534189832b3cd"
+     },
+     {
+      "file": "horizons_399_e27ab5dce82464e8b9c0.txt",
+      "sha256": "3df46ed014019cc19a9b5e9ee5a8d5fb61c030604b79ebe89437fad2eeb7187d"
+     },
+     {
+      "file": "horizons_399_ae38eeb7c3d12685270e.txt",
+      "sha256": "584e036bb2da64e90550d4d9db6481d154c9b80c8a595fc9eb24aaf2571e00e0"
+     },
+     {
+      "file": "horizons_399_c3970c2640f5c806e32f.txt",
+      "sha256": "0d228d8719e46356972b449bd2d29f983249b97c126e453ffa58eb1f933035f4"
+     }
+    ],
+    "anchor_lonlat": [
+     123.66127663016604,
+     -88.80649729743132
+    ]
+   },
+   "Site11_grid": {
+    "sun": [
+     {
+      "file": "horizons_10_70dbe8eff5451195caf2.txt",
+      "sha256": "d1340d69f65100fd02f8da3a907d1110262ef03f1102752e9e4f0511822c2de2"
+     },
+     {
+      "file": "horizons_10_9b0b86a493e64e12d1e6.txt",
+      "sha256": "43f9060d5c64e9b03f71816b98de7885cfefa8050f7fb6fbbb8d288d2bbe8256"
+     },
+     {
+      "file": "horizons_10_614241967c3c4ec2f1ff.txt",
+      "sha256": "c5dda4b1f29957d3e5e6df132cf3645d9cf4c4cbc4767b005772fffe0641b839"
+     },
+     {
+      "file": "horizons_10_0e033281c19e3668d4ad.txt",
+      "sha256": "168b45cb80e96b13b8e08d51af50bd0b56ffc0bf57154ab777e780ca487e64b3"
+     },
+     {
+      "file": "horizons_10_08815f1220817afb6058.txt",
+      "sha256": "0e305e9a107cbeb34db92db89d04d67e56a58aaa06f92e4caf7ccdc587ad5e59"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_dae993189289be375a6b.txt",
+      "sha256": "da5488831bcde1a41e4b9a6b42cd6c26a619cad625cefe77c392a2fc3ec032a9"
+     },
+     {
+      "file": "horizons_399_e633a326a8c10db7ab01.txt",
+      "sha256": "9d531961b09a9c4240f5ea7c79485629b9cb3d884e4e7817d25f55bc3ef96204"
+     },
+     {
+      "file": "horizons_399_b52bd71df87b8383eae3.txt",
+      "sha256": "c3f3d1f487c0e1948fe0849cf48dac39ecde426886518c7c43906f03e765d16a"
+     },
+     {
+      "file": "horizons_399_3c0e3483fb30424bc1cf.txt",
+      "sha256": "6bc6a3692c50db94d7a8f3d4f8508937838ce849d5f5607351e02a82dc188027"
+     },
+     {
+      "file": "horizons_399_fce00607b14a7a3011fa.txt",
+      "sha256": "fcac1f536b6fd0efbc4127eabff0e2066e4c1b4db49004baa1960c15e189b0b9"
+     }
+    ],
+    "anchor_lonlat": [
+     -68.44340410820203,
+     -88.68794561322501
+    ]
+   }
+  },
+  "method": "Grid on PGDA 69 pixel centres; Sun/Earth directions from one Horizons query per site, re-expressed at each point (transfer_azel; checked vs direct Horizons <= 1e-4 deg)."
+ }
+}
