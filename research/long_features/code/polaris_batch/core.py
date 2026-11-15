@@ -17,7 +17,6 @@ from pathlib import Path
 import numpy as np
 import pyproj
 import rasterio
-from scipy.ndimage import map_coordinates
 
 R_MOON = 1737400.0
 LONLAT = pyproj.CRS.from_proj4(f"+proj=longlat +R={R_MOON} +no_defs")
@@ -83,6 +82,8 @@ class Dem:
         return self.sample_xy(x, y)
 
     def sample_xy(self, x, y):
+        from scipy.ndimage import map_coordinates
+
         col, row = self.inv * (np.asarray(x), np.asarray(y))
         coords = np.vstack([np.ravel(row) - 0.5, np.ravel(col) - 0.5])
         v = map_coordinates(self.z, coords, order=1, mode="constant", cval=np.nan)

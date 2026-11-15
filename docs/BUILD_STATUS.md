@@ -176,3 +176,10 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 - Added the relative-base `Decision Lab` header link, long-feature write-up, standalone research code/results and required CC-BY-4.0 attribution README.
 - `cd web && npm run build` passed and produced `dist/lab/index.html`; the dedicated Playwright smoke test passed 1/1 with no page errors and a loaded headline.
 - Unverified: standalone research scripts and supplied result JSON were integrated as a handoff and were not independently rerun in this task.
+
+## C2 — float32 precision audit (15 Nov 2026)
+
+- Audited Python float32 and lunar-radius uses across `science/`, `blender/`, `tools/` and the integrated batch code. Repo science already promotes DEM samples to float64; no science solver file required a numerical change.
+- The batch handoff already reads float64. Added a regression that opens a float32 GeoTIFF, proves radius-plus-height is float64, and checks the committed Site04 ROI3 anchor is exactly 94.362 %; made the unrelated SciPy sampler import lazy so this read-path test runs in the repo environment.
+- Batch precision tests passed 2/2 and the full repo science suite passed 47/47.
+- Unverified: previously published float32 batch outputs and PGDA 69 RMSE values were not regenerated; they remain superseded as documented in the handoff.
