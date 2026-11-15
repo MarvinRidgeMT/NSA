@@ -280,6 +280,59 @@ export interface HotspotsBlock {
   };
 }
 
+export interface FlipForecastRow {
+  result_id: string;
+  label: 'PILOT';
+  row_id: string;
+  scope: string;
+  case_count: number;
+  predicted_flips: number;
+  actual_flips: number;
+  true_positive: number;
+  false_positive: number;
+  false_negative: number;
+  true_negative: number;
+  precision: number | null;
+  recall: number | null;
+  precision_display: string;
+  recall_display: string;
+  note: string;
+}
+
+export interface FlipForecastBlock {
+  result_id: string;
+  label: 'PILOT';
+  validation_status: 'SOURCE-BASED UNVALIDATED';
+  site_id: string;
+  input_bundle_id: string;
+  observer_mast_m: number;
+  clone_count: number;
+  sample_count: number;
+  thresholds: {
+    sun_center_visible_pct_min: number;
+    sun_and_earth_center_visible_pct_min: number;
+    source_result_id: string;
+  };
+  nominal: {
+    sun_center_visible_pct: number;
+    sun_and_earth_center_visible_pct: number;
+    mission_pass: boolean;
+  };
+  ridge_ids_considered: string[];
+  forecast_vs_actual: FlipForecastRow[];
+  per_clone: unknown[];
+  method: {
+    id: string;
+    caption: string;
+    forecast: string;
+    actual: string;
+    hourly_flip: string;
+    mission_flip: string;
+    metrics: string;
+    limitation: string;
+  };
+}
+
 export interface Derived {
   producer: { name: string; version: string };
   status: RawStatus;
@@ -290,6 +343,8 @@ export interface Derived {
   arrivalSlip?: ArrivalSlipBlock;
   /** PILOT block computed by science/stretch/hotspots.py; display-only in the browser. */
   hotspots?: HotspotsBlock;
+  /** PILOT block computed by science/stretch/flip_forecast.py; display-only in the browser. */
+  flipForecast?: FlipForecastBlock;
 }
 
 /* ---------- top level ---------- */

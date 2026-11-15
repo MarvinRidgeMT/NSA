@@ -8,7 +8,7 @@
  *   - azimuths are LOCAL; the viewer does not rotate them by longitude (no `derived.frame`, and the 3D view
  *     for this format draws in local east/north/up).
  */
-import type { ArrivalSlipBlock, Bundle, BundleEvent, CriticalCell, Dataset, Gate, HotspotsBlock, Metric, RawStatus, Scenario, TargetSeries } from './types';
+import type { ArrivalSlipBlock, Bundle, BundleEvent, CriticalCell, Dataset, FlipForecastBlock, Gate, HotspotsBlock, Metric, RawStatus, Scenario, TargetSeries } from './types';
 import { BundleError } from './errors';
 
 /* ---------- raw shape (only the fields the viewer reads) ---------- */
@@ -69,7 +69,7 @@ export interface RawScienceV2 {
   provenance?: { sources?: { id: string; description?: string; url?: string; sha256?: string }[]; horizons_raw?: { role?: string; path: string; sha256: string; retrieved_utc?: string }[] };
   limitations?: string[];
   fixture?: { of_bundle?: string; sample_indices?: number[]; note?: string };
-  derived?: { arrival_slip?: ArrivalSlipBlock; hotspots?: HotspotsBlock; [key: string]: unknown };
+  derived?: { arrival_slip?: ArrivalSlipBlock; hotspots?: HotspotsBlock; flip_forecast?: FlipForecastBlock; [key: string]: unknown };
 }
 
 /* ---------- labels ---------- */
@@ -246,6 +246,7 @@ export function adaptScienceV2(r: RawScienceV2): Bundle {
       scenarios: [baseline, ...others],
       arrivalSlip: r.derived?.arrival_slip,
       hotspots: r.derived?.hotspots,
+      flipForecast: r.derived?.flip_forecast,
     },
     events,
     snapToSamples: true,

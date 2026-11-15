@@ -62,12 +62,45 @@ evaluates 174 pixels and has zero positive clone-supported scores: it has no nea
 near-critical Earth hours are controlled by far-field terrain outside the PGDA 78 clone tile. The viewer discloses this
 zero state rather than treating clone agreement as global certainty.
 
+## 3. Jacobian + flip forecast — done
+
+**What it computes.** `science/stretch/flip_forecast.py` keeps the nominal skyline controller fixed in each azimuth
+bin. For every PGDA 78 clone it samples that same controlling location and the observer, computes the Moon-fixed
+elevation-angle finite difference caused by the clone's cell-minus-observer relief change, and applies the horizon
+delta to the stored nominal skyline. It compares those first-order predictions with full skyline recomputation by the
+existing solver. The `derived.flip_forecast` block and `data/stretch/flip_forecast/` sidecars report forecast versus
+actual flips for hourly Sun-centre, Earth-centre and Sun+Earth visibility and for mission-threshold pass/fail by clone,
+including TP/FP/FN/TN, precision and recall. Every displayed row has a stable result ID and `PILOT` label.
+
+**Inputs.** The two 1 m reference bundles and their stored nominal skylines, controller attribution, 337 hourly JPL
+target-centre samples and clone margin-series percentages; NASA PGDA product 78 nominal terrain and aligned clones
+1–20; the bundle-carried Sun-centre 70 % and Sun+Earth 40 % thresholds. Actual outcomes come from the existing
+`science.margins.clone_margins` full-skyline solver and are required to reproduce the committed clone percentages
+exactly.
+
+**Limits.** The forecast is a nominal-map secant/finite-difference model, not a probability or calibrated predictor.
+Because it deliberately does not search each clone for a new argmax, skyline-controller switching appears as forecast
+error. PGDA clones vary only the near tile and are deterministic alternatives. Hourly target-centre flips are local
+finite-DEM geometric visibility, not certified illumination, power or communications performance. Precision and
+recall remain null and display as `not evaluable` whenever their denominators are zero.
+
+**Runtime.** With the public terrain inputs cached, the final deterministic two-site rerun took 36.09 s on this Apple Silicon
+checkout, including both nominal-controller forecasts and full-solver actual results for 20 clones per site. The
+viewer only copies the comparison rows.
+
+**Key result.** At Site04 ROI3, hourly Sun flips have 99.6 % precision and 98.8 % recall (240 TP, 1 FP, 3 FN), while
+Sun+Earth flips have 99.2 % precision and 93.9 % recall (263 TP, 2 FP, 17 FN). Earth-only recall is materially weaker
+at 62.2 % (23 TP, 1 FP, 14 FN), demonstrating the controller-switching limitation. No tested clone flips the overall
+mission-threshold decision at either site, so mission precision and recall are honestly `not evaluable`. Site01 has no
+hourly or mission flips to evaluate under these 20 clones.
+
 ## Current ordered-stop report
 
 | feature | status | tests | runtime | key result | safe to show in demo? |
 |---|---|---|---|---|---|
 | Arrival-slip sweep | done | 5 stretch, 47 science, 21 Blender, 15 app, 34 web unit; typecheck/build; 19 Playwright | 260.9 s Site04 + 269.1 s Site01 cold terrain; 18.6 s + 20.9 s cached | Site04 drops from 20/20 to 19/20 at +66 h and +72 h; 0 h = 94.362 % nominal Sun | yes, only with visible PILOT + SOURCE-BASED UNVALIDATED labels and the deterministic-clone/local-visibility caveats |
 | Information hotspots | done | 5 hotspot tests (10 stretch total), 47 science, 21 Blender, 15 app, 34 web unit; typecheck/build; 21 Playwright | 1.31 s for both sites, cached | Site04: 7/111 positive tiles, top local tile 9.666043742541 deg² h; Site01: zero positive because critical Earth controllers are outside clone coverage | yes, as a PILOT sensitivity proxy with the zero-state, coverage and nominal-controller limitations visible |
+| Jacobian + flip forecast | done | 5 flip-forecast tests (15 stretch total), 47 science, 21 Blender, 15 app, 35 web unit; typecheck/build; 22 Playwright | 36.09 s for both sites, cached | Site04 hourly Sun 99.6 % precision / 98.8 % recall; Earth recall only 62.2 %; mission flips not evaluable because none occurred | yes as a small PILOT diagnostic table, because weak/null results and the fixed-controller limitation are explicit; no as a headline claim |
 
-Features 3–4 are intentionally not started in this ordered stop. Their final status rows will be added after their own
-implementation/report stops.
+Feature 4 is intentionally not started in this ordered stop. Its final status row will be added after its own
+implementation/report stop.

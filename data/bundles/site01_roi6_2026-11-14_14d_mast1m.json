@@ -35743,6 +35743,873 @@
      }
     ]
    }
+  },
+  "flip_forecast": {
+   "result_id": "flip-forecast-site01_roi6-m1-20261114-pilot-v1",
+   "label": "PILOT",
+   "validation_status": "SOURCE-BASED UNVALIDATED",
+   "site_id": "site01_roi6",
+   "input_bundle_id": "site01_roi6_2026-11-14_14d_mast1m",
+   "observer_mast_m": 1.0,
+   "clone_count": 20,
+   "sample_count": 337,
+   "thresholds": {
+    "sun_center_visible_pct_min": 70.0,
+    "sun_and_earth_center_visible_pct_min": 40.0,
+    "source_result_id": "arrival-slip-site01_roi6-m1-20261114-pilot-v1"
+   },
+   "nominal": {
+    "sun_center_visible_pct": 100.0,
+    "sun_and_earth_center_visible_pct": 81.602,
+    "mission_pass": true
+   },
+   "ridge_ids_considered": [
+    "R1",
+    "R2",
+    "R3"
+   ],
+   "forecast_vs_actual": [
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-sun-hourly",
+     "label": "PILOT",
+     "row_id": "sun-hourly",
+     "scope": "Hourly Sun-centre visibility",
+     "case_count": 6740,
+     "predicted_flips": 0,
+     "actual_flips": 0,
+     "true_positive": 0,
+     "false_positive": 0,
+     "false_negative": 0,
+     "true_negative": 6740,
+     "precision": null,
+     "recall": null,
+     "precision_display": "not evaluable",
+     "recall_display": "not evaluable",
+     "note": "not evaluable: no predicted or actual flips"
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-earth-hourly",
+     "label": "PILOT",
+     "row_id": "earth-hourly",
+     "scope": "Hourly Earth-centre visibility",
+     "case_count": 6740,
+     "predicted_flips": 0,
+     "actual_flips": 0,
+     "true_positive": 0,
+     "false_positive": 0,
+     "false_negative": 0,
+     "true_negative": 6740,
+     "precision": null,
+     "recall": null,
+     "precision_display": "not evaluable",
+     "recall_display": "not evaluable",
+     "note": "not evaluable: no predicted or actual flips"
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-both-hourly",
+     "label": "PILOT",
+     "row_id": "both-hourly",
+     "scope": "Hourly Sun+Earth visibility",
+     "case_count": 6740,
+     "predicted_flips": 0,
+     "actual_flips": 0,
+     "true_positive": 0,
+     "false_positive": 0,
+     "false_negative": 0,
+     "true_negative": 6740,
+     "precision": null,
+     "recall": null,
+     "precision_display": "not evaluable",
+     "recall_display": "not evaluable",
+     "note": "not evaluable: no predicted or actual flips"
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-mission-thresholds",
+     "label": "PILOT",
+     "row_id": "mission-thresholds",
+     "scope": "Mission threshold pass/fail by clone",
+     "case_count": 20,
+     "predicted_flips": 0,
+     "actual_flips": 0,
+     "true_positive": 0,
+     "false_positive": 0,
+     "false_negative": 0,
+     "true_negative": 20,
+     "precision": null,
+     "recall": null,
+     "precision_display": "not evaluable",
+     "recall_display": "not evaluable",
+     "note": "not evaluable: no predicted or actual flips"
+    }
+   ],
+   "per_clone": [
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-01",
+     "label": "PILOT",
+     "clone_id": 1,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.161855486667,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328922,
+      "sensitivity_deg_per_m_max": 2.040944150106
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-02",
+     "label": "PILOT",
+     "clone_id": 2,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.4357926598366,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328906,
+      "sensitivity_deg_per_m_max": 2.0405393175
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-03",
+     "label": "PILOT",
+     "clone_id": 3,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.2830481255578,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328923,
+      "sensitivity_deg_per_m_max": 2.040883625603
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-04",
+     "label": "PILOT",
+     "clone_id": 4,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1947.989456339344,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328932,
+      "sensitivity_deg_per_m_max": 2.040628415262
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-05",
+     "label": "PILOT",
+     "clone_id": 5,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.6263009206598,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328896,
+      "sensitivity_deg_per_m_max": 2.040437047331
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-06",
+     "label": "PILOT",
+     "clone_id": 6,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.493726469173,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328903,
+      "sensitivity_deg_per_m_max": 2.039788835323
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-07",
+     "label": "PILOT",
+     "clone_id": 7,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.5233475456296,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328901,
+      "sensitivity_deg_per_m_max": 2.039876750777
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-08",
+     "label": "PILOT",
+     "clone_id": 8,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.2013320008045,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.00028832892,
+      "sensitivity_deg_per_m_max": 2.040688503144
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-09",
+     "label": "PILOT",
+     "clone_id": 9,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.4160958670077,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328908,
+      "sensitivity_deg_per_m_max": 2.040074133257
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-10",
+     "label": "PILOT",
+     "clone_id": 10,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.2601261580533,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328917,
+      "sensitivity_deg_per_m_max": 2.040241621648
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-11",
+     "label": "PILOT",
+     "clone_id": 11,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.2305578313103,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328919,
+      "sensitivity_deg_per_m_max": 2.039995089581
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-12",
+     "label": "PILOT",
+     "clone_id": 12,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.3791943820347,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328909,
+      "sensitivity_deg_per_m_max": 2.041123967322
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-13",
+     "label": "PILOT",
+     "clone_id": 13,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.3198283065608,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328911,
+      "sensitivity_deg_per_m_max": 2.04079373005
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-14",
+     "label": "PILOT",
+     "clone_id": 14,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.6330894825414,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328895,
+      "sensitivity_deg_per_m_max": 2.039701711625
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-15",
+     "label": "PILOT",
+     "clone_id": 15,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.0814329573425,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328926,
+      "sensitivity_deg_per_m_max": 2.041462131817
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-16",
+     "label": "PILOT",
+     "clone_id": 16,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.3582427849346,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.00028832891,
+      "sensitivity_deg_per_m_max": 2.040411727564
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-17",
+     "label": "PILOT",
+     "clone_id": 17,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.4587138649463,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328905,
+      "sensitivity_deg_per_m_max": 2.038703236718
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-18",
+     "label": "PILOT",
+     "clone_id": 18,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1947.8477576611108,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328939,
+      "sensitivity_deg_per_m_max": 2.041756110896
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-19",
+     "label": "PILOT",
+     "clone_id": 19,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.3065548869558,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.000288328913,
+      "sensitivity_deg_per_m_max": 2.041106005805
+     }
+    },
+    {
+     "result_id": "flip-forecast-site01_roi6-m1-clone-20",
+     "label": "PILOT",
+     "clone_id": 20,
+     "predicted": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "actual": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 81.602,
+      "mission_pass": true,
+      "mission_flip": false,
+      "sun_hourly_flips": 0,
+      "earth_hourly_flips": 0,
+      "sun_and_earth_hourly_flips": 0
+     },
+     "finite_difference": {
+      "nominal_ground_m": 1948.289643385659,
+      "clone_ground_m": 1948.2000850454751,
+      "near_controller_bins": 340,
+      "far_controller_bins": 380,
+      "finite_difference_pairs": 720,
+      "sensitivity_deg_per_m_min": 0.00028832892,
+      "sensitivity_deg_per_m_max": 2.041528309274
+     }
+    }
+   ],
+   "method": {
+    "id": "nominal-controller-clone-secant-v1",
+    "caption": "Nominal skyline controllers are held fixed; each clone's cell-minus-observer relief change gives a Moon-fixed finite-difference horizon shift, then full clone skylines provide actual flips.",
+    "forecast": "no clone argmax search: stored nominal skyline plus the fixed-controller elevation delta at each azimuth bin",
+    "actual": "existing science.margins.clone_margins solver: complete skyline recomputation for every clone",
+    "hourly_flip": "predicted or actual target-centre visibility differs from the nominal bundle at the same UTC sample",
+    "mission_flip": "predicted or actual clone pass/fail differs from nominal under the bundle-carried Sun and Sun+Earth percentage thresholds",
+    "metrics": "precision = TP/(TP+FP), recall = TP/(TP+FN); null and displayed as not evaluable when the denominator is zero",
+    "limitation": "fixed nominal controllers cannot model argmax switching; PGDA 78 clones vary only the near tile and are deterministic alternatives, not probabilities"
+   },
+   "provenance": {
+    "input_bundle": {
+     "path": "data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",
+     "sha256_without_flip_forecast": "34566191cc519306260fd400787398fe06395f069db28728854c2a9910be109e"
+    },
+    "nominal_near_dem": {
+     "file_sha256": "3ba7b97cb00a2bcf21189c3aeb535f65afc21207154ab9f0d43c5bdc1f7e747e",
+     "array_sha256": "045394103594bcf504b8019049d33faf9b99497f1fbb5486cac76facd31d3b92"
+    },
+    "far_dem": {
+     "file_sha256": "82030dcbdd7c4bb0c7d858e9b4b293b9f2cda5a543ba31ec0f42784bd6beee5a",
+     "array_sha256": "90bcd1dcba1d93f71bc9a3743a87711ea85aadf746e3c8fef935ff00eff53edf"
+    },
+    "clones": [
+     {
+      "clone_id": 1,
+      "file_sha256": "242de9e3da624a276864cc4fa7c499e96981c95fd27583565e68e92434faf05b",
+      "array_sha256": "ade904efa16328b9e6542cf491106032a430976860e34cb2ddd4b1fa48ecf067"
+     },
+     {
+      "clone_id": 2,
+      "file_sha256": "97b2c05633e308c72eddfc5a337089836d80b5edb7469321976973f7eeb7dcad",
+      "array_sha256": "fc1ffe2637bcf5f66508e4d1a1512e4e93172ff1b5a97d437cd8872954356cc7"
+     },
+     {
+      "clone_id": 3,
+      "file_sha256": "2e79f90fcc6b28b06cc5524ac80601ace4ed2ea3b875e18deede92903b64f06c",
+      "array_sha256": "8efdc2cb6161b5498f3651e66956143380f8e8671ad1e33e569f043f7f63a4ac"
+     },
+     {
+      "clone_id": 4,
+      "file_sha256": "447667f3ab461e246196698c882fe154ecc4388621bf07f7b04b93150f68aaa0",
+      "array_sha256": "fb0216f3dd989ca9f43a8d49e6174d9f45d52e58dcb2cfe065044dffb5aa96ea"
+     },
+     {
+      "clone_id": 5,
+      "file_sha256": "252306940146d35a362978aab45f81d2351ef5d097c791a291b68a970d9af51b",
+      "array_sha256": "cebf6cdbe95f5b67317705949a8ffd2825dd9e400ddfdf5d39171a1c07840a32"
+     },
+     {
+      "clone_id": 6,
+      "file_sha256": "5eb7ec40a17a6639826aec7b44e4713f77b9a547a90fa0450389cafcc67c3ec0",
+      "array_sha256": "056b6aafc75b74f20995c7dcb161bddf8192e9e5910e835d46f0c2a0c5013ba3"
+     },
+     {
+      "clone_id": 7,
+      "file_sha256": "d484e8cb8ee6e0489bd625ac6c17f540310fcd664b78993557411d3fc1f90046",
+      "array_sha256": "cc74f4ffe11a5db9dc0b6c4d3c5342c952e693629a134d80462087b550214252"
+     },
+     {
+      "clone_id": 8,
+      "file_sha256": "ef3c8c17151b4edef013aa51f404f682ce88deec4e9c5df5ffa5ef7d831e8543",
+      "array_sha256": "bf395c5b31bc91c8cc1f31121fbf2cae6d65fc85fb872d8b79c4a4e78cd959cd"
+     },
+     {
+      "clone_id": 9,
+      "file_sha256": "18e5edd9fee02bfe1995fea80546dcf90e91986c2ed6d05d4d17519c0a9c2309",
+      "array_sha256": "1e0039e5e51241454d93bbe9fcc89ecb58dcd6c3041e2319789426693e72d20a"
+     },
+     {
+      "clone_id": 10,
+      "file_sha256": "1b7f56fa87d6b98a520eeaf869d5b9a0a4df7092fa8b91e4f294c75ddecfb816",
+      "array_sha256": "ee9c25d3366faa9483ed3e5d6170fab8fccb25db6f71b779543b960ddb15ede5"
+     },
+     {
+      "clone_id": 11,
+      "file_sha256": "a3ef788e076b604ff46ce9484fb854bacee9cd5ed36b486d850a5828f0a04843",
+      "array_sha256": "8f46d8adb806d59121ac9d903f2aaab0a21bb7bfd900adcbf92ce7f3fdd8da80"
+     },
+     {
+      "clone_id": 12,
+      "file_sha256": "da0fc5c26820b91c7c5b05e43a432364cb60771fd611a71c22c0f803b63239e7",
+      "array_sha256": "6e1c150b2f2cd35b32d0fc048302104653064fcf794884d3b70a83f49150dc92"
+     },
+     {
+      "clone_id": 13,
+      "file_sha256": "1164bc9ae9f22dc152d1f24dd88f8fd06a2d028c3d2aeae6eb80e8367fbb9544",
+      "array_sha256": "ce3b22b2ecc0e7573c1a454fc2afcf47e9396a364a730ce370fa8c8cbb577503"
+     },
+     {
+      "clone_id": 14,
+      "file_sha256": "8dcbca4caf7ae240b1e99528e677b0aa75b62a446dfe92150d0117b0f39d05f2",
+      "array_sha256": "b485f39adae107d5aeb5a0ab32821df94de2040873b855b38fbc47f3d9b853fc"
+     },
+     {
+      "clone_id": 15,
+      "file_sha256": "c3973b5a6345aa84b94f9f8b49b4d727bd0972703e4d99de3d0c70c492913ad4",
+      "array_sha256": "8d2d8f2d614411025f835174ffc93711a24bbcd09e8ece53b96aa4b98fa5b7ba"
+     },
+     {
+      "clone_id": 16,
+      "file_sha256": "eb4b540491536af43051942f6f44d52db4b603a19bdaeecc0de609645e86e943",
+      "array_sha256": "1ed42aacbf818fab9d8e275ab902ba7a8d794cb7dfca4449890597af02729dcd"
+     },
+     {
+      "clone_id": 17,
+      "file_sha256": "1c55d36933f156f6c305e1621fbf6471ba7a00e6bdd66eb2f91f3b43c0328b32",
+      "array_sha256": "8a057bf7333e515a758f0262ba6e17d019691e9b84a52090cea2f81fc1f02ec0"
+     },
+     {
+      "clone_id": 18,
+      "file_sha256": "b2fead63eace85f1dfa90d7da65d0fb084e321850126697cd824cd6263406b45",
+      "array_sha256": "1d6c546290bf861096d948baccec7d9d64ecb497862436dcd3d9ded7c7c5870c"
+     },
+     {
+      "clone_id": 19,
+      "file_sha256": "47d201a05a8e9992452fb48ef3418c56aa4c6745f271d398e2310c3ec4bd5fff",
+      "array_sha256": "b1fc6387e889c15aae331eaafd17195fcc0584f583d689568f72579e104d3ebe"
+     },
+     {
+      "clone_id": 20,
+      "file_sha256": "a93a9d516548b71d88ca0a218f1c9ecd2e7fb00843eff24628c46ea4d89237b9",
+      "array_sha256": "ece12e0e0be55f2e07312b26bce1f9f91d8487f5158cc4cc236cbe15a82daaff"
+     }
+    ]
+   }
   }
  }
 }

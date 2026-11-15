@@ -85,6 +85,15 @@ performs only map-coordinate projection and in-frame filtering; it does not reco
 coverage, ranking, score or display band. A zero-positive-tile bundle must show the bundle-provided zero-state caption
 rather than imply that clone agreement covers the far-field skyline.
 
+## Stretch PILOT: flip-forecast table
+
+When `derived.flip_forecast` is present, the adapter copies it to `dataset.derived.flipForecast` unchanged. The
+Decision area renders only a compact `Forecast vs actual` table from `forecast_vs_actual[]`; it is not a headline
+metric. Case counts, predicted and actual flip counts, TP/FP/FN, precision and recall display strings, method text,
+result IDs and `PILOT` labels all come directly from the bundle. In particular, `not evaluable` remains visible when
+the bundle's precision or recall is null. The browser does not calculate a confusion matrix, percentage, threshold
+outcome or replacement skyline controller.
+
 ## Known science issue seen while building this (for the science branch)
 
 `app/src/science.js` (`horizonProfile`, line ~39) still steps rays along `(sin az, cos az)` in the polar-stereographic **grid**.

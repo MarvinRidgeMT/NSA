@@ -234,3 +234,8 @@ footer { color: var(--muted); font-size: 11px; text-align: center; padding: 12px
 .hotspot-marker line { stroke: rgba(240, 220, 255, .75); stroke-width: 1; }
 .hotspot-marker text { fill: #fff; font-size: 10px; font-weight: 900; paint-order: stroke; stroke: #24152f; stroke-width: 3px; }
 .hotspot-caption { margin: 7px 0 0; max-width: 70ch; }
+
+/* Feature 3 PILOT: bundle-carried nominal-Jacobian forecast comparison */
+.flip-table td, .flip-table th { white-space: nowrap; }
+.flip-table th:first-child { white-space: normal; min-width: 150px; }
+.flip-table code { font-size: 10px; }

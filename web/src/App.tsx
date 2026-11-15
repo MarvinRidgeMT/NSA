@@ -12,6 +12,7 @@ import { CesiumMoon } from './three/CesiumMoon';
 import { PolarMap } from './components/PolarMap';
 import { EventsPanel, ScenarioTable } from './components/ScenarioTable';
 import { ArrivalSlipStrip } from './components/ArrivalSlipStrip';
+import { FlipForecastTable } from './components/FlipForecastTable';
 import type { BundleIndexEntry } from './bundle/types';
 
 const Scene3D = lazy(() => import('./three/Scene3D'));
@@ -103,6 +104,7 @@ export default function App() {
                 <EventsPanel v={v} />
                 <ScenarioTable v={v} />
                 <ArrivalSlipStrip v={v} />
+                <FlipForecastTable v={v} />
               </div>
               <div className="col">
                 <MetricsPanel v={v} />

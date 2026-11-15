@@ -125,6 +125,22 @@ shift from the toterr raster) and `repair`.
   `skyline.max_range_m` scores exactly zero. The method is a sensitivity ranking, not probability, formal value of
   information, or calibrated risk. Controller switching is deferred to the flip-forecast PILOT.
 
+## 5g. derived.flip_forecast (stretch PILOT, optional)
+
+- Produced by `python -m science.stretch.flip_forecast`; the established `science/` solver and its files remain
+  read-only. Every block, comparison row and per-clone record carries a stable result ID and `PILOT` label.
+- The forecast holds each nominal skyline controller fixed, samples each PGDA 78 clone at that controller and the
+  observer, evaluates their Moon-fixed elevation-angle finite difference, and adds the resulting horizon delta to the
+  stored nominal skyline. It does not search a clone for a replacement controller.
+- `forecast_vs_actual[]` compares the nominal-controller prediction with complete clone skylines from the existing
+  solver for hourly Sun-centre, Earth-centre and Sun+Earth visibility flips, plus mission-threshold pass/fail flips by
+  clone. Rows carry case and flip counts, TP/FP/FN/TN, precision, recall and display strings.
+- `precision` or `recall` is `null` and its display string is `not evaluable` when its denominator is zero. The
+  browser must copy these fields and must not convert an unevaluable case into a perfect score.
+- Mission thresholds and their source result ID are copied from `derived.arrival_slip`. Clones are deterministic
+  alternatives, not probabilities. The first-order forecast cannot represent skyline argmax/controller switching;
+  the full-solver comparison exposes that limitation rather than calibrating it away.
+
 ## 6. UI rules
 
 1. Show `validation_status.overall` and each `label` next to the numbers.
