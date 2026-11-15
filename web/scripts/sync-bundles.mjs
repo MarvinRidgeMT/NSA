@@ -24,10 +24,10 @@ function add(src, origin) {
   let label = name;
   try {
     const j = JSON.parse(bytes.toString('utf8'));
-    if (j?.schema === 'science-bundle-v2') {
+    if (j?.schema === 'science-bundle-v2' || j?.schema === 'polaris-science-results-v1') {
       // Person A's format (a-science): one site per bundle
       status = j?.validation_status?.overall ?? status;
-      label = `${j?.site?.name ?? j?.bundle_id} · science-bundle-v2 — ${name}`;
+      label = `${j?.site?.name ?? j?.bundle_id} · ${j.schema} — ${name}`;
     } else {
       status = j?.validation?.status ?? status;
       const names = (j?.datasets ?? []).map((d) => d?.site?.name ?? d?.siteId);

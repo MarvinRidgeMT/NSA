@@ -68,6 +68,14 @@ although `SCIENTIFIC_CONTRACT.md` defines `DEMO_ONLY`. The DEMO fixture uses `DE
   Between samples the UI says "between samples"; visibility shows "transition" when the two samples disagree.
 - Rotate local az/el into the DEM grid to **draw** rays (`web/src/bundle/frame.ts`). Never used for any result.
 
+## Stretch PILOT: arrival-slip strip
+
+When a `polaris-science-results-v1` bundle carries `derived.arrival_slip`, the viewer adapter copies it to
+`dataset.derived.arrivalSlip` without changing a value. The Decision area may render its `points[]` as a strip and exact
+traceability table. Thresholds, slip values, nominal percentages, clone min/max, k/N, result IDs and `PILOT` labels all
+come from the bundle. The browser does not recompute a visibility percentage, threshold outcome, clone count or colour
+percentage.
+
 ## Known science issue seen while building this (for the science branch)
 
 `app/src/science.js` (`horizonProfile`, line ~39) still steps rays along `(sin az, cos az)` in the polar-stereographic **grid**.

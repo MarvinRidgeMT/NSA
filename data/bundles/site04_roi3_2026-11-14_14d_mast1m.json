@@ -29001,6 +29001,943 @@
     "visible": "centre visible = perpendicular margin > 0 (same test as the bundle); pct over hourly samples incl. both endpoints",
     "note": "clone spread = N of N terrain models tested, not a probability; clones vary only the 5 m tile"
    }
+  },
+  "arrival_slip": {
+   "result_id": "arrival-slip-site04_roi3-m1-20261114-pilot-v1",
+   "label": "PILOT",
+   "validation_status": "SOURCE-BASED UNVALIDATED",
+   "site_id": "site04_roi3",
+   "input_bundle_id": "site04_roi3_2026-11-14_14d_mast1m",
+   "observer_mast_m": 1.0,
+   "thresholds": {
+    "sun_center_visible_pct_min": 70.0,
+    "sun_and_earth_center_visible_pct_min": 40.0,
+    "joint_rule": "a clone passes only when both thresholds pass"
+   },
+   "slip_hours": [
+    -72,
+    -66,
+    -60,
+    -54,
+    -48,
+    -42,
+    -36,
+    -30,
+    -24,
+    -18,
+    -12,
+    -6,
+    0,
+    6,
+    12,
+    18,
+    24,
+    30,
+    36,
+    42,
+    48,
+    54,
+    60,
+    66,
+    72
+   ],
+   "points": [
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m072h",
+     "label": "PILOT",
+     "slip_h": -72,
+     "window_start_utc": "2026-11-11T00:00:00.000Z",
+     "window_stop_utc": "2026-11-25T00:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 56.38,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 100.0,
+      "sun_center_visible_pct_max": 100.0,
+      "sun_and_earth_center_visible_pct_min": 54.303,
+      "sun_and_earth_center_visible_pct_max": 56.38,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m066h",
+     "label": "PILOT",
+     "slip_h": -66,
+     "window_start_utc": "2026-11-11T06:00:00.000Z",
+     "window_stop_utc": "2026-11-25T06:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 58.16,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 100.0,
+      "sun_center_visible_pct_max": 100.0,
+      "sun_and_earth_center_visible_pct_min": 56.083,
+      "sun_and_earth_center_visible_pct_max": 58.16,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m060h",
+     "label": "PILOT",
+     "slip_h": -60,
+     "window_start_utc": "2026-11-11T12:00:00.000Z",
+     "window_stop_utc": "2026-11-25T12:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 59.941,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 100.0,
+      "sun_center_visible_pct_max": 100.0,
+      "sun_and_earth_center_visible_pct_min": 57.864,
+      "sun_and_earth_center_visible_pct_max": 59.941,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m054h",
+     "label": "PILOT",
+     "slip_h": -54,
+     "window_start_utc": "2026-11-11T18:00:00.000Z",
+     "window_stop_utc": "2026-11-25T18:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 61.721,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 100.0,
+      "sun_center_visible_pct_max": 100.0,
+      "sun_and_earth_center_visible_pct_min": 59.644,
+      "sun_and_earth_center_visible_pct_max": 61.721,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m048h",
+     "label": "PILOT",
+     "slip_h": -48,
+     "window_start_utc": "2026-11-12T00:00:00.000Z",
+     "window_stop_utc": "2026-11-26T00:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 63.501,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 100.0,
+      "sun_center_visible_pct_max": 100.0,
+      "sun_and_earth_center_visible_pct_min": 61.424,
+      "sun_and_earth_center_visible_pct_max": 63.501,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m042h",
+     "label": "PILOT",
+     "slip_h": -42,
+     "window_start_utc": "2026-11-12T06:00:00.000Z",
+     "window_stop_utc": "2026-11-26T06:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 65.282,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 100.0,
+      "sun_center_visible_pct_max": 100.0,
+      "sun_and_earth_center_visible_pct_min": 63.205,
+      "sun_and_earth_center_visible_pct_max": 65.282,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m036h",
+     "label": "PILOT",
+     "slip_h": -36,
+     "window_start_utc": "2026-11-12T12:00:00.000Z",
+     "window_stop_utc": "2026-11-26T12:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 67.062,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 98.22,
+      "sun_center_visible_pct_max": 100.0,
+      "sun_and_earth_center_visible_pct_min": 63.798,
+      "sun_and_earth_center_visible_pct_max": 67.062,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m030h",
+     "label": "PILOT",
+     "slip_h": -30,
+     "window_start_utc": "2026-11-12T18:00:00.000Z",
+     "window_stop_utc": "2026-11-26T18:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 100.0,
+      "sun_and_earth_center_visible_pct": 68.843,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 96.439,
+      "sun_center_visible_pct_max": 100.0,
+      "sun_and_earth_center_visible_pct_min": 63.798,
+      "sun_and_earth_center_visible_pct_max": 68.843,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m024h",
+     "label": "PILOT",
+     "slip_h": -24,
+     "window_start_utc": "2026-11-13T00:00:00.000Z",
+     "window_stop_utc": "2026-11-27T00:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 99.407,
+      "sun_and_earth_center_visible_pct": 70.03,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 94.659,
+      "sun_center_visible_pct_max": 100.0,
+      "sun_and_earth_center_visible_pct_min": 63.798,
+      "sun_and_earth_center_visible_pct_max": 70.623,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m018h",
+     "label": "PILOT",
+     "slip_h": -18,
+     "window_start_utc": "2026-11-13T06:00:00.000Z",
+     "window_stop_utc": "2026-11-27T06:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 97.626,
+      "sun_and_earth_center_visible_pct": 70.03,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 92.878,
+      "sun_center_visible_pct_max": 99.407,
+      "sun_and_earth_center_visible_pct_min": 63.798,
+      "sun_and_earth_center_visible_pct_max": 71.217,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m012h",
+     "label": "PILOT",
+     "slip_h": -12,
+     "window_start_utc": "2026-11-13T12:00:00.000Z",
+     "window_stop_utc": "2026-11-27T12:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 95.846,
+      "sun_and_earth_center_visible_pct": 70.03,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 91.098,
+      "sun_center_visible_pct_max": 97.626,
+      "sun_and_earth_center_visible_pct_min": 63.798,
+      "sun_and_earth_center_visible_pct_max": 71.217,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-m006h",
+     "label": "PILOT",
+     "slip_h": -6,
+     "window_start_utc": "2026-11-13T18:00:00.000Z",
+     "window_stop_utc": "2026-11-27T18:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 70.326,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 89.318,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 63.798,
+      "sun_and_earth_center_visible_pct_max": 72.7,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-000h",
+     "label": "PILOT",
+     "slip_h": 0,
+     "window_start_utc": "2026-11-14T00:00:00.000Z",
+     "window_stop_utc": "2026-11-28T00:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 72.107,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 87.537,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 64.392,
+      "sun_and_earth_center_visible_pct_max": 74.481,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p006h",
+     "label": "PILOT",
+     "slip_h": 6,
+     "window_start_utc": "2026-11-14T06:00:00.000Z",
+     "window_stop_utc": "2026-11-28T06:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 73.887,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 86.053,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.282,
+      "sun_and_earth_center_visible_pct_max": 76.261,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p012h",
+     "label": "PILOT",
+     "slip_h": 12,
+     "window_start_utc": "2026-11-14T12:00:00.000Z",
+     "window_stop_utc": "2026-11-28T12:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 75.668,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 85.163,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.579,
+      "sun_and_earth_center_visible_pct_max": 78.042,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p018h",
+     "label": "PILOT",
+     "slip_h": 18,
+     "window_start_utc": "2026-11-14T18:00:00.000Z",
+     "window_stop_utc": "2026-11-28T18:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 77.448,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 83.383,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.579,
+      "sun_and_earth_center_visible_pct_max": 79.822,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p024h",
+     "label": "PILOT",
+     "slip_h": 24,
+     "window_start_utc": "2026-11-15T00:00:00.000Z",
+     "window_stop_utc": "2026-11-29T00:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 79.228,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 81.602,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.579,
+      "sun_and_earth_center_visible_pct_max": 81.602,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p030h",
+     "label": "PILOT",
+     "slip_h": 30,
+     "window_start_utc": "2026-11-15T06:00:00.000Z",
+     "window_stop_utc": "2026-11-29T06:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 81.009,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 79.822,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.579,
+      "sun_and_earth_center_visible_pct_max": 83.383,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p036h",
+     "label": "PILOT",
+     "slip_h": 36,
+     "window_start_utc": "2026-11-15T12:00:00.000Z",
+     "window_stop_utc": "2026-11-29T12:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 82.789,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 78.042,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.579,
+      "sun_and_earth_center_visible_pct_max": 85.163,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p042h",
+     "label": "PILOT",
+     "slip_h": 42,
+     "window_start_utc": "2026-11-15T18:00:00.000Z",
+     "window_stop_utc": "2026-11-29T18:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 84.57,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 76.261,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.579,
+      "sun_and_earth_center_visible_pct_max": 86.944,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p048h",
+     "label": "PILOT",
+     "slip_h": 48,
+     "window_start_utc": "2026-11-16T00:00:00.000Z",
+     "window_stop_utc": "2026-11-30T00:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 86.35,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 74.481,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.579,
+      "sun_and_earth_center_visible_pct_max": 88.724,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p054h",
+     "label": "PILOT",
+     "slip_h": 54,
+     "window_start_utc": "2026-11-16T06:00:00.000Z",
+     "window_stop_utc": "2026-11-30T06:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 87.537,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 72.7,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.579,
+      "sun_and_earth_center_visible_pct_max": 89.911,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p060h",
+     "label": "PILOT",
+     "slip_h": 60,
+     "window_start_utc": "2026-11-16T12:00:00.000Z",
+     "window_stop_utc": "2026-11-30T12:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 87.537,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 70.92,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.579,
+      "sun_and_earth_center_visible_pct_max": 89.911,
+      "sun_pass_count": 20,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 20,
+      "pass_denominator": 20,
+      "joint_pass_pct": 100.0,
+      "pass_band": "all"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p066h",
+     "label": "PILOT",
+     "slip_h": 66,
+     "window_start_utc": "2026-11-16T18:00:00.000Z",
+     "window_stop_utc": "2026-11-30T18:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 87.537,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 69.733,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.579,
+      "sun_and_earth_center_visible_pct_max": 89.911,
+      "sun_pass_count": 19,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 19,
+      "pass_denominator": 20,
+      "joint_pass_pct": 95.0,
+      "pass_band": "dropped"
+     }
+    },
+    {
+     "result_id": "arrival-slip-site04_roi3-m1-p072h",
+     "label": "PILOT",
+     "slip_h": 72,
+     "window_start_utc": "2026-11-17T00:00:00.000Z",
+     "window_stop_utc": "2026-12-01T00:00:00.000Z",
+     "sample_count": 337,
+     "nominal": {
+      "sun_center_visible_pct": 94.362,
+      "sun_and_earth_center_visible_pct": 87.537,
+      "sun_pass": true,
+      "sun_and_earth_pass": true,
+      "joint_pass": true
+     },
+     "clones": {
+      "count": 20,
+      "sun_center_visible_pct_min": 69.733,
+      "sun_center_visible_pct_max": 97.329,
+      "sun_and_earth_center_visible_pct_min": 65.579,
+      "sun_and_earth_center_visible_pct_max": 89.911,
+      "sun_pass_count": 19,
+      "sun_and_earth_pass_count": 20,
+      "joint_pass_count": 19,
+      "pass_denominator": 20,
+      "joint_pass_pct": 95.0,
+      "pass_band": "dropped"
+     }
+    }
+   ],
+   "method": {
+    "mission_window": "fixed input-bundle duration shifted in 6 h increments; both endpoints included",
+    "visibility_percentage": "share of hourly JPL Horizons samples with target centre above the terrain skyline",
+    "terrain": "nominal PGDA 78 5 m tile and clones 1-20; same LDEM 80 m far field, 1 m near ray step, and 280 km reach as input bundle",
+    "ephemeris": "one extended JPL Horizons hourly series per body and site; no interpolation or extrapolation",
+    "uncertainty": "clone min-max and k/N are deterministic alternatives, not probabilities",
+    "limitation": "local geometric visibility only; not certified illumination/power or DSN telecommunications availability"
+   },
+   "provenance": {
+    "input_bundle": {
+     "path": "data/bundles/site04_roi3_2026-11-14_14d_mast1m.json",
+     "sha256_without_arrival_slip": "3972c1f76ae41c2ea9af6a99f7bcbbc76d5382bfd90f59680562f5f5cc66d391"
+    },
+    "horizons_raw": [
+     {
+      "body": "sun",
+      "path": "data/stretch/arrival_slip/horizons/site04_roi3_sun_arrival_slip_20261111_20261201_1h.txt",
+      "sha256": "b6e3d88d0664083376420f8aeb04d8e065c559b1596e661148c4c4fa82c69cea"
+     },
+     {
+      "body": "earth",
+      "path": "data/stretch/arrival_slip/horizons/site04_roi3_earth_arrival_slip_20261111_20261201_1h.txt",
+      "sha256": "a919a4d5f35e67d09721a9a660699c67a9cb6b0ab1abdfee9825d47e791c72b5"
+     }
+    ],
+    "nominal_terrain": {
+     "ground_m": 1737.506,
+     "near_sha256": "38ff70dbdf2f066c2cfa94a646c3a59d653ce7f6b4528b15fc1b43ee397ce758",
+     "near_array_sha256": "ed986a3b47d79854eb904418db965b1f8d94b0a8b5fb8d0d191c98da396068f5",
+     "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+     "n_truncated_bins": 0
+    },
+    "clones": [
+     {
+      "clone_id": 1,
+      "ground_m": 1737.499,
+      "near_sha256": "8d6efbddbfde8aa98a4a2454b6f79636ce307138360f3b38b6243cb76a585963",
+      "near_array_sha256": "3f9cc1ca029481fe5c05d3e198e46c89b14f911a239cae1ef21be59d2236861c",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 2,
+      "ground_m": 1737.335,
+      "near_sha256": "a3b58f9000a75c7ed0156ee8222a8bcd66112748fbe8d89fc2de7e248d41bf0f",
+      "near_array_sha256": "feb27b6c1f2f4f9bb6060a982bb5f6c770097cdedc37b666e0e5b491b4670715",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 3,
+      "ground_m": 1737.118,
+      "near_sha256": "07dad75a48f1f4acf9f9084408bcf0bb3a80a0a5368613da425ad462baad8c89",
+      "near_array_sha256": "abdf350998f33091e40cb6a63ebb74d0eea9d187ba54a6b3e4484289497c7711",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 4,
+      "ground_m": 1737.115,
+      "near_sha256": "afbf332aa43af39c60791a3d80bd7ba77f46eb3785af02555b402da2145c99df",
+      "near_array_sha256": "9b1019713fa3326a3d31829b9f0f89b319b683f6dc279e86e7683c00d2e4fec5",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 5,
+      "ground_m": 1737.268,
+      "near_sha256": "425abb287b1348700dca1ced607d4027a17e832b9efdd576e36e64b1d58ca2b3",
+      "near_array_sha256": "af44d1a818d60a0c02c7330212a1a8ba27fab8b033eeec9362b6d500ea62be8c",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 6,
+      "ground_m": 1737.528,
+      "near_sha256": "1ac036b5d0d089f94b0fe884fac42b86f1b0fec1f0c555e893d05dc715f22a52",
+      "near_array_sha256": "4ecd06aa1326da261242bc780152a73b343e39ad6afa25f93cc557d00c8de155",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 7,
+      "ground_m": 1737.151,
+      "near_sha256": "61319ed8b5af3c861d02ef0710216eca9806c4c44cb630266ab1a4761c1e41cf",
+      "near_array_sha256": "ce9460a613499c21bc6cd68d06981c2e276fec54fd79f603d90b366584d31081",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 8,
+      "ground_m": 1737.409,
+      "near_sha256": "afcf8359689006776e5cfaae87ebc9a013600927f144f706d9e3a9d6c83c4c2a",
+      "near_array_sha256": "23c02bd86cd6ac0ac4fe9dd90aaf150a0e992880d8602435ea01d55e997d3e8b",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 9,
+      "ground_m": 1737.185,
+      "near_sha256": "f3bf0719df2c656fe7bbd0f2abf0e2fcaf9d4ef6514c30b0e98a24f36a5a74e2",
+      "near_array_sha256": "a5fe7a5f082f2e02f93a4581cfca6008cba3a29cdedbabb919eaf55508869536",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 10,
+      "ground_m": 1737.059,
+      "near_sha256": "3e522f9679850de3efe3154e3f65c5c624ff32e0e08b215e42aa1ebcd89ddb80",
+      "near_array_sha256": "1a798035c624bd6b4e88cdf226657462084d4210dac47de3aa686dd111861bae",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 11,
+      "ground_m": 1737.371,
+      "near_sha256": "997d62055e7d36fdbaeddc994b07d575f1e787372541ac6f85eebf331cb4fd7f",
+      "near_array_sha256": "5656741bc04daf2b16b77bfaf0a2a51872c0ce8ff575e99cf5e7b96bc484885d",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 12,
+      "ground_m": 1737.173,
+      "near_sha256": "0f946b7939ddae8f68387000f5c5abb80a4f43c239f9c03da60cc40271752efd",
+      "near_array_sha256": "5010aaecf3255cd9d21168a79a044c4c5467e59e2fa13df53c1c517c9dbf4657",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 13,
+      "ground_m": 1737.339,
+      "near_sha256": "bb4629840f10d37afe25f51b044199c6094ed1581c8acf02826c6bab92c3afd4",
+      "near_array_sha256": "38fcce2bec0dccc73a01eb51923023ff98d1bc85cd0240fc3de52f86c0ff8f46",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 14,
+      "ground_m": 1737.489,
+      "near_sha256": "49161ccf69f48ef0aedb7928251153f2b5d37d92fbd4dd9f0081d7c453e9452d",
+      "near_array_sha256": "a030882fd32e0328d47efa0bd5c3adc0ebfbd35e0ae5e902444983f6c49b1904",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 15,
+      "ground_m": 1737.358,
+      "near_sha256": "7f0dcfce01e02680a541ead656158fc162b784ae6119f78ce72e29111278c72d",
+      "near_array_sha256": "6958a435fa3d212c5ee87b0e2af0234ce8be58c329a163d23dfcbd947b447bab",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 16,
+      "ground_m": 1737.229,
+      "near_sha256": "d3ffb8ba3163b73d967f38a452d685058eb4905316cb606f8b823f3eff83ede4",
+      "near_array_sha256": "f2795ae13096915218e423c522651aeff04bbc8d6dd1b7f0e9a114088213ac0b",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 17,
+      "ground_m": 1737.258,
+      "near_sha256": "ebe4f04d78a5304350aa74418e9e1ed27de78e1968e21c86972b74d57d03184f",
+      "near_array_sha256": "1749fa507aebd5ffe2e39abed7915aa65ad1d2fdc2c52314ba8a270bda2b4726",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 18,
+      "ground_m": 1737.437,
+      "near_sha256": "53b9a7ddd81f7e1eb1ff85e90340a6b90fa4d5c81967f8aed8afde8370f1bb88",
+      "near_array_sha256": "2b16eea491ff226a19aeb97336d86dc2c9c16e8341454efac0616ff5135dfdb7",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 19,
+      "ground_m": 1737.208,
+      "near_sha256": "dbe66df5699c21a72bdf4b556db541dea03eae878ee6d9c19bcfcbe0c7a0e9d4",
+      "near_array_sha256": "c41c78b61a822601746b5ec2837296b84ed6677e9b180d8205b20d5369ab3fa4",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     },
+     {
+      "clone_id": 20,
+      "ground_m": 1737.317,
+      "near_sha256": "99aca2e8044a7f01456391392f0299ffc3c95fa7d31b42faa04e542e811b3333",
+      "near_array_sha256": "529416f39af13516ba8d8ad384184fc9b1123e92b4e14c831eae0ab4a8e52a97",
+      "far_array_sha256": "c4d42e93f4db15c89ff77c02b8c4f33d939cc9ba0e620bf9bc5aeb671bfbcaa8",
+      "n_truncated_bins": 0
+     }
+    ]
+   }
   }
  }
 }

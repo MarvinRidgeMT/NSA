@@ -172,12 +172,67 @@ export interface Scenario {
   events?: BundleEvent[];
 }
 
+export interface ArrivalSlipPoint {
+  result_id: string;
+  label: 'PILOT';
+  slip_h: number;
+  window_start_utc: string;
+  window_stop_utc: string;
+  sample_count: number;
+  nominal: {
+    sun_center_visible_pct: number;
+    sun_and_earth_center_visible_pct: number;
+    sun_pass: boolean;
+    sun_and_earth_pass: boolean;
+    joint_pass: boolean;
+  };
+  clones: {
+    count: number;
+    sun_center_visible_pct_min: number;
+    sun_center_visible_pct_max: number;
+    sun_and_earth_center_visible_pct_min: number;
+    sun_and_earth_center_visible_pct_max: number;
+    sun_pass_count: number;
+    sun_and_earth_pass_count: number;
+    joint_pass_count: number;
+    pass_denominator: number;
+    joint_pass_pct: number;
+    pass_band: 'all' | 'dropped';
+  };
+}
+
+export interface ArrivalSlipBlock {
+  result_id: string;
+  label: 'PILOT';
+  validation_status: 'SOURCE-BASED UNVALIDATED';
+  site_id: string;
+  input_bundle_id: string;
+  observer_mast_m: number;
+  thresholds: {
+    sun_center_visible_pct_min: number;
+    sun_and_earth_center_visible_pct_min: number;
+    joint_rule: string;
+  };
+  slip_hours: number[];
+  points: ArrivalSlipPoint[];
+  method: {
+    mission_window: string;
+    visibility_percentage: string;
+    terrain: string;
+    ephemeris: string;
+    uncertainty: string;
+    limitation: string;
+  };
+}
+
 export interface Derived {
   producer: { name: string; version: string };
   status: RawStatus;
   frame?: { localNorthInGrid?: [number, number]; localEastInGrid?: [number, number]; note?: string };
   skylineBinDeg?: number;
   scenarios: Scenario[];
+  /** PILOT block computed by science/stretch/arrival_slip.py; display-only in the browser. */
+  arrivalSlip?: ArrivalSlipBlock;
 }
 
 /* ---------- top level ---------- */

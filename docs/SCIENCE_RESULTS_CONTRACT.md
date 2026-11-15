@@ -98,6 +98,20 @@ shift from the toterr raster) and `repair`.
 - Margin = body centre elevation − skyline (deg); visible = perpendicular margin > 0 (§3). Clone spread = N of N terrain
   models tested, not a probability.
 
+## 5e. derived.arrival_slip (stretch PILOT, optional)
+
+- Produced by `python -m science.stretch.arrival_slip`; the established `science/` solver remains read-only.
+- `slip_hours` is the exact tested grid. `points[]` has a stable `result_id`, `label: PILOT`, shifted UTC window,
+  hourly `sample_count`, nominal Sun-centre and Sun+Earth percentages, clone min/max for both metrics, and the number
+  of clones passing the bundle-carried thresholds. A clone passes jointly only when both requirements pass.
+- Nominal plus PGDA 78 clones 1–20 use the input bundle's observer, 1 m near-ray step, 280 km finite horizon reach and
+  LDEM 80 m far field. One extended JPL Horizons hourly series per body/site is evaluated without browser computation,
+  interpolation or extrapolation.
+- Percentages are shares of hourly samples including both window endpoints. This MVP does not bisect shifted-window
+  crossings. Clone min/max and k/N are deterministic terrain alternatives, not calibrated probabilities.
+- Every block and point is labelled `PILOT`; underlying inputs remain `SOURCE-BASED UNVALIDATED`. Results are local
+  geometric visibility only, not certified illumination/power or DSN telecommunications availability.
+
 ## 6. UI rules
 
 1. Show `validation_status.overall` and each `label` next to the numbers.

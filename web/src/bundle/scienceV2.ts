@@ -8,7 +8,7 @@
  *   - azimuths are LOCAL; the viewer does not rotate them by longitude (no `derived.frame`, and the 3D view
  *     for this format draws in local east/north/up).
  */
-import type { Bundle, BundleEvent, CriticalCell, Dataset, Gate, Metric, RawStatus, Scenario, TargetSeries } from './types';
+import type { ArrivalSlipBlock, Bundle, BundleEvent, CriticalCell, Dataset, Gate, Metric, RawStatus, Scenario, TargetSeries } from './types';
 import { BundleError } from './errors';
 
 /* ---------- raw shape (only the fields the viewer reads) ---------- */
@@ -43,7 +43,7 @@ interface RawScenario {
   events?: { body: 'sun' | 'earth'; event: string; utc: string }[];
 }
 export interface RawScienceV2 {
-  schema: 'science-bundle-v2';
+  schema: 'science-bundle-v2' | 'polaris-science-results-v1';
   bundle_id: string;
   generated_utc: string;
   generator?: { code?: string; git_commit?: string; command?: string };
@@ -69,6 +69,7 @@ export interface RawScienceV2 {
   provenance?: { sources?: { id: string; description?: string; url?: string; sha256?: string }[]; horizons_raw?: { role?: string; path: string; sha256: string; retrieved_utc?: string }[] };
   limitations?: string[];
   fixture?: { of_bundle?: string; sample_indices?: number[]; note?: string };
+  derived?: { arrival_slip?: ArrivalSlipBlock; [key: string]: unknown };
 }
 
 /* ---------- labels ---------- */
@@ -156,7 +157,8 @@ function series(samples: RawSample[], key: 'sun' | 'earth', critical: CriticalCe
 }
 
 export function isScienceV2(raw: unknown): raw is RawScienceV2 {
-  return !!raw && typeof raw === 'object' && (raw as { schema?: unknown }).schema === 'science-bundle-v2';
+  const schema = !!raw && typeof raw === 'object' ? (raw as { schema?: unknown }).schema : undefined;
+  return schema === 'science-bundle-v2' || schema === 'polaris-science-results-v1';
 }
 
 export function adaptScienceV2(r: RawScienceV2): Bundle {
@@ -242,6 +244,7 @@ export function adaptScienceV2(r: RawScienceV2): Bundle {
       status,
       skylineBinDeg: binDeg,
       scenarios: [baseline, ...others],
+      arrivalSlip: r.derived?.arrival_slip,
     },
     events,
     snapToSamples: true,

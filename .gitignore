@@ -22,3 +22,5 @@ tmp/
 
 # PGDA 69 / 78 downloads for tools/pgda69 (re-fetched with pinned SHA-256)
 data/raw/pgda69/
+# reproducible NASA/JPL science cache; source URLs and hashes live in bundles
+data/cache/
