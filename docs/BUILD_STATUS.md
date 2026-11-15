@@ -183,3 +183,10 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 - The batch handoff already reads float64. Added a regression that opens a float32 GeoTIFF, proves radius-plus-height is float64, and checks the committed Site04 ROI3 anchor is exactly 94.362 %; made the unrelated SciPy sampler import lazy so this read-path test runs in the repo environment.
 - Batch precision tests passed 2/2 and the full repo science suite passed 47/47.
 - Unverified: previously published float32 batch outputs and PGDA 69 RMSE values were not regenerated; they remain superseded as documented in the handoff.
+
+## C3 — bundle-traceable Decision Card (15 Nov 2026)
+
+- Added `science/decision_card.py` and deterministic JSON plus print-only, no-JavaScript HTML cards for Site04 ROI3 and Site01 ROI6 under `data/cards/`; every numeric value carries an exact bundle path, or two source paths for a signed margin.
+- Site04 reproduces bundle values 94.362 % Sun (87.537–97.329 clone range) and 72.107 % Sun+Earth (64.392–74.481); coverage, k/N, ridges, source versions and the raw bundle SHA-256 are included.
+- Four Decision Card tests and the full 51-test science suite pass; deterministic JSON/HTML byte equality, numeric traceability and missing-optional omission are covered. The Site04 print layout was rendered and inspected.
+- Partial: current bundles do not carry the 120 h team gap threshold or 1.75 m certainty height. The gap observation is shown without a verdict/margin and certainty height is omitted rather than hardcoded from the handoff.

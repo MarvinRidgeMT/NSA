@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>POLARIS X Decision Card — Shackleton Rim (Site04 ROI3)</title>
+<style>
+:root{font-family:Inter,system-ui,sans-serif;color:#152032;background:#fff}body{margin:0;padding:24px}
+.card{max-width:1050px;margin:auto;border:2px solid #26384f;padding:22px;display:grid;gap:18px}
+header{display:grid;grid-template-columns:1fr auto;gap:16px;border-bottom:2px solid #26384f;padding-bottom:14px}
+h1,h2,p{margin:0}h1{font-size:25px}h2{font-size:16px;margin-bottom:8px}.labels{font-weight:800;color:#7d3d00}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.fact{border:1px solid #aeb8c4;padding:9px}
+.fact span,small{display:block;color:#526173;font-size:11px}table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{border:1px solid #aeb8c4;padding:7px;text-align:left;vertical-align:top}thead th{background:#e9eef4}
+code{font-size:10px;overflow-wrap:anywhere}ul{margin:0;padding-left:18px;font-size:11px}.foot{font-size:11px;color:#526173}
+@media print{@page{size:landscape;margin:10mm}body{padding:0}.card{border:1px solid #000;max-width:none;break-inside:avoid}}
+</style></head><body><main class="card" data-result-id="decision-card-site04_roi3-site04_roi3_2026-11-14_14d_mast1m" data-label="SOURCE-BASED / UNVALIDATED">
+<header><div><h1>POLARIS X Decision Card</h1><p>Shackleton Rim (Site04 ROI3) · site04_roi3</p></div><div class="labels">SOURCE-BASED · UNVALIDATED</div></header>
+<section class="facts">
+<div class="fact" data-source="site.lat_deg"><span>Latitude</span>-89.78012°</div>
+<div class="fact" data-source="site.lon_deg_east"><span>Longitude east</span>-156.32023°</div>
+<div class="fact" data-source="site.observer_mast_m"><span>Observer mast</span>1.00 m</div>
+<div class="fact"><span>UTC window</span>2026-11-14T00:00:00.000Z<br>2026-11-28T00:00:00.000Z</div>
+<div class="fact"><span>Bundle</span><code>site04_roi3_2026-11-14_14d_mast1m</code></div>
+<div class="fact"><span>Bundle SHA-256</span><code>ac745d993c36e0066e61a57a01b5e9ab10f76ea41f4494233c044efccbefee1f</code></div>
+</section>
+<section><h2>Requirements</h2><table><thead><tr><th>Requirement</th><th>Threshold</th><th>Nominal</th><th>Signed margin</th><th>Clone min–max</th><th>Deterministic clone result + coverage</th></tr></thead><tbody><tr data-result-id="decision-card-site04_roi3-sun-centre" data-label="SOURCE-BASED / UNVALIDATED">
+<th>Sun-centre visible</th>
+<td data-source="derived.arrival_slip.thresholds.sun_center_visible_pct_min">>= 70.00 %</td>
+<td data-source="derived.arrival_slip.points[12].nominal.sun_center_visible_pct">94.36 %</td>
+<td data-source="derived.arrival_slip.points[12].nominal.sun_center_visible_pct + derived.arrival_slip.thresholds.sun_center_visible_pct_min">24.36 %</td>
+<td data-source="derived.arrival_slip.points[12].clones.sun_center_visible_pct_min + derived.arrival_slip.points[12].clones.sun_center_visible_pct_max">87.54–97.33 %</td>
+<td data-source="derived.arrival_slip.points[12].clones.sun_pass_count + derived.arrival_slip.points[12].clones.pass_denominator">pass on 20/20 clones<br><small>Sun critical covered fraction: 1.0000</small></td>
+</tr><tr data-result-id="decision-card-site04_roi3-sun-and-earth" data-label="SOURCE-BASED / UNVALIDATED">
+<th>Sun + Earth centres visible</th>
+<td data-source="derived.arrival_slip.thresholds.sun_and_earth_center_visible_pct_min">>= 40.00 %</td>
+<td data-source="derived.arrival_slip.points[12].nominal.sun_and_earth_center_visible_pct">72.11 %</td>
+<td data-source="derived.arrival_slip.points[12].nominal.sun_and_earth_center_visible_pct + derived.arrival_slip.thresholds.sun_and_earth_center_visible_pct_min">32.11 %</td>
+<td data-source="derived.arrival_slip.points[12].clones.sun_and_earth_center_visible_pct_min + derived.arrival_slip.points[12].clones.sun_and_earth_center_visible_pct_max">64.39–74.48 %</td>
+<td data-source="derived.arrival_slip.points[12].clones.joint_pass_count + derived.arrival_slip.points[12].clones.pass_denominator">pass on 20/20 clones<br><small>Sun critical covered fraction: 1.0000; Earth critical covered fraction: 1.0000</small></td>
+</tr></tbody></table></section>
+<section><h2>Longest blocked stretch</h2>
+<p data-result-id="decision-card-site04_roi3-longest-sun-gap" data-label="SOURCE-BASED / UNVALIDATED" data-source="metrics.longest_sun_center_hidden_h">
+Sun-centre blocked: <strong>19.4434 h</strong>. threshold unavailable in bundle; pass/fail and signed margin omitted.
+</p></section>
+<section><h2>Ridges of record</h2><table><thead><tr><th>Ridge</th><th>Distance range</th><th>Azimuth span</th><th>Height</th><th>Sun-loss</th></tr></thead><tbody><tr data-result-id="decision-card-site04_roi3-ridge-R1" data-label="SOURCE-BASED UNVALIDATED">
+<th>R1</th>
+<td data-source="derived.attribution.ridges[0].dist_range_km[0] + derived.attribution.ridges[0].dist_range_km[1]">127.677–129.597 km</td>
+<td data-source="derived.attribution.ridges[0].az_span_deg[0] + derived.attribution.ridges[0].az_span_deg[1]">153.00–156.00°</td>
+<td data-source="derived.attribution.ridges[0].height_m">4969.562 m</td>
+<td data-source="derived.attribution.ridges[0].sun_loss_h">0 h</td>
+</tr><tr data-result-id="decision-card-site04_roi3-ridge-R2" data-label="SOURCE-BASED UNVALIDATED">
+<th>R2</th>
+<td data-source="derived.attribution.ridges[1].dist_range_km[0] + derived.attribution.ridges[1].dist_range_km[1]">0.180–0.189 km</td>
+<td data-source="derived.attribution.ridges[1].az_span_deg[0] + derived.attribution.ridges[1].az_span_deg[1]">144.50–152.50°</td>
+<td data-source="derived.attribution.ridges[1].height_m">1735.742 m</td>
+<td data-source="derived.attribution.ridges[1].sun_loss_h">0 h</td>
+</tr><tr data-result-id="decision-card-site04_roi3-ridge-R3" data-label="SOURCE-BASED UNVALIDATED">
+<th>R3</th>
+<td data-source="derived.attribution.ridges[2].dist_range_km[0] + derived.attribution.ridges[2].dist_range_km[1]">0.012–0.169 km</td>
+<td data-source="derived.attribution.ridges[2].az_span_deg[0] + derived.attribution.ridges[2].az_span_deg[1]">78.00–144.00°</td>
+<td data-source="derived.attribution.ridges[2].height_m">1739.069 m</td>
+<td data-source="derived.attribution.ridges[2].sun_loss_h">19 h</td>
+</tr></tbody></table></section>
+<section><h2>Data versions</h2><ul><li><strong>ldem-80m</strong>: LOLA LDEM_80S_80MPP_ADJ.TIF, 80 m/px south-polar mosaic, PGDA product 90 · SHA-256 82030dcbdd7c4bb0c7d858e9b4b293b9f2cda5a543ba31ec0f42784bd6beee5a</li><li><strong>jpl-horizons</strong>: JPL Horizons API, observer tables, CENTER=coord@301, QUANTITIES=4,13,20, APPARENT=AIRLESS</li><li><strong>p78-site</strong>: LOLA site04_roi3 5 m LDEM (Barker et al. 2021), PGDA product 78 · SHA-256 38ff70dbdf2f066c2cfa94a646c3a59d653ce7f6b4528b15fc1b43ee397ce758</li></ul></section>
+<p class="foot">Local geometric visibility only: not certified illumination, power, or DSN link availability. Clone k/N is not a probability. Source bundle: data/bundles/site04_roi3_2026-11-14_14d_mast1m.json.</p>
+</main></body></html>
