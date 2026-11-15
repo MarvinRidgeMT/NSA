@@ -197,3 +197,10 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 - Report-only baseline: 1,173 scanned elements failed across 11 bundles. Added bundle-path and cautious classification attributes to the workspace boundary without changing, deleting or hiding any displayed number.
 - Strict result: 0 failures across 1,172 currently rendered elements; the dedicated Playwright scan passed 1/1.
 - Web unit tests pass 35/35, TypeScript typecheck passes and the production build succeeds. The one-element scan-count variation is due to dynamic rendering; the failure count is deterministic at zero.
+
+## C5 — reproducibility hash (15 Nov 2026)
+
+- Added executable `scripts/repro_hash.sh`; it verifies and reuses the committed Horizons raw responses, runs the existing Site04 ROI3 1 m science builder into a temporary directory, and does not modify the source archive.
+- Canonical JSON uses sorted keys/compact separators and 12-decimal float normalization. Excluded fields are `generated_utc`, `generator.git_commit`, `generator.command`, environment-only DEM `transport`, and the separately generated `derived` extension scope; no hostname field is present.
+- Mac result: `REPRO_HASH_MATCH`, generated and committed SHA-256 both `492b39151092301d81933584dde2b742d9babc99379e38b60e813dbd729d402f` in 1.67 s; `bash -n` also passes.
+- A second machine can run `scripts/repro_hash.sh` from the repo root with the checked-in raw archive, cached DEM inputs and `.venv`; no second-machine result was available in this task.
