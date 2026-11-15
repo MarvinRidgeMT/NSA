@@ -225,6 +225,61 @@ export interface ArrivalSlipBlock {
   };
 }
 
+export interface HotspotTile {
+  result_id: string;
+  label: 'PILOT';
+  rank: number;
+  tile_id: string;
+  lat_deg: number;
+  lon_deg_east: number;
+  grid_x_m: number;
+  grid_y_m: number;
+  distance_m_min: number;
+  distance_m_max: number;
+  controlled_bins: number;
+  controlled_bin_indices: number[];
+  clone_height_variance_m2_max: number;
+  clone_relative_height_variance_m2_max: number;
+  horizon_variance_deg2_max: number;
+  sun_score: number;
+  earth_score: number;
+  sun_critical_h: number;
+  earth_critical_h: number;
+  score: number;
+  display_band: 'positive' | 'zero';
+  method: string;
+}
+
+export interface HotspotsBlock {
+  result_id: string;
+  label: 'PILOT';
+  validation_status: 'SOURCE-BASED UNVALIDATED';
+  site_id: string;
+  input_bundle_id: string;
+  observer_mast_m: number;
+  clone_count: number;
+  tile_step_m: number;
+  horizon_distance_m: number;
+  critical_margin_deg: number;
+  score_unit: string;
+  tiles_evaluated: number;
+  tiles_positive: number;
+  zero_state_caption: string | null;
+  top_k: number;
+  top_tiles: HotspotTile[];
+  tiles: HotspotTile[];
+  method: {
+    id: string;
+    caption: string;
+    candidate: string;
+    dispersion: string;
+    jacobian: string;
+    score: string;
+    coverage: string;
+    limitation: string;
+  };
+}
+
 export interface Derived {
   producer: { name: string; version: string };
   status: RawStatus;
@@ -233,6 +288,8 @@ export interface Derived {
   scenarios: Scenario[];
   /** PILOT block computed by science/stretch/arrival_slip.py; display-only in the browser. */
   arrivalSlip?: ArrivalSlipBlock;
+  /** PILOT block computed by science/stretch/hotspots.py; display-only in the browser. */
+  hotspots?: HotspotsBlock;
 }
 
 /* ---------- top level ---------- */

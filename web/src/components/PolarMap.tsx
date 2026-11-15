@@ -45,6 +45,7 @@ export function PolarMap({ v }: { v: View | null }) {
   const [layer, setLayer] = useState<LayerKey>('sun');
   const [area, setArea] = useState<string>('overview'); // 'overview' or a site key
   const [sel, setSel] = useState<string | null>(null);
+  const [showHotspots, setShowHotspots] = useState(false);
   const [grey, setGrey] = useState<Grey | null>(null);
   const [hover, setHover] = useState<{ sx: number; sy: number; lat: number; lon: number; pct: number | null } | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -97,6 +98,7 @@ export function PolarMap({ v }: { v: View | null }) {
   const spokes = area === 'overview' ? [0, 30, 60, 90, 120, 150, 180, -150, -120, -90, -60, -30] : [];
   const pole = [F.toX(0), F.toY(0)];
   const bundleSite = v?.dataset.site;
+  const hotspots = v?.dataset.derived?.hotspots;
   const bundleXY = bundleSite ? latLonToXY(bundleSite.latitudePlanetocentricDeg, bundleSite.longitudeEastDeg) : null;
   const selRoi = meta.rois.find((r) => r.id === sel) ?? null;
   const inFrame = (x: number, y: number) => x >= 0 && x <= SIZE && y >= 0 && y <= SIZE;
@@ -113,6 +115,18 @@ export function PolarMap({ v }: { v: View | null }) {
   if (bundleXY && bundleIn) pinItems.push({ id: '__bundle', px: F.toX(bundleXY[0]), py: F.toY(bundleXY[1]) + 8, text: 'loaded bundle observer' });
   const labels = placeLabels(pinItems);
   const scaleKm = area === 'overview' ? 50 : 1;
+  const hotspotItems =
+    showHotspots && hotspots
+      ? hotspots.top_tiles
+          .map((tile) => {
+            const [gridX, gridY] = latLonToXY(tile.lat_deg, tile.lon_deg_east);
+            return { tile, px: F.toX(gridX), py: F.toY(gridY) };
+          })
+          .filter(({ px, py }) => inFrame(px, py))
+      : [];
+  const hotspotLabels = placeLabels(
+    hotspotItems.map(({ tile, px, py }) => ({ id: tile.result_id, px, py, text: `#${tile.rank}` })),
+  );
 
   const onMove = (e: React.MouseEvent<SVGSVGElement>) => {
     if (!grey) return;
@@ -159,6 +173,17 @@ export function PolarMap({ v }: { v: View | null }) {
             ))}
           </select>
         </label>
+        {hotspots && (
+          <label className={`hotspot-toggle ${showHotspots ? 'on' : ''}`}>
+            <input
+              type="checkbox"
+              checked={showHotspots}
+              onChange={(event) => setShowHotspots(event.target.checked)}
+              data-testid="hotspot-toggle"
+            />
+            Where better data matters <span>{hotspots.label}</span>
+          </label>
+        )}
       </div>
       <div className="polar-body">
         <div className="polar-map">
@@ -212,9 +237,11 @@ export function PolarMap({ v }: { v: View | null }) {
               rois.map((r) => (
                 <g key={r.id} className={`roi ${sel === r.id ? 'sel' : ''}`} onClick={() => setSel(r.id)} role="button" tabIndex={0} aria-label={`${r.id}: Sun ${fmtPct(r.sun.mean)}, Earth ${fmtPct(r.earth.mean)}`} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setSel(r.id)} data-testid={`roi-${r.id}`}>
                   <path d={ringPath(r)} />
-                  <text x={F.toX(r.centroidXY[0]) + 8} y={F.toY(r.centroidXY[1]) - 6}>
-                    ROI{r.roi}
-                  </text>
+                  {!showHotspots && (
+                    <text x={F.toX(r.centroidXY[0]) + 8} y={F.toY(r.centroidXY[1]) - 6}>
+                      ROI{r.roi}
+                    </text>
+                  )}
                 </g>
               ))}
             {bundleXY && bundleIn && (
@@ -223,9 +250,43 @@ export function PolarMap({ v }: { v: View | null }) {
                 {labels.__bundle?.shifted && (
                   <line x1={F.toX(bundleXY[0])} y1={F.toY(bundleXY[1]) + 6} x2={labels.__bundle.x - 2} y2={labels.__bundle.y - 4} className="leader" />
                 )}
-                <text x={labels.__bundle?.x ?? F.toX(bundleXY[0]) + 10} y={labels.__bundle?.y ?? F.toY(bundleXY[1]) + 14}>
-                  loaded bundle observer
-                </text>
+                {!showHotspots && (
+                  <text x={labels.__bundle?.x ?? F.toX(bundleXY[0]) + 10} y={labels.__bundle?.y ?? F.toY(bundleXY[1]) + 14}>
+                    loaded bundle observer
+                  </text>
+                )}
+              </g>
+            )}
+            {showHotspots && hotspots && (
+              <g
+                className="hotspot-overlay"
+                data-testid="hotspot-overlay"
+                data-result-id={hotspots.result_id}
+                data-label={hotspots.label}
+              >
+                {hotspotItems.map(({ tile, px, py }) => {
+                  const label = hotspotLabels[tile.result_id];
+                  return (
+                    <g
+                      key={tile.result_id}
+                      className={`hotspot-marker ${tile.display_band}`}
+                      data-testid={`hotspot-marker-${tile.rank}`}
+                      data-result-id={tile.result_id}
+                      data-label={tile.label}
+                      data-score={tile.score}
+                      data-tile-id={tile.tile_id}
+                      role="img"
+                      aria-label={`Hotspot ${tile.rank}, ${tile.tile_id}, score ${tile.score} ${hotspots.score_unit}, ${tile.label}`}
+                    >
+                      <circle cx={px} cy={py} r={4} />
+                      <line x1={px + 4} y1={py} x2={label.x - 2} y2={label.y - 4} />
+                      <text x={label.x} y={label.y}>#{tile.rank}</text>
+                      <title>
+                        {tile.tile_id} · score {tile.score} {hotspots.score_unit} · {tile.lat_deg}°, {tile.lon_deg_east}°E · {tile.label}
+                      </title>
+                    </g>
+                  );
+                })}
               </g>
             )}
             <g className="scalebar" transform={`translate(16, ${SIZE - 22})`}>
@@ -249,6 +310,17 @@ export function PolarMap({ v }: { v: View | null }) {
             <span>100 %</span>
             <span className="nodata-key" /> no data
           </div>
+          {showHotspots && hotspots && (
+            <p
+              className="muted small hotspot-caption"
+              data-testid="hotspot-caption"
+              data-result-id={hotspots.result_id}
+              data-label={hotspots.label}
+            >
+              {hotspots.label}: {hotspots.method.caption}{' '}
+              {hotspots.zero_state_caption}
+            </p>
+          )}
           {area !== 'overview' && (
             <button type="button" className="btn" onClick={() => setArea('overview')}>
               ← Whole south pole

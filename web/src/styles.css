@@ -223,3 +223,14 @@ footer { color: var(--muted); font-size: 11px; text-align: center; padding: 12px
   .slip-strip { grid-template-columns: repeat(25, minmax(28px, 1fr)); overflow-x: auto; }
   .slip-cell { min-width: 28px; }
 }
+
+/* Feature 2 PILOT: precomputed information-hotspot overlay */
+.hotspot-toggle { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #66507f; border-radius: 6px; padding: 6px 8px; color: var(--ink-2); cursor: pointer; }
+.hotspot-toggle.on { color: #f0dcff; background: #261934; border-color: #a56de2; }
+.hotspot-toggle span { color: #d8b4fe; font-size: 10px; font-weight: 800; letter-spacing: .08em; }
+.hotspot-overlay { pointer-events: none; }
+.hotspot-marker circle { fill: rgba(143, 78, 190, .82); stroke: #f0dcff; stroke-width: 2; }
+.hotspot-marker.zero circle { fill: rgba(79, 61, 94, .55); stroke: #a996b8; stroke-dasharray: 2 2; }
+.hotspot-marker line { stroke: rgba(240, 220, 255, .75); stroke-width: 1; }
+.hotspot-marker text { fill: #fff; font-size: 10px; font-weight: 900; paint-order: stroke; stroke: #24152f; stroke-width: 3px; }
+.hotspot-caption { margin: 7px 0 0; max-width: 70ch; }

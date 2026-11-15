@@ -76,6 +76,15 @@ traceability table. Thresholds, slip values, nominal percentages, clone min/max,
 come from the bundle. The browser does not recompute a visibility percentage, threshold outcome, clone count or colour
 percentage.
 
+## Stretch PILOT: information-hotspot overlay
+
+When `derived.hotspots` is present, the adapter copies it to `dataset.derived.hotspots` unchanged. The Evidence map
+may offer a `Where better data matters` toggle and plot the bundle's pre-ranked `top_tiles[]`. Marker rank, tile ID,
+latitude/longitude, score, score unit, method caption, result ID and `PILOT` label all come from the bundle. The browser
+performs only map-coordinate projection and in-frame filtering; it does not recompute variance, a skyline Jacobian,
+coverage, ranking, score or display band. A zero-positive-tile bundle must show the bundle-provided zero-state caption
+rather than imply that clone agreement covers the far-field skyline.
+
 ## Known science issue seen while building this (for the science branch)
 
 `app/src/science.js` (`horizonProfile`, line ~39) still steps rays along `(sin az, cos az)` in the polar-stereographic **grid**.

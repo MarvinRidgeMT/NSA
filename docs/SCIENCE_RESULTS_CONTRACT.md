@@ -112,6 +112,19 @@ shift from the toterr raster) and `repair`.
 - Every block and point is labelled `PILOT`; underlying inputs remain `SOURCE-BASED UNVALIDATED`. Results are local
   geometric visibility only, not certified illumination/power or DSN telecommunications availability.
 
+## 5f. derived.hotspots (stretch PILOT, optional)
+
+- Produced by `python -m science.stretch.hotspots`; no existing file under `science/` is modified.
+- `tiles[]` ranks nominal near-field skyline-controlling PGDA 78 pixels. Each tile carries a stable result ID, `PILOT`
+  label, pixel ID, latitude/east longitude, clone height variance, linearised horizon variance, Sun/Earth contributions
+  and total `score` in deg² h. `top_tiles[]` is the first ten ranked tiles, copied for display without browser science.
+- Paired controlling-pixel minus observer-ground relief spread is sampled across deterministic clones 1–20, propagated
+  through `degrees(cos(theta)^2 / distance)`, and summed only over source-bundle Sun/Earth samples inside the bundle's
+  `derived.coverage.critical_threshold_deg` band. Absolute pixel variance is retained as a diagnostic.
+- Far-field controllers lack PGDA 78 clone support and are excluded. Any supplied candidate beyond
+  `skyline.max_range_m` scores exactly zero. The method is a sensitivity ranking, not probability, formal value of
+  information, or calibrated risk. Controller switching is deferred to the flip-forecast PILOT.
+
 ## 6. UI rules
 
 1. Show `validation_status.overall` and each `label` next to the numbers.
