@@ -76,3 +76,10 @@ The pipeline never silently substitutes synthetic terrain or analytic ephemeride
 - `docs/FINAL_AUDIT.md` — release classification and evidence
 
 The browser interface is currently modular standards-based JavaScript rather than the requested React/TypeScript migration. That migration, an independent illumination truth-set comparison, and wider horizon coverage remain open work; none is represented as complete.
+
+## Data and AI credits
+
+- NASA GSFC shape-from-shading DEM: Bertone et al. (2026), [Zenodo doi:10.5281/zenodo.17954508](https://doi.org/10.5281/zenodo.17954508), CC-BY-4.0. It is used only in `research/long_features/` and the Decision Lab evidence; attribution is required.
+- LROC `WAC_POLE_ILL_TWI_SOUTH_100M` polar illumination map, distributed through the Planetary Data System (PDS).
+- NASA PGDA products 69, 78 and 90; NASA/JPL Horizons; and NAIF SPICE.
+- AI use: Anthropic Claude (analysis, research scripts, Decision Lab page) and OpenAI Codex (integration).

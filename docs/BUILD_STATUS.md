@@ -204,3 +204,10 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 - Canonical JSON uses sorted keys/compact separators and 12-decimal float normalization. Excluded fields are `generated_utc`, `generator.git_commit`, `generator.command`, environment-only DEM `transport`, and the separately generated `derived` extension scope; no hostname field is present.
 - Mac result: `REPRO_HASH_MATCH`, generated and committed SHA-256 both `492b39151092301d81933584dde2b742d9babc99379e38b60e813dbd729d402f` in 1.67 s; `bash -n` also passes.
 - A second machine can run `scripts/repro_hash.sh` from the repo root with the checked-in raw archive, cached DEM inputs and `.venv`; no second-machine result was available in this task.
+
+## C6 — data and AI credits (15 Nov 2026)
+
+- Added the required README attribution for the Bertone et al. (2026) NASA GSFC SfS DEM, including its CC-BY-4.0 license, Zenodo DOI and its limited use in long-feature research and Decision Lab evidence.
+- Added LROC WAC/PDS, NASA PGDA 69/78/90, JPL Horizons and NAIF SPICE credits.
+- Added the requested AI disclosure for Anthropic Claude and OpenAI Codex without changing existing project claims or status wording.
+- Documentation-only change; final repository regression results are recorded in the completion report.
