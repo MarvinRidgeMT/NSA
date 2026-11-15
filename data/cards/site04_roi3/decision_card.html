@@ -9,7 +9,7 @@ h1,h2,p{margin:0}h1{font-size:25px}h2{font-size:16px;margin-bottom:8px}.labels{f
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.fact{border:1px solid #aeb8c4;padding:9px}
 .fact span,small{display:block;color:#526173;font-size:11px}table{width:100%;border-collapse:collapse;font-size:12px}
 th,td{border:1px solid #aeb8c4;padding:7px;text-align:left;vertical-align:top}thead th{background:#e9eef4}
-code{font-size:10px;overflow-wrap:anywhere}ul{margin:0;padding-left:18px;font-size:11px}.foot{font-size:11px;color:#526173}
+code{font-size:10px;overflow-wrap:anywhere}ul{margin:0;padding-left:18px;font-size:11px}.foot{font-size:11px;color:#526173}.pass{color:#146c43}.fail{color:#a42424}
 @media print{@page{size:landscape;margin:10mm}body{padding:0}.card{border:1px solid #000;max-width:none;break-inside:avoid}}
 </style></head><body><main class="card" data-result-id="decision-card-site04_roi3-site04_roi3_2026-11-14_14d_mast1m" data-label="SOURCE-BASED / UNVALIDATED">
 <header><div><h1>POLARIS X Decision Card</h1><p>Shackleton Rim (Site04 ROI3) · site04_roi3</p></div><div class="labels">SOURCE-BASED · UNVALIDATED</div></header>
@@ -37,9 +37,11 @@ code{font-size:10px;overflow-wrap:anywhere}ul{margin:0;padding-left:18px;font-si
 <td data-source="derived.arrival_slip.points[12].clones.joint_pass_count + derived.arrival_slip.points[12].clones.pass_denominator">pass on 20/20 clones<br><small>Sun critical covered fraction: 1.0000; Earth critical covered fraction: 1.0000</small></td>
 </tr></tbody></table></section>
 <section><h2>Longest blocked stretch</h2>
-<p data-result-id="decision-card-site04_roi3-longest-sun-gap" data-label="SOURCE-BASED / UNVALIDATED" data-source="metrics.longest_sun_center_hidden_h">
-Sun-centre blocked: <strong>19.4434 h</strong>. threshold unavailable in bundle; pass/fail and signed margin omitted.
-</p></section>
+<div data-result-id="decision-card-site04_roi3-longest-sun-gap">
+<p data-label="SCENARIO" data-source="CLI --max-dark-h">Team requirement: longest Sun-centre blocked stretch <= <strong>120 h</strong>.</p>
+<p data-label="SOURCE-BASED / UNVALIDATED" data-source="metrics.longest_sun_center_hidden_h">Bundle nominal: <strong>19.4434 h</strong> · headroom 100.5566 h · <strong class="pass">PASS</strong>.</p>
+<p class="foot">nominal only; per-clone longest Sun-gap is not present in this bundle.</p>
+</div></section>
 <section><h2>Ridges of record</h2><table><thead><tr><th>Ridge</th><th>Distance range</th><th>Azimuth span</th><th>Height</th><th>Sun-loss</th></tr></thead><tbody><tr data-result-id="decision-card-site04_roi3-ridge-R1" data-label="SOURCE-BASED UNVALIDATED">
 <th>R1</th>
 <td data-source="derived.attribution.ridges[0].dist_range_km[0] + derived.attribution.ridges[0].dist_range_km[1]">127.677–129.597 km</td>

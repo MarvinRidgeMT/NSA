@@ -23,7 +23,11 @@
     "SOURCE-BASED",
     "UNVALIDATED"
   ],
-  "longest_sun_blocked_observation": {
+  "longest_sun_blocked_requirement": {
+    "clone_evidence": {
+      "status": "nominal only; per-clone longest Sun-gap is not present in this bundle"
+    },
+    "comparison": "<=",
     "coverage": {
       "sun_critical_covered_fraction": {
         "source_path": "derived.coverage.covered_frac",
@@ -34,13 +38,28 @@
         "value": 0
       }
     },
-    "label": "SOURCE-BASED / UNVALIDATED",
+    "label": "SOURCE-BASED / UNVALIDATED observation; SCENARIO team requirement",
     "nominal": {
       "source_path": "metrics.longest_sun_center_hidden_h",
       "value": 0.0
     },
+    "pass": true,
+    "requirement_id": "maximum-sun-darkness",
     "result_id": "decision-card-site01_roi6-longest-sun-gap",
-    "status": "threshold unavailable in bundle; pass/fail and signed margin omitted",
+    "signed_margin": {
+      "formula": "threshold - nominal",
+      "source_paths": {
+        "nominal": "metrics.longest_sun_center_hidden_h"
+      },
+      "threshold_source": "CLI --max-dark-h",
+      "value": 120.0
+    },
+    "threshold": {
+      "classification": "SCENARIO",
+      "source": "CLI --max-dark-h",
+      "source_type": "team requirement",
+      "value": 120
+    },
     "title": "Longest Sun-centre blocked stretch",
     "unit": "h"
   },

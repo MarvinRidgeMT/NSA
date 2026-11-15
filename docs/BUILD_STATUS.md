@@ -186,16 +186,17 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 
 ## C3 — bundle-traceable Decision Card (15 Nov 2026)
 
-- Added `science/decision_card.py` and deterministic JSON plus print-only, no-JavaScript HTML cards for Site04 ROI3 and Site01 ROI6 under `data/cards/`; every numeric value carries an exact bundle path, or two source paths for a signed margin.
+- Added `science/decision_card.py` and deterministic JSON plus print-only, no-JavaScript HTML cards for Site04 ROI3 and Site01 ROI6 under `data/cards/`; every science value carries an exact bundle path, derived margins cite their operands, and the mission limit is explicitly identified as a team requirement.
 - Site04 reproduces bundle values 94.362 % Sun (87.537–97.329 clone range) and 72.107 % Sun+Earth (64.392–74.481); coverage, k/N, ridges, source versions and the raw bundle SHA-256 are included.
-- Four Decision Card tests and the full 51-test science suite pass; deterministic JSON/HTML byte equality, numeric traceability and missing-optional omission are covered. The Site04 print layout was rendered and inspected.
-- Partial: current bundles do not carry the 120 h team gap threshold or 1.75 m certainty height. The gap observation is shown without a verdict/margin and certainty height is omitted rather than hardcoded from the handoff.
+- `--max-dark-h` defaults to the team requirement of 120 h. Site04's bundle-carried 19.4434 h nominal interval passes with 100.5566 h headroom; the cards say nominal-only because these bundles do not carry per-clone longest-gap values.
+- Five Decision Card tests pass; deterministic JSON/HTML byte equality, bundle numeric traceability, team-threshold provenance, override behavior and missing-optional omission are covered. Certainty Height remains omitted: A2 is not on this branch, although commit `971df9a` on `origin/a-science` contains the separate fine-sweep batch artifact.
 
 ## C4 — Playwright traceability scan (15 Nov 2026)
 
 - Added `web/tests/e2e/traceability.spec.ts`, which scans every indexed bundle's rendered main workspace for visible numbers followed by `%`, `h`, `m` or `°` and requires a bundle/result source plus one allowed classification.
 - Report-only baseline: 1,173 scanned elements failed across 11 bundles. Added bundle-path and cautious classification attributes to the workspace boundary without changing, deleting or hiding any displayed number.
-- Strict result: 0 failures across 1,172 currently rendered elements; the dedicated Playwright scan passed 1/1.
+- Strict result: 0 failures across 1,172 currently rendered elements: 1,020 SOURCE-BASED, 50 SCENARIO, 102 DEMO and 0 VALIDATED. Scenario rows now carry their honest local classification instead of inheriting the source-bundle classification.
+- A dedicated regression loads the synthetic fixture, requires a DEMO workspace, and rejects any SOURCE-BASED or VALIDATED descendant. The two traceability Playwright checks pass 2/2.
 - Web unit tests pass 35/35, TypeScript typecheck passes and the production build succeeds. The one-element scan-count variation is due to dynamic rendering; the failure count is deterministic at zero.
 
 ## C5 — reproducibility hash (15 Nov 2026)

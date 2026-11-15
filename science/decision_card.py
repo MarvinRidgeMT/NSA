@@ -17,6 +17,7 @@ import argparse
 import hashlib
 import html
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -28,11 +29,29 @@ def _sourced(value: int | float | None, source_path: str) -> dict[str, Any]:
     return {"value": value, "source_path": source_path}
 
 
+def _team_requirement(value: int | float, cli_flag: str) -> dict[str, Any]:
+    return {
+        "value": value,
+        "source_type": "team requirement",
+        "source": f"CLI {cli_flag}",
+        "classification": "SCENARIO",
+    }
+
+
 def _margin(value: float, threshold: float, value_path: str, threshold_path: str) -> dict[str, Any]:
     return {
         "value": round(float(value) - float(threshold), 12),
         "formula": "nominal - threshold",
         "source_paths": {"nominal": value_path, "threshold": threshold_path},
+    }
+
+
+def _maximum_margin(value: float, threshold: float, value_path: str, threshold_flag: str) -> dict[str, Any]:
+    return {
+        "value": round(float(threshold) - float(value), 12),
+        "formula": "threshold - nominal",
+        "source_paths": {"nominal": value_path},
+        "threshold_source": f"CLI {threshold_flag}",
     }
 
 
@@ -80,9 +99,17 @@ def _coverage(bundle: dict, *, include_earth: bool) -> dict[str, Any] | None:
     return result
 
 
-def build_card(bundle: dict, *, bundle_path: str, bundle_sha256: str) -> dict:
+def build_card(
+    bundle: dict,
+    *,
+    bundle_path: str,
+    bundle_sha256: str,
+    max_dark_h: int | float = 120,
+) -> dict:
     if bundle.get("schema") != "polaris-science-results-v1":
         raise ValueError("decision cards require polaris-science-results-v1")
+    if isinstance(max_dark_h, bool) or not isinstance(max_dark_h, (int, float)) or not math.isfinite(max_dark_h) or max_dark_h < 0:
+        raise ValueError("max_dark_h must be a finite non-negative number")
     arrival = bundle.get("derived", {}).get("arrival_slip")
     if not isinstance(arrival, dict):
         raise ValueError("decision cards require derived.arrival_slip for bundle-carried thresholds")
@@ -155,16 +182,22 @@ def build_card(bundle: dict, *, bundle_path: str, bundle_sha256: str) -> dict:
 
     gap = None
     if isinstance(bundle.get("metrics", {}).get("longest_sun_center_hidden_h"), (int, float)):
+        value_path = "metrics.longest_sun_center_hidden_h"
+        value = bundle["metrics"]["longest_sun_center_hidden_h"]
         gap = {
             "result_id": f"decision-card-{bundle['site']['id']}-longest-sun-gap",
-            "label": "SOURCE-BASED / UNVALIDATED",
+            "label": "SOURCE-BASED / UNVALIDATED observation; SCENARIO team requirement",
+            "requirement_id": "maximum-sun-darkness",
             "title": "Longest Sun-centre blocked stretch",
             "unit": "h",
-            "nominal": _sourced(
-                bundle["metrics"]["longest_sun_center_hidden_h"],
-                "metrics.longest_sun_center_hidden_h",
-            ),
-            "status": "threshold unavailable in bundle; pass/fail and signed margin omitted",
+            "comparison": "<=",
+            "threshold": _team_requirement(max_dark_h, "--max-dark-h"),
+            "nominal": _sourced(value, value_path),
+            "signed_margin": _maximum_margin(value, max_dark_h, value_path, "--max-dark-h"),
+            "pass": value <= max_dark_h,
+            "clone_evidence": {
+                "status": "nominal only; per-clone longest Sun-gap is not present in this bundle"
+            },
             "coverage": _coverage(bundle, include_earth=False),
         }
 
@@ -223,7 +256,7 @@ def build_card(bundle: dict, *, bundle_path: str, bundle_sha256: str) -> dict:
         "disclaimer": bundle["metrics"].get("disclaimer"),
     }
     if gap is not None:
-        card["longest_sun_blocked_observation"] = gap
+        card["longest_sun_blocked_requirement"] = gap
     certainty = _certainty_height(bundle)
     if certainty is not None:
         card["certainty_height_m"] = certainty
@@ -270,12 +303,16 @@ def render_html(card: dict) -> str:
         )
 
     gap_html = ""
-    if "longest_sun_blocked_observation" in card:
-        gap = card["longest_sun_blocked_observation"]
+    if "longest_sun_blocked_requirement" in card:
+        gap = card["longest_sun_blocked_requirement"]
+        verdict = "PASS" if gap["pass"] else "FAIL"
+        verdict_class = "pass" if gap["pass"] else "fail"
         gap_html = f"""<section><h2>Longest blocked stretch</h2>
-<p data-result-id="{html.escape(gap['result_id'])}" data-label="{html.escape(gap['label'])}" data-source="{_source_attr(gap['nominal'])}">
-Sun-centre blocked: <strong>{_fmt(_value(gap['nominal']), 4)} h</strong>. {html.escape(gap['status'])}.
-</p></section>"""
+<div data-result-id="{html.escape(gap['result_id'])}">
+<p data-label="SCENARIO" data-source="{html.escape(gap['threshold']['source'], quote=True)}">Team requirement: longest Sun-centre blocked stretch {gap['comparison']} <strong>{_fmt(_value(gap['threshold']))} h</strong>.</p>
+<p data-label="SOURCE-BASED / UNVALIDATED" data-source="{_source_attr(gap['nominal'])}">Bundle nominal: <strong>{_fmt(_value(gap['nominal']), 4)} h</strong> · headroom {_fmt(gap['signed_margin']['value'], 4)} h · <strong class="{verdict_class}">{verdict}</strong>.</p>
+<p class="foot">{html.escape(gap['clone_evidence']['status'])}.</p>
+</div></section>"""
 
     certainty_html = ""
     if "certainty_height_m" in card:
@@ -312,7 +349,7 @@ h1,h2,p{{margin:0}}h1{{font-size:25px}}h2{{font-size:16px;margin-bottom:8px}}.la
 .facts{{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}}.fact{{border:1px solid #aeb8c4;padding:9px}}
 .fact span,small{{display:block;color:#526173;font-size:11px}}table{{width:100%;border-collapse:collapse;font-size:12px}}
 th,td{{border:1px solid #aeb8c4;padding:7px;text-align:left;vertical-align:top}}thead th{{background:#e9eef4}}
-code{{font-size:10px;overflow-wrap:anywhere}}ul{{margin:0;padding-left:18px;font-size:11px}}.foot{{font-size:11px;color:#526173}}
+code{{font-size:10px;overflow-wrap:anywhere}}ul{{margin:0;padding-left:18px;font-size:11px}}.foot{{font-size:11px;color:#526173}}.pass{{color:#146c43}}.fail{{color:#a42424}}
 @media print{{@page{{size:landscape;margin:10mm}}body{{padding:0}}.card{{border:1px solid #000;max-width:none;break-inside:avoid}}}}
 </style></head><body><main class="card" data-result-id="{html.escape(card['result_id'])}" data-label="SOURCE-BASED / UNVALIDATED">
 <header><div><h1>POLARIS X Decision Card</h1><p>{html.escape(site['name'])} · {html.escape(site['id'])}</p></div><div class="labels">SOURCE-BASED · UNVALIDATED</div></header>
@@ -333,7 +370,7 @@ code{{font-size:10px;overflow-wrap:anywhere}}ul{{margin:0;padding-left:18px;font
 """
 
 
-def write_card(bundle_path: Path, out_dir: Path) -> tuple[Path, Path]:
+def write_card(bundle_path: Path, out_dir: Path, *, max_dark_h: int | float = 120) -> tuple[Path, Path]:
     raw = bundle_path.read_bytes()
     bundle = json.loads(raw)
     try:
@@ -344,6 +381,7 @@ def write_card(bundle_path: Path, out_dir: Path) -> tuple[Path, Path]:
         bundle,
         bundle_path=source_path,
         bundle_sha256=hashlib.sha256(raw).hexdigest(),
+        max_dark_h=max_dark_h,
     )
     target = out_dir / bundle["site"]["id"]
     target.mkdir(parents=True, exist_ok=True)
@@ -358,11 +396,17 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build deterministic POLARIS X decision cards")
     parser.add_argument("bundles", nargs="+", type=Path)
     parser.add_argument("--out-dir", type=Path, default=Path("data/cards"))
+    parser.add_argument(
+        "--max-dark-h",
+        type=float,
+        default=120,
+        help="team requirement for maximum longest Sun-centre blocked stretch (default: 120 h)",
+    )
     args = parser.parse_args(argv)
     if len(args.bundles) > 2:
         parser.error("pass one or two bundles")
     for bundle_path in args.bundles:
-        json_path, html_path = write_card(bundle_path, args.out_dir)
+        json_path, html_path = write_card(bundle_path, args.out_dir, max_dark_h=args.max_dark_h)
         print(f"wrote {json_path} and {html_path}")
     return 0
 
