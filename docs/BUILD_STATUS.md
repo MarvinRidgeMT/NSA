@@ -176,6 +176,7 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 - Added the relative-base `Decision Lab` header link, long-feature write-up, standalone research code/results and required CC-BY-4.0 attribution README.
 - `cd web && npm run build` passed and produced `dist/lab/index.html`; the dedicated Playwright smoke test passed 1/1 with no page errors and a loaded headline.
 - Unverified: standalone research scripts and supplied result JSON were integrated as a handoff and were not independently rerun in this task.
+- Batch-2 handoff update: the four-site Decision Lab (`Site01 RoI 6`, `Site04 RoI 3`, `Site07 RoI 1`, `Site11 RoI 4`) is byte-identical to handoff v2; `index.html` SHA-256 is `2aa9201cab410de661ec07dbbc2670b02bb83c1c743c03e21a246132f017751f`.
 
 ## C2 — float32 precision audit (15 Nov 2026)
 
