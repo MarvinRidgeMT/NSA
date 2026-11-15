@@ -190,3 +190,10 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 - Site04 reproduces bundle values 94.362 % Sun (87.537–97.329 clone range) and 72.107 % Sun+Earth (64.392–74.481); coverage, k/N, ridges, source versions and the raw bundle SHA-256 are included.
 - Four Decision Card tests and the full 51-test science suite pass; deterministic JSON/HTML byte equality, numeric traceability and missing-optional omission are covered. The Site04 print layout was rendered and inspected.
 - Partial: current bundles do not carry the 120 h team gap threshold or 1.75 m certainty height. The gap observation is shown without a verdict/margin and certainty height is omitted rather than hardcoded from the handoff.
+
+## C4 — Playwright traceability scan (15 Nov 2026)
+
+- Added `web/tests/e2e/traceability.spec.ts`, which scans every indexed bundle's rendered main workspace for visible numbers followed by `%`, `h`, `m` or `°` and requires a bundle/result source plus one allowed classification.
+- Report-only baseline: 1,173 scanned elements failed across 11 bundles. Added bundle-path and cautious classification attributes to the workspace boundary without changing, deleting or hiding any displayed number.
+- Strict result: 0 failures across 1,172 currently rendered elements; the dedicated Playwright scan passed 1/1.
+- Web unit tests pass 35/35, TypeScript typecheck passes and the production build succeeds. The one-element scan-count variation is due to dynamic rendering; the failure count is deterministic at zero.

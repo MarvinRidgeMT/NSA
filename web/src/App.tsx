@@ -75,7 +75,12 @@ export default function App() {
           DEMO · synthetic terrain and invented sky · not NASA, not JPL · for viewer development only
         </div>
       )}
-      <main id="main" tabIndex={-1}>
+      <main
+        id="main"
+        tabIndex={-1}
+        data-source={loaded ? `bundles/${loaded.name}` : undefined}
+        data-classification={loaded?.status}
+      >
         {loading && <p className="note">Loading bundle…</p>}
         {loadError && (
           <p className="error" role="alert" data-testid="load-error">
