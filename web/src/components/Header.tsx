@@ -85,6 +85,9 @@ export function Header({ onOpenProvenance }: { onOpenProvenance: () => void }) {
       </div>
       <div className="right">
         {loaded && <StatusBadge status={loaded.status} />}
+        <a className="btn" href={`${import.meta.env.BASE_URL}lab/index.html`} data-testid="decision-lab-link">
+          Decision Lab
+        </a>
         <button type="button" className="btn" onClick={onOpenProvenance} disabled={!loaded} data-testid="open-provenance">
           Provenance
         </button>

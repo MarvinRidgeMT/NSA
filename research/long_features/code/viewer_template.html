@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>POLARIS X Decision Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: mission-ops decision board; clinical, every number traceable.
+   IDEA: a flight director's go/no-go board for one lunar landing site.
+   PICTURE: the 12-month launch-window strip (every 14-day start, 20 terrain maps) is the hero.
+   COLOUR and TYPE: team palette (DEMO_30S_PLAN): ground #05080F, Sun #F2B33D, Earth #4A90E2, robust teal, fail red; Inter + JetBrains Mono numbers.
+   LAYOUT: sticky site/threshold bar, decision card + strip first, then evidence sections down the page. */
+:root{color-scheme:light dark;
+--bg:light-dark(#F3F4F6,#05080F);--panel:light-dark(#FFFFFF,#0B1426);--line:light-dark(#D5DAE3,#1C2740);
+--ink:light-dark(#0B1426,#E6E9EF);--mute:light-dark(#4F5A6E,#9AA3B2);
+--sun:light-dark(#B7791F,#F2B33D);--earth:light-dark(#2B6CB0,#4A90E2);--ok:light-dark(#13857B,#2EC4B6);--bad:light-dark(#C53030,#E5484D);--mid:light-dark(#7A8499,#6B7891)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+.num,td.n,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+header.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px max(4vw,14px);display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+header.bar b{font-weight:700;letter-spacing:.01em}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{all:unset;cursor:pointer;padding:9px 12px;font-size:14px;min-height:24px}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.seg button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
+label.th{display:inline-flex;gap:6px;align-items:center;font-size:14px;color:var(--mute)}
+label.th input{width:68px;font:16px "JetBrains Mono",monospace;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink)}
+nav.jump{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:14px}nav.jump a{color:var(--mute);text-decoration:none}nav.jump a:hover{color:var(--ink)}
+.band{padding:clamp(22px,3.5vw,48px) max(4vw,14px);max-width:1280px;margin:0 auto}
+h1{font-size:clamp(28px,3.6vw,44px);line-height:1.08;margin:0 0 8px;text-wrap:balance;font-weight:700}
+h2{font-size:24px;line-height:1.15;margin:0 0 6px;text-wrap:balance}
+p.lede{color:var(--mute);max-width:72ch;margin:0 0 18px}
+.grid2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1.5fr);gap:18px;align-items:start}
+@media(max-width:900px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{text-align:left;font-weight:600;color:var(--mute);border-bottom:1px solid var(--line);padding:6px 8px}
+td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+td.n,th.n{text-align:right;white-space:nowrap}
+.scroll{overflow-x:auto}.kv td.n{white-space:normal}.kv td:first-child{width:55%}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap}
+.p-ok{background:color-mix(in srgb,var(--ok) 22%,transparent);color:var(--ok)}.p-bad{background:color-mix(in srgb,var(--bad) 20%,transparent);color:var(--bad)}
+.p-mid{background:color-mix(in srgb,var(--mid) 25%,transparent);color:var(--ink)}
+.fig{position:relative;min-height:300px}.fig>svg,.fig>canvas{position:absolute;inset:0;width:100%;height:100%}
+.fig.tall{min-height:340px}.fig.short{min-height:220px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--mute);margin:8px 0 0}
+.sw{display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.readout{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:10px;font-size:14px}.readout div b{display:block;font:600 20px "JetBrains Mono",monospace}
+.note{font-size:13px;color:var(--mute);margin-top:10px}
+.btn{all:unset;cursor:pointer;border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:14px;font-weight:600;min-height:24px}
+.btn:hover{border-color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--sun);height:32px}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}@media(max-width:900px){.cols3{grid-template-columns:minmax(0,1fr)!important}}
+.hours{max-height:330px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.hours button{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;gap:10px;width:100%;padding:8px 10px;font:13px "JetBrains Mono",monospace;border-bottom:1px solid var(--line);cursor:pointer}
+.hours button[aria-pressed=true]{background:color-mix(in srgb,var(--sun) 18%,transparent)}
+.heat{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:3px;max-width:430px}
+.heat button{all:unset;aspect-ratio:1;border-radius:4px;display:grid;place-items:center;font:600 11px "JetBrains Mono",monospace;cursor:pointer;color:#05080F}
+.heat button.c{outline:2px solid var(--ink);outline-offset:1px}
+.heat button[aria-pressed=true]{outline:2px solid var(--sun);outline-offset:1px}
+footer{font-size:13px;color:var(--mute)}
+#narr a,#skepT a{color:var(--sun)}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:8px}.stack td{display:flex;justify-content:space-between;gap:12px;border:0;padding:3px 4px}.stack td::before{content:attr(data-l);color:var(--mute)}}
+@media print{header.bar,nav.jump,.noprint,section:not(#decision){display:none!important}body{background:#fff;color:#000}.card{border-color:#999}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <b>POLARIS X · Decision Lab</b>
+  <div class="seg" role="group" aria-label="Site" id="siteSeg"></div>
+  <label class="th">Sun ≥<input id="tSun" type="number" min="0" max="100" step="1" value="70">%</label>
+  <label class="th">Sun+Earth ≥<input id="tBoth" type="number" min="0" max="100" step="1" value="40">%</label>
+  <label class="th">longest dark ≤<input id="tGap" type="number" min="0" max="337" step="1" value="120">h</label>
+  <nav class="jump" aria-label="Sections"><a href="#decision">Decision</a><a href="#year">12 months</a><a href="#slip">Slip</a><a href="#sky">Sky</a><a href="#replay">Replay</a><a href="#repairs">Repairs</a><a href="#hotspots">Hotspots</a><a href="#layout">Layout</a><a href="#evidence">Evidence</a><a href="#skeptic">Skeptic</a></nav>
+</header>
+
+<section class="band" id="decision">
+  <h1 id="headline">Loading…</h1>
+  <p class="lede" id="sub"></p>
+  <div class="grid2">
+    <div class="card" id="cardBox"></div>
+    <div class="card">
+      <h2 style="font-size:18px">Every 14-day mission start for 12 months</h2>
+      <div class="fig tall"><canvas id="strip" aria-label="Sun percentage for every hourly 14-day start, nominal and 20 terrain clones"></canvas></div>
+      <div class="legend"><span><i class="sw" style="background:color-mix(in srgb,var(--sun) 35%,transparent)"></i>Sun, 20 clones min–max</span><span><i class="sw" style="background:var(--sun)"></i>Sun, nominal</span><span><i class="sw" style="background:var(--earth)"></i>Sun+Earth, worst clone</span><span><i class="sw" style="background:var(--ok)"></i>all 20 pass</span><span><i class="sw" style="background:var(--mid)"></i>clones disagree</span><span><i class="sw" style="background:var(--bad)"></i>none pass</span></div>
+      <div class="readout" id="stripRead"></div>
+      <p class="note">Click or tap the chart to pick a start. Pass = all three requirements in the bar above, per terrain map.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="year">
+  <h2>Season comparison</h2>
+  <p class="lede">14-day starts grouped by start month. Uses the thresholds above.</p>
+  <div class="card scroll"><table class="stack" id="season"></table></div>
+</section>
+
+<section class="band" id="slip">
+  <h2 id="slipTitle">Arrival slip</h2>
+  <p class="lede">The same 14-day mission, started up to 7 days early or late. The nominal map can stay flat while the terrain clones diverge.</p>
+  <div class="card">
+    <div class="fig short"><svg id="slipFig"></svg></div>
+    <input type="range" id="slipR" min="-168" max="168" step="1" value="0" aria-label="Start slip in hours">
+    <div class="readout" id="slipRead"></div>
+  </div>
+</section>
+
+<section class="band" id="sky">
+  <h2>Sky Envelope</h2>
+  <p class="lede" id="skyLede"></p>
+  <div class="card"><div class="fig tall"><svg id="skyFig"></svg></div>
+  <div class="legend"><span><i class="sw" style="background:color-mix(in srgb,var(--sun) 40%,transparent)"></i>Sun elevation range, 18.6 yr</span><span><i class="sw" style="background:color-mix(in srgb,var(--earth) 40%,transparent)"></i>Earth elevation range</span><span><i class="sw" style="background:var(--ink)"></i>skyline, nominal (1 m mast)</span><span><i class="sw" style="background:var(--mid)"></i>skyline, 20 clones</span></div></div>
+</section>
+
+<section class="band" id="replay">
+  <h2>Failure Replay</h2>
+  <p class="lede" id="repLede"></p>
+  <div class="grid2">
+    <div><div class="hours" id="hours"></div><p class="noprint" style="margin-top:10px"><button class="btn" id="play">Play</button></p></div>
+    <div class="card"><div class="fig"><svg id="prof"></svg></div><div class="readout" id="repRead"></div></div>
+  </div>
+</section>
+
+<section class="band" id="repairs">
+  <h2>Repairs: mast, timing, position</h2>
+  <p class="lede">Three ways to make the decision robust. Each uses the same NASA terrain maps; none changes the hardware model.</p>
+  <div class="cols3" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+    <div class="card" style="grid-column:1/-1"><h2 style="font-size:17px">Mast height</h2><div class="scroll"><table id="mastT"></table></div><p class="note" id="mastNote"></p></div>
+    <div class="card"><h2 style="font-size:17px">Timing</h2><div id="timeBox"></div></div>
+    <div class="card"><h2 style="font-size:17px">Position (1 m mast)</h2>
+      <div class="seg" role="group" aria-label="Grid metric" id="posSeg" style="margin-bottom:10px"></div>
+      <div class="heat" id="heat"></div><div class="note" id="posRead"></div></div>
+  </div>
+</section>
+
+<section class="band" id="hotspots">
+  <h2>Information Hotspots</h2>
+  <p class="lede" id="hotLede"></p>
+  <div class="grid2">
+    <div class="card"><div class="fig short"><svg id="hotFig"></svg></div><p class="note">Grid metres from the lander (polar-stereographic axes). Area ∝ expected Sun flip-hours per year removed by measuring that 5 m cell to 0.05 m.</p></div>
+    <div class="card scroll"><table id="hotT"></table><p class="note">Test: in each of 20 clone worlds, copy the clone's true heights into the map for the chosen cells, re-run the full ray march, count clone-hours that still disagree (12 months).</p></div>
+  </div>
+  <div class="card" style="margin-top:18px"><h2 style="font-size:17px">Measurement planner</h2><p class="note" style="margin-top:0">Greedy order: each step measures the one 5 m cell (to 0.05 m) that removes the most expected Sun flip-hours given the cells already measured. NASA height-error model, 12 months.</p><div class="scroll"><table id="planT"></table></div><p class="note" id="planNote"></p></div>
+</section>
+
+<section class="band" id="layout">
+  <h2>Layout: two landers, landing scatter, asset placement</h2>
+  <p class="lede">Where to put things, not just where to land. Nominal 5 m map, 12 months hourly unless stated.</p>
+  <div class="cols3" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+    <div class="card"><h2 style="font-size:17px">Two-lander complementarity</h2><div class="fig short"><svg id="pairFig"></svg></div><div id="pairBox"></div></div>
+    <div class="card"><h2 style="font-size:17px">Landing scatter</h2><div class="scroll"><table id="ellT"></table></div><p class="note">Isotropic Gaussian scatter about the RoI centre, weighted over the ±100 m grid (25 m spacing; σ = 100 m is truncated by the grid). Pass = all three requirements, 14-day demo window, nominal map. A sampled grid, not a certified dispersion analysis.</p></div>
+    <div class="card" style="grid-column:1/-1"><h2 style="font-size:17px">Asset Layout Twin</h2><div class="scroll"><table id="assetT"></table></div><p class="note" id="assetNote"></p></div>
+  </div>
+</section>
+
+<section class="band" id="evidence">
+  <h2>Evidence</h2>
+  <p class="lede">Checks that can fail. All SOURCE-BASED; none is a NASA validation.</p>
+  <div class="cols3" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+    <div class="card"><h2 style="font-size:17px">Flip forecast (RQ2)</h2><div class="scroll"><table id="rqT"></table></div><p class="note" id="rqNote"></p></div>
+    <div class="card"><h2 style="font-size:17px">Model Disagreement Lens</h2><div class="scroll"><table id="lensT"></table></div><p class="note" id="lensNote"></p></div>
+    <div class="card"><h2 style="font-size:17px">NASA GSFC shape-from-shading terrain</h2><div class="scroll"><table id="sfsT"></table></div><p class="note" id="sfsNote"></p></div>
+    <div class="card"><h2 style="font-size:17px">LROC WAC observed illumination</h2><div class="scroll"><table id="wacT"></table></div><p class="note" id="wacNote"></p></div>
+    <div class="card"><h2 style="font-size:17px">Barker et al. 2021, Table 2</h2><div class="scroll"><table id="barkT"></table></div><p class="note" id="barkNote"></p></div>
+  </div>
+</section>
+
+<section class="band" id="skeptic">
+  <h2>Skeptic mode</h2>
+  <p class="lede">Every headline claim on this page, the strongest objection to it, and what was actually checked. Then a plain-language summary built only from the numbers above.</p>
+  <div class="card scroll"><table class="stack" id="skepT"></table></div>
+  <div class="card" style="margin-top:18px"><h2 style="font-size:17px">Grounded narrator</h2><div id="narr" style="max-width:75ch"></div><p class="note">Generated from this page's data by fixed templates; no language model. Each number links to the section it comes from.</p></div>
+</section>
+
+<section class="band"><footer>
+  <p><b>Limits.</b> Geometric visibility of the Sun and Earth <i>centre</i> only, not power or communications. Terrain: NASA PGDA 78 5 m LOLA DEMs and 20 of their 100 clones (vertical error model, ±8 km tile) + PGDA 90 80 m to 280 km. Ephemeris: JPL Horizons (cross-checked against SPICE DE440 to 1e-6°). “k of 20 clones” is the number of terrain maps tested that pass, not a probability. Research reference sites, not NASA-selected landing sites. SOURCE-BASED, UNVALIDATED.</p>
+  <p id="inputs"></p>
+  <p id="gen"></p>
+</footer></section>
+
+<script type="application/json" id="data">/*DATA*/</script>
+<script>
+{
+const D=JSON.parse(document.getElementById('data').textContent);
+const $=id=>document.getElementById(id);
+const probe=document.createElement('i');probe.style.display='none';document.body.appendChild(probe);
+const css=v=>{probe.style.color=`var(${v})`;return getComputedStyle(probe).color};
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const parseT=s=>{const m=s.match(/(\d{4})-(\w{3})-(\d{2}) (\d{2}):(\d{2})/);return Date.UTC(+m[1],MON.indexOf(m[2]),+m[3],+m[4],+m[5])};
+const fmtT=ms=>{const d=new Date(ms);return `${d.getUTCDate()} ${MON[d.getUTCMonth()]} ${d.getUTCFullYear()} ${String(d.getUTCHours()).padStart(2,'0')}:00`};
+const f1=x=>(Math.round(x*10)/10).toFixed(1), f2=x=>x.toFixed(2);
+const dec8=b=>{const s=atob(b),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a};
+const dec16=b=>{const u=dec8(b);return new Uint16Array(u.buffer)};
+const keys=Object.keys(D.sites);
+let site=keys[0],sel=0,slipH=0,repI=0,posMode='sun',posSel=null,timer=null;
+const thr={sun:70,both:40,gap:120};
+// decode strips once
+for(const k of keys){const s=D.sites[k].strip;s.cs=dec16(s.cl_sun);s.cb=dec16(s.cl_both);s.cg=dec16(s.cl_gap);s.T0=parseT(s.t0)}
+const S=()=>D.sites[site];
+const tdNo='';const passClone=(sun,both,gap)=>sun>=thr.sun&&both>=thr.both&&gap<=thr.gap;
+const verdict=(k,n)=>k===n?['robust pass','p-ok']:k===0?['robust fail','p-bad']:[`marginal: ${k}/${n}`,'p-mid'];
+function stripStats(){const s=S().strip,n=s.n,o={k:new Uint8Array(n),mn:new Float32Array(n),mx:new Float32Array(n),bmn:new Float32Array(n),nomPass:new Uint8Array(n)};
+  for(let i=0;i<n;i++){let k=0,mn=1e9,mx=-1,bm=1e9;for(let c=0;c<20;c++){const j=c*n+i,su=s.cs[j]/100,bo=s.cb[j]/100,g=s.cg[j];if(passClone(su,bo,g))k++;if(su<mn)mn=su;if(su>mx)mx=su;if(bo<bm)bm=bo}
+    o.k[i]=k;o.mn[i]=mn;o.mx[i]=mx;o.bmn[i]=bm;o.nomPass[i]=passClone(s.nom_sun[i],s.nom_both[i],s.nom_gap[i])?1:0}return o}
+let ST=null;
+function siteSeg(){$('siteSeg').innerHTML=keys.map(k=>`<button aria-pressed="${k===site}" data-k="${k}">${D.sites[k].name.split(',')[0]}</button>`).join('');
+  $('siteSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{site=b.dataset.k;sel=0;repI=0;posSel=null;renderAll()})}
+function card(){const s=S(),d=s.demo,c=d.cl,n=20;
+  const rows=[['Sun centre visible',`≥ ${thr.sun} %`,d.nom.sun,c.sun,'%',v=>v>=thr.sun],['Sun + Earth centre visible',`≥ ${thr.both} %`,d.nom.both,c.both,'%',v=>v>=thr.both],['Longest Sun-blocked stretch',`≤ ${thr.gap} h`,d.nom.gap,c.gap,'h',v=>v<=thr.gap]];
+  const all=c.sun.map((v,i)=>passClone(v,c.both[i],c.gap[i])).filter(Boolean).length;const [vt,vc]=verdict(all,n);
+  const ch=certHeight();const tol=slipTol();const best=bestPos();
+  $('cardBox').innerHTML=`<h2 style="font-size:18px">Decision card · ${s.name}</h2>
+  <p class="note" style="margin-top:0">${s.lat.toFixed(5)}°, ${s.lon.toFixed(5)}° E · mast 1 m · ${fmtT(parseT(d.start))} → ${fmtT(parseT(d.end))} UTC, hourly (337 samples)</p>
+  <table class="stack"><thead><tr><th>Requirement</th><th>Target</th><th class="n">Nominal</th><th class="n">20 clones</th><th>Pass</th></tr></thead><tbody>
+  ${rows.map(([nm,t,nv,cv,u,ok])=>{const k=cv.filter(ok).length;const[v,cl]=verdict(k,n);return `<tr><td data-l="Requirement">${nm}</td><td data-l="Target" style="white-space:nowrap">${t}</td><td class="n" data-l="Nominal">${u==='h'?nv:f2(nv)} ${u}</td><td class="n" data-l="20 clones">${u==='h'?Math.min(...cv)+'–'+Math.max(...cv):f1(Math.min(...cv))+'–'+f1(Math.max(...cv))} ${u}</td><td data-l="Pass"><span class="pill ${cl}">${v.replace('marginal: ','')}</span></td></tr>`}).join('')}
+  </tbody></table>
+  <p style="margin:12px 0 4px"><span class="pill ${vc}">${vt}</span> on all three together (${all} of 20 terrain maps; nominal ${passClone(d.nom.sun,d.nom.both,d.nom.gap)?'passes':'fails'}).</p>
+  <table class="kv" style="margin-top:8px"><tbody>
+  <tr><td>Certainty Height (every map 100 % Sun)</td><td class="n">${ch}</td></tr>
+  <tr><td>Start-slip tolerance (all 20 still pass)</td><td class="n">${tol}</td></tr>
+  <tr><td>Nearest best spot within 100 m (demo window, nominal map)</td><td class="n">${best}</td></tr>
+  <tr><td>Biggest information hotspot</td><td class="n">lander cell, ${Math.round(s.hot.lander)} of ${Math.round(s.hot.total)} flip-h/yr</td></tr>
+  </tbody></table>
+  <p class="noprint" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="copyCard">Copy card as text</button><span class="note" id="copyMsg" style="margin:0;align-self:center">To print: use your browser's Print; only this card prints.</span></p>`;
+  $('copyCard').onclick=async()=>{const txt=$('cardBox').innerText;try{await navigator.clipboard.writeText(txt);$('copyMsg').textContent='Copied.'}catch(e){$('copyMsg').textContent='Copy was blocked; select the card text instead.'}};
+  const hl=all===n?'holds on all 20 terrain maps':all===0?'fails on every terrain map':`holds on ${all} of 20 terrain maps`;
+  $('headline').textContent=`${s.name.split(',')[0]}: the 14 Nov mission ${hl}`;
+  $('sub').textContent=`Nominal map: ${f2(d.nom.sun)} % Sun, ${f2(d.nom.both)} % Sun+Earth, longest dark ${d.nom.gap} h. Over a year of possible start dates, ${pct(ST.k,v=>v===20)} % of starts pass on every map.`}
+const pct=(a,f)=>{let c=0;for(const v of a)if(f(v))c++;return (100*c/a.length).toFixed(1)};
+function certHeight(){const m=S().masts;if(!m)return 'pending';for(let i=0;i<m.masts.length;i++){if(m.demo_sun[i].every(v=>v>=100-1e-9))return `${m.masts[i]} m`}return `> ${m.masts.at(-1)} m`}
+function slipCalc(){const sp=S().slip,N=sp.nom[0].length,res=[];for(let j=0;j<N;j++){let k=0,mn=1e9;for(let c=0;c<20;c++){const su=sp.cl[0][c][j],bo=sp.cl[1][c][j],g=sp.cl[2][c][j];if(passClone(su,bo,g))k++;if(su<mn)mn=su}res.push({h:sp.h0+j,k,mn,nom:sp.nom[0][j],nb:sp.nom[1][j],ng:sp.nom[2][j]})}return res}
+function slipTol(){const r=slipCalc(),z=r.find(x=>x.h===0);if(z.k<20)return 'none (the 14 Nov start already fails)';let lo=-Infinity,hi=Infinity;for(const x of r){if(x.h<0&&x.k<20)lo=Math.max(lo,x.h);if(x.h>0&&x.k<20)hi=Math.min(hi,x.h)}
+  const a=isFinite(lo)?`${lo+1} h`:'−7 d or earlier',b=isFinite(hi)?`+${hi-1} h`:'+7 d or later';return `${a} to ${b}`}
+function bestPos(){const p=S().pos;if(!p.length)return 'pending';const d=q=>Math.hypot(q.dx,q.dy);const b=[...p].sort((a,c)=>c.sun-a.sun||d(a)-d(c)||c.both-a.both)[0];if(b.dx===0&&b.dy===0)return `here (${f1(b.sun)} %)`;const k=b.cl_sun?`, ${b.cl_sun.filter((v,i)=>passClone(v,b.cl_both[i],b.cl_gap[i])).length}/${b.cl_sun.length} clones pass`:'';return `${Math.round(d(b))} m away (grid ${b.dx},${b.dy}): ${f1(b.sun)} % Sun${k}`}
+function drawStrip(){const cv=$('strip'),r=cv.getBoundingClientRect(),dpr=devicePixelRatio||1;cv.width=r.width*dpr;cv.height=r.height*dpr;const g=cv.getContext('2d');g.scale(dpr,dpr);
+  const W=r.width,H=r.height,L=34,T=8,B=40,PB=14,h=H-T-B,s=S().strip,n=s.n,x=i=>L+(W-L-6)*i/(n-1),y=v=>T+h*(1-v/100);
+  g.font='12px JetBrains Mono';g.fillStyle=css('--mute');g.strokeStyle=css('--line');g.lineWidth=1;
+  for(const v of [0,25,50,75,100]){g.beginPath();g.moveTo(L,y(v));g.lineTo(W-6,y(v));g.stroke();g.fillText(v,4,y(v)+4)}
+  const cols=Math.floor(W-L-6);
+  // band + lines aggregated per pixel column
+  const per=n/cols;g.fillStyle=css('--sun');g.globalAlpha=.33;
+  for(let px=0;px<cols;px++){const a=Math.floor(px*per),b=Math.min(n,Math.floor((px+1)*per)+1);let mn=1e9,mx=-1;for(let i=a;i<b;i++){if(ST.mn[i]<mn)mn=ST.mn[i];if(ST.mx[i]>mx)mx=ST.mx[i]}g.fillRect(L+px,y(mx),1,Math.max(1,y(mn)-y(mx)))}g.globalAlpha=1;
+  const line=(arr,col,w,dash)=>{g.strokeStyle=col;g.lineWidth=w;g.setLineDash(dash||[]);g.beginPath();for(let px=0;px<cols;px++){const i=Math.min(n-1,Math.round(px*per));px?g.lineTo(L+px,y(arr[i])):g.moveTo(L+px,y(arr[i]))}g.stroke();g.setLineDash([])};
+  line(s.nom_sun,css('--sun'),1.4);line(ST.bmn,css('--earth'),1.1);
+  g.strokeStyle=css('--sun');g.setLineDash([4,3]);g.beginPath();g.moveTo(L,y(thr.sun));g.lineTo(W-6,y(thr.sun));g.stroke();g.strokeStyle=css('--earth');g.beginPath();g.moveTo(L,y(thr.both));g.lineTo(W-6,y(thr.both));g.stroke();g.setLineDash([]);
+  const yb=T+h+6;for(let px=0;px<cols;px++){const i=Math.min(n-1,Math.round(px*per)),k=ST.k[i];g.fillStyle=k===20?css('--ok'):k===0?css('--bad'):css('--mid');g.fillRect(L+px,yb,1.2,PB)}
+  g.fillStyle=css('--mute');for(let m=0;m<13;m++){const ms=Date.UTC(2026,10+m,1),i=(ms-s.T0)/3600e3;if(i<0||i>n)continue;if(W<520&&m%3)continue;g.fillText(MON[(10+m)%12],x(i)-8,H-6)}
+  const xs=x(sel);g.strokeStyle=css('--ink');g.lineWidth=1.5;g.beginPath();g.moveTo(xs,T);g.lineTo(xs,yb+PB);g.stroke();
+  cv.onclick=e=>{const rr=cv.getBoundingClientRect();sel=Math.max(0,Math.min(n-1,Math.round((e.clientX-rr.left-L)/(W-L-6)*(n-1))));drawStrip();stripRead()}}
+function stripRead(){const s=S().strip,i=sel;$('stripRead').innerHTML=`<div>Start (UTC)<b>${fmtT(s.T0+i*3600e3)}</b></div><div>Sun, nominal<b>${f1(s.nom_sun[i])} %</b></div><div>Sun, clones<b>${f1(ST.mn[i])}–${f1(ST.mx[i])} %</b></div><div>Sun+Earth worst<b>${f1(ST.bmn[i])} %</b></div><div>Pass<b>${ST.k[i]}/20</b></div>`}
+function season(){const s=S().strip,n=s.n,g={};for(let i=0;i<n;i++){const d=new Date(s.T0+i*3600e3),k=`${MON[d.getUTCMonth()]} ${d.getUTCFullYear()}`;(g[k]=g[k]||[]).push(i)}
+  $('season').innerHTML=`<thead><tr><th>Start month</th><th class="n">Starts</th><th class="n">Sun nominal mean</th><th class="n">Sun worst clone</th><th class="n">Sun+Earth nominal mean</th><th class="n">Longest dark, worst clone</th><th class="n">Pass on all 20</th></tr></thead><tbody>`+
+  Object.entries(g).map(([k,ix])=>{let a=0,b=0,mn=1e9,gm=0,p=0;for(const i of ix){a+=s.nom_sun[i];b+=s.nom_both[i];if(ST.mn[i]<mn)mn=ST.mn[i];for(let c=0;c<20;c++){const v=s.cg[c*n+i];if(v>gm)gm=v}if(ST.k[i]===20)p++}const pp=100*p/ix.length;
+  return `<tr><td data-l="Start month">${k}</td><td class="n" data-l="Starts">${ix.length}</td><td class="n" data-l="Sun nominal">${f1(a/ix.length)} %</td><td class="n" data-l="Sun worst">${f1(mn)} %</td><td class="n" data-l="Sun+Earth">${f1(b/ix.length)} %</td><td class="n" data-l="Longest dark">${gm} h</td><td class="n" data-l="All 20 pass"><span class="pill ${pp>=99.9?'p-ok':pp<=0?'p-bad':'p-mid'}">${f1(pp)} %</span></td></tr>`}).join('')+'</tbody>'}
+function svgFig(id,fn){const s=$(id),draw=()=>{const W=s.clientWidth,H=s.clientHeight;if(!W)return;s.setAttribute('viewBox',`0 0 ${W} ${H}`);s.innerHTML=fn(W,H)};draw();if(!s._ro){s._ro=new ResizeObserver(()=>draw());s._ro.observe(s)}s._draw=draw}
+const poly=(pts,col,w,extra='')=>`<polyline fill="none" stroke="${col}" stroke-width="${w}" ${extra} points="${pts.map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' ')}"/>`;
+function slip(){const r=slipCalc();svgFig('slipFig',(W,H)=>{const L=36,T=8,B=24,x=h=>L+(W-L-8)*(h+168)/336,y=v=>T+(H-T-B)*(1-v/100);let o='';
+  for(const v of [0,50,100])o+=`<line x1="${L}" x2="${W-8}" y1="${y(v)}" y2="${y(v)}" stroke="${css('--line')}"/><text x="4" y="${y(v)+4}" font-size="12" fill="${css('--mute')}">${v}</text>`;
+  for(const x0 of r)if(x0.k<20)o+=`<rect x="${x(x0.h)}" y="${T}" width="${(W-L-8)/336+0.5}" height="${H-T-B}" fill="${css('--bad')}" opacity=".13"/>`;
+  const sp=S().slip,mx=r.map((_,j)=>Math.max(...sp.cl[0].map(c=>c[j])));
+  o+=`<polygon fill="${css('--sun')}" opacity=".3" points="${r.map((p,j)=>x(p.h)+','+y(mx[j])).join(' ')} ${r.slice().reverse().map(p=>x(p.h)+','+y(p.mn)).join(' ')}"/>`;
+  o+=poly(r.map(p=>[x(p.h),y(p.nom)]),css('--sun'),2);o+=poly(r.map((p,j)=>[x(p.h),y(Math.min(...sp.cl[1].map(c=>c[j])))]),css('--earth'),1.2,'stroke-dasharray="3 3"');
+  o+=`<line x1="${L}" x2="${W-8}" y1="${y(thr.sun)}" y2="${y(thr.sun)}" stroke="${css('--sun')}" stroke-dasharray="4 3"/><line x1="${x(0)}" x2="${x(0)}" y1="${T}" y2="${H-B}" stroke="${css('--mute')}"/><line x1="${x(slipH)}" x2="${x(slipH)}" y1="${T}" y2="${H-B}" stroke="${css('--ink')}" stroke-width="2"/>`;
+  for(const d of [-7,-3,0,3,7])o+=`<text x="${x(d*24)-10}" y="${H-6}" font-size="12" fill="${css('--mute')}">${d>0?'+':''}${d} d</text>`;return o});
+  const p=r.find(z=>z.h===slipH),sp=S().slip,T0=parseT(sp.t0)+(slipH+168)*3600e3;
+  {const tl=slipTol();$('slipTitle').textContent=tl.startsWith('none')?'Arrival slip: the 14 Nov start already fails on some terrain maps':`Arrival slip: all 20 maps pass for starts ${tl}`}
+  $('slipRead').innerHTML=`<div>Slip<b>${slipH>0?'+':''}${slipH} h</b></div><div>Start (UTC)<b>${fmtT(T0)}</b></div><div>Sun, nominal<b>${f2(p.nom)} %</b></div><div>Sun, worst clone<b>${f1(p.mn)} %</b></div><div>Longest dark, nominal<b>${p.ng} h</b></div><div>Pass<b>${p.k}/20</b></div>`}
+function sky(){const k=S().sky;$('skyLede').textContent=`Behind the skyline, over one 18.6-year cycle (${k.first} → ${k.last}, 6 h): at a 1 m mast the Sun centre is above the nominal skyline ${k.sun_visible_pct_18p6yr_nominal} % of the time and Earth ${k.earth_visible_pct_18p6yr_nominal} %. On ${k.contested_sun_az_deg} of 360 azimuth degrees the Sun's range straddles the skyline; ${k.always_blocked_sun_az_deg} are always blocked. Earth's elevation (blue, clipped to the plot) ranges ${Math.min(...k.earth_el_min.filter(v=>v!==null)).toFixed(1)}° to ${Math.max(...k.earth_el_max.filter(v=>v!==null)).toFixed(1)}° over a narrow azimuth sector.`;
+  svgFig('skyFig',(W,H)=>{const L=40,T=10,B=26;const all=[...k.sun_el_min,...k.sun_el_max,...k.sky_nom,...k.sky_clone_max].filter(v=>v!==null&&isFinite(v));const lo=Math.floor(Math.min(...all))-1,hi=Math.ceil(Math.max(...all))+1;
+  const x=a=>L+(W-L-8)*a/360,y=v=>T+(H-T-B)*(hi-v)/(hi-lo);let o='';
+  for(let v=lo;v<=hi;v+=1)o+=`<line x1="${L}" x2="${W-8}" y1="${y(v)}" y2="${y(v)}" stroke="${css('--line')}"/><text x="4" y="${y(v)+4}" font-size="12" fill="${css('--mute')}">${v}°</text>`;
+  const cl=v=>Math.max(lo,Math.min(hi,v));const band=(a,b,col)=>{let s='';for(let i=0;i<360;i++){if(a[i]===null||b[i]===null)continue;s+=`<rect x="${x(i)}" y="${y(cl(b[i]))}" width="${(W-L-8)/360+0.3}" height="${Math.max(1,y(cl(a[i]))-y(cl(b[i])))}" fill="${col}" opacity=".38"/>`}return s};
+  o+=band(k.earth_el_min,k.earth_el_max,css('--earth'))+band(k.sun_el_min,k.sun_el_max,css('--sun'));
+  o+=`<polygon fill="${css('--ink')}" opacity=".18" points="${L},${y(lo)} ${k.sky_nom.map((v,i)=>x(i+.5)+','+y(v)).join(' ')} ${W-8},${y(lo)}"/>`;
+  o+=poly(k.sky_clone_max.map((v,i)=>[x(i+.5),y(v)]),css('--mid'),1)+poly(k.sky_nom.map((v,i)=>[x(i+.5),y(v)]),css('--ink'),1.5);
+  for(const a of [0,90,180,270,360])o+=`<text x="${x(a)-10}" y="${H-6}" font-size="12" fill="${css('--mute')}">${a}°</text>`;return o})}
+function replay(){const r=S().replay;if(!r.hours.length){$('repLede').textContent=`No Sun-blocked or near-critical hour (|margin| < 0.5°) in the 14-day demo window at this site: Sun visible all 337 hours on the nominal map and on ${r.clone_blocked_hours.filter(v=>v===0).length} of 20 clones.`;$('hours').innerHTML='';$('prof').innerHTML='';$('repRead').innerHTML='';$('play').hidden=true;return}
+  $('play').hidden=false;const iv=r.intervals.map(i=>`${i.start} → ${i.end} UTC (${i.hours} h, worst margin ${i.min_margin}°)`).join('; ');
+  $('repLede').textContent=`The nominal map loses the Sun centre for ${r.blocked_hours} of 337 hours: ${iv}. Step through every blocked or near-critical hour; the profile is the terrain along the Sun's azimuth, vertical scale exaggerated.`;
+  $('hours').innerHTML=r.hours.map((h,i)=>`<button aria-pressed="${i===repI}" data-i="${i}"><span>${h.time.slice(5)}</span><span style="color:${h.visible?css('--ok'):css('--bad')}">${h.margin_deg>0?'+':''}${h.margin_deg.toFixed(3)}°</span><span>${h.clones_visible}/20</span></button>`).join('');
+  $('hours').querySelectorAll('button').forEach(b=>b.onclick=()=>{repI=+b.dataset.i;stop();replay()});
+  const h=r.hours[repI];svgFig('prof',(W,H)=>{const L=46,T=12,B=26,d=h.profile_d,z=h.profile_h,dm=d.at(-1),top=r.z0+1-r.z0;
+  const tanS=Math.tan(h.sun_el*Math.PI/180),zs=d.map(v=>1+v*tanS),all=[...z,...zs,1].filter(isFinite),lo=Math.min(...all)-0.3,hi=Math.max(...all)+0.3;
+  const x=v=>L+(W-L-10)*v/dm,y=v=>T+(H-T-B)*(hi-v)/(hi-lo);let o='';
+  for(const v of [Math.ceil(lo),0,Math.floor(hi)])o+=`<line x1="${L}" x2="${W-10}" y1="${y(v)}" y2="${y(v)}" stroke="${css('--line')}"/><text x="4" y="${y(v)+4}" font-size="12" fill="${css('--mute')}">${v} m</text>`;
+  o+=`<polygon fill="${css('--mid')}" opacity=".45" points="${x(0)},${y(lo)} ${d.map((v,i)=>isFinite(z[i])?x(v)+','+y(z[i]):'').join(' ')} ${x(dm)},${y(lo)}"/>`;
+  o+=poly(d.map((v,i)=>[x(v),y(zs[i])]),h.visible?css('--sun'):css('--bad'),2,'stroke-dasharray="6 4"');
+  o+=`<line x1="${x(0)}" x2="${x(0)}" y1="${y(0)}" y2="${y(1)}" stroke="${css('--ink')}" stroke-width="3"/><circle cx="${x(0)}" cy="${y(1)}" r="4" fill="${css('--ink')}"/>`;
+  if(h.ctrl_dist_m<=dm){const i=d.findIndex(v=>v>=h.ctrl_dist_m);o+=`<circle cx="${x(h.ctrl_dist_m)}" cy="${y(z[i])}" r="5" fill="none" stroke="${css('--bad')}" stroke-width="2"/>`}
+  for(const v of [0,dm/2,dm])o+=`<text x="${x(v)-8}" y="${H-6}" font-size="12" fill="${css('--mute')}">${Math.round(v)} m</text>`;return o});
+  $('repRead').innerHTML=`<div>Time (UTC)<b>${h.time}</b></div><div>Sun az / el<b>${h.sun_az.toFixed(1)}° / ${h.sun_el.toFixed(3)}°</b></div><div>Horizon<b>${h.horizon_el.toFixed(3)}°</b></div><div>Margin<b style="color:${h.visible?css('--ok'):css('--bad')}">${h.margin_deg>0?'+':''}${h.margin_deg.toFixed(3)}°</b></div><div>Controlling ridge<b>${h.ctrl_dist_m} m${h.ctrl_in_5m_tile?'':' (80 m map)'}</b></div><div>Sun visible on<b>${h.clones_visible}/20 clones</b></div>`}
+function stop(){if(timer){clearInterval(timer);timer=null;$('play').textContent='Play'}}
+$('play').onclick=()=>{if(timer)return stop();$('play').textContent='Pause';timer=setInterval(()=>{const n=S().replay.hours.length;repI=(repI+1)%n;replay();if(repI===n-1)stop()},matchMedia('(prefers-reduced-motion: reduce)').matches?1600:700)};
+function repairs(){const m=S().masts;
+  if(m){$('mastT').innerHTML=`<thead><tr><th class="n">Mast</th><th class="n">Sun nominal</th><th class="n">Sun, 20 clones</th><th class="n">Pass ≥ ${thr.sun} %</th><th class="n">12-mo Sun, worst</th><th class="n">Longest dark, any start</th></tr></thead><tbody>`+m.masts.map((h,i)=>{const nom=m.demo_sun[i][0],cl=m.demo_sun[i].slice(1),k=cl.filter((v,j)=>v>=thr.sun&&m.demo_both[i][j+1]>=thr.both).length;
+    return `<tr><td class="n">${h} m</td><td class="n">${f1(nom)} %</td><td class="n">${f1(Math.min(...cl))}–${f1(Math.max(...cl))}</td><td class="n">${k}/20</td><td class="n">${f1(Math.min(...m.year_sun[i]))} %</td><td class="n" style="color:${Math.max(...m.year_gapmax[i])<=thr.gap?css('--ok'):css('--bad')}">${Math.max(...m.year_gapmax[i])} h</td></tr>`}).join('')+'</tbody>';
+    $('mastNote').textContent=`Demo window. Certainty Height (every map at 100 % Sun): ${certHeight()}. 12-month columns: hourly Sun-centre over 14 Nov 2026 – 14 Nov 2027, worst of 21 maps; longest dark = worst 14-day start of the year on any map. Lowest mast keeping every start ≤ ${thr.gap} h on every map: ${(()=>{const i=m.year_gapmax.findIndex(g=>Math.max(...g)<=thr.gap);return i<0?'none tested (up to 10 m)':m.masts[i]+' m'})()}.`}
+  else{$('mastT').innerHTML='';$('mastNote').textContent='Mast sweep still computing.'}
+  const r=slipCalc();const ok=r.filter(z=>z.k===20);const best=[...r].sort((a,b)=>b.k-a.k||b.mn-a.mn||Math.abs(a.h)-Math.abs(b.h))[0];
+  $('timeBox').innerHTML=`<p>All 20 maps pass for starts <b class="num">${slipTol()}</b> around 14 Nov 00:00 UTC.</p><p>Best start within ±7 days by worst map: <b class="num">${best.h>0?'+':''}${best.h} h</b> (${best.k}/20 maps pass; worst clone ${f1(best.mn)} % Sun, nominal ${f2(best.nom)} %).</p><p class="note">${ok.length} of 337 hourly starts in ±7 days pass on every map. The 12-month strip above shows the same test for every start of the year.</p>`;
+  const P=S().pos;$('posSeg').innerHTML=[['sun','Sun, 14 days'],['both','Sun+Earth'],['year','Sun, 12 months']].map(([k,l])=>`<button aria-pressed="${k===posMode}" data-k="${k}">${l}</button>`).join('');
+  $('posSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{posMode=b.dataset.k;repairs()});
+  if(!P.length){$('heat').innerHTML='';$('posRead').textContent='Position grid still computing.';return}
+  const vals=P.map(p=>p[posMode]),lo=Math.min(...vals),hi=Math.max(...vals);const by={};for(const p of P)by[p.dx+','+p.dy]=p;
+  let h='';for(let dy=100;dy>=-100;dy-=25)for(let dx=-100;dx<=100;dx+=25){const p=by[dx+','+dy];if(!p){h+='<span></span>';continue}const t=(p[posMode]-lo)/Math.max(1e-9,hi-lo);
+    h+=`<button class="${dx===0&&dy===0?'c':''}" aria-pressed="${posSel===dx+','+dy}" data-k="${dx},${dy}" style="background:color-mix(in srgb,${css('--sun')} ${Math.round(15+85*t)}%,${css('--panel')})" aria-label="offset ${dx},${dy} m: ${f1(p[posMode])} %">${Math.round(p[posMode])}</button>`}
+  $('heat').innerHTML=h;$('heat').querySelectorAll('button').forEach(b=>b.onclick=()=>{posSel=b.dataset.k;repairs()});
+  const p=by[posSel||'0,0'];const cl=p.cl_sun?` · clones 1–${p.cl_sun.length}: Sun ${f1(Math.min(...p.cl_sun))}–${f1(Math.max(...p.cl_sun))} %, pass ${p.cl_sun.filter((v,i)=>passClone(v,p.cl_both[i],p.cl_gap[i])).length}/${p.cl_sun.length}`:' · clones run only within ±25 m';
+  $('posRead').innerHTML=`Cell ${p.dx}, ${p.dy} m (ground ${p.dz_m>=0?'+':''}${p.dz_m} m vs lander): Sun ${f2(p.sun)} %, Sun+Earth ${f2(p.both)} %, 12-month Sun ${f2(p.year)} %, longest dark ${p.gap} h${cl}. Grid axes are polar-stereographic; centre outlined.`}
+function hot(){const h=S().hot,t=h.test.year;
+  $('hotLede').textContent=`Where better elevation data would most change the decision. Expected Sun flip-hours per year from NASA's height-error map: ${Math.round(h.total)}. The single biggest contributor is the lander's own ground cell (${Math.round(h.lander)} h, height error ${h.lander_toterr} m).`;
+  svgFig('hotFig',(W,H)=>{const R=Math.max(60,...h.top.map(c=>Math.max(Math.abs(c.dx),Math.abs(c.dy))))*1.12,cx=W/2,cy=H/2,sc=Math.min(W,H)/2/R,mx=Math.max(h.lander,...h.top.map(c=>c.v));let o='';
+    let lastR=-99;for(const rr of [25,50,100,200].filter(v=>v<R)){o+=`<circle cx="${cx}" cy="${cy}" r="${rr*sc}" fill="none" stroke="${css('--line')}"/>`;if(rr*sc-lastR>34){o+=`<text x="${cx+rr*sc*0.71+3}" y="${cy+rr*sc*0.71+12}" font-size="11" fill="${css('--mute')}">${rr} m</text>`;lastR=rr*sc}}
+    for(const c of h.top)o+=`<circle cx="${cx+c.dx*sc}" cy="${cy-c.dy*sc}" r="${2+14*Math.sqrt(c.v/mx)}" fill="${css('--sun')}" opacity=".75"><title>${c.d} m away, ${c.v} h/yr, error ${c.err} m</title></circle>`;
+    o+=`<circle cx="${cx}" cy="${cy}" r="${2+14*Math.sqrt(h.lander/mx)}" fill="none" stroke="${css('--ok')}" stroke-width="2.5"/><text x="${cx-58}" y="${cy-14}" font-size="12" fill="${css('--ok')}">lander</text>`;return o});
+  const lab={none:'Nothing measured',hotspots_top10:'Top-10 hotspots',nearest10:'10 nearest cells',observer_only:'Lander cell only','hotspots_top10+observer':'Top-10 hotspots + lander','nearest10+observer':'10 nearest + lander'};
+  const rnd=['random_a','random_b','random_c'].map(k=>t[k]),rnd2=['random_a+observer','random_b+observer','random_c+observer'].map(k=>t[k]).filter(v=>v!==undefined);
+  const rows=Object.entries(lab).filter(([k])=>t[k]!==undefined).map(([k,l])=>[l,t[k]]);rows.splice(2,0,['10 random cells (3 draws)',`${Math.min(...rnd)}–${Math.max(...rnd)}`]);if(rnd2.length)rows.push(['10 random + lander (3 draws)',`${Math.min(...rnd2)}–${Math.max(...rnd2)}`]);
+  $('hotT').innerHTML=`<thead><tr><th>Measured</th><th class="n">Clone-hours still wrong</th><th class="n">vs nothing</th></tr></thead><tbody>`+rows.map(([l,v])=>{const lo=typeof v==='number'?v:+String(v).split('–')[0];return `<tr><td>${l}</td><td class="n">${typeof v==='number'?v.toLocaleString('en-US'):v}</td><td class="n">${t.none&&lo!==t.none?'−'+Math.round(100*(1-lo/t.none))+' %':'–'}</td></tr>`}).join('')+'</tbody>'}
+function evidence(){const q=S().rq2;const r=(w,k)=>q[w][k];
+  $('rqT').innerHTML=`<thead><tr><th>Forecast</th><th>Window</th><th class="n">Recall</th><th class="n">Precision</th></tr></thead><tbody>`+[['16-ridge linearised','nov14d','A16_linearised_16_ridges','14 days'],['16-ridge linearised','year','A16_linearised_16_ridges','12 months'],['Error map only','nov14d','B_toterr_rho0','14 days'],['Error map only','year','B_toterr_rho0','12 months']].map(([n,w,k,wl])=>{const v=k.startsWith('B')?r(w,k)['p_any>=0.5']:r(w,k).any_clone;return `<tr><td>${n}</td><td>${wl}</td><td class="n">${v.recall===null?'–':v.recall.toFixed(2)}</td><td class="n">${v.precision===null?'–':v.precision.toFixed(2)}</td></tr>`}).join('')+'</tbody>';
+  $('rqNote').textContent=`Predicts which hours flip between visible and blocked across 20 clones without ray-marching them. Truth: ${q.nov14d.truth_flip_hours_any_clone} flip hours (14 days), ${q.year.truth_flip_hours_any_clone} (12 months). Finite-difference check of the Jacobian: median error ${(100*q.fd.median_rel_err).toFixed(2)} % over ${q.fd.n} tests.`;
+  const L=S().lens;if(L){$('lensT').innerHTML=`<thead><tr><th>Terrain product</th><th class="n">Sun 14 d</th><th class="n">Sun+Earth</th><th class="n">Sun 12 mo</th></tr></thead><tbody>`+L.products.map(p=>`<tr><td>${p.label.replace('PGDA 78 5 m + PGDA 90 80 m (POLARIS)','5 m + 80 m (POLARIS)').replace('PGDA 90 ','')}</td><td class="n">${f1(p.sun)} %</td><td class="n">${f1(p.both)} %</td><td class="n">${f1(p.year)} %</td></tr>`).join('')+'</tbody>';$('lensNote').textContent=L.note+' Products: PGDA 78 (5 m), PGDA 90 LDEM 20/40/80 m.'}else{$('lensT').innerHTML='';$('lensNote').textContent='Still computing.'}
+  const B=D.barker;if(B){$('barkT').innerHTML=`<thead><tr><th>RoI</th><th class="n">Barker %</th><th class="n">Ours, nominal</th><th class="n">Ours, worst</th></tr></thead><tbody>`+B.rows.map(x=>`<tr><td>${x.roi}</td><td class="n">${f2(x.barker_A1_5m)}</td><td class="n">${f2(x.ours5_nom)}</td><td class="n">${f2(x.ours5_cl_min)}</td></tr>`).join('')+'</tbody>';$('barkNote').textContent='Barker = 1st percentile of 100 clones, case A (RoI-averaged), Site01 (Connecting Ridge). '+B.note}else{$('barkT').innerHTML='';$('barkNote').textContent='Still computing.'}}
+function planner(){const m=S().more;if(!m){$('planT').innerHTML='';return}const P=m.planner,pc=m.planner_check;
+  $('planT').innerHTML=`<thead><tr><th class="n">Step</th><th>Measure</th><th class="n">From lander</th><th class="n">Expected flip-h/yr left</th></tr></thead><tbody>`+P.map(p=>`<tr><td class="n">${p.k}</td><td>${p.measured}</td><td class="n">${p.k?p.dist_m+' m':'–'}</td><td class="n">${p.expected_flip_h}</td></tr>`).join('')+'</tbody>';
+  $('planNote').textContent=`Checked with full ray marches (20 clones, 12 months, clone-hours still wrong): nothing ${pc.tested_nothing.toLocaleString('en-US')}, lander cell only ${pc.tested_lander_only.toLocaleString('en-US')}, top-10 hotspots + lander ${pc.tested_top10_plus_lander.toLocaleString('en-US')}. The plan's first step (the lander's own ground) matches the test's biggest single gain; after the first few cells, extra measurements buy little.`}
+function layout(){const m=S().more,a=S().asset;if(!m){return}const c=m.complementarity,bp=c.best_pairs[0];
+  svgFig('pairFig',(W,H)=>{const sc=Math.min(W,H)/2/120,cx=W/2,cy=H/2;let o='';for(let dx=-100;dx<=100;dx+=25)for(let dy=-100;dy<=100;dy+=25)o+=`<circle cx="${cx+dx*sc}" cy="${cy-dy*sc}" r="2" fill="${css('--mid')}"/>`;
+    const P=(p,col,l)=>`<circle cx="${cx+p[0]*sc}" cy="${cy-p[1]*sc}" r="7" fill="${col}"/><text x="${cx+p[0]*sc+10}" y="${cy-p[1]*sc+4}" font-size="12" fill="${css('--ink')}">${l}</text>`;
+    o+=`<line x1="${cx+bp.a[0]*sc}" y1="${cy-bp.a[1]*sc}" x2="${cx+bp.b[0]*sc}" y2="${cy-bp.b[1]*sc}" stroke="${css('--sun')}" stroke-dasharray="4 3"/>`+P(bp.a,css('--sun'),'A')+P(bp.b,css('--sun'),'B')+`<circle cx="${cx}" cy="${cy}" r="7" fill="none" stroke="${css('--ok')}" stroke-width="2.5"/>`;return o});
+  $('pairBox').innerHTML=`<table><tbody><tr><td>One lander at the RoI centre</td><td class="n">${f1(c.centre_single.sun_pct)} % · ${c.centre_single.longest_dark_h} h</td></tr><tr><td>Best single spot (${c.best_single.at.join(', ')} m)</td><td class="n">${f1(c.best_single.sun_pct)} % · ${c.best_single.longest_dark_h} h</td></tr><tr><td><b>Best pair</b> A+B, ${bp.sep_m} m apart</td><td class="n"><b>${f1(bp.sun_either_pct)} % · ${bp.longest_both_dark_h} h</b></td></tr><tr><td>Best partner for the centre</td><td class="n">${f1(c.best_pair_with_centre.sun_either_pct)} % · ${c.best_pair_with_centre.longest_both_dark_h} h</td></tr></tbody></table><p class="note">Sun-centre visible at at least one lander · longest stretch with both dark, 14 Nov 2026 – 14 Nov 2027. Grid axes polar-stereographic; teal ring = RoI centre.</p>`;
+  $('ellT').innerHTML=`<thead><tr><th class="n">σ</th><th class="n">Pass all three</th><th class="n">Sun, 14 d</th><th class="n">Sun, 12 mo</th><th class="n">Worst within 2σ</th></tr></thead><tbody>`+Object.entries(m.ellipse).map(([k,v])=>`<tr><td class="n">${k.split('_')[1]}</td><td class="n">${f1(v.share_passing_all3_pct)} %</td><td class="n">${f1(v.expected_sun_demo_pct)} %</td><td class="n">${f1(v.expected_sun_12mo_pct)} %</td><td class="n">${f1(v.worst_point_within_2sigma_sun_demo_pct)} %</td></tr>`).join('')+'</tbody>';
+  if(a){$('assetT').innerHTML=`<thead><tr><th>Asset</th><th class="n">Height</th><th class="n">Terrain only</th><th class="n">+ lander body</th></tr></thead><tbody>`+a.assets.map(x=>{const e=x.asset.startsWith('Antenna');return `<tr><td>${x.asset}${x.offset_m[0]||x.offset_m[1]?` (${x.offset_m[1]>0?'+':''}${x.offset_m[1]} m grid-N)`:''}</td><td class="n">${x.height_m} m</td><td class="n">${e?'Earth '+f1(x.earth_12mo_terrain):'Sun '+f1(x.sun_12mo_terrain)} %</td><td class="n" style="color:${(e?x.earth_12mo_with_body<x.earth_12mo_terrain:x.sun_12mo_with_body<x.sun_12mo_terrain)?css('--bad'):css('--ink')}">${e?f1(x.earth_12mo_with_body):f1(x.sun_12mo_with_body)} %</td></tr>`}).join('')+'</tbody>';
+    $('assetNote').textContent=`12 months. Lander body: an illustrative ${a.body.radius_m} m-radius, ${a.body.height_m} m-tall cylinder (not a real design). Either panel lit ${f1(a.power_any_panel_12mo_pct)} % of the time, longest gap ${a.longest_no_panel_lit_12mo_h} h. Power and Earth link together: ${f1(a.power_and_link_12mo_pct)} % with the antenna on the Earth side, ${f1(a.power_and_link_bad_layout_12mo_pct)} % with it behind the lander (Earth stays toward grid north from the south pole).`}}
+function evidence2(){const f=S().sfs;
+  if(f&&f.masts&&f.masts.length){$('sfsT').innerHTML=`<thead><tr><th class="n">Mast</th><th class="n">SfS 14 d</th><th class="n">LOLA 14 d</th><th class="n">SfS 12 mo</th><th class="n">LOLA 12 mo (20 clones)</th></tr></thead><tbody>`+f.masts.map(r=>`<tr><td class="n">${r.mast} m</td><td class="n">${f1(r.sun)} %</td><td class="n">${f1(r.lola_sun)} %</td><td class="n" style="color:${r.year_inside_clone_range?css('--ok'):css('--bad')}">${f1(r.year)} %</td><td class="n">${f1(r.lola_year)} (${f1(r.lola_year_clones[0])}–${f1(r.lola_year_clones[1])})</td></tr>`).join('')+'</tbody>';
+    let t=site==='Site01_ROI6'?`NASA GSFC shape-from-shading DEM (Bertone et al. 2026, LROC NAC images on LOLA control, 5 m, CC-BY-4.0) in place of PGDA 78 LOLA, same solver. Green = inside the 20-clone range.`:`Site04: the SfS region covers only the west ${Math.round(100*0.26)} % of this tile (not the lander or its 16 m rise); hybrid SfS+LOLA map.`;
+    if(f.split){const A=f.split['SfS within 100 m, LOLA beyond'],Bq=f.split['LOLA within 100 m, SfS beyond'];t+=` SfS puts the lander's ground ${f2(A.ground_m-Bq.ground_m)} m higher. Split test (12 mo, 1 m): SfS only within 100 m gives ${f1(A.year)} %, SfS only beyond 150 m gives ${f1(Bq.year)} %, against ${f1(f.masts[0].lola_year)} % on LOLA: the near and far differences pull in opposite directions and largely cancel.`}
+    if(f.hours)t+=` Hours where SfS and LOLA nominal disagree (12 mo, 1 m): ${f.hours.sfs_vs_lola_disagree_h}; of these the LOLA clones also flip in ${f.hours.of_which_clones_also_flip_h}.`;
+    if(f.grid)t+=` Position grid (${f.grid.n} cells, 14 d): verdict changes in ${f.grid.verdict_changes}; 12-month Sun differs by a median ${f.grid.year_sun_absdiff_median} pts.`;$('sfsNote').textContent=t}else{$('sfsT').innerHTML='';$('sfsNote').textContent='Not computed for this site.'}
+  const w=D.wac;if(w){const st=w.ours_any_vs_wac,pg=w.pgda69_vs_wac;$('wacT').innerHTML=`<thead><tr><th>Comparison, 17 RoIs</th><th class="n">ρ</th><th class="n">Bias</th><th class="n">RMSE</th></tr></thead><tbody><tr><td>POLARIS vs WAC</td><td class="n">${st.spearman.toFixed(2)}</td><td class="n">${st.bias>0?'+':''}${f1(st.bias)}</td><td class="n">${f1(st.rmse)}</td></tr><tr><td>PGDA 69 vs WAC</td><td class="n">${pg.spearman.toFixed(2)}</td><td class="n">${pg.bias>0?'+':''}${f1(pg.bias)}</td><td class="n">${f1(pg.rmse)}</td></tr><tr><td>POLARIS vs PGDA 69</td><td class="n">${w.ours_any_vs_pgda69.spearman.toFixed(2)}</td><td class="n">${w.ours_any_vs_pgda69.bias>0?'+':''}${f1(w.ours_any_vs_pgda69.bias)}</td><td class="n">${f1(w.ours_any_vs_pgda69.rmse)}</td></tr></tbody>`;$('wacNote').textContent=w.note+' Bias and RMSE in percentage points.'}}
+function skeptic(){const s=S(),d=s.demo,c=d.cl,k=c.sun.map((v,i)=>passClone(v,c.both[i],c.gap[i])).filter(Boolean).length,tl=slipTol(),B=D.barker,w=D.wac,lens=s.lens;
+  const rows=[
+   [`The 14 Nov mission passes on ${k} of 20 terrain maps`,'The 20 clones are NASA’s vertical error model for the 5 m tile only; far terrain (80 m) is identical in every clone, and 20 is not 100.','Independent re-derivation reproduces the solver per clone; the flip forecast and the measurement test use the same clones.',`<a href="#decision">Decision</a>`],
+   ['The nominal number is enough',`It hides timing risk: the nominal stays flat while clones diverge with start slip (all maps pass only for ${tl}).`,'Arrival slip computed hourly over ±7 days on all 21 maps.',`<a href="#slip">Slip</a>`],
+   ['Terrain data resolution does not matter',lens?lens.note:'–','Same solver on four NASA products (and SfS where available).',`<a href="#evidence">Evidence</a>`],
+   ['The model agrees with NASA’s own illumination studies',B?`Only 5 pixels per RoI and ${B.rows.length?'up to 20':'?'} clones; Barker used whole RoIs and 100 clones.`:'–',B?`Barker 2021 Table 2: ρ ${B.spearman.toFixed(2)}, mean difference ${B.mean_diff_clmin>0?'+':''}${B.mean_diff_clmin.toFixed(2)} pts (worst clone vs 1st percentile).`:'pending',`<a href="#evidence">Evidence</a>`],
+   ['The model matches what the Moon actually did',w?`Not shown at landing-site scale: at the 17 RoIs the observed WAC map reads ~${Math.round(w.ours_any_vs_wac.bias)} pts below POLARIS and PGDA 69 alike, and does not rank them the same way (ρ ${w.ours_any_vs_wac.spearman.toFixed(2)}).`:'–',w?`WAC is placed correctly (regional r ${w.map_check.pearson_wac_vs_pgda69_88_90S} with PGDA 69) and matches it bin by bin below 50 %, but compresses bright 100 m pixels (max ${w.map_check.wac_max_pct} %); a finer observed product is needed.`:'pending',`<a href="#evidence">Evidence</a>`],
+   ['Visibility means power and communications','It does not: geometric visibility of the Sun and Earth centre only; no panel model, no link budget, no relay.','Stated on every card; the Asset twin shows the lander itself can block its own antenna.',`<a href="#layout">Layout</a>`],
+   ['Better data would change little',`The lander’s own ground height is the single biggest source of disagreement (${Math.round(s.hot.lander)} of ${Math.round(s.hot.total)} expected flip-h/yr).`,'Full-ray-march test: measuring the lander cell plus 10 near cells removes ~70–89 % of clone disagreement.',`<a href="#hotspots">Hotspots</a>`]];
+  $('skepT').innerHTML=`<thead><tr><th>Claim</th><th>Strongest objection</th><th>What was checked</th><th>Where</th></tr></thead><tbody>`+rows.map(r=>`<tr><td data-l="Claim">${r[0]}</td><td data-l="Objection">${r[1]}</td><td data-l="Checked">${r[2]}</td><td data-l="Where">${r[3]}</td></tr>`).join('')+'</tbody>';
+  const m=s.masts,ch=certHeight(),a=s.asset,mo=s.more;
+  const L=(t,h)=>`<a href="#${h}">${t}</a>`;
+  let n=`<p>At ${s.name}, a 1 m-mast lander starting 14 Nov 2026 sees the Sun centre ${L(f2(d.nom.sun)+' %','decision')} of the 14 days on NASA’s nominal map, and between ${L(f1(Math.min(...c.sun))+' and '+f1(Math.max(...c.sun))+' %','decision')} on 20 alternative maps. With your thresholds it passes on ${L(k+' of 20','decision')}.</p>`;
+  n+=`<p>That holds for starts ${L(tl,'slip')}. Across the whole year, ${L(pct(ST.k,v=>v===20)+' %','year')} of start dates pass on every map.</p>`;
+  n+=`<p>Raising the mast to ${L(ch,'repairs')} makes every map 100 % for this window.${m?` Keeping every start of the year under ${thr.gap} h of darkness on every map takes ${L((()=>{const i=m.year_gapmax.findIndex(g=>Math.max(...g)<=thr.gap);return i<0?'more than 10 m':m.masts[i]+' m'})(),'repairs')}.`:''}</p>`;
+  if(mo)n+=`<p>A second lander placed ${L(mo.complementarity.best_pairs[0].sep_m+' m','layout')} from the first would keep at least one in sunlight ${L(f1(mo.complementarity.best_pairs[0].sun_either_pct)+' %','layout')} of the year, with no stretch of both dark longer than ${L(mo.complementarity.best_pairs[0].longest_both_dark_h+' h','layout')}.</p>`;
+  n+=`<p>The most useful new measurement is the height of the landing spot itself; it accounts for ${L(Math.round(s.hot.lander)+' of '+Math.round(s.hot.total),'hotspots')} expected uncertain hours a year.</p><p class="note">Geometric visibility only, research reference site, k of 20 is not a probability.</p>`;
+  $('narr').innerHTML=n}
+function renderAll(){ST=stripStats();siteSeg();card();drawStrip();stripRead();season();slip();sky();replay();repairs();hot();planner();layout();evidence();evidence2();skeptic()}
+['tSun','tBoth','tGap'].forEach((id,i)=>$(id).addEventListener('input',e=>{const v=parseFloat(e.target.value);if(!isFinite(v))return;thr[['sun','both','gap'][i]]=v;renderAll()}));
+$('slipR').addEventListener('input',e=>{slipH=+e.target.value;slip()});
+new ResizeObserver(()=>drawStrip()).observe($('strip'));
+$('inputs').textContent='Inputs (SHA-256, first 16 hex): '+D.inputs.map(x=>`${x.file} ${x.sha256_16}`).join(' · ');
+$('gen').textContent=`Generated ${D.generated}. Code and results: polaris_long_features ZIP; write-up: claude/LONG_FEATURES_2026-11-15.md.`;
+renderAll();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>drawStrip());
+}
+</script>
+</body>
+</html>

@@ -169,3 +169,10 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 `web/`, `blender/bundle_v2.py`, `blender/test_bundle_v2.py`, `blender/build_from_nasa_bundle.py` (v2) and
 `run_blender_bundle_v2.command` were written by Claude (Anthropic) on the `b-experience` branch. Commits carry a
 `Co-Authored-By: Claude` line. The `codex-snapshot` content was written largely by OpenAI Codex.
+
+## C1 — Decision Lab integration (15 Nov 2026)
+
+- Added the byte-identical static Decision Lab and reference data under `web/public/lab/`; `index.html` SHA-256 is `210d2fa5e9049dd53969f237d4f84f8d93df2cf280ae30acbae70ebc47cf4e0f`.
+- Added the relative-base `Decision Lab` header link, long-feature write-up, standalone research code/results and required CC-BY-4.0 attribution README.
+- `cd web && npm run build` passed and produced `dist/lab/index.html`; the dedicated Playwright smoke test passed 1/1 with no page errors and a loaded headline.
+- Unverified: standalone research scripts and supplied result JSON were integrated as a handoff and were not independently rerun in this task.
