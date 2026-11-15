@@ -77,7 +77,11 @@ export function MetricsPanel({ v }: { v: View }) {
         </article>
       </div>
       {sc ? (
-        <table className="constraints" data-testid="constraints">
+        <table
+          className="constraints"
+          data-testid="constraints"
+          data-classification={(sc.family ?? sc.kind) === 'baseline' ? undefined : 'SCENARIO'}
+        >
           <caption className="sr-only">Scenario metrics from the bundle</caption>
           <thead>
             <tr>
