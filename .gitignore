@@ -24,3 +24,5 @@ tmp/
 data/raw/pgda69/
 # reproducible NASA/JPL science cache; source URLs and hashes live in bundles
 data/cache/
+# standalone solver API cache (NASA rasters + raw Horizons responses)
+data/external/

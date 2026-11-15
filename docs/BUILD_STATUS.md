@@ -213,3 +213,10 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 - Added LROC WAC/PDS, NASA PGDA 69/78/90, JPL Horizons and NAIF SPICE credits.
 - Added the requested AI disclosure for Anthropic Claude and OpenAI Codex without changing existing project claims or status wording.
 - Documentation-only change; final repository regression results are recorded in the completion report.
+
+## D2 — standalone Solver API (15 Nov 2026)
+
+- Added `tools/polaris_solver/`, a standalone JSON/CLI/localhost API that depends on NumPy, SciPy, pyproj and rasterio but does not import from `science/`. NASA rasters and raw Horizons responses use the ignored `data/external/` cache selected by `POLARIS_DATA`.
+- The supplied real-input API tests pass 5/5. Site04 RoI 3 at 1 m reports 94.36 % Sun, 72.11 % Sun+Earth and a 19 h longest dark run; the three-clone and cautious-label checks also pass.
+- Against the committed hourly bundle metrics, Site04 differs by 0.002 points (Sun) and 0.003 points (Sun+Earth); Site01 RoI 6 differs by 0.000 and 0.002 points respectively. All are within the required 0.01 points.
+- The README exposes the request-file CLI, local server and tool-spec commands, and states that k of N is a terrain-clone count rather than a probability.

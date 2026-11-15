@@ -66,6 +66,18 @@ python3 -m venv .venv
 
 The pipeline never silently substitutes synthetic terrain or analytic ephemerides after a source failure. Full reproduction commands, source hashes and limitations are in the documentation.
 
+## Solver API
+
+The standalone solver under `tools/polaris_solver/` accepts one JSON request and returns source-labelled geometric-visibility results. From `tools/`:
+
+```bash
+python -m polaris_solver request.json
+python -m polaris_solver --serve 8765
+python -m polaris_solver --tool-spec
+```
+
+Set `POLARIS_DATA=../data/external` to keep downloaded NASA rasters and cached raw JPL Horizons responses outside version control. k of N counts NASA terrain clones tested; it is not a probability.
+
 ## Documentation
 
 - `docs/BUILD_STATUS.md` — implemented work and remaining gaps
