@@ -33,6 +33,7 @@ import { EvidencePipeline, EvidenceRecord } from './components/EvidenceRecord';
 import { CoverageGauge } from './components/CoverageGauge';
 import { CertaintyHeight } from './components/CertaintyHeight';
 import { CubeSlicer } from './components/CubeSlicer';
+import { LaunchCalendar, SafeLitGrid } from './components/CubeViews';
 import type { BundleIndexEntry } from './bundle/types';
 import { fetchIndex, IndexError } from './bundle/bootIndex';
 import { startUrlSync } from './store/urlState';
@@ -658,6 +659,14 @@ export default function App() {
                 <Guard label="Scenario cube">
                   <CubeSlicer v={v} />
                 </Guard>
+                <div className="grid cube-views">
+                  <Guard label="Safe and lit">
+                    <SafeLitGrid siteId={v.dataset.site.id} />
+                  </Guard>
+                  <Guard label="Launch calendar">
+                    <LaunchCalendar siteId={v.dataset.site.id} />
+                  </Guard>
+                </div>
               </div>
             )}
             {ws === 'evidence' && (

@@ -93,6 +93,20 @@
     "R_margin",
     "S"
    ]
+  },
+  {
+   "file": "launch_calendar.json.gz",
+   "cube_id": "site04_roi3-launch-calendar-v1",
+   "title": "Launch-window calendar: start date x arrival slip",
+   "bytes": 9984,
+   "uncompressed_bytes": 2107894,
+   "sha256": "24a667ba730300389750f3928252ee99b7921fb5d94e7af2d201f90aa8bedeaa",
+   "dims": [
+    "D_mast",
+    "R",
+    "S_day",
+    "S_slip"
+   ]
   }
  ],
  "baseline": {

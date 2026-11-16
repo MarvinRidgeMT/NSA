@@ -1032,3 +1032,14 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .cube-card dt { font-size: 11px; color: var(--ash); }
 .cube-card dd { margin: 2px 0 0; font-family: 'JetBrains Mono', monospace; }
 .cube-missing-cell { background: repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.08) 4px 6px); color: var(--ash); }
+.cube-views { margin-top: 18px; }
+.cal-canvas { width: 100%; height: 120px; display: block; image-rendering: pixelated; cursor: crosshair; border: 1px solid var(--line-strong); }
+.sl-grid { display: inline-flex; flex-direction: column; gap: 2px; margin: 10px 0; }
+.sl-row { display: flex; gap: 2px; }
+.sl-cell { width: 30px; height: 30px; display: grid; place-items: center; font: 11px 'JetBrains Mono', monospace; color: var(--basalt); }
+.sl-cell.unsafe { background: repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.12) 4px 6px); color: var(--ash); }
+.sl-cell.centre { outline: 2px solid var(--solar); outline-offset: -2px; }
+.dc-axes { margin: 10px 0 6px; display: grid; gap: 4px; }
+.dc-axis { display: grid; grid-template-columns: minmax(150px, 34%) 1fr; gap: 8px; font-size: 11.5px; border-top: 1px solid rgba(0,0,0,0.12); padding-top: 4px; }
+.dc-axis dt { margin: 0; } .dc-axis dd { margin: 0; } .dc-axis .v { font-weight: 600; }
+@media (max-width: 600px) { .dc-axis { grid-template-columns: 1fr; } .sl-cell { width: 24px; height: 24px; } }

@@ -1,6 +1,7 @@
 import { usePolaris } from '../store/store';
 import type { View } from '../store/view';
 import { useCoverageSidecar } from '../bundle/coverageSidecar';
+import { CubeQuestionRows } from './CubeViews';
 
 type Row = { mast_m: number; metric: string; min: number; max: number; nominal: number; pass: string; n_clones: number };
 const pct = (x: number) => (Number.isFinite(x) ? x.toFixed(1) : '—');
@@ -62,6 +63,7 @@ export function DecisionCard({ v }: { v: View }) {
             <div className="d">Sun + Earth, 1 m mast · team requirement ≥ 40 %: {b1?.pass ?? '—'}</div>
           </div>
         </div>
+        <CubeQuestionRows siteId={v.dataset.site.id} />
         <p className="fine">
           Geometric centre-of-disk visibility only, not power or a communications link. The spread is “N of N realizations tested”, not a probability; agreement is not certainty.
           {c ? ' Coverage above is at 1 m.' : ''} Requirements

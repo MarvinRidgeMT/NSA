@@ -1083,3 +1083,10 @@ Cloud container (SwiftShader software WebGL): vitest 101/101; Playwright 69/86 i
 - Results, nominal map, 1 m, 12 months (Site04 RoI 3 / Site01 RoI 6): DTE with DSN 50.5 % / 52.1 %; + best relay 91.4 % / 91.6 %; + best pair 98.14 % (capped by DSN coverage).
 - NASA sanity (line of sight only): two relays 100 % (matches NASA); DTE 50.8/52.4 % at 0°, 41.4/43.7 % at 2°, 25.4/29.6 % at 5° (NASA 17–43 %); one relay 87.9/88.7 % at 5°, slightly above NASA's 80–86 % (best relay per site, ridge sites). Recorded in the cube.
 - Tests: `science/tests/test_link.py` 8 passed. `window_metrics` gap computation vectorised (identical on random series).
+
+### 5D upgrades Phase 9.3 + Decision views + Phase 10 design docs — Claude, 16 Nov 2026 ~01:20 EST, feature/5d-upgrades
+- `science/cube/build_calendar.py` → `launch_calendar.json.gz`: D_mast × R × 365 start dates × 24 arrival-slip hours, k of 20 (re-indexing of the hourly k_of_N). 1 m, team: a passing-on-all-20 hour exists on 62 (Site04) / 154 (Site01) of 365 days.
+- `science/cube/build_summary.py` → `decision_summary.json`: one Decision Card row per sub-axis question (T, M, D, S, R, link, energy, safety), precomputed; energy says "not in bundle" until the Phase 5 branch is merged.
+- Web: `CubeViews.tsx` (Decision Card rows, safe-and-lit 9 × 9 grid with the 10°/8° limit, launch calendar heatmap). The card change is one slot; no existing row changed.
+- `docs/design/THERMAL_MODEL.md`, `docs/design/TRAVERSE_PLANNER.md` (design only; implementation needs Sid's and Anish's go-ahead).
+- Tests: `science/tests/test_cube_views.py` (calendar re-index identity, summary rows vs cubes, synthetic cylinder shadow), `web/tests/e2e/cube-views.spec.ts`.
