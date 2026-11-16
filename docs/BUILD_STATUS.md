@@ -1173,3 +1173,8 @@ Worked in a separate worktree because the main checkout held another session's u
 - Conflicts: `web/src/three/Scene3D.tsx` (main's Sun/Earth sky model and display-only vertical exaggeration group vs Phase 9.4 LOD terrain: the LOD branch now sits inside main's exaggeration group), `web/src/styles.css` and this file (both sides kept).
 - main's bundles gained `derived.certainty*` only; metrics, samples, site and `derived.margin_series` are identical (checked). Input hashes refreshed with `python -m science.cube.refresh_provenance --check-bundle-values` (18 cube files; no cube value changed, checked before/after) and in the science-limits L1/L2/L7 manifests.
 - Checks: pytest science/tests 196 passed; vitest 143/143; build ok; Playwright 96 passed, 2 known artefacts (cold-launch port 4173; P6 passes alone); traceability 544 scanned, 0 untraced.
+
+### POLARIS X v2 start — Claude (coordinator), 16 Nov 2026 ~02:40 EST, feature/v2-whole-moon
+- Worktree `../NSA-v2`, branch `feature/v2-whole-moon` cut from `feature/5d-complete` (ae9f6d9). Prompt and team inputs copied to `docs/v2/inputs/` (the 5D_MODEL_RESEARCH doc was not found on disk).
+- Frozen: tag `submission-2026-11-15` → c5dce9f (already existed, not moved), tag `submission-final` → 8dde4f1, `submission/merged` → 62cc7b1.
+- Split into six parallel sessions (`docs/v2/SPLIT.md`), interface `docs/v2/TERRAIN_STACK_CONTRACT.md`, status `docs/v2/STATUS.md`.

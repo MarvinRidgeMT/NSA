@@ -1,0 +1,12 @@
+{
+ "_note": "source_id values for the science pyramid band `source_id` (docs/v2/TERRAIN_STACK_CONTRACT.md). Append only.",
+ "0": "no data",
+ "1": "LROC NAC DTM (PDS SDNDTM / ASPDTM)",
+ "2": "GSFC shape-from-shading (Zenodo 10.5281/zenodo.17954508)",
+ "3": "PGDA 78 LOLA 5 m site tiles",
+ "4": "Kaguya TC DTM (JAXA SLDEM2013 / TC DTM MAP or USGS ASP)",
+ "5": "PGDA 90 LOLA polar 20/40/80 m",
+ "6": "SLDEM2015 (LOLA + Kaguya TC, Barker et al. 2016)",
+ "7": "LOLA polar LDEM (gridded)",
+ "8": "LOLA global LDEM (gridded)"
+}
