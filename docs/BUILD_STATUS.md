@@ -1277,3 +1277,24 @@ Labels: geometry SOURCE-BASED · UNVALIDATED; error-model members "assumed error
   - Ch-2 TMC-2 and CNSA not downloaded (need an account the user has not approved);
   - Kaguya TC, NAC DTMs and SfS regions are left for on-demand streaming.
 - Frozen refs are unchanged: tag `submission-2026-11-15` → c5dce9f, `submission/merged` → 62cc7b1.
+### v2 S6 · §6.1 imagery catalogue + §6.3 pre-registered protocol — Claude, 16 Nov 2026 ~02:20–03:30 EST, branch claude/v2-s6-imagery-16a87a
+- Plan first: `docs/v2/PHASE_5_IMAGERY_PLAN.md`. Code: `tools/imagery/` (ODE REST client, polite SHA-256 cache, Horizons Sun az/el at
+  site centres via `science/horizons.py`, catalogue builder, ≤ 20-thumbnail pipeline test). Nothing outside S6's files changed except
+  this section and the S6 row of `docs/v2/STATUS.md`.
+- Harvest: PDS ODE, LROC NAC (CDRNAC4), WAC (CDRWAC4), ShadowCam (CAL), Kaguya TC (TCWL2B, TCSL2B) over a 10 km × 10 km
+  stereographic square around Site04 RoI 3, Site01 RoI 6, Site07 RoI 1, Site11 RoI 4; 90 sequential ODE requests (≥ 2 s apart) and
+  ~275 batched Horizons requests, every raw response cached with SHA-256 under `data/cache/v2/imagery/` (≈ 340 MB, not in git).
+- Catalogue `imagery/catalogue.csv.gz` (gzip CSV: no pyarrow/pandas in the venv; reproducible bytes): 11,726 image × site rows,
+  7,298 unique images (NAC 2,292; WAC 423; ShadowCam 2,760; TC stereo 1,748; TC mono 75), **2,124 held out** (30 % of 7,081 eligible;
+  217 GSFC-ortho NAC `prior_use` images always dev). Counts per instrument, site and stratum: `docs/v2/IMAGERY_CATALOGUE.md`.
+- Protocol `docs/v2/RENDER_VS_REAL_PROTOCOL.md` committed (cc73020) before any render or score; hashes in `docs/v2/PREREGISTRATION.md`,
+  enforced by `tools/imagery/tests/test_preregistration.py`.
+- Checks: ODE SP footprint frame = `science/frames.py` (≤ 2 m); Sun wrapper vs committed Site04 RoI 3 bundle |Δel| ≤ 7e-7°;
+  rebuild → same SHA-256; split re-derives from the file. Tests: `pytest tools/imagery` 33 passed; `pytest science/tests tools/imagery
+  tools/sources` 245 passed, 2 skipped.
+- Found and handled: ODE omits `pdsid` without `results=p`; ODE can repeat a product across a page boundary; ODE thumbnails are JPEG;
+  Horizons 502 on a 150-entry TLIST GET (40 works); JAXA DARTS answered one label GET with "Request Rejected" (not retried);
+  **ODE ShadowCam footprints are browse-map extents** (4,680/4,815 rows flagged `footprint_suspect`; coverage unverified).
+- Not done: render twins and any scoring (§6.2, §6.4–6.5); sub-spacecraft position (not in ODE; ShadowCam labels have it, LROC CDR
+  labels do not); true ShadowCam footprints; surface imagery (0 catalogued: Apollo needs per-frame parsing, others need registration
+  or terms not checked); Artemis III 2024 regions (no official coordinates found, not queried); Chandrayaan-2 OHRC (PRADAN registration).
