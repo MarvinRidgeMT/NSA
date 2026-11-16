@@ -1,4 +1,8 @@
 {
+  "certainty_height_m": {
+    "source_path": "derived.certainty_height_m",
+    "value": 1.0
+  },
   "data_versions": [
     {
       "description": "LOLA LDEM_80S_80MPP_ADJ.TIF, 80 m/px south-polar mosaic, PGDA product 90",
@@ -306,7 +310,7 @@
     "bundle_id": "site01_roi6_2026-11-14_14d_mast1m",
     "bundle_path": "data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",
     "bundle_schema": "polaris-science-results-v1",
-    "bundle_sha256": "ec2e9f24ca80412d5f286bbb9315b5b045becbe764243842e52a9c7f9547e552",
+    "bundle_sha256": "3aff6b65ee1b4df9e8a2c599d377304365b65be54ac5b16050fa34b8513045c6",
     "generator": {
       "code": "science/ (POLARIS X a-science)",
       "command": "python3 -m science.bundle --site site01_roi6 --mast 1 --out data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",

@@ -196,6 +196,10 @@ def dataset(sid, masts):
             # A1: the baseline (first-mast) scenario's attribution; every scenario also carries its own.
             'attribution': None if b0.get('derived', {}).get('attribution') is None else
             {**b0['derived']['attribution'], 'scenarioId': 'baseline', 'mast_m': masts[0]},
+            # A2 Certainty Height (science/certainty.py): per site, the same block in every mast bundle.
+            'certainty_curve': (b0.get('derived', {}).get('certainty') or {}).get('certainty_curve'),
+            'certainty_height_m': (b0.get('derived', {}).get('certainty') or {}).get('certainty_height_m'),
+            'certainty': b0.get('derived', {}).get('certainty'),
             # A3: same convention (baseline scenario; every scenario carries its own).
             'coverage': None if b0.get('derived', {}).get('coverage') is None else
             {**b0['derived']['coverage'], 'scenarioId': 'baseline', 'mast_m': masts[0]},
