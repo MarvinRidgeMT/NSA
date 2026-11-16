@@ -24,9 +24,12 @@ export function Header({
   go,
   story,
   onGuide,
+  onSimple,
 }: {
   onOpenProvenance: () => void;
   onGuide?: () => void;
+  /** back to Simple mode (the front door at "/"); omitted = no button */
+  onSimple?: () => void;
   ws: Workspace | 'story';
   go: (id: Workspace | 'story') => void;
   story?: boolean;
@@ -157,6 +160,18 @@ export function Header({
         {!story && (
           <button type="button" className="btn" onClick={onOpenProvenance} disabled={!loaded} data-testid="open-provenance">
             Provenance
+          </button>
+        )}
+        {onSimple && (
+          <button
+            type="button"
+            className="btn btn-small"
+            onClick={onSimple}
+            data-testid="mode-simple"
+            aria-label="Simple mode"
+            title="Simple mode: the plain-English front door (one answer, the 3D view and the clock)"
+          >
+            Simple
           </button>
         )}
       </div>

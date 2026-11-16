@@ -8,10 +8,12 @@ import '@fontsource/jetbrains-mono/500.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import SimpleApp from './SimpleApp';
+import { resolveMode } from './mode';
 import './styles.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    {resolveMode(location.search, location.hash) === 'simple' ? <SimpleApp /> : <App />}
   </StrictMode>,
 );

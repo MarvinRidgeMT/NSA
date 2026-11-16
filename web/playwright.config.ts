@@ -16,6 +16,9 @@ export default defineConfig({
   reporter: [['list']],
   use: {
     baseURL,
+    // "/" opens Simple mode since 16 Nov; the existing specs test Expert mode, so they start with Expert remembered
+    // (src/mode.ts). tests/e2e/simple-mode.spec.ts clears this to test the real first visit.
+    storageState: { cookies: [], origins: [{ origin: baseURL, localStorage: [{ name: 'polaris-x.mode', value: 'expert' }] }] },
     viewport: { width: 1440, height: 900 },
     launchOptions: { executablePath, args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },
   },

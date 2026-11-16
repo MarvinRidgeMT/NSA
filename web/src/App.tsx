@@ -36,6 +36,7 @@ import type { BundleIndexEntry } from './bundle/types';
 import { fetchIndex, IndexError } from './bundle/bootIndex';
 import { startUrlSync } from './store/urlState';
 import { applyRouteSite } from './store/siteDefaults';
+import { switchMode } from './mode';
 
 import { GlobeButton, SurfaceLayerChip, SurfaceLayerPicker } from './components/SurfaceLayer';
 import { useSurface } from './store/surface';
@@ -351,7 +352,7 @@ function LoadErrorPanel({ message }: { message: string }) {
  * Cold launch (Final Apex P1): read bundles/index.json, then load the deep-linked bundle or the hero ROI export.
  * Any failure shows a specific message with Retry (which re-runs this function); nothing is substituted.
  */
-function coldLaunch() {
+export function coldLaunch() {
   const st = usePolaris.getState();
   const want = new URLSearchParams(location.search).get('bundle');
   usePolaris.setState({ loading: true, loadError: null, loadRetry: null });
@@ -385,6 +386,14 @@ function coldLaunch() {
         loadRetry: coldLaunch,
       }),
     );
+}
+
+/** Optional, additive: a missing or malformed sidecar simply leaves the Certainty Height panel on its bundle fallback. */
+export function loadCertaintySidecar() {
+  fetch('certainty/sidecar.json')
+    .then((r) => (r.ok ? r.json() : null))
+    .then((j) => usePolaris.setState({ certaintySidecar: parseSidecar(j) }))
+    .catch(() => undefined);
 }
 
 export default function App() {
@@ -421,11 +430,7 @@ export default function App() {
   useEffect(() => {
     startUrlSync(); // shareable link: site, time, scenario, camera, surface layer (src/store/urlState.ts, session A)
     coldLaunch();
-    // optional, additive: a missing or malformed sidecar simply leaves the Certainty Height panel on its bundle fallback
-    fetch('certainty/sidecar.json')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((j) => usePolaris.setState({ certaintySidecar: parseSidecar(j) }))
-      .catch(() => undefined);
+    loadCertaintySidecar();
     const onHash = () => setRoute(fromHash());
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
@@ -453,7 +458,7 @@ export default function App() {
       <a className="skip" href="#main">
         Skip to content
       </a>
-      <Header onOpenProvenance={() => setProv(true)} ws={route} go={go} story={route === 'story'} onGuide={() => useUi.getState().set({ guide: 0 })} />
+      <Header onOpenProvenance={() => setProv(true)} ws={route} go={go} story={route === 'story'} onGuide={() => useUi.getState().set({ guide: 0 })} onSimple={() => switchMode('simple')} />
       {demo && (
         <div className="demo-banner" role="status" data-testid="demo-banner">
           DEMO · synthetic terrain and invented sky · not NASA, not JPL · for viewer development only

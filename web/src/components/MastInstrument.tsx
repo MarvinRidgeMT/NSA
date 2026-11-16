@@ -16,6 +16,39 @@ const mastOf = (sc: Scenario): number | undefined => {
 };
 const mastOnly = (sc: Scenario) => Object.keys(sc.parameters ?? {}).every((k) => /mast/i.test(k));
 
+/** The Certainty Height reading at the picked (or bundle) mast height: sidecar rows only, nothing interpolated. */
+export function useMastReading(v: View) {
+  const side = usePolaris((s) => s.certaintySidecar);
+  const pick = useUi((s) => s.mastPick);
+  const site = side?.sites?.[v.dataset.siteId];
+  if (!site) return null;
+  const rows = site.certainty_curve as Row[];
+  const at = (m: number, metric: string) => rows.find((r) => r.mast_m === m && r.metric === metric);
+  const seriesMast = v.series?.observer?.mastM ?? null;
+  const masts = site.sampled_masts_m;
+  const h = pick ?? (seriesMast !== null && masts.includes(seriesMast) ? seriesMast : masts[0]);
+  const s = at(h, 'sun_centre_pct');
+  return {
+    site, masts, h, seriesMast, s,
+    b: at(h, 'both_centre_pct'),
+    s1: at(masts[0], 'sun_centre_pct'),
+    cert: site.all_maps_100pct_sun_mast_m as number | null,
+    all100: s ? s.min >= 100 : false,
+  };
+}
+
+export { range as fmtPctRange };
+
+/** Pick a sampled mast height; when the bundle has a mast-only series at that height, switch the scenario to it. */
+export function useChooseMast(v: View) {
+  const set = useUi((s) => s.set);
+  return (m: number) => {
+    set({ mastPick: m });
+    const sc = (v.dataset.derived?.scenarios ?? []).find((x) => mastOf(x) === m && mastOnly(x));
+    if (sc && sc.id !== v.series?.id) usePolaris.getState().setScenario(sc.id);
+  };
+}
+
 /**
  * Certainty Height instrument (Explore): pick a SAMPLED mast height from the batch sweep and read the result at that height
  * next to the 1 m baseline. Values are copied from the certainty sidecar (batch CSVs). When the bundle has a series for the
@@ -23,31 +56,12 @@ const mastOnly = (sc: Scenario) => Object.keys(sc.parameters ?? {}).every((k) =>
  * bundle's own mast and the instrument says so. No value between sampled heights is shown or implied.
  */
 export function MastInstrument({ v }: { v: View }) {
-  const side = usePolaris((s) => s.certaintySidecar);
   const cov = useCoverageSidecar();
-  const pick = useUi((s) => s.mastPick);
-  const set = useUi((s) => s.set);
-  const { setScenario } = usePolaris.getState();
-  const site = side?.sites?.[v.dataset.siteId];
-  if (!site) return null;
-  const rows = site.certainty_curve as Row[];
-  const at = (m: number, metric: string) => rows.find((r) => r.mast_m === m && r.metric === metric);
-  const scenarios = v.dataset.derived?.scenarios ?? [];
-  const seriesMast = v.series?.observer?.mastM ?? null;
-  const masts = site.sampled_masts_m;
-  const h = pick ?? (seriesMast !== null && masts.includes(seriesMast) ? seriesMast : masts[0]);
-  const s = at(h, 'sun_centre_pct');
-  const b = at(h, 'both_centre_pct');
-  const s1 = at(masts[0], 'sun_centre_pct');
-  const cert = site.all_maps_100pct_sun_mast_m;
-  const all100 = s ? s.min >= 100 : false;
+  const choose = useChooseMast(v);
+  const r = useMastReading(v);
+  if (!r) return null;
+  const { masts, h, seriesMast, s, b, s1, cert, all100 } = r;
   const c = cov?.sites[v.dataset.siteId];
-
-  const choose = (m: number) => {
-    set({ mastPick: m });
-    const sc = scenarios.find((x) => mastOf(x) === m && mastOnly(x));
-    if (sc && sc.id !== v.series?.id) setScenario(sc.id);
-  };
 
   return (
     <div className="sect mast-inst" data-testid="mast-instrument">
