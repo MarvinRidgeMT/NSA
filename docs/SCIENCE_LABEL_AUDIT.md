@@ -16,6 +16,7 @@ Status of all numbers: **SOURCE-BASED · UNVALIDATED** (no independent validatio
 | Coverage | coverage sidecar | Sun 34.1 %, Earth 58.5 % of window hours (nominal DEM, 1 m) |
 | R3 | bundle attribution | 12–169 m, az 78–144°, +1.563 m vs site ground, 5 m DEM, Sun 19 h |
 | R1 | bundle attribution | 127.7–129.6 km, az 153–156°, +3232 m, 80 m DEM, Earth 41 h; never drawn in the 2 km crop |
+> E1 (15 Nov 2026), Site04 RoI 3 1 m batch-v2 values quoted above (93.77 / 71.22 / 87.2–97.0): float32 heights, superseded by the float64 rerun (94.36 / 72.11 / 87.54–97.33).
 
 19 vs 21: the bundle (repo solver) and the batch (separate solver) differ by two knife-edge hourly samples (A_SCIENCE_STATUS 13:06). The UI now labels every number `bundle` or `batch sweep` and says the two sample differently.
 
