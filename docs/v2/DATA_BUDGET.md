@@ -15,10 +15,10 @@ SSD. Tonight's limits: ≤ 150 GB of new data, and ≥ 250 GB left free (enforce
 | `lola_ldem_polar` 80° 20 m (×2) | 30,400² | 9.24 × 10⁸ each | float32 | 3,696,640,000 each | int16 1,848,320,000 |
 | `lola_ldem_polar` 75° 30 m (×2) | 30,496² | 9.30 × 10⁸ each | float32 | 3,720,024,064 each | int16 1,860,012,032 |
 | `lola_ldem_polar` 60° 60 m (×2) | 31,040² | 9.63 × 10⁸ each | float32 | 3,853,926,400 each | int16 1,926,963,200 |
-| `pgda70_roughness` (Hurst 8 ppd + 3 × MAS 16 ppd) | 2,880 × 1,440; 5,760 × 2,880 | 5.4 × 10⁷ | int16/float (see .LBL) | 107,828,078 | — |
-| `lola_roughness_gdr` (LDRM/LDSM/LDRC cyl. + polar 75/85) | 16–32 ppd; polar 240 m / 40 m | 6.5 × 10⁸ | int16 | 1,308,516,800 | — |
+| `pgda70_roughness` (Hurst 8 ppd + 3 × MAS 16 ppd) | 2,880 × 1,440; 5,760 × 2,880 | 5.4 × 10⁷ | int16/float (see .LBL) | 107,828,478 | — |
+| `lola_roughness_gdr` (LDRM/LDSM/LDRC cyl. + polar 75/85) | 16–32 ppd; polar 240 m / 40 m | 6.5 × 10⁸ | int16 | 1,306,294,400 | — |
 | `pgda67_slope_azimuth_64` (slope + azimuth) | 23,040 × 11,520 ×2 | 5.3 × 10⁸ | float32 | 2,123,366,400 | GeoJPEG2000 copies |
-| `sldem2015_512` (32 tiles of 45° × 30°) | 23,040 × 15,360 each | 1.13 × 10¹⁰ total | float32 | 45,298,483,200 (+ 172,800 quality map) | JPEG2000: 5,403,050,925 (32 tiles) |
+| `sldem2015_512` (32 tiles of 45° × 30°) | 23,040 × 15,360 each | 1.13 × 10¹⁰ total | float32 | 45,298,483,200 (+ 172,800 quality map) | JPEG2000: 5,466,491,027 (32 tiles) |
 | `lroc_wac_100m` | 109,164 × 54,582 | 5.96 × 10⁹ | uint8 | 5,959,263,751 | — |
 | `pgda67_slope_azimuth_128` (optional) | 46,080 × 23,040 ×2 | 2.1 × 10⁹ | float32 | 8,493,465,600 | — |
 | PDS labels (.lbl/.xml/.LBL/.md5) | | | text | < 2 MB | |
@@ -26,7 +26,7 @@ SSD. Tonight's limits: ≤ 150 GB of new data, and ≥ 250 GB left free (enforce
 
 Check against the prompt's estimate: SLDEM2015 at 512 ppd over ±60° has 184,320 × 61,440 = 1.13 × 10¹⁰ pixels, i.e.
 22.6 GB as int16 (the prompt's "~22 GB") but **45.3 GB as the float32 product actually on PDS**. No official int16
-512 ppd copy exists. The JPEG2000 tiles (5.4 GB) are about 8.4× smaller, but their compression has not been checked
+512 ppd copy exists. The JPEG2000 tiles (5.47 GB) are about 8.3× smaller, but their compression has not been checked
 here, so they are not used for science.
 
 ## Not downloaded: what they would cost

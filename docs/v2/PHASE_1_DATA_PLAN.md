@@ -50,7 +50,7 @@ Choices, and why:
 - **PGDA 67: 64 ppd only, plus optional 128 ppd.** The 512 ppd slope and azimuth tiles are 68 GB each, which is not
   "modest". Slope can be recomputed from SLDEM2015 by S3 where needed.
 - **SLDEM2015 from the PDS float tiles (45.3 GB, the archive of record).** The ~22 GB int16 figure in the prompt is an
-  estimate for a 2-byte copy; no such official int16 file exists on PDS. The 5.4 GB JPEG2000 tiles are another
+  estimate for a 2-byte copy; no such official int16 file exists on PDS. The 5.47 GB JPEG2000 tiles are another
   encoding of the same data; their compression is not checked here, so they are not used for science.
 - **"LOLA RMHE".** No product of that exact name was found on the LOLA node. It is read as the LOLA gridded RMS-height
   roughness maps (`LDRM_*`), fetched together with the matching slope maps (`LDSM_*`) and roughness-count maps
