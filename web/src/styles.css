@@ -1062,3 +1062,9 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .wm-o { background: var(--ash); }
 .wm-seg + .wm-seg { box-shadow: inset 1px 0 0 var(--basalt); }
 .wm-table td { font-family: var(--f-mono); }
+/* bundle says the body is blocked: faint marker on its true direction, never drawn as visible */
+.tag3d.hidden-body { border-style: dashed; color: var(--ash); }
+/* display-only vertical exaggeration: small overlay in the stage's lower-left corner, out of the layout flow */
+
+.exag-pick { position: absolute; left: 10px; bottom: 10px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; font: 500 10px var(--f-mono); color: var(--ash); background: var(--scrim-strong); border: 1px solid var(--line); padding: 3px 6px; }
+.exag-pick select { font: 400 11px var(--f-sans, inherit); color: var(--bone); background: transparent; border: 0; min-height: 22px; max-width: 120px; }

@@ -90,7 +90,7 @@ describe('generated packs on disk (when present)', () => {
     if (m.mid) {
       const md = assembleContext(m, buf(m.regional.file), buf(m.horizon.local.file), buf(m.horizon.regional.file), buf(m.mid.file), buf(m.horizon.mid!.file));
       expect(md.mid).toHaveLength(m.mid.n * m.mid.n);
-      expect(m.mid.spacingM).toBe(20);
+      expect(m.mid.spacingM).toBe(5); // L1 is full-resolution PGDA 78 5 m data (1601², 8 km) since 15 Nov 22:00
       if (m.localDisplay) {
         const withDisplay = assembleContext(m, buf(m.regional.file), buf(m.horizon.local.file), buf(m.horizon.regional.file), buf(m.mid.file), buf(m.horizon.mid!.file), buf(m.localDisplay.file));
         expect(withDisplay.localDisplay).toHaveLength(m.local.n * m.local.n);
@@ -105,5 +105,15 @@ describe('generated packs on disk (when present)', () => {
       expect(l1x0 < l0x0 && l1x1 > l0x1 && l1y0 < l0y0 && l1y1 > l0y1).toBe(true);
       expect(l2x0 < l1x0 && l2x1 > l1x1 && l2y0 < l1y0 && l2y1 > l1y1).toBe(true);
     }
+  });
+});
+
+describe('meshStride (display mesh density only)', () => {
+  it('draws every 5 m node on a GPU and ~401² on a software renderer, always on whole nodes', async () => {
+    const { meshStride } = await import('../../src/three/TerrainSurface');
+    expect(meshStride(1601, false)).toBe(1);
+    expect(meshStride(1601, true)).toBe(4);
+    expect(meshStride(401, true)).toBe(1);
+    expect(1600 % meshStride(1601, true)).toBe(0);
   });
 });

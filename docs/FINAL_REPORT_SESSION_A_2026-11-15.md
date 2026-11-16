@@ -17,7 +17,7 @@ committed copy is kept) and the 81 MB NASA SVS 8K Moon GLB (re-downloadable, SHA
 - **Hosted copy (private, claude.ai artifact):** https://claude.ai/artifact/PkR5bSAVdAZuUNK4xAPu8J — **v6**, built from `ce03658` with
   `vite build --base ./`; includes the Blender gallery at `showcase/index.html`. Checked in headless Chromium: Explore opens on Connecting Ridge
   (Site01 ROI6) with NAC relief on, Decision on Shackleton Rim (Site04 ROI3), 0 failed requests, gallery page loads. It is private (owner shares it).
-- **Local:** `open_web_viewer.command` / `.bat` (serves `web/dist` on 127.0.0.1:8765). Release ZIP `236c57cc…d6ae` (Penumbra's validated RC).
+- **Local:** `open_web_viewer.command` / `.bat` (serves `web/dist` on 127.0.0.1:8765). Release ZIP `236c57cc…d6ae` (Penumbra's tested release candidate; science outputs remain SOURCE-BASED · UNVALIDATED).
 - **Public deployment:** none. The repo must be public for judging (Sid/Anish).
 
 ## What improved

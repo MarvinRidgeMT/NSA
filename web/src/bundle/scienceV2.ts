@@ -240,7 +240,7 @@ export function normalizeCoverage(raw: unknown, layers: RawScienceV2['skyline'][
   const near = (layers ?? []).find((l) => l.role === 'near');
   const tgt = (x: unknown) => {
     const r = isRec(x) ? x : c;
-    return { controllingHoursInside: numOr(r.coveredFrac, Number.NaN), criticalHoursInside: num(r.coveredFrac), unknownHours: numOr(r.unknownFrac, 0), hoursTotal: numOr(r.nCriticalH, 0) };
+    return { controllingHoursInside: numOr(r.coveredFrac, Number.NaN), criticalHoursInside: num(r.coveredFrac), unknownHours: numOr(r.unknownFrac, 0), hoursTotal: numOr(r.nCriticalH, 0), allHoursInside: num(r.allHoursCoveredFrac) };
   };
   const t = tgt(c.sun);
   return {

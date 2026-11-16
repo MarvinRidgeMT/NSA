@@ -45,6 +45,7 @@ Both are labelled, and neither is converted into the other.
 | Earth visible | 77.699 % window; 75 blocked samples; longest Earth obstruction 74.93 h (one run) | BUNDLE | yes |
 | Longest Sun obstruction | 19.44 h (window) = one run of 19 samples | metrics 19.4 h; failures "19 samples" | yes |
 | Ridge attribution | R3: 19 Sun samples; R1: 41 and R2: 34 Earth samples; sums 19 and 75 equal the blocked tallies; 60 clusters | ridge list and Evidence table ("hourly bundle samples", "loss hours do not overlap") | yes |
+> E1 (15 Nov 2026), Site04 RoI 3 1 m batch-v2 values quoted above (93.77 / 71.22 / 87.2–97.0): float32 heights, superseded by the float64 rerun (94.36 / 72.11 / 87.54–97.33).
 
 ## Certainty Height and coverage (batch sidecar)
 
@@ -58,6 +59,7 @@ Both are labelled, and neither is converted into the other.
 | 1.75 m, Sun + Earth | 78.0–78.6 % | hero | yes |
 | Best Sun + Earth at any sampled mast | 78.9 % (10 m, 15 m) | "≤ 78.9 %" | yes |
 | Coverage | Sun 34.1 %, Earth 58.5 % of window hours, at 1 m | next to the Certainty Height verdict, on the card (with the < 50 % warning), coverage gauge | yes |
+> E1 (15 Nov 2026), Site04 RoI 3 1 m batch-v2 values quoted above (93.77 / 71.22 / 87.2–97.0): float32 heights, superseded by the float64 rerun (94.36 / 72.11 / 87.54–97.33).
 
 ## Wording rules checked
 

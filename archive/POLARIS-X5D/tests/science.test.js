@@ -1,0 +1,10 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {SITES,makeDemoTerrain,polarMeters,sampleHeight,horizonProfile,horizonAt,evaluateTimeline,stressTest,validateBundle,ephemerisAt} from '../src/science.js';
+const site=SITES[0],dem=makeDemoTerrain(site,41,200);
+test('stereographic projection exactly reaches pole',()=>{let p=polarMeters(-90,0);assert.ok(Math.hypot(p.x,p.y)<1e-8);});
+test('bilinear sampling at grid center returns finite elevation',()=>assert.ok(Number.isFinite(sampleHeight(dem,0,0))));
+test('synthetic horizon responds monotonically to raising observer',()=>{let a=horizonProfile(dem,0,0,1),b=horizonProfile(dem,0,0,10);for(let i=0;i<360;i++)assert.ok(b.angles[i]<=a.angles[i]+1e-8);});
+test('interpolated horizon wraps correctly',()=>{let h=horizonProfile(dem,0,0,1);assert.ok(Math.abs(horizonAt(h,359.9)-horizonAt(h,-.1))<1e-9);});
+test('timeline metrics and stress experiments are finite',()=>{const opts={start:'2026-11-14T14:00:00Z',durationH:12,stepH:1,height:2,uncertainty:20};let v=evaluateTimeline(site,dem,null,opts);assert.equal(v.rows.length,12);assert.ok(v.metrics.sunPct>=0&&v.metrics.sunPct<=100);let s=stressTest(site,dem,null,opts);assert.equal(s.length,9);});
+test('import rejects broken science payload',()=>assert.throws(()=>validateBundle({format:'POLARIS-X5D-v1',datasets:[{siteId:'x',dem:{n:10,spacing:1,values:[1]}}]})));
+test('JPL ephemeris interpolation uses bounded samples',()=>{const ep={samples:[{time:'2026-11-14T00:00:00Z',sun:{az:359,el:1},earth:{az:5,el:2}},{time:'2026-11-14T02:00:00Z',sun:{az:1,el:3},earth:{az:15,el:4}}]};let e=ephemerisAt('2026-11-14T01:00:00Z',site,ep);assert.ok(e.sun.az<.01||e.sun.az>359.99);assert.equal(e.sun.el,2);});

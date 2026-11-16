@@ -6,6 +6,8 @@ test('four-site Decision Lab is linked and switches every site without page erro
 
   await page.goto('/#decision');
   await expect(page.getByTestId('decision-lab-link')).toHaveAttribute('href', './lab/index.html');
+  // E5 (15 Nov): the Lab's 12-month and Site07/Site11 sections are pilots; the pinned Lab HTML has no PILOT label, so the link carries it.
+  await expect(page.getByTestId('decision-lab-pilot')).toHaveText('PILOT');
 
   await page.goto('/lab/index.html');
   const headline = page.locator('#headline');

@@ -24,6 +24,7 @@ Scope: presentation layer only. **No change** to the science core, solver, bundl
 ## Numbers verified before display (sources, not typed in)
 Site04 ROI3 (certainty sidecar ← `data/batch/2026-11-14/certainty_height{,_fine}/clone_sweep_summary.csv`, a-science `971df9a`):
 1 m Sun 87.24–97.03 % (nominal 93.769), Sun+Earth 62.61–74.78 %; Sun 100 % on all 20 maps first at the sampled 1.75 m
+> E1 (15 Nov 2026), Site04 RoI 3 1 m batch-v2 values quoted above (93.77 / 71.22 / 87.2–97.0): float32 heights, superseded by the float64 rerun (94.36 / 72.11 / 87.54–97.33).
 (`all_maps_100pct_sun_mast_m`); team-requirement pass counts 20/20. Sun+Earth at 1.5 m 73.9–78.6 % and 1.75 m 78.0–78.6 % **are** in the sidecar
 (the V3 board had marked them PENDING). Coverage (← `coverage_gauge.json`): Sun 34.1 %, Earth 58.5 % of window hours, nominal DEM, 1 m mast.
 Ridge facts come from the bundle's `derived.attribution`.

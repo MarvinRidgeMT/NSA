@@ -1,49 +1,52 @@
-/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/build_from_nasa_bundle.py:93: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+/Users/anishmeruva/Documents/ChatGPT/NSA/blender/build_from_nasa_bundle.py:98: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
   m.use_nodes = True
-/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/build_from_nasa_bundle.py:76: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+/Users/anishmeruva/Documents/ChatGPT/NSA/blender/build_from_nasa_bundle.py:81: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
   m.use_nodes = True
-/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/build_from_nasa_bundle.py:262: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+/Users/anishmeruva/Documents/ChatGPT/NSA/blender/build_from_nasa_bundle.py:390: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
   world.use_nodes = True
-00:33.519  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site01_roi6_bundlev2_start_frame001.png'
-01:07.711  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site01_roi6_bundlev2_transition_frame063.png'
-01:47.271  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site01_roi6_bundlev2_mid_frame169.png'
-02:30.809  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site01_roi6_bundlev2_end_frame337.png'
-02:54.880  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site01_roi6_bundlev2_hero_low_frame001.png'
+01:01.735  render           | Saved: '/Users/anishmeruva/Documents/ChatGPT/NSA/blender/output/POLARIS_X_site01_roi6_bundlev2_start_frame001.png'
+01:52.840  render           | Saved: '/Users/anishmeruva/Documents/ChatGPT/NSA/blender/output/POLARIS_X_site01_roi6_bundlev2_transition_frame063.png'
+02:43.945  render           | Saved: '/Users/anishmeruva/Documents/ChatGPT/NSA/blender/output/POLARIS_X_site01_roi6_bundlev2_mid_frame169.png'
+03:45.247  render           | Saved: '/Users/anishmeruva/Documents/ChatGPT/NSA/blender/output/POLARIS_X_site01_roi6_bundlev2_end_frame337.png'
+04:23.211  render           | Saved: '/Users/anishmeruva/Documents/ChatGPT/NSA/blender/output/POLARIS_X_site01_roi6_bundlev2_hero_low_frame001.png'
+04:49.131  render           | Saved: '/Users/anishmeruva/Documents/ChatGPT/NSA/blender/output/POLARIS_X_site01_roi6_bundlev2_eye_sun_start_frame001.png'
+05:15.164  render           | Saved: '/Users/anishmeruva/Documents/ChatGPT/NSA/blender/output/POLARIS_X_site01_roi6_bundlev2_eye_sun_transition_frame063.png'
+05:46.404  render           | Saved: '/Users/anishmeruva/Documents/ChatGPT/NSA/blender/output/POLARIS_X_site01_roi6_bundlev2_eye_earth_frame063_frame063.png'
 [POLARIS] terrain = NASA GSFC SfS display surface (100% of the crop), shift -1.97 m (display only)
 [POLARIS] L1 ring drawn: 401x401 @ 20.0 m (display only)
 [POLARIS] regional context drawn: 401x401 @ 80.0 m (display only)
 Info: Saved as "POLARIS_X_site01_roi6_bundlev2.blend"
 INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/lib/libbf_intern_draco_bridge.dylib
 INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/lib/libbf_intern_meshopt_bridge.dylib
-21:24:54 | INFO: Starting glTF 2.0 export
-21:24:54 | INFO: Extracting primitive: DEM grid.001
-21:24:54 | INFO: Primitives created: 1
-21:24:54 | INFO: Extracting primitive: DEM grid.002
-21:24:54 | INFO: Primitives created: 1
-21:24:54 | INFO: Extracting primitive: DEM grid
-21:24:54 | INFO: Primitives created: 1
-21:24:54 | INFO: Extracting primitive: Earth ray
-21:24:54 | INFO: Primitives created: 1
-21:24:54 | INFO: Extracting primitive: Sphere
-21:24:54 | INFO: Primitives created: 1
-21:24:54 | INFO: Extracting primitive: Cylinder
-21:24:54 | INFO: Primitives created: 1
-21:24:54 | INFO: Extracting primitive: Sun ray
-21:24:54 | INFO: Primitives created: 1
-21:24:54 | INFO: Finished glTF 2.0 export in 0.25974583625793457 s
+21:44:32 | INFO: Starting glTF 2.0 export
+21:44:32 | INFO: Extracting primitive: DEM grid.001
+21:44:33 | INFO: Primitives created: 1
+21:44:33 | INFO: Extracting primitive: DEM grid.002
+21:44:33 | INFO: Primitives created: 1
+21:44:33 | INFO: Extracting primitive: DEM grid
+21:44:33 | INFO: Primitives created: 1
+21:44:33 | INFO: Extracting primitive: Earth ray
+21:44:33 | INFO: Primitives created: 1
+21:44:33 | INFO: Extracting primitive: Sphere
+21:44:33 | INFO: Primitives created: 1
+21:44:33 | INFO: Extracting primitive: Cylinder
+21:44:33 | INFO: Primitives created: 1
+21:44:33 | INFO: Extracting primitive: Sun ray
+21:44:33 | INFO: Primitives created: 1
+21:44:33 | INFO: Finished glTF 2.0 export in 0.47808003425598145 s
 
-21:24:55 | INFO: Data are loaded, start creating Blender stuff
-21:24:55 | INFO: Blender create Mesh node DEM grid.001
-21:24:55 | INFO: Blender create Mesh node DEM grid.002
-21:24:55 | INFO: Blender create Mesh node DEM grid
-21:24:55 | INFO: Blender create Mesh node Earth ray
-21:24:55 | INFO: Blender create Mesh node Sphere
-21:24:55 | INFO: Blender create Mesh node Cylinder
-21:24:55 | INFO: Blender create Mesh node Sun ray
-21:24:55 | INFO: glTF import finished in 0.61s
+21:44:33 | INFO: Data are loaded, start creating Blender stuff
+21:44:33 | INFO: Blender create Mesh node DEM grid.001
+21:44:33 | INFO: Blender create Mesh node DEM grid.002
+21:44:34 | INFO: Blender create Mesh node DEM grid
+21:44:34 | INFO: Blender create Mesh node Earth ray
+21:44:34 | INFO: Blender create Mesh node Sphere
+21:44:34 | INFO: Blender create Mesh node Cylinder
+21:44:34 | INFO: Blender create Mesh node Sun ray
+21:44:34 | INFO: glTF import finished in 1.19s
 [POLARIS] GLB re-import: PASS {'sameMeshCount': True, 'terrainVerticesUnchanged': True, 'terrainPresent': True, 'contextPresent': True}
-[POLARIS] SOURCE-BASED UNVALIDATED · bundle sha256 5b93dd66c3177d6098531f1261d565b3089101bd58f4d9a38d8ffb617b9cf51f
-[POLARIS] wrote POLARIS_X_site01_roi6_bundlev2.blend, POLARIS_X_site01_roi6_bundlev2.glb, POLARIS_X_site01_roi6_bundlev2_scene_manifest.json, renders: ['POLARIS_X_site01_roi6_bundlev2_start_frame001.png', 'POLARIS_X_site01_roi6_bundlev2_transition_frame063.png', 'POLARIS_X_site01_roi6_bundlev2_mid_frame169.png', 'POLARIS_X_site01_roi6_bundlev2_end_frame337.png', 'POLARIS_X_site01_roi6_bundlev2_hero_low_frame001.png']
+[POLARIS] SOURCE-BASED UNVALIDATED · bundle sha256 65a562cbec3318f60f092494f93063fe855fca690e1e4bc960edc8ec31fe301b
+[POLARIS] wrote POLARIS_X_site01_roi6_bundlev2.blend, POLARIS_X_site01_roi6_bundlev2.glb, POLARIS_X_site01_roi6_bundlev2_scene_manifest.json, renders: ['POLARIS_X_site01_roi6_bundlev2_start_frame001.png', 'POLARIS_X_site01_roi6_bundlev2_transition_frame063.png', 'POLARIS_X_site01_roi6_bundlev2_mid_frame169.png', 'POLARIS_X_site01_roi6_bundlev2_end_frame337.png', 'POLARIS_X_site01_roi6_bundlev2_hero_low_frame001.png', 'POLARIS_X_site01_roi6_bundlev2_eye_sun_start_frame001.png', 'POLARIS_X_site01_roi6_bundlev2_eye_sun_transition_frame063.png', 'POLARIS_X_site01_roi6_bundlev2_eye_earth_frame063_frame063.png']
 Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:31:21)
 
 Blender quit

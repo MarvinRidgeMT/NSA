@@ -131,8 +131,10 @@ function checkDecisionBlocks(d: Record<string, unknown>, nSamples: number, w: st
   }
   if (Array.isArray(d.certainty_curve))
     (d.certainty_curve as Record<string, unknown>[]).forEach((c, k) => {
-      if (c.pass !== undefined) {
-        const m = typeof c.pass === 'string' ? /^(\d+)\/(\d+)$/.exec(c.pass) : null;
+      // pass is "k/N" (batch sidecar / A2 contract) or, from science/certainty.py, {requirement: "k/N"} per requirement.
+      const passes = typeof c.pass === 'string' ? [c.pass] : rec(c.pass) ? Object.values(c.pass) : c.pass === undefined ? [] : [c.pass];
+      for (const p of passes) {
+        const m = typeof p === 'string' ? /^(\d+)\/(\d+)$/.exec(p) : null;
         if (!m || Number(m[1]) > Number(m[2]) || (typeof c.n_clones === 'number' && Number(m[2]) !== c.n_clones)) fail(`${w}.certainty_curve[${k}].pass must be "k/N" with k ≤ N = n_clones`);
       }
       const lo = c.min as number, med = c.median as number, hi = c.max as number;

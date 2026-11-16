@@ -65,8 +65,12 @@ def first_hit(pr, target_el):
     return None if k.size == 0 else int(k[0])
 
 
-def scenario(sid, mast, b, near, far, ox, oy, n, baseline=False):
+def scenario(sid, mast, b, near, far, ox, oy, n, baseline=False, extra=None):
     s = sites.SITES[sid]; x0, y0 = b['site']['grid_x_m'], b['site']['grid_y_m']
+    if extra is not None:  # 5th-axis scenario bundle (science/scenario_bundles.py): its own observer point
+        # rays start at the scenario's observer; hit coordinates stay in the crop frame (relative to the ROI point)
+        x0, y0 = (float(v) for v in frames.stereo_forward(s['lat'], s['lon']))
+        s = {**s, 'lat': b['site']['lat_deg'], 'lon': b['site']['lon_deg_east']}
     eye = b['site']['observer_eye_height_m']; step = b['skyline']['step_near_m']
     S = b['samples']
     series, failures = {}, []
@@ -109,7 +113,7 @@ def scenario(sid, mast, b, near, far, ox, oy, n, baseline=False):
                        'heightM': round(float(pr['h'][fh]), 3),
                        'cell': [int(round((gx - ox) / near.step)), int(round((gy - oy) / near.step))]}
             failures.append({
-                'id': f'{sid}-m{mast:g}-{tgt}-{w:03d}', 'target': tgt, 'sampleIndex': w, 'time': S[w]['utc'],
+                'id': f'{sid}-m{mast:g}' + (f'-{extra["tag"]}' if extra else '') + f'-{tgt}-{w:03d}', 'target': tgt, 'sampleIndex': w, 'time': S[w]['utc'],
                 'azimuthDeg': az, 'targetElDeg': el, 'horizonElDeg': S[w][tgt]['horizon_deg'],
                 'marginDeg': S[w][tgt]['margin_deg'], 'blockedSamples': j - k, 'firstHit': hit,
                 'profile': {'distanceM': [round(float(v), 2) for v in pr['hor'][idx]],
@@ -129,6 +133,8 @@ def scenario(sid, mast, b, near, far, ox, oy, n, baseline=False):
         {'id': 'min_sun_margin', 'label': 'Minimum Sun margin', 'value': m['min_sun_margin_deg'], 'unit': 'deg'},
     ]
     sk = b['skyline']
+    if extra is not None:
+        return _extra_scenario(b, extra, series, both, met, failures, sk, mast)
     return {
         'id': 'baseline' if baseline else f'mast{mast:g}', 'label': f'ROI point · {mast:g} m mast',
         'kind': 'baseline' if baseline else 'mast_height',
@@ -144,6 +150,64 @@ def scenario(sid, mast, b, near, far, ox, oy, n, baseline=False):
         'samples': {'sun': series['sun'], 'earth': series['earth'], 'both': {'visible': both}},
         'metrics': met, 'failures': failures,
     }
+
+
+def _extra_scenario(b, sc, series, both, met, failures, sk, mast):
+    """Viewer record for a 5th-axis scenario bundle. Position offsets carry their own ephemeris (new local azimuths)
+    and local-ENU basis; the viewer uses them in place of the dataset's for this scenario."""
+    p = ROOT / 'data' / 'bundles' / 'scenarios' / f'{b["bundle_id"]}.json'
+    dx, dy = sc['observer_offset_grid_m']
+    L = math.radians(b['site']['lon_deg_east'])
+    rec = {
+        'id': sc['tag'], 'label': sc['label'], 'kind': sc['family'].replace('-', '_'), 'family': sc['family'],
+        'parameters': sc['parameters'],
+        'description': (f'{b["bundle_id"]}: full recomputation ({sc["method"]}). Metrics use bisection-refined crossing '
+                        f'intervals, same method as the baseline. {sc["not_probability"]}. '
+                        f'sha256 {hashlib.sha256(p.read_bytes()).hexdigest()[:16]}…'),
+        'observer': {'xM': dx, 'yM': dy, 'groundM': b['site']['height_m'], 'mastM': mast,
+                     'lat': b['site']['lat_deg'], 'lon': b['site']['lon_deg_east']},
+        'sourceBundle': {'file': p.relative_to(ROOT).as_posix(), 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()},
+        'skyline': {'azimuthDeg': sk['azimuth_deg'], 'elevationDeg': sk['elevation_deg'], 'reachM': sk['valid_reach_m'],
+                    'coverage': ['full' if st == 'complete' else 'truncated' for st in sk['status']]},
+        'samples': {'sun': series['sun'], 'earth': series['earth'], 'both': {'visible': both}},
+        'metrics': met, 'failures': failures,
+        'events': [{k: ev[k] for k in ('body', 'kind', 'event', 'utc')} for ev in b['events']],
+    }
+    if sc['family'] == 'dem-clone':
+        rec['description'] += (' The 3D crop stays the NOMINAL 5 m DEM (display only); this scenario\'s skyline, margins and '
+                               f'first hits come from clone {sc["parameters"]["clone"]} (near-field SHA-256 {sc.get("near_sha256", "?")[:16]}…).')
+    if sc['family'] == 'position-offset':
+        rec['ephemeris'] = {'note': 'JPL Horizons samples for THIS observer point (local azimuths differ from the ROI point)',
+                            'records': [{'target': r['role'].split('-')[0], 'rawFile': r['path'], 'sha256': r['sha256']}
+                                        for r in b['provenance']['horizons_raw'] if r['role'].endswith('hourly')],
+                            'samples': [{'time': x['utc'], 'sun': {'az': x['sun']['az_deg'], 'el': x['sun']['el_deg']},
+                                         'earth': {'az': x['earth']['az_deg'], 'el': x['earth']['el_deg']}} for x in b['samples']]}
+        rec['frame'] = {'localNorthInGrid': [math.sin(L), math.cos(L)], 'localEastInGrid': [math.cos(L), -math.sin(L)],
+                        'note': 'local ENU basis at this observer point'}
+    return rec
+
+
+def extra_scenarios(sid, mast, b0, near, far, ox, oy):
+    """All scenario bundles for this ROI/mast, in a fixed order (clones, then offsets)."""
+    d = ROOT / 'data' / 'bundles' / 'scenarios'
+    out = []
+    for p in sorted(d.glob(f'{b0["bundle_id"]}__*.json'), key=lambda q: (('pos_' in q.name), q.name)):
+        b = json.loads(p.read_text())
+        assert [x['utc'] for x in b['samples']] == [x['utc'] for x in b0['samples']], f'{p.name}: samples must align'
+        sc = b['scenario']
+        nr = sites.near_dem(sid, clone=sc['parameters']['clone']) if sc['family'] == 'dem-clone' else near
+        out.append(scenario(sid, mast, b, nr, far, ox, oy, CROP_N, extra=sc))
+    return out
+
+
+def add_deltas(scs):
+    """metric.delta = scenario value - baseline value (both copied from science bundles); baseline carries none."""
+    base = {m['id']: m['value'] for m in scs[0]['metrics']}
+    for s in scs[1:]:
+        for m in s['metrics']:
+            if m['id'] in base and m['value'] is not None and base[m['id']] is not None:
+                m['delta'] = round(m['value'] - base[m['id']], 4)
+    return scs
 
 
 def dataset(sid, masts):
@@ -192,10 +256,15 @@ def dataset(sid, masts):
             'skylineBinDeg': 360.0 / b0['skyline']['bins'],
             'sourceBundles': [{'file': p.relative_to(ROOT).as_posix(), 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()}
                               for p in paths],
-            'scenarios': [scenario(sid, m, b, near, far, ox, oy, CROP_N, baseline=(i == 0)) for i, (m, b) in enumerate(zip(masts, bs))],
+            'scenarios': add_deltas([scenario(sid, m, b, near, far, ox, oy, CROP_N, baseline=(i == 0)) for i, (m, b) in enumerate(zip(masts, bs))]
+            + extra_scenarios(sid, masts[0], b0, near, far, ox, oy)),
             # A1: the baseline (first-mast) scenario's attribution; every scenario also carries its own.
             'attribution': None if b0.get('derived', {}).get('attribution') is None else
             {**b0['derived']['attribution'], 'scenarioId': 'baseline', 'mast_m': masts[0]},
+            # A2 Certainty Height (science/certainty.py): per site, the same block in every mast bundle.
+            'certainty_curve': (b0.get('derived', {}).get('certainty') or {}).get('certainty_curve'),
+            'certainty_height_m': (b0.get('derived', {}).get('certainty') or {}).get('certainty_height_m'),
+            'certainty': b0.get('derived', {}).get('certainty'),
             # A3: same convention (baseline scenario; every scenario carries its own).
             'coverage': None if b0.get('derived', {}).get('coverage') is None else
             {**b0['derived']['coverage'], 'scenarioId': 'baseline', 'mast_m': masts[0]},

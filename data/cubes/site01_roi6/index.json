@@ -7,9 +7,9 @@
    "file": "centre_mast_schedule.json.gz",
    "cube_id": "site01_roi6-centre-mast-schedule-v1",
    "title": "Centre position: terrain map x mast height x start",
-   "bytes": 407641,
+   "bytes": 407720,
    "uncompressed_bytes": 37745262,
-   "sha256": "e2cdddaccedaa0fe8a5189ca716d9b801cc612fd2eeab3b285dd0aecad2337df",
+   "sha256": "b585f11e6946f47a9ecb90d0dec34b25ba16361a2b55d218e8d533c130033f9e",
    "dims": [
     "T",
     "D_mast",
@@ -20,9 +20,9 @@
    "file": "position_schedule.json.gz",
    "cube_id": "site01_roi6-position-schedule-v1",
    "title": "Position grid: terrain map x position x daily start",
-   "bytes": 919048,
+   "bytes": 919135,
    "uncompressed_bytes": 12632887,
-   "sha256": "e00197c5c77028b08f42dd30e89841128d0f7896c260cc1c6c8eb515b54dfc07",
+   "sha256": "a638f458da6ad3c986586793931d9535d2e9850a98baa77cec8f3764c8441b51",
    "dims": [
     "T",
     "D_pos",
@@ -44,9 +44,9 @@
    "file": "terrain_safety.json",
    "cube_id": "site01_roi6-terrain-safety-v1",
    "title": "Terrain safety: slope per map and position, safe-and-lit",
-   "bytes": 100077,
+   "bytes": 103003,
    "uncompressed_bytes": 100077,
-   "sha256": "17a2a81ce83d20cd15f9615095e0b1d4ad4922f7b40dea8888ac155c940a230a",
+   "sha256": "68fdfed19b12e9ffb1746c8548775ad49347cf3aee3650eac5a790bc6457f827",
    "dims": [
     "T",
     "D_pos"
@@ -56,9 +56,9 @@
    "file": "visibility_rule.json.gz",
    "cube_id": "site01_roi6-visibility-rule-v1",
    "title": "Visibility rule: map x rule x mast x daily start",
-   "bytes": 285750,
+   "bytes": 285848,
    "uncompressed_bytes": 7995644,
-   "sha256": "de9e9e44e586e5af3e8460a8ef6b8e154bb7c3c06f83dd62dbd06d6e205fdaf0",
+   "sha256": "9ed0302286ce4c57458d0782273d7d6710ae23dd5cb093ab0010cfa12f3c9028",
    "dims": [
     "T",
     "R_vis",
@@ -70,9 +70,9 @@
    "file": "disc_fraction_hourly.json.gz",
    "cube_id": "site01_roi6-disc-fraction-hourly-v1",
    "title": "Hourly visible disc fraction: map x mast x hour",
-   "bytes": 754409,
+   "bytes": 754526,
    "uncompressed_bytes": 15880964,
-   "sha256": "36051941d42302954e68683813de95854695c3bbc1221065357238042753d3f2",
+   "sha256": "94abad406801329df90dd564cc721251d0cb857969d310dad9084b506568ca84",
    "dims": [
     "T",
     "D_mast",
@@ -83,9 +83,9 @@
    "file": "link.json.gz",
    "cube_id": "site01_roi6-link-v1",
    "title": "Link targets: map x mast x target x margin x daily start",
-   "bytes": 1145485,
+   "bytes": 1145553,
    "uncompressed_bytes": 14942037,
-   "sha256": "59e730262ab582ca2970c179908110cbf21c95ffa38aea725e0111a4b1f592b2",
+   "sha256": "06fe77e15ca7f4cf8de1f46d2bfac0119ea7769b5f0f8ba579732d413e9517f7",
    "dims": [
     "T",
     "D_mast",
@@ -98,9 +98,9 @@
    "file": "launch_calendar.json.gz",
    "cube_id": "site01_roi6-launch-calendar-v1",
    "title": "Launch-window calendar: start date x arrival slip",
-   "bytes": 9510,
+   "bytes": 9616,
    "uncompressed_bytes": 2109200,
-   "sha256": "e13d1f22dac554c9c3b10f35e9909578ed63dbc3457b21958e15939bbf4f284e",
+   "sha256": "9ecc2d8731947292dde96b5eb91d3be12ae8bdcb05f28355b8ae5bb2c71e07a6",
    "dims": [
     "D_mast",
     "R",
@@ -152,9 +152,9 @@
    "cube_id": "site01_roi6-energy-v1",
    "title": "Energy margin: map x array x mast x daily start (ENGINEERING ASSUMPTION)",
    "label": "ENGINEERING ASSUMPTION",
-   "bytes": 314136,
+   "bytes": 314235,
    "uncompressed_bytes": 3168296,
-   "sha256": "11e552d8bbbcbb033c2763993f9c14b7f95c902b9fe9e79a9d41a24bc12a9e35",
+   "sha256": "17b92394d0b5b373835992d8b4fab6567d69dd98c96e8e660d6d9f085b2bc32c",
    "dims": [
     "T",
     "D_array",
@@ -179,9 +179,9 @@
    "file": "sensitivity.json",
    "cube_id": "site01_roi6-sensitivity-v1",
    "title": "What matters: sensitivity indices + emulator re-check",
-   "bytes": 144027,
+   "bytes": 143946,
    "uncompressed_bytes": 144027,
-   "sha256": "5451ff31a6d8bf4378929532c2bd073684d3161c7d8f14c71b10d30573f58cd2",
+   "sha256": "956a38f88703576af2d023deed4cfd1feb37f627033d36a271fd266e4e3de406",
    "dims": [
     "D_cand"
    ]

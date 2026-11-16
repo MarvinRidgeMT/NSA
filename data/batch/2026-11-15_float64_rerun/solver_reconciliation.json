@@ -1,0 +1,146 @@
+{
+ "label": "SOURCE-BASED, UNVALIDATED (a reconciliation of two internal solvers, not a validation)",
+ "mast_m": 1.0,
+ "window_utc": [
+  "2026-11-14T00:00:00Z",
+  "2026-11-28T00:00:00Z"
+ ],
+ "tolerances": {
+  "sun_pct": 0.01,
+  "both_pct": 0.01,
+  "longest_gap_h": 2.0,
+  "coverage_sun_pct": 3.0,
+  "coverage_earth_pct": 3.0
+ },
+ "why": {
+  "sun_pct": "Same definition (share of the 337 hourly samples with the Sun centre above the skyline), same DEMs and ray steps; both float64. Bundle also reports an interval-based value (bisection-refined crossings) shown in brackets.",
+  "both_pct": "Same as Sun %.",
+  "longest_gap_h": "Bundle: longest run of hidden hourly samples (interval value from refined crossings in brackets). Batch: longest_sun_gap_steps from the 2026-11-14 run, which used float32 heights and was not re-run in float64.",
+  "clone_range": "Bundle carries no clone sweep (scenarios = []); the viewer takes the clone range from the batch float64 rerun via the certainty sidecar.",
+  "certainty_height": "Bundle carries no mast sweep (masts 1 m and 10 m are separate bundles); Certainty Height exists only in the batch sweep (masts listed).",
+  "coverage": "Different sampling. Bundle derived.coverage: the controlling skyline sample at the nearest 0.5 deg bin (720 bins, one ray per bin centre) is tested for source == 'near_5m' (near-field cut at the 5 m tile edge). Batch Coverage Gauge: controlling cell per hour at the body azimuth tested against the tile's inscribed radius. Bin snapping and the tile-edge test differ, so the two are expected to differ by a few points."
+ },
+ "inputs_sha256": {
+  "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv": "f0f0bf0890dcc2c06e96e9a3a0fcd2ea3925baeab305321e0ab243be23aad6c4",
+  "data/batch/2026-11-14/certainty_height/clone_sweep_summary.csv": "9c641206c8392f7bad15c2b65a4e7c2dd6211b946ba9df747239270a0e626112",
+  "data/batch/2026-11-14/certainty_height/coverage_gauge.json": "2b694deb51de8f979bbfdd33ca88195fca85885cc09c92f6555419db29d954b1",
+  "web/public/certainty/sidecar.json": "73792233b0c052f6afd42dd06c6ee4dd054034c55c103e29540f6db49eee2472",
+  "data/bundles/site01_roi6_2026-11-14_14d_mast1m.json": "3aff6b65ee1b4df9e8a2c599d377304365b65be54ac5b16050fa34b8513045c6",
+  "data/bundles/site04_roi3_2026-11-14_14d_mast1m.json": "061d7c0376069cc47034b22b130aaea23acca07a4bc286d9f9f1ea0866ad4deb"
+ },
+ "sites": {
+  "site01_roi6": {
+   "sun_pct": {
+    "bundle": 100.0,
+    "bundle_alt": 100.0,
+    "batch": 100.0,
+    "diff": 0.0
+   },
+   "both_pct": {
+    "bundle": 81.602,
+    "bundle_alt": 81.772,
+    "batch": 81.602,
+    "diff": 0.0
+   },
+   "longest_gap_h": {
+    "bundle": 0,
+    "bundle_alt": 0.0,
+    "batch": 0.0,
+    "diff": 0.0
+   },
+   "clone_range": {
+    "bundle": null,
+    "batch": [
+     100.0,
+     100.0
+    ],
+    "n_clones": 20
+   },
+   "certainty_height": {
+    "bundle": null,
+    "batch": {
+     "both_centre_pct": 1.0,
+     "sun_centre_pct": 1.0
+    },
+    "all_maps_100pct_sun_mast_m": 1.0,
+    "sampled_masts_m": [
+     1.0,
+     2.0,
+     3.0,
+     5.0,
+     7.0,
+     10.0,
+     15.0
+    ]
+   },
+   "coverage_sun_pct": {
+    "bundle": 9.5,
+    "batch": 11.0,
+    "diff": -1.5
+   },
+   "coverage_earth_pct": {
+    "bundle": 0.0,
+    "batch": 0.0,
+    "diff": 0.0
+   }
+  },
+  "site04_roi3": {
+   "sun_pct": {
+    "bundle": 94.362,
+    "bundle_alt": 94.213,
+    "batch": 94.362,
+    "diff": 0.0
+   },
+   "both_pct": {
+    "bundle": 72.107,
+    "bundle_alt": 71.912,
+    "batch": 72.107,
+    "diff": 0.0
+   },
+   "longest_gap_h": {
+    "bundle": 19,
+    "bundle_alt": 19.4434,
+    "batch": 21.0,
+    "diff": -2.0
+   },
+   "clone_range": {
+    "bundle": null,
+    "batch": [
+     87.537,
+     97.329
+    ],
+    "n_clones": 20
+   },
+   "certainty_height": {
+    "bundle": null,
+    "batch": {
+     "both_centre_pct": 1.0,
+     "sun_centre_pct": 1.0
+    },
+    "all_maps_100pct_sun_mast_m": 1.75,
+    "sampled_masts_m": [
+     1.0,
+     1.25,
+     1.5,
+     1.75,
+     2.0,
+     3.0,
+     5.0,
+     7.0,
+     10.0,
+     15.0
+    ]
+   },
+   "coverage_sun_pct": {
+    "bundle": 34.42,
+    "batch": 34.1,
+    "diff": 0.32
+   },
+   "coverage_earth_pct": {
+    "bundle": 61.13,
+    "batch": 58.5,
+    "diff": 2.63
+   }
+  }
+ }
+}

@@ -76,6 +76,8 @@ class DecisionCardTests(unittest.TestCase):
         bundle["derived"].pop("attribution")
         bundle["derived"].pop("coverage")
         bundle["metrics"].pop("longest_sun_center_hidden_h")
+        for key in ("certainty", "certainty_curve", "certainty_height_m"):
+            bundle["derived"].pop(key, None)
         card = build_card(bundle, bundle_path=SITE04.name, bundle_sha256=hashlib.sha256(raw).hexdigest())
         self.assertEqual(card["ridge_of_record"], [])
         self.assertNotIn("longest_sun_blocked_requirement", card)
@@ -99,7 +101,8 @@ class DecisionCardTests(unittest.TestCase):
         self.assertEqual(darkness["signed_margin"]["value"], 100.5566)
         self.assertTrue(darkness["pass"])
         self.assertIn("nominal only", darkness["clone_evidence"]["status"])
-        self.assertNotIn("certainty_height_m", card, "input bundle does not carry the requested 1.75 m result")
+        # A2 Certainty Height (science/certainty.py, ported from a-science 0252b36): nominal + 20 clones all at 100 % Sun centre.
+        self.assertEqual(card["certainty_height_m"], {"value": 1.75, "source_path": "derived.certainty_height_m"})
 
     def test_max_darkness_is_an_explicit_team_requirement(self):
         raw = SITE04.read_bytes()

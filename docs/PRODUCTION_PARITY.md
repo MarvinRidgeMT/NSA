@@ -16,6 +16,7 @@ Date: 14 Nov 2026, 20:44–20:52 EST. Machine: Anish's Mac (repo `~/Downloads/PO
 | Ridges of record | R3 (Sun 19 h), R1 (Earth 41 h, 127.7–129.6 km), R2 (Earth 34 h) | same |
 | Guided demo button, surface-layer picker | present | present |
 | Load errors | none | none |
+> E1 (15 Nov 2026), Site04 RoI 3 1 m batch-v2 values quoted above (93.77 / 71.22 / 87.2–97.0): float32 heights, superseded by the float64 rerun (94.36 / 72.11 / 87.54–97.33).
 Note: the browser had cached the old `index.html` on 4173; a cache-bypassing reload served the new build (server confirmed by fetching `/index.html` with `cache: no-store`).
 
 ## Not checked

@@ -3,7 +3,7 @@
  "cube_id": "site04_roi3-sensitivity-v1",
  "site_id": "site04_roi3",
  "title": "What matters: sensitivity indices + emulator re-check",
- "label": "SOURCE-BASED \u00b7 UNVALIDATED",
+ "label": "SOURCE-BASED · UNVALIDATED",
  "generated_utc": "2026-11-16T06:54:15Z",
  "description": "Exact full-factorial variance shares of Sun %, Sun+Earth % and longest Sun gap over the committed cubes; top-level cells are the position emulator candidates re-checked with the full solver.",
  "fixed": {
@@ -540,7 +540,7 @@
     }
    },
    "method": "Emulator = coarse surrogate skyline (step17 settings: 180 bins, 5 m step to 3 km, 80 m beyond) + Gaussian-process correction of the full-minus-coarse hourly margins over position (Matern 5/2, 81-cell training grid, LOO-selected). Window metrics from emulated hourly flags with the cube window helper. Candidates ranked by emulated 12-month Sun % on a 12.5 m lattice; the top picks and random lattice points re-checked with the full solver on all 21 maps.",
-   "caveat": "SURROGATE for search only: rank and error from the re-check, nominal map, mast 1 m; it is not a solver and its numbers are not results. Re-checked values are full-solver geometry, SOURCE-BASED \u00b7 UNVALIDATED."
+   "caveat": "SURROGATE for search only: rank and error from the re-check, nominal map, mast 1 m; it is not a solver and its numbers are not results. Re-checked values are full-solver geometry, SOURCE-BASED · UNVALIDATED."
   },
   "sobol__centre__sun_pct": {
    "dims": [],
@@ -697,7 +697,7 @@
     },
     "interaction_pct__T_x_D_mast": {
      "units": "% of variance",
-     "label": "Sun %: interaction T\u00d7D_mast",
+     "label": "Sun %: interaction T×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
@@ -707,7 +707,7 @@
     },
     "interaction_pct__T_x_S": {
      "units": "% of variance",
-     "label": "Sun %: interaction T\u00d7S",
+     "label": "Sun %: interaction T×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
@@ -717,7 +717,7 @@
     },
     "interaction_pct__D_mast_x_S": {
      "units": "% of variance",
-     "label": "Sun %: interaction D_mast\u00d7S",
+     "label": "Sun %: interaction D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
@@ -727,7 +727,7 @@
     },
     "interaction_pct__T_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Sun %: interaction T\u00d7D_mast\u00d7S",
+     "label": "Sun %: interaction T×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
@@ -894,7 +894,7 @@
     },
     "interaction_pct__T_x_D_mast": {
      "units": "% of variance",
-     "label": "Sun+Earth %: interaction T\u00d7D_mast",
+     "label": "Sun+Earth %: interaction T×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
@@ -904,7 +904,7 @@
     },
     "interaction_pct__T_x_S": {
      "units": "% of variance",
-     "label": "Sun+Earth %: interaction T\u00d7S",
+     "label": "Sun+Earth %: interaction T×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
@@ -914,7 +914,7 @@
     },
     "interaction_pct__D_mast_x_S": {
      "units": "% of variance",
-     "label": "Sun+Earth %: interaction D_mast\u00d7S",
+     "label": "Sun+Earth %: interaction D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
@@ -924,7 +924,7 @@
     },
     "interaction_pct__T_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Sun+Earth %: interaction T\u00d7D_mast\u00d7S",
+     "label": "Sun+Earth %: interaction T×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
@@ -1091,7 +1091,7 @@
     },
     "interaction_pct__T_x_D_mast": {
      "units": "% of variance",
-     "label": "Longest Sun gap: interaction T\u00d7D_mast",
+     "label": "Longest Sun gap: interaction T×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
@@ -1101,7 +1101,7 @@
     },
     "interaction_pct__T_x_S": {
      "units": "% of variance",
-     "label": "Longest Sun gap: interaction T\u00d7S",
+     "label": "Longest Sun gap: interaction T×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
@@ -1111,7 +1111,7 @@
     },
     "interaction_pct__D_mast_x_S": {
      "units": "% of variance",
-     "label": "Longest Sun gap: interaction D_mast\u00d7S",
+     "label": "Longest Sun gap: interaction D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
@@ -1121,7 +1121,7 @@
     },
     "interaction_pct__T_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Longest Sun gap: interaction T\u00d7D_mast\u00d7S",
+     "label": "Longest Sun gap: interaction T×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
@@ -1288,7 +1288,7 @@
     },
     "interaction_pct__T_x_D_pos": {
      "units": "% of variance",
-     "label": "Sun %: interaction T\u00d7D_pos",
+     "label": "Sun %: interaction T×D_pos",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
@@ -1298,7 +1298,7 @@
     },
     "interaction_pct__T_x_S": {
      "units": "% of variance",
-     "label": "Sun %: interaction T\u00d7S",
+     "label": "Sun %: interaction T×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
@@ -1308,7 +1308,7 @@
     },
     "interaction_pct__D_pos_x_S": {
      "units": "% of variance",
-     "label": "Sun %: interaction D_pos\u00d7S",
+     "label": "Sun %: interaction D_pos×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
@@ -1318,7 +1318,7 @@
     },
     "interaction_pct__T_x_D_pos_x_S": {
      "units": "% of variance",
-     "label": "Sun %: interaction T\u00d7D_pos\u00d7S",
+     "label": "Sun %: interaction T×D_pos×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
@@ -1485,7 +1485,7 @@
     },
     "interaction_pct__T_x_D_pos": {
      "units": "% of variance",
-     "label": "Sun+Earth %: interaction T\u00d7D_pos",
+     "label": "Sun+Earth %: interaction T×D_pos",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
@@ -1495,7 +1495,7 @@
     },
     "interaction_pct__T_x_S": {
      "units": "% of variance",
-     "label": "Sun+Earth %: interaction T\u00d7S",
+     "label": "Sun+Earth %: interaction T×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
@@ -1505,7 +1505,7 @@
     },
     "interaction_pct__D_pos_x_S": {
      "units": "% of variance",
-     "label": "Sun+Earth %: interaction D_pos\u00d7S",
+     "label": "Sun+Earth %: interaction D_pos×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
@@ -1515,7 +1515,7 @@
     },
     "interaction_pct__T_x_D_pos_x_S": {
      "units": "% of variance",
-     "label": "Sun+Earth %: interaction T\u00d7D_pos\u00d7S",
+     "label": "Sun+Earth %: interaction T×D_pos×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
@@ -1682,7 +1682,7 @@
     },
     "interaction_pct__T_x_D_pos": {
      "units": "% of variance",
-     "label": "Longest Sun gap: interaction T\u00d7D_pos",
+     "label": "Longest Sun gap: interaction T×D_pos",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
@@ -1692,7 +1692,7 @@
     },
     "interaction_pct__T_x_S": {
      "units": "% of variance",
-     "label": "Longest Sun gap: interaction T\u00d7S",
+     "label": "Longest Sun gap: interaction T×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
@@ -1702,7 +1702,7 @@
     },
     "interaction_pct__D_pos_x_S": {
      "units": "% of variance",
-     "label": "Longest Sun gap: interaction D_pos\u00d7S",
+     "label": "Longest Sun gap: interaction D_pos×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
@@ -1712,7 +1712,7 @@
     },
     "interaction_pct__T_x_D_pos_x_S": {
      "units": "% of variance",
-     "label": "Longest Sun gap: interaction T\u00d7D_pos\u00d7S",
+     "label": "Longest Sun gap: interaction T×D_pos×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
@@ -1849,7 +1849,7 @@
     },
     "interaction_pct__T_x_D_mast": {
      "units": "% of variance",
-     "label": "Sun %: interaction T\u00d7D_mast",
+     "label": "Sun %: interaction T×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
@@ -1986,7 +1986,7 @@
     },
     "interaction_pct__T_x_D_mast": {
      "units": "% of variance",
-     "label": "Sun+Earth %: interaction T\u00d7D_mast",
+     "label": "Sun+Earth %: interaction T×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
@@ -2123,7 +2123,7 @@
     },
     "interaction_pct__T_x_D_mast": {
      "units": "% of variance",
-     "label": "Longest Sun gap: interaction T\u00d7D_mast",
+     "label": "Longest Sun gap: interaction T×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
@@ -2260,7 +2260,7 @@
     },
     "interaction_pct__T_x_D_pos": {
      "units": "% of variance",
-     "label": "Sun %: interaction T\u00d7D_pos",
+     "label": "Sun %: interaction T×D_pos",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
@@ -2397,7 +2397,7 @@
     },
     "interaction_pct__T_x_D_pos": {
      "units": "% of variance",
-     "label": "Sun+Earth %: interaction T\u00d7D_pos",
+     "label": "Sun+Earth %: interaction T×D_pos",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
@@ -2534,7 +2534,7 @@
     },
     "interaction_pct__T_x_D_pos": {
      "units": "% of variance",
-     "label": "Longest Sun gap: interaction T\u00d7D_pos",
+     "label": "Longest Sun gap: interaction T×D_pos",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
@@ -2731,7 +2731,7 @@
     },
     "interaction_pct__T_x_D_array": {
      "units": "% of variance",
-     "label": "Minimum state of charge with a 10 kWh battery: interaction T\u00d7D_array",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_array",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
@@ -2741,7 +2741,7 @@
     },
     "interaction_pct__T_x_D_mast": {
      "units": "% of variance",
-     "label": "Minimum state of charge with a 10 kWh battery: interaction T\u00d7D_mast",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
@@ -2751,7 +2751,7 @@
     },
     "interaction_pct__T_x_S": {
      "units": "% of variance",
-     "label": "Minimum state of charge with a 10 kWh battery: interaction T\u00d7S",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
@@ -2761,7 +2761,7 @@
     },
     "interaction_pct__D_array_x_D_mast": {
      "units": "% of variance",
-     "label": "Minimum state of charge with a 10 kWh battery: interaction D_array\u00d7D_mast",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction D_array×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
@@ -2771,7 +2771,7 @@
     },
     "interaction_pct__D_array_x_S": {
      "units": "% of variance",
-     "label": "Minimum state of charge with a 10 kWh battery: interaction D_array\u00d7S",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction D_array×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
@@ -2781,7 +2781,7 @@
     },
     "interaction_pct__D_mast_x_S": {
      "units": "% of variance",
-     "label": "Minimum state of charge with a 10 kWh battery: interaction D_mast\u00d7S",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
@@ -2791,7 +2791,7 @@
     },
     "interaction_pct__T_x_D_array_x_D_mast": {
      "units": "% of variance",
-     "label": "Minimum state of charge with a 10 kWh battery: interaction T\u00d7D_array\u00d7D_mast",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_array×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
@@ -2801,7 +2801,7 @@
     },
     "interaction_pct__T_x_D_array_x_S": {
      "units": "% of variance",
-     "label": "Minimum state of charge with a 10 kWh battery: interaction T\u00d7D_array\u00d7S",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_array×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
@@ -2811,7 +2811,7 @@
     },
     "interaction_pct__T_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Minimum state of charge with a 10 kWh battery: interaction T\u00d7D_mast\u00d7S",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
@@ -2821,7 +2821,7 @@
     },
     "interaction_pct__D_array_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Minimum state of charge with a 10 kWh battery: interaction D_array\u00d7D_mast\u00d7S",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction D_array×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
@@ -2831,7 +2831,7 @@
     },
     "interaction_pct__T_x_D_array_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Minimum state of charge with a 10 kWh battery: interaction T\u00d7D_array\u00d7D_mast\u00d7S",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_array×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
@@ -3028,7 +3028,7 @@
     },
     "interaction_pct__T_x_D_array": {
      "units": "% of variance",
-     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T\u00d7D_array",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_array",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
@@ -3038,7 +3038,7 @@
     },
     "interaction_pct__T_x_D_mast": {
      "units": "% of variance",
-     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T\u00d7D_mast",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
@@ -3048,7 +3048,7 @@
     },
     "interaction_pct__T_x_S": {
      "units": "% of variance",
-     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T\u00d7S",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
@@ -3058,7 +3058,7 @@
     },
     "interaction_pct__D_array_x_D_mast": {
      "units": "% of variance",
-     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_array\u00d7D_mast",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_array×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
@@ -3068,7 +3068,7 @@
     },
     "interaction_pct__D_array_x_S": {
      "units": "% of variance",
-     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_array\u00d7S",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_array×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
@@ -3078,7 +3078,7 @@
     },
     "interaction_pct__D_mast_x_S": {
      "units": "% of variance",
-     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_mast\u00d7S",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
@@ -3088,7 +3088,7 @@
     },
     "interaction_pct__T_x_D_array_x_D_mast": {
      "units": "% of variance",
-     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T\u00d7D_array\u00d7D_mast",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_array×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
@@ -3098,7 +3098,7 @@
     },
     "interaction_pct__T_x_D_array_x_S": {
      "units": "% of variance",
-     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T\u00d7D_array\u00d7S",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_array×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
@@ -3108,7 +3108,7 @@
     },
     "interaction_pct__T_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T\u00d7D_mast\u00d7S",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
@@ -3118,7 +3118,7 @@
     },
     "interaction_pct__D_array_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_array\u00d7D_mast\u00d7S",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_array×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
@@ -3128,7 +3128,7 @@
     },
     "interaction_pct__T_x_D_array_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T\u00d7D_array\u00d7D_mast\u00d7S",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_array×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
@@ -3325,7 +3325,7 @@
     },
     "interaction_pct__T_x_D_array": {
      "units": "% of variance",
-     "label": "Battery capacity needed to stay at or above the reserve: interaction T\u00d7D_array",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_array",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
@@ -3335,7 +3335,7 @@
     },
     "interaction_pct__T_x_D_mast": {
      "units": "% of variance",
-     "label": "Battery capacity needed to stay at or above the reserve: interaction T\u00d7D_mast",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
@@ -3345,7 +3345,7 @@
     },
     "interaction_pct__T_x_S": {
      "units": "% of variance",
-     "label": "Battery capacity needed to stay at or above the reserve: interaction T\u00d7S",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
@@ -3355,7 +3355,7 @@
     },
     "interaction_pct__D_array_x_D_mast": {
      "units": "% of variance",
-     "label": "Battery capacity needed to stay at or above the reserve: interaction D_array\u00d7D_mast",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction D_array×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
@@ -3365,7 +3365,7 @@
     },
     "interaction_pct__D_array_x_S": {
      "units": "% of variance",
-     "label": "Battery capacity needed to stay at or above the reserve: interaction D_array\u00d7S",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction D_array×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
@@ -3375,7 +3375,7 @@
     },
     "interaction_pct__D_mast_x_S": {
      "units": "% of variance",
-     "label": "Battery capacity needed to stay at or above the reserve: interaction D_mast\u00d7S",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
@@ -3385,7 +3385,7 @@
     },
     "interaction_pct__T_x_D_array_x_D_mast": {
      "units": "% of variance",
-     "label": "Battery capacity needed to stay at or above the reserve: interaction T\u00d7D_array\u00d7D_mast",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_array×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
@@ -3395,7 +3395,7 @@
     },
     "interaction_pct__T_x_D_array_x_S": {
      "units": "% of variance",
-     "label": "Battery capacity needed to stay at or above the reserve: interaction T\u00d7D_array\u00d7S",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_array×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
@@ -3405,7 +3405,7 @@
     },
     "interaction_pct__T_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Battery capacity needed to stay at or above the reserve: interaction T\u00d7D_mast\u00d7S",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
@@ -3415,7 +3415,7 @@
     },
     "interaction_pct__D_array_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Battery capacity needed to stay at or above the reserve: interaction D_array\u00d7D_mast\u00d7S",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction D_array×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
@@ -3425,7 +3425,7 @@
     },
     "interaction_pct__T_x_D_array_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Battery capacity needed to stay at or above the reserve: interaction T\u00d7D_array\u00d7D_mast\u00d7S",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_array×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
@@ -3622,7 +3622,7 @@
     },
     "interaction_pct__T_x_D_array": {
      "units": "% of variance",
-     "label": "Load not served with a 10 kWh battery: interaction T\u00d7D_array",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_array",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
@@ -3632,7 +3632,7 @@
     },
     "interaction_pct__T_x_D_mast": {
      "units": "% of variance",
-     "label": "Load not served with a 10 kWh battery: interaction T\u00d7D_mast",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
@@ -3642,7 +3642,7 @@
     },
     "interaction_pct__T_x_S": {
      "units": "% of variance",
-     "label": "Load not served with a 10 kWh battery: interaction T\u00d7S",
+     "label": "Load not served with a 10 kWh battery: interaction T×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
@@ -3652,7 +3652,7 @@
     },
     "interaction_pct__D_array_x_D_mast": {
      "units": "% of variance",
-     "label": "Load not served with a 10 kWh battery: interaction D_array\u00d7D_mast",
+     "label": "Load not served with a 10 kWh battery: interaction D_array×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
@@ -3662,7 +3662,7 @@
     },
     "interaction_pct__D_array_x_S": {
      "units": "% of variance",
-     "label": "Load not served with a 10 kWh battery: interaction D_array\u00d7S",
+     "label": "Load not served with a 10 kWh battery: interaction D_array×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
@@ -3672,7 +3672,7 @@
     },
     "interaction_pct__D_mast_x_S": {
      "units": "% of variance",
-     "label": "Load not served with a 10 kWh battery: interaction D_mast\u00d7S",
+     "label": "Load not served with a 10 kWh battery: interaction D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
@@ -3682,7 +3682,7 @@
     },
     "interaction_pct__T_x_D_array_x_D_mast": {
      "units": "% of variance",
-     "label": "Load not served with a 10 kWh battery: interaction T\u00d7D_array\u00d7D_mast",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_array×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
@@ -3692,7 +3692,7 @@
     },
     "interaction_pct__T_x_D_array_x_S": {
      "units": "% of variance",
-     "label": "Load not served with a 10 kWh battery: interaction T\u00d7D_array\u00d7S",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_array×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
@@ -3702,7 +3702,7 @@
     },
     "interaction_pct__T_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Load not served with a 10 kWh battery: interaction T\u00d7D_mast\u00d7S",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
@@ -3712,7 +3712,7 @@
     },
     "interaction_pct__D_array_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Load not served with a 10 kWh battery: interaction D_array\u00d7D_mast\u00d7S",
+     "label": "Load not served with a 10 kWh battery: interaction D_array×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
@@ -3722,7 +3722,7 @@
     },
     "interaction_pct__T_x_D_array_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Load not served with a 10 kWh battery: interaction T\u00d7D_array\u00d7D_mast\u00d7S",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_array×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
@@ -3919,7 +3919,7 @@
     },
     "interaction_pct__T_x_D_array": {
      "units": "% of variance",
-     "label": "Mean array power over the window: interaction T\u00d7D_array",
+     "label": "Mean array power over the window: interaction T×D_array",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
@@ -3929,7 +3929,7 @@
     },
     "interaction_pct__T_x_D_mast": {
      "units": "% of variance",
-     "label": "Mean array power over the window: interaction T\u00d7D_mast",
+     "label": "Mean array power over the window: interaction T×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
@@ -3939,7 +3939,7 @@
     },
     "interaction_pct__T_x_S": {
      "units": "% of variance",
-     "label": "Mean array power over the window: interaction T\u00d7S",
+     "label": "Mean array power over the window: interaction T×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
@@ -3949,7 +3949,7 @@
     },
     "interaction_pct__D_array_x_D_mast": {
      "units": "% of variance",
-     "label": "Mean array power over the window: interaction D_array\u00d7D_mast",
+     "label": "Mean array power over the window: interaction D_array×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
@@ -3959,7 +3959,7 @@
     },
     "interaction_pct__D_array_x_S": {
      "units": "% of variance",
-     "label": "Mean array power over the window: interaction D_array\u00d7S",
+     "label": "Mean array power over the window: interaction D_array×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
@@ -3969,7 +3969,7 @@
     },
     "interaction_pct__D_mast_x_S": {
      "units": "% of variance",
-     "label": "Mean array power over the window: interaction D_mast\u00d7S",
+     "label": "Mean array power over the window: interaction D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
@@ -3979,7 +3979,7 @@
     },
     "interaction_pct__T_x_D_array_x_D_mast": {
      "units": "% of variance",
-     "label": "Mean array power over the window: interaction T\u00d7D_array\u00d7D_mast",
+     "label": "Mean array power over the window: interaction T×D_array×D_mast",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
@@ -3989,7 +3989,7 @@
     },
     "interaction_pct__T_x_D_array_x_S": {
      "units": "% of variance",
-     "label": "Mean array power over the window: interaction T\u00d7D_array\u00d7S",
+     "label": "Mean array power over the window: interaction T×D_array×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
@@ -3999,7 +3999,7 @@
     },
     "interaction_pct__T_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Mean array power over the window: interaction T\u00d7D_mast\u00d7S",
+     "label": "Mean array power over the window: interaction T×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
@@ -4009,7 +4009,7 @@
     },
     "interaction_pct__D_array_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Mean array power over the window: interaction D_array\u00d7D_mast\u00d7S",
+     "label": "Mean array power over the window: interaction D_array×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
@@ -4019,7 +4019,7 @@
     },
     "interaction_pct__T_x_D_array_x_D_mast_x_S": {
      "units": "% of variance",
-     "label": "Mean array power over the window: interaction T\u00d7D_array\u00d7D_mast\u00d7S",
+     "label": "Mean array power over the window: interaction T×D_array×D_mast×S",
      "dtype": "float64",
      "decimals": 1,
      "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
@@ -4036,18 +4036,18 @@
   "inputs": [
    {
     "path": "data/cubes/site04_roi3/centre_mast_schedule.json.gz",
-    "sha256": "e69f17ca2a2d6028e1bb3841bf00c992275d2662f2ac5689e2e0a16784ac4895",
-    "note": "committed scenario cube (decomposed)"
+    "sha256": "f87690e3be1de43092ec983f51e42aac2cd52327ec8b9ce7d97925f59ea22a4d",
+    "note": "committed scenario cube (decomposed) [hash refreshed: main 8dde4f1 added derived.certainty* to the bundles; metrics, samples, site and margin_series identical (checked)]"
    },
    {
     "path": "data/cubes/site04_roi3/position_schedule.json.gz",
-    "sha256": "7074bd347153ddb0c20011eb46d34db2bc26255d99646ba4429912dab1c07ae5",
-    "note": "committed scenario cube (decomposed)"
+    "sha256": "c8ab8480890d89962a769c576b092360ee8bd56dbdd43d09b6fb7db78a81e910",
+    "note": "committed scenario cube (decomposed) [hash refreshed: main 8dde4f1 added derived.certainty* to the bundles; metrics, samples, site and margin_series identical (checked)]"
    },
    {
     "path": "data/cubes/site04_roi3/energy.json.gz",
-    "sha256": "e0dae1c37f1d0384e3068413caa559772568b909643b4bc57f9b0cc25d74bede",
-    "note": "energy cube (Phase 5)"
+    "sha256": "302d7f75f33353d42aa63c681bf744bc5257c7206dac68cc21b329b171907034",
+    "note": "energy cube (Phase 5) [hash refreshed: main 8dde4f1 added derived.certainty* to the bundles; metrics, samples, site and margin_series identical (checked)]"
    },
    {
     "path": "data/cache/cube_horizons/site04_roi3_sun_year_20261114.txt",
