@@ -81,8 +81,10 @@ label parser is tested on a few labels only. This is a known gap, not done.
 ### 2.5 Held-out split
 - Split by **image** (product id), never by row, so one image is never in both sets through two sites.
 - Each image's primary row is its site with the largest overlap (ties: site order above). Its stratum is that row's stratum.
-- Within each stratum, eligible images (not `prior_use`) are ranked by SHA-256 of `"polaris-x-v2-heldout-2026-11-16:" + product_id`;
-  the first round-half-up(0.3 × n) are held out. `prior_use` images are always in the development set.
+- Eligible images (not `prior_use`) are sorted by (stratum, SHA-256 of `"polaris-x-v2-heldout-2026-11-16:" + product_id`) and
+  held out by systematic sampling: image i (0-based) is held out iff ⌊(i+1)·0.3⌋ > ⌊i·0.3⌋. This gives ⌊0.3 N⌋ overall and
+  0.3 n ± 1 in every stratum. (Changed during coding from "round-half-up(0.3 n) per stratum", which holds out nothing in the many
+  1-image strata and so falls well below 30 % overall.) `prior_use` images are always in the development set.
 - The seed string is fixed in code and in the protocol. The split is a pure function of the catalogue; a test re-derives it.
 
 ### 2.6 Output format

@@ -18,7 +18,7 @@ from science import horizons as hz
 
 from .http_cache import CACHE_ROOT, PoliteCache, canonical_url
 
-BATCH = 80
+BATCH = 150  # TLIST entries per request (~4 KB GET URL)
 
 
 def parse_utc(s):

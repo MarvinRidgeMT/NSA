@@ -30,6 +30,10 @@ def url_key(url):
     return hashlib.sha256(url.encode('utf-8')).hexdigest()[:24]
 
 
+class BlockedError(RuntimeError):
+    """The archive answered with an HTML page (rejection, login or terms) instead of data."""
+
+
 def _requests_transport(url, timeout):
     import requests
     r = requests.get(url, timeout=timeout, headers={'User-Agent': USER_AGENT})
@@ -80,6 +84,10 @@ class PoliteCache:
                 self.sleep(5.0 * (k + 1))
         else:  # pragma: no cover
             raise err
+        if ext != 'html' and body.lstrip()[:200].lower().startswith((b'<html', b'<!doctype html')):
+            # An HTML page where data was expected is a rejection/login/error page (seen once from
+            # JAXA DARTS, 16 Nov 2026: "Request Rejected"). Never cache it, never retry around it.
+            raise BlockedError(f'HTML page instead of {ext} from {host}; not cached, not retried: {url}')
         self.dir.mkdir(parents=True, exist_ok=True)
         tmp = p.with_suffix(p.suffix + '.partial')
         tmp.write_bytes(body)
