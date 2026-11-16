@@ -58,7 +58,29 @@ def _nmad(d):
 
 
 def estimate(spec, ref_spec, max_shift_px=MAX_SHIFT_PX, max_points=MAX_POINTS):
+    """Shift of `spec` relative to `ref_spec`. The comparison is always made at the coarser posting: if the reference
+    is finer (e.g. PGDA 90 80 m vs LOLA LDEM_85S 10 m), the roles are swapped and the result negated
+    (G(x) ~ P(x + d) - dz  <=>  P(x) ~ G(x - d) + dz), which requires both grids to be of the same kind."""
     rd, rg = PP.ProductReader(spec), PP.ProductReader(ref_spec)
+    swap = rg.native_px_m() < rd.native_px_m() / 1.01
+    if swap:
+        same = rd.kind == rg.kind
+        rd.close(); rg.close()
+        if not same:
+            return None
+        r = estimate(ref_spec, spec, max_shift_px, max_points)
+        if r is None:
+            return None
+        for k in ('dx', 'dy', 'dz', 'dx_ref_px', 'dy_ref_px', 'dz_zero_shift_m'):
+            r[k] = -r[k]
+        lola = spec.source_id in LOLA_FAMILY
+        r.update({'reference': ref_spec.product_id, 'reference_source_id': ref_spec.source_id,
+                  'compared_at': f'{spec.product_id} posting (reference block-averaged; roles swapped, signs negated)',
+                  'applied': bool(r['significant'] and not lola),
+                  'policy': ('LOLA-family product: logged, never applied' if lola else
+                             f'applied if |dz| > {DZ_APPLY_M} m or |dxy| > {DXY_APPLY_PX} px'),
+                  'flag': ('LOLA-family shift above threshold: investigate' if (lola and r['significant']) else '')})
+        return r
     try:
         lat_f, lon_f = rd.footprint_latlon(200)
         xr, yr = rg.to_grid(lat_f, lon_f)
@@ -154,7 +176,10 @@ def choose_reference(spec, specs):
         if spec.source_id == sid:
             continue                     # a reference product family is not co-registered to itself
         if cands:
-            return sorted(cands, key=lambda s: s.native_res_m)[0]
+            # closest posting not finer than the product (compared at the product's or a coarser posting); else the
+            # coarsest finer one (largest overlap; the comparison is then made at the product's posting)
+            ge = [s for s in cands if s.native_res_m >= spec.native_res_m / 1.01]
+            return min(ge, key=lambda s: s.native_res_m) if ge else max(cands, key=lambda s: s.native_res_m)
     return None
 
 

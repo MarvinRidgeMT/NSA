@@ -152,9 +152,34 @@ def test_reader_eqc_metres(tmp_path):
     Z = np.repeat(lat_c[:, None], nx, axis=1)
     f = write_raster(tmp_path / 'e.tif', Z, -math.pi * PP.R, PP.R * math.radians(60), px, EQC)
     rd = PP.ProductReader(PP.ProductSpec('e', 6, f, px))
-    assert rd.kind == 'eqc' and rd.global_lon and not rd.lon360
+    assert rd.crs_kind == 'eqc' and rd.global_lon and not rd.lon360
     h, _, _ = rd.sample(np.array([10.125, -33.375]), np.array([45.0, -170.0]), px)
     assert np.allclose(h, [10.125, -33.375], atol=1e-4)
+
+
+def test_reader_pds_style_eqc_lon0_180_rounded_scale(tmp_path):
+    """GDAL's view of a LOLA LDEM_<ppd>_FLOAT.IMG: eqc with lon_0 = 180, x from -pi R to +pi R (= lon 0..360), pixel
+    size from the label's rounded MAP_SCALE. Columns must follow lon exactly (360 / width deg per pixel)."""
+    ppd = 4
+    px_rounded = round(PP.R * math.radians(1.0 / ppd), 3)          # the label value, rounded like 236.901
+    nx, ny = 360 * ppd, 180 * ppd
+    lon_c = (np.arange(nx) + 0.5) / ppd                              # 0..360 east
+    lat_c = 90 - (np.arange(ny) + 0.5) / ppd
+    Lo, La = np.meshgrid(lon_c, lat_c)
+    proj = '+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=180 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs'
+    f = write_raster(tmp_path / 'pds.tif', Lo / 100.0, -nx / 2 * px_rounded, ny / 2 * px_rounded, px_rounded, proj)
+    rd = PP.ProductReader(PP.ProductSpec('pds', 8, f, PP.R * math.radians(1.0 / ppd), units='km', scale=1.0, offset=0.0))
+    assert rd.crs_kind == 'eqc' and rd.kind == 'lonlat' and rd.lon360 and rd.global_lon
+    assert rd.px_x == 1.0 / ppd and rd.left == 0.0 and rd.top == 90.0
+    lon = np.array([10.125, 359.875, -0.125, -179.875, 0.125])
+    h, _, _ = rd.sample(np.zeros(5) + 0.125, lon, rd.native_px_m())
+    assert np.allclose(h / 10.0, PP.wrap_lon_360(lon), atol=1e-5)     # value lon/100 km -> lon*10 m
+
+
+def test_file_offset_overridden_by_spec():
+    # GDAL reports OFFSET = 1737.4 (km) for LOLA LDEMs; the spec's explicit offset 0 must win (heights, not radii)
+    spec = PP.ProductSpec('t', 7, '/dev/null', 5.0, units='km', scale=1.0, offset=0.0)
+    assert PP.convert_values(np.array([1.25]), spec, file_scale=1.0, file_offset=1737.4)[0] == pytest.approx(1250.0)
 
 
 def test_small_gap_fill_only():

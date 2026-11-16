@@ -66,26 +66,25 @@ def product_zone_bbox(spec, zone):
     Z = S.ZONES[zone]
     rd = reader(spec)
     lat, lon = rd.footprint_latlon(400)
-    pole_inside = None
+    poles = set()
     if rd.kind in ('sp', 'np'):
-        x0, y0 = 0.0, 0.0
-        inside = (rd.left <= x0 <= rd.left + rd.w * rd.px_x) and (rd.top - rd.h * rd.px_y <= y0 <= rd.top)
-        pole_inside = (-90.0 if rd.kind == 'sp' else 90.0) if inside else None
-    elif rd.kind in ('lonlat', 'eqc'):
-        top_lat = float(np.max(lat)); bot_lat = float(np.min(lat))
-        if rd.global_lon and top_lat >= 89.99:
-            pole_inside = 90.0
-        if rd.global_lon and bot_lat <= -89.99:
-            pole_inside = -90.0 if pole_inside is None else pole_inside
+        inside = (rd.left <= 0.0 <= rd.left + rd.w * rd.px_x) and (rd.top - rd.h * rd.px_y <= 0.0 <= rd.top)
+        if inside:
+            poles.add(-90.0 if rd.kind == 'sp' else 90.0)
+    elif rd.kind in ('lonlat', 'eqc') and rd.global_lon:
+        if float(np.max(lat)) >= 89.99:
+            poles.add(90.0)
+        if float(np.min(lat)) <= -89.99:
+            poles.add(-90.0)
     lat_lo, lat_hi = float(np.min(lat)), float(np.max(lat))
-    if pole_inside is not None:
-        lat_lo, lat_hi = min(lat_lo, pole_inside), max(lat_hi, pole_inside)
+    for p_ in poles:
+        lat_lo, lat_hi = min(lat_lo, p_), max(lat_hi, p_)
     if Z.kind == 'eq':
         lo, hi = max(lat_lo, -S.EQ_MAX_ABS_LAT), min(lat_hi, S.EQ_MAX_ABS_LAT)
         if hi <= lo:
             return None
         lons = PP.wrap_lon_180(lon)
-        if pole_inside is not None or rd.global_lon or (lons.max() - lons.min()) > 180:
+        if poles or rd.global_lon or (lons.max() - lons.min()) > 180:
             return (-180.0, lo, 180.0, hi)
         return (float(lons.min()), lo, float(lons.max()), hi)
     # polar zone
@@ -94,10 +93,10 @@ def product_zone_bbox(spec, zone):
     if zone == 'np' and lat_hi < S.POLAR_MIN_ABS_LAT:
         return None
     rho55 = 2 * S.R * math.tan(math.radians(90 - S.POLAR_MIN_ABS_LAT) / 2)
-    if pole_inside == (-90.0 if zone == 'sp' else 90.0) and rd.kind not in ('sp', 'np'):
+    if (-90.0 if zone == 'sp' else 90.0) in poles and rd.kind not in ('sp', 'np'):
         # cap from a lon/lat grid: the disc down to the product's edge latitude (or 55 deg)
-        edge = lat_hi if zone == 'sp' else lat_lo
-        edge = max(edge, -S.POLAR_MIN_ABS_LAT) if zone == 'sp' else min(edge, S.POLAR_MIN_ABS_LAT)
+        # the cap reaches the product's equator-side edge, but never beyond the zone limit (|lat| = 55)
+        edge = min(lat_hi, -S.POLAR_MIN_ABS_LAT) if zone == 'sp' else max(lat_lo, S.POLAR_MIN_ABS_LAT)
         rho = 2 * S.R * math.tan(math.radians(90 - abs(edge)) / 2)
         return (-rho, -rho, rho, rho)
     if rd.kind == zone:
@@ -144,6 +143,8 @@ def plan(zone, specs, max_level=S.MAX_LEVEL, bbox=None):
                     continue
             for t in tiles_for_bbox(zone, L, bb):
                 lvl.setdefault(t, set())
+        byid = {s.product_id: s for s in specs}
+        skipped = []
         for t in lvl:
             tb = Z.tile_bounds(L, *t)
             pad = PAD_PX * Z.pixel(L)
@@ -151,6 +152,20 @@ def plan(zone, specs, max_level=S.MAX_LEVEL, bbox=None):
             for pid, bb in boxes.items():
                 if bb[0] < tb[2] and bb[2] > tb[0] and bb[1] < tb[3] and bb[3] > tb[1]:
                     lvl[t].add(pid)
+            # Suppressed tile: the highest-priority product that covers the whole padded tile is too coarse for this
+            # level and nothing above it is fine -> the merge would be all NaN (it overlays everything with w = 1).
+            # Only for rectangular footprints in the zone's own grid kind, where the bbox IS the footprint.
+            for s in sorted((byid[p] for p in lvl[t]), key=lambda s: s.priority):
+                fine = reader(s).native_px_m() <= Z.pixel_m(L) * 1.01
+                if fine:
+                    break
+                bb = boxes[s.product_id]
+                own = reader(s).kind == zone or (Z.kind == 'eq' and reader(s).kind == 'lonlat')
+                if own and bb[0] <= tb[0] and bb[2] >= tb[2] and bb[1] <= tb[1] and bb[3] >= tb[3]:
+                    skipped.append(t)
+                    break
+        for t in skipped:
+            del lvl[t]
         if lvl:
             out[L] = {t: sorted(v) for t, v in lvl.items()}
     return out

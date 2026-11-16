@@ -167,15 +167,35 @@ class ProductReader:
         self.left, self.top = t.c, t.f
         self.h, self.w = self.ds.height, self.ds.width
         self.kind, self.params = classify_crs(self.ds.crs)
+        self.crs_kind = self.kind
         self.file_scale = (self.ds.scales or [1.0])[0]
         self.file_offset = (self.ds.offsets or [0.0])[0]
         self.nodata = spec.nodata if spec.nodata is not None else self.ds.nodata
-        # longitude convention of lon/lat-type grids (deg or eqc metres)
+        if self.kind == 'eqc':
+            # Re-express an equirectangular-metres grid (GDAL's view of PDS SIMPLE CYLINDRICAL) as an exact lon/lat
+            # grid: GDAL derives the metre transform from a rounded MAP_SCALE (e.g. 236.901 m for 128 ppd), so the
+            # degree grid is rebuilt from the pixel counts (global products: exactly 360 / width deg per pixel).
+            if abs(self.params['lat_ts']) > 1e-9:
+                raise ValueError('eqc with lat_ts != 0 unsupported')
+            lon_left = self.params['lon_0'] + math.degrees(self.left / R)
+            lon_right = self.params['lon_0'] + math.degrees((self.left + self.w * self.px_x) / R)
+            lat_top = math.degrees(self.top / R)
+            lat_bot = math.degrees((self.top - self.h * self.px_y) / R)
+            if abs((lon_right - lon_left) - 360.0) < 0.01:
+                lon_left = round(lon_left, 4); self.px_x = 360.0 / self.w
+            else:
+                self.px_x = (lon_right - lon_left) / self.w
+            if abs(lat_top - 90.0) < 0.01 and abs(lat_bot + 90.0) < 0.01:
+                lat_top = 90.0; self.px_y = 180.0 / self.h
+            else:
+                self.px_y = (lat_top - lat_bot) / self.h
+            self.left, self.top, self.kind = lon_left, lat_top, 'lonlat'
+        # longitude convention of lon/lat grids
         self.lon360 = False
         self.global_lon = False
-        if self.kind in ('lonlat', 'eqc'):
-            lon_left = self._x_to_lon(self.left)
-            lon_right = self._x_to_lon(self.left + self.w * self.px_x)
+        if self.kind == 'lonlat':
+            lon_left = self.left
+            lon_right = self.left + self.w * self.px_x
             self.lon360 = lon_right > 180.0 + 1e-6
             self.global_lon = abs((lon_right - lon_left) - 360.0) < 1e-6
         self._cache = {}
@@ -202,14 +222,9 @@ class ProductReader:
         if k == 'np':
             rho = 2 * R * np.tan(np.pi / 4 - np.radians(lat) / 2)
             return rho * np.sin(np.radians(lon)), -rho * np.cos(np.radians(lon))
-        lon = wrap_lon_360(lon) if self.lon360 else wrap_lon_180(lon)
         if k == 'lonlat':
-            return lon, lat
-        if k == 'eqc':
-            dl = lon - self.params['lon_0']
-            if self.lon360:
-                dl = np.mod(dl, 360.0)
-            return R * math.cos(math.radians(self.params['lat_ts'])) * np.radians(dl), R * np.radians(lat)
+            # longitude into [left, left + 360): 0..360 and -180..180 products alike, never by shifting pixels
+            return self.left + np.mod(lon - self.left, 360.0), lat
         raise ValueError(f'unsupported CRS kind {k}')
 
     def native_px_m(self):
@@ -490,14 +505,88 @@ def manifest_products(manifest=None):
     return specs, sorted(set(u for u in unknown if u))
 
 
+def parse_pds3_label(path):
+    """Flat KEY = value map of a PDS3 label (first occurrence wins; units in <..> and quotes stripped)."""
+    import re
+    out = {}
+    for line in Path(path).read_text(errors='replace').splitlines():
+        m = re.match(r'\s*\^?([A-Z_][A-Z0-9_:]*)\s*=\s*(.*?)\s*$', line)
+        if not m:
+            continue
+        k, v = m.group(1), m.group(2)
+        v = re.sub(r'<[^>]*>', '', v).strip().strip('"').strip("'").strip()
+        out.setdefault(k, v)
+    return out
+
+
+def _f(v):
+    return float(str(v).split()[0])
+
+
+def lola_pds_spec(entry, source_id_polar=7, source_id_global=8):
+    """LOLA GDR LDEM *_FLOAT.IMG (PDS3 label next to it). Checks the label before accepting: PC_REAL km heights
+    relative to 1737.4 km (DN * 1, the label's OFFSET 1737.4 is the radius of the reference sphere and is NOT added:
+    we store height above that sphere), 1737.4 km sphere, MEAN EARTH/POLAR AXIS frame. Returns None if the file is
+    incomplete (size differs from the manifest) or the label does not match."""
+    lp = entry.get('local_path', '')
+    if not lp.lower().endswith('.img'):
+        return None
+    img = polaris_data() / lp
+    lbl = img.with_suffix('.lbl')
+    if not lbl.exists():
+        lbl = img.with_suffix('.LBL')
+    if not img.exists() or not lbl.exists():
+        return None
+    if entry.get('bytes') is not None and img.stat().st_size != int(entry['bytes']):
+        return None
+    L = parse_pds3_label(lbl)
+    problems = []
+    if L.get('UNIT', '').upper() != 'KILOMETER':
+        problems.append(f"UNIT {L.get('UNIT')}")
+    if abs(_f(L.get('SCALING_FACTOR', '1')) - 1.0) > 1e-12:
+        problems.append('SCALING_FACTOR')
+    if abs(_f(L.get('OFFSET', '0')) - 1737.4) > 1e-9:
+        problems.append(f"OFFSET {L.get('OFFSET')}")
+    for ax in ('A_AXIS_RADIUS', 'B_AXIS_RADIUS', 'C_AXIS_RADIUS'):
+        if abs(_f(L.get(ax, '0')) - 1737.4) > 1e-9:
+            problems.append(ax)
+    if 'MEAN EARTH' not in L.get('COORDINATE_SYSTEM_NAME', '').upper():
+        problems.append(f"frame {L.get('COORDINATE_SYSTEM_NAME')}")
+    if L.get('SAMPLE_TYPE', '').upper() not in ('PC_REAL',):
+        problems.append(f"SAMPLE_TYPE {L.get('SAMPLE_TYPE')}")
+    if problems:
+        raise ValueError(f'{lbl}: label does not match the LOLA LDEM reader: {problems}')
+    polar = 'POLAR' in L.get('MAP_PROJECTION_TYPE', '').upper()
+    if polar:
+        native = _f(L['MAP_SCALE'])
+    else:
+        native = R * math.radians(1.0 / _f(L['MAP_RESOLUTION']))
+    pid = L.get('PRODUCT_ID', img.stem).lower()
+    return ProductSpec(f"{entry['product_id']}_{pid}", source_id_polar if polar else source_id_global, str(lbl), native,
+                       units='km', datum='height', scale=1.0, offset=0.0, frame='ME',
+                       version=f"{L.get('PRODUCT_ID')} {L.get('PRODUCT_VERSION_ID', '')} ({entry.get('product_version', '')})",
+                       url=entry.get('url', ''), sha256=entry.get('sha256', ''),
+                       notes=f"{L.get('MAP_PROJECTION_TYPE')}, {L.get('MINIMUM_LATITUDE')}..{L.get('MAXIMUM_LATITUDE')} deg, "
+                             f"height km rel. 1737.4 km sphere, {L.get('COORDINATE_SYSTEM_NAME')}")
+
+
 # product_id -> builder(entry, FILENAME) -> ProductSpec | None. Filled in as S2's products appear (their labels read
 # first; nothing here is guessed from a file name alone without the label).
-KNOWN_PRODUCTS = {}
+KNOWN_PRODUCTS = {
+    'lola_ldem_global': lambda e, fn: lola_pds_spec(e),
+    'lola_ldem_polar': lambda e, fn: lola_pds_spec(e),
+}
 
 
 def all_products(manifest=None):
+    """Local + manifest products, priority-sorted. Of the LOLA global LDEM only the finest complete file is kept
+    (the coarser files are the same altimetry gridded coarser; block-averaging the finest gives the coarse levels)."""
     specs = local_products()
     m, _ = manifest_products(manifest)
     have = {s.product_id for s in specs}
     specs += [s for s in m if s.product_id not in have]
+    glob_ = [s for s in specs if s.source_id == 8]
+    if len(glob_) > 1:
+        keep = min(glob_, key=lambda s: s.native_res_m)
+        specs = [s for s in specs if s.source_id != 8 or s is keep]
     return sorted(specs, key=lambda s: s.priority)

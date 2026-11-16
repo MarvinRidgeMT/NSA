@@ -128,6 +128,19 @@ def test_polar_zone_masks_below_55():
     assert np.isnan(arr[0][lat > -55]).all() and np.isfinite(arr[0][lat <= -55]).all()
 
 
+def test_global_product_footprint_covers_both_caps(tmp_path):
+    from globe_fixtures import LONLAT
+    Z = np.zeros((180, 360), np.float32)
+    f = write_raster(tmp_path / 'glob.tif', Z, 0.0, 90.0, 1.0, LONLAT)
+    spec = PP.ProductSpec('glob', 8, f, PP.R * math.radians(1.0))
+    rho55 = 2 * S.R * math.tan(math.radians(35) / 2)
+    for z in ('sp', 'np'):
+        bb = PY.product_zone_bbox(spec, z)
+        assert np.allclose(bb, (-rho55, -rho55, rho55, rho55), atol=1.0), (z, bb)
+    assert PY.product_zone_bbox(spec, 'eq') == (-180.0, -60.0, 180.0, 60.0)
+    assert len(PY.tiles_for_bbox('sp', 0, PY.product_zone_bbox(spec, 'sp'))) == 16
+
+
 # ------------------------------------------------------------------ co-registration
 def test_coreg_recovers_known_shift(tmp_path):
     # reference: smooth hills at 40 m; product: same surface at 10 m, shifted by (+30 m, -20 m) and +4 m

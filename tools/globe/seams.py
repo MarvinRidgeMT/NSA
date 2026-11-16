@@ -1,8 +1,8 @@
 """Seam QA for the science pyramid (prompt §2.2 item 4, plan §7).
 
 For every ordered product pair (hi = higher merge priority, lo) whose footprints overlap in a zone, on the grid of the
-level matching lo's native posting:
-  * hi is block-averaged to that posting (removes the resolution difference, leaves real disagreement);
+level matching the coarser of the two native postings:
+  * the finer product is block-averaged to that posting (removes the resolution difference, leaves real disagreement);
   * the seam band = pixels of hi within FEATHER_PX level pixels of hi's own valid-data edge where lo also has data
     (exactly where the merge blends the two);
   * delta = hi - lo in the band (after any applied co-registration).
@@ -71,8 +71,10 @@ def _stats(d):
             'rms_m': float(np.sqrt(np.mean(d * d)))}
 
 
-def pair_seam(hi, lo, zone, cells=None, feather_px=PY.FEATHER_PX):
-    """Seam statistics of (hi over lo) in one zone, or None if they do not meet there."""
+def pair_seam(hi, lo, zone, cells=None, feather_px=PY.FEATHER_PX, between=()):
+    """Seam statistics of (hi over lo) in one zone, or None if they do not meet there. `between`: products whose
+    priority lies between hi and lo; band pixels where any of them has data are excluded (there the merge blends hi
+    with that product, not with lo), so only seams that exist in the merge are judged."""
     Z = S.ZONES[zone]
     bh, bl = PY.product_zone_bbox(hi, zone), PY.product_zone_bbox(lo, zone)
     if bh is None or bl is None:
@@ -80,7 +82,7 @@ def pair_seam(hi, lo, zone, cells=None, feather_px=PY.FEATHER_PX):
     if not (bh[0] < bl[2] and bh[2] > bl[0] and bh[1] < bl[3] and bh[3] > bl[1]):
         return None
     rl, rh = PY.reader(lo), PY.reader(hi)
-    L = Z.level_for_res(rl.native_px_m())
+    L = Z.level_for_res(max(rl.native_px_m(), rh.native_px_m()))     # compare at the coarser posting
     p = Z.pixel(L)
     pad = feather_px + 2
     m = pad * p
@@ -100,6 +102,13 @@ def pair_seam(hi, lo, zone, cells=None, feather_px=PY.FEATHER_PX):
         h_lo, _, _ = rl.sample(lat, lon, Z.pixel_m(L))
         w = PY.feather_weight(vh, feather_px)
         band = vh & (w < 1.0) & np.isfinite(h_lo)
+        for mid in between:
+            if not band.any():
+                break
+            bm = PY.product_zone_bbox(mid, zone)
+            if bm is None:
+                continue
+            band &= ~np.isfinite(PY.reader(mid).sample(lat, lon, Z.pixel_m(L))[0])
         sl = (slice(pad, pad + Z.tile_px), slice(pad, pad + Z.tile_px))
         band = band[sl]
         if not band.any():
@@ -162,8 +171,9 @@ def run(zones=('sp', 'np', 'eq'), specs=None, root=None, write=True, maps=True, 
     pairs, cells = [], {}
     for zone in zones:
         for i, hi in enumerate(order):
-            for lo in order[i + 1:]:
-                st = pair_seam(hi, lo, zone, cells=cells)
+            for j in range(i + 1, len(order)):
+                lo = order[j]
+                st = pair_seam(hi, lo, zone, cells=cells, between=order[i + 1:j])
                 if st is not None:
                     pairs.append(st)
                     log(f"{zone} {hi.product_id} over {lo.product_id}: n={st['n']} median|d|={st['median_abs_m']:.2f} m "
