@@ -67,6 +67,17 @@ def at_point(S, dem, x, y):
     return float(S[r, c])
 
 
+def cell_window(S, dem, x0, y0, half_m):
+    """Copy of the slope field inside the square [x0 +- half_m] x [y0 +- half_m] (same pixel bounds as
+    region_share_below). Used to stack clone fields pixel-by-pixel; raises if the block leaves the tile."""
+    r0, c0 = pixel_of(dem, x0 - half_m, y0 + half_m)
+    r1, c1 = pixel_of(dem, x0 + half_m, y0 - half_m)
+    h, w = S.shape
+    if r0 < 0 or c0 < 0 or r1 > h or c1 > w or r1 <= r0 or c1 <= c0:
+        raise ValueError(f'window +-{half_m} m around ({x0:.1f}, {y0:.1f}) is outside the DEM tile')
+    return np.array(S[r0:r1, c0:c1], copy=True)
+
+
 def region_share_below(S, dem, x0, y0, half_m, limit_deg):
     r0, c0 = pixel_of(dem, x0 - half_m, y0 + half_m)
     r1, c1 = pixel_of(dem, x0 + half_m, y0 - half_m)
