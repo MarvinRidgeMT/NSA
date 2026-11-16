@@ -19,15 +19,23 @@ import { validateVisualLayers, type VisualLayer } from '../bundle/visualLayers';
 import { useSurface } from '../store/surface';
 import { albedoLayerFor } from '../components/SurfaceLayer';
 import { TerrainSurface } from './TerrainSurface';
+import { ExaggerationPicker } from '../components/SurfaceLayer';
 import { StableLine } from './StableLine';
 import GlobalMoon from './GlobalMoon';
 
 /**
  * Axes: bundle grid (x = grid east, y = grid north, z = up, metres) is drawn as
- * three.js (x, z, -y) with the observer at the origin. 1 unit = 1 m. NO vertical
- * exaggeration: the terrain looks flat because lunar polar terrain at this scale is.
+ * three.js (x, z, -y) with the observer at the origin. 1 unit = 1 m. Physical scale by default; the optional
+ * DISPLAY-ONLY vertical exaggeration (useUi.exaggeration) scales the drawn scene's up axis as one group, so every
+ * above/below relation between a sight line and the terrain is unchanged. Bundle numbers are never touched.
  */
 const toThree = (gx: number, gy: number, gz: number) => new THREE.Vector3(gx, gz, -gy);
+
+/** Where a sky body is drawn: its bundle direction with the up component scaled by the display exaggeration `k`, at `dist`.
+ * The scene group is scaled by k in the up axis, so this keeps the body on the same (exaggerated) sight line. */
+export function skyBodyPosition(dir: [number, number, number], k: number, dist: number): THREE.Vector3 {
+  return toThree(dir[0], dir[1], dir[2] * k).normalize().multiplyScalar(dist);
+}
 const MAX_AXIS = 401;
 /** soft radial glow texture for the Sun's corona sprite (display only) */
 const GLOW = (() => {
@@ -482,8 +490,11 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
   // Lighting mode (display only): 'display' keeps the bundle Sun azimuth but shows its elevation at >= 0.5 deg so the terrain
   // stays readable; 'true' uses the bundle elevation as is, and with the Sun below the horizon the key light is off.
   const trueLight = useUi((s) => s.trueLight);
+  const exag = useUi((s) => s.exaggeration);
   const mastPick = useUi((s) => s.mastPick);
   const camView = useCamera((s) => s.view);
+  // the mast-eye camera sits at the true eye height, so the eye view is always physical
+  const k = camView === 'mast' ? 1 : exag;
   const lightEl = trueLight ? v.sun.el : Math.max(v.sun.el, 0.5);
   const keyOn = !trueLight || v.sun.el > 0;
   const sunDir = gridDirection(v.basis, v.sun.az, Math.max(lightEl, 0.05));
@@ -509,7 +520,11 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
       const back = toward(viewAz + 180, H * 0.42);
       return { pos: back.setY(H * 0.14), target: toward(viewAz, H * 0.05).setY(-H * 0.02) };
     }
-    if (id === 'regional') return { pos: new THREE.Vector3(H * 0.95, H * 0.8, H * 0.95), target: new THREE.Vector3(0, 0, 0) };
+    // with the context pack the 'regional' view frames the 8 km 20 m ring around the 5 m crop (the crop alone is only 2 km wide)
+    if (id === 'regional')
+      return ctx
+        ? { pos: new THREE.Vector3(H * 2.9, H * 1.9, H * 2.9), target: new THREE.Vector3(0, -H * 0.15, 0) }
+        : { pos: new THREE.Vector3(H * 0.95, H * 0.8, H * 0.95), target: new THREE.Vector3(0, 0, 0) };
     // the 5 m crop inside its 80 m surroundings (only meaningful when the context pack is drawn)
     if (id === 'context') return ctx ? { pos: new THREE.Vector3(H * 6.5, H * 5.2, H * 6.5), target: new THREE.Vector3(0, 0, 0) } : null;
     if (id === 'overhead') {
@@ -544,10 +559,15 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
     return null;
   };
   // the Sun disc sits on the bundle's true Sun direction (az, el), far away; its light is clamped to >= 0.5 deg so the terrain stays readable
+  // Bodies are drawn BEYOND the drawn terrain (context reach ~16 km), so any drawn ridge can hide them; terrain past the drawn
+  // area (the solver looks 280 km out) cannot, so a body the bundle calls blocked is drawn as a faint "hidden direction" marker.
+  const skyDist = ctx ? Math.max(ctx.meta.displayReachM * 1.4, halfExtent * 6) : halfExtent * 6;
   const trueSun = gridDirection(v.basis, v.sun.az, v.sun.el);
-  const sunDisc = toThree(trueSun[0], trueSun[1], trueSun[2]).multiplyScalar(halfExtent * 6);
+  const sunDisc = skyBodyPosition(trueSun, k, skyDist);
   const trueEarth = gridDirection(v.basis, v.earth.az, v.earth.el);
-  const earthDisc = toThree(trueEarth[0], trueEarth[1], trueEarth[2]).multiplyScalar(halfExtent * 6);
+  const earthDisc = skyBodyPosition(trueEarth, k, skyDist);
+  const sunHidden = v.sun.visible === false;
+  const earthHidden = v.earth.visible === false;
   const S = halfExtent * 1.05;
   // with the regional context drawn the far plane must reach its corners (~23 km); display only
   const farPlane = ctx ? 90000 : halfExtent * 48; // the Overhead map view sits ~39 half-extents away (long lens)
@@ -583,19 +603,27 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
         shadow-camera-far={halfExtent * 5}
       />
       {/* Sun and Earth discs on their true bundle directions at their true angular sizes (Sun 0.53°, Earth ~1.9° from the Moon) */}
-      <mesh position={sunDisc}>
-        <sphereGeometry args={[halfExtent * 6 * Math.tan((0.2665 * Math.PI) / 180), 32, 32]} />
-        <meshBasicMaterial color="#fff6e6" toneMapped={false} />
+      <mesh position={sunDisc} renderOrder={sunHidden ? 2 : 0}>
+        <sphereGeometry args={[skyDist * Math.tan((0.2665 * Math.PI) / 180), 32, 32]} />
+        <meshBasicMaterial color="#fff6e6" toneMapped={false} transparent={sunHidden} opacity={sunHidden ? 0.28 : 1} depthWrite={!sunHidden} />
       </mesh>
-      <sprite position={sunDisc} scale={[halfExtent * 6 * 0.05, halfExtent * 6 * 0.05, 1]}>
-        <spriteMaterial map={GLOW} color="#ffd9a0" transparent opacity={0.55} depthWrite={false} toneMapped={false} blending={THREE.AdditiveBlending} />
-      </sprite>
-      {v.earth.el > -1.2 && (
-        <mesh position={earthDisc}>
-          <sphereGeometry args={[halfExtent * 6 * Math.tan((0.95 * Math.PI) / 180), 32, 32]} />
-          <meshBasicMaterial color="#7FA8DA" toneMapped={false} />
-        </mesh>
+      {!sunHidden && (
+        <sprite position={sunDisc} scale={[skyDist * 0.05, skyDist * 0.05, 1]}>
+          <spriteMaterial map={GLOW} color="#ffd9a0" transparent opacity={0.55} depthWrite={false} toneMapped={false} blending={THREE.AdditiveBlending} />
+        </sprite>
       )}
+      <mesh position={earthDisc} renderOrder={earthHidden ? 2 : 0}>
+        <sphereGeometry args={[skyDist * Math.tan((0.95 * Math.PI) / 180), 32, 32]} />
+        <meshBasicMaterial color="#7FA8DA" toneMapped={false} transparent={earthHidden} opacity={earthHidden ? 0.3 : 1} depthWrite={!earthHidden} />
+      </mesh>
+      {/* always mounted (mounting/unmounting drei Html during a render warns); shown only when the bundle says blocked */}
+      <Html position={sunDisc} center zIndexRange={[4, 0]} style={{ display: sunHidden && camView !== 'overhead' ? 'block' : 'none' }}>
+        <span className="tag3d hidden-body" data-testid="sun-hidden-marker" data-hidden={sunHidden}>Sun direction · hidden by terrain (bundle)</span>
+      </Html>
+      <Html position={earthDisc} center zIndexRange={[4, 0]} style={{ display: earthHidden && camView !== 'overhead' ? 'block' : 'none' }}>
+        <span className="tag3d hidden-body" data-testid="earth-hidden-marker" data-hidden={earthHidden}>Earth direction · hidden by terrain (bundle)</span>
+      </Html>
+      <group scale={[1, k, 1]}>
       {ctx ? (
         <TerrainSurface v={v} dem={dem} obs={obs} local={g} ctx={ctx} layer={layer} albedo={albedo} />
       ) : (
@@ -646,8 +674,12 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
           </ScreenSized>
         ) : null,
       )}
+      </group>
       <Html position={north} center>
         <span className="tag3d">local N</span>
+      </Html>
+      <Html position={north.clone().multiplyScalar(-1)} center style={{ display: k !== 1 ? 'block' : 'none' }}>
+        <span className="tag3d" data-testid="exaggeration-tag">vertical ×{k} · display only</span>
       </Html>
       <OrbitControls makeDefault target={[0, 0, 0]} maxPolarAngle={Math.PI * 0.495} enableDamping dampingFactor={0.08} minDistance={3} />
     </>
@@ -735,6 +767,8 @@ function DemScene({ v, active }: { v: View; active: boolean }) {
       >
         <Scene v={v} ctx={ctx} albedo={albedo} />
       </Canvas>
+      {/* display-only vertical exaggeration, overlaid on the stage (out of the layout flow) */}
+      {ctx && !globe && <ExaggerationPicker />}
       <SightLabels />
       {globe && (
         <GlobalMoon

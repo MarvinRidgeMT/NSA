@@ -59,7 +59,14 @@ export function MetricsPanel({ v }: { v: View }) {
     <section className="panel" aria-labelledby="mx-title">
       <div className="panel-head">
         <h2 id="mx-title">Metrics & constraints</h2>
-        <span className="src-tag bundle" data-testid="src-bundle">bundle · repo solver · nominal DEM</span>
+        <span className="src-tag bundle" data-testid="src-bundle">
+          bundle · repo solver ·{' '}
+          {v.series?.kind === 'dem_clone'
+            ? `PGDA 78 clone ${String(v.series.parameters?.clone ?? '?')}`
+            : v.series?.kind === 'position_offset'
+              ? `nominal DEM · observer moved (${String(v.series.parameters?.east_m ?? 0)} m E, ${String(v.series.parameters?.north_m ?? 0)} m N)`
+              : 'nominal DEM'}
+        </span>
         <span className="muted">
           {v.dataset.snapToSamples ? 'exact bundle sample (contract: no interpolation)' : v.br.exact === null ? 'margins interpolated between bundle samples' : 'exact bundle sample'}
         </span>

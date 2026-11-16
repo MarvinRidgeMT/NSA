@@ -172,6 +172,12 @@ export interface Scenario {
   failures: Failure[];
   skylineSummary?: { min_deg?: number; max_deg?: number; n_truncated?: number; n_range_limited?: number };
   events?: BundleEvent[];
+  /** position-offset scenarios: JPL samples for THIS observer point (same UTC times as the dataset); replaces the
+   * dataset ephemeris while this scenario drives the view */
+  ephemeris?: { note?: string; records?: { target: string; rawFile: string; sha256: string }[]; samples: EphemerisSample[] };
+  /** local-ENU basis at this scenario's observer point (position offsets) */
+  frame?: { localNorthInGrid?: [number, number]; localEastInGrid?: [number, number]; note?: string };
+  sourceBundle?: { file: string; sha256: string };
 }
 
 /* ---------- decision-evidence fields (additive; emitted by the science branch, read here) ----------

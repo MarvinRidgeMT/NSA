@@ -1058,3 +1058,15 @@ Cloud container (SwiftShader software WebGL): vitest 101/101; Playwright 69/86 i
 - Merged 6cc00c3 (b-experience up to 68621ac) and then ce03658 + 21d0f2a: Blender showcase v2 outputs, gallery, final report and next-work prompt. Neither merge changed any web/src code. Screenshots were taken from b-experience.
 - Isolated-worktree check of 6cc00c3 on the Mac (SwiftShader): vitest 101/101; Playwright 85/86 in the final full run. Each failure across runs was a different load or timing test (sight-sun, terrain-context, ux-regressions wheel scroll), and each passed when re-run alone (ux-regressions 9/9 with --repeat-each=3). `cold-launch.spec.ts` hard-codes port 4173, so it fails with POLARIS_PLAYWRIGHT_PORT set to anything else.
 - Status unchanged: SOURCE_BASED_UNVALIDATED.
+
+## 15 Nov 2026 ~21:00–22:00 ET — 5D scenario axis, Sun/Earth sky model, terrain framing (Claude, "5D model incomplete items" session)
+Details and numbers: `docs/5D_SCENARIO_AXIS.md`. Summary:
+- 21 new scenario bundles (3 PGDA 78 clones + 4 ±100 m offsets per ROI site), each fully recomputed with new skylines, new
+  JPL Horizons samples and refined crossings (`science/scenario_bundles.py`, `data/bundles/scenarios/`). ROI viewer export
+  now has 9 scenarios per site with deltas; baseline/mast10 byte-identical to before.
+- Web: offset scenarios use their own JPL samples and local basis (`withScenarioGeometry`); 5D table shows clones/offsets;
+  display-only vertical exaggeration (1–10×); Sun/Earth discs beyond the drawn terrain with "hidden by terrain" markers;
+  Regional view frames the 8 km ring.
+- Blender: true-angle Sun/Earth sky shell, ×5 sky chart with 5D skylines, mast-eye renders (`blender/sky_model.py`).
+- Terrain-size diagnosis: framing, not data (32 km × 32 km regional terrain with 4.6–4.8 km relief was only shown in one view).
+Release status unchanged: SOURCE_BASED_UNVALIDATED.

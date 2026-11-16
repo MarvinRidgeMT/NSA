@@ -30,8 +30,10 @@ import terrain_context as tc  # noqa: E402
 
 OUT = os.path.join(ROOT, "data", "visual", "terrain_context")
 LOCAL_LIFT_M, REGIONAL_LIFT_M = 0.5, 4.0   # display shadow bias (see terrain_context.horizon_map)
-MID_N, MID_BLOCK = 401, 4          # L1: 401 x 401 nodes at 20 m (4 x 4 block means of the 5 m display surface), about +-4 km.
-# (801 x 801 at 10 m was tried on 15 Nov: 640k vertices made the scene too slow to start on software GL and crashed test pages.)
+MID_N, MID_BLOCK = 1601, 1         # L1: 1601 x 1601 nodes at the FULL 5 m (no block means), +-4 km = 8 km x 8 km.
+# History: 401 x 401 at 20 m until 15 Nov 22:00. 801 x 801 at 10 m crashed software-GL test pages (640k vertices); the web now
+# draws every node on a GPU and thins the mesh to ~401² only on software renderers (TerrainSurface meshStride), so the
+# data can stay full resolution. Horizon (shadow) maps are still computed on a 201² subsample.
 MID_LIFT_M = 1.5
 TILE_FOR = {"site01": "app/data/source/pgda78/Site01/Site01_final_adj_5mpp_surf.tif", "connecting": "app/data/source/pgda78/Site01/Site01_final_adj_5mpp_surf.tif",
             "site04": "app/data/source/pgda78/Site04/Site04_final_adj_5mpp_surf.tif"}
@@ -187,9 +189,9 @@ def mid_grid(tile_rel, site_xy):
     y0 = top - (by0 + MID_N) * span + span / 2 - site_xy[1]
     info = {"n": MID_N, "spacingM": span, "originX": round(x0, 3), "originY": round(y0, 3), "source": tile_rel, "sourceSha256": digest,
             "blockPixels": MID_BLOCK, "nanNodes": int(np.isnan(mean).sum()),
-            "product": "NASA PGDA 78 5 m tile" + (" blended with the NASA GSFC SfS surface where it exists" if (wsfs > 0).any() else "") + ", 4 x 4 block means (20 m)",
+            "product": "NASA PGDA 78 5 m tile" + (" blended with the NASA GSFC SfS surface where it exists" if (wsfs > 0).any() else "") + (f", {MID_BLOCK} x {MID_BLOCK} block means ({MID_BLOCK * 5} m)" if MID_BLOCK > 1 else ", full 5 m pixels"),
             "sfsFraction": round(float((wsfs > 0).mean()), 4), "sfsFullWeightFraction": round(float((wsfs >= 1).mean()), 4),
-            "rule": "5 m display height = (1 - w) LOLA + w SfS (w feathered over 200 m at the SfS edge); node = mean of the 4 x 4 pixels of its block; any non-finite pixel -> NaN (no fill); blocks on the tile pixel lattice"}
+            "rule": "5 m display height = (1 - w) LOLA + w SfS (w feathered over 200 m at the SfS edge); node = mean of the MID_BLOCK x MID_BLOCK pixels of its block (1 = the pixel itself); any non-finite pixel -> NaN (no fill); blocks on the tile pixel lattice"}
     return tc.Grid(mean.ravel(), MID_N, span, x0, y0), info
 
 
