@@ -5,9 +5,9 @@ function chart(canvas,height){const rect=canvas.getBoundingClientRect(),w=Math.m
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 let currentTarget='sun';
 export function installProUI({$,state,recompute,saveFile,toast}){
- const cameraIds={cameraOblique:'oblique',cameraTop:'top',cameraHorizon:'horizon'};
+ const cameraIds={cameraOblique:'oblique',cameraTop:'top',cameraHorizon:'horizon',cameraRegional:'regional',cameraObstruction:'obstruction'};
  for(const [id,preset] of Object.entries(cameraIds)){
-  $(id).addEventListener('click',()=>{state.scene?.preset(preset);for(const key of Object.keys(cameraIds))$(key).classList.toggle('camera-active',key===id);});
+  $(id).addEventListener('click',()=>{if(state.mode!=='local'&&preset!=='orbit'){toast('Camera presets apply to the local terrain. Switch to LOCAL TERRAIN first.');return;}const pose=state.scene?.preset?.(preset,true);if(pose===false){toast(preset==='obstruction'?'No blocked Sun or Earth ray at this time, so there is no obstruction to inspect.':'Camera preset unavailable.');return;}for(const key of Object.keys(cameraIds))$(key).classList.toggle('camera-active',key===id);if(preset==='obstruction'&&pose?.target3){const hit=state.scene.hits?.[pose.target3];toast(`${pose.target3==='earth'?'Earth':'Sun'} ray: first sampled terrain hit${Number.isFinite(hit?.distanceM)?' at '+Math.round(hit.distanceM)+' m':''}. Discrete sampling; not sub-cell truth.`);}});
  }
  $('colorMode').addEventListener('change',e=>{state.scene?.setColorMode(e.target.value);$('modelBadge').textContent=e.target.value==='natural'?'REGOLITH LIGHTING · VISUAL':e.target.value==='elevation'?'HEIGHT MAP · DEM':'DIRECTIONAL LIGHT · VISUAL';});
  $('showRays').addEventListener('change',e=>state.scene?.setRays(e.target.checked));
@@ -15,6 +15,7 @@ export function installProUI({$,state,recompute,saveFile,toast}){
   try{
    const canvas=state.cesium?.canvas || state.scene?.canvas;
    if(!canvas)throw Error('Scene has not initialized');
+   if(!state.cesium&&typeof state.scene?.render==='function')state.scene.render(); // capture path: draw now, then snapshot in the same task (the buffer is not preserved)
    canvas.toBlob(blob=>{if(!blob){toast('Screenshot blocked by browser. Try the local rendering mode.');return;}
     let url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`POLARIS-X-${state.site.id}-scene.png`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
    });
@@ -26,7 +27,7 @@ export function installProUI({$,state,recompute,saveFile,toast}){
 }
 export function renderDynamicPro({$,state,options}){
  if(!state.results?.rows?.length)return;
- const r=state.results.rows[state.index],{dem}= {dem:state.dems.get(state.site.id)||makeDemoTerrain(state.site)};
+ const r=state.results.rows[state.index],dem=state.activeDem||state.dems.get(state.site.id)||makeDemoTerrain(state.site);
  const config={ox:options?.ox??+$('offsetEast').value,oy:options?.oy??+$('offsetNorth').value,height:options?.height??+$('observerHeight').value,uncertainty:options?.uncertainty??+$('uncertainty').value};
  const sun=terrainRayProfile(dem,{...config,...r.sun,maxDistanceM:state.results.horizon.reachM}),earth=terrainRayProfile(dem,{...config,...r.earth,maxDistanceM:state.results.horizon.reachM});
  // All status text is explicitly conditional on the current modeled horizon/ephemeris inputs.
@@ -37,8 +38,8 @@ export function renderDynamicPro({$,state,options}){
  $('liveInsightSub').textContent=first?.ray.firstHit?
   `First sampled obstruction at ${format(first.ray.firstHit.d/1000,2)} km; modeled clearance ${format(first.margin,2)}°. Click the cross-section for details.`:
   `Sun clearance ${format(r.sunMargin,2)}°; Earth clearance ${format(r.earthMargin,2)}°. Numerical results use ${real?'imported NASA/JPL inputs':'illustrative inputs'}.`;
- $('modelBadge').textContent=$('colorMode').value==='elevation'?'ELEVATION · DEM':$('colorMode').value==='illumination'?'DIRECTIONAL LIGHT · VISUAL':'REGOLITH LIGHTING · VISUAL';
- $('sceneCaption').textContent=state.cesium?'CESIUM MOON · VISUAL TILES · SCIENCE FROM DEM':'SOURCE DEM MESH · DRAG TO ORBIT · WHEEL TO ZOOM';
+ $('modelBadge').textContent=state.mode==='globe'?'GLOBAL COLOR MODEL · VISUAL':$('colorMode').value==='elevation'?'ELEVATION · DEM':$('colorMode').value==='illumination'?'DIRECTIONAL LIGHT · VISUAL':'REGOLITH LIGHTING · VISUAL';
+ $('sceneCaption').textContent=state.cesium?'CESIUM MOON · VISUAL TILES · SCIENCE FROM DEM':state.mode==='globe'?'NASA GLOBAL ORIENTATION MODEL · DOUBLE-CLICK TO ENTER SITE':'5 M LOCAL DETAIL + 80 M REGIONAL CONTEXT · SCIENCE FROM SOURCE DEM';
  $('sceneHost').classList.toggle('has-obstruction',!!first);
  renderProfileChart($,currentTarget==='sun'?sun:earth,currentTarget,dem.kind);
 }

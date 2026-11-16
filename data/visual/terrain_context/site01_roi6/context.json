@@ -1,0 +1,150 @@
+{
+ "schema": "polaris-terrain-context-v1",
+ "generatedUTC": "2026-11-15T07:53:38Z",
+ "status": "VISUAL",
+ "numericalAuthority": false,
+ "label": "TERRAIN CONTEXT \u00b7 VISUAL",
+ "releaseStatus": "SOURCE_BASED_UNVALIDATED",
+ "datasetId": "site01_roi6",
+ "siteName": "Connecting Ridge (Site01 ROI6)",
+ "displayReachM": 15775.4,
+ "frame": "bundle grid axes (x toward 90 E, y toward 0 E), metres, relative to the dataset site point; rows south-to-north",
+ "local": {
+  "n": 401,
+  "spacingM": 5.0,
+  "originX": -999.213,
+  "originY": -1002.141,
+  "cropValuesSha256": "a04929aafa200e4922a9847494a510f71d94247860c4e33b9917a3f8e993a1cd",
+  "cropHashCheck": "re-verified from stored values",
+  "storedValuesSha256": "a04929aafa200e4922a9847494a510f71d94247860c4e33b9917a3f8e993a1cd",
+  "source": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Site01_final_adj_5mpp_surf.tif",
+  "note": "matches dataset.dem of the bundle; values are NOT copied here"
+ },
+ "regional": {
+  "file": "regional_f32.bin",
+  "sha256": "38116bf37a1e5e06e73ee9019f8dc98bfabd9e685fd56c548b35edd673d60c09",
+  "n": 401,
+  "spacingM": 80.0,
+  "originX": -16201.713,
+  "originY": -16224.641,
+  "dtype": "float32-le",
+  "rowOrder": "south-to-north",
+  "source": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF",
+  "sourceCropValuesSha256": "d27c5aa679cd00ffee0a95ce36e0049b3189b477a6e14efb941eecac92d73b5d",
+  "cropHashCheck": "not reproducible from the bundle: values are stored rounded to 1e-4 m, the hash is of the unrounded crop",
+  "storedValuesSha256": "d47cb1fd3884527c051c56ff8eea6f15b2b6ef12a2e7351b7ab9904c57bd0a66",
+  "sourceBundle": "app/data/polaris-source-two-site-2026-11-14-v2.json",
+  "sourceDataset": "connecting",
+  "product": "NASA PGDA 90 LDEM_80S_80MPP_ADJ (80 m)",
+  "verticalUnits": "metres",
+  "role": "display context around the 5 m crop; the solver reads its own copy, never this file"
+ },
+ "mid": {
+  "n": 401,
+  "spacingM": 20.0,
+  "originX": -3991.713,
+  "originY": -3994.641,
+  "source": "app/data/source/pgda78/Site01/Site01_final_adj_5mpp_surf.tif",
+  "sourceSha256": "3ba7b97cb00a2bcf21189c3aeb535f65afc21207154ab9f0d43c5bdc1f7e747e",
+  "blockPixels": 4,
+  "nanNodes": 0,
+  "product": "NASA PGDA 78 5 m tile blended with the NASA GSFC SfS surface where it exists, 4 x 4 block means (20 m)",
+  "sfsFraction": 1.0,
+  "sfsFullWeightFraction": 1.0,
+  "rule": "5 m display height = (1 - w) LOLA + w SfS (w feathered over 200 m at the SfS edge); node = mean of the 4 x 4 pixels of its block; any non-finite pixel -> NaN (no fill); blocks on the tile pixel lattice",
+  "file": "mid_f32.bin",
+  "sha256": "3587d76c7efc4fe608c24ff89960608a80ca1aaedbdd193fba656d4371dce768",
+  "dtype": "float32-le",
+  "rowOrder": "south-to-north",
+  "role": "L1 display terrain between the 5 m crop and the 80 m crop; the solver never reads it"
+ },
+ "localDisplay": {
+  "file": "local_display_f32.bin",
+  "sha256": "c086788a09037d6de4897b83efa73d26334708eede68ab08759dd9061dd42221",
+  "n": 401,
+  "spacingM": 5.0,
+  "dtype": "float32-le",
+  "rowOrder": "south-to-north",
+  "product": "NASA GSFC SfS elevation A306_GLDELEV_005 (Artemis III candidate region 6, Connecting Ridge), 5 m",
+  "citation": "Bertone, S., McKenna, T. E., Barker, M. K., Mazarico, E., Beyer, R. A., Petro, N. (2025), Zenodo, doi:10.5281/zenodo.17954508",
+  "doi": "10.5281/zenodo.17954508",
+  "licence": "CC-BY-4.0",
+  "source": "app/data/source/gsfc_sfs_a3clr22/A306_GLDELEV_005.tif",
+  "sourcePixelSha256": "8d7a4a2036d73555da50e682b9385e3ed96b3e66d628b50af88ae9d9aa66134c",
+  "coverageFraction": 1.0,
+  "fullWeightFraction": 1.0,
+  "featherM": 200.0,
+  "latticeOffsetPx": 0.0,
+  "minusSolverCropM": {
+   "rms": 1.204,
+   "mean": 0.235,
+   "maxAbs": 8.559,
+   "atSitePoint": 1.966
+  },
+  "rule": "display height = (1 - w) LOLA crop + w SfS, w = clip(distance inside the SfS footprint / 200 m, 0, 1); nodes are the bundle crop nodes",
+  "role": "DISPLAY surface only. The solver, margins, ray hits and every number use the LOLA crop in the bundle, not this."
+ },
+ "horizon": {
+  "encoding": {
+   "dtype": "uint8",
+   "degrees": "q * 0.05 - 3",
+   "minDeg": -3.0,
+   "stepDeg": 0.05,
+   "maxDeg": 9.75
+  },
+  "azimuths": 48,
+  "azimuthRule": "index k -> grid angle 360*k/K degrees from +y toward +x; direction (sin, cos)",
+  "layout": "(K, m, m): index = (k*m + j)*m + i, j south-to-north",
+  "local": {
+   "file": "local_horizon_u8.bin",
+   "sha256": "517819ccbc5f5aff84e9b8a650ac93e56f6bc0df6c5a36dacea907fbd565ac7a",
+   "m": 201,
+   "spacingM": 10.0,
+   "originX": -999.213,
+   "originY": -1002.141,
+   "march": "5 m steps to 1200 m on the 5 m crop (80 m regional where the crop ends), then 80 m steps to 20 km on the regional crop"
+  },
+  "mid": {
+   "file": "mid_horizon_u8.bin",
+   "sha256": "f65c6ce91a0f181b21f69b30e5e3fae5e820e9f3d69e7618abfced967412439f",
+   "m": 201,
+   "spacingM": 40.0,
+   "originX": -3991.7129999999997,
+   "originY": -3994.6409999999996,
+   "march": "20 m steps to 4 km on L1, max with 80 m steps to 20 km on the regional crop"
+  },
+  "regional": {
+   "file": "regional_horizon_u8.bin",
+   "sha256": "17f44327ba97c4a7e7c61a860d948fc6bc767da162be7d557d2a57194568a4f6",
+   "m": 201,
+   "spacingM": 160.0,
+   "originX": -16201.713,
+   "originY": -16224.641,
+   "march": "80 m steps to 20 km on the regional crop"
+  },
+  "model": "surface points lifted by a display shadow bias, nearest-cell sampling, curvature d^2/2R with R = 1737400 m, finite crops",
+  "shadowBiasLiftM": {
+   "local": 0.5,
+   "mid": 1.5,
+   "regional": 4.0
+  }
+ },
+ "skylineCrossCheck": {
+  "comparedBins": 720,
+  "observerMastM": 1.0,
+  "displayMinusSolverDeg": {
+   "median": -0.019,
+   "p05": -2.81,
+   "p95": 0.132
+  },
+  "fractionWithin0p25Deg": 0.611,
+  "fractionDisplayLower": 0.382,
+  "note": "display march = nearest-cell, 5 m crop to 1.2 km then 80 m crop to 20 km; solver = full 5 m tile + 80 m to 280 km. Where the display is lower, the controlling terrain is outside the displayed crops. Display-consistency evidence only."
+ },
+ "limitations": [
+  "Display shading only: shadows come from the displayed crops (about 16 km), not from the solver's 280 km horizon.",
+  "Terrain beyond the regional crop casts nothing, so points near its edge are under-shadowed.",
+  "Never an input to visible/blocked states, margins or metrics; those come from the bundle.",
+  "8-bit angles (0.05 deg), K azimuths with linear interpolation, 10 m / 160 m node spacing."
+ ]
+}

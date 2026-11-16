@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="./src/styles.css"/>
 </head>
 <body>
-<div id="app" class="experience-shell">
+<div id="app" class="experience-shell simple-ui">
   <header class="topbar">
     <a class="brand" href="#" aria-label="POLARIS X home">
       <span class="brand-mark" aria-hidden="true"><i></i></span>
@@ -26,8 +26,8 @@
     <div class="header-actions">
       <button class="round-button" id="helpBtn" title="Mission guide" aria-label="Mission guide">?</button>
       <button class="glass-button capture-button" id="captureBtn" title="Save scene image">CAPTURE</button>
-      <button class="glass-button" id="fullscreenBtn" title="Toggle fullscreen">FULLSCREEN</button>
-      <button class="primary-button" id="exportBtn">EXPORT REPORT</button>
+      <button class="glass-button" id="fullscreenBtn" title="Toggle fullscreen">Fullscreen</button>
+      <button class="primary-button" id="exportBtn">Export report</button>
     </div>
   </header>
 
@@ -64,17 +64,28 @@
           <span>AZIMUTH <b id="azHud">0° — 360°</b></span>
         </div>
 
+        <div class="geospatial-hud" aria-label="Scene scale and orientation">
+          <div class="compass" aria-hidden="true"><b>N</b><i></i><span>E</span></div>
+          <div><strong id="scaleHud">SCALE —</strong><span id="coverageHud">SOURCE COVERAGE LOADING</span></div>
+        </div>
+
         <div class="surface-node-label" aria-hidden="true"><i></i><span>PX SURFACE NODE<small>SCHEMATIC MARKER · SCALE EXAGGERATED</small></span></div>
 
         <div class="scene-side-controls">
           <div class="camera-choice" role="group" aria-label="Camera presets">
-            <button id="cameraOblique" title="Perspective camera" class="camera-active">PERSPECTIVE</button>
-            <button id="cameraTop" title="Overhead terrain camera">OVERHEAD</button>
-            <button id="cameraHorizon" title="Low horizon camera">HORIZON</button>
+            <button id="cameraOblique" title="Perspective camera" class="camera-active">Perspective</button>
+            <button id="cameraTop" title="Overhead terrain camera">Overhead</button>
+            <button id="cameraHorizon" title="Low horizon camera">Horizon</button>
+            <button id="cameraRegional" title="Regional 80 m context camera">Regional</button>
+            <button id="cameraObstruction" title="Close-up of the first terrain hit on a blocked Sun or Earth ray">Obstruction</button>
           </div>
           <label class="view-color-label" for="colorMode">SURFACE LAYER</label>
           <select id="colorMode" aria-label="Terrain color mode">
             <option value="natural">REGOLITH</option><option value="elevation">ELEVATION</option><option value="illumination">ILLUMINATION</option>
+          </select>
+          <label class="view-color-label" for="reliefMode">VERTICAL SCALE</label>
+          <select id="reliefMode" aria-label="Terrain vertical scale">
+            <option value="true">TRUE SCALE · 1×</option><option value="enhanced">RELIEF · 2.38× VISUAL</option>
           </select>
           <label class="rays-check"><input type="checkbox" id="showRays" checked/> TARGET RAYS</label>
         </div>
@@ -82,14 +93,15 @@
         <div class="scene-legend">
           <span class="scene-pill"><i class="scene-circle"></i> 3D TERRAIN</span>
           <span class="scene-pill" id="meshStats">BUILDING SOURCE MESH…</span>
+          <span class="scene-pill" id="globalModelStatus">NASA MODEL · LOADING</span>
           <span class="scene-pill" id="modelBadge">REGOLITH LIGHTING · VISUAL</span>
-          <span class="scene-pill">RELIEF ×2.4 · VISUAL</span>
+          <span class="scene-pill" id="reliefBadge">TRUE VERTICAL SCALE · 1×</span>
           <span class="scene-pill" id="sceneCaption">DRAG TO ORBIT · WHEEL TO ZOOM</span>
         </div>
 
         <div class="scene-bottom-tools">
           <div class="scene-toggle" role="group" aria-label="Scene scale">
-            <button class="active" id="localMode">LOCAL TERRAIN</button><button id="globeMode">GLOBAL MOON</button>
+            <button class="active" id="localMode">Local terrain</button><button id="globeMode">Whole Moon</button>
           </div>
           <div class="zoom-controls">
             <button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="resetCamera" aria-label="Reset camera">⌖</button>
@@ -99,9 +111,9 @@
     </section>
 
     <nav class="tool-rail" aria-label="Experience tools">
-      <button id="missionToggle" aria-label="Open mission controls" aria-expanded="false"><span>☰</span><small>MISSION</small></button>
-      <button id="analysisToggle" aria-label="Open scientific analysis" aria-expanded="false"><span>⌁</span><small>ANALYSIS</small></button>
-      <button id="cinematicBtn" aria-label="Toggle cinematic camera motion" aria-pressed="true"><span>◌</span><small>DRIFT</small></button>
+      <button id="missionToggle" aria-label="Open mission controls" aria-expanded="false"><span>☰</span><small>Settings</small></button>
+      <button id="analysisToggle" aria-label="Open scientific analysis" aria-expanded="false"><span>⌁</span><small>Charts</small></button>
+      <button id="cinematicBtn" aria-label="Toggle cinematic camera motion" aria-pressed="true"><span>◌</span><small>Rotate</small></button>
     </nav>
 
     <aside class="mission-drawer" id="missionDrawer" aria-label="Mission controls">
@@ -162,8 +174,8 @@
     </section>
 
     <section class="time-console" aria-label="Simulation time controls">
-      <div class="time-live"><span class="live-dot"></span><b>MISSION TIME</b><small id="timePosition">+0.0 h</small></div>
-      <button id="prevTime" aria-label="Previous hour">‹</button><button id="playBtn" class="play-button" aria-label="Play simulation">▶</button><button id="nextTime" aria-label="Next hour">›</button>
+      <div class="time-live"><span class="live-dot"></span><b>MISSION TIME</b><small id="timePosition">+0.0 h</small></div><p id="eventNote" class="event-note" aria-live="polite"></p>
+      <button id="prevEvent" class="event-button" aria-label="Previous Sun or Earth visibility transition" title="Previous visibility transition ( [ )">⇤</button><button id="prevTime" aria-label="Previous hour">‹</button><button id="playBtn" class="play-button" aria-label="Play simulation">▶</button><button id="nextTime" aria-label="Next hour">›</button><button id="nextEvent" class="event-button" aria-label="Next Sun or Earth visibility transition" title="Next visibility transition ( ] )">⇥</button>
       <input id="timeScrub" type="range" min="0" max="71" value="0" step="1" aria-label="Simulation time"/>
       <select aria-label="Playback speed" id="speed"><option value="1">1×</option><option value="3" selected>3×</option><option value="8">8×</option><option value="24">24×</option></select>
     </section>
@@ -195,13 +207,6 @@
   <dialog id="modal"><form method="dialog"><button class="modal-close" value="close" aria-label="Close">×</button><p class="eyebrow">POLARIS X</p><h2 id="modalTitle">Scientific method</h2><div id="modalBody"></div><button value="close" class="primary-button">CLOSE</button></form></dialog>
   <div id="toast" role="status" aria-live="polite" hidden></div>
 </div>
-<script>
-  // A bundled runtime is used only for direct file:// launches. Localhost keeps
-  // native ES modules for development and testing.
-  const runtime=document.createElement('script');
-  if(location.protocol==='file:')runtime.src='./dist/polaris-file.js';
-  else{runtime.type='module';runtime.src='./src/main.js';}
-  document.body.appendChild(runtime);
-</script>
+<script src="./dist/polaris-file.js"></script>
 </body>
 </html>

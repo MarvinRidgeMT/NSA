@@ -13,7 +13,7 @@
       "type": "object",
       "required": ["status", "gates"],
       "properties": {
-        "status": {"enum": ["SOURCE_BASED_UNVALIDATED", "VALIDATED_NASA_JPL"]},
+        "status": {"enum": ["DEMO_ONLY", "SOURCE_BASED_UNVALIDATED", "VALIDATED_NASA_JPL"]},
         "gates": {"type": "array"}
       }
     },

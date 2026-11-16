@@ -59,6 +59,7 @@ export function MetricsPanel({ v }: { v: View }) {
     <section className="panel" aria-labelledby="mx-title">
       <div className="panel-head">
         <h2 id="mx-title">Metrics & constraints</h2>
+        <span className="src-tag bundle" data-testid="src-bundle">bundle · repo solver · nominal DEM</span>
         <span className="muted">
           {v.dataset.snapToSamples ? 'exact bundle sample (contract: no interpolation)' : v.br.exact === null ? 'margins interpolated between bundle samples' : 'exact bundle sample'}
         </span>
@@ -77,6 +78,14 @@ export function MetricsPanel({ v }: { v: View }) {
         </article>
       </div>
       {sc ? (
+        <details className="dec-more">
+          <summary>
+            {sc.metrics
+              .filter((m) => m.constraint)
+              .map((m) => `${m.label} ${fmtMetric(m, m.value)} ${m.pass === undefined ? '' : m.pass ? '✓' : '✕'} ${m.constraint!.op} ${m.constraint!.threshold} ${m.unit}`)
+              .join(' · ') || 'Window metrics'}
+            {` — all ${sc.metrics.length} window metrics`}
+          </summary>
         <table
           className="constraints"
           data-testid="constraints"
@@ -114,10 +123,17 @@ export function MetricsPanel({ v }: { v: View }) {
             ))}
           </tbody>
         </table>
+        </details>
       ) : (
         <p className="note" data-testid="no-derived">
           This bundle carries raw inputs only (DEM + JPL ephemeris). Visibility, margins and constraint results must come from the science branch
           (`derived` block); the viewer does not compute them.
+        </p>
+      )}
+      {sc && hasConstraints && sc.metrics.some((m) => m.constraintSource) && (
+        <p className="muted small" data-testid="constraint-source">
+          Limits: {[...new Set(sc.metrics.map((m) => m.constraintSource).filter(Boolean))].join('; ')}. PASS/FAIL is the bundle value compared with that limit; geometric
+          visibility only, not power or a DSN link.
         </p>
       )}
       {sc && !hasConstraints && (

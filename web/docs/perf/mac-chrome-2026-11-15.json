@@ -1,0 +1,65 @@
+{
+  "schema": "polaris-perf-v1",
+  "power": "Now drawing from 'Battery Power' |  -InternalBattery-0 (id=23134307)\t12%; discharging; 0:41 remaining present: true",
+  "lowPowerMode": false,
+  "chromeEnergySaverDisabled": true,
+  "measuredUTC": "2026-11-15T06:45:00.152Z",
+  "browser": "157.0.8103.78",
+  "viewport": {
+    "css": [
+      1512,
+      982
+    ],
+    "devicePixelRatio": 2
+  },
+  "build": "web/dist via vite preview",
+  "modelVisibleMs": 907,
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+  "canvas": [
+    3024,
+    1852
+  ],
+  "idle": {
+    "frames": 150,
+    "meanMs": 33.33,
+    "p50Ms": 33.3,
+    "p95Ms": 33.9,
+    "p99Ms": 34,
+    "maxMs": 34.3,
+    "over33ms": 36
+  },
+  "cameraToContext": {
+    "frames": 75,
+    "meanMs": 33.33,
+    "p50Ms": 33.3,
+    "p95Ms": 34.3,
+    "p99Ms": 34.4,
+    "maxMs": 34.4,
+    "over33ms": 23
+  },
+  "cameraToApproach": {
+    "frames": 75,
+    "meanMs": 33.32,
+    "p50Ms": 33.3,
+    "p95Ms": 34.2,
+    "p99Ms": 34.3,
+    "maxMs": 34.3,
+    "over33ms": 20
+  },
+  "timeSteps": {
+    "p95Ms": 34.3,
+    "maxMs": 34.3,
+    "longTasksMs": []
+  },
+  "playback": {
+    "frames": 240,
+    "meanMs": 33.33,
+    "p50Ms": 33.3,
+    "p95Ms": 34.3,
+    "p99Ms": 34.3,
+    "maxMs": 34.3,
+    "over33ms": 94
+  },
+  "playbackLongTasksMs": [],
+  "jsHeapMB": 54
+}

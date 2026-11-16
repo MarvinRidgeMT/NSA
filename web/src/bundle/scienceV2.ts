@@ -8,8 +8,9 @@
  *   - azimuths are LOCAL; the viewer does not rotate them by longitude (no `derived.frame`, and the 3D view
  *     for this format draws in local east/north/up).
  */
-import type { ArrivalSlipBlock, Bundle, BundleEvent, CriticalCell, Dataset, FlipForecastBlock, Gate, HotspotsBlock, Metric, RawStatus, Scenario, TargetSeries } from './types';
+import type { ArrivalSlipBlock, Attribution, Bundle, BundleEvent, CertaintyCurve, Coverage, CriticalCell, Dataset, FlipForecastBlock, Gate, HotspotsBlock, MarginRange, Metric, RawStatus, Scenario, TargetSeries } from './types';
 import { BundleError } from './errors';
+import { TEAM_REQUIREMENTS, TEAM_REQUIREMENTS_SOURCE } from './requirements';
 
 /* ---------- raw shape (only the fields the viewer reads) ---------- */
 interface RawTarget {
@@ -43,7 +44,18 @@ interface RawScenario {
   events?: { body: 'sun' | 'earth'; event: string; utc: string }[];
 }
 export interface RawScienceV2 {
+  /** Person A renamed the results schema on 14 Nov (A_SCIENCE_STATUS); both names carry the same structure. */
   schema: 'science-bundle-v2' | 'polaris-science-results-v1';
+  /** decision-evidence outputs (additive, snake_case in the bundle; see VIEWER_BUNDLE_CONTRACT §Decision-evidence) */
+  /** a-science 13d23d4+: decision-evidence blocks live under `derived` (A1 `derived.attribution`); top level also accepted */
+  derived?: { attribution?: unknown; coverage?: unknown; certainty_curve?: unknown; margin_range?: unknown; margins?: unknown; margin_series?: unknown; certainty_height_m?: unknown; requirements?: unknown; certainty_note?: unknown; arrival_slip?: ArrivalSlipBlock; hotspots?: HotspotsBlock; flip_forecast?: FlipForecastBlock; [key: string]: unknown };
+  attribution?: unknown;
+  coverage?: unknown;
+  certainty_curve?: unknown;
+  margin_range?: unknown;
+  certainty_height_m?: unknown;
+  requirements?: unknown;
+  near_zero_margin_deg?: number;
   bundle_id: string;
   generated_utc: string;
   generator?: { code?: string; git_commit?: string; command?: string };
@@ -69,7 +81,6 @@ export interface RawScienceV2 {
   provenance?: { sources?: { id: string; description?: string; url?: string; sha256?: string }[]; horizons_raw?: { role?: string; path: string; sha256: string; retrieved_utc?: string }[] };
   limitations?: string[];
   fixture?: { of_bundle?: string; sample_indices?: number[]; note?: string };
-  derived?: { arrival_slip?: ArrivalSlipBlock; hotspots?: HotspotsBlock; flip_forecast?: FlipForecastBlock; [key: string]: unknown };
 }
 
 /* ---------- labels ---------- */
@@ -121,6 +132,13 @@ function scenarioLabel(r: RawScenario): string {
   }
 }
 
+function teamConstraint(key: string, value: number): Partial<Metric> {
+  const r = TEAM_REQUIREMENTS[key];
+  if (!r || !Number.isFinite(value)) return {};
+  const margin = r.op === '>=' ? value - r.threshold : r.threshold - value;
+  return { constraint: { op: r.op, threshold: r.threshold }, marginToLimit: margin, pass: margin >= 0, constraintSource: TEAM_REQUIREMENTS_SOURCE };
+}
+
 function metricList(m: Record<string, unknown>, delta?: Record<string, number>): Metric[] {
   return METRICS.filter((d) => typeof m[d.key] === 'number').map((d) => ({
     id: d.key,
@@ -128,6 +146,7 @@ function metricList(m: Record<string, unknown>, delta?: Record<string, number>):
     value: m[d.key] as number,
     unit: d.unit,
     ...(delta && typeof delta[d.key] === 'number' ? { delta: delta[d.key] } : {}),
+    ...teamConstraint(d.key, m[d.key] as number),
   }));
 }
 
@@ -156,9 +175,176 @@ function series(samples: RawSample[], key: 'sun' | 'earth', critical: CriticalCe
   };
 }
 
+/** snake_case → camelCase, recursively; the bundle writes snake_case, the TS types are camelCase. Values are copied, never computed. */
+export function camelize<T>(x: unknown): T {
+  if (Array.isArray(x)) return x.map((v) => camelize(v)) as T;
+  if (x && typeof x === 'object') {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(x as Record<string, unknown>)) out[k.replace(/_([a-z0-9])/g, (_, c: string) => c.toUpperCase())] = camelize(v);
+    return out as T;
+  }
+  return x as T;
+}
+
+/* ---- decision-evidence normalizers ----
+ * Two accepted shapes each: the IMPLEMENTATION_PROMPT (A1–A3) shape the science branch emits, and the
+ * earlier VIEWER_BUNDLE_CONTRACT proposal. Values are copied; nothing is derived. */
+type Rec = Record<string, unknown>;
+const num = (x: unknown): number | null => (typeof x === 'number' && Number.isFinite(x) ? x : null);
+const numOr = (x: unknown, d: number): number => num(x) ?? d;
+const isRec = (x: unknown): x is Rec => !!x && typeof x === 'object' && !Array.isArray(x);
+
+export function normalizeAttribution(raw: unknown): Attribution {
+  const c = camelize<Rec>(raw);
+  const ridges = Array.isArray(c.ridges) ? (c.ridges as Rec[]) : [];
+  const pb = isRec(c.perBin) ? c.perBin : null;
+  return {
+    label: typeof c.label === 'string' ? c.label : undefined,
+    scenarioId: typeof c.scenarioId === 'string' ? c.scenarioId : undefined,
+    perBin: pb && !Array.isArray(pb.ridgeIdx) && Array.isArray(pb.ridgeId) && Array.isArray(c.ridges)
+      ? { ridgeIdx: (pb.ridgeId as (string | null)[]).map((id) => { const k = (c.ridges as Rec[]).findIndex((r) => r.id === id); return k < 0 ? null : k; }), gapDeg: Array.isArray(pb.gapDeg) ? (pb.gapDeg as (number | null)[]) : undefined, source: Array.isArray(pb.source) ? (pb.source as (string | null)[]) : undefined }
+      : pb && Array.isArray(pb.ridgeIdx) ? { ridgeIdx: pb.ridgeIdx as (number | null)[], ctrlDistM: Array.isArray(pb.ctrlDistM) ? (pb.ctrlDistM as (number | null)[]) : undefined, gapDeg: Array.isArray(pb.gapDeg) ? (pb.gapDeg as (number | null)[]) : undefined, source: Array.isArray(pb.source) ? (pb.source as (string | null)[]) : undefined } : undefined,
+    method: typeof c.method === 'string' ? c.method : isRec(c.method) ? String(c.method.clustering ?? 'bundle attribution') : 'bundle attribution',
+    methodDetail: isRec(c.method) ? (c.method as Record<string, string>) : undefined,
+    clusteringNote: typeof c.clusteringNote === 'string' ? c.clusteringNote : undefined,
+    ridges: ridges.map((r, i) => {
+      if (isRec(r.hours)) return r as unknown as Attribution['ridges'][number]; // already the contract shape
+      // IMPLEMENTATION_PROMPT A1: {id, centroid_lat, centroid_lon, dist_km, az_span_deg:[a,b], height_m, source, sun_loss_h, earth_loss_h, ctrl_h}
+      const span = Array.isArray(r.azSpanDeg) ? (r.azSpanDeg as number[]) : [0, 0];
+      const range = Array.isArray(r.distRangeKm) ? (r.distRangeKm as number[]) : null;
+      const distM = num(r.distKm) !== null ? (r.distKm as number) * 1000 : (num(r.distanceM) ?? Number.NaN);
+      const ctrl = num(r.ctrlH) ?? 0;
+      return {
+        id: String(r.id ?? `ridge-${i + 1}`),
+        label: typeof r.label === 'string' ? r.label : undefined,
+        azimuthDeg: [numOr(span[0], 0), numOr(span[1], 0)],
+        distanceM: range && range.length === 2 && num(range[0]) !== null ? { min: range[0] * 1000, max: range[1] * 1000 } : distM,
+        heightM: num(r.heightM) ?? undefined,
+        cell: num(r.centroidLat) !== null ? { distance_m: distM, lat_deg: r.centroidLat as number, lon_deg: num(r.centroidLon), height_m: num(r.heightM), dem: typeof r.source === 'string' ? r.source : null } : undefined,
+        dem: typeof r.source === 'string' ? r.source : undefined,
+        runnerUpGapDeg: num(r.minGapDeg) ?? num(r.gapDeg),
+        ofRecord: typeof r.ofRecord === 'boolean' ? r.ofRecord : undefined,
+        reliefM: num(r.reliefM) ?? undefined,
+        maxElevDeg: num(r.maxElevDeg) ?? undefined,
+        // ctrl_h is a single "hours controlled" figure in the A1 shape; shown for both targets, loss per target
+        hours: { sun: { controlled: num(r.sunCtrlH) ?? ctrl, lost: num(r.sunLossH) ?? 0 }, earth: { controlled: num(r.earthCtrlH) ?? ctrl, lost: num(r.earthLossH) ?? 0 } },
+      };
+    }),
+  };
+}
+
+export function normalizeCoverage(raw: unknown, layers: RawScienceV2['skyline']['dem_layers']): Coverage {
+  const c = camelize<Rec>(raw);
+  if (isRec(c.sun) && isRec(c.earth) && isRec(c.footprint)) return c as unknown as Coverage; // contract shape
+  // IMPLEMENTATION_PROMPT A3: {critical_threshold_deg, n_critical_h, covered_frac, uncovered_ridges:[ids]} (Sun-critical hours)
+  const near = (layers ?? []).find((l) => l.role === 'near');
+  const tgt = (x: unknown) => {
+    const r = isRec(x) ? x : c;
+    return { controllingHoursInside: numOr(r.coveredFrac, Number.NaN), criticalHoursInside: num(r.coveredFrac), unknownHours: numOr(r.unknownFrac, 0), hoursTotal: numOr(r.nCriticalH, 0) };
+  };
+  const t = tgt(c.sun);
+  return {
+    method: String(c.method ?? 'share of Sun-critical hours whose controlling sample lies in the 5 m tile (A3)'),
+    footprint: { dem: near?.name ?? 'near_5m', boundsGridM: (near as Rec | undefined)?.bounds_grid_m as Coverage['footprint']['boundsGridM'] },
+    uncoveredRidges: Array.isArray(c.uncoveredRidges) ? (c.uncoveredRidges as string[]) : undefined,
+    criticalMarginDeg: numOr(c.criticalThresholdDeg, 1.0),
+    sun: t,
+    earth: isRec(c.earth) ? tgt(c.earth) : { controllingHoursInside: Number.NaN, criticalHoursInside: null, unknownHours: 0, hoursTotal: 0 },
+  };
+}
+
+export function normalizeCertainty(raw: unknown, certaintyHeight: unknown, requirements: unknown, note?: unknown): CertaintyCurve {
+  const c = camelize<unknown>(raw);
+  if (isRec(c) && Array.isArray(c.points)) return c as unknown as CertaintyCurve; // contract shape
+  // A2: [{mast_m, metric, nominal, min, p10, median, p90, max, n_clones, pass:"k/N"}] + certainty_height_m per requirement
+  const rows = (Array.isArray(c) ? c : []) as Rec[];
+  const byMast = new Map<number, Rec[]>();
+  for (const r of rows) {
+    const m = num(r.mastM);
+    if (m === null) continue;
+    byMast.set(m, [...(byMast.get(m) ?? []), r]);
+  }
+  const pick = (rs: Rec[], metric: string) => rs.find((r) => String(r.metric ?? '').startsWith(metric));
+  const passOf = (r: Rec | undefined) => {
+    const p = typeof r?.pass === 'string' ? r.pass.split('/') : null;
+    return p && p.length === 2 && Number.isFinite(Number(p[0])) && Number.isFinite(Number(p[1])) ? { k: Number(p[0]), n: Number(p[1]) } : null;
+  };
+  const points = [...byMast.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .map(([mastM, rs]) => {
+      const sun = pick(rs, 'sun') ?? rs[0];
+      const both = pick(rs, 'both');
+      const passBy: Record<string, { k: number; n: number }> = {};
+      for (const r of rs) {
+        const p = passOf(r);
+        if (p && typeof r.metric === 'string') passBy[r.metric] = p;
+      }
+      const ks = Object.values(passBy);
+      // a joint count exists only when there is one requirement, or every requirement passes on every model (then joint = N)
+      const joint = ks.length === 1 ? ks[0].k : ks.length && ks.every((p) => p.k === p.n) ? ks[0].n : null;
+      return {
+        mastM,
+        nominal: { sunPct: numOr(sun?.nominal, Number.NaN), bothPct: num(both?.nominal) ?? undefined },
+        min: { sunPct: numOr(sun?.min, Number.NaN), bothPct: num(both?.min) ?? undefined },
+        max: { sunPct: numOr(sun?.max, Number.NaN), bothPct: num(both?.max) ?? undefined },
+        median: { sunPct: num(sun?.median) ?? undefined, bothPct: num(both?.median) ?? undefined },
+        nModels: numOr(sun?.nClones, ks[0]?.n ?? 0),
+        nPass: joint,
+        passBy,
+      };
+    });
+  const ch = isRec(certaintyHeight) ? (certaintyHeight as Rec) : null;
+  const byReq: Record<string, number | null> = {};
+  if (ch) for (const [k, v] of Object.entries(ch)) byReq[k.replace(/[A-Z]/g, (m) => `_${m.toLowerCase()}`)] = num(v);
+  const vals = Object.values(byReq);
+  const chNum = num(certaintyHeight);
+  return {
+    method: 'mast sweep across PGDA 78 clones (A2)',
+    requirements: Array.isArray(requirements) ? (camelize<CertaintyCurve['requirements']>(requirements) as CertaintyCurve['requirements']) : undefined,
+    realizations: points.length ? Array.from({ length: points[0].nModels }, (_, i) => `model ${i + 1}`) : [],
+    points,
+    // every requirement met by every tested map = the largest per-requirement height; any null means none in the sweep
+    minTestedFeasibleMastM: chNum ?? (vals.length ? (vals.some((x) => x === null) ? null : Math.max(...(vals as number[]))) : null),
+    agreementMastM: null,
+    agreementToleranceP: Number.NaN,
+    heightByRequirement: ch ? byReq : undefined,
+    note: typeof note === 'string' ? note : undefined,
+  };
+}
+
+/** A4: `margins` (viewer contract) or `margin_series` (a-science name). Per-sample clone min/max become the ribbon band. */
+export function normalizeMargins(raw: unknown): MarginRange | undefined {
+  const m = camelize<Rec>(raw);
+  if (!isRec(m)) return undefined;
+  if (isRec(m.sun) && Array.isArray((m.sun as Rec).minDeg)) return m as unknown as MarginRange; // contract shape
+  const arr = (k: string) => (Array.isArray(m[k]) ? (m[k] as (number | null)[]) : null);
+  const sMin = arr('sunCloneMinDeg') ?? arr('sunMinDeg');
+  const sMax = arr('sunCloneMaxDeg') ?? arr('sunMaxDeg');
+  const eMin = arr('earthCloneMinDeg') ?? arr('earthMinDeg');
+  const eMax = arr('earthCloneMaxDeg') ?? arr('earthMaxDeg');
+  if (!sMin || !sMax || !eMin || !eMax) return undefined;
+  const n = num(m.nClones);
+  return {
+    realizations: Array.isArray(m.cloneIds) ? (m.cloneIds as string[]) : Array.from({ length: n ?? 0 }, (_, i) => `clone ${i + 1}`),
+    scenarioId: typeof m.scenarioId === 'string' ? m.scenarioId : undefined,
+    sun: { minDeg: sMin, maxDeg: sMax },
+    earth: { minDeg: eMin, maxDeg: eMax },
+    truncated: { sun: Array.isArray(m.sunTruncated) ? (m.sunTruncated as boolean[]) : undefined, earth: Array.isArray(m.earthTruncated) ? (m.earthTruncated as boolean[]) : undefined },
+  };
+}
+
+/** Normalize every decision-evidence block of one derived object in place (POLARIS-X5D-v2 export, snake_case). */
+export function normalizeDerivedBlocks(d: Record<string, unknown>, layers: RawScienceV2['skyline']['dem_layers'] = []): void {
+  if (d.attribution) d.attribution = normalizeAttribution(d.attribution);
+  if (d.certainty_curve) d.certaintyCurve = normalizeCertainty(d.certainty_curve, d.certainty_height_m, d.requirements, d.certainty_note);
+  if (d.coverage && !(isRec(d.coverage) && isRec((d.coverage as Rec).sun))) d.coverage = normalizeCoverage(d.coverage, layers);
+  const mr = d.margin_range ?? d.margins ?? d.margin_series;
+  if (mr && !d.marginRange) d.marginRange = normalizeMargins(mr);
+}
+
 export function isScienceV2(raw: unknown): raw is RawScienceV2 {
-  const schema = !!raw && typeof raw === 'object' ? (raw as { schema?: unknown }).schema : undefined;
-  return schema === 'science-bundle-v2' || schema === 'polaris-science-results-v1';
+  const s = !!raw && typeof raw === 'object' ? (raw as { schema?: unknown }).schema : undefined;
+  return s === 'science-bundle-v2' || s === 'polaris-science-results-v1';
 }
 
 export function adaptScienceV2(r: RawScienceV2): Bundle {
@@ -244,6 +430,11 @@ export function adaptScienceV2(r: RawScienceV2): Bundle {
       status,
       skylineBinDeg: binDeg,
       scenarios: [baseline, ...others],
+      ...((r.derived?.attribution ?? r.attribution) ? { attribution: normalizeAttribution(r.derived?.attribution ?? r.attribution) } : {}),
+      ...((r.derived?.coverage ?? r.coverage) ? { coverage: normalizeCoverage(r.derived?.coverage ?? r.coverage, r.skyline.dem_layers ?? []) } : {}),
+      ...((r.derived?.certainty_curve ?? r.certainty_curve) ? { certaintyCurve: normalizeCertainty(r.derived?.certainty_curve ?? r.certainty_curve, r.derived?.certainty_height_m ?? r.certainty_height_m, r.derived?.requirements ?? r.requirements, r.derived?.certainty_note) } : {}),
+      ...((r.derived?.margin_range ?? r.derived?.margins ?? r.derived?.margin_series ?? r.margin_range) ? { marginRange: normalizeMargins(r.derived?.margin_range ?? r.derived?.margins ?? r.derived?.margin_series ?? r.margin_range) } : {}),
+      ...(typeof r.near_zero_margin_deg === 'number' ? { nearZeroMarginDeg: r.near_zero_margin_deg } : {}),
       arrivalSlip: r.derived?.arrival_slip,
       hotspots: r.derived?.hotspots,
       flipForecast: r.derived?.flip_forecast,
@@ -254,12 +445,12 @@ export function adaptScienceV2(r: RawScienceV2): Bundle {
     limitations: r.limitations,
   };
   return {
-    format: 'science-bundle-v2',
+    format: r.schema,
     bundleId: r.bundle_id,
     schemaVersion: '2',
     generatedUTC: r.generated_utc,
     producer: { name: r.generator?.code ?? 'science/', version: r.generator?.git_commit?.slice(0, 7) ?? '?' },
-    validation: { status, reason: `science-bundle-v2 ${r.bundle_id}${r.fixture ? ` (UI fixture: ${r.fixture.note ?? ''})` : ''}`, gates: [] },
+    validation: { status, reason: `${r.schema} ${r.bundle_id}${r.fixture ? ` (UI fixture: ${r.fixture.note ?? ''})` : ''}`, gates: [] },
     sources: Object.fromEntries((r.provenance?.sources ?? []).map((s) => [s.id, s.url ?? s.description ?? ''])),
     contract: { azimuth: r.frame?.azimuth, note: 'docs/SCIENTIFIC_CONTRACT.md (a-science)' },
     datasets: [ds],

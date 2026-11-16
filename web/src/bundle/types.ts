@@ -131,6 +131,8 @@ export interface Metric {
   pass?: boolean;
   /** scenario value minus baseline value, as given by the bundle */
   delta?: number;
+  /** where the constraint came from when the bundle did not declare it (e.g. the team requirement) */
+  constraintSource?: string;
 }
 
 export interface Failure {
@@ -170,6 +172,110 @@ export interface Scenario {
   failures: Failure[];
   skylineSummary?: { min_deg?: number; max_deg?: number; n_truncated?: number; n_range_limited?: number };
   events?: BundleEvent[];
+}
+
+/* ---------- decision-evidence fields (additive; emitted by the science branch, read here) ----------
+ * See web/docs/VIEWER_BUNDLE_CONTRACT.md §"Decision-evidence fields". All optional: when absent the
+ * panels say "not in bundle" and fall back to what the bundle does carry (per-bin critical cells,
+ * per-sample margins, mast scenarios). The viewer never computes any of these. */
+
+/** Ridge of Record: one controlling terrain feature (a cluster of horizon-setting cells). */
+export interface Ridge {
+  id: string;
+  label?: string;
+  /** azimuth span of the skyline bins this ridge controls, deg clockwise from local north */
+  azimuthDeg: [number, number];
+  distanceM: { min: number; max: number } | number;
+  heightM?: { min: number; max: number } | number;
+  horizonElDeg?: { min: number; max: number } | number;
+  /** representative cell (e.g. the one controlling the most hours) */
+  cell?: CriticalCell & { index?: [number, number] };
+  dem?: string;
+  resolutionM?: number;
+  elevationSigmaM?: number | null;
+  /** angular gap to the runner-up obstruction in the same bins, deg (null = not computed) */
+  runnerUpGapDeg?: number | null;
+  /** per target: hours this ridge sets the horizon in the target's direction, and hours of visibility lost to it */
+  hours: Record<'sun' | 'earth', { controlled: number; lost: number; intervals?: [string, string][] }>;
+  /** science/attribution.py: the ridge caused at least one Sun or Earth loss sample */
+  ofRecord?: boolean;
+  reliefM?: number;
+  maxElevDeg?: number;
+}
+
+export interface Attribution {
+  label?: string;
+  /** scenario whose skyline this attribution describes (export: scenarioId; default = baseline) */
+  scenarioId?: string;
+  method: string;
+  methodDetail?: Record<string, string>;
+  /** per skyline bin: index into ridges[] (null = cluster that never held Sun/Earth), controlling distance, runner-up gap, source layer */
+  perBin?: { ridgeIdx: (number | null)[]; ctrlDistM?: (number | null)[]; gapDeg?: (number | null)[]; source?: (string | null)[] };
+  clusteringNote?: string;
+  ridges: Ridge[];
+}
+
+/** Coverage Gauge: how much of the controlling terrain the uncertainty models (clones) cover. */
+export interface CoverageTarget {
+  /** fraction 0..1 of controlling-cell-hours whose cell lies inside the clone footprint */
+  controllingHoursInside: number;
+  /** same, restricted to near-zero-margin samples (|margin| < criticalMarginDeg) */
+  criticalHoursInside: number | null;
+  /** fraction of controlling-cell-hours in truncated/range-limited bins (horizon unknown beyond reach) */
+  unknownHours: number;
+  hoursTotal: number;
+}
+
+export interface Coverage {
+  method: string;
+  footprint: { dem: string; boundsGridM?: [number, number, number, number]; cloneIds?: string[] };
+  criticalMarginDeg: number;
+  sun: CoverageTarget;
+  earth: CoverageTarget;
+  /** ridge ids (from attribution) whose controlling terrain lies outside the clone footprint */
+  uncoveredRidges?: string[];
+}
+
+/** Certainty Height: a mast-height sweep across terrain realizations. */
+export interface CertaintyPoint {
+  mastM: number;
+  nominal: { sunPct: number; earthPct?: number; bothPct?: number; longestSunGapH?: number; longestEarthGapH?: number };
+  min: { sunPct: number; bothPct?: number };
+  max: { sunPct: number; bothPct?: number };
+  nModels: number;
+  /** joint pass count over every requirement; null unless the bundle states it (marginal counts are never combined) */
+  nPass: number | null;
+  /** per-requirement pass counts exactly as the bundle states them ("k/N") */
+  passBy?: Record<string, { k: number; n: number }>;
+  median?: { sunPct?: number; bothPct?: number };
+  /** worst requirement margin across models (unit per requirement), null when no requirements declared */
+  worstMargins?: Record<string, number> | null;
+  coverageInside?: number | null;
+}
+
+export interface CertaintyCurve {
+  method: string;
+  rayStepM?: number;
+  requirements?: { id: string; label: string; op: '<=' | '>='; threshold: number; unit: string }[];
+  realizations: string[];
+  points: CertaintyPoint[];
+  /** smallest sampled mast at which every realization meets the requirements (null = none in sweep) */
+  minTestedFeasibleMastM: number | null;
+  /** smallest sampled mast at which max-min spread of sunPct <= agreementToleranceP */
+  agreementMastM: number | null;
+  agreementToleranceP: number;
+  /** per requirement: smallest tested mast at which every realization passes it (bundle), null = none in sweep */
+  heightByRequirement?: Record<string, number | null>;
+  note?: string;
+}
+
+/** Margin Ribbon range across realizations (per sample), when the bundle provides it. */
+export interface MarginRange {
+  realizations: string[];
+  scenarioId?: string;
+  truncated?: { sun?: boolean[]; earth?: boolean[] };
+  sun: { minDeg: (number | null)[]; maxDeg: (number | null)[] };
+  earth: { minDeg: (number | null)[]; maxDeg: (number | null)[] };
 }
 
 export interface ArrivalSlipPoint {
@@ -336,6 +442,13 @@ export interface FlipForecastBlock {
 export interface Derived {
   producer: { name: string; version: string };
   status: RawStatus;
+  /** decision-evidence outputs (optional, additive) */
+  attribution?: Attribution;
+  coverage?: Coverage;
+  certaintyCurve?: CertaintyCurve;
+  marginRange?: MarginRange;
+  /** display threshold below which |margin| is called "near zero" (deg); from the bundle when given */
+  nearZeroMarginDeg?: number;
   frame?: { localNorthInGrid?: [number, number]; localEastInGrid?: [number, number]; note?: string };
   skylineBinDeg?: number;
   scenarios: Scenario[];
@@ -370,7 +483,7 @@ export interface Dataset {
 
 export interface Bundle {
   /** POLARIS-X5D-v2 = Codex source cases; science-bundle-v2 = Person A (a-science), adapted on load */
-  format: 'POLARIS-X5D-v2' | 'science-bundle-v2';
+  format: 'POLARIS-X5D-v2' | 'science-bundle-v2' | 'polaris-science-results-v1';
   bundleId?: string;
   schemaVersion: string;
   generatedUTC: string;

@@ -45,6 +45,11 @@ def parse():
     p.add_argument('--samples', type=int, default=24, help='Cycles samples per render')
     p.add_argument('--resolution', default='1600x900')
     p.add_argument('--no-render', action='store_true')
+    p.add_argument('--surface', choices=('sfs', 'lola'), default='sfs',
+                   help='terrain drawn for the 5 m crop: sfs = NASA GSFC shape-from-shading display surface from the context pack where it exists '
+                        '(display only), lola = the bundle crop the solver uses. Rays and states are the bundle\'s either way.')
+    p.add_argument('--context-dir', default=None,
+                   help='terrain context pack directory (display-only 80 m surroundings); default: data/visual/terrain_context/<siteId> if present')
     return p.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else [])
 
 
@@ -80,24 +85,40 @@ def material(name, rgb, emission=0.0, roughness=0.95):
 
 
 def terrain_material(lo, hi):
-    m = bpy.data.materials.new('Regolith | elevation ramp (visual only)')
+    """Regolith (VISUAL ONLY): grey albedo ~0.12 with the faint red slope of lunar soil, +-12 % low-frequency albedo variation
+    and a synthetic sub-5 m bump (noise, ~0.5 m scale). Both are presentation: the geometry is the DEM; nothing here is data.
+    Diffuse, fully rough (the Moon has no specular sheen); lunar-Lambert is not available in Cycles, so Oren-Nayar-like
+    roughness stands in. `lo`/`hi` kept for the manifest only."""
+    m = bpy.data.materials.new('Regolith | neutral albedo + synthetic micro-relief (visual only)')
     m.use_nodes = True
     nt = m.node_tree
     nodes, links = nt.nodes, nt.links
     bsdf = nodes.get('Principled BSDF')
-    bsdf.inputs['Roughness'].default_value = 0.97
-    geo = nodes.new('ShaderNodeNewGeometry')
-    sep = nodes.new('ShaderNodeSeparateXYZ')
-    rng = nodes.new('ShaderNodeMapRange')
-    rng.inputs['From Min'].default_value = lo
-    rng.inputs['From Max'].default_value = hi if hi > lo else lo + 1
+    bsdf.inputs['Roughness'].default_value = 1.0
+    for name in ('Specular IOR Level', 'Specular'):
+        if name in bsdf.inputs:
+            bsdf.inputs[name].default_value = 0.0
+    tex = nodes.new('ShaderNodeTexCoord')
+    big = nodes.new('ShaderNodeTexNoise')
+    big.inputs['Scale'].default_value = 0.004          # object space metres: ~250 m blotches
+    big.inputs['Detail'].default_value = 4.0
     ramp = nodes.new('ShaderNodeValToRGB')
-    ramp.color_ramp.elements[0].color = (0.30, 0.31, 0.32, 1)
-    ramp.color_ramp.elements[1].color = (0.62, 0.60, 0.56, 1)
-    links.new(geo.outputs['Position'], sep.inputs[0])
-    links.new(sep.outputs['Z'], rng.inputs['Value'])
-    links.new(rng.outputs['Result'], ramp.inputs['Fac'])
+    ramp.color_ramp.elements[0].color = (0.105, 0.100, 0.094, 1)
+    ramp.color_ramp.elements[1].color = (0.135, 0.128, 0.120, 1)
+    links.new(tex.outputs['Object'], big.inputs['Vector'])
+    links.new(big.outputs['Fac'], ramp.inputs['Fac'])
     links.new(ramp.outputs['Color'], bsdf.inputs['Base Color'])
+    fine = nodes.new('ShaderNodeTexNoise')
+    fine.inputs['Scale'].default_value = 3.0
+    fine.inputs['Detail'].default_value = 8.0
+    fine.inputs['Roughness'].default_value = 0.6
+    bump = nodes.new('ShaderNodeBump')
+    bump.inputs['Strength'].default_value = 0.45
+    bump.inputs['Distance'].default_value = 0.08
+    links.new(tex.outputs['Object'], fine.inputs['Vector'])
+    links.new(fine.outputs['Fac'], bump.inputs['Height'])
+    links.new(bump.outputs['Normal'], bsdf.inputs['Normal'])
+    m['polaris_visual_only'] = 'albedo variation and micro-bump are synthetic; geometry is the DEM'
     return m
 
 
@@ -157,7 +178,8 @@ def main():
     obs = bv.observer(d, sc)
     north, east, basis_src = bv.basis(d)
     samples = d['ephemeris']['samples']
-    keys = bv.key_samples(d)
+    keys = bv.key_samples_with_transition(d, sc)
+    transition_target = keys.pop('transitionTarget', None)
     site = d['siteId']
     tag = f"POLARIS_X_{site}_bundlev2" + ('_DEMO' if status == 'DEMO' else '')
 
@@ -165,8 +187,49 @@ def main():
     scene.unit_settings.system = 'METRIC'
     scene.unit_settings.scale_length = 1.0
 
-    terrain, half, m_axis = build_dem(d['dem'], obs, cfg.max_vertices_per_axis, C['POLARIS Terrain'])
+    ctx_dir = Path(cfg.context_dir) if cfg.context_dir else Path(__file__).resolve().parent.parent / 'data' / 'visual' / 'terrain_context' / site
+    # DISPLAY surface of the 5 m crop: NASA GSFC shape-from-shading where the pack has it (else the bundle crop). A constant shift
+    # makes it meet the bundle ground at the observer; the same shift goes on the L1 ring and the 80 m context.
+    disp_vals, disp_info = bv.context_display_surface(ctx_dir, d['dem']) if cfg.surface == 'sfs' else (None, 'not requested (--surface lola)')
+    shift = 0.0
+    mesh_dem = d['dem']
+    if disp_vals is not None:
+        shift = bv.display_shift(d['dem'], disp_vals, obs)
+        mesh_dem = dict(d['dem'], values=[v + shift for v in disp_vals], layer='SfS_display_surface_DISPLAY_ONLY')
+        disp_info = dict(disp_info, verticalShiftM=round(shift, 4))
+        print(f"[POLARIS] terrain = NASA GSFC SfS display surface ({disp_info['coverageFraction']:.0%} of the crop), shift {shift:+.2f} m (display only)")
+    else:
+        print(f'[POLARIS] terrain = bundle LOLA crop ({disp_info})')
+    terrain, half, m_axis = build_dem(mesh_dem, obs, cfg.max_vertices_per_axis, C['POLARIS Terrain'])
+    if disp_vals is not None:
+        terrain.name = 'DEM | 5 m crop | NASA GSFC SfS DISPLAY surface | 1:1 metres'
     edge = d['dem'].get('validCoverageRadiusM') or half
+
+    # optional DISPLAY-ONLY L1 ring (20 m, about +-4 km); drawn only with the SfS surface when the ring itself is SfS-blended
+    mid_dem, mid_info, mid_box = bv.context_mid_dem(ctx_dir, d['dem'])
+    mid_ob = None
+    if mid_dem is not None and (disp_vals is not None or not (mid_info.get('sfsFraction') or 0)):
+        mid_dem['values'] = [v + shift for v in mid_dem['values']]
+        mid_ob, _mh, mid_axis = build_dem(mid_dem, obs, 401, C['POLARIS Terrain'])
+        mid_ob.name = 'CONTEXT L1 | 20 m ring | DISPLAY ONLY | 1:1 metres'
+        mid_info = dict(mid_info, meshVerticesPerAxis=mid_axis)
+        print(f'[POLARIS] L1 ring drawn: {mid_info["n"]}x{mid_info["n"]} @ {mid_info["spacingM"]} m (display only)')
+    elif mid_dem is not None:
+        mid_info, mid_box = 'ring is SfS-blended but the crop is LOLA (--surface lola): left out so the levels match', None
+    else:
+        mid_box = None
+
+    # optional DISPLAY-ONLY regional context (80 m PGDA 90 crop) so the 5 m crop does not float in black space
+    ctx_dem, ctx_info = bv.context_regional_dem(ctx_dir, d['dem'], cut_box=mid_box if mid_ob else None)
+    context_ob = None
+    if ctx_dem is not None:
+        ctx_dem['values'] = [v + shift for v in ctx_dem['values']]
+        context_ob, _ctx_half, ctx_axis = build_dem(ctx_dem, obs, 401, C['POLARIS Terrain'])
+        context_ob.name = 'CONTEXT | PGDA 90 80 m regional crop | DISPLAY ONLY | 1:1 metres'
+        ctx_info = dict(ctx_info, meshVerticesPerAxis=ctx_axis)
+        print(f'[POLARIS] regional context drawn: {ctx_info["n"]}x{ctx_info["n"]} @ {ctx_info["spacingM"]} m (display only)')
+    else:
+        print(f'[POLARIS] no regional context: {ctx_info}')
 
     # observer mast, to scale
     mast_mat = material('Observer mast (marker, not hardware)', (0.10, 0.80, 0.75), emission=2.0)
@@ -200,6 +263,17 @@ def main():
     # dim neutral fill so shadowed terrain stays readable (presentation only; recorded in the manifest)
     world.node_tree.nodes['Background'].inputs['Color'].default_value = (0.05, 0.055, 0.065, 1)
     world.node_tree.nodes['Background'].inputs['Strength'].default_value = 0.6
+    # the camera sees black space; only terrain lighting gets the dim fill (session A, 15 Nov: grey sky in the low hero render)
+    wn, wl = world.node_tree.nodes, world.node_tree.links
+    lp = wn.new('ShaderNodeLightPath')
+    black = wn.new('ShaderNodeBackground')
+    black.inputs['Color'].default_value = (0, 0, 0, 1)
+    mix = wn.new('ShaderNodeMixShader')
+    out_node = wn['World Output']
+    wl.new(lp.outputs['Is Camera Ray'], mix.inputs['Fac'])
+    wl.new(wn['Background'].outputs['Background'], mix.inputs[1])
+    wl.new(black.outputs['Background'], mix.inputs[2])
+    wl.new(mix.outputs['Shader'], out_node.inputs['Surface'])
     scene.world = world
 
     frame_to_utc = []
@@ -257,7 +331,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     renders = []
-    for label, k in keys.items():
+    for label, k in sorted(keys.items(), key=lambda kv: kv[1]):
         s = samples[k]
         f = k + 1
         scene.frame_set(f)
@@ -270,6 +344,11 @@ def main():
         }
         if sc:
             entry['bundleMarginDeg'] = {t: sc['samples'][t]['marginDeg'][k] for t in ('sun', 'earth')}
+        if label == 'transition':
+            prev = samples[k - 1]
+            entry['transition'] = {'target': transition_target, 'bracketUtc': [prev['time'], s['time']],
+                                   'before': bv.ray_state(sc, transition_target, k - 1)[0], 'after': bv.ray_state(sc, transition_target, k)[0],
+                                   'note': 'change happens between these two hourly samples; not refined'}
         if not cfg.no_render:
             png = out / f'{tag}_{label}_frame{f:03d}.png'
             scene.render.filepath = str(png)
@@ -278,15 +357,77 @@ def main():
             entry['pngSha256'] = bv.file_sha256(png)
         renders.append(entry)
 
+    # extra hero view at the start sample: a low camera ~650 m out, 70 m up, on the Sun's side and 40 deg off its azimuth, looking
+    # back over the observer, so Sun-facing slopes are lit and shadows rake away (presentation only; recorded in the manifest)
+    if not cfg.no_render:
+        k0 = keys['start']
+        scene.frame_set(k0 + 1)
+        s0 = samples[k0]
+        sd = bv.grid_direction(d, s0['sun']['az'], 0.0)
+        toward = Vector((sd[0], sd[1], 0)).normalized()
+        perp = Vector((-sd[1], sd[0], 0)).normalized()
+        side = (toward * math.cos(math.radians(40)) + perp * math.sin(math.radians(40))).normalized()
+        low_data = bpy.data.cameras.new('Low')
+        low_data.lens = 28
+        low_data.clip_start, low_data.clip_end = 0.5, half * 40
+        low = link(bpy.data.objects.new('Camera | low cross-lit hero', low_data), C['POLARIS Cameras'])
+        low.location = side * min(650.0, half * 0.65) + Vector((0, 0, 70.0))
+        look = (Vector((0, 0, obs['mast'])) - low.location).normalized()
+        low.rotation_mode = 'QUATERNION'
+        low.rotation_quaternion = look.to_track_quat('-Z', 'Y')
+        scene.camera = low
+        png = out / f'{tag}_hero_low_frame{k0 + 1:03d}.png'
+        scene.render.filepath = str(png)
+        exp0 = scene.view_settings.exposure
+        scene.view_settings.exposure = exp0 + 1.0       # the low view looks across mostly grazing-lit ground: +1 stop (presentation)
+        bpy.ops.render.render(write_still=True)
+        scene.view_settings.exposure = exp0
+        renders.append({'label': 'hero_low', 'frame': k0 + 1, 'sampleIndex': k0, 'utc': s0['time'], 'camera': 'low, Sun side, 40 deg off the Sun azimuth, +1 stop exposure (presentation)',
+                        'png': png.name, 'pngSha256': bv.file_sha256(png)})
+        scene.camera = cam
+
     blend = out / f'{tag}.blend'
     glb = out / f'{tag}.glb'
     scene.frame_set(keys['start'] + 1)
     bpy.ops.wm.save_as_mainfile(filepath=str(blend), compress=True)
     bpy.ops.object.select_all(action='DESELECT')
-    for ob in (terrain, mast, head, *rays.values(), sun):
+    for ob in (terrain, mast, head, *rays.values(), sun, *([context_ob] if context_ob else []), *([mid_ob] if mid_ob else [])):
         ob.select_set(True)
     bpy.ops.export_scene.gltf(filepath=str(glb), export_format='GLB', use_selection=True, export_lights=True,
                               export_apply=True, export_yup=True, export_animations=False)
+
+    # GLB parity: what was exported, read back two ways (pure-Python reader; Blender re-import into an empty scene)
+    exported = {ob.name: len(ob.data.vertices) for ob in (terrain, mast, head, *rays.values(), *([context_ob] if context_ob else []), *([mid_ob] if mid_ob else [])) if ob.type == 'MESH'}
+    import glb_check  # noqa: E402  (blender/ is on sys.path)
+    glb_info = glb_check.inspect_glb(glb)
+    bpy.ops.wm.read_factory_settings(use_empty=True)
+    bpy.ops.import_scene.gltf(filepath=str(glb))
+    back = {ob.name: len(ob.data.vertices) for ob in bpy.context.scene.objects if ob.type == 'MESH'}
+    mins = [math.inf] * 3
+    maxs = [-math.inf] * 3
+    for ob in bpy.context.scene.objects:
+        if ob.type != 'MESH':
+            continue
+        for c in ob.bound_box:
+            w = ob.matrix_world @ Vector(c)
+            for i in range(3):
+                mins[i] = min(mins[i], w[i])
+                maxs[i] = max(maxs[i], w[i])
+    glb_reimport = {
+        'pureReader': glb_info,
+        'blenderReimport': {'meshObjects': len(back), 'boundsBlenderM': {'min': [round(v, 3) for v in mins], 'max': [round(v, 3) for v in maxs]},
+                            'materials': sorted(m.name for m in bpy.data.materials)},
+        'exportedMeshVertices': exported,
+        'checks': {
+            'sameMeshCount': len(back) == len(exported),
+            # terrain grids are smooth and seam-free, so the exporter keeps one vertex per DEM node; small props may be split
+            'terrainVerticesUnchanged': all(back.get(n) == v for n, v in exported.items() if 'DEM' in n or 'CONTEXT' in n),
+            'terrainPresent': any('DEM' in n for n in back),
+            'contextPresent': (not context_ob) or any('CONTEXT' in n for n in back),
+        },
+    }
+    glb_reimport['pass'] = all(glb_reimport['checks'].values())
+    print(f"[POLARIS] GLB re-import: {'PASS' if glb_reimport['pass'] else 'FAIL'} {glb_reimport['checks']}")
 
     manifest = {
         'schema': 'POLARIS-X-scene-manifest-v2',
@@ -310,15 +451,21 @@ def main():
                   'azimuthConvention': d['ephemeris'].get('azimuthConvention')},
         'dem': {'layer': d['dem'].get('layer'), 'n': d['dem']['n'], 'spacingM': d['dem']['spacing'], 'meshVerticesPerAxis': m_axis,
                 'cropValuesSha256': d['dem'].get('cropValuesSha256'), 'source': d['dem'].get('source')},
+        'regionalContext': ctx_info if context_ob else {'present': False, 'reason': ctx_info},
+        'displaySurface': disp_info if disp_vals is not None else {'present': False, 'reason': disp_info},
+        'midRing': mid_info if mid_ob else {'present': False, 'reason': mid_info if isinstance(mid_info, str) else 'not drawn'},
         'sunLamp': 'SUN lamp +Z aimed toward the bundle JPL Sun direction (lamp shines along -Z); keyframed per sample with CONSTANT interpolation; energy 0 when el <= -0.27 deg',
         'rays': 'blocked rays end at bundle firstHitM (horizontal) when derived outputs exist; otherwise drawn to the DEM coverage edge and marked not evaluated',
         'frameToUtc': {'first': frame_to_utc[0], 'last': frame_to_utc[-1], 'rule': 'frame = sampleIndex + 1'},
         'renders': renders,
+        'glbReimport': glb_reimport,
         'assets': {'blend': {'file': blend.name, 'sha256': bv.file_sha256(blend)}, 'glb': {'file': glb.name, 'sha256': bv.file_sha256(glb)}},
         'limitations': [
             'Blender places geometry from bundle values only; it computes no skyline, visibility, margin or metric.',
             'Lighting energy, the dim world fill light, materials and camera are presentation choices; only the Sun lamp DIRECTION comes from the bundle.',
             'Visibility is target centre above a finite-DEM skyline; not power, not a DSN link.',
+            'With --surface sfs the drawn 5 m terrain is the NASA GSFC shape-from-shading DISPLAY surface (Bertone et al. 2025, doi:10.5281/zenodo.17954508, CC-BY-4.0) where it exists, shifted to meet the bundle ground at the observer; rays and states are the bundle\'s, computed on the LOLA crop, so a ray can visibly graze or clear the drawn surface differently.',
+            'Regolith albedo variation and the sub-5 m bump are synthetic presentation.',
         ],
     }
     mpath = out / f'{tag}_scene_manifest.json'

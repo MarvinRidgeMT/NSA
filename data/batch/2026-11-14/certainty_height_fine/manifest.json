@@ -1,0 +1,74 @@
+{
+ "created_utc": "2026-11-14T17:36:22+00:00",
+ "command": "/home/claude/polaris_batch/polaris_batch/clone_sweep.py --rois Site04:3 --clones 20 --masts 1.25,1.5,1.75 --workers 2 --out results/certainty_height_fine",
+ "args": {
+  "data": "data/external",
+  "out": "results/certainty_height_fine",
+  "roi_csv": "/home/claude/polaris_batch/data/polaris_roi_sites.csv",
+  "sites": "Site01,Site04",
+  "rois": "Site04:3",
+  "clones": 20,
+  "masts": "1.25,1.5,1.75",
+  "start": "2026-11-14 00:00",
+  "stop": "2026-11-28 00:00",
+  "step": "1h",
+  "n_az": 720,
+  "near_fine_step": 1.0,
+  "near_fine_m": 1000.0,
+  "workers": 2,
+  "threshold": [
+   "sun_centre_pct=70",
+   "both_centre_pct=40"
+  ]
+ },
+ "host": "vm",
+ "python": "3.13.18",
+ "cpu_count": 2,
+ "label": "SOURCE-BASED, UNVALIDATED unless the comparison below says otherwise",
+ "runtime_s": 133.5,
+ "horizons_raw": {
+  "Site04_ROI3": {
+   "sun": [
+    {
+     "file": "horizons_10_016d0fbc973936e0befe.txt",
+     "sha256": "4de1f8bcede780446a68e3021464d6747b21f4d7022621e72fbb0527b0259df4"
+    }
+   ],
+   "earth": [
+    {
+     "file": "horizons_399_14f4a241807150396ebc.txt",
+     "sha256": "cae60f34b988558b9ee0f4fe1b304af356018a93ee640f222223a888c43791ef"
+    }
+   ],
+   "first": "2026-Nov-14 00:00",
+   "last": "2026-Nov-28 00:00"
+  }
+ },
+ "dem_files": {
+  "Site04": {
+   "nominal": "data/external/pgda78/Site04/Site04_final_adj_5mpp_surf.tif",
+   "clone_0001": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0001_err.tif",
+   "clone_0002": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0002_err.tif",
+   "clone_0003": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0003_err.tif",
+   "clone_0004": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0004_err.tif",
+   "clone_0005": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0005_err.tif",
+   "clone_0006": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0006_err.tif",
+   "clone_0007": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0007_err.tif",
+   "clone_0008": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0008_err.tif",
+   "clone_0009": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0009_err.tif",
+   "clone_0010": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0010_err.tif",
+   "clone_0011": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0011_err.tif",
+   "clone_0012": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0012_err.tif",
+   "clone_0013": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0013_err.tif",
+   "clone_0014": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0014_err.tif",
+   "clone_0015": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0015_err.tif",
+   "clone_0016": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0016_err.tif",
+   "clone_0017": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0017_err.tif",
+   "clone_0018": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0018_err.tif",
+   "clone_0019": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0019_err.tif",
+   "clone_0020": "data/external/pgda78/Site04/Clones/Site04_final_adj_5mpp_0020_err.tif"
+  }
+ },
+ "far_dem": "data/external/pgda90/LDEM_80S_80MPP_ADJ.TIF",
+ "note": "Clone spread = sensitivity to sampled terrain alternatives, not a mission probability. Thresholds are illustrative, not mission requirements."
+}

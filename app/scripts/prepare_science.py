@@ -69,6 +69,12 @@ def xy_from_latlon(lat: float, lon: float) -> tuple[float, float]:
     return rho * math.sin(math.radians(lon)), rho * math.cos(math.radians(lon))
 
 
+def local_basis_in_grid(lon: float) -> tuple[list[float], list[float]]:
+    """Local north/east unit vectors in the south-polar stereographic grid."""
+    longitude = math.radians(lon)
+    return [math.sin(longitude), math.cos(longitude)], [math.cos(longitude), -math.sin(longitude)]
+
+
 def latlon_from_xy(x: float, y: float) -> tuple[float, float]:
     rho = math.hypot(x, y)
     lat = math.degrees(2 * math.atan2(rho, 2 * R) - math.pi / 2)
@@ -189,6 +195,9 @@ def read_raster_crop(source: str | Path, site_id: str, n: int, layer: str) -> di
                 "cropValuesSha256": crop_checksum,
                 "verticalUnits": "meters",
                 "frame": "MOON_ME / DE421",
+                "horizontalAxes": "south-polar stereographic grid: x=grid east, y=grid north",
+                "localNorthInGrid": local_basis_in_grid(lon)[0],
+                "localEastInGrid": local_basis_in_grid(lon)[1],
                 "crsConvention": "IAU Moon sphere R=1737400 m; ocentric south polar stereographic",
                 "rowOrder": "south-to-north after explicit source flip",
                 "validCoverageRadiusM": coverage_radius,
@@ -521,7 +530,9 @@ def main() -> None:
             "JPL_Horizons": HORIZONS_URL,
         },
         "contract": {
-            "localAxes": {"x": "east meters", "y": "north meters", "z": "elevation meters"},
+            "localAxes": {"x": "local east meters", "y": "local north meters", "z": "elevation meters"},
+            "terrainGridAxes": {"x": "south-polar grid east meters", "y": "south-polar grid north meters", "z": "elevation meters"},
+            "frameTransform": "local ENU directions and offsets are rotated into the terrain grid using the site longitude or explicit DEM basis",
             "time": "UTC ISO-8601",
             "scenarioAxis": "named deterministic uncertainty/assumption case; never a spatial dimension or probability",
             "visibility": "target center above finite-DEM terrain horizon; no DSN/power guarantee",
