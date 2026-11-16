@@ -19,3 +19,6 @@ dist/*.zip
 
 # scratch output from other tools
 tmp/
+
+# science/ DEM caches (multi-GB; re-created by science/sites.py)
+data/cache/

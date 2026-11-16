@@ -1,0 +1,122 @@
+[data] far-field LDEM 80 m -> data/external/pgda90/LDEM_80S_80MPP_ADJ.TIF
+[data] Site01 nominal 5 m DEM
+[data] Site04 nominal 5 m DEM
+[horizons] Site01 ROI1 ground 1958.2 m
+[horizons] Site01 ROI2 ground 1958.1 m
+[horizons] Site01 ROI3 ground 1956.4 m
+[horizons] Site01 ROI4 ground 1956.4 m
+[horizons] Site01 ROI5 ground 1950.7 m
+[horizons] Site01 ROI6 ground 1948.3 m
+[horizons] Site01 ROI7 ground 1928.7 m
+[horizons] Site04 ROI1 ground 1728.1 m
+[horizons] Site04 ROI2 ground 1732.6 m
+[horizons] Site04 ROI3 ground 1737.5 m
+[horizons] Site04 ROI4 ground 1737.2 m
+[run] 693 horizon+visibility jobs on 2 workers
+[run] 10/693 done (16 s)
+[run] 20/693 done (23 s)
+[run] 30/693 done (31 s)
+[run] 40/693 done (39 s)
+[run] 50/693 done (46 s)
+[run] 60/693 done (54 s)
+[run] 70/693 done (62 s)
+[run] 80/693 done (69 s)
+[run] 90/693 done (77 s)
+[run] 100/693 done (84 s)
+[run] 110/693 done (92 s)
+[run] 120/693 done (99 s)
+[run] 130/693 done (107 s)
+[run] 140/693 done (114 s)
+[run] 150/693 done (122 s)
+[run] 160/693 done (130 s)
+[run] 170/693 done (137 s)
+[run] 180/693 done (145 s)
+[run] 190/693 done (153 s)
+[run] 200/693 done (160 s)
+[run] 210/693 done (168 s)
+[run] 220/693 done (175 s)
+[run] 230/693 done (183 s)
+[run] 240/693 done (190 s)
+[run] 250/693 done (198 s)
+[run] 260/693 done (206 s)
+[run] 270/693 done (214 s)
+[run] 280/693 done (223 s)
+[run] 290/693 done (232 s)
+[run] 300/693 done (240 s)
+[run] 310/693 done (249 s)
+[run] 320/693 done (257 s)
+[run] 330/693 done (266 s)
+[run] 340/693 done (275 s)
+[run] 350/693 done (284 s)
+[run] 360/693 done (292 s)
+[run] 370/693 done (308 s)
+[run] 380/693 done (326 s)
+[run] 390/693 done (343 s)
+[run] 400/693 done (358 s)
+[run] 410/693 done (367 s)
+[run] 420/693 done (376 s)
+[run] 430/693 done (388 s)
+[run] 440/693 done (398 s)
+[run] 450/693 done (407 s)
+[run] 460/693 done (416 s)
+[run] 470/693 done (425 s)
+[run] 480/693 done (434 s)
+[run] 490/693 done (449 s)
+[run] 500/693 done (467 s)
+[run] 510/693 done (486 s)
+[run] 520/693 done (504 s)
+[run] 530/693 done (522 s)
+[run] 540/693 done (541 s)
+[run] 550/693 done (560 s)
+[run] 560/693 done (577 s)
+[run] 570/693 done (594 s)
+[run] 580/693 done (612 s)
+[run] 590/693 done (630 s)
+[run] 600/693 done (648 s)
+[run] 610/693 done (666 s)
+[run] 620/693 done (684 s)
+[run] 630/693 done (702 s)
+[run] 640/693 done (722 s)
+[run] 650/693 done (743 s)
+[run] 660/693 done (763 s)
+[run] 670/693 done (782 s)
+[run] 680/693 done (801 s)
+[run] 690/693 done (825 s)
+[run] 693/693 done (831 s)
+
+=== summary (sun centre %, clones min..max | nominal) ===
+Site01 ROI1 mast    1 m: sun 61.1..100.0 | 100.0  both 61.1..81.9 | 81.899  sun_centre_pct: MARGINAL (clones disagree)  both_centre_pct: robust pass
+Site01 ROI1 mast    5 m: sun 100.0..100.0 | 100.0  both 81.9..81.9 | 81.899  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI1 mast   10 m: sun 100.0..100.0 | 100.0  both 81.9..81.9 | 81.899  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI2 mast    1 m: sun 100.0..100.0 | 100.0  both 70.3..76.6 | 74.777  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI2 mast    5 m: sun 100.0..100.0 | 100.0  both 80.7..81.9 | 81.899  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI2 mast   10 m: sun 100.0..100.0 | 100.0  both 81.9..81.9 | 81.899  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI3 mast    1 m: sun 100.0..100.0 | 100.0  both 72.1..74.8 | 74.184  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI3 mast    5 m: sun 100.0..100.0 | 100.0  both 77.4..78.6 | 78.338  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI3 mast   10 m: sun 100.0..100.0 | 100.0  both 81.9..81.9 | 81.899  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI4 mast    1 m: sun 100.0..100.0 | 100.0  both 78.9..81.9 | 81.899  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI4 mast    5 m: sun 100.0..100.0 | 100.0  both 81.9..81.9 | 81.899  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI4 mast   10 m: sun 100.0..100.0 | 100.0  both 81.9..81.9 | 81.899  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI5 mast    1 m: sun 100.0..100.0 | 100.0  both 70.6..78.6 | 76.261  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI5 mast    5 m: sun 100.0..100.0 | 100.0  both 81.9..81.9 | 81.899  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI5 mast   10 m: sun 100.0..100.0 | 100.0  both 81.9..81.9 | 81.899  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI6 mast    1 m: sun 100.0..100.0 | 100.0  both 81.6..81.6 | 81.602  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI6 mast    5 m: sun 100.0..100.0 | 100.0  both 81.6..81.6 | 81.602  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI6 mast   10 m: sun 100.0..100.0 | 100.0  both 81.6..81.6 | 81.602  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI7 mast    1 m: sun 100.0..100.0 | 100.0  both 75.1..81.6 | 81.602  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI7 mast    5 m: sun 100.0..100.0 | 100.0  both 81.6..81.6 | 81.602  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site01 ROI7 mast   10 m: sun 100.0..100.0 | 100.0  both 81.6..81.6 | 81.602  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI1 mast    1 m: sun 51.9..69.4 | 71.217  both 4.7..36.5 | 38.576  sun_centre_pct: robust fail  both_centre_pct: robust fail
+Site04 ROI1 mast    5 m: sun 100.0..100.0 | 100.0  both 72.1..72.7 | 72.7  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI1 mast   10 m: sun 100.0..100.0 | 100.0  both 74.8..75.1 | 75.074  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI2 mast    1 m: sun 58.5..96.4 | 80.415  both 23.1..65.9 | 48.665  sun_centre_pct: MARGINAL (clones disagree)  both_centre_pct: MARGINAL (clones disagree)
+Site04 ROI2 mast    5 m: sun 100.0..100.0 | 100.0  both 72.1..73.0 | 72.7  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI2 mast   10 m: sun 100.0..100.0 | 100.0  both 76.6..77.7 | 76.855  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI3 mast    1 m: sun 87.2..97.0 | 93.769  both 62.6..74.8 | 71.217  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI3 mast    5 m: sun 100.0..100.0 | 100.0  both 78.6..78.6 | 78.635  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI3 mast   10 m: sun 100.0..100.0 | 100.0  both 78.9..78.9 | 78.932  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI4 mast    1 m: sun 100.0..100.0 | 100.0  both 78.6..78.6 | 78.635  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI4 mast    5 m: sun 100.0..100.0 | 100.0  both 78.6..78.6 | 78.635  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI4 mast   10 m: sun 100.0..100.0 | 100.0  both 78.6..78.6 | 78.635  sun_centre_pct: robust pass  both_centre_pct: robust pass
+
+wrote results/clone_sweep/ in 831 s

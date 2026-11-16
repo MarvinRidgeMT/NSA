@@ -1,0 +1,33 @@
+[data] far-field LDEM 80 m -> data/external/pgda90/LDEM_80S_80MPP_ADJ.TIF
+[data] Site01 nominal 5 m DEM
+[data] Site04 nominal 5 m DEM
+[data] Site07 nominal 5 m DEM
+[data] Site11 nominal 5 m DEM
+[horizons] Site01 ROI1  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site01 ROI2  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site01 ROI3  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site01 ROI4  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site01 ROI5  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site01 ROI6  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site01 ROI7  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site04 ROI1  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site04 ROI2  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site04 ROI3  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site04 ROI4  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site07 ROI1  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site07 ROI2  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site11 ROI1  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site11 ROI2  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site11 ROI3  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[horizons] Site11 ROI4  2026-01-01 00:00 -> 2044-08-08 00:00 @ 6h
+[run] 34 jobs on 2 workers
+
+[fine] n=17
+  sun  : Spearman rho 0.505, bias +4.03 pts, RMS 10.14, max |d| 19.46; best ROI ours Site01_ROI6 vs NASA Site01_ROI6
+  earth: Spearman rho 0.882, bias +3.03 pts, RMS 4.36, max |d| 9.56; best ROI ours Site11_ROI1 vs NASA Site11_ROI3
+
+[coarse] n=17
+  sun  : Spearman rho 0.488, bias +4.98 pts, RMS 10.94, max |d| 22.58; best ROI ours Site01_ROI6 vs NASA Site01_ROI6
+  earth: Spearman rho 0.887, bias +3.15 pts, RMS 4.58, max |d| 11.95; best ROI ours Site11_ROI3 vs NASA Site11_ROI3
+
+wrote results/pgda69_rois/ in 377 s

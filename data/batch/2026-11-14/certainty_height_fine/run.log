@@ -1,0 +1,18 @@
+[data] far-field LDEM 80 m -> data/external/pgda90/LDEM_80S_80MPP_ADJ.TIF
+[data] Site04 nominal 5 m DEM
+[horizons] Site04 ROI3 ground 1737.5 m
+[run] 63 horizon+visibility jobs on 2 workers
+[run] 10/63 done (23 s)
+[run] 20/63 done (43 s)
+[run] 30/63 done (63 s)
+[run] 40/63 done (83 s)
+[run] 50/63 done (104 s)
+[run] 60/63 done (126 s)
+[run] 63/63 done (133 s)
+
+=== summary (sun centre %, clones min..max | nominal) ===
+Site04 ROI3 mast 1.25 m: sun 91.1..100.0 | 100.0  both 68.2..78.0 | 78.042  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI3 mast  1.5 m: sun 96.1..100.0 | 100.0  both 73.9..78.6 | 78.338  sun_centre_pct: robust pass  both_centre_pct: robust pass
+Site04 ROI3 mast 1.75 m: sun 100.0..100.0 | 100.0  both 78.0..78.6 | 78.635  sun_centre_pct: robust pass  both_centre_pct: robust pass
+
+wrote results/certainty_height_fine/ in 133 s
