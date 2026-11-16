@@ -1,6 +1,6 @@
 {
  "schema": "polaris-blender-showcase-v1",
- "generatedUTC": "2026-11-16T01:47:48Z",
+ "generatedUTC": "2026-11-16T02:25:12Z",
  "status": "SOURCE-BASED UNVALIDATED",
  "site": "site04_roi3",
  "bundle": {
@@ -24,7 +24,7 @@
    },
    "exposureStops": 0.0,
    "png": "POLARIS_X_site04_roi3_bundlev2_showcase_aerial.png",
-   "pngSha256": "d1727bb19cdb7f39f315a01e98505565404b16f6271b081932aa4b9b42c33150",
+   "pngSha256": "7fbf74b3b68a22e36f2e495f3de90fd97d2e1c2055330f3b8eb188572d816e13",
    "rays": {
     "sun": {
      "state": "clear",
@@ -48,7 +48,7 @@
    },
    "exposureStops": 0.7,
    "png": "POLARIS_X_site04_roi3_bundlev2_showcase_ground.png",
-   "pngSha256": "e26446b6feb437952cbffbc83933ddbd1ad57b5e403a31947bb3b3b257f0fdf0",
+   "pngSha256": "32522cbf84a94869e7690b3eb9c10bad4a8220319ef22c7136b89e7054021131",
    "rays": {
     "sun": {
      "state": "clear",
@@ -72,7 +72,7 @@
    },
    "exposureStops": 1.0,
    "png": "POLARIS_X_site04_roi3_bundlev2_showcase_low_sun.png",
-   "pngSha256": "150838ca29e37d19e0a47359756f0962e6d04625eb5f8e003ccb18f4e3a1e420",
+   "pngSha256": "d5dd580d411c0a35fc0fd06e3bd54d2a081c3eaa01d01856bff71d0ad2dfd363",
    "rays": {
     "sun": {
      "state": "clear",
@@ -96,7 +96,7 @@
    },
    "exposureStops": 0.6,
    "png": "POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast1m.png",
-   "pngSha256": "a0fc0082cc7851cf001a3e7b29021812523233b123d235839f33b89186d69879",
+   "pngSha256": "87d7dfa3e8ce6683b9e748af28b35f3e351f5d9a7a0cd72a9ad95e1c493846e0",
    "scenario": "baseline",
    "mastM": 1.0,
    "sunRay": {
@@ -117,7 +117,7 @@
    },
    "exposureStops": 0.6,
    "png": "POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast10m.png",
-   "pngSha256": "1ef19da57231db4fb44a9c8f90bd1160067d108972095637b1909eb32c68425c",
+   "pngSha256": "ac762e4172b668bd0e7162ab528c42689138b11a660f8c7a9c2a6e77f755a621",
    "scenario": "mast10",
    "mastM": 10.0,
    "sunRay": {

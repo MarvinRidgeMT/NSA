@@ -1044,3 +1044,17 @@ Recovery point: `tmp/web_before_14islands_2035.tgz` and the RC ZIP copy `dist/PO
 
 ### Cloud cross-check of submission/merged (Claude, 15 Nov ~22:05 EST, at 83f6256 + later commits not included)
 Cloud container (SwiftShader software WebGL): vitest 101/101; Playwright 69/86 in a 3-worker run, 15 of the 17 failures pass when re-run one at a time with a 150 s timeout; the last 2 are harness artefacts (cold-launch hit a stale server on 127.0.0.1:4173; terrain-context timed out on its final 3D screenshot after all assertions passed). The Mac run above (86/86) is the authoritative result.
+### Final state, hosted copy v6, report — 15 Nov 2026 21:20–21:45 EST (session A)
+- **Pushed and verified** (`git ls-remote` in Anish's Terminal): `2445253` checkpoint; `68621ac` + `ce03658` showcase v2 / gallery / offset analysis.
+  Mac Playwright **79/79** (2.1 min) immediately before `ce03658`.
+- **Render review (v2, 128 spp, METAL, ~7 s per render):** black sky on both sites; ground views lit; the 1 m / 10 m pair reads correctly (1 m Sun ray
+  ends at the ridge 16 m out, 10 m clear). Remaining: the ray/eye markers are large in the ground views → ground camera moved to ~130 m from the mast.
+- **Hosted copy v6** (private): https://claude.ai/artifact/PkR5bSAVdAZuUNK4xAPu8J, built from `ce03658` with `--base ./`, gallery included; headless check:
+  Explore = Site01 ROI6 with relief on, Decision = Site04 ROI3, 0 failed requests.
+- New: `docs/FINAL_REPORT_SESSION_A_2026-11-15.md` (final report), `docs/NEXT_WORK_PROMPT_CLAUDE_CODE.md` (prompt for the remaining limits:
+  L1 diamond pattern, 1.75 m series, Site01 RDR check, streaming LOD + Blender ring, axe fixes, ground render polish).
+
+### submission/merged ← b-experience 21d0f2a (Claude, 15 Nov 2026 ~21:45 EST)
+- Merged 6cc00c3 (b-experience up to 68621ac) and then ce03658 + 21d0f2a: Blender showcase v2 outputs, gallery, final report and next-work prompt. Neither merge changed any web/src code. Screenshots were taken from b-experience.
+- Isolated-worktree check of 6cc00c3 on the Mac (SwiftShader): vitest 101/101; Playwright 85/86 in the final full run. Each failure across runs was a different load or timing test (sight-sun, terrain-context, ux-regressions wheel scroll), and each passed when re-run alone (ux-regressions 9/9 with --repeat-each=3). `cold-launch.spec.ts` hard-codes port 4173, so it fails with POLARIS_PLAYWRIGHT_PORT set to anything else.
+- Status unchanged: SOURCE_BASED_UNVALIDATED.

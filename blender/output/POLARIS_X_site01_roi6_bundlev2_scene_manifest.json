@@ -1,6 +1,6 @@
 {
   "schema": "POLARIS-X-scene-manifest-v2",
-  "generatedUTC": "2026-11-16T01:21:39Z",
+  "generatedUTC": "2026-11-16T02:24:55Z",
   "bundle": {
     "file": "polaris-x5d-roi-2026-11-14-v2.json",
     "sha256": "5b93dd66c3177d6098531f1261d565b3089101bd58f4d9a38d8ffb617b9cf51f",
@@ -148,7 +148,7 @@
         "earth": -3.67139
       },
       "png": "POLARIS_X_site01_roi6_bundlev2_start_frame001.png",
-      "pngSha256": "9efe923f2cab4aa603a88fea3a743798b236845c784ea8ac4f140f131922cb77"
+      "pngSha256": "9ec5720a9cc81f257a732b86b36002a2b2845613391b8fd97868eccd32e9ba89"
     },
     {
       "label": "transition",
@@ -191,7 +191,7 @@
         "note": "change happens between these two hourly samples; not refined"
       },
       "png": "POLARIS_X_site01_roi6_bundlev2_transition_frame063.png",
-      "pngSha256": "f0b921184f6084ceb42c09b3c567e71def6534b0f659c59694458684198d8e8f"
+      "pngSha256": "3823170e33b8ac4250dcc97e735c6da8b371f557b0938db2d91b416995da91eb"
     },
     {
       "label": "mid",
@@ -224,7 +224,7 @@
         "earth": 6.2024
       },
       "png": "POLARIS_X_site01_roi6_bundlev2_mid_frame169.png",
-      "pngSha256": "2805735a45d24530637ddfffd659bdde96debeec40c837cdb2ecf233ed0d4aad"
+      "pngSha256": "411fc941a73c372f7acb42b32d6444e64157d75934e4fe57b46c1dcce2a4fa1c"
     },
     {
       "label": "end",
@@ -257,7 +257,7 @@
         "earth": 3.6586
       },
       "png": "POLARIS_X_site01_roi6_bundlev2_end_frame337.png",
-      "pngSha256": "a1e6bd700fdba45d3d8eabd044b000c221b3f7d434b9bee8cec6caa4137fe4c8"
+      "pngSha256": "b35e13aa440d147436f99da1714b110ffd6631c4c48dfb4f99e8e311b2ccefd1"
     },
     {
       "label": "hero_low",
@@ -266,7 +266,7 @@
       "utc": "2026-11-14T00:00:00.000Z",
       "camera": "low, Sun side, 40 deg off the Sun azimuth, +1 stop exposure (presentation)",
       "png": "POLARIS_X_site01_roi6_bundlev2_hero_low_frame001.png",
-      "pngSha256": "287fb11f7681babc3be57eca2844a5ec2feae6824c0f91bd6f58f2362f1352be"
+      "pngSha256": "983d22529b10288d4a800a51ce818159e2b87e0732cd8aed899f4b62b0f4336d"
     }
   ],
   "glbReimport": {
@@ -410,11 +410,11 @@
   "assets": {
     "blend": {
       "file": "POLARIS_X_site01_roi6_bundlev2.blend",
-      "sha256": "ed692db8d863cc50cc4509d2278fc9b74afbf89793dbf0a29941bdcbec56444b"
+      "sha256": "6df6f7d14a8976a90b6a5c76746156b1e2c8a41f7b6b19cb9eb0e8aa0c52af70"
     },
     "glb": {
       "file": "POLARIS_X_site01_roi6_bundlev2.glb",
-      "sha256": "4d3e4451b000fa01e45b48b5393a067b8d5e87a5226b73cfbf0286b8f130c486"
+      "sha256": "e7927a1e174305971cc9a81df50d8e9d710e6ac329b7237b3e7f9a80c21b9f19"
     }
   },
   "limitations": [
