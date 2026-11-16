@@ -119,3 +119,30 @@ pyramid when present (skips cleanly otherwise); seam tolerance; roughness band; 
 South polar zone built from PGDA 90 + PGDA 78 with seam QA within tolerance, coverage summary committed, VISUAL tiles for the
 PGDA 78 sites with the roughness check reported, `TerrainStack` usable by S4. Products from S2 merged as they appear; anything
 not merged by the end is listed as not done.
+
+## 13. As built (16 Nov 2026, appended; the sections above are the plan as written before coding)
+- **Products merged:** PGDA 78 Sites 01/04/07/11 (5 m), PGDA 90 LDEM_80S 80 m, S2's LOLA polar LDEMs both poles
+  (875 5 m, 85 10 m, 80 20 m, 75 30 m, 60 60 m), LOLA global LDEM_128 (237 m; the 16/64 ppd files are dropped as
+  redundant), SLDEM2015 512 ppd (32 tiles as one VRT mosaic). PDS3 labels are parsed and checked before a file is
+  accepted (UNIT KILOMETER, OFFSET 1737.4 = reference sphere, 1737.4 km axes, MEAN EARTH/POLAR AXIS frame); GDAL's
+  OFFSET is overridden to 0 (we store heights, not radii). GDAL's eqc view of the PDS cylindrical grids uses the label's
+  rounded MAP_SCALE, so those grids are re-expressed as exact lon/lat grids (360 / width deg per pixel).
+- **Priority across levels** (contract amendment 4): where a higher-priority product exists, a finer lower-priority one
+  does not show at finer levels either. Consequence: LOLA LDEM_875S_5M / 85S_10M / 80S_20M never show under PGDA 90;
+  the north pole (no PGDA 90 there) shows LOLA 5/10/20 m.
+- **Equal-priority tiles** (adjacent PGDA 78 sites, same source and posting): each point uses the tile whose centre is
+  nearest, blended softly across the bisector (exp((d_i - d_max)/(8 px))). Replaces an arbitrary product-id order
+  (Site01 overlaps Site04 ~320 m from Site04 RoI 3).
+- **Pruning:** the planner skips (a) tiles where a coarse product covers the whole padded tile above everything fine
+  (the merge would be all NaN) and (b) reads of products below a product covering the whole padded tile (laid over with
+  w = 1). Same output, far fewer reads.
+- **Co-registration:** all LOLA-family products logged, never shifted; |dz| <= 0.28 m everywhere, horizontal 0 except
+  PGDA 78 Site07 vs LDEM_875S (0.5, -1.5) m = 0.32 px, flagged "investigate" (NMAD 0.868 -> 0.848 m only).
+- **Roughness:** the plan's pass criterion (total displayed RMS slope / real within [0.67, 1.5] at 15 m-2.56 km)
+  passes at all four PGDA 78 sites, but it is weak because regional tilt dominates RMS slope there. The sharper
+  diagnostic (added micro-relief vs real 5 m minus bilinear 80 m) shows the added relief is 1.2-2.0x too strong
+  (self-fit power-law extrapolation; per-cell detrending made it worse, 2.0-2.4x, and was rejected). PGDA 78 is itself
+  LOLA interpolated between tracks, so its sub-80 m residual is a lower bound on true roughness; PGDA 70 (shot-based)
+  is reported alongside. Not tuned to the four sites (that would be in-sample).
+- **Not done:** VISUAL for the eq zone (polar only), PGDA 70 as the VISUAL parameter source (used only in the check),
+  craters/boulders (no cited statistics), Earth-visibility fraction map, quantized-mesh / 3D Tiles display formats.
