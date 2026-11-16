@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { View } from '../store/view';
 import {
   cell,
@@ -43,6 +43,20 @@ export function CubeSlicer({ v }: { v: View }) {
   const [file, setFile] = useState<string | null>(null);
   const [cube, setCube] = useState<ScenarioCube | null>(null);
   const [err, setErr] = useState<string | null>(null);
+  // The hourly cube is ~38 MB of JSON once decompressed: fetch and parse it only once the panel is on screen.
+  const boxRef = useRef<HTMLElement | null>(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    if (seen) return;
+    const el = boxRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      if (el || typeof IntersectionObserver === 'undefined') setSeen(true);
+      return;
+    }
+    const io = new IntersectionObserver((es) => es.some((e) => e.isIntersecting) && setSeen(true), { rootMargin: '200px' });
+    io.observe(el);
+    return () => io.disconnect();
+  });
 
   useEffect(() => {
     let live = true;
@@ -63,7 +77,7 @@ export function CubeSlicer({ v }: { v: View }) {
   }, [siteId]);
 
   useEffect(() => {
-    if (!file) return;
+    if (!file || !seen) return;
     let live = true;
     setCube(null);
     setErr(null);
@@ -73,7 +87,7 @@ export function CubeSlicer({ v }: { v: View }) {
     return () => {
       live = false;
     };
-  }, [siteId, file]);
+  }, [siteId, file, seen]);
 
   if (index === undefined) return null;
   if (index === null)
@@ -89,6 +103,7 @@ export function CubeSlicer({ v }: { v: View }) {
     );
   return (
     <section
+      ref={boxRef}
       className="panel cube-slicer"
       data-testid="cube-slicer"
       data-source={cube ? `scenario cube ${cube.cube_id}` : 'scenario cube'}
@@ -114,7 +129,7 @@ export function CubeSlicer({ v }: { v: View }) {
           {err}
         </p>
       )}
-      {!cube && !err && <p className="muted small">Loading cube…</p>}
+      {!cube && !err && <p className="muted small">{seen ? 'Loading cube…' : 'Cube loads when this panel is on screen.'}</p>}
       {cube && (cube.dims.length === 1 ? <ProductTable cube={cube} /> : <Slicer key={cube.cube_id} cube={cube} />)}
     </section>
   );
