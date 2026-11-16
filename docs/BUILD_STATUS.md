@@ -1360,3 +1360,21 @@ Branch `claude/v2-r6-worlds-064d79` (contains 72e3430). Plan `docs/v2/PHASE_6_WO
   Horizons Mercury is west-positive (east longitude entered negative); first-360°-azimuth is not the solar day (equation of centre).
 - **Not done:** any-site `world=` hook in `science/anysite` (R1's; described in results §6); MLA prime-meridian tie; illumination
   comparison; world-aware schema; south-polar site; Mercury Blender/render twins; Mars. Nothing pushed.
+### v2 R5 — 6D decision tools (§4): robust choice, regret, VoI, landing search, Pareto — Claude, 16 Nov 2026 ~11:45–13:15 EST
+Branch `claude/v2-r5-decision-04ba20` (contains 72e3430). Plan: `docs/v2/PHASE_3_DECISION_PLAN.md` (written first; one change recorded in it).
+- **Code:** `science/decision/core.py` (maximin robust choice, nominal-map choice, regret matrix, max and unweighted-mean regret,
+  minimax regret, per-axis non-probabilistic VoI, requirement screens; stated tie rules), `questions.py` (X × L tables cut by axis
+  role from the committed cubes; requirement/context axes must be fixed), `build.py` (writes `data/cubes/<site>/decision6d.json`,
+  scenario-cube-v2, one context axis `Q`), `landing.py`, `pareto.py`; web `scenarioCubeV2.ts` reader additions,
+  `Decision6D.tsx`, `Decision6DLanding.tsx`, `Decision6DPareto.tsx` on the Decision page (display only).
+- **Tests:** `science/decision/tests` 34 (synthetic cube with planted robust optimum; regret = 0 and VoI = 0 with one member; two-axis
+  VoI; every stored table cell equals its source cube cell; source cubes' SHA-256 unchanged; stored Pareto fronts recomputed; landing
+  error = emulator − solver; larger radius never worse than smaller). vitest `decision6d.test.tsx` 8; Playwright `decision6d.spec.ts` 4.
+- **Landing search** (emulator screen → any-site solver re-check, 12 months hourly, 20 clones + 3 products): Site04 RoI 3 robust point
+  +50 m E, +150 m N (worst of 21 maps 76.38 % Sun vs 62.72 % at the RoI); re-check |error| mean 0.30 / 0.24, max 0.80 / 0.54 pct points
+  (R = 0.5 / 2 km), emulator best = solver best. Site01 RoI 6: the RoI itself is the robust choice (worst 80.21 %); |error| mean
+  0.14 / 0.11, max 0.50 / 0.21. Outside the ±100 m GP square the emulator is the coarse surrogate + constant; errors there 0.11–0.37 mean.
+- **Pareto** over 81 positions (Sun 12 mo, Earth line of sight, slope, energy share of starts): worst-case front 10 (Site04) / 4 (Site01).
+  The planned worst-window energy margin saturated at the zero-generation bound (fully dark 14-day windows), so the axis became the
+  share of 366 daily starts on which 10 kWh suffices. Per-position energy model equals `energy.json.gz` at the centre (0 Wh, 7,686 cells).
+- **Not done:** whole-Moon sites; distance to ice (no cited layer cached); X × M joint members; `D_relay`; expected VoI (no weights).
