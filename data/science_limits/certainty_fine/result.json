@@ -1,0 +1,480 @@
+{
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "item": "certainty_fine",
+ "site": "site04_roi3",
+ "masts_m": [
+  1.0,
+  1.25,
+  1.5,
+  1.75,
+  2.0
+ ],
+ "definition": "lowest mast with Sun-centre visible in 100 % of hourly samples on every map (nominal + 20 clones)",
+ "certainty_height_m": 1.75,
+ "published_certainty_height_m": 1.75,
+ "reproduces_published": true,
+ "series": {
+  "1.00": {
+   "maps": {
+    "nominal": {
+     "sun_pct": 94.362,
+     "sun_earth_pct": 72.107
+    },
+    "clone01": {
+     "sun_pct": 94.065,
+     "sun_earth_pct": 71.513
+    },
+    "clone02": {
+     "sun_pct": 93.472,
+     "sun_earth_pct": 70.623
+    },
+    "clone03": {
+     "sun_pct": 88.724,
+     "sun_earth_pct": 64.392
+    },
+    "clone04": {
+     "sun_pct": 90.504,
+     "sun_earth_pct": 67.359
+    },
+    "clone05": {
+     "sun_pct": 92.878,
+     "sun_earth_pct": 70.03
+    },
+    "clone06": {
+     "sun_pct": 96.142,
+     "sun_earth_pct": 73.887
+    },
+    "clone07": {
+     "sun_pct": 90.801,
+     "sun_earth_pct": 67.953
+    },
+    "clone08": {
+     "sun_pct": 92.878,
+     "sun_earth_pct": 70.03
+    },
+    "clone09": {
+     "sun_pct": 90.801,
+     "sun_earth_pct": 67.953
+    },
+    "clone10": {
+     "sun_pct": 88.724,
+     "sun_earth_pct": 65.579
+    },
+    "clone11": {
+     "sun_pct": 87.537,
+     "sun_earth_pct": 64.985
+    },
+    "clone12": {
+     "sun_pct": 89.318,
+     "sun_earth_pct": 66.469
+    },
+    "clone13": {
+     "sun_pct": 89.318,
+     "sun_earth_pct": 66.766
+    },
+    "clone14": {
+     "sun_pct": 91.691,
+     "sun_earth_pct": 69.436
+    },
+    "clone15": {
+     "sun_pct": 89.021,
+     "sun_earth_pct": 66.172
+    },
+    "clone16": {
+     "sun_pct": 89.911,
+     "sun_earth_pct": 67.062
+    },
+    "clone17": {
+     "sun_pct": 89.021,
+     "sun_earth_pct": 66.172
+    },
+    "clone18": {
+     "sun_pct": 94.955,
+     "sun_earth_pct": 72.404
+    },
+    "clone19": {
+     "sun_pct": 97.329,
+     "sun_earth_pct": 74.481
+    },
+    "clone20": {
+     "sun_pct": 88.724,
+     "sun_earth_pct": 66.469
+    }
+   },
+   "min_sun_pct": 87.537,
+   "max_sun_pct": 97.329,
+   "n_maps_100pct": 0,
+   "n_maps": 21
+  },
+  "1.25": {
+   "maps": {
+    "nominal": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone01": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone02": {
+     "sun_pct": 99.703,
+     "sun_earth_pct": 77.448
+    },
+    "clone03": {
+     "sun_pct": 95.549,
+     "sun_earth_pct": 72.997
+    },
+    "clone04": {
+     "sun_pct": 94.955,
+     "sun_earth_pct": 72.404
+    },
+    "clone05": {
+     "sun_pct": 97.626,
+     "sun_earth_pct": 75.074
+    },
+    "clone06": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone07": {
+     "sun_pct": 94.955,
+     "sun_earth_pct": 72.404
+    },
+    "clone08": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 77.448
+    },
+    "clone09": {
+     "sun_pct": 95.549,
+     "sun_earth_pct": 72.997
+    },
+    "clone10": {
+     "sun_pct": 91.395,
+     "sun_earth_pct": 68.546
+    },
+    "clone11": {
+     "sun_pct": 91.988,
+     "sun_earth_pct": 69.733
+    },
+    "clone12": {
+     "sun_pct": 93.472,
+     "sun_earth_pct": 70.92
+    },
+    "clone13": {
+     "sun_pct": 94.362,
+     "sun_earth_pct": 72.107
+    },
+    "clone14": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone15": {
+     "sun_pct": 93.472,
+     "sun_earth_pct": 70.92
+    },
+    "clone16": {
+     "sun_pct": 94.362,
+     "sun_earth_pct": 71.81
+    },
+    "clone17": {
+     "sun_pct": 93.769,
+     "sun_earth_pct": 71.513
+    },
+    "clone18": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone19": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 77.745
+    },
+    "clone20": {
+     "sun_pct": 96.142,
+     "sun_earth_pct": 74.184
+    }
+   },
+   "min_sun_pct": 91.395,
+   "max_sun_pct": 100.0,
+   "n_maps_100pct": 7,
+   "n_maps": 21
+  },
+  "1.50": {
+   "maps": {
+    "nominal": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone01": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone02": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone03": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 77.745
+    },
+    "clone04": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 77.745
+    },
+    "clone05": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone06": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone07": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone08": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone09": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone10": {
+     "sun_pct": 96.439,
+     "sun_earth_pct": 74.184
+    },
+    "clone11": {
+     "sun_pct": 97.329,
+     "sun_earth_pct": 75.668
+    },
+    "clone12": {
+     "sun_pct": 97.626,
+     "sun_earth_pct": 75.371
+    },
+    "clone13": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone14": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone15": {
+     "sun_pct": 98.516,
+     "sun_earth_pct": 76.558
+    },
+    "clone16": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 77.745
+    },
+    "clone17": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone18": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone19": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone20": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    }
+   },
+   "min_sun_pct": 96.439,
+   "max_sun_pct": 100.0,
+   "n_maps_100pct": 17,
+   "n_maps": 21
+  },
+  "1.75": {
+   "maps": {
+    "nominal": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone01": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone02": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone03": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone04": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone05": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone06": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone07": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone08": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone09": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone10": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.042
+    },
+    "clone11": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone12": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone13": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone14": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone15": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone16": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone17": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone18": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone19": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone20": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    }
+   },
+   "min_sun_pct": 100.0,
+   "max_sun_pct": 100.0,
+   "n_maps_100pct": 21,
+   "n_maps": 21
+  },
+  "2.00": {
+   "maps": {
+    "nominal": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone01": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone02": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone03": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone04": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone05": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone06": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone07": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone08": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone09": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone10": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.338
+    },
+    "clone11": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone12": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone13": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone14": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone15": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone16": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone17": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone18": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone19": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    },
+    "clone20": {
+     "sun_pct": 100.0,
+     "sun_earth_pct": 78.635
+    }
+   },
+   "min_sun_pct": 100.0,
+   "max_sun_pct": 100.0,
+   "n_maps_100pct": 21,
+   "n_maps": 21
+  }
+ },
+ "n_clones_used": 20,
+ "note": "PGDA 78 publishes 100 clones; this run uses the 20 cached locally. k of N maps is not a probability."
+}

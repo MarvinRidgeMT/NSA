@@ -1,0 +1,17 @@
+{
+ "item": "certainty_fine",
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "date_utc": "2026-11-16T04:40:59Z",
+ "command": "python l10_certainty_fine.py",
+ "module": "/Users/anishmeruva/Documents/ChatGPT/NSA-science-limits/science/limits/l10_certainty_fine.py",
+ "code_commit": "72a174b8ec5ab5ad1eb332b64ba1fcf8a6572272-dirty",
+ "inputs": [
+  {
+   "path": "data/bundles/site04_roi3_2026-11-14_14d_mast1m.json",
+   "sha256": "ac745d993c36e0066e61a57a01b5e9ab10f76ea41f4494233c044efccbefee1f"
+  }
+ ],
+ "outputs": {
+  "result.json": "80ea03562843fc99a136a3c03b719a341d753a5a2680b6d6e8de1d234865b1be"
+ }
+}

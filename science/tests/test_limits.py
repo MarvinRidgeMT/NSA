@@ -151,3 +151,21 @@ def test_l6_protocols_frozen_and_point_unchecked():
     r = _res('L6_hero_observation'); _manifest_ok('L6_hero_observation')
     assert r['gsfc_sfs_regions']['regions_containing_p0'] == []
     assert 'UNCHECKED' in r['status']
+
+
+# ------------------------------------------------------------------ L3 numerical / L10 certainty (time-boxed)
+def test_l3_convergence_baseline_reproduces_bundle():
+    r = _res('L3_convergence'); _manifest_ok('L3_convergence')
+    assert r['sites']['site04_roi3']['nominal']['baseline']['sun_pct'] == pytest.approx(94.362, abs=1e-3)
+    for s in r['sites'].values():
+        for m in s.values():
+            assert m['baseline']['d_sun_pct'] == 0.0
+
+
+def test_l10_certainty_fine_reproduces_175():
+    r = _res('certainty_fine'); _manifest_ok('certainty_fine')
+    assert r['certainty_height_m'] == 1.75
+    s = r['series']
+    assert s['1.00']['min_sun_pct'] == pytest.approx(87.537, abs=1e-3)
+    n = [s[k]['n_maps_100pct'] for k in sorted(s)]
+    assert n == sorted(n)          # more maps reach 100 % as the mast rises
