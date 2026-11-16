@@ -252,14 +252,22 @@ def build_products(site):
     prods = list(lens['products'])
     extra = [{'path': str(lens_p.relative_to(ROOT)), 'sha256': sha256_file(lens_p), 'note': 'M axis: four NASA terrain products'}]
     sfs_p = RES / 'sfs_result.json'
-    sfs = json.loads(sfs_p.read_text()).get(key)
-    sfs_row = None
-    if sfs and 'region' in sfs or (sfs and site == 'site01_roi6'):
-        m1 = next((m for m in sfs['masts'] if m['mast'] == 1), None)
-        if m1 and 'region' not in sfs or (m1 and sfs.get('cover_frac', 1.0) > 0):
-            sfs_row = {'label': 'GSFC SfS (Bertone et al. 2026) + PGDA 90 80 m', 'ground_m': m1['ground_m'], 'sun': m1['sun'],
-                       'both': m1['both'], 'year': m1['year']}
-            extra.append({'path': str(sfs_p.relative_to(ROOT)), 'sha256': sha256_file(sfs_p), 'note': 'M axis: SfS product'})
+    meta_p = RES / 'sfs_meta.json'
+    sfs = json.loads(sfs_p.read_text()).get(key) or {}
+    tile = key.split('_')[0]                                   # 'Site04_ROI3' -> 'Site04'
+    cover = json.loads(meta_p.read_text()).get(tile, {}).get('sfs_cover_frac')
+    m1 = next((m for m in sfs.get('masts', []) if m.get('mast') == 1), None)
+    sfs_row, sfs_reason = None, ''
+    if m1 is None:
+        sfs_reason = 'no SfS result for this site in research/long_features/results/sfs_result.json'
+    elif cover is None or cover < 1.0:
+        sfs_reason = (f'SfS DEM covers {cover:.1%} of the {tile} tile (sfs_meta.json); coverage at this site is '
+                      'not confirmed, so the research SfS entry is not used here')
+    else:
+        sfs_row = {'label': 'GSFC SfS (Bertone et al. 2026) + PGDA 90 80 m', 'ground_m': m1['ground_m'], 'sun': m1['sun'],
+                   'both': m1['both'], 'year': m1['year']}
+        extra.append({'path': str(sfs_p.relative_to(ROOT)), 'sha256': sha256_file(sfs_p), 'note': 'M axis: SfS product'})
+        extra.append({'path': str(meta_p.relative_to(ROOT)), 'sha256': sha256_file(meta_p), 'note': f'SfS tile coverage {cover:.0%}'})
     labels = [p['label'] for p in prods] + ['GSFC SfS (Bertone et al. 2026) + PGDA 90 80 m']
     rows = prods + [sfs_row]
     vals = {'sun_pct': [], 'sun_earth_pct': [], 'year_sun_pct': []}
@@ -281,7 +289,7 @@ def build_products(site):
                         'sun_earth_pct': mk('sun_earth_pct', 'Sun and Earth centre visible (demo window)', 'research/long_features lens/sfs results'),
                         'year_sun_pct': mk('year_sun_pct', 'Sun centre visible (12 months hourly)', 'research/long_features lens/sfs results')},
             'missing': {'encoding': 'sparse-flat-index', 'by_metric': miss,
-                        'reasons': {'sfs': 'SfS DEM does not cover this site in the research run' if sfs_row is None else ''}},
+                        'reasons': {'sfs': sfs_reason} if sfs_reason else {}},
             'provenance': {'inputs': extra, 'command': 'python -m science.cube.build_cube', 'code_commit': git_commit(),
                            'solver': 'research/long_features (polaris_batch), copied not recomputed'},
             'limitations': ['Values copied from the research handoff; the research solver samples differently from the repo solver (fractions of a percent).']}

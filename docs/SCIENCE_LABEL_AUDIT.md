@@ -41,3 +41,19 @@ Status of all numbers: **SOURCE-BASED · UNVALIDATED** (no independent validatio
 | When (EST) | Who | Change |
 |---|---|---|
 | 2026-11-14 20:52 | Claude (Penumbra Apex session) | Created. |
+
+## Scenario cube slicer (5D upgrades Phase 1–2, 16 Nov 2026, branch feature/5d-upgrades)
+Component `web/src/components/CubeSlicer.tsx`; every value is a slice of `data/cubes/<site>/*` (built by `science/cube/`).
+The panel and card carry `data-source="scenario cube <cube_id>"` and `data-label="SOURCE-BASED · UNVALIDATED"`.
+
+| Claim on screen | Source | Check |
+|---|---|---|
+| "{metric} · this cell" (e.g. 72.11 % at nominal, 1 m, 2026-11-14) | cube metric × declared scale (count/337) | equals bundle hourly-sample metric (test_cube round trip; Playwright cube-slicer) |
+| "T · range over 21 maps" | `derived.band_over_T` min/max | brute-force min/max over T (test_cube) |
+| "R · clone maps passing: k of 20 maps" | `derived.k_of_N` | recount from cube metrics (test_cube); wording never says probability |
+| "D · regret if chosen on nominal" (pct pts) | `derived.regret` | brute-force argmax/max (test_cube) |
+| "D · verdict depends on map: x % of starts" | `derived.decision_changes` | 0 < k < 20, team preset |
+| Strip caption "solid = selected map · band = range over T · hatch = missing" | visual grammar | — |
+| Requirement presets (team 70/40/120 h; strict 80/50/72 h; loose 60/30/168 h) | team requirement + research all3 gap limit; strict/loose are sensitivity presets | labelled as presets, not mission requirements |
+| Products table, "not in source" | `products.json` missing mask with reason | Site04 SfS cell missing (tile coverage 25.8 %) |
+| Terrain-safety values (slope °, safe-and-lit k) | `terrain_safety.json`; thresholds 10° / 8° / 20° are ENGINEERING ASSUMPTION | test_slope synthetic planes ±0.1° |

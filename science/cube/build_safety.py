@@ -47,7 +47,7 @@ def build(site):
     nT, nP = len(C.T_IDS), len(C.OFFSETS)
     stats = {f'slope_{b}m_{a}': np.zeros((nT, nP)) for b in SL.BASELINES_M for a in ('median', 'max')}
     landing = np.zeros((nT, nP)); eva_share = np.zeros(nT); eva_max = np.zeros(nT)
-    fields25, fields100 = [], []
+    fields5, fields25, fields100 = [], [], []
     ins = []
     for i, t in enumerate(C.T_IDS):
         dem = C.sites.near_dem(site, clone=C._clone_of(t))
@@ -62,16 +62,23 @@ def build(site):
                 landing[i] = [SL.at_point(S, dem, x0 + dx, y0 + dy) for dx, dy in C.OFFSETS]
                 if t != 'nominal':
                     fields100.append(SL.cell_window(S, dem, x0, y0, 150.0))
+            if b == 5 and t != 'nominal':
+                fields5.append(SL.cell_window(S, dem, x0, y0, 150.0))
             if b == 25:
                 eva_share[i], eva_max[i] = SL.region_share_below(S, dem, x0, y0, EVA_HALF_M, EVA_LIMIT)
                 if t != 'nominal':
                     fields25.append(SL.cell_window(S, dem, x0, y0, 150.0))
     # Barker comparison: per-pixel std over the 20 clones in the +-150 m block around the site
-    spread = {f'{b}m': {'median_std_deg': round(float(np.nanmedian(np.nanstd(np.array(f), axis=0))), 3),
-                        'p95_std_deg': round(float(np.nanpercentile(np.nanstd(np.array(f), axis=0), 95)), 3)}
-              for b, f in ((25, fields25), (100, fields100))}
+    spread = {}
+    for b, f in ((5, fields5), (25, fields25), (100, fields100)):
+        sd = np.nanstd(np.array(f), axis=0)
+        med = float(np.nanmedian(sd))
+        spread[f'{b}m'] = {'median_std_deg': round(med, 3), 'p95_std_deg': round(float(np.nanpercentile(sd, 95)), 3),
+                           'ratio_to_barker_1p5deg': round(med / 1.5, 3),
+                           # "same order" = within a factor of 3 of Barker's 1.5-2.5 deg range
+                           'within_factor_3_of_barker': bool(1.5 / 3 <= med <= 2.5 * 3)}
     spread['barker_reference'] = 'Barker et al. 2021 (PGDA 78): typical slope RMS uncertainty 1.5-2.5 deg'
-    spread['consistent_order'] = bool(0.15 <= spread['25m']['median_std_deg'] <= 25)  # same order of magnitude
+    spread['block'] = 'per-pixel std over clones 1-20 in the +-150 m block around the site'
     # safe and lit
     pos = _load_gz(OUT / site / 'position_schedule.json.gz')
     k = np.array(pos['derived']['k_of_N']['metrics']['k_pass']['values']).reshape(3, nP, -1)[0, :, 0]

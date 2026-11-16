@@ -1,0 +1,97 @@
+{
+ "schema": "scenario-cube-index-v1",
+ "site_id": "site01_roi6",
+ "label": "SOURCE-BASED \u00b7 UNVALIDATED",
+ "cubes": [
+  {
+   "file": "centre_mast_schedule.json.gz",
+   "cube_id": "site01_roi6-centre-mast-schedule-v1",
+   "title": "Centre position: terrain map x mast height x start",
+   "bytes": 407641,
+   "uncompressed_bytes": 37745262,
+   "sha256": "e2cdddaccedaa0fe8a5189ca716d9b801cc612fd2eeab3b285dd0aecad2337df",
+   "dims": [
+    "T",
+    "D_mast",
+    "S"
+   ]
+  },
+  {
+   "file": "position_schedule.json.gz",
+   "cube_id": "site01_roi6-position-schedule-v1",
+   "title": "Position grid: terrain map x position x daily start",
+   "bytes": 919048,
+   "uncompressed_bytes": 12632887,
+   "sha256": "e00197c5c77028b08f42dd30e89841128d0f7896c260cc1c6c8eb515b54dfc07",
+   "dims": [
+    "T",
+    "D_pos",
+    "S"
+   ]
+  },
+  {
+   "file": "products.json",
+   "cube_id": "site01_roi6-products-v1",
+   "title": "Terrain data product (M axis)",
+   "bytes": 2759,
+   "uncompressed_bytes": 2759,
+   "sha256": "9662d8f4895b21bc5b8d4aeca065b3c9e560ea438ea7060d09356fe073a72496",
+   "dims": [
+    "M"
+   ]
+  },
+  {
+   "file": "terrain_safety.json",
+   "cube_id": "site01_roi6-terrain-safety-v1",
+   "title": "Terrain safety: slope per map and position, safe-and-lit",
+   "bytes": 100077,
+   "uncompressed_bytes": 100077,
+   "sha256": "17a2a81ce83d20cd15f9615095e0b1d4ad4922f7b40dea8888ac155c940a230a",
+   "dims": [
+    "T",
+    "D_pos"
+   ]
+  }
+ ],
+ "baseline": {
+  "bundle": "site01_roi6_2026-11-14_14d_mast1m",
+  "sun_pct": {
+   "cube": 100.0,
+   "bundle": 100.0
+  },
+  "sun_earth_pct": {
+   "cube": 81.602,
+   "bundle": 81.602
+  },
+  "earth_pct": {
+   "cube": 81.602,
+   "bundle": 81.602
+  },
+  "sun_gap_h": {
+   "cube": 0,
+   "bundle_bisected_h": 0.0
+  }
+ },
+ "barker_check": {
+  "5m": {
+   "median_std_deg": 1.725,
+   "p95_std_deg": 2.465,
+   "ratio_to_barker_1p5deg": 1.15,
+   "within_factor_3_of_barker": true
+  },
+  "25m": {
+   "median_std_deg": 0.691,
+   "p95_std_deg": 1.159,
+   "ratio_to_barker_1p5deg": 0.461,
+   "within_factor_3_of_barker": true
+  },
+  "100m": {
+   "median_std_deg": 0.108,
+   "p95_std_deg": 0.277,
+   "ratio_to_barker_1p5deg": 0.072,
+   "within_factor_3_of_barker": false
+  },
+  "barker_reference": "Barker et al. 2021 (PGDA 78): typical slope RMS uncertainty 1.5-2.5 deg",
+  "block": "per-pixel std over clones 1-20 in the +-150 m block around the site"
+ }
+}

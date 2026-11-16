@@ -1,0 +1,107 @@
+{
+ "schema": "scenario-cube-v1",
+ "cube_id": "site04_roi3-products-v1",
+ "site_id": "site04_roi3",
+ "title": "Terrain data product (M axis)",
+ "label": "SOURCE-BASED \u00b7 UNVALIDATED",
+ "generated_utc": "2026-11-16T05:05:15Z",
+ "description": "Same 1 m mast, centre position and ephemeris on different NASA terrain products.",
+ "fixed": {
+  "mast_m": 1.0,
+  "position": "bundle site",
+  "T": "nominal",
+  "window": "2026-11-14 + 14 d (12 months for year_sun_pct)"
+ },
+ "dims": [
+  {
+   "name": "M",
+   "kind": "uncertainty_model",
+   "values": [
+    "PGDA 78 5 m + PGDA 90 80 m (POLARIS)",
+    "PGDA 90 20 m + 80 m",
+    "PGDA 90 40 m + 80 m",
+    "PGDA 90 80 m only",
+    "GSFC SfS (Bertone et al. 2026) + PGDA 90 80 m"
+   ],
+   "units": "",
+   "label": "Terrain data product",
+   "nominal_index": 0
+  }
+ ],
+ "metrics": {
+  "sun_pct": {
+   "units": "%",
+   "label": "Sun centre visible (demo window)",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    94.36,
+    100.0,
+    100.0,
+    100.0,
+    null
+   ],
+   "provenance": "research/long_features lens/sfs results"
+  },
+  "sun_earth_pct": {
+   "units": "%",
+   "label": "Sun and Earth centre visible (demo window)",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    72.11,
+    77.45,
+    77.74,
+    76.56,
+    null
+   ],
+   "provenance": "research/long_features lens/sfs results"
+  },
+  "year_sun_pct": {
+   "units": "%",
+   "label": "Sun centre visible (12 months hourly)",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    73.82,
+    78.19,
+    78.94,
+    81.38,
+    null
+   ],
+   "provenance": "research/long_features lens/sfs results"
+  }
+ },
+ "missing": {
+  "encoding": "sparse-flat-index",
+  "by_metric": {
+   "sun_pct": [
+    4
+   ],
+   "sun_earth_pct": [
+    4
+   ],
+   "year_sun_pct": [
+    4
+   ]
+  },
+  "reasons": {
+   "sfs": "SfS DEM covers 25.8% of the Site04 tile (sfs_meta.json); coverage at this site is not confirmed, so the research SfS entry is not used here"
+  }
+ },
+ "provenance": {
+  "inputs": [
+   {
+    "path": "research/long_features/results/lens_Site04_ROI3.json",
+    "sha256": "b6782b7ae1285b0f104d58a366e81538da322f8979bc10f5721966048d8b7d57",
+    "note": "M axis: four NASA terrain products"
+   }
+  ],
+  "command": "python -m science.cube.build_cube",
+  "code_commit": "bdf525c84862b46ebf8fd712c21019e9aa422c51-dirty",
+  "solver": "research/long_features (polaris_batch), copied not recomputed"
+ },
+ "limitations": [
+  "Values copied from the research handoff; the research solver samples differently from the repo solver (fractions of a percent)."
+ ]
+}
