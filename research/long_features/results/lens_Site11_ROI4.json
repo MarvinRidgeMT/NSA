@@ -1,0 +1,37 @@
+{
+ "products": [
+  {
+   "label": "PGDA 78 5 m + PGDA 90 80 m (POLARIS)",
+   "ground_m": 1779.31,
+   "sun": 100.0,
+   "both": 76.26,
+   "year": 74.66,
+   "max_horizon_deg": 1.752
+  },
+  {
+   "label": "PGDA 90 20 m + 80 m",
+   "ground_m": 1779.15,
+   "sun": 100.0,
+   "both": 76.56,
+   "year": 74.81,
+   "max_horizon_deg": 1.745
+  },
+  {
+   "label": "PGDA 90 40 m + 80 m",
+   "ground_m": 1778.44,
+   "sun": 100.0,
+   "both": 75.67,
+   "year": 73.39,
+   "max_horizon_deg": 1.756
+  },
+  {
+   "label": "PGDA 90 80 m only",
+   "ground_m": 1778.14,
+   "sun": 100.0,
+   "both": 75.96,
+   "year": 74.85,
+   "max_horizon_deg": 1.732
+  }
+ ],
+ "note": "Same 1 m mast and ephemeris on four NASA terrain products. All four give 100 % Sun in the demo window; over 12 months they span 73.4\u201374.9 %, with no consistent direction. The decision here does not depend on which product is used."
+}

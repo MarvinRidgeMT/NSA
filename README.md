@@ -70,6 +70,18 @@ python3 -m venv .venv
 
 The pipeline never silently substitutes synthetic terrain or analytic ephemerides after a source failure. Full reproduction commands, source hashes and limitations are in the documentation.
 
+## Solver API
+
+The standalone solver under `tools/polaris_solver/` accepts one JSON request and returns source-labelled geometric-visibility results. From `tools/`:
+
+```bash
+python -m polaris_solver request.json
+python -m polaris_solver --serve 8765
+python -m polaris_solver --tool-spec
+```
+
+Set `POLARIS_DATA=../data/external` to keep downloaded NASA rasters and cached raw JPL Horizons responses outside version control. k of N counts NASA terrain clones tested; it is not a probability.
+
 ## Documentation
 
 - `docs/BUILD_STATUS.md` — implemented work and remaining gaps
@@ -80,4 +92,11 @@ The pipeline never silently substitutes synthetic terrain or analytic ephemeride
 - `docs/FINAL_AUDIT.md` — release classification and evidence
 - `docs/SCREENSHOT_AUDIT.md` — verified local/global/direct-file visual evidence
 
+
+## Data and AI credits
+
+- NASA GSFC shape-from-shading DEM: Bertone et al. (2026), [Zenodo doi:10.5281/zenodo.17954508](https://doi.org/10.5281/zenodo.17954508), CC-BY-4.0. It is used only in `research/long_features/` and the Decision Lab evidence; attribution is required.
+- LROC `WAC_POLE_ILL_TWI_SOUTH_100M` polar illumination map, distributed through the Planetary Data System (PDS).
+- NASA PGDA products 69, 78 and 90; NASA/JPL Horizons; and NAIF SPICE.
+- AI use: Anthropic Claude (analysis, research scripts, Decision Lab page) and OpenAI Codex (integration).
 The production-style direct/offline application in `app/` is modular JavaScript/Three.js. A separate typed React/TypeScript bundle viewer is implemented in `web/` and deliberately reads derived bundle outputs rather than recomputing them. It also displays NASA PGDA 69's 18.6-year average Sun/Earth visibility reference maps with all 17 PGDA 78 landing-region outlines; these reference layers are clearly separated from POLARIS mission-window outputs. Independent matched truth-set comparison and wider numerical horizon coverage remain open; neither is represented as complete.

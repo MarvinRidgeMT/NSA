@@ -1,0 +1,321 @@
+{
+  "data_versions": [
+    {
+      "description": "LOLA LDEM_80S_80MPP_ADJ.TIF, 80 m/px south-polar mosaic, PGDA product 90",
+      "id": "ldem-80m",
+      "sha256": "82030dcbdd7c4bb0c7d858e9b4b293b9f2cda5a543ba31ec0f42784bd6beee5a",
+      "url": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF"
+    },
+    {
+      "description": "JPL Horizons API, observer tables, CENTER=coord@301, QUANTITIES=4,13,20, APPARENT=AIRLESS",
+      "id": "jpl-horizons",
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api"
+    },
+    {
+      "description": "LOLA site01_roi6 5 m LDEM (Barker et al. 2021), PGDA product 78",
+      "id": "p78-site",
+      "sha256": "3ba7b97cb00a2bcf21189c3aeb535f65afc21207154ab9f0d43c5bdc1f7e747e",
+      "url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Site01_final_adj_5mpp_surf.tif"
+    }
+  ],
+  "disclaimer": "Local geometric visibility only: not certified illumination, power, or DSN link availability.",
+  "labels": [
+    "SOURCE-BASED",
+    "UNVALIDATED"
+  ],
+  "longest_sun_blocked_requirement": {
+    "clone_evidence": {
+      "status": "nominal only; per-clone longest Sun-gap is not present in this bundle"
+    },
+    "comparison": "<=",
+    "coverage": {
+      "sun_critical_covered_fraction": {
+        "source_path": "derived.coverage.covered_frac",
+        "value": null
+      },
+      "sun_critical_hours": {
+        "source_path": "derived.coverage.n_critical_h",
+        "value": 0
+      }
+    },
+    "label": "SOURCE-BASED / UNVALIDATED observation; SCENARIO team requirement",
+    "nominal": {
+      "source_path": "metrics.longest_sun_center_hidden_h",
+      "value": 0.0
+    },
+    "pass": true,
+    "requirement_id": "maximum-sun-darkness",
+    "result_id": "decision-card-site01_roi6-longest-sun-gap",
+    "signed_margin": {
+      "formula": "threshold - nominal",
+      "source_paths": {
+        "nominal": "metrics.longest_sun_center_hidden_h"
+      },
+      "threshold_source": "CLI --max-dark-h",
+      "value": 120.0
+    },
+    "threshold": {
+      "classification": "SCENARIO",
+      "source": "CLI --max-dark-h",
+      "source_type": "team requirement",
+      "value": 120
+    },
+    "title": "Longest Sun-centre blocked stretch",
+    "unit": "h"
+  },
+  "requirements": [
+    {
+      "clone_pass": {
+        "count": {
+          "source_path": "derived.arrival_slip.points[12].clones.sun_pass_count",
+          "value": 20
+        },
+        "denominator": {
+          "source_path": "derived.arrival_slip.points[12].clones.pass_denominator",
+          "value": 20
+        },
+        "wording": "pass on k/N deterministic terrain clones; not a probability"
+      },
+      "clone_range": {
+        "max": {
+          "source_path": "derived.arrival_slip.points[12].clones.sun_center_visible_pct_max",
+          "value": 100.0
+        },
+        "min": {
+          "source_path": "derived.arrival_slip.points[12].clones.sun_center_visible_pct_min",
+          "value": 100.0
+        }
+      },
+      "comparison": ">=",
+      "coverage": {
+        "sun_critical_covered_fraction": {
+          "source_path": "derived.coverage.covered_frac",
+          "value": null
+        },
+        "sun_critical_hours": {
+          "source_path": "derived.coverage.n_critical_h",
+          "value": 0
+        }
+      },
+      "label": "SOURCE-BASED / UNVALIDATED",
+      "nominal": {
+        "source_path": "derived.arrival_slip.points[12].nominal.sun_center_visible_pct",
+        "value": 100.0
+      },
+      "requirement_id": "sun-centre",
+      "result_id": "decision-card-site01_roi6-sun-centre",
+      "signed_margin": {
+        "formula": "nominal - threshold",
+        "source_paths": {
+          "nominal": "derived.arrival_slip.points[12].nominal.sun_center_visible_pct",
+          "threshold": "derived.arrival_slip.thresholds.sun_center_visible_pct_min"
+        },
+        "value": 30.0
+      },
+      "threshold": {
+        "source_path": "derived.arrival_slip.thresholds.sun_center_visible_pct_min",
+        "value": 70.0
+      },
+      "title": "Sun-centre visible",
+      "unit": "%"
+    },
+    {
+      "clone_pass": {
+        "count": {
+          "source_path": "derived.arrival_slip.points[12].clones.joint_pass_count",
+          "value": 20
+        },
+        "denominator": {
+          "source_path": "derived.arrival_slip.points[12].clones.pass_denominator",
+          "value": 20
+        },
+        "wording": "pass on k/N deterministic terrain clones; not a probability"
+      },
+      "clone_range": {
+        "max": {
+          "source_path": "derived.arrival_slip.points[12].clones.sun_and_earth_center_visible_pct_max",
+          "value": 81.602
+        },
+        "min": {
+          "source_path": "derived.arrival_slip.points[12].clones.sun_and_earth_center_visible_pct_min",
+          "value": 81.602
+        }
+      },
+      "comparison": ">=",
+      "coverage": {
+        "earth_critical_covered_fraction": {
+          "source_path": "derived.coverage.earth.covered_frac",
+          "value": 0.0
+        },
+        "earth_critical_hours": {
+          "source_path": "derived.coverage.earth.n_critical_h",
+          "value": 33
+        },
+        "sun_critical_covered_fraction": {
+          "source_path": "derived.coverage.covered_frac",
+          "value": null
+        },
+        "sun_critical_hours": {
+          "source_path": "derived.coverage.n_critical_h",
+          "value": 0
+        }
+      },
+      "label": "SOURCE-BASED / UNVALIDATED",
+      "nominal": {
+        "source_path": "derived.arrival_slip.points[12].nominal.sun_and_earth_center_visible_pct",
+        "value": 81.602
+      },
+      "requirement_id": "sun-and-earth",
+      "result_id": "decision-card-site01_roi6-sun-and-earth",
+      "signed_margin": {
+        "formula": "nominal - threshold",
+        "source_paths": {
+          "nominal": "derived.arrival_slip.points[12].nominal.sun_and_earth_center_visible_pct",
+          "threshold": "derived.arrival_slip.thresholds.sun_and_earth_center_visible_pct_min"
+        },
+        "value": 41.602
+      },
+      "threshold": {
+        "source_path": "derived.arrival_slip.thresholds.sun_and_earth_center_visible_pct_min",
+        "value": 40.0
+      },
+      "title": "Sun + Earth centres visible",
+      "unit": "%"
+    }
+  ],
+  "result_id": "decision-card-site01_roi6-site01_roi6_2026-11-14_14d_mast1m",
+  "ridge_of_record": [
+    {
+      "azimuth_span_deg": {
+        "max": {
+          "source_path": "derived.attribution.ridges[0].az_span_deg[1]",
+          "value": 134.5
+        },
+        "min": {
+          "source_path": "derived.attribution.ridges[0].az_span_deg[0]",
+          "value": 133.5
+        }
+      },
+      "distance_range_km": {
+        "max": {
+          "source_path": "derived.attribution.ridges[0].dist_range_km[1]",
+          "value": 139.65
+        },
+        "min": {
+          "source_path": "derived.attribution.ridges[0].dist_range_km[0]",
+          "value": 139.09
+        }
+      },
+      "height_m": {
+        "source_path": "derived.attribution.ridges[0].height_m",
+        "value": 3322.465
+      },
+      "label": "SOURCE-BASED UNVALIDATED",
+      "result_id": "decision-card-site01_roi6-ridge-R1",
+      "ridge_id": "R1",
+      "sun_loss_h": {
+        "source_path": "derived.attribution.ridges[0].sun_loss_h",
+        "value": 0
+      }
+    },
+    {
+      "azimuth_span_deg": {
+        "max": {
+          "source_path": "derived.attribution.ridges[1].az_span_deg[1]",
+          "value": 136.5
+        },
+        "min": {
+          "source_path": "derived.attribution.ridges[1].az_span_deg[0]",
+          "value": 135.0
+        }
+      },
+      "distance_range_km": {
+        "max": {
+          "source_path": "derived.attribution.ridges[1].dist_range_km[1]",
+          "value": 137.17
+        },
+        "min": {
+          "source_path": "derived.attribution.ridges[1].dist_range_km[0]",
+          "value": 136.85
+        }
+      },
+      "height_m": {
+        "source_path": "derived.attribution.ridges[1].height_m",
+        "value": 4220.149
+      },
+      "label": "SOURCE-BASED UNVALIDATED",
+      "result_id": "decision-card-site01_roi6-ridge-R2",
+      "ridge_id": "R2",
+      "sun_loss_h": {
+        "source_path": "derived.attribution.ridges[1].sun_loss_h",
+        "value": 0
+      }
+    },
+    {
+      "azimuth_span_deg": {
+        "max": {
+          "source_path": "derived.attribution.ridges[2].az_span_deg[1]",
+          "value": 133.0
+        },
+        "min": {
+          "source_path": "derived.attribution.ridges[2].az_span_deg[0]",
+          "value": 131.0
+        }
+      },
+      "distance_range_km": {
+        "max": {
+          "source_path": "derived.attribution.ridges[2].dist_range_km[1]",
+          "value": 141.09
+        },
+        "min": {
+          "source_path": "derived.attribution.ridges[2].dist_range_km[0]",
+          "value": 140.37
+        }
+      },
+      "height_m": {
+        "source_path": "derived.attribution.ridges[2].height_m",
+        "value": 2960.435
+      },
+      "label": "SOURCE-BASED UNVALIDATED",
+      "result_id": "decision-card-site01_roi6-ridge-R3",
+      "ridge_id": "R3",
+      "sun_loss_h": {
+        "source_path": "derived.attribution.ridges[2].sun_loss_h",
+        "value": 0
+      }
+    }
+  ],
+  "schema": "polaris-decision-card-v1",
+  "site": {
+    "id": "site01_roi6",
+    "latitude_deg": {
+      "source_path": "site.lat_deg",
+      "value": -89.47409
+    },
+    "longitude_deg_east": {
+      "source_path": "site.lon_deg_east",
+      "value": -137.3813
+    },
+    "name": "Connecting Ridge (Site01 ROI6)",
+    "observer_mast_m": {
+      "source_path": "site.observer_mast_m",
+      "value": 1.0
+    }
+  },
+  "source": {
+    "bundle_id": "site01_roi6_2026-11-14_14d_mast1m",
+    "bundle_path": "data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",
+    "bundle_schema": "polaris-science-results-v1",
+    "bundle_sha256": "ec2e9f24ca80412d5f286bbb9315b5b045becbe764243842e52a9c7f9547e552",
+    "generator": {
+      "code": "science/ (POLARIS X a-science)",
+      "command": "python3 -m science.bundle --site site01_roi6 --mast 1 --out data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",
+      "git_commit": "284f16d1d330301f7622ddd0bd6bff0de795c2e4"
+    },
+    "validation_status": "SOURCE-BASED UNVALIDATED"
+  },
+  "window": {
+    "start_utc": "2026-11-14T00:00:00.000Z",
+    "stop_utc": "2026-11-28T00:00:00.000Z"
+  }
+}

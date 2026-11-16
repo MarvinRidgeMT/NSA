@@ -22,8 +22,23 @@ tmp/
 
 # PGDA 69 / 78 downloads for tools/pgda69 (re-fetched with pinned SHA-256)
 data/raw/pgda69/
+# reproducible NASA/JPL science cache; source URLs and hashes live in bundles
+data/cache/
+# standalone solver API cache (NASA rasters + raw Horizons responses)
+data/external/
 
 # LROC NAC visual windows: keep the 8-bit PNG + manifest, not the float32 copy or partial downloads
 data/visual/**/*_f32.tif
 data/visual/**/*.partial
 data/visual/**/*.rows
+
+# Derived NASA raster/mesh products for the 3D view (rebuilt by tools/terrain/build_terrain_context.py,
+# NASA SVS globe GLB, LROC NAC crops). Not committed: NASA rasters stay out of git.
+web/public/context/**/*.bin
+data/visual/terrain_context/**/*.bin
+web/public/globe/*.glb
+app/assets/nasa/*.glb
+web/public/visual/site01_center_2km_1m_8bit.png
+data/visual/lroc_nac_pole_south_cm_avg/*.png
+blender/output/
+app/dist/

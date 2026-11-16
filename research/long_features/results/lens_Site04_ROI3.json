@@ -1,0 +1,37 @@
+{
+ "products": [
+  {
+   "label": "PGDA 78 5 m + PGDA 90 80 m (POLARIS)",
+   "ground_m": 1737.51,
+   "sun": 94.36,
+   "both": 72.11,
+   "year": 73.82,
+   "max_horizon_deg": 1.884
+  },
+  {
+   "label": "PGDA 90 20 m + 80 m",
+   "ground_m": 1737.58,
+   "sun": 100.0,
+   "both": 77.45,
+   "year": 78.19,
+   "max_horizon_deg": 1.049
+  },
+  {
+   "label": "PGDA 90 40 m + 80 m",
+   "ground_m": 1736.96,
+   "sun": 100.0,
+   "both": 77.74,
+   "year": 78.94,
+   "max_horizon_deg": 1.049
+  },
+  {
+   "label": "PGDA 90 80 m only",
+   "ground_m": 1736.27,
+   "sun": 100.0,
+   "both": 76.56,
+   "year": 81.38,
+   "max_horizon_deg": 1.049
+  }
+ ],
+ "note": "Same 1 m mast and ephemeris on four NASA terrain products. Only the 5 m map resolves the ~1.6 m rise 16 m from the lander, so it alone shows Sun loss in the demo window (94.4 % vs 100 % on 20, 40 and 80 m); over 12 months the products span 73.8\u201381.4 %. The decision here depends on 5 m data; coarser maps would call it a clean pass."
+}

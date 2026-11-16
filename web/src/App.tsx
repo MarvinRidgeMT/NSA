@@ -11,6 +11,8 @@ import { CAMERA_VIEWS, useCamera } from './store/camera';
 import { useUi } from './store/ui';
 import { MastInstrument } from './components/MastInstrument';
 import { DecisionHero } from './components/DecisionHero';
+import { ArrivalSlipStrip } from './components/ArrivalSlipStrip';
+import { FlipForecastTable } from './components/FlipForecastTable';
 import { Guide } from './components/Guide';
 import { firstBlockedRun, ridgesOfRecord } from './bundle/ridgeSeek';
 import { ridgeBins } from './bundle/evidence';
@@ -459,7 +461,13 @@ export default function App() {
       )}
       {route === 'story' && <Story onEnter={() => go('sky')} onEvidence={() => go('evidence')} onGuide={() => useUi.getState().set({ guide: 0 })} />}
       <Guide go={go} />
-      <main id="main" tabIndex={-1} hidden={route === 'story'}>
+      <main
+        id="main"
+        tabIndex={-1}
+        hidden={route === 'story'}
+        data-source={loaded ? `bundles/${loaded.name}` : undefined}
+        data-classification={loaded?.status}
+      >
         {(loading || loadError || (ws !== 'sky' && (loaded?.warnings.filter((w) => !/3D view|DEM grid/.test(w)).length ?? 0) > 0)) && (
           <div className="top-clock">
             {loading && !loadError && (
@@ -612,6 +620,9 @@ export default function App() {
                         <div className="lab">Decision · {v.dataset.site.name}</div>
                         <h1>Does this ground keep the light?</h1>
                       </div>
+                      <a className="btn" href={`${import.meta.env.BASE_URL}lab/index.html`} data-testid="decision-lab-link">
+                        Decision Lab · four sites, 12 months
+                      </a>
                     </div>
                     <DecisionHero v={v} />
                   </div>
@@ -639,6 +650,8 @@ export default function App() {
                   <div className="col">
                     <CoverageGauge v={v} />
                     <ScenarioTable v={v} />
+                    <ArrivalSlipStrip v={v} />
+                    <FlipForecastTable v={v} />
                   </div>
                 </div>
               </div>

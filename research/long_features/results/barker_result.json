@@ -1,0 +1,86 @@
+{
+ "rows": [
+  {
+   "roi": 1,
+   "barker_A1_5m": 89.26,
+   "barker_A1_1m": 68.03,
+   "ours5_nom": 90.65,
+   "ours5_cl_min": 89.54,
+   "ours5_cl_median": 90.22,
+   "ours5_sfs": 90.55,
+   "ours1_centroid_nom": 80.25,
+   "ours1_centroid_cl_min": 55.33
+  },
+  {
+   "roi": 2,
+   "barker_A1_5m": 88.51,
+   "barker_A1_1m": 70.32,
+   "ours5_nom": 89.58,
+   "ours5_cl_min": 89.17,
+   "ours5_cl_median": 89.36,
+   "ours5_sfs": 89.29,
+   "ours1_centroid_nom": 79.58,
+   "ours1_centroid_cl_min": 62.18
+  },
+  {
+   "roi": 3,
+   "barker_A1_5m": 84.53,
+   "barker_A1_1m": 67.51,
+   "ours5_nom": 86.14,
+   "ours5_cl_min": 84.58,
+   "ours5_cl_median": 85.34,
+   "ours5_sfs": 86.88,
+   "ours1_centroid_nom": 74.3,
+   "ours1_centroid_cl_min": 67.59
+  },
+  {
+   "roi": 4,
+   "barker_A1_5m": 88.12,
+   "barker_A1_1m": 69.61,
+   "ours5_nom": 88.18,
+   "ours5_cl_min": 87.74,
+   "ours5_cl_median": 87.97,
+   "ours5_sfs": 87.83,
+   "ours1_centroid_nom": 82.18,
+   "ours1_centroid_cl_min": 68.46
+  },
+  {
+   "roi": 5,
+   "barker_A1_5m": 85.71,
+   "barker_A1_1m": 70.38,
+   "ours5_nom": 86.33,
+   "ours5_cl_min": 85.62,
+   "ours5_cl_median": 86.04,
+   "ours5_sfs": 86.14,
+   "ours1_centroid_nom": 73.31,
+   "ours1_centroid_cl_min": 60.66
+  },
+  {
+   "roi": 6,
+   "barker_A1_5m": 87.35,
+   "barker_A1_1m": 71.15,
+   "ours5_nom": 87.64,
+   "ours5_cl_min": 87.38,
+   "ours5_cl_median": 87.53,
+   "ours5_sfs": 87.93,
+   "ours1_centroid_nom": 84.58,
+   "ours1_centroid_cl_min": 79.97
+  },
+  {
+   "roi": 7,
+   "barker_A1_5m": 82.79,
+   "barker_A1_1m": 67.36,
+   "ours5_nom": 82.95,
+   "ours5_cl_min": 82.67,
+   "ours5_cl_median": 82.86,
+   "ours5_sfs": 83.69,
+   "ours1_centroid_nom": 75.3,
+   "ours1_centroid_cl_min": 57.9
+  }
+ ],
+ "sfs_mean_diff": 0.8628571428571418,
+ "note": "5 m above the surface, 1 Jan 2024 \u2013 1 Jan 2026 hourly, visible Sun-disc fraction averaged over 5 sampled pixels per RoI. Our worst-of-20-clones minus Barker's 1st percentile of 100: mean +0.06, range -0.38 to +0.66 pts; nominal minus Barker: mean +0.74 pts; rank correlation 1.00. RoI 4 (Barker's 88.1 %): nominal 88.2 %, worst clone 87.7 %. Differences: 5 pixels not the full RoI, 20 not 100 clones, our 720-bin horizon vs Barker's method. On the NASA GSFC SfS terrain instead of LOLA: mean +0.86 pts vs Barker (range -0.29 to +2.35).",
+ "mean_diff_clmin": 0.061428571428570375,
+ "mean_diff_nom": 0.7428571428571432,
+ "spearman": 1.0
+}

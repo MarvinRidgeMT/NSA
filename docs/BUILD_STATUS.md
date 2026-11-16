@@ -169,6 +169,64 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 
 ### Science-branch handoff issues recorded at that checkpoint
 
+
+## C1 — Decision Lab integration (15 Nov 2026)
+
+- Added the byte-identical static Decision Lab and reference data under `web/public/lab/`; `index.html` SHA-256 is `210d2fa5e9049dd53969f237d4f84f8d93df2cf280ae30acbae70ebc47cf4e0f`.
+- Added the relative-base `Decision Lab` header link, long-feature write-up, standalone research code/results and required CC-BY-4.0 attribution README.
+- `cd web && npm run build` passed and produced `dist/lab/index.html`; the dedicated Playwright smoke test passed 1/1 with no page errors and a loaded headline.
+- Unverified: standalone research scripts and supplied result JSON were integrated as a handoff and were not independently rerun in this task.
+- Batch-2 handoff update: the four-site Decision Lab (`Site01 RoI 6`, `Site04 RoI 3`, `Site07 RoI 1`, `Site11 RoI 4`) is byte-identical to handoff v2; `index.html` SHA-256 is `2aa9201cab410de661ec07dbbc2670b02bb83c1c743c03e21a246132f017751f`.
+
+## C2 — float32 precision audit (15 Nov 2026)
+
+- Audited Python float32 and lunar-radius uses across `science/`, `blender/`, `tools/` and the integrated batch code. Repo science already promotes DEM samples to float64; no science solver file required a numerical change.
+- The batch handoff already reads float64. Added a regression that opens a float32 GeoTIFF, proves radius-plus-height is float64, and checks the committed Site04 ROI3 anchor is exactly 94.362 %; made the unrelated SciPy sampler import lazy so this read-path test runs in the repo environment.
+- Batch precision tests passed 2/2 and the full repo science suite passed 47/47.
+- Unverified: previously published float32 batch outputs and PGDA 69 RMSE values were not regenerated; they remain superseded as documented in the handoff.
+
+## C3 — bundle-traceable Decision Card (15 Nov 2026)
+
+- Added `science/decision_card.py` and deterministic JSON plus print-only, no-JavaScript HTML cards for Site04 ROI3 and Site01 ROI6 under `data/cards/`; every science value carries an exact bundle path, derived margins cite their operands, and the mission limit is explicitly identified as a team requirement.
+- Site04 reproduces bundle values 94.362 % Sun (87.537–97.329 clone range) and 72.107 % Sun+Earth (64.392–74.481); coverage, k/N, ridges, source versions and the raw bundle SHA-256 are included.
+- `--max-dark-h` defaults to the team requirement of 120 h. Site04's bundle-carried 19.4434 h nominal interval passes with 100.5566 h headroom; the cards say nominal-only because these bundles do not carry per-clone longest-gap values.
+- Five Decision Card tests pass; deterministic JSON/HTML byte equality, bundle numeric traceability, team-threshold provenance, override behavior and missing-optional omission are covered. Certainty Height remains omitted: A2 is not on this branch, although commit `971df9a` on `origin/a-science` contains the separate fine-sweep batch artifact.
+
+## C4 — Playwright traceability scan (15 Nov 2026)
+
+- Added `web/tests/e2e/traceability.spec.ts`, which scans every indexed bundle's rendered main workspace for visible numbers followed by `%`, `h`, `m` or `°` and requires a bundle/result source plus one allowed classification.
+- Report-only baseline: 1,173 scanned elements failed across 11 bundles. Added bundle-path and cautious classification attributes to the workspace boundary without changing, deleting or hiding any displayed number.
+- Strict result: 0 failures across 1,172 currently rendered elements: 1,020 SOURCE-BASED, 50 SCENARIO, 102 DEMO and 0 VALIDATED. Scenario rows now carry their honest local classification instead of inheriting the source-bundle classification.
+- A dedicated regression loads the synthetic fixture, requires a DEMO workspace, and rejects any SOURCE-BASED or VALIDATED descendant. The two traceability Playwright checks pass 2/2.
+- Web unit tests pass 35/35, TypeScript typecheck passes and the production build succeeds. The one-element scan-count variation is due to dynamic rendering; the failure count is deterministic at zero.
+
+## C5 — reproducibility hash (15 Nov 2026)
+
+- Added executable `scripts/repro_hash.sh`; it verifies and reuses the committed Horizons raw responses, runs the existing Site04 ROI3 1 m science builder into a temporary directory, and does not modify the source archive.
+- Canonical JSON uses sorted keys/compact separators and 12-decimal float normalization. Excluded fields are `generated_utc`, `generator.git_commit`, `generator.command`, environment-only DEM `transport`, and the separately generated `derived` extension scope; no hostname field is present.
+- Mac result: `REPRO_HASH_MATCH`, generated and committed SHA-256 both `492b39151092301d81933584dde2b742d9babc99379e38b60e813dbd729d402f` in 1.67 s; `bash -n` also passes.
+- A second machine can run `scripts/repro_hash.sh` from the repo root with the checked-in raw archive, cached DEM inputs and `.venv`; no second-machine result was available in this task.
+
+## C6 — data and AI credits (15 Nov 2026)
+
+- Added the required README attribution for the Bertone et al. (2026) NASA GSFC SfS DEM, including its CC-BY-4.0 license, Zenodo DOI and its limited use in long-feature research and Decision Lab evidence.
+- Added LROC WAC/PDS, NASA PGDA 69/78/90, JPL Horizons and NAIF SPICE credits.
+- Added the requested AI disclosure for Anthropic Claude and OpenAI Codex without changing existing project claims or status wording.
+- Documentation-only change; final repository regression results are recorded in the completion report.
+
+## D2 — standalone Solver API (15 Nov 2026)
+
+- Added `tools/polaris_solver/`, a standalone JSON/CLI/localhost API that depends on NumPy, SciPy, pyproj and rasterio but does not import from `science/`. NASA rasters and raw Horizons responses use the ignored `data/external/` cache selected by `POLARIS_DATA`.
+- The supplied real-input API tests pass 5/5. Site04 RoI 3 at 1 m reports 94.36 % Sun, 72.11 % Sun+Earth and a 19 h longest dark run; the three-clone and cautious-label checks also pass.
+- Against the committed hourly bundle metrics, Site04 differs by 0.002 points (Sun) and 0.003 points (Sun+Earth); Site01 RoI 6 differs by 0.000 and 0.002 points respectively. All are within the required 0.01 points.
+- The README exposes the request-file CLI, local server and tool-spec commands, and states that k of N is a terrain-clone count rather than a probability.
+
+## D3 + v3 lab (2026-11-15, Claude, after Codex hit its limit)
+
+- D3: research/long_features synced (sites.py, step15/17/18/18b/18c, surrogate, correlated-error planner incl. out-of-sample train 1–10 / test 11–20). Commit "research: sync long-features research copy (D3)".
+- v3 Decision Lab copied to web/public/lab/ (index.html SHA-256 d12e0896f70c34dc389e89a0b47847ad7b569aa95e7dbb6c75c788bcbe4d36dc, verified on disk). Adds SfS-vs-LOLA at the site (step19) and 13-RoI SfS heights (step20); results sfs_result.json, hot_corr*.json, hotspots_report.json updated in research copy.
+- Verified: `npm run build` OK (clean npm ci on Linux scratch copy; Mac node_modules untouched). Playwright full suite 25/25 passed against that build, incl. decision-lab four-site spec; TRACEABILITY_SCAN scanned=1171 failed=0 bundles=11.
+- Existing bundle numbers unchanged. No push, no merge.
 1. **Resolved in the continuation above.** `app/src/science.js` now rotates local JPL azimuth and local landing offsets into the DEM grid; matching JavaScript, TypeScript and Blender basis tests pass.
 2. Emit `derived` (see `web/docs/VIEWER_BUNDLE_CONTRACT.md`) so the viewer can show real margins.
 3. The schema's `validation.status` enum lacks `DEMO_ONLY`, which the contract defines.
@@ -922,6 +980,15 @@ file's two previous sections were cloud-clock readings; the Mac clock (EST) read
   ROI3, no failed requests or page errors.
 Release status: **SOURCE_BASED_UNVALIDATED**.
 
+## submission/merged (2026-11-15 21:05 ET, Claude): WIP merge of codex/lab-integration + session A web rebuild
+
+- Base: codex/lab-integration (2582ad8/d24fae3). Added session A's uncommitted work from ~/Downloads/POLARIS-X5D-Blender-Codex (b-experience 8079924 + 446 files): 3D GlobalMoon, TerrainSurface, SfS relief, Story/Guide, Decision/Evidence workspaces, tools/terrain, tools/sources, tools/validation, docs.
+- Conflicts (21 files): bundles + data/viewer kept from the branch (strict superset of session A's, identical values; no numbers changed). web code = session A's version with the branch's additions re-applied (Decision Lab link, arrival-slip/flip-forecast/hotspots blocks, data-source attributes, port-configurable Playwright).
+- Derived NASA raster/mesh files for the 3D view (web/public/context/*.bin, globe GLB, NAC crop PNG, blender/output) are in the working tree but git-ignored (no NASA rasters in git); rebuild with tools/terrain/build_terrain_context.py.
+- demo-decision-fixture.json is generated: run `python3 web/scripts/make_decision_fixture.py` before tests.
+- Status: tsc + vite build OK; vitest 16 files / 101 tests pass. Playwright: 41 of 86 run before the time limit, 9 failed (branch specs expect the header/decision panels on first load, but session A's app opens on the Story route). NOT yet green: use codex/lab-integration for submission until this is fixed.
+- Follow-up 83f6256 (Decision Lab link, coverage sidecar, branch specs navigate to their workspace) fixed the Story-route failures.
+- Re-verified 2026-11-15 21:03 local (Claude): `npm ci` in web/ (node_modules was missing @fontsource, which broke `vite build`), `python3 web/scripts/make_decision_fixture.py`, then: vitest 99 pass / 2 skipped; Playwright **86/86 passed** (2.3 min); blender unittest 31 OK (1 skip); app `npm test` 25/25. submission/merged is now green on this Mac. Release status unchanged: `SOURCE_BASED_UNVALIDATED`.
 **15 Nov 20:35 EST (Penumbra):** final Mac validation green; release ZIP `236c57cc…6ae` verified (extract + launch). SOURCE-BASED · UNVALIDATED. Recovery point before the 14islands creative pass: `tmp/web_before_14islands_2035.tgz` and the RC ZIP copy.
 
 ### Blender showcase, gallery, checkpoint push — 15 Nov 2026 20:20–21:30 EST (session A)
@@ -975,6 +1042,8 @@ Recovery point: `tmp/web_before_14islands_2035.tgz` and the RC ZIP copy `dist/PO
 - Mac browser run: pending.
 
 
+### Cloud cross-check of submission/merged (Claude, 15 Nov ~22:05 EST, at 83f6256 + later commits not included)
+Cloud container (SwiftShader software WebGL): vitest 101/101; Playwright 69/86 in a 3-worker run, 15 of the 17 failures pass when re-run one at a time with a 150 s timeout; the last 2 are harness artefacts (cold-launch hit a stale server on 127.0.0.1:4173; terrain-context timed out on its final 3D screenshot after all assertions passed). The Mac run above (86/86) is the authoritative result.
 ### Final state, hosted copy v6, report — 15 Nov 2026 21:20–21:45 EST (session A)
 - **Pushed and verified** (`git ls-remote` in Anish's Terminal): `2445253` checkpoint; `68621ac` + `ce03658` showcase v2 / gallery / offset analysis.
   Mac Playwright **79/79** (2.1 min) immediately before `ce03658`.
@@ -984,3 +1053,8 @@ Recovery point: `tmp/web_before_14islands_2035.tgz` and the RC ZIP copy `dist/PO
   Explore = Site01 ROI6 with relief on, Decision = Site04 ROI3, 0 failed requests.
 - New: `docs/FINAL_REPORT_SESSION_A_2026-11-15.md` (final report), `docs/NEXT_WORK_PROMPT_CLAUDE_CODE.md` (prompt for the remaining limits:
   L1 diamond pattern, 1.75 m series, Site01 RDR check, streaming LOD + Blender ring, axe fixes, ground render polish).
+
+### submission/merged ← b-experience 21d0f2a (Claude, 15 Nov 2026 ~21:45 EST)
+- Merged 6cc00c3 (b-experience up to 68621ac) and then ce03658 + 21d0f2a: Blender showcase v2 outputs, gallery, final report and next-work prompt. Neither merge changed any web/src code. Screenshots were taken from b-experience.
+- Isolated-worktree check of 6cc00c3 on the Mac (SwiftShader): vitest 101/101; Playwright 85/86 in the final full run. Each failure across runs was a different load or timing test (sight-sun, terrain-context, ux-regressions wheel scroll), and each passed when re-run alone (ux-regressions 9/9 with --repeat-each=3). `cold-launch.spec.ts` hard-codes port 4173, so it fails with POLARIS_PLAYWRIGHT_PORT set to anything else.
+- Status unchanged: SOURCE_BASED_UNVALIDATED.

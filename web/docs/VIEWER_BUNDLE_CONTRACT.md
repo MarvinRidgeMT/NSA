@@ -138,6 +138,32 @@ science/ emits `ridge_idx` and names A4 `margin_series` → both read. `integrat
 `{sun,earth,footprint}` coverage → kept only as read-compatible; not requested from science/. This tree's 90 % coverage
 warning → replaced by the prompt's 50 % rule.
 
+## Stretch PILOT: arrival-slip strip
+
+When a `polaris-science-results-v1` bundle carries `derived.arrival_slip`, the viewer adapter copies it to
+`dataset.derived.arrivalSlip` without changing a value. The Decision area may render its `points[]` as a strip and exact
+traceability table. Thresholds, slip values, nominal percentages, clone min/max, k/N, result IDs and `PILOT` labels all
+come from the bundle. The browser does not recompute a visibility percentage, threshold outcome, clone count or colour
+percentage.
+
+## Stretch PILOT: information-hotspot overlay
+
+When `derived.hotspots` is present, the adapter copies it to `dataset.derived.hotspots` unchanged. The Evidence map
+may offer a `Where better data matters` toggle and plot the bundle's pre-ranked `top_tiles[]`. Marker rank, tile ID,
+latitude/longitude, score, score unit, method caption, result ID and `PILOT` label all come from the bundle. The browser
+performs only map-coordinate projection and in-frame filtering; it does not recompute variance, a skyline Jacobian,
+coverage, ranking, score or display band. A zero-positive-tile bundle must show the bundle-provided zero-state caption
+rather than imply that clone agreement covers the far-field skyline.
+
+## Stretch PILOT: flip-forecast table
+
+When `derived.flip_forecast` is present, the adapter copies it to `dataset.derived.flipForecast` unchanged. The
+Decision area renders only a compact `Forecast vs actual` table from `forecast_vs_actual[]`; it is not a headline
+metric. Case counts, predicted and actual flip counts, TP/FP/FN, precision and recall display strings, method text,
+result IDs and `PILOT` labels all come directly from the bundle. In particular, `not evaluable` remains visible when
+the bundle's precision or recall is null. The browser does not calculate a confusion matrix, percentage, threshold
+outcome or replacement skyline controller.
+
 ## Known science issue seen while building this (for the science branch)
 
 `app/src/science.js` (`horizonProfile`, line ~39) still steps rays along `(sin az, cos az)` in the polar-stereographic **grid**.

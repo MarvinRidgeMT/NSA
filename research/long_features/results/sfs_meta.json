@@ -1,0 +1,12 @@
+{
+ "Site01": {
+  "file": "data/external/sfs/Site01_sfs_merged_5mpp.tif",
+  "sfs_cover_frac": 1.0,
+  "sfs_minus_lola_rms": 1.033213390009816
+ },
+ "Site04": {
+  "file": "data/external/sfs/Site04_sfs_merged_5mpp.tif",
+  "sfs_cover_frac": 0.2578125,
+  "sfs_minus_lola_rms": 0.8553278935916578
+ }
+}

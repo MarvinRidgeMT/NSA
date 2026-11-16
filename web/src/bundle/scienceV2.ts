@@ -8,7 +8,7 @@
  *   - azimuths are LOCAL; the viewer does not rotate them by longitude (no `derived.frame`, and the 3D view
  *     for this format draws in local east/north/up).
  */
-import type { Attribution, Bundle, BundleEvent, CertaintyCurve, Coverage, CriticalCell, Dataset, Gate, MarginRange, Metric, RawStatus, Scenario, TargetSeries } from './types';
+import type { ArrivalSlipBlock, Attribution, Bundle, BundleEvent, CertaintyCurve, Coverage, CriticalCell, Dataset, FlipForecastBlock, Gate, HotspotsBlock, MarginRange, Metric, RawStatus, Scenario, TargetSeries } from './types';
 import { BundleError } from './errors';
 import { TEAM_REQUIREMENTS, TEAM_REQUIREMENTS_SOURCE } from './requirements';
 
@@ -48,7 +48,7 @@ export interface RawScienceV2 {
   schema: 'science-bundle-v2' | 'polaris-science-results-v1';
   /** decision-evidence outputs (additive, snake_case in the bundle; see VIEWER_BUNDLE_CONTRACT §Decision-evidence) */
   /** a-science 13d23d4+: decision-evidence blocks live under `derived` (A1 `derived.attribution`); top level also accepted */
-  derived?: { attribution?: unknown; coverage?: unknown; certainty_curve?: unknown; margin_range?: unknown; margins?: unknown; margin_series?: unknown; certainty_height_m?: unknown; requirements?: unknown; certainty_note?: unknown };
+  derived?: { attribution?: unknown; coverage?: unknown; certainty_curve?: unknown; margin_range?: unknown; margins?: unknown; margin_series?: unknown; certainty_height_m?: unknown; requirements?: unknown; certainty_note?: unknown; arrival_slip?: ArrivalSlipBlock; hotspots?: HotspotsBlock; flip_forecast?: FlipForecastBlock; [key: string]: unknown };
   attribution?: unknown;
   coverage?: unknown;
   certainty_curve?: unknown;
@@ -435,6 +435,9 @@ export function adaptScienceV2(r: RawScienceV2): Bundle {
       ...((r.derived?.certainty_curve ?? r.certainty_curve) ? { certaintyCurve: normalizeCertainty(r.derived?.certainty_curve ?? r.certainty_curve, r.derived?.certainty_height_m ?? r.certainty_height_m, r.derived?.requirements ?? r.requirements, r.derived?.certainty_note) } : {}),
       ...((r.derived?.margin_range ?? r.derived?.margins ?? r.derived?.margin_series ?? r.margin_range) ? { marginRange: normalizeMargins(r.derived?.margin_range ?? r.derived?.margins ?? r.derived?.margin_series ?? r.margin_range) } : {}),
       ...(typeof r.near_zero_margin_deg === 'number' ? { nearZeroMarginDeg: r.near_zero_margin_deg } : {}),
+      arrivalSlip: r.derived?.arrival_slip,
+      hotspots: r.derived?.hotspots,
+      flipForecast: r.derived?.flip_forecast,
     },
     events,
     snapToSamples: true,

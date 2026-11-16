@@ -30,7 +30,7 @@ function OffsetGrid({ scs, sel, onPick }: { scs: Scenario[]; sel: string | null;
   const all = scs.map((s) => metric(s, 'sun_center_visible_pct')?.value).filter((x): x is number => x !== undefined);
   if (all.length < 9) return null;
   return (
-    <figure className="offset-grid" data-testid="offset-grid">
+    <figure className="offset-grid" data-testid="offset-grid" data-classification="SCENARIO">
       <figcaption>
         Sun-centre visibility if the lander moves 100 m (bundle values; each cell fully recomputed). North is up, east is right.
       </figcaption>
@@ -97,7 +97,12 @@ export function ScenarioTable({ v }: { v: View }) {
               {scs
                 .filter((s) => (s.family ?? s.kind) === f)
                 .map((s) => (
-                  <tr key={s.id} className={`${v.scenario?.id === s.id ? 'sel' : ''} ${f === 'repair' ? 'repair' : ''}`} data-testid={`scen-${s.id}`}>
+                  <tr
+                    key={s.id}
+                    className={`${v.scenario?.id === s.id ? 'sel' : ''} ${f === 'repair' ? 'repair' : ''}`}
+                    data-testid={`scen-${s.id}`}
+                    data-classification={f === 'baseline' ? undefined : 'SCENARIO'}
+                  >
                     <th scope="row">
                       <button type="button" className="linkish" onClick={() => setScenario(s.id)} aria-pressed={v.scenario?.id === s.id}>
                         {s.label.replace(/^[^:]+: /, '')}

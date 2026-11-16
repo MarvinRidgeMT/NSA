@@ -278,6 +278,167 @@ export interface MarginRange {
   earth: { minDeg: (number | null)[]; maxDeg: (number | null)[] };
 }
 
+export interface ArrivalSlipPoint {
+  result_id: string;
+  label: 'PILOT';
+  slip_h: number;
+  window_start_utc: string;
+  window_stop_utc: string;
+  sample_count: number;
+  nominal: {
+    sun_center_visible_pct: number;
+    sun_and_earth_center_visible_pct: number;
+    sun_pass: boolean;
+    sun_and_earth_pass: boolean;
+    joint_pass: boolean;
+  };
+  clones: {
+    count: number;
+    sun_center_visible_pct_min: number;
+    sun_center_visible_pct_max: number;
+    sun_and_earth_center_visible_pct_min: number;
+    sun_and_earth_center_visible_pct_max: number;
+    sun_pass_count: number;
+    sun_and_earth_pass_count: number;
+    joint_pass_count: number;
+    pass_denominator: number;
+    joint_pass_pct: number;
+    pass_band: 'all' | 'dropped';
+  };
+}
+
+export interface ArrivalSlipBlock {
+  result_id: string;
+  label: 'PILOT';
+  validation_status: 'SOURCE-BASED UNVALIDATED';
+  site_id: string;
+  input_bundle_id: string;
+  observer_mast_m: number;
+  thresholds: {
+    sun_center_visible_pct_min: number;
+    sun_and_earth_center_visible_pct_min: number;
+    joint_rule: string;
+  };
+  slip_hours: number[];
+  points: ArrivalSlipPoint[];
+  method: {
+    mission_window: string;
+    visibility_percentage: string;
+    terrain: string;
+    ephemeris: string;
+    uncertainty: string;
+    limitation: string;
+  };
+}
+
+export interface HotspotTile {
+  result_id: string;
+  label: 'PILOT';
+  rank: number;
+  tile_id: string;
+  lat_deg: number;
+  lon_deg_east: number;
+  grid_x_m: number;
+  grid_y_m: number;
+  distance_m_min: number;
+  distance_m_max: number;
+  controlled_bins: number;
+  controlled_bin_indices: number[];
+  clone_height_variance_m2_max: number;
+  clone_relative_height_variance_m2_max: number;
+  horizon_variance_deg2_max: number;
+  sun_score: number;
+  earth_score: number;
+  sun_critical_h: number;
+  earth_critical_h: number;
+  score: number;
+  display_band: 'positive' | 'zero';
+  method: string;
+}
+
+export interface HotspotsBlock {
+  result_id: string;
+  label: 'PILOT';
+  validation_status: 'SOURCE-BASED UNVALIDATED';
+  site_id: string;
+  input_bundle_id: string;
+  observer_mast_m: number;
+  clone_count: number;
+  tile_step_m: number;
+  horizon_distance_m: number;
+  critical_margin_deg: number;
+  score_unit: string;
+  tiles_evaluated: number;
+  tiles_positive: number;
+  zero_state_caption: string | null;
+  top_k: number;
+  top_tiles: HotspotTile[];
+  tiles: HotspotTile[];
+  method: {
+    id: string;
+    caption: string;
+    candidate: string;
+    dispersion: string;
+    jacobian: string;
+    score: string;
+    coverage: string;
+    limitation: string;
+  };
+}
+
+export interface FlipForecastRow {
+  result_id: string;
+  label: 'PILOT';
+  row_id: string;
+  scope: string;
+  case_count: number;
+  predicted_flips: number;
+  actual_flips: number;
+  true_positive: number;
+  false_positive: number;
+  false_negative: number;
+  true_negative: number;
+  precision: number | null;
+  recall: number | null;
+  precision_display: string;
+  recall_display: string;
+  note: string;
+}
+
+export interface FlipForecastBlock {
+  result_id: string;
+  label: 'PILOT';
+  validation_status: 'SOURCE-BASED UNVALIDATED';
+  site_id: string;
+  input_bundle_id: string;
+  observer_mast_m: number;
+  clone_count: number;
+  sample_count: number;
+  thresholds: {
+    sun_center_visible_pct_min: number;
+    sun_and_earth_center_visible_pct_min: number;
+    source_result_id: string;
+  };
+  nominal: {
+    sun_center_visible_pct: number;
+    sun_and_earth_center_visible_pct: number;
+    mission_pass: boolean;
+  };
+  ridge_ids_considered: string[];
+  forecast_vs_actual: FlipForecastRow[];
+  per_clone: unknown[];
+  method: {
+    id: string;
+    caption: string;
+    forecast: string;
+    actual: string;
+    hourly_flip: string;
+    mission_flip: string;
+    metrics: string;
+    limitation: string;
+  };
+}
+
 export interface Derived {
   producer: { name: string; version: string };
   status: RawStatus;
@@ -291,6 +452,12 @@ export interface Derived {
   frame?: { localNorthInGrid?: [number, number]; localEastInGrid?: [number, number]; note?: string };
   skylineBinDeg?: number;
   scenarios: Scenario[];
+  /** PILOT block computed by science/stretch/arrival_slip.py; display-only in the browser. */
+  arrivalSlip?: ArrivalSlipBlock;
+  /** PILOT block computed by science/stretch/hotspots.py; display-only in the browser. */
+  hotspots?: HotspotsBlock;
+  /** PILOT block computed by science/stretch/flip_forecast.py; display-only in the browser. */
+  flipForecast?: FlipForecastBlock;
 }
 
 /* ---------- top level ---------- */
