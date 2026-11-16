@@ -132,11 +132,91 @@ class StackAdapter(unittest.TestCase):
             y = rng.uniform(-9000 - 60 * 5 + 5, -9000 - 5)
             self.assertAlmostEqual(T.sample_bilinear(lv, x, y), float(dem.sample(np.array([x]), np.array([y]))[0]), places=8)
 
-    def test_non_polar_window_refused(self):
+    def test_unknown_projection_refused_local_stere_kept(self):
         class Fake:
-            proj, Z, step, x_left, y_top = 'local-stere', np.zeros((2, 2)), 1.0, 0.0, 0.0
+            proj, Z, step, x_left, y_top, lat0, lon0 = 'merc', np.zeros((2, 2)), 1.0, 0.0, 0.0, 26.0, 3.6
         with self.assertRaises(ValueError):
             T.level_from_arraydem(Fake(), 'x')
+        Fake.proj = 'local-stere'
+        lv = T.level_from_arraydem(Fake(), 'x')
+        self.assertEqual((lv.proj, lv.lat0, lv.lon0), ('local-stere', 26.0, 3.6))
+
+    def test_mixed_grids_refused(self):
+        a = flat_level(n=9)
+        b = flat_level(n=9)
+        b.proj, b.lat0, b.lon0 = 'local-stere', 26.0, 3.6
+        F = T.EnuFrame(-89.5, 0.0, 0.0)
+        v = T.View(pos=(0, 0, 2), fwd=(0, 1, 0), half_h=0.3, half_v=0.2, pixel_rad=1e-3)
+        with self.assertRaises(ValueError):
+            T.plan_tiles([a, b], F, v)
+
+
+class Projections(unittest.TestCase):
+    """The closed forms copied into terrain.py (Blender has no science deps) must equal science/terrain/stack.py."""
+
+    def setUp(self):
+        try:
+            sys.path.insert(0, str(ROOT))
+            from science.terrain import stack as S
+        except Exception as e:  # pragma: no cover
+            self.skipTest(f'science.terrain.stack not importable ({type(e).__name__}: {e})')
+        self.S = S
+
+    def test_local_stere_and_polar_match_stack(self):
+        rng = np.random.default_rng(11)
+        lat0, lon0 = 26.13239, 3.6333
+        la = lat0 + rng.uniform(-3, 3, 200); lo = lon0 + rng.uniform(-3, 3, 200)
+        x, y = T.oblique_stereo_forward(la, lo, lat0, lon0)
+        xs, ys = self.S.oblique_stereo_forward(la, lo, lat0, lon0)
+        self.assertLess(max(np.abs(x - xs).max(), np.abs(y - ys).max()), 1e-6)
+        ila, ilo = T.grid_inverse('local-stere', x, y, lat0, lon0)
+        self.assertLess(np.abs(np.degrees(ila) - la).max(), 1e-9)
+        self.assertLess(np.abs(np.degrees(ilo) - lo).max(), 1e-9)
+        for z, lat_rng in (('np', (60, 89.9)), ('sp', (-89.9, -60))):
+            la = rng.uniform(*lat_rng, 200); lo = rng.uniform(-180, 180, 200)
+            x, y = T.grid_forward(z, la, lo)
+            xs, ys = self.S.ZONES[z].forward(la, lo)
+            self.assertLess(max(np.abs(x - xs).max(), np.abs(y - ys).max()), 1e-6)
+            ila, ilo = T.grid_inverse(z, x, y)
+            sla, slo = self.S.ZONES[z].inverse(x, y)
+            self.assertLess(np.abs(np.degrees(ila) - sla).max(), 1e-9)
+            self.assertLess(np.abs(((np.degrees(ilo) - slo) + 180) % 360 - 180).max(), 1e-9)
+
+
+class FrameHelpers(unittest.TestCase):
+    def test_from_level_sp_is_from_grid_bitwise(self):
+        F = T.EnuFrame(-89.47409, -137.3813, 1948.29)
+        lv = flat_level()
+        x = np.linspace(-11000, -9000, 50); y = np.linspace(-13000, -11000, 50); h = np.linspace(1900, 2000, 50)
+        self.assertTrue(np.array_equal(F.from_level(lv, x, y, h), F.from_grid(x, y, h)))
+
+    def test_local_stere_level_origin_and_offsets(self):
+        lat0, lon0, h0 = 26.13239, 3.6333, -1925.4
+        F = T.EnuFrame(lat0, lon0, h0)
+        lv = T.Level(name='eq', h=np.zeros((3, 3)), x0=-10.0, y0=-10.0, step=10.0, proj='local-stere', lat0=lat0, lon0=lon0)
+        p = F.from_level(lv, np.array([0.0]), np.array([0.0]), np.array([h0]))[0]
+        self.assertLess(np.abs(p).max(), 1e-6)
+        # oblique stereographic: +y is north and +x east at the centre (scale 1)
+        q = F.from_level(lv, np.array([0.0, 1000.0]), np.array([1000.0, 0.0]), np.array([h0, h0]))
+        self.assertAlmostEqual(q[0][1], 1000.0 * (T.R_MOON_M + h0) / T.R_MOON_M, delta=0.01)
+        self.assertAlmostEqual(q[1][0], 1000.0 * (T.R_MOON_M + h0) / T.R_MOON_M, delta=0.01)
+        # ENU -> lat/lon -> grid round trip
+        la, lo = F.enu_to_latlon_deg(q)
+        x, y = lv.from_latlon(la, lo)
+        self.assertLess(abs(x[0]) + abs(y[1] - 0) + abs(x[1] - 1000.0) + abs(y[0] - 1000.0), 1e-3)
+        la1, lo1 = F.offset_latlon_deg(0.0, 1000.0)
+        self.assertAlmostEqual(la1 - lat0, math.degrees(1000.0 / (T.R_MOON_M + h0)), places=7)
+        self.assertAlmostEqual(lo1, lon0, places=9)
+
+    def test_ground_height_latlon_uses_each_level_grid(self):
+        lat0, lon0 = 26.13239, 3.6333
+        n, st = 21, 50.0
+        xs = -500.0 + np.arange(n) * st
+        X, Y = np.meshgrid(xs, xs)
+        lv = T.Level(name='eq', h=X * 0.01 + Y * 0.02, x0=-500.0, y0=-500.0, step=st, proj='local-stere', lat0=lat0, lon0=lon0)
+        la, lo = np.degrees(T.grid_inverse('local-stere', np.array(120.0), np.array(-240.0), lat0, lon0))
+        h, name, xy = T.ground_height_latlon([lv], float(la), float(lo))
+        self.assertAlmostEqual(h, 120.0 * 0.01 - 240.0 * 0.02, places=6)
 
     def test_stack_reports_why_when_absent(self):
         lv, why = T.stack_levels(-89.5, -137.0)

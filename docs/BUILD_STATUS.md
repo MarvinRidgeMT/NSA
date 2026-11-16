@@ -1378,3 +1378,16 @@ Branch `claude/v2-r5-decision-04ba20` (contains 72e3430). Plan: `docs/v2/PHASE_3
   The planned worst-window energy margin saturated at the zero-generation bound (fully dark 14-day windows), so the axis became the
   share of 366 daily starts on which 10 kWh suffices. Per-position energy model equals `energy.json.gz` at the centre (0 Wh, 7,686 cells).
 - **Not done:** whole-Moon sites; distance to ice (no cited layer cached); X × M joint members; `D_relay`; expected VoI (no weights).
+### v2 R3 — Blender whole Moon: cube-sphere globe, close-ups on the S3 pyramid, WAC albedo (§5.1–5.2) — Claude, 16 Nov 2026 ~11:45–12:45 EST
+Branch `v2-r3-blender-moon` (from `feature/v2-whole-moon` 72e3430). Plan `docs/v2/PHASE_4_R3_PLAN.md`, results `docs/v2/PHASE_4_R3_RESULTS.md`.
+- **Pyramid in Blender:** Blender's Python has no rasterio, so `blender/v2/pack.py` (project venv) writes TerrainStack windows as npy
+  packs (`$POLARIS_DATA/v2/blender/packs/`, git-ignored); `build_scene.py --terrain stack` runs it when missing. Levels carry their
+  projection (sp / np / local-stere); south-polar path bit-identical. Skyline check: Site01 RoI 6 from the pyramid median 0.0014°,
+  p95 0.025°, max 0.063°; Apollo 15 (eq zone, SLDEM2015 59 m) vs `compute_skyline` on the same windows median 0.0004°, p95 0.020°.
+- **WAC albedo:** Hapke w per vertex from the WAC 643 nm parameter map (1°, 70N–70S; regional median poleward), Hapke graph takes w as
+  a variable; Cycles plane test 1.2e-6. The 100 m WAC mosaic is the morphologic one (shading baked in): used only as VISUAL web base colour.
+- **Whole Moon:** `blender/v2/globe.py` — equal-angle welded cube-sphere from pyramid L0 (box-filtered), .blend + manifest, render from
+  the bundle Earth direction; Draco GLB `web/public/globe/polaris_moon_globe.glb` (2.0 MB, git-ignored) passes glb_proof (builder globe.py).
+- **Bug found by a render:** lat/lon of km-scaled globe vertices (every vertex a pole) — fixed + regression test.
+- **Tests:** Blender run_all 14/14 (55.8 s); blender unittest 124 OK; pytest science/tests 405 passed, 2 skipped; vitest 144 passed, 3 skipped.
+- **Not done:** web app still loads the SVS globe (swap is the web owner's); pyramid solver bundle for eq sites (R1); NAC albedo; 3D Tiles.

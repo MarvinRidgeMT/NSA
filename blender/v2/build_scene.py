@@ -24,7 +24,7 @@ from mathutils import Matrix, Vector
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
-from v2 import cameras, hapke, spec as specmod, terrain as T  # noqa: E402
+from v2 import albedo, cameras, hapke, spec as specmod, terrain as T  # noqa: E402
 from v2 import hapke_nodes  # noqa: E402
 
 ROOT = HERE.parents[1]
@@ -53,7 +53,16 @@ def parse(argv=None):
     p.add_argument('--alt-km', type=float, default=None)
     p.add_argument('--layout', default=None, choices=sorted(specmod.ASSET_LAYOUTS))
     p.add_argument('--terrain', default='cache', choices=['cache', 'committed', 'stack'],
-                   help='cache: the solver DEM cache; committed: the 80 m crop in git (site01 only); stack: S3 global pyramid')
+                   help='cache: the solver DEM cache; committed: the 80 m crop in git (site01 only); stack: S3 global pyramid '
+                        '(via blender/v2/pack.py in the project venv; run automatically when the pack is missing)')
+    p.add_argument('--pack', default=None, help='--terrain stack: use this pack directory instead of building/looking one up')
+    p.add_argument('--near-half', type=float, default=None, help='--terrain stack: near window half-width (m); default min(25 km, 1600 px)')
+    p.add_argument('--albedo', default='wac', choices=['wac', 'none'],
+                   help='wac: Hapke w per vertex from the LROC WAC 643 nm map (70N-70S; regional median poleward); none: regional constant')
+    p.add_argument('--hapke-region', default='SOUTH_60_70', choices=sorted(hapke.PARAMS_643NM),
+                   help='constant Hapke b, c, B_S0, h_S (and w with --albedo none); unchanged default')
+    p.add_argument('--micro-relief', type=float, default=0.0,
+                   help='VISUAL sub-resolution relief: Cycles displacement of this amplitude (m) from a noise texture; 0 = off (default)')
     p.add_argument('--resolution', type=int, default=512, help='longest image side (px)')
     p.add_argument('--samples', type=int, default=32)
     p.add_argument('--seed', type=int, default=0)
@@ -178,7 +187,33 @@ def sun_lamp(name, direction, strength, angle_deg, coll):
 
 
 # ---------------------------------------------------------------- terrain
-def load_levels(sp, mode):
+def project_python():
+    """The project venv's Python (has rasterio for the pyramid): $POLARIS_PYTHON, else the nearest .venv up the tree."""
+    env = os.environ.get('POLARIS_PYTHON')
+    if env:
+        return env
+    for d in [ROOT, *ROOT.parents]:
+        c = d / '.venv' / 'bin' / 'python'
+        if c.exists():
+            return str(c)
+    raise SystemExit('--terrain stack needs the project venv (rasterio); set POLARIS_PYTHON')
+
+
+def ensure_site_pack(lat, lon, site_id, near_half=None, skyline=False):
+    """Run blender/v2/pack.py site (returns at once when the pack exists) and return its directory."""
+    import subprocess
+    cmd = [project_python(), str(HERE / 'pack.py'), 'site', '--lat', repr(lat), '--lon', repr(lon), '--id', str(site_id)]
+    if near_half:
+        cmd += ['--near-half', repr(near_half)]
+    if skyline:
+        cmd += ['--skyline']
+    r = subprocess.run(cmd, capture_output=True, text=True, cwd=str(ROOT))
+    if r.returncode != 0:
+        raise SystemExit(f'pack.py failed ({r.returncode}):\n{r.stderr[-2000:]}')
+    return Path(json.loads(r.stdout.strip().splitlines()[-1])['pack'])
+
+
+def load_levels(sp, mode, cfg_pack=None, near_half=None):
     site = sp['site']['id']
     if mode == 'committed':
         key = site.split('_')[0]
@@ -187,10 +222,11 @@ def load_levels(sp, mode):
         f, ds = COMMITTED_TERRAIN[key]
         return [T.load_bundle_v2_level(ROOT / f, ds, name=f'committed PGDA 90 80 m crop ({ds})')]
     if mode == 'stack':
-        lv, why = T.stack_levels(sp['site']['latDeg'], sp['site']['lonEastDeg'])
-        if lv is None:
-            raise SystemExit(f'--terrain stack: {why}')
-        return lv
+        pack_dir = Path(cfg_pack) if cfg_pack else ensure_site_pack(sp['site']['latDeg'], sp['site']['lonEastDeg'], site, near_half)
+        levels, meta = T.load_pack_levels(pack_dir)
+        for lv in levels:
+            lv.info['packId'] = meta['id']
+        return levels
     cache = ROOT / 'data' / 'cache'
     near, far = cache / f'{site}_p78_p78.npy', cache / f'{site}_ldem80_290km.npy'
     levels = []
@@ -203,9 +239,12 @@ def load_levels(sp, mode):
     return levels
 
 
-def build_terrain(sp, levels, frame, view, coll, mat, budget, all_around=False):
+def build_terrain(sp, levels, frame, view, coll, hapke_params, light_dir, budget, all_around=False, albedo_mode='wac',
+                  hapke_region='SOUTH_60_70', micro_relief_m=0.0):
+    """Terrain meshes + the Hapke material. With albedo 'wac' each vertex carries attribute polaris_w (Hapke w from the WAC map,
+    blender/v2/albedo.py); when every vertex is poleward of 70.5 S the constant material is used exactly as before."""
     tiles, report = T.plan_tiles(levels, frame, view, budget=budget, all_around=all_around)
-    objs, stats = [], {}
+    built = []
     for li, lv in enumerate(levels):
         finer = [levels[j].box() for j in range(li)]
         Vs, Fs, base, dropped = [], [], 0, 0
@@ -221,13 +260,57 @@ def build_terrain(sp, levels, frame, view, coll, mat, budget, all_around=False):
             dropped += d
         if not Vs:
             continue
-        V, F = np.vstack(Vs), np.vstack(Fs)
-        ob = mesh_object(f'TERRAIN | {lv.name} | SOURCE-BASED UNVALIDATED | ENU metres', V, F, coll, mat)
+        built.append((lv, np.vstack(Vs), np.vstack(Fs), dropped))
+    ws, alb = [], {'mode': albedo_mode}
+    if albedo_mode == 'wac':
+        wmap = None
+        for lv, V, F, _ in built:
+            la, lo = frame.enu_to_latlon_deg(V)
+            w, info = albedo.w_for_points(la, lo, wmap=wmap, region=hapke_region)
+            if info['mode'] == 'per-vertex' and wmap is None:
+                wmap = albedo.WMap.load()
+            ws.append(w)
+            alb[lv.name] = {k: v for k, v in info.items() if k in ('mode', 'w', 'wMin', 'wMax', 'wMedian')}
+            if info['mode'] == 'per-vertex':
+                alb['map'] = {k: v for k, v in info.items() if k not in ('mode', 'w', 'wMin', 'wMax', 'wMedian')}
+    per_vertex = albedo_mode == 'wac' and any(alb.get(lv.name, {}).get('mode') == 'per-vertex' for lv, *_ in built)
+    alb['perVertex'] = per_vertex
+    alb['label'] = albedo.LABEL if per_vertex else f'regional constant w = {hapke_params["w"]} ({hapke_region})'
+    name = 'Regolith | Hapke 2012, LROC WAC 643 nm params' + (' | w per vertex (WAC map)' if per_vertex else '') + ' | MODEL'
+    mat, mat_info = hapke_nodes.hapke_material(name, hapke_params, light_dir, w_attribute='polaris_w' if per_vertex else None)
+    if micro_relief_m > 0:
+        mat_info['microRelief'] = add_micro_relief(mat, micro_relief_m)
+    objs, stats = [], {}
+    for k, (lv, V, F, dropped) in enumerate(built):
+        label = ' | micro-relief VISUAL' if micro_relief_m > 0 else ''
+        ob = mesh_object(f'TERRAIN | {lv.name} | SOURCE-BASED UNVALIDATED | ENU metres{label}', V, F, coll, mat)
+        if per_vertex:
+            at = ob.data.attributes.new('polaris_w', 'FLOAT', 'POINT')
+            at.data.foreach_set('value', np.asarray(ws[k], dtype=np.float32))
         ob['polaris_level'] = json.dumps(lv.describe())
         objs.append(ob)
         stats[lv.name] = {'vertices': int(len(V)), 'faces': int(len(F)), 'cellsLeftToFinerOrNaN': dropped}
     report['meshes'] = stats
-    return objs, report
+    return objs, report, mat_info, alb
+
+
+def add_micro_relief(mat, amplitude_m, scale_m=2.0):
+    """VISUAL sub-resolution relief: Cycles displacement (method DISPLACEMENT_AND_BUMP) from a fractal noise texture in object
+    space, amplitude metres. Not data; never used by any check (Blender ray casts and the solver ignore it)."""
+    nt = mat.node_tree
+    out = next(n for n in nt.nodes if n.type == 'OUTPUT_MATERIAL')
+    tc = nt.nodes.new('ShaderNodeTexCoord')
+    nz = nt.nodes.new('ShaderNodeTexNoise')
+    nz.inputs['Scale'].default_value = 1.0 / scale_m
+    nz.inputs['Detail'].default_value = 6.0
+    nt.links.new(tc.outputs['Object'], nz.inputs['Vector'])
+    dp = nt.nodes.new('ShaderNodeDisplacement')
+    dp.inputs['Midlevel'].default_value = 0.5
+    dp.inputs['Scale'].default_value = amplitude_m
+    nt.links.new(nz.outputs['Fac'], dp.inputs['Height'])
+    nt.links.new(dp.outputs['Displacement'], out.inputs['Displacement'])
+    mat.displacement_method = 'BOTH'
+    return {'label': 'VISUAL (synthetic, not data)', 'amplitudeM': amplitude_m, 'noiseScaleM': scale_m, 'method': 'Cycles displacement + bump'}
 
 
 # ---------------------------------------------------------------- world: black space + stars
@@ -297,7 +380,7 @@ def build(cfg):
     sp = specmod.build_spec(cfg.lat, cfg.lon, cfg.utc, camera=cfg.camera, bundle=cfg.bundle, mast=cfg.mast, look_az=cfg.look_az,
                             look_el=cfg.look_el, emission_deg=cfg.emission, altitude_m=(cfg.alt_km * 1000 if cfg.alt_km else None),
                             layout=layout, resolution=cfg.resolution, samples=cfg.samples, seed=cfg.seed, device=cfg.device,
-                            terrain=cfg.terrain, overlays=cfg.overlays, stars=not cfg.no_stars)
+                            terrain=cfg.terrain, overlays=cfg.overlays, stars=not cfg.no_stars, hapke_region=cfg.hapke_region)
     tag = cfg.tag or f"v2_{sp['site']['id']}_{sp['sample']['utc'][:13].replace('-', '').replace(':', '')}_{cfg.camera}"
     out = Path(cfg.out)
     if not out.is_absolute():
@@ -311,11 +394,17 @@ def build(cfg):
 
     # --- terrain -----------------------------------------------------------------------------------------------------
     t0 = time.time()
-    levels = load_levels(sp, cfg.terrain)
+    levels = load_levels(sp, cfg.terrain, cfg.pack, cfg.near_half)
+    south_grid = levels[0].proj == 'sp'
     gx, gy = sp['site']['gridXM'], sp['site']['gridYM']
-    if gx is None:
+    if gx is None or not south_grid:
         gx, gy = T.stereo_forward(sp['site']['latDeg'], sp['site']['lonEastDeg'])
-    h0, h_src = T.ground_height(levels, gx, gy)
+    if south_grid:
+        h0, h_src = T.ground_height(levels, gx, gy)
+    else:
+        h0, h_src, _ = T.ground_height_latlon(levels, sp['site']['latDeg'], sp['site']['lonEastDeg'])
+    if not math.isfinite(h0):
+        raise SystemExit(f'no terrain height at the site ({sp["site"]["latDeg"]}, {sp["site"]["lonEastDeg"]})')
     frame = T.EnuFrame(sp['site']['latDeg'], sp['site']['lonEastDeg'], h0)
     cam_p = sp['camera']
     lay = cam_p['layout']
@@ -326,10 +415,11 @@ def build(cfg):
     view = T.View(pos=tuple(cam_p['pose']['posEnu']), fwd=tuple(cam_p['pose']['lookDir']), half_h=half_h, half_v=half_v,
                   pixel_rad=2 * half_h / rx, sun_dir=tuple(sp['sun']['dirEnu']), sun_radius_rad=math.radians(sp['sun']['radiusDeg']))
     light = sp['sun'] if sp['dominantLight'] == 'sun' else sp['earth']
-    reg_mat, mat_info = hapke_nodes.hapke_material('Regolith | Hapke 2012, LROC WAC 643 nm params | MODEL', sp['photometry']['params'], light['dirEnu'])
     if cfg.all_around:
         view.pixel_rad = math.radians(cfg.all_around_deg)
-    terrain_objs, tile_report = build_terrain(sp, levels, frame, view, C['POLARIS Terrain'], reg_mat, cfg.budget, cfg.all_around)
+    terrain_objs, tile_report, mat_info, albedo_info = build_terrain(
+        sp, levels, frame, view, C['POLARIS Terrain'], sp['photometry']['params'], light['dirEnu'], cfg.budget, cfg.all_around,
+        cfg.albedo, cfg.hapke_region, cfg.micro_relief)
     t_terrain = time.time() - t0
 
     # --- Sun, Earth, earthshine, sky -----------------------------------------------------------------------------------
@@ -356,7 +446,16 @@ def build(cfg):
     gmat = diffuse('Asset | ILLUSTRATIVE grey', (0.55, 0.55, 0.55))
     foil = diffuse('Asset | ILLUSTRATIVE gold foil', (0.7, 0.5, 0.15))
 
+    def ground_enu(e, n):
+        """z of the drawn ground at ENU (e, n), non-south-polar grids (lat/lon placement)."""
+        la, lo = frame.offset_latlon_deg(e, n)
+        h, _, _ = T.ground_height_latlon(levels, la, lo)
+        return float(frame.from_latlon_rad(np.radians([la]), np.radians([lo]), np.array([h]))[0][2])
+
     def ground_at(dx, dy):
+        """Layout offsets are south-polar grid metres (science/cube/build_assets.py); elsewhere they are read as (east, north) m."""
+        if not south_grid:
+            return (dx, dy), ground_enu(dx, dy)
         h, _ = T.ground_height(levels, gx + dx, gy + dy)
         e, n = specmod.grid_offset_to_enu(dx, dy, lon)
         return (e, n), frame.from_grid(np.array([gx + dx]), np.array([gy + dy]), np.array([h]))[0][2]
@@ -453,10 +552,13 @@ def build(cfg):
         (gx_ofs, gy_ofs) = (0.0, 0.0)
         # stand on the drawn ground at the camera's (east, north): z = local ground + height
         e, n = pos.x, pos.y
-        L = math.radians(lon)
-        dx, dy = e * math.cos(L) + n * math.sin(L), -e * math.sin(L) + n * math.cos(L)
-        h, _ = T.ground_height(levels, gx + dx, gy + dy)
-        z = frame.from_grid(np.array([gx + dx]), np.array([gy + dy]), np.array([h]))[0][2]
+        if south_grid:
+            L = math.radians(lon)
+            dx, dy = e * math.cos(L) + n * math.sin(L), -e * math.sin(L) + n * math.cos(L)
+            h, _ = T.ground_height(levels, gx + dx, gy + dy)
+            z = frame.from_grid(np.array([gx + dx]), np.array([gy + dy]), np.array([h]))[0][2]
+        else:
+            z = ground_enu(e, n)
         pos.z = z + cam_p['height_m']
     cam.location = pos
     aim(cam, cam_p['pose']['lookDir'], track='-Z', up='Y' if cam_p['kind'] == 'surface' else 'Y')
@@ -540,7 +642,8 @@ def build(cfg):
         'scriptsSha256': scripts,
         'inputs': {'bundle': {'file': sp['bundle']['file'], 'sha256': sp['bundle']['sha256']},
                    'terrainLevels': [lv.describe() for lv in levels],
-                   'hapkeMap': {'url': hapke.PDS_URL, 'sha256': hapke.PDS_SHA256, 'note': 'parameters are compiled into blender/v2/hapke.py'},
+                   'hapkeMap': {'url': hapke.PDS_URL, 'sha256': hapke.PDS_SHA256, 'note': 'regional constants compiled into blender/v2/hapke.py; '
+                                'with --albedo wac the w band is read per vertex (photometry.albedo)'},
                    'starMap': world_info['stars'] if world_info['stars'].get('present') else None},
         'spec': {'file': spec_path.name, 'sha256': spec_sha},
         'render': {'engine': scene.render.engine, 'samples': cyc.samples, 'seed': cyc.seed, 'device': cyc.device,
@@ -549,7 +652,7 @@ def build(cfg):
                    'bounces': {'max': cyc.max_bounces, 'diffuse': cyc.diffuse_bounces}},
         'observer': {'groundHeightM': h0, 'groundSource': h_src, 'frame': frame.describe(), 'bundleSiteHeightM': sp['site']['heightM']},
         'terrain': tile_report,
-        'photometry': {**sp['photometry'], 'material': mat_info, 'dominantLight': sp['dominantLight']},
+        'photometry': {**sp['photometry'], 'material': mat_info, 'dominantLight': sp['dominantLight'], 'albedo': albedo_info},
         'lighting': {'sun': {k: sun[k] for k in ('azDeg', 'elDeg', 'radiusDeg', 'rangeAu', 'irradianceWm2', 'discAngleDeg', 'lampOn')},
                      'sunDiscRadiance': sun_radiance,
                      'earth': {k: earth[k] for k in ('azDeg', 'elDeg', 'radiusDeg', 'rangeAu', 'phaseAngleDeg', 'illuminatedFraction',
@@ -570,7 +673,8 @@ def build(cfg):
             'Earthshine is a Lambert-sphere MODEL with geometric albedo 0.367; Earth has no texture and casts no eclipse shadow.',
             'Stars: orientation MODEL (TRIAD), brightness VISUAL (display-scaled map).',
             'Orbital camera positions are placed above the site, not from a spacecraft ephemeris.',
-        ],
+            'Albedo: Hapke w from the 1-deg LROC WAC map (70N-70S); poleward the regional median. No NAC albedo (cached NAC mosaics carry shadows).',
+        ] + (['VISUAL micro-relief displacement is ON (synthetic noise, not data).'] if cfg.micro_relief > 0 else []),
     }
     mpath = out / f'{tag}_manifest.json'
     mpath.write_text(json.dumps(manifest, indent=1, default=str))

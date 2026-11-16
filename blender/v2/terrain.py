@@ -7,7 +7,9 @@ metres above the 1 737 400 m sphere (docs/v2/TERRAIN_STACK_CONTRACT.md §2). Ton
   far   PGDA 90 LDEM_80S 80 m    data/cache/<site>_ldem80_290km.npy (+ .json), +-290 km around the site
   committed fallback: the 80 m +-16 km crop inside app/data/polaris-source-site01-2026-11-14-v2.json (rows south -> north,
   origin relative to the site's projectedMeters) - the only terrain in git, used by the reproducibility test.
-When S3's science/terrain/stack.py exists, `stack_level()` reads TerrainStack.window() instead (same Level shape).
+S3's pyramid (science/terrain/stack.py) reaches Blender through blender/v2/pack.py (project venv: Blender's Python has no
+rasterio): pack.json + npy windows, loaded by load_pack_levels(). Levels carry their projection: 'sp' (south polar, as above),
+'np' (north polar) or 'local-stere' (oblique stereographic centred on the site: the pyramid's eq-zone windows).
 
 Geometry: SOURCE-BASED · UNVALIDATED. NaN nodes are never filled: a cell with any NaN corner is not drawn.
 """
@@ -35,10 +37,24 @@ class Level:
     sha256: str = ''
     status: str = 'SOURCE-BASED · UNVALIDATED'
     info: dict = field(default_factory=dict)
+    proj: str = 'sp'         # 'sp' / 'np' polar stereographic, or 'local-stere' (oblique stereographic centred at lat0, lon0)
+    lat0: float = float('nan')
+    lon0: float = float('nan')
 
     @property
     def shape(self):
         return self.h.shape
+
+    def to_latlon(self, x, y):
+        """Grid (x, y) of this level -> (lat, lon) in RADIANS (closed forms; science/terrain/stack.py Zone / ZoneDEM)."""
+        return grid_inverse(self.proj, x, y, self.lat0, self.lon0)
+
+    def from_latlon(self, lat_deg, lon_deg):
+        """(lat, lon) in degrees -> grid (x, y) of this level."""
+        return grid_forward(self.proj, lat_deg, lon_deg, self.lat0, self.lon0)
+
+    def same_grid(self, other):
+        return self.proj == other.proj and (self.proj != 'local-stere' or (self.lat0 == other.lat0 and self.lon0 == other.lon0))
 
     def box(self):
         ny, nx = self.h.shape
@@ -46,8 +62,11 @@ class Level:
 
     def describe(self):
         ny, nx = self.h.shape
-        return {'name': self.name, 'nodes': [int(nx), int(ny)], 'stepM': self.step, 'boxGridM': [round(v, 3) for v in self.box()],
-                'source': self.source, 'sha256': self.sha256, 'status': self.status, **self.info}
+        d = {'name': self.name, 'nodes': [int(nx), int(ny)], 'stepM': self.step, 'boxGridM': [round(v, 3) for v in self.box()],
+             'source': self.source, 'sha256': self.sha256, 'status': self.status, 'proj': self.proj, **self.info}
+        if self.proj == 'local-stere':
+            d['projCentreDeg'] = [self.lat0, self.lon0]
+        return d
 
 
 def file_sha256(path, chunk=1 << 22):
@@ -98,15 +117,38 @@ def level_from_arraydem(dem, name, source='', sha256='', info=None):
     """science.dem.ArrayDEM (or S3's ZoneDEM with proj 'sp') -> Level. ArrayDEM rows run north -> south and x_left / y_top are
     the outer pixel EDGES (values at pixel centres), exactly like the solver cache."""
     proj = getattr(dem, 'proj', 'sp')
-    if proj != 'sp':
-        raise ValueError(f"only south-polar stereographic windows are supported here (got proj {proj!r})")
+    if proj not in PROJS:
+        raise ValueError(f'unsupported window projection {proj!r} (known: {PROJS})')
     Z = np.asarray(dem.Z, dtype=np.float64)
     ny, nx = Z.shape
     step = float(dem.step)
     return Level(name=name, h=np.ascontiguousarray(Z[::-1, :]), x0=float(dem.x_left) + step / 2,
                  y0=float(dem.y_top) - (ny - 0.5) * step, step=step, source=source, sha256=sha256,
                  info=dict(info or {}, pixelConvention='x_left/y_top are pixel edges; nodes at pixel centres (as science/dem.py)',
-                           nanNodes=int(np.isnan(Z).sum())))
+                           nanNodes=int(np.isnan(Z).sum())),
+                 proj=proj, lat0=float(getattr(dem, 'lat0', float('nan'))), lon0=float(getattr(dem, 'lon0', float('nan'))))
+
+
+def load_pack_levels(pack_dir, hash_files=True):
+    """Levels written by blender/v2/pack.py (project venv; reads science.terrain.stack). pack.json lists each level's npy
+    (ArrayDEM layout: rows north -> south, x_left / y_top pixel EDGES), projection and the stack metadata."""
+    pack_dir = Path(pack_dir)
+    meta = json.loads((pack_dir / 'pack.json').read_text())
+    out = []
+    for L in meta['levels']:
+        npy = pack_dir / L['file']
+        a = np.load(npy)
+        ny, nx = a.shape
+        step = float(L['step'])
+        sha = file_sha256(npy) if hash_files else ''
+        if hash_files and L.get('sha256') and sha != L['sha256']:
+            raise ValueError(f'{npy}: sha256 {sha} != pack.json {L["sha256"]} (pack changed after it was written)')
+        out.append(Level(name=L['name'], h=np.ascontiguousarray(a[::-1, :], dtype=np.float64), x0=float(L['x_left']) + step / 2,
+                         y0=float(L['y_top']) - (ny - 0.5) * step, step=step, source=L.get('source', 'TerrainStack'), sha256=sha,
+                         info={'pack': pack_dir.name, 'stackMeta': L.get('meta', {}), 'nanNodes': int(np.isnan(a).sum()),
+                               'pixelConvention': 'x_left/y_top are pixel edges; nodes at pixel centres (as science/dem.py)'},
+                         proj=L['proj'], lat0=float(L.get('lat0', float('nan'))), lon0=float(L.get('lon0', float('nan')))))
+    return out, meta
 
 
 def stack_levels(lat, lon, near_half_m=8000.0, near_res_m=5.0, far_half_m=290_000.0, far_res_m=80.0, root=None):
@@ -146,6 +188,56 @@ def stereo_forward(lat_deg, lon_deg):
     return rho * math.sin(lo), rho * math.cos(lo)
 
 
+PROJS = ('sp', 'np', 'local-stere')
+
+
+def oblique_stereo_forward(lat_deg, lon_deg, lat0, lon0):
+    """Oblique stereographic on the R sphere centred at (lat0, lon0), scale 1 at the centre (= science/terrain/stack.py)."""
+    la = np.radians(np.asarray(lat_deg, dtype=float)); lo = np.radians(np.asarray(lon_deg, dtype=float))
+    la0, lo0 = math.radians(lat0), math.radians(lon0)
+    cosc = math.sin(la0) * np.sin(la) + math.cos(la0) * np.cos(la) * np.cos(lo - lo0)
+    k = 2 * R_MOON_M / (1 + cosc)
+    return k * np.cos(la) * np.sin(lo - lo0), k * (math.cos(la0) * np.sin(la) - math.sin(la0) * np.cos(la) * np.cos(lo - lo0))
+
+
+def oblique_stereo_inverse(x, y, lat0, lon0):
+    """Inverse of oblique_stereo_forward -> (lat, lon) RADIANS (lon not wrapped)."""
+    x = np.asarray(x, dtype=float); y = np.asarray(y, dtype=float)
+    la0, lo0 = math.radians(lat0), math.radians(lon0)
+    rho = np.hypot(x, y)
+    c = 2 * np.arctan(rho / (2 * R_MOON_M))
+    with np.errstate(invalid='ignore', divide='ignore'):
+        la = np.arcsin(np.clip(np.cos(c) * math.sin(la0) + np.where(rho > 0, y * np.sin(c) * math.cos(la0) / rho, 0.0), -1, 1))
+    lo = lo0 + np.arctan2(x * np.sin(c), rho * math.cos(la0) * np.cos(c) - y * math.sin(la0) * np.sin(c))
+    return la, lo
+
+
+def grid_inverse(proj, x, y, lat0=float('nan'), lon0=float('nan')):
+    """Grid -> (lat, lon) radians. 'sp' is exactly stereo_inverse (the path every south-polar scene has always used)."""
+    if proj == 'sp':
+        return stereo_inverse(np.asarray(x, float), np.asarray(y, float))
+    if proj == 'np':        # x = rho sin lon, y = -rho cos lon, rho = 2R tan(pi/4 - lat/2)
+        x = np.asarray(x, float); y = np.asarray(y, float)
+        rho = np.hypot(x, y)
+        return np.pi / 2.0 - 2.0 * np.arctan(rho / (2.0 * R_MOON_M)), np.arctan2(x, -y)
+    if proj == 'local-stere':
+        return oblique_stereo_inverse(x, y, lat0, lon0)
+    raise ValueError(proj)
+
+
+def grid_forward(proj, lat_deg, lon_deg, lat0=float('nan'), lon0=float('nan')):
+    la = np.radians(np.asarray(lat_deg, float)); lo = np.radians(np.asarray(lon_deg, float))
+    if proj == 'sp':
+        rho = 2 * R_MOON_M * np.tan(np.pi / 4 + la / 2)
+        return rho * np.sin(lo), rho * np.cos(lo)
+    if proj == 'np':
+        rho = 2 * R_MOON_M * np.tan(np.pi / 4 - la / 2)
+        return rho * np.sin(lo), -rho * np.cos(lo)
+    if proj == 'local-stere':
+        return oblique_stereo_forward(lat_deg, lon_deg, lat0, lon0)
+    raise ValueError(proj)
+
+
 class EnuFrame:
     """Local ENU at the observer ground point (lat0, lon0, h0): x east, y north, z up (radial)."""
 
@@ -165,9 +257,34 @@ class EnuFrame:
         P = np.stack([r * np.cos(lat) * np.cos(lon), r * np.cos(lat) * np.sin(lon), r * np.sin(lat)], axis=-1)
         return (P - self.P0) @ self.M.T
 
+    def from_latlon_rad(self, lat, lon, h):
+        r = R_MOON_M + np.asarray(h, float)
+        P = np.stack([r * np.cos(lat) * np.cos(lon), r * np.cos(lat) * np.sin(lon), r * np.sin(lat)], axis=-1)
+        return (P - self.P0) @ self.M.T
+
+    def from_level(self, level, x, y, h):
+        """Grid (x, y) of `level` + height -> ENU. South-polar levels take exactly the from_grid path."""
+        if level.proj == 'sp':
+            return self.from_grid(x, y, h)
+        lat, lon = level.to_latlon(x, y)
+        return self.from_latlon_rad(lat, lon, h)
+
+    def enu_to_latlon_deg(self, V):
+        """ENU points -> (lat, lon) degrees of their Moon-fixed direction (for per-vertex lookups such as albedo)."""
+        P = np.asarray(V, float) @ self.M + self.P0
+        r = np.linalg.norm(P, axis=-1)
+        return np.degrees(np.arcsin(np.clip(P[..., 2] / r, -1, 1))), np.degrees(np.arctan2(P[..., 1], P[..., 0]))
+
+    def offset_latlon_deg(self, e, n):
+        """Ground point at horizontal ENU offset (e, n) metres: direction of P0 + e E + n N, as (lat, lon) degrees. Used to place
+        objects on non-south-polar terrain (exact on the sphere up to the tangent-plane offset; < 1 mm at 100 m)."""
+        P = self.P0 + e * self.e + n * self.n
+        r = float(np.linalg.norm(P))
+        return math.degrees(math.asin(P[2] / r)), math.degrees(math.atan2(P[1], P[0]))
+
     def describe(self):
         return {'latDeg': self.lat, 'lonEastDeg': self.lon, 'groundHeightM': self.h0, 'axes': 'x east, y north, z up (site radius)',
-                'transform': 'grid -> (lat, lon) closed-form inverse stereographic -> (R+h) u(lat, lon) Moon-fixed -> ENU at the observer'}
+                'transform': 'grid -> (lat, lon) by the level\'s closed-form inverse (sp / np polar or local oblique stereographic) -> (R+h) u(lat, lon) Moon-fixed -> ENU at the observer'}
 
 
 def sample_bilinear(level, x, y):
@@ -224,6 +341,9 @@ def plan_tiles(levels, frame, view, tile_cells=64, budget=2_500_000, k=2.0, near
     or within `near_keep_m`: spacing <= distance * tan(Sun angular radius). Cells inside a finer level's box (inset by one coarse
     cell) are left to that level. If the vertex estimate exceeds `budget`, k doubles (recorded). `all_around` treats every
     tile as in view (skyline consistency check). Returns (tiles, report)."""
+    if any(not lv.same_grid(levels[0]) for lv in levels):
+        raise ValueError('all levels of a scene must share one grid (projection and centre); got '
+                         + ', '.join(f'{lv.name}: {lv.proj}' for lv in levels))
     for attempt in range(8):
         tiles, verts = [], 0
         for li, lv in enumerate(levels):
@@ -242,7 +362,7 @@ def plan_tiles(levels, frame, view, tile_cells=64, budget=2_500_000, k=2.0, near
                     hm = float(np.nanmean(sub))
                     xs = np.array([gx0, gx1, gx0, gx1, (gx0 + gx1) / 2])
                     ys = np.array([gy0, gy0, gy1, gy1, (gy0 + gy1) / 2])
-                    pts = frame.from_grid(xs, ys, np.full(5, hm))
+                    pts = frame.from_level(lv, xs, ys, np.full(5, hm))
                     c = pts[4]
                     radius = float(np.max(np.linalg.norm(pts[:4] - c, axis=1))) + float(np.nanmax(sub) - np.nanmin(sub)) / 2
                     dist = max(1.0, float(np.linalg.norm(c - np.asarray(view.pos))) - radius)
@@ -325,7 +445,7 @@ def _tile_mesh_upsampled(level, t, frame, finer_boxes, skirt):
 def _grid_mesh(level, H, gx, gy, frame, finer_boxes, skirt, depth):
     GX, GY = np.meshgrid(gx, gy)
     nyv, nxv = H.shape
-    V = frame.from_grid(GX.ravel(), GY.ravel(), np.nan_to_num(H.ravel(), nan=0.0))
+    V = frame.from_level(level, GX.ravel(), GY.ravel(), np.nan_to_num(H.ravel(), nan=0.0))
     valid = ~np.isnan(H)
     q = (np.arange(nyv - 1)[:, None] * nxv + np.arange(nxv - 1)[None, :]).ravel()
     faces = np.stack([q, q + 1, q + nxv + 1, q + nxv], axis=1)
@@ -355,6 +475,17 @@ def _grid_mesh(level, H, gx, gy, frame, finer_boxes, skirt, depth):
             V = np.vstack([V] + extra_v)
             faces = np.vstack([faces] + extra_f)
     return V, faces, dropped
+
+
+def ground_height_latlon(levels, lat_deg, lon_deg):
+    """Height at (lat, lon) from the finest level that covers it, each level in its own grid. Returns (h, level name, (x, y)
+    in that level's grid)."""
+    for lv in levels:
+        x, y = lv.from_latlon(lat_deg, lon_deg)
+        h = sample_bilinear(lv, float(x), float(y))
+        if math.isfinite(h):
+            return h, lv.name, (float(x), float(y))
+    return float('nan'), None, None
 
 
 def ground_height(levels, x, y):
