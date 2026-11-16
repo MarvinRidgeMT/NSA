@@ -338,10 +338,10 @@ def main():
     views.append(('aerial', aer, k0, 0.0))
     # ground level: a 1.7 m eye on the Sun side of the mast, Sun behind the viewer's shoulder, looking past
     # the mast down-Sun so lit slopes and the long shadows are in view (looking into the Sun showed only backlit black)
-    gp = sd * 45 - perp * 20
+    gp = sd * 120 - perp * 45   # far enough that the mast and ray markers stay small in frame
     gnd = new_cam('Camera | showcase ground 1.7 m', coll, 24)
     gnd.location = Vector((gp.x, gp.y, ground_z(gp.x, gp.y) + 1.7))
-    tgt_pt = -sd * 300 + perp * 40
+    tgt_pt = -sd * 300 + perp * 20
     look_at(gnd, (tgt_pt.x, tgt_pt.y, ground_z(tgt_pt.x, tgt_pt.y) + 2))
     views.append(('ground', gnd, k0, 0.7))
     low = bpy.data.objects.get('Camera | low cross-lit hero')

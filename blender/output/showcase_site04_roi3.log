@@ -1,15 +1,15 @@
-00:00.307  blend            | Read blend: "/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2.blend"
+00:00.526  blend            | Read blend: "/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2.blend"
 /Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/showcase.py:103: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
   m.use_nodes = True
 /Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/showcase.py:155: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
   m.use_nodes = True
 /Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/showcase.py:308: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
   scene.world.use_nodes = True
-00:07.966  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_aerial.png'
-00:14.887  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_ground.png'
-00:20.518  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_low_sun.png'
-00:26.792  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast1m.png'
-00:34.374  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast10m.png'
+00:16.780  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_aerial.png'
+00:32.859  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_ground.png'
+00:39.801  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_low_sun.png'
+00:46.644  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast1m.png'
+00:54.577  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast10m.png'
 [POLARIS] showcase render aerial: POLARIS_X_site04_roi3_bundlev2_showcase_aerial.png
 [POLARIS] showcase render ground: POLARIS_X_site04_roi3_bundlev2_showcase_ground.png
 [POLARIS] showcase render low_sun: POLARIS_X_site04_roi3_bundlev2_showcase_low_sun.png
@@ -18,29 +18,29 @@
 Info: Saved copy as "POLARIS_X_site04_roi3_bundlev2_showcase.blend"
 INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/lib/libbf_intern_draco_bridge.dylib
 INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/lib/libbf_intern_meshopt_bridge.dylib
-20:47:47 | INFO: Starting glTF 2.0 export
-20:47:47 | INFO: Extracting primitive: DEM grid.001
-20:47:48 | INFO: Primitives created: 1
-20:47:48 | INFO: Extracting primitive: DEM grid.002
-20:47:48 | INFO: Primitives created: 1
-20:47:48 | INFO: Extracting primitive: DEM grid
-20:47:48 | INFO: Primitives created: 1
-20:47:48 | INFO: Extracting primitive: Earth ray
-20:47:48 | INFO: Primitives created: 1
-20:47:48 | INFO: Extracting primitive: Sphere
-20:47:48 | INFO: Primitives created: 1
-20:47:48 | INFO: Extracting primitive: Cylinder
-20:47:48 | INFO: Primitives created: 1
-20:47:48 | INFO: Extracting primitive: Sun ray
-20:47:48 | INFO: Primitives created: 1
-20:47:48 | INFO: Draco encoder: Encoding mesh CONTEXT L1 | 20 m ring | DISPLAY ONLY | 1:1 metres.
-20:47:48 | INFO: Draco encoder: Encoding mesh CONTEXT | PGDA 90 80 m regional crop | DISPLAY ONLY | 1:1 metres.
-20:47:48 | INFO: Draco encoder: Encoding mesh DEM | 5 m crop | NASA GSFC SfS DISPLAY surface | 1:1 metres.
-20:47:48 | INFO: Draco encoder: Encoding mesh Earth ray.
-20:47:48 | INFO: Draco encoder: Encoding mesh Observer eye point.
-20:47:48 | INFO: Draco encoder: Encoding mesh Observer mast 1.0 m (bundle scenario).
-20:47:48 | INFO: Draco encoder: Encoding mesh Sun ray.
-20:47:48 | INFO: Finished glTF 2.0 export in 0.4424910545349121 s
+21:25:12 | INFO: Starting glTF 2.0 export
+21:25:12 | INFO: Extracting primitive: DEM grid.001
+21:25:12 | INFO: Primitives created: 1
+21:25:12 | INFO: Extracting primitive: DEM grid.002
+21:25:12 | INFO: Primitives created: 1
+21:25:12 | INFO: Extracting primitive: DEM grid
+21:25:12 | INFO: Primitives created: 1
+21:25:12 | INFO: Extracting primitive: Earth ray
+21:25:12 | INFO: Primitives created: 1
+21:25:12 | INFO: Extracting primitive: Sphere
+21:25:12 | INFO: Primitives created: 1
+21:25:12 | INFO: Extracting primitive: Cylinder
+21:25:12 | INFO: Primitives created: 1
+21:25:12 | INFO: Extracting primitive: Sun ray
+21:25:12 | INFO: Primitives created: 1
+21:25:12 | INFO: Draco encoder: Encoding mesh CONTEXT L1 | 20 m ring | DISPLAY ONLY | 1:1 metres.
+21:25:12 | INFO: Draco encoder: Encoding mesh CONTEXT | PGDA 90 80 m regional crop | DISPLAY ONLY | 1:1 metres.
+21:25:12 | INFO: Draco encoder: Encoding mesh DEM | 5 m crop | NASA GSFC SfS DISPLAY surface | 1:1 metres.
+21:25:12 | INFO: Draco encoder: Encoding mesh Earth ray.
+21:25:12 | INFO: Draco encoder: Encoding mesh Observer eye point.
+21:25:12 | INFO: Draco encoder: Encoding mesh Observer mast 1.0 m (bundle scenario).
+21:25:12 | INFO: Draco encoder: Encoding mesh Sun ray.
+21:25:12 | INFO: Finished glTF 2.0 export in 0.40380191802978516 s
 
 [POLARIS] showcase done: 5 renders, boulders drawn (43592), device METAL, web GLB 929180
 Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:31:21)

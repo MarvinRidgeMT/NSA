@@ -1,6 +1,6 @@
 {
  "schema": "polaris-blender-showcase-v1",
- "generatedUTC": "2026-11-16T01:47:13Z",
+ "generatedUTC": "2026-11-16T02:24:17Z",
  "status": "SOURCE-BASED UNVALIDATED",
  "site": "site01_roi6",
  "bundle": {
@@ -24,7 +24,7 @@
    },
    "exposureStops": 0.0,
    "png": "POLARIS_X_site01_roi6_bundlev2_showcase_aerial.png",
-   "pngSha256": "f1abaa0cbb0478bb678489971adb8cdba7463e66f6f317441e0ff7c40be6a4bc",
+   "pngSha256": "94d111c112390db23ff97b9b4d96fac9023982675365acf9491f349c2865823e",
    "rays": {
     "sun": {
      "state": "clear",
@@ -48,7 +48,7 @@
    },
    "exposureStops": 0.7,
    "png": "POLARIS_X_site01_roi6_bundlev2_showcase_ground.png",
-   "pngSha256": "80fe7cc75302d367b3b83bd2137812ee4e68a106fd9b4045f2c40ee16db01ebb",
+   "pngSha256": "02b1959dfecc59c20c944d88036fae674a5217152a74dc6a18a2771097324a47",
    "rays": {
     "sun": {
      "state": "clear",
@@ -72,7 +72,7 @@
    },
    "exposureStops": 1.0,
    "png": "POLARIS_X_site01_roi6_bundlev2_showcase_low_sun.png",
-   "pngSha256": "c59e956141b451d2244f1408babde76a698527b4e2554517d060e57cbb56ac83",
+   "pngSha256": "9715667fb82da580d0aa6c6cdbd6410981371375e93ffacfb4531d2fb9d09028",
    "rays": {
     "sun": {
      "state": "clear",
@@ -92,8 +92,8 @@
  "showcaseBlend": "POLARIS_X_site01_roi6_bundlev2_showcase.blend",
  "webGlb": {
   "file": "POLARIS_X_site01_roi6_bundlev2_web.glb",
-  "bytes": 926044,
-  "sha256": "ea8fead26e7e1dfd0c92c30e5582a9c1e4d1912214657babe5c82c3f3e1bdcbd",
+  "bytes": 926048,
+  "sha256": "f325994a60ee843faa1f4472dfdde47e533924419c1e4beb784eba007f59d095",
   "draco": true
  },
  "syntheticDetail": {

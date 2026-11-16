@@ -19,7 +19,7 @@ OUT = ROOT / 'web' / 'public' / 'showcase'
 NAMES = {'site01_roi6': 'Connecting Ridge (Site01 ROI6)', 'site04_roi3': 'Shackleton Rim (Site04 ROI3)'}
 VIEW = {
     'aerial': 'Aerial view across the Sun azimuth',
-    'ground': 'Ground level, 1.7 m eye height, about 50 m from the mast on the Sun side, looking down-Sun',
+    'ground': 'Ground level, 1.7 m eye height, about 130 m from the mast on the Sun side, looking down-Sun',
     'low_sun': 'Low camera on the Sun side, grazing light',
     'obstruction_mast1m': 'Sun transition hour, 1 m mast: the bundle ray ends at the first terrain hit',
     'obstruction_mast10m': 'Same hour, 10 m mast: the bundle ray clears the terrain',

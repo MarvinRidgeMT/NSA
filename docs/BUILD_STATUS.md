@@ -974,3 +974,13 @@ Recovery point: `tmp/web_before_14islands_2035.tgz` and the RC ZIP copy `dist/PO
 - Mac VM: `tsc` clean on the combined tree, including session A's later `TerrainSurface.tsx` / `Header.tsx` edits.
 - Mac browser run: pending.
 
+
+### Final state, hosted copy v6, report — 15 Nov 2026 21:20–21:45 EST (session A)
+- **Pushed and verified** (`git ls-remote` in Anish's Terminal): `2445253` checkpoint; `68621ac` + `ce03658` showcase v2 / gallery / offset analysis.
+  Mac Playwright **79/79** (2.1 min) immediately before `ce03658`.
+- **Render review (v2, 128 spp, METAL, ~7 s per render):** black sky on both sites; ground views lit; the 1 m / 10 m pair reads correctly (1 m Sun ray
+  ends at the ridge 16 m out, 10 m clear). Remaining: the ray/eye markers are large in the ground views → ground camera moved to ~130 m from the mast.
+- **Hosted copy v6** (private): https://claude.ai/artifact/PkR5bSAVdAZuUNK4xAPu8J, built from `ce03658` with `--base ./`, gallery included; headless check:
+  Explore = Site01 ROI6 with relief on, Decision = Site04 ROI3, 0 failed requests.
+- New: `docs/FINAL_REPORT_SESSION_A_2026-11-15.md` (final report), `docs/NEXT_WORK_PROMPT_CLAUDE_CODE.md` (prompt for the remaining limits:
+  L1 diamond pattern, 1.75 m series, Site01 RDR check, streaming LOD + Blender ring, axe fixes, ground render polish).
