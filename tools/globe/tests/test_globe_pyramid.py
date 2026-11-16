@@ -304,3 +304,18 @@ def test_equal_priority_tiles_deepest_wins(tmp_path):
     assert np.allclose(row[(xs > 3400) & (xs < 4000)], 20.0, atol=1e-2)
     mid = row[(xs > 2900) & (xs < 3100)]
     assert np.all(np.diff(row[(xs > 2000) & (xs < 4000)]) >= -1e-9) and 10.0 < mid.mean() < 20.0
+
+
+def test_atomic_build_swaps_in(tmp_path):
+    l, t, px, n = -5000.0, 5000.0, 80.0, 125
+    X, Y = grid_centres(l, t, px, n, n)
+    f = write_raster(tmp_path / 'c.tif', plane(X, Y), l, t, px, SP)
+    root = tmp_path / 'pyr'
+    root.mkdir()
+    (root / 'coreg.json').write_text('{"products": {}}')
+    (root / 'stale.txt').write_text('old pyramid')
+    PY.build(zones=('sp',), max_level=4, workers=1, root=root, specs=[PP.ProductSpec('c', 5, f, 80.0)],
+             log=lambda *a: None, atomic=True)
+    assert (root / 'index.json').exists() and (root / 'coreg.json').exists() and not (root / 'stale.txt').exists()
+    assert not (tmp_path / 'pyr.staging').exists() and not (tmp_path / 'pyr.old').exists()
+    assert S.TerrainStack.open(root).levels('sp') == [0, 1, 2, 3, 4]

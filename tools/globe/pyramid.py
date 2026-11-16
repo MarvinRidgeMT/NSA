@@ -322,8 +322,29 @@ def _build_batch(args):
     return zone, level, done
 
 
-def build(zones=('sp',), max_level=S.MAX_LEVEL, workers=None, root=None, specs=None, bbox=None, log=print):
+def build(zones=('sp',), max_level=S.MAX_LEVEL, workers=None, root=None, specs=None, bbox=None, log=print,
+          atomic=False):
+    """Build tiles for `zones` (all levels <= max_level) and rewrite index.json. atomic=True builds the WHOLE pyramid
+    into <root>.staging and swaps it in at the end, so readers never see a half-built pyramid (zones not listed are
+    not carried over: pass every zone)."""
     root = Path(root) if root else pyramid_root()
+    if atomic:
+        import shutil
+        stage = root.with_name(root.name + '.staging')
+        if stage.exists():
+            shutil.rmtree(stage)
+        stage.mkdir(parents=True)
+        if (root / 'coreg.json').exists():
+            shutil.copy2(root / 'coreg.json', stage / 'coreg.json')
+        n = build(zones, max_level, workers, stage, specs, bbox, log, atomic=False)
+        old = root.with_name(root.name + '.old')
+        if old.exists():
+            shutil.rmtree(old)
+        if root.exists():
+            os.replace(root, old)
+        os.replace(stage, root)
+        shutil.rmtree(old, ignore_errors=True)
+        return n
     specs = specs if specs is not None else PP.all_products()
     coreg = load_coreg(root)
     for s in specs:
@@ -432,6 +453,7 @@ def main(argv=None):
     b.add_argument('--workers', type=int, default=None)
     b.add_argument('--root', default=None)
     b.add_argument('--bbox', default=None, help='zone-grid bbox left,bottom,right,top')
+    b.add_argument('--atomic', action='store_true', help='build into <root>.staging and swap in at the end')
     sub.add_parser('index').add_argument('--root', default=None)
     c = sub.add_parser('coreg')
     c.add_argument('--root', default=None)
@@ -447,7 +469,7 @@ def main(argv=None):
         return 0
     if a.cmd == 'build':
         build(zones=tuple(a.zones.split(',')), max_level=a.max_level, workers=a.workers, root=a.root,
-              bbox=_parse_bbox(a.bbox))
+              bbox=_parse_bbox(a.bbox), atomic=a.atomic)
         return 0
     if a.cmd == 'index':
         write_index(Path(a.root) if a.root else pyramid_root())

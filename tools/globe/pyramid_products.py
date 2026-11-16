@@ -524,7 +524,7 @@ def _mosaic_tiled(specs):
         else:
             out.append(s)
     for base, ss in groups.items():
-        vrt = polaris_data() / 'v2' / 'pyramid' / 'vrt' / f'{base}.vrt'
+        vrt = polaris_data() / 'v2' / 'vrt' / f'{base}.vrt'           # outside the pyramid (atomic rebuilds swap it)
         write_vrt_mosaic([x.abspath for x in ss], vrt)
         s0 = ss[0]
         out.append(ProductSpec(base, s0.source_id, str(vrt), s0.native_res_m, units=s0.units, datum=s0.datum,
