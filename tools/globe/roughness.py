@@ -124,9 +124,27 @@ def rms_slope_profile(Z, px, baselines=BASELINES_M):
     return out
 
 
-def fit_params(Zb, pb, cell_px=PARAM_CELL_PX):
-    """Self-fit per cell of a base-level mosaic Zb (pixel pb): H from log nu vs log D at lags 2, 4, 8 px; nu0 = nu(2 px);
-    s1 = nu(1 px) / pb (what bilinear interpolation carries). Returns arrays on the cell grid."""
+# Tried 16 Nov: detrending each cell before the fit makes the added sub-resolution relief 2.0-2.4x the PGDA 78 5 m
+# residual (vs 1.2-2.0x without), so the default is off. See docs/v2/PYRAMID_QA.json "roughness".
+DETREND = False
+
+
+def _detrend(c):
+    """Remove the least-squares plane of a cell (the resolved regional tilt is carried by the real surface itself;
+    only the relief about it is self-affine roughness)."""
+    ny, nx = c.shape
+    J, I = np.mgrid[0:ny, 0:nx]
+    m = np.isfinite(c)
+    A = np.stack([I[m], J[m], np.ones(m.sum())], 1)
+    coef = np.linalg.lstsq(A, c[m], rcond=None)[0]
+    return c - (coef[0] * I + coef[1] * J + coef[2])
+
+
+def fit_params(Zb, pb, cell_px=PARAM_CELL_PX, detrend=None):
+    """Self-fit per cell of a base-level mosaic Zb (pixel pb), on the cell minus its best-fit plane (detrend=True):
+    H from log nu vs log D at lags 2, 4, 8 px; nu0 = nu(2 px); s1 = nu(1 px) / pb (the roughness bilinear
+    interpolation already carries). Returns arrays on the cell grid."""
+    detrend = DETREND if detrend is None else detrend
     ny, nx = Zb.shape[0] // cell_px, Zb.shape[1] // cell_px
     H = np.full((ny, nx), np.nan); nu0 = np.full((ny, nx), np.nan); s1 = np.full((ny, nx), np.nan)
     lags = np.array([2, 4, 8]); ll = np.log(lags * pb)
@@ -135,6 +153,8 @@ def fit_params(Zb, pb, cell_px=PARAM_CELL_PX):
             c = Zb[j * cell_px:(j + 1) * cell_px, i * cell_px:(i + 1) * cell_px]
             if np.isfinite(c).mean() < 0.5:
                 continue
+            if detrend:
+                c = _detrend(c)
             nus = np.array([rms_dev(c, int(l)) for l in lags])
             if not np.all(np.isfinite(nus)) or np.any(nus <= 0):
                 continue
@@ -163,9 +183,11 @@ def _mosaic(stack, zone, L, l, b, r, t):
     return g[0].astype(np.float64), Z.left + c0 * p, Z.top - r0 * p
 
 
-def visual_grid(stack, zone, x_left, y_top, q, ny, nx, base_level, real_levels=None, pad=16):
+def visual_grid(stack, zone, x_left, y_top, q, ny, nx, base_level, real_levels=None, pad=16, assume_native_m=None):
     """VISUAL heights on an aligned polar grid (pixel q, ny x nx) plus diagnostics.
-    real_levels: levels the real base surface may use (None = all; the roughness check passes <= base_level)."""
+    real_levels: levels the real base surface may use (None = all; the roughness check passes <= base_level).
+    assume_native_m: treat the base as having this native resolution everywhere (the roughness check uses the 80 m
+    level over a PGDA 78 site, whose pixels honestly carry native_res_m = 5 m)."""
     Z = S.ZONES[zone]
     if Z.kind != 'polar':
         raise NotImplementedError('VISUAL synthesis is implemented for the polar zones first (eq: not done tonight)')
@@ -188,6 +210,8 @@ def visual_grid(stack, zone, x_left, y_top, q, ny, nx, base_level, real_levels=N
     base = qy['height']
     res = qy['native_res_m'].astype(np.float64)
     res = np.where(np.isfinite(res), res, pb)
+    if assume_native_m is not None:
+        res = np.full(res.shape, float(assume_native_m))
     from scipy import ndimage
     lres = ndimage.gaussian_filter(np.log2(res), sigma=pad / 2.0, mode='nearest')
     lam_max = 2.0 * np.exp2(lres)
@@ -266,19 +290,25 @@ def check_site(stack, spec, half_m=4000.0, base_level=4):
     finally:
         rd.close()
     vis, base, noise, diag = visual_grid(stack, 'sp', x_left, y_top, q, n, n, base_level,
-                                         real_levels=list(range(0, base_level + 1)))
+                                         real_levels=list(range(0, base_level + 1)),
+                                         assume_native_m=S.ZONES['sp'].pixel_m(base_level))
     pr, pv, pb_ = rms_slope_profile(real, q), rms_slope_profile(vis, q), rms_slope_profile(base, q)
+    # sub-resolution component alone: what the real 5 m surface has beyond the bilinear 80 m one, vs the added relief
+    rr_, rn_ = rms_slope_profile(real - base, q), rms_slope_profile(noise, q)
     rows = []
     for bl in pr:
         rows.append({'baseline_m': bl, 'real_5m_deg': round(pr[bl], 3), 'visual_deg': round(pv[bl], 3),
                      'bilinear_80m_deg': round(pb_[bl], 3), 'ratio_visual': round(pv[bl] / pr[bl], 3),
-                     'ratio_bilinear': round(pb_[bl] / pr[bl], 3)})
+                     'ratio_bilinear': round(pb_[bl] / pr[bl], 3),
+                     'residual_real_deg': round(rr_[bl], 3), 'residual_visual_deg': round(rn_[bl], 3),
+                     'ratio_residual': round(rn_[bl] / rr_[bl], 3) if rr_[bl] > 0 else None})
     sub = [r for r in rows if r['baseline_m'] < 2 * diag['base_pixel_m']]
     ok = all(RATIO_BAND[0] <= r['ratio_visual'] <= RATIO_BAND[1] for r in rows)
     return {'product': spec.product_id, 'centre_grid_m': [cx, cy], 'half_m': half_m, 'rows': rows,
             'pass': ok, 'ratio_band': list(RATIO_BAND),
             'sub_resolution_mean_ratio_visual': round(float(np.mean([r['ratio_visual'] for r in sub])), 3) if sub else None,
             'sub_resolution_mean_ratio_bilinear': round(float(np.mean([r['ratio_bilinear'] for r in sub])), 3) if sub else None,
+            'sub_resolution_mean_ratio_residual': round(float(np.mean([r['ratio_residual'] for r in sub])), 3) if sub else None,
             'diag': diag}
 
 
@@ -293,7 +323,8 @@ def run_check(write=True, log=print):
             f"vs bilinear {r['sub_resolution_mean_ratio_bilinear']}")
         for row in r['rows']:
             log(f"   {row['baseline_m']:7.0f} m  real {row['real_5m_deg']:6.2f}  visual {row['visual_deg']:6.2f}  "
-                f"bilinear {row['bilinear_80m_deg']:6.2f}  ratio {row['ratio_visual']:.2f}")
+                f"bilinear {row['bilinear_80m_deg']:6.2f}  ratio {row['ratio_visual']:.2f}   residual real "
+                f"{row['residual_real_deg']:5.2f} added {row['residual_visual_deg']:5.2f} ratio {row['ratio_residual']}")
     out = {'created_utc': _dt.datetime.now(_dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
            'label': 'VISUAL roughness check (display layer QA; not science)',
            'reference': 'PGDA 78 LOLA 5 m surface at each site (real); VISUAL built from the 80 m level only (PGDA 90), '
