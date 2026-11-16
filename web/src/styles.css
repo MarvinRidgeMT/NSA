@@ -31,47 +31,6 @@
   --f-sans: 'Inter Tight', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --f-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Typography scale (Penumbra V3) */
-  --text-xs: 10px;
-  --text-xs-lh: 1.4;
-  --text-sm: 11px;
-  --text-sm-lh: 1.4;
-  --text-base: 13px;
-  --text-base-lh: 1.5;
-  --text-md: 14px;
-  --text-md-lh: 1.5;
-  --text-lg: 16px;
-  --text-lg-lh: 1.4;
-  --text-xl: 18px;
-  --text-xl-lh: 1.4;
-  --text-2xl: 24px;
-  --text-2xl-lh: 1.3;
-  --text-3xl: 32px;
-  --text-3xl-lh: 1.2;
-  --text-4xl: 42px;
-  --text-4xl-lh: 1.1;
-
-  /* Spacing scale (4px base) */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-
-  /* Component tokens */
-  --glass-blur: 12px;
-  --glass-bg: rgba(38, 38, 35, 0.85);
-  --glass-border: rgba(236, 231, 221, 0.2);
-  --shadow-elevation: 0 4px 16px rgba(0, 0, 0, 0.3);
-  --radius-subtle: 2px;
-  --dur-anim: 0.3s;
-  --dur-camera: 0.6s;
-  --dur-major: 1.2s;
-  --ease-standard-curve: cubic-bezier(0.4, 0, 0.2, 1);
-
   --dur-quick: 120ms;
   --dur-base: 200ms;
   --dur-deliberate: 320ms;
@@ -188,16 +147,7 @@ h3 { font: 500 13px/1.3 var(--f-sans); margin: 12px 0 6px; color: var(--bone); }
 /* ---------- panels: hairline instruments, not dashboard cards ---------- */
 .grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 28px 32px; }
 .col { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
-.panel {
-  position: relative;
-  overflow-x: auto;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(var(--glass-blur));
-  border-radius: var(--radius-subtle);
-  padding: var(--space-4);
-  min-width: 0;
-}
+.panel { position: relative; overflow-x: auto; background: var(--graphite); border-top: 1px solid var(--line-strong); border-radius: 0; padding: 18px 20px 20px; min-width: 0; }
 .panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 14px; flex-wrap: wrap; margin-bottom: 14px; }
 .panel-head > .muted, .panel-head > span { font-size: 12px; color: var(--ash); }
 .chart { width: 100%; height: auto; display: block; font-family: var(--f-sans); }
@@ -466,31 +416,13 @@ tr.is-selected td, tr.is-selected th { background: var(--raised); }
 .views .btn:hover { background: var(--slate); }
 .views .btn[aria-pressed='true'] { background: var(--bone); color: var(--basalt); }
 
-.instrument {
-  position: absolute;
-  z-index: 21;
-  right: 20px;
-  top: 20px;
-  width: 360px;
-  max-height: calc(100% - 310px);
-  overflow: auto;
-  padding: var(--space-4);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(var(--glass-blur));
-  border-radius: var(--radius-subtle);
-  scrollbar-width: thin;
-}
-.instrument::before, .instrument::after { content: ''; position: absolute; width: 10px; height: 10px; pointer-events: none; display: none; }
+.instrument { position: absolute; z-index: 21; right: 20px; top: 20px; width: 360px; max-height: calc(100% - 310px); overflow: auto; padding: 18px 20px 20px; background: var(--scrim-strong); border: 1px solid var(--line); scrollbar-width: thin; }
+.instrument::before, .instrument::after { content: ''; position: absolute; width: 10px; height: 10px; pointer-events: none; }
 .instrument::before { left: -1px; top: -1px; border-left: 1px solid var(--bone); border-top: 1px solid var(--bone); }
 .instrument::after { right: -1px; bottom: -1px; border-right: 1px solid var(--bone); border-bottom: 1px solid var(--bone); }
-.instrument .sect {
-  padding: var(--space-4) 0;
-  border-top: 1px solid var(--glass-border);
-  margin-top: var(--space-6);
-}
-.instrument .sect:first-child { padding-top: 0; border-top: 0; margin-top: 0; }
-.instrument .sect > .lab { display: block; margin-bottom: var(--space-2); }
+.instrument .sect { padding: 14px 0; border-top: 1px solid var(--line); }
+.instrument .sect:first-child { padding-top: 0; border-top: 0; }
+.instrument .sect > .lab { display: block; margin-bottom: 8px; }
 .readout { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 2px 12px; }
 .readout .who { font: 500 13px var(--f-sans); display: flex; gap: 8px; align-items: center; }
 .readout .who::before { content: ''; width: 18px; height: 0; border-top: 2px solid currentColor; }
@@ -712,26 +644,11 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .mast-chips .chip[aria-checked='true'] { background: var(--bone); color: var(--basalt); border-color: var(--bone); }
 .mast-chips .chip.is-cert { box-shadow: inset 0 -2px 0 var(--solar); }
 .mast-chips .unit { margin-left: 4px; color: var(--ash); font: 400 11px var(--f-mono); }
-.mast-read {
-  margin-top: var(--space-4);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-subtle);
-  backdrop-filter: blur(var(--glass-blur));
-  padding: var(--space-4);
-}
-.mast-read .mr-big { display: flex; flex-direction: column; gap: var(--space-1); margin-bottom: var(--space-3); }
-.mast-read .mr-big .v {
-  font: 500 48px / 1 var(--f-mono);
-  font-variant-numeric: tabular-nums;
-  color: var(--bone);
-}
+.mast-read { margin-top: 12px; }
+.mast-read .mr-big { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.mast-read .mr-big .v { font: 500 24px/1 var(--f-mono); font-variant-numeric: tabular-nums; color: var(--bone); }
 .mast-read .mr-big .v.sun { color: var(--solar); }
-.mast-read .mr-big .d {
-  font-size: var(--text-sm);
-  color: var(--ash);
-  line-height: var(--text-sm-lh);
-}
+.mast-read .mr-big .d { font-size: 11.5px; color: var(--ash); }
 .mast-read .earth-num { color: var(--earth); }
 .ridge-list { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
 .ridge-row { display: grid; grid-template-columns: 46px 1fr auto auto; gap: 10px; align-items: baseline; width: 100%; padding: 8px 10px; background: transparent; border: 1px solid var(--line); color: var(--bone); font: 500 12px var(--f-mono); text-align: left; cursor: pointer; border-radius: 2px; }
@@ -1106,30 +1023,88 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .exag-pick { position: absolute; left: 10px; bottom: 10px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; font: 500 10px var(--f-mono); color: var(--ash); background: var(--scrim-strong); border: 1px solid var(--line); padding: 3px 6px; }
 .exag-pick select { font: 400 11px var(--f-sans, inherit); color: var(--bone); background: transparent; border: 0; min-height: 22px; max-width: 120px; }
 
-/* PlainAnswer.tsx (readability pass, 15 Nov; used by Simple mode). Styles only, no value changes. */
+/* Expert header: the "Simple" mode button (16 Nov). Taken out of the header flow and hung just under the sticky topbar's
+   bottom-right edge, so the Expert header keeps main 8dde4f1's layout exactly; only the button's own box is new. Under 640 px
+   main makes the topbar static; relative + z-index auto gives the button a containing block there without creating a stacking
+   context (which would trap the fixed bottom tab bar) and without moving anything, so the phone header keeps main's layout too. */
+.topbar > .mode-switch { position: absolute; top: calc(100% + 6px); right: 24px; background: rgba(5, 5, 5, 0.92); }
+@media (max-width: 640px) {
+  .topbar { position: relative; z-index: auto; }
+  .topbar > .mode-switch { right: 16px; z-index: 41; } /* above the stage, which would otherwise paint over it on Explore */
+}
+
+/* ==========================================================================================================
+   SIMPLE MODE (16 Nov) — the front door at "/". Scoped under .simple; Expert mode styles above are untouched.
+   Penumbra tokens: bone / amber (solar) / earth / raised / glass. Every number on the page comes from the bundle or sidecar.
+   ========================================================================================================== */
+/* Penumbra V3 tokens (Sid's overhaul), defined on .simple only so Expert mode never sees them */
+.simple {
+  /* Typography scale (Penumbra V3) */
+  --text-xs: 10px;
+  --text-xs-lh: 1.4;
+  --text-sm: 11px;
+  --text-sm-lh: 1.4;
+  --text-base: 13px;
+  --text-base-lh: 1.5;
+  --text-md: 14px;
+  --text-md-lh: 1.5;
+  --text-lg: 16px;
+  --text-lg-lh: 1.4;
+  --text-xl: 18px;
+  --text-xl-lh: 1.4;
+  --text-2xl: 24px;
+  --text-2xl-lh: 1.3;
+  --text-3xl: 32px;
+  --text-3xl-lh: 1.2;
+  --text-4xl: 42px;
+  --text-4xl-lh: 1.1;
+
+  /* Spacing scale (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Component tokens */
+  --glass-blur: 12px;
+  --glass-bg: rgba(38, 38, 35, 0.85);
+  --glass-border: rgba(236, 231, 221, 0.2);
+  --shadow-elevation: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --radius-subtle: 2px;
+  --dur-anim: 0.3s;
+  --dur-camera: 0.6s;
+  --dur-major: 1.2s;
+  --ease-standard-curve: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* PlainAnswer.tsx (readability pass, 15 Nov; used by Simple mode only). Styles only, no value changes. */
 /* the plain answer — white card with subtle shadow (Penumbra spec) */
-.plain-answer {
+.simple .plain-answer {
   padding: var(--space-4);
   background: #FFFFFF;
   border-radius: var(--radius-subtle);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
   margin-bottom: var(--space-6);
 }
-.plain-answer .pa-verdict {
+.simple .plain-answer .pa-verdict {
   margin: 0;
   font: 400 var(--text-xl) / var(--text-xl-lh) var(--f-serif);
   color: #141413;
 }
-.plain-answer .pa-verdict strong { font-weight: 600; }
-.plain-answer .pa-verdict strong.ok { color: var(--selenite); }
-.plain-answer .pa-verdict strong.sun { color: var(--solar); }
-.plain-answer .pa-hint {
+.simple .plain-answer .pa-verdict strong { font-weight: 600; }
+.simple .plain-answer .pa-verdict strong.ok { color: var(--selenite); }
+.simple .plain-answer .pa-verdict strong.sun { color: var(--solar); }
+.simple .plain-answer .pa-hint {
   margin: var(--space-3) 0 0;
   font-size: var(--text-md);
   line-height: var(--text-md-lh);
   color: #141413;
 }
-.plain-answer .pa-now {
+.simple .plain-answer .pa-now {
   list-style: none;
   margin: var(--space-3) 0 0;
   padding: 0;
@@ -1138,21 +1113,17 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
   font-size: var(--text-lg);
   color: #141413;
 }
-.plain-answer .pa-now li { display: flex; gap: var(--space-3); align-items: baseline; }
-.plain-answer .pa-now li span { min-width: 82px; font: 500 var(--text-sm) var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; }
-.plain-answer .pa-now li.sun span { color: var(--solar); }
-.plain-answer .pa-now li.earth span { color: var(--earth); }
-.plain-answer .pa-now li.blocked { color: #F2B3AD; }
-.plain-answer .pa-fine {
+.simple .plain-answer .pa-now li { display: flex; gap: var(--space-3); align-items: baseline; }
+.simple .plain-answer .pa-now li span { min-width: 82px; font: 500 var(--text-sm) var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; }
+.simple .plain-answer .pa-now li.sun span { color: var(--solar); }
+.simple .plain-answer .pa-now li.earth span { color: var(--earth); }
+.simple .plain-answer .pa-now li.blocked { color: #F2B3AD; }
+.simple .plain-answer .pa-fine {
   margin: var(--space-3) 0 0;
   font-size: var(--text-sm);
   color: #666666;
 }
 
-/* ==========================================================================================================
-   SIMPLE MODE (16 Nov) — the front door at "/". Scoped under .simple; Expert mode styles above are untouched.
-   Penumbra tokens: bone / amber (solar) / earth / raised / glass. Every number on the page comes from the bundle or sidecar.
-   ========================================================================================================== */
 .simple { min-height: 100vh; background: var(--basalt); color: var(--bone); }
 .simple :focus-visible { outline: 2px solid var(--solar); outline-offset: 2px; }
 .simple .s-top { display: flex; align-items: center; gap: 12px; height: var(--hdr); padding: 0 24px; border-bottom: 1px solid var(--line); background: var(--graphite); }

@@ -162,19 +162,20 @@ export function Header({
             Provenance
           </button>
         )}
-        {onSimple && (
-          <button
-            type="button"
-            className="btn btn-small"
-            onClick={onSimple}
-            data-testid="mode-simple"
-            aria-label="Simple mode"
-            title="Simple mode: the plain-English front door (one answer, the 3D view and the clock)"
-          >
-            Simple
-          </button>
-        )}
       </div>
+      {/* out of the header flow (CSS .topbar > .mode-switch) so the Expert header keeps main's layout exactly */}
+      {onSimple && (
+        <button
+          type="button"
+          className="btn btn-small mode-switch"
+          onClick={onSimple}
+          data-testid="mode-simple"
+          aria-label="Simple mode"
+          title="Simple mode: the plain-English front door (one answer, the 3D view and the clock)"
+        >
+          Simple
+        </button>
+      )}
     </header>
   );
 }
