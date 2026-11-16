@@ -21,6 +21,7 @@ export function Decision6DLanding({ d, q }: { d: Decision6D; q: Decision6DQuesti
   const slope = g('slope_100m_deg') as number[];
   const inGp = g('gp_in_domain') as boolean[];
   const top = g('is_top_pick') as boolean[];
+  const own = g('in_this_search') as boolean[];
   const pmin = g('product_sun_pct_min') as (number | null)[];
   const pmax = g('product_sun_pct_max') as (number | null)[];
   const tr = (m: string, i?: number) => `${DECISION6D_FILE}#${cb}.${m}${i === undefined ? '' : `[${i}]`}`;
@@ -39,7 +40,8 @@ export function Decision6DLanding({ d, q }: { d: Decision6D; q: Decision6DQuesti
       <p className="small">
         The emulator screened <b data-testid="d6-land-screened">{String(s('n_screened'))}</b> candidates that pass the 10° landing-slope filter (
         {String(s('n_slope_fail'))} too steep, {String(s('n_off_tile'))} outside the 5 m map); the full solver then re-checked{' '}
-        {String(s('n_rechecked'))} of them over 12 months of hourly Sun samples.
+        {String(s('n_rechecked'))} of them over 12 months of hourly Sun samples. Points re-checked by a smaller-radius search are included
+        in the choice (marked) because they also lie within this radius.
       </p>
       <dl className="cube-card" data-testid="d6-land-error" data-trace={`${DECISION6D_FILE}#${sb}`}>
         <div>
@@ -77,7 +79,7 @@ export function Decision6DLanding({ d, q }: { d: Decision6D; q: Decision6DQuesti
               <tr key={i} data-testid={`d6-land-${i}`} data-trace={tr('solver_sun_pct', i)}>
                 <td>
                   {lab}
-                  {top[i] ? ' · top pick' : i === 0 ? '' : ' · random check'}
+                  {own[i] === false ? ' · from the smaller search' : top[i] ? ' · top pick' : i === 0 ? '' : ' · random check'}
                   {inGp[i] ? '' : ' · outside GP square'}
                 </td>
                 <td>{fmtVal(slope[i], 'deg')}</td>

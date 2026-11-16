@@ -92,7 +92,12 @@ Over the 81 positions of the ±100 m grid (the only L with all measures availabl
 | Sun % (12-month mean of window %) | max | position_schedule | SOURCE-BASED · UNVALIDATED |
 | Earth centre visible % (12-month) — geometric line of sight; the link cube exists only at the centre | max | position_schedule | SOURCE-BASED · UNVALIDATED (geometry); ENGINEERING ASSUMPTION is not claimed for a geometric number |
 | landing slope 100 m | min | terrain_safety | SOURCE-BASED · UNVALIDATED |
-| energy margin = 10 kWh assumed battery − battery needed (kWh), worst 14-d window of 12 months | max | **new**: energy model (`science/energy/model.py`, same assumptions YAML) run on hourly Sun disc fractions at each position (cached full-solver skylines) | ENGINEERING ASSUMPTION |
+| energy: share of the 366 daily starts on which the assumed 10 kWh battery holds the 20 % reserve (changed during the build, see below) | max | **new**: energy model (`science/energy/model.py`, same assumptions YAML) run on hourly Sun disc fractions at each position (cached full-solver skylines) | ENGINEERING ASSUMPTION |
+
+*Change made while building (16 Nov):* the planned axis "10 kWh − battery needed in the worst 14-d window" sat at the
+zero-generation bound (−63.7 kWh) for most positions at both sites, because some 14-day windows are fully dark; it could
+not separate positions. The axis is now the share of start dates on which 10 kWh suffices (a share of dates, not a
+probability); the worst-window margin is still stored (`energy_worst_margin_kwh_*`) and shown nowhere as a front axis.
 | distance to ice | — | **not available**: no cited M3 / LAMP / Diviner layer is in `$POLARIS_DATA`; not downloaded in this phase | — |
 
 Each axis is stored as nominal, min and max over T. Pareto sets: nominal-map front, and the "robust" front on the
