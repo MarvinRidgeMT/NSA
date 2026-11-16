@@ -152,3 +152,24 @@ are converted (with tests) by the pyramid code, not here.
 
 Not downloaded: Chandrayaan-2 TMC-2 (ISRO PRADAN) and CNSA Chang'e DEMs need an account the user has not approved; Kaguya TC DTMs,
 LROC NAC DTMs and further SfS regions are per-tile/per-site products to stream on demand (see `docs/v2/PRODUCTS.md`).
+
+## Mercury inputs (R6, added 16 Nov 2026)
+Downloaded by `python -m science.worlds.mercury.fetch` (the S2 fetcher `tools/globe/fetch.py` on the Mercury catalogue
+`science/worlds/mercury/products.py`) into `$POLARIS_DATA/v2/products/mercury_*/` (git-ignored). Each file has one line in
+`$POLARIS_DATA/v2/manifest.jsonl` (URL, SHA-256, bytes, licence, acknowledgement, retrieval UTC, product version). All
+public, no login. SOURCE-BASED · UNVALIDATED inputs; datum conversions and their tests: `science/worlds/mercury/dem.py`,
+`science/worlds/tests/test_mercury_data.py`; findings: `docs/v2/PHASE_6_WORLDS_RESULTS.md` §2.
+
+| product_id | Source and credit (use this wording) |
+|---|---|
+| `mercury_mla_gdr_v2`, `mercury_mla_gdr_v1` | MESSENGER Mercury Laser Altimeter gridded data records, PDS data sets MESS-E/V/H-MLA-4-GDR-V2.0 and -V1.0 (MESSENGER MLA team, D. E. Smith, NASA GSFC), NASA PDS Geosciences Node. Zuber, M. T., et al. (2012), Topography of the northern hemisphere of Mercury from MESSENGER laser altimetry, Science 336, 217–220. MESSENGER: NASA/JHU APL/Carnegie Institution of Washington |
+| `mercury_usgs_dem_665m_v2` | USGS Astrogeology Science Center. Becker, K. J., et al. (2016), First global digital elevation model of Mercury, LPSC XLVII, abstract 2959 (MD5 sidecar verified) |
+| `mercury_mdis_bdr_166m`, `mercury_mdis_color_665m`, `mercury_mdis_polar_250m` | MESSENGER MDIS basemaps (NASA/JHU APL/Carnegie Institution of Washington); Denevi, B. W., et al. (2018), Space Sci. Rev. 214, 2; distributed by USGS Astrogeology (MD5 sidecars verified). VISUAL only |
+| `mercury_pgda85_prokofiev` | NASA GSFC PGDA product 85. "Please cite": Barker, M. K., Chabot, N. L., Mazarico, E., Siegler, M., Martinez-Camacho, J. M., Hamill, C., Bertone, S. (2022), New Constraints on the Volatile Deposit in Mercury's North Polar Crater, Prokofiev, PSJ 3, 188. Its radar layer derives from Arecibo data of Harmon, J. K., Slade, M. A., Rice, M. S. (2011), Icarus 211, 37–50. The posted `.cub` stack is truncated at the source; the per-layer ZIP is used |
+| `mercury_pgda88_south_pole` | NASA GSFC PGDA product 88; Bertone, S., Mazarico, E., Barker, M. K., Siegler, M. A., Martinez Camacho, J. M., Hamill, C. D., Glatzenberg, A. K., Chabot, N. L. (2026), Supplementary material to: Highly resolved topography and illumination at Mercury south pole from MESSENGER MDIS-NAC, v1.1.0, Zenodo, https://doi.org/10.5281/zenodo.19740142, CC-BY-4.0 |
+| `mercury_mla_radr_v4` | NASA GSFC PGDA product 64 (G. A. Neumann). "Please cite": Deutsch, A. N., Neumann, G. A., Head, J. W. (2017), GRL 44 |
+| `mercury_horizons` | JPL Horizons API (DE441) responses, cached by query SHA-256 with sidecars; SHA-256 of each response in the Mercury bundle |
+
+Not downloaded: MDIS LOI 166 m (duplicate VISUAL use); a georeferenced global/south-polar radar-bright map (none public found;
+figures such as PIA16514 are not data and were not digitised). Comms threshold source: DSN Telecommunications Link Design
+Handbook 810-005, module 106 Rev. B (2010), §2.3.

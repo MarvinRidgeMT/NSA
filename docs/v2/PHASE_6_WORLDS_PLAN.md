@@ -68,6 +68,10 @@ Every reader converts to radius first, then to height above the world datum (2 4
 2. **3:2 resonance / solar day**: from the IAU rotation rate (Ẇ = 6.1385108°/d → 58.646 d) and the orbital period
    (87.969 d): ratio 1.500 ± 0.001; solar day 1/(1/P_rot − 1/P_orb) ≈ 175.94 d; and **empirically** from the Horizons
    series at the site: the Sun's unwrapped azimuth completes 360° in 176 ± 1 d.
+   *As built:* that last criterion is wrong — the first 360° crossing came at 164 d because the equation of centre
+   (±23.6°) modulates the Sun's azimuth rate. Replaced by: P_orb from the interval between Sun-distance minima in the
+   Horizons series, solar day = 360° × 2 P_orb / (azimuth advance over exactly 2 P_orb), which cancels the periodic term
+   (synthetic Kepler test in `test_mercury_physics.py`).
 3. **Direct-to-Earth only, solar conjunctions**: SEP angle (Sun–Earth–Mercury, Horizons geocentric quantity 23) on the
    same time grid. Outage flag: **SEP < 2.3°** at superior conjunction — DSN Telecommunications Link Design Handbook
    810-005, module 106 Rev. B (30 Sep 2010) §2.3: standard X-band BPSK data return "down to at least 2.3 degrees"
