@@ -1074,3 +1074,12 @@ Cloud container (SwiftShader software WebGL): vitest 101/101; Playwright 69/86 i
 - `half_disc` equals `centre` by construction under the straight-line horizon (stated in the cube and tested). Disc fraction uses the local-flat-horizon assumption.
 - Default stays `centre`: the centre slice equals the centre cube at every daily start (test). Reproduces science-limits L1 for the nominal and all 20 clones (Site04 RoI 3: any 97.033 %, centre 94.362 %, full 92.285 %).
 - Tests: `science/tests/test_visibility_rule.py` 8 passed (orderings everywhere, analytic segment fractions, L1 identity). Slicer fixed to use the cube's schedule axis (the hourly cube has `H`, not `S`) and to remount per cube.
+
+### 5D upgrades Phase 4 (link targets: DSN + LCRNS relays) — Claude, 16 Nov 2026 ~01:00 EST, feature/5d-upgrades
+- New `science/cube/link_dsn.py`, `link_relay.py`, `build_link.py` → `data/cubes/<site>/link.json.gz`: T × D_mast × target(10) × R_margin{0,2,5°} × daily S; derived `year_summary`, `model_sensitivity`, `nasa_sanity_check`. Label ENGINEERING ASSUMPTION — reference constellation, not an operational schedule.
+- DSN: Horizons resolves DSS-14/-25/-63/-56/-43/-35 by name (site name and geodetic coordinates recorded); Moon ≥ 10° at some complex 98.16 % of hours.
+- LCRNS: states from the NASA LCRNS Reference Constellation 3.1 white paper (NTRS 20250002698, Table 2; 5 ELFO relays, epoch 2027-03-01 UTC). Propagated with Moon point mass + J2 + Earth + Sun (the prompt's fallback; NASA's GRGM-900c 25×25 model is not available offline). Removing J2 or the Sun changes 12-month relay availability by ≤ 0.1 pts.
+- Site frame fitted hourly from Horizons (Sun, Earth, Mars, Jupiter; Wahba/SVD). Checks: leave-one-out < 0.0006°; LRO az/el vs our transform of the Horizons LRO vector max 0.0003° (requirement 0.05°); the paper's Table 2 mapped through our J2000 Moon frame reproduces Table 1 within 0.03° (ME vs PA).
+- Results, nominal map, 1 m, 12 months (Site04 RoI 3 / Site01 RoI 6): DTE with DSN 50.5 % / 52.1 %; + best relay 91.4 % / 91.6 %; + best pair 98.14 % (capped by DSN coverage).
+- NASA sanity (line of sight only): two relays 100 % (matches NASA); DTE 50.8/52.4 % at 0°, 41.4/43.7 % at 2°, 25.4/29.6 % at 5° (NASA 17–43 %); one relay 87.9/88.7 % at 5°, slightly above NASA's 80–86 % (best relay per site, ridge sites). Recorded in the cube.
+- Tests: `science/tests/test_link.py` 8 passed. `window_metrics` gap computation vectorised (identical on random series).

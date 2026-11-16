@@ -78,6 +78,21 @@
     "D_mast",
     "H"
    ]
+  },
+  {
+   "file": "link.json.gz",
+   "cube_id": "site04_roi3-link-v1",
+   "title": "Link targets: map x mast x target x margin x daily start",
+   "bytes": 1168234,
+   "uncompressed_bytes": 14956053,
+   "sha256": "64f0d430e6213f0de10c3f043c271fa85bded6d5b185efd1ae9f87d88d88e093",
+   "dims": [
+    "T",
+    "D_mast",
+    "target",
+    "R_margin",
+    "S"
+   ]
   }
  ],
  "baseline": {

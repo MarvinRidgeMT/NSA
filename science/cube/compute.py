@@ -128,9 +128,9 @@ def window_metrics(sun, earth, n_starts, window_h, stride=1):
         return (c[starts + L] - c[starts]).astype(np.int32)
 
     def longest(f):
-        run = np.zeros(f.size, np.int32); cur = 0
-        for i, v in enumerate(f):
-            cur = 0 if v else cur + 1; run[i] = cur
+        # run[i] = hidden samples ending at i (= i - index of the last visible sample at or before i)
+        idx = np.arange(f.size)
+        run = (idx - np.maximum.accumulate(np.where(f, idx, -1))).astype(np.int32)
         W = swv(run, L)[starts]
         return np.minimum(W, np.arange(1, L + 1, dtype=np.int32)[None, :]).max(axis=1).astype(np.int32)
 
