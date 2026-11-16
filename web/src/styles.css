@@ -1032,3 +1032,15 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .cube-card dt { font-size: 11px; color: var(--ash); }
 .cube-card dd { margin: 2px 0 0; font-family: 'JetBrains Mono', monospace; }
 .cube-missing-cell { background: repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.08) 4px 6px); color: var(--ash); }
+/* Phase 5 energy trade (ENGINEERING ASSUMPTION; display-only) */
+.energy-trade { margin-top: 18px; }
+.energy-chart svg { height: 180px; }
+.et-axis { stroke: var(--ash); stroke-width: 1; opacity: 0.5; }
+.et-tick { fill: var(--ash); font-size: 10px; font-family: 'JetBrains Mono', monospace; }
+.et-line { stroke: var(--solar); stroke-width: 1.6; }
+.et-w20 { stroke-dasharray: 6 4; }
+.et-nom-s { stroke: var(--selenite); stroke-dasharray: 2 3; }
+.et-w20-s { stroke: var(--selenite); stroke-dasharray: 8 3 2 3; }
+.energy-assumptions { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px 18px; margin: 12px 0; }
+.energy-assumptions dt { font-size: 11px; color: var(--ash); }
+.energy-assumptions dd { margin: 2px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; }

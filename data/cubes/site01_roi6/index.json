@@ -78,6 +78,20 @@
     "D_mast",
     "H"
    ]
+  },
+  {
+   "file": "energy.json.gz",
+   "cube_id": "site01_roi6-energy-v1",
+   "title": "Energy margin: map x array x mast x daily start (ENGINEERING ASSUMPTION)",
+   "bytes": 249604,
+   "uncompressed_bytes": 3574741,
+   "sha256": "532c78af02063ae46e9e1ab38bd86440495330e431a35d9908d770da44c56129",
+   "dims": [
+    "T",
+    "D_array",
+    "D_mast",
+    "S"
+   ]
   }
  ],
  "baseline": {

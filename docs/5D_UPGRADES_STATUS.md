@@ -9,7 +9,7 @@ at Anish's request, before the submission deadline, in a separate worktree so no
 | 2 Terrain safety | **done (UI partial)** | LSQ plane-fit slope at 5/25/100 m for nominal + 20 clones; per-cell median/max; landing (100 m) and EVA (25 m, 2 km region) metrics; R_slope axis 10° / 8°; safe-and-lit derived block; Barker comparison | `test_slope.py` (synthetic planes ±0.1°, flat = 0, NaN edges, Shackleton wall > 20°, RoI 3 < 10°) | see below | Map layer on position grid / polar map; Decision Card row; editable thresholds in UI (presets only now) | ~0.5 h |
 | 3 Visibility rule | not started | — | — | — | Reuse L1 (any/centre/full) as R sub-axis | — |
 | 4 Link targets (DSN, LCRNS) | not started | — | — | — | Station codes from Horizons docs; LCRNS states from NTRS 20250002698 | — |
-| 5 Energy margin | not started | — | — | — | — | — |
+| 5 Energy margin | **done (branch `5d-phase5-energy`)** | `science/energy/` power P = S0(1 au/r)²·A·η·f_disc·cos(inc) for VSAT and fixed vertical (az 180°) arrays at mast top; hourly SoC sim, parameters in `science/energy/assumptions.yaml` shown on screen; `energy.json.gz` T × D_array × D_mast × daily S with battery needed (bisection), min SoC, hours below reserve, k of 20, trade; display-only `EnergyTrade` panel | `test_energy.py` 18 (conservation, monotone battery→hours, zero load, always lit, bisection = analytic drawdown, antenna/Earth never change power, cube cells); vitest `energyTrade.test.ts` | VSAT battery needed nominal / worst of 20, demo start · worst start: Site04 1 m 4.37 / 9.00 · 57.50 / 60.95 kWh, 5 m 2.00 / 2.00 · 13.03 / 13.05 kWh; Site01 1 m 2.00 / 2.00 · 29.00 / 40.93 kWh, 5 m 2.00 / 2.00 · 17.90 / 19.11 kWh (incl. 2 kWh reserve) | Decision Card energy row; thermal/dust/degradation not modelled; hourly steps only; parameters illustrative | ~0.75 h |
 | 6 Dispersion × terrain | not started | — | — | — | Reuse L9 and research `more.json` ellipse | — |
 | 7 Sensitivity + emulator | not started | — | — | — | — | — |
 | 8 Multi-asset layout | not started | — | — | — | — | — |
@@ -46,3 +46,20 @@ python -m science.cube.build_cube site04_roi3 site01_roi6  # cubes -> data/cubes
 python -m science.cube.build_safety site04_roi3 site01_roi6
 ```
 Inputs that stay out of git: NASA rasters (`data/cache/`), Horizons responses (`data/cache/cube_horizons/`, SHA-256 in the cube provenance).
+
+## Phase 5 energy (ENGINEERING ASSUMPTION; geometry SOURCE-BASED · UNVALIDATED; k of N is not a probability)
+
+Assumptions (`science/energy/assumptions.yaml`): array 4 m² one face, η 0.25 at the bus, load 150 W constant + 100 W 12:00–16:00 UTC daily,
+battery 20 kWh, η_c = η_d = 0.95, reserve 2 kWh (absolute), initial SoC 100 %. Battery needed includes the reserve, so 2.00 kWh means the
+window never draws the battery down. 60.95 kWh = reserve + the whole window's load / η_d, i.e. no generation for 14 days.
+
+| Battery needed (kWh), VSAT array | Site04 RoI 3 | Site01 RoI 6 |
+|---|---|---|
+| 1 m, 2026-11-14 start, nominal / worst of 20 | 4.37 / 9.00 | 2.00 / 2.00 |
+| 5 m, 2026-11-14 start, nominal / worst of 20 | 2.00 / 2.00 | 2.00 / 2.00 |
+| 1 m, worst of 366 daily starts, nominal / worst of 20 | 57.50 / 60.95 | 29.00 / 40.93 |
+| 5 m, worst of 366 daily starts, nominal / worst of 20 | 13.03 / 13.05 | 17.90 / 19.11 |
+| Daily starts where all 20 maps keep SoC ≥ reserve with 20 kWh, 1 m / 5 m | 54.9 % / 100 % | 82.5 % / 100 % |
+
+A fixed vertical face (azimuth 180°) needs the no-generation maximum (60.95 kWh) at its worst start at every mast height on both sites: the Sun
+circles the horizon, so a single fixed face is dark for whole 14-day windows. Reproduce: `python -m science.energy.build_energy site04_roi3 site01_roi6` (~25 s).

@@ -57,3 +57,14 @@ The panel and card carry `data-source="scenario cube <cube_id>"` and `data-label
 | Requirement presets (team 70/40/120 h; strict 80/50/72 h; loose 60/30/168 h) | team requirement + research all3 gap limit; strict/loose are sensitivity presets | labelled as presets, not mission requirements |
 | Products table, "not in source" | `products.json` missing mask with reason | Site04 SfS cell missing (tile coverage 25.8 %) |
 | Terrain-safety values (slope °, safe-and-lit k) | `terrain_safety.json`; thresholds 10° / 8° / 20° are ENGINEERING ASSUMPTION | test_slope synthetic planes ±0.1° |
+
+## Energy trade (5D upgrades Phase 5, 16 Nov 2026, branch 5d-phase5-energy)
+Component `web/src/components/EnergyTrade.tsx` (display-only) and the energy cube in `CubeSlicer`; source `data/cubes/<site>/energy.json.gz`
+(built by `science/energy/build_energy.py`). Panel, table cells and cube carry `data-label="ENGINEERING ASSUMPTION"`; assumptions listed beside the values.
+
+| Claim on screen | Source | Check |
+|---|---|---|
+| "Battery needed (kWh)" per mast, nominal / worst of 20, demo start / worst start | `derived.trade` | test_energy (derived = max over the parent metric); vitest energyTrade |
+| Battery needed, min SoC, hours below reserve, mean power per cell | cube metrics | test_energy recomputes random cells from scratch |
+| "k of 20 maps" for energy | `derived.pass_at_capacity`, `derived.battery_for_k_maps` | counts over clones; never called a probability |
+| Assumption list (area, η, load, capacity, reserve, efficiencies, initial SoC) | cube `fixed`, from `science/energy/assumptions.yaml` | test_energy config parser |

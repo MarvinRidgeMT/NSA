@@ -1,0 +1,28 @@
+# POLARIS X Phase 5 energy margin — ENGINEERING ASSUMPTION (not a mission design, not validated).
+# Every value below is written into data/cubes/<site>/energy.json.gz (`fixed`) and shown on screen with the result.
+# Parsed by science/energy/model.load_config (PyYAML if installed, else a strict subset parser for this file).
+label: ENGINEERING ASSUMPTION
+solar_constant_w_m2: 1361.0        # TSI at 1 au (Kopp & Lean 2011); scaled by (1 au / r)^2 with r = JPL Horizons Sun range
+array:
+  area_m2: 4.0                     # active cell area of ONE face
+  efficiency: 0.25                 # lumped: cell EOL x packing x MPPT x harness, at the bus
+  fixed_azimuth_deg: 180.0         # fixed vertical array outward normal, local ENU (0 = north, 90 = east); 180 faces
+                                   # the Sun mid-path in the 2026-11-14 demo window (Sun az 283 -> 180 -> 113 deg)
+battery:
+  capacity_wh: 20000.0             # capacity used for minimum SoC, hours below reserve and k of 20 maps passing
+  charge_efficiency: 0.95          # stored = accepted bus energy x eta_c
+  discharge_efficiency: 0.95       # bus energy delivered = drawn stored energy x eta_d
+  reserve_wh: 2000.0               # absolute survival reserve (same Wh for every capacity, so the bisection is monotone)
+  initial_soc: 1.0                 # fraction of capacity at the window start
+load:
+  constant_w: 150.0                # survival heaters + avionics, continuous
+  scheduled:                       # repeats every day at fixed UTC hours (not tied to Earth visibility)
+    - name: science and comms block
+      utc_hour_start: 12
+      duration_h: 4
+      power_w: 100.0
+bisection:
+  tolerance_wh: 1.0                # capacity needed is reported as the upper bracket (sufficient) within this tolerance
+timestep_h: 1.0                    # hourly Horizons samples, sample-and-hold over each hour
+not_used_by_power:
+  antenna_height_m: 2.0            # link geometry only; recorded so a test can prove power never reads it
