@@ -1120,3 +1120,9 @@ Cloud container (SwiftShader software WebGL): vitest 101/101; Playwright 69/86 i
 - Field ±200 m at 25 m (289 cells × 21 maps) complete; every skyline parsed and checked. Two serial terminal runs and the grid workers wrote the same deterministic files; a fresh rebuild gives identical metrics to the terminal runs' output.
 - Share of sampled landing outcomes passing on all 20 maps (10°), Site04 RoI 3 / Site01 RoI 6: σ99 preset 56.6 / 80.9 % (unchanged from the ±100 m build), σ10 90.3 / 100 %, σ25 65.7 / 89.9 %, σ50 42.5 / 65.0 %, σ100 27.7 / 47.6 % with 6.0 % of samples outside the field (reported, not counted).
 - `build_dispersion` now refuses to run while field skylines are missing. Tests: `test_dispersion.py` 6 passed.
+
+### 5D upgrades Phase 7 (sensitivity + emulator) integrated — Claude, 16 Nov 2026 ~02:05 EST, feature/5d-complete
+- Code, tests and UI from the Phase 7 session's worktree (uncommitted there; its job had deadlocked after a worker died and was re-run). Re-built here so the energy cube (Phase 5) is also decomposed.
+- Results: 12-month spread in Sun / Sun+Earth is dominated by the start time S (98.5 % Site04, 99.5 % Site01 Shapley share of Sun+Earth); at the demo start by mast or position; energy by array type (~60–74 %) then S; terrain map T < 0.2 % everywhere. Shares are "share of spread within this scenario set".
+- Emulator re-check against the full solver: ρ = 1.00 on the 12-month objective (16 candidates per site), cells 0.995–0.9998; target ρ ≥ 0.99 met. Site04's best re-checked off-grid point (−12.5, 12.5) m gives 82.3 % 12-month Sun vs 75.3 % for the best grid cell.
+- Checks on feature/5d-complete: pytest science/tests 180 passed; vitest 124/124; build ok; Playwright full suite (before Phase 7) 90 passed, 2 known artefacts (cold-launch port 4173; P6 passes alone); Decision-page specs with Phase 7 28/28; traceability 541 scanned, 0 untraced.

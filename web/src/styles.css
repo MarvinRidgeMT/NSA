@@ -1051,3 +1051,14 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .lod-panel .detail-toggle:focus-visible { outline: 2px solid var(--bone); outline-offset: 2px; }
 .lod-panel .lod-label strong { color: var(--bone); font-weight: 500; text-transform: uppercase; }
 @media (max-width: 760px) { .lod-panel { top: 8px; left: auto; right: 8px; max-width: calc(100% - 16px); font-size: 10px; } }
+/* What matters bar (Phase 7, science/cube/build_sensitivity.py): display-only Shapley shares */
+.what-matters { margin-top: 18px; }
+.wm-bar { display: flex; height: 18px; width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--line); margin: 8px 0; }
+.wm-seg { display: block; height: 100%; min-width: 0; }
+.wm-key { display: inline-block; width: 10px; height: 10px; vertical-align: -1px; }
+.wm-t { background: var(--selenite); }
+.wm-d { background: var(--solar); }
+.wm-s { background: var(--earth); }
+.wm-o { background: var(--ash); }
+.wm-seg + .wm-seg { box-shadow: inset 1px 0 0 var(--basalt); }
+.wm-table td { font-family: var(--f-mono); }

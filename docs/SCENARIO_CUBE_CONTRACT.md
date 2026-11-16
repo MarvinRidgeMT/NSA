@@ -104,3 +104,25 @@ and longest Sun gap ≤ 120 h (research `all3`, `step12_more.py`); `strict` = 80
 bundle `site04_roi3_2026-11-14_14d_mast1m.json` hourly-sample metrics: Sun 94.362 %, Sun+Earth 72.107 %,
 longest Sun gap 19 h (bundle bisected 19.44 h); clone range of Sun % 87.54–97.33 %. Enforced by
 `science/tests/test_cube.py` and `web/tests/unit/scenarioCube.test.ts`.
+
+## 7. Sensitivity file (Phase 7) — `sensitivity.json`
+
+Built by `science/cube/build_sensitivity.py` (indices: `science/cube/sensitivity.py`; emulator: `science/cube/emulator.py`).
+Plain JSON, a valid scenario-cube-v1 cube, listed in `index.json`. No schema change: scalar results are `derived`
+blocks with `dims: []` (one value per metric).
+
+| part | content |
+|---|---|
+| `dims` | `D_cand` (kind `design`): off-grid candidate positions from the emulator, top picks + random checks |
+| `metrics` | emulated vs full-solver 12-month Sun % and Sun+Earth % (nominal map, 1 m), worst / best of 21 maps, per-window error |
+| `derived.emulator_check` | Spearman ρ and errors of the emulator vs the full solver; LOO on the 81-cell grid; GP hyperparameters; `passes_target` (ρ ≥ 0.99) |
+| `derived.sobol__<source>__<metric>` | exact full-factorial ANOVA of one metric of one committed cube: `first_pct__<axis>`, `total_pct__<axis>`, `shapley_pct__<axis>` (% of variance), `interaction_pct__<A_x_B>`, `sd`, `variance`, `closure`, `no_spread` |
+| `fixed` | `sources`, `axes__<source>`, `title__<source>`, `metrics`, `metric_labels` (for the browser); `energy_margin` = `not in bundle` unless `energy.json.gz` is present |
+
+Sources: `centre` = centre cube T × D_mast × S (8761 hourly starts); `position` = position cube T × D_pos × S (366 daily
+starts); `centre_demo`, `position_demo` = the same with S fixed at the 2026-11-14 00:00 UTC start. D_mast and D_pos are
+never varied together, so there is no single decomposition over T, D_mast, D_pos and S; shares compare only within
+one source. When every cell of a source is equal the shares are `null` and `no_spread` is true (never 0 %).
+
+Indices are the **share of spread within this scenario set**: equal weight per axis level, and the 20 terrain clones are
+samples, so the T share describes these 21 maps, not all possible terrains. Not a probability.

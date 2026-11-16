@@ -67,3 +67,15 @@ Panel `data-label="ENGINEERING ASSUMPTION · inputs SOURCE-BASED · UNVALIDATED"
 | Battery needed (kWh), demo start / every start, nominal / worst of 20 | `derived.trade` | equals parent-cube cells (test_energy, vitest energyCube) |
 | "k of 20 maps where X kWh holds every start", "% of starts hold on all 20" | `derived.trade.k_ok_all`, `share_starts_ok_all20` | recount from hours_below_reserve; wording never says probability |
 | Assumptions line (area, η, azimuth, battery, efficiencies, reserve, initial SoC, load) | cube `fixed`, copied from `science/energy/assumptions.yaml` | test_energy checks fixed = YAML |
+## "What matters" bar (5D upgrades Phase 7, 16 Nov 2026)
+Component `web/src/components/WhatMatters.tsx`; every value is read from `data/cubes/<site>/sensitivity.json`.
+The panel carries `data-source="scenario cube <cube_id> derived sobol__<source>__<metric>"` and `data-label="SOURCE-BASED · UNVALIDATED"`.
+
+| Claim on screen | Source | Check |
+|---|---|---|
+| Bar and "Shapley / First-order / Total" shares (% of variance) per sub-axis | `derived.sobol__*` (exact ANOVA on the cube) | `test_sensitivity.py` recomputes every stored share from the committed cubes; synthetic additive shares within 2 % |
+| "Largest share … of the spread (SD …)" | same block | — |
+| "No spread … shares are undefined" | `no_spread` = true, shares null | test (Site01 centre at the demo start) |
+| "Energy margin: not in bundle" | `fixed.energy_margin` | file `energy.json.gz` absent on this branch |
+| Details: caveat "share of spread within this scenario set" | block `caveat` | wording test |
+| Details: emulator ρ, errors, best re-checked vs best grid cell (%) | `derived.emulator_check` (full-solver re-check) | `test_emulator_recheck_passes`, `test_emulator_recheck_reproduces_from_cache`; emulator labelled SURROGATE, search only |
