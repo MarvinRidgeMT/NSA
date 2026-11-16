@@ -1,0 +1,39 @@
+{
+ "created_utc": "2026-11-16T04:04:06+00:00",
+ "label": "SOURCE-BASED, UNVALIDATED (precision-corrected rerun; PGDA 69 is an 18.6-yr surface/disc-edge average, not a matched validation)",
+ "author": "Claude Code (fix-errors session), 15 Nov 2026",
+ "code": "polaris_batch v2 (~/POLARIS_batch/polaris_batch on the Mac) with one change: core.Dem.open reads heights as float64 (code/core_float64.patch). code/ holds the exact modules run.",
+ "commands": [
+  "python -m polaris_batch.pgda69_compare --near-step 1 --workers 8 --out results/pgda69_rois",
+  "python -m polaris_batch.pgda69_compare --near-step 1 --grid Site01,Site04,Site07,Site11 --grid-n 21 --workers 9 --out results/pgda69_grid"
+ ],
+ "window": "2026-01-01 00:00 to 2044-08-08 00:00 UTC, 6 h step, 1 m mast; fine = 5 m PGDA 78 + 80 m PGDA 90, coarse = 80 m only",
+ "runtime_s": {
+  "rois": 46.1,
+  "grid": 3103.8
+ },
+ "inputs_sha256": {
+  "data/external/pgda69/AVGVISIB_85S_060M_201608.TIF": "ccf67d4f39e0a970c111196da7d6551ffcf50d075470b93067fb3904c0b05806",
+  "data/external/pgda69/AVGVISIB_85S_060M_201608_EARTH.TIF": "d71dc5adfff653e0e924e0a4cbf03795b996caa30b4ace3d5843a70a5ab2f3d2",
+  "data/external/pgda90/LDEM_80S_80MPP_ADJ.TIF": "82030dcbdd7c4bb0c7d858e9b4b293b9f2cda5a543ba31ec0f42784bd6beee5a",
+  "data/external/pgda78/Site01/Site01_final_adj_5mpp_surf.tif": "3ba7b97cb00a2bcf21189c3aeb535f65afc21207154ab9f0d43c5bdc1f7e747e",
+  "data/external/pgda78/Site04/Site04_final_adj_5mpp_surf.tif": "38ff70dbdf2f066c2cfa94a646c3a59d653ce7f6b4528b15fc1b43ee397ce758",
+  "data/external/pgda78/Site07/Site07_final_adj_5mpp_surf.tif": "38aaee10bb4da4d63e7427aa1ca25c79bdbc649d212079a04990e135462091f8",
+  "data/external/pgda78/Site11/Site11_final_adj_5mpp_surf.tif": "58f3372c35bbd6baf38ffd5633c1c96b59bd89dbd252150581d12893a43136e5",
+  "horizons_cache (210 raw JPL Horizons responses, sha256 of the sorted name:sha list)": "f8cf85687c6dc1971131de41edebf64160418d71c99bd4cb132da4147f9aec18",
+  "data/polaris_roi_sites.csv": "40660bf6ee59d719628cb6d57dd1c3f081ee78aa60ddff4dada74fffc2077a6e"
+ },
+ "outputs_sha256": {
+  "code/common.py": "0041d39e1ac15ef87ba2131dac342b35134eef1e1a8ad7c40dd98cb34d2d9855",
+  "code/core.py": "42f5cf92e58729f9f86f212d49b0612c5e5ab69a86277591388c73ff5e3261b8",
+  "code/core_float64.patch": "fc6430ad3439c965d7856f3bb67c193564b8fc7f5be4ad0bbc0be5164f71ade7",
+  "code/pgda69_compare.py": "d0337fd3218a0a7fbddebd89028abd729272da739c8ac785db638b171b270f57",
+  "grid/grid_summary.json": "b4124dc732b6d1ae1696518ab7b3f669f4a09a4764def6f1ee2cbfb8f649c7d8",
+  "grid/pgda69_grid_comparison.csv": "e68581debd740072f96f426db81b904192fbf12bae14ff5c880e2e78ad0693e1",
+  "grid/pgda69_grid_maps.png": "6b28ab19ce21f9459a8b3c1fc8ca20da4b0afe14b860826b7265c1f66c852248",
+  "rois/pgda69_comparison.csv": "4749393e30400fe0f374029c9ffaa61e09d27fe73c3357e58ac288161b561c6a",
+  "rois/pgda69_comparison.png": "eced98da6054b54aca561f90d9027a3c20d3f5fdd1727d791e9bd71ef1597d5c",
+  "rois/summary.json": "c4ebd5f58f7a84941bf2318dc683abe54c1b4c19102458a45f79c6f26b626377"
+ },
+ "not_committed": "ephemeris/*.npz (26 MB, re-derivable from the cached Horizons responses); NASA rasters (never committed)."
+}
