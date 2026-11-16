@@ -134,3 +134,21 @@ Role: rendering only. See `docs/SCIENTIFIC_CONTRACT.md` § Terrain context packs
   (container differs); its decoded float32 pixels are identical: pixel SHA-256 `8d7a4a2036d73555da50e682b9385e3ed96b3e66d628b50af88ae9d9aa66134c`
   (checked by the pack builder).
 - Role: display surface of the 5 m crop and the L1 ring in `web/` and Blender. Never read by the solver.
+
+## v2 whole-Moon terrain inputs (S2, added 16 Nov 2026)
+Downloaded by `tools/globe/fetch.py` from the catalogue `tools/globe/products.py` into `$POLARIS_DATA/v2/products/<product_id>/`
+(git-ignored). Each file has one line in `$POLARIS_DATA/v2/manifest.jsonl` with URL, SHA-256, bytes, licence, acknowledgement,
+retrieval UTC and product version; the committed mirror is `docs/v2/DATA_MANIFEST.json`. Details, versions and exact file
+lists: `docs/v2/PRODUCTS.md`; sizes: `docs/v2/DATA_BUDGET.md`. All of these are SOURCE-BASED · UNVALIDATED inputs; frames and datums
+are converted (with tests) by the pyramid code, not here.
+
+| product_id | Source and credit (use this wording) |
+|---|---|
+| `lola_ldem_global`, `lola_ldem_polar`, `lola_roughness_gdr` | NASA PDS Geosciences Node. Smith, D.E.; Neumann, G.A. (2023). Lunar Reconnaissance Orbiter LOLA Processed Data (RDR) Bundle, urn:nasa:pds:lro_lola_rdr v1.0. NASA Planetary Data System. https://doi.org/10.17189/tnyt-7007 |
+| `sldem2015_512` | NASA PDS Geosciences Node (LOLA bundle, sldem2015 collection); PGDA product 54. Cite: Barker, M. K., Mazarico, E., Neumann, G. A., Zuber, M. T., Haruyama, J., Smith, D. E. "A new lunar digital elevation model from the Lunar Orbiter Laser Altimeter and SELENE Terrain Camera," Icarus, Volume 273, p. 346-355. http://dx.doi.org/10.1016/j.icarus.2015.07.039 |
+| `pgda67_slope_azimuth_64` (and `_128` if fetched) | NASA PGDA product 67 (E. Mazarico), files on the LOLA node at MIT. Cite Barker et al. (2016), as above |
+| `pgda70_roughness` | NASA PGDA product 70 (M. K. Barker), files on the LOLA node at MIT (EXTRAS, unsupported by the LOLA Science Team). "Please acknowledge Rosenburg et al. (2011) if you use these data products": Rosenburg, M. A., et al., Global surface slopes and roughness of the Moon from the Lunar Orbiter Laser Altimeter, JGR 116, E02001 (2011), doi:10.1029/2010JE003716 |
+| `lroc_wac_100m` | LROC WAC global morphologic mosaic 100 m, June 2013: NASA/GSFC/Arizona State University; distributed by USGS Astrogeology Science Center (MD5 sidecar verified). VISUAL only |
+
+Not downloaded: Chandrayaan-2 TMC-2 (ISRO PRADAN) and CNSA Chang'e DEMs need an account the user has not approved; Kaguya TC DTMs,
+LROC NAC DTMs and further SfS regions are per-tile/per-site products to stream on demand (see `docs/v2/PRODUCTS.md`).
