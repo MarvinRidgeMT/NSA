@@ -76,9 +76,15 @@ Every reader converts to radius first, then to height above the world datum (2 4
    Check: consecutive conjunctions alternate superior/inferior and recur with the 115.88 d synodic period.
 
 ## 5. One Mercury polar site end to end
-Prokofiev (north-polar crater, ~85.8° N, ~63° E; radar-bright, PSR, PGDA 85). Site: a point on its sunlit rim chosen
-from the PGDA 85 maximum-incident-flux layer (rule fixed before the run: highest max-flux pixel within 15 km of the
-crater centre with slope < 15°), coordinates recorded. Terrain: near field PGDA 85 hybrid DEM 125 m where it has data,
+Prokofiev (north-polar crater; radar-bright, PSR, PGDA 85). Site: a point on its sunlit rim chosen
+from the PGDA 85 maximum-incident-flux layer. **Rule (amended before any run, 16 Nov ~12:20 EST):** centre 85.77° N,
+62.92° E and diameter 112 km (USGS Gazetteer alternate solution = MESSENGER image captions; the Gazetteer's other
+solution 86.00° N, 63.70° E is recorded); candidate pixels in the rim annulus 0.85–1.15 × 56 km from the centre with
+PGDA 85 slope < 15°; site = the candidate with the highest PGDA 85 maximum incident flux (ties → nearest the centre).
+(The first draft said "within 15 km of the centre", which is the crater floor — a mistake, not a choice.)
+The PGDA 85 `.cub` stack as posted is truncated at the source (55.5 MB of the 95.3 MB its label needs: bands 12–20
+incomplete); the per-layer ZIP from the same page is complete and is what is read. It also contains
+`radar3b.map2.4rms.cub`, a north-polar radar map (2904² px, 287.6 m, ≥ ~80° N): the north-polar ice layer. Terrain: near field PGDA 85 hybrid DEM 125 m where it has data,
 far field MLA `hdem_75n_250m` to the curvature limit (Mercury relief bounds). 720-bin skyline with the generic world
 ray caster; flat-horizon control. Horizons Sun and Earth from `coord@199` (cylindrical site, exact datum radius) hourly
 for one solar day (2 Mercury years, so every azimuth is seen) — metrics reported for the first Mercury year and for the

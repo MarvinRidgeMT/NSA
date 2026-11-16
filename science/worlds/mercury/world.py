@@ -37,10 +37,10 @@ MERCURY = World(
     orbit=Orbit(0.38709927, 0.20563593, 87.9691,
                 'JPL "Keplerian elements for approximate positions of the major planets" (Standish), J2000 mean elements; '
                 'sidereal period 87.9691 d'),
-    relief_max_m=5_100.0, relief_min_m=-5_400.0,
-    relief_source=('Becker et al. (2016) LPSC 47 #2959: global DEM range about -5.38 to +4.48 km; bound set to +5.1 km above '
-                   '2 439.4 km to cover a +600 m datum ambiguity (checked against the downloaded DEMs in '
-                   'science/worlds/tests/test_mercury_data.py)'),
+    relief_max_m=5_100.0, relief_min_m=-5_700.0,
+    relief_source=('Measured 2026-11-16 on the downloaded products, heights above 2 439.4 km: USGS DEM 665 m v2 -5 382 to '
+                   '+4 497 m (Becker et al. 2016, LPSC 47 #2959); MLA hdem_75n_250m -5 651 to +2 692 m. Bounds +5.1 / -5.7 km '
+                   'include margin (checked in science/worlds/tests/test_mercury_data.py).'),
     atmosphere='none',
     dem_stack=[DemProduct('mercury_pgda85_prokofiev', 'near', 125.0, '83.5-87 N, 40-83 E', 'km (band 1), reference from ISIS label'),
                DemProduct('mercury_mla_gdr_v2', 'far', 250.0, '75-90 N', 'm above 2 440.0 km (re-referenced)'),
