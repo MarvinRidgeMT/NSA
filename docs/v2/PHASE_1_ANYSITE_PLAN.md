@@ -92,3 +92,20 @@ without PGDA clones are labelled **assumed error model**. Nothing in an existing
 Tests above green; `science/tests` green; new-site wall time measured and reported (target ≤ 60 s on this Mac, 4 workers
 max); Site04 RoI 3 numbers reproduced; precompute run for everything the cache supports, with the remainder listed
 as "needs data"; `docs/BUILD_STATUS.md` appended; S4 row in `docs/v2/STATUS.md` filled.
+
+## 7. Amendments during implementation (16 Nov 2026, 02:45–03:30 EST)
+- **S2 products wired in.** S2 downloaded LOLA PDS LDEMs into `$POLARIS_DATA/v2/products` overnight: global simple-cylindrical
+  16/64/128 ppd and polar stereographic 87.5° S 5 m, 85° S 10 m, 80° S 20 m (PDS3 `.lbl` + `.img`, heights in **km** above
+  1737.4 km, converted to m on read). The adapter registers a PDS image only when it is complete (size = lines × samples × 4).
+  The global grid is read with exact pixel-registered lat/lon index math (`stack.EqDEM`): GDAL's geotransform carries the
+  rounded label MAP_SCALE (236.901 m), which puts column 0 at −180.0005° instead of −180° (0.06 px); a test pins this.
+  Longitude wraps across 0/360; a window touching a pole spans all longitudes so rays over the pole stay in the data.
+- **Far field = composite.** Products ≥ 60 m in contract priority, one per family: PGDA 90 80 m first, LOLA global as the
+  fill where PGDA 90 ends (before this, grid points poleward of 80° S had 120–450 of 720 bins truncated at the PGDA 90 edge).
+  An equirectangular window above 60 M pixels is read from the next coarser resolution of the same product (recorded).
+- **Near window caps** (memory, 4 workers): ≤ 6000 px per side (±15 km at 5 m; the PGDA 78 tiles are 16 km so they are read
+  whole), fine ray step at most 12.5 km (ROI bundles: 6.3 km). Beyond, the next product supplies samples at its own step.
+- **Near-product choice follows contract priority** (PGDA 78 > PGDA 90 > LOLA polar > LOLA global), not finest resolution,
+  so the any-site solver and S3's merged pyramid pick the same surface. LOLA polar 5 m therefore enters as an M member.
+- **North-pole sanity run** now executes on LOLA global 128 ppd (no north-polar stereographic LDEM cached).
+- **Cache key** includes the member set (a no-clone entry had answered a clone request; regression test added).
