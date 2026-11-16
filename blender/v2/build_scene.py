@@ -236,9 +236,10 @@ def build_world(scene, sp, use_stars):
     if use_stars and STAR_MAP.exists():
         tc = nt.nodes.new('ShaderNodeTexCoord')
         M = sp['stars']['icrfToEnu']          # rows: ENU axes in ICRF -> icrf = M^T enu
-        # texture vector (Blender equirect convention) = (-X, -Y, Z) of the ICRF direction: SVS maps put RA 0 at the centre,
-        # RA increasing to the left (checked on the galactic centre and the Crux Milky Way; docs/v2/PHASE_4_BLENDER_RESULTS.md)
-        rows = [[-M[0][0], -M[1][0], -M[2][0]], [-M[0][1], -M[1][1], -M[2][1]], [M[0][2], M[1][2], M[2][2]]]
+        # texture vector = the ICRF direction itself: Cycles' equirect lookup is u = 0.5 - atan2(y, x) / 2 pi, and the SVS map
+        # has RA 0 at the centre increasing to the left (u = 0.5 - RA/360), so (X, Y, Z)_ICRF maps straight onto it.
+        # Checked by blender/tests/star_check.py (LMC/SMC and Canopus/Achernar land where the spec predicts).
+        rows = [[M[0][0], M[1][0], M[2][0]], [M[0][1], M[1][1], M[2][1]], [M[0][2], M[1][2], M[2][2]]]
         comb = nt.nodes.new('ShaderNodeCombineXYZ')
         for k, r in enumerate(rows):
             dn = nt.nodes.new('ShaderNodeVectorMath')

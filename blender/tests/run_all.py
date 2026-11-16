@@ -10,6 +10,7 @@
 4. negative control: the same scene 72 h later (Sun ~40 deg further round) must FAIL that tolerance (the comparison can detect a change);
 5. the build wrote a non-empty .blend and a manifest with Blender version, script hashes, input hashes, CYCLES, samples, device;
 5b. when the solver DEM cache exists: the drawn site01_roi6 terrain reproduces the bundle skyline (blender/tests/skyline_check.py);
+5c. when the SVS star map is cached: the Magellanic Clouds render where the ICRF->ENU rotation predicts (blender/tests/star_check.py);
 6. glTF provenance rule over web/public/ (blender/tests/glb_proof.py).
 Set POLARIS_UPDATE_REFERENCE=1 to (re)write the reference PNG; the run then reports it and still exits 1 so it is never silent.
 """
@@ -138,6 +139,14 @@ def main():
                f"median |d| {r['medianAbsDeg']:.4f} deg, p95 {r['p95AbsDeg']:.3f}, far-bin p95 {far['p95AbsDeg']:.3f}, max {r['maxAbsDeg']:.3f}")
     else:
         print('[run_all] SKIP  skyline consistency: data/cache/site01_roi6_p78_p78.npy not present (solver DEM cache)')
+
+    # 5c. starfield orientation (needs the SVS map in the cache; skipped and reported when absent) --------------------------
+    import star_check
+    if star_check.ROOT.joinpath('data', 'cache', 'v2', 'blender', 'svs4851', 'starmap_2020_4k.exr').exists():
+        ok, res = star_check.run()
+        record('starfield orientation: LMC and SMC at their predicted directions', bool(ok), json.dumps(res))
+    else:
+        print('[run_all] SKIP  starfield orientation: SVS 4851 map not in data/cache/v2/blender/svs4851/')
 
     # 6. glTF provenance --------------------------------------------------------------------------------------------------
     import glb_proof
