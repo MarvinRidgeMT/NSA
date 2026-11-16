@@ -47,3 +47,8 @@ app/dist/
 
 # 5D Phase 9.4 near-field LOD tiles (NASA PGDA 78 derived; rebuilt by tools/terrain/build_lod_tiles.py). Not committed.
 web/public/context/lod/
+
+# v2 S3 web layers derived from NASA rasters (rebuilt by tools/globe/coverage.py, seams.py, analytics.py). Not committed.
+web/public/globe/coverage/
+web/public/globe/qa/
+web/public/globe/analytics/

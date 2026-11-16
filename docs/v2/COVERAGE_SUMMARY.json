@@ -1,0 +1,187 @@
+{
+ "created_utc": "2026-11-16T15:54:19Z",
+ "label": "SOURCE-BASED \u00b7 UNVALIDATED",
+ "what": "share of the lunar sphere (4 pi R^2, R = 1737.4 km) backed by real terrain in the science pyramid, by native resolution of the finest product present and by product (source_id)",
+ "method": "    python -m tools.globe.coverage",
+ "moon_area_km2": 37932328.09938046,
+ "counted_area_check_pct": 100.00002927905881,
+ "percent_by_resolution": {
+  "<= 5 m": 0.06374,
+  "5-20 m": 0.900935,
+  "20-40 m": 2.362841,
+  "40-80 m": 96.538148,
+  "80-160 m": 0.0,
+  "160-320 m": 0.137635,
+  "> 320 m": 0.0
+ },
+ "percent_no_terrain": 0.0,
+ "percent_by_source_id": {
+  "3": 0.002699,
+  "5": 0.95723,
+  "6": 86.466568,
+  "7": 12.441538,
+  "8": 0.135264
+ },
+ "km2_by_resolution": {
+  "<= 5 m": 24177.9,
+  "5-20 m": 341745.7,
+  "20-40 m": 896280.6,
+  "40-80 m": 36619167.1,
+  "80-160 m": 0.0,
+  "160-320 m": 52208.2,
+  "> 320 m": 0.0
+ },
+ "tiles": 85746,
+ "levels": {
+  "sp": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "np": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "eq": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ]
+ },
+ "products": [
+  {
+   "product_id": "pgda78_site01_5m",
+   "source_id": 3,
+   "native_res_m": 5.0,
+   "version": "Site01_final_adj_5mpp_surf (PGDA 78, Barker et al. 2021)",
+   "url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Site01_final_adj_5mpp_surf.tif"
+  },
+  {
+   "product_id": "pgda78_site04_5m",
+   "source_id": 3,
+   "native_res_m": 5.0,
+   "version": "Site04_final_adj_5mpp_surf (PGDA 78, Barker et al. 2021)",
+   "url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_surf.tif"
+  },
+  {
+   "product_id": "pgda78_site07_5m",
+   "source_id": 3,
+   "native_res_m": 5.0,
+   "version": "Site07_final_adj_5mpp_surf (PGDA 78, Barker et al. 2021)",
+   "url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site07/Site07_final_adj_5mpp_surf.tif"
+  },
+  {
+   "product_id": "pgda78_site11_5m",
+   "source_id": 3,
+   "native_res_m": 5.0,
+   "version": "Site11_final_adj_5mpp_surf (PGDA 78, Barker et al. 2021)",
+   "url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site11/Site11_final_adj_5mpp_surf.tif"
+  },
+  {
+   "product_id": "pgda90_ldem_80s_80m",
+   "source_id": 5,
+   "native_res_m": 80.0,
+   "version": "LDEM_80S_80MPP_ADJ (PGDA 90)",
+   "url": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF"
+  },
+  {
+   "product_id": "sldem2015_512",
+   "source_id": 6,
+   "native_res_m": 59.225293797166955,
+   "version": "32 tiles: SLDEM2015_512_00N_30N_000_045_FLOAT V2.0 (SLDEM2015 (Barker et al. 2016), tiles dated 2015-07-14)",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/sldem2015/tiles/float_img/"
+  },
+  {
+   "product_id": "lola_ldem_polar_ldem_875n_5m",
+   "source_id": 7,
+   "native_res_m": 5.0,
+   "version": "LDEM_875N_5M V2.1 (LRO-L-LOLA-3-RDR-V1.0 (N files 2016-08-31, S files 2017-06-02))",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_875n_5m_float.img"
+  },
+  {
+   "product_id": "lola_ldem_polar_ldem_875s_5m",
+   "source_id": 7,
+   "native_res_m": 5.0,
+   "version": "LDEM_875S_5M V2.1 (LRO-L-LOLA-3-RDR-V1.0 (N files 2016-08-31, S files 2017-06-02))",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_875s_5m_float.img"
+  },
+  {
+   "product_id": "lola_ldem_polar_ldem_85n_10m",
+   "source_id": 7,
+   "native_res_m": 10.0,
+   "version": "LDEM_85N_10M V2.1 (LRO-L-LOLA-3-RDR-V1.0 (N files 2016-08-31, S files 2017-06-02))",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_85n_10m_float.img"
+  },
+  {
+   "product_id": "lola_ldem_polar_ldem_85s_10m",
+   "source_id": 7,
+   "native_res_m": 10.0,
+   "version": "LDEM_85S_10M V2.1 (LRO-L-LOLA-3-RDR-V1.0 (N files 2016-08-31, S files 2017-06-02))",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_85s_10m_float.img"
+  },
+  {
+   "product_id": "lola_ldem_polar_ldem_80n_20m",
+   "source_id": 7,
+   "native_res_m": 20.0,
+   "version": "LDEM_80N_20M V2.1 (LRO-L-LOLA-3-RDR-V1.0 (N files 2016-08-31, S files 2017-06-02))",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_80n_20m_float.img"
+  },
+  {
+   "product_id": "lola_ldem_polar_ldem_80s_20m",
+   "source_id": 7,
+   "native_res_m": 20.0,
+   "version": "LDEM_80S_20M V2.1 (LRO-L-LOLA-3-RDR-V1.0 (N files 2016-08-31, S files 2017-06-02))",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_80s_20m_float.img"
+  },
+  {
+   "product_id": "lola_ldem_polar_ldem_75n_30m",
+   "source_id": 7,
+   "native_res_m": 30.0,
+   "version": "LDEM_75N_30M V2.1 (LRO-L-LOLA-3-RDR-V1.0 (N files 2016-08-31, S files 2017-06-02))",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_75n_30m_float.img"
+  },
+  {
+   "product_id": "lola_ldem_polar_ldem_75s_30m",
+   "source_id": 7,
+   "native_res_m": 30.0,
+   "version": "LDEM_75S_30M V2.1 (LRO-L-LOLA-3-RDR-V1.0 (N files 2016-08-31, S files 2017-06-02))",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_75s_30m_float.img"
+  },
+  {
+   "product_id": "lola_ldem_polar_ldem_60n_60m",
+   "source_id": 7,
+   "native_res_m": 60.0,
+   "version": "LDEM_60N_60M V2.1 (LRO-L-LOLA-3-RDR-V1.0 (N files 2016-08-31, S files 2017-06-02))",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_60n_60m_float.img"
+  },
+  {
+   "product_id": "lola_ldem_polar_ldem_60s_60m",
+   "source_id": 7,
+   "native_res_m": 60.0,
+   "version": "LDEM_60S_60M V2.1 (LRO-L-LOLA-3-RDR-V1.0 (N files 2016-08-31, S files 2017-06-02))",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_60s_60m_float.img"
+  },
+  {
+   "product_id": "lola_ldem_global_ldem_128_float",
+   "source_id": 8,
+   "native_res_m": 236.90117518866782,
+   "version": "LDEM_128_FLOAT V3.0 (LRO-L-LOLA-3-RDR-V1.0 / PDS4 bundle v1.0 (files dated 2017-09-06 to 2019-03-04))",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/cylindrical/float_img/ldem_128_float.img"
+  }
+ ]
+}
