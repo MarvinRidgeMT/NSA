@@ -58,7 +58,10 @@ def parse(argv=None):
     p.add_argument('--seed', type=int, default=0)
     p.add_argument('--device', default='CPU', choices=['CPU', 'GPU'])
     p.add_argument('--denoise', action='store_true')
+    p.add_argument('--ev-comp', type=float, default=0.0, help='exposure compensation in stops on top of the physical exposure (recorded)')
     p.add_argument('--budget', type=int, default=2_500_000, help='terrain vertex budget')
+    p.add_argument('--all-around', action='store_true', help='plan every terrain tile as in view at --all-around-deg angular pixel (skyline check)')
+    p.add_argument('--all-around-deg', type=float, default=0.05, help='angular pixel (deg) for --all-around')
     p.add_argument('--no-stars', action='store_true')
     p.add_argument('--overlays', dest='overlays', action='store_true', default=None)
     p.add_argument('--no-overlays', dest='overlays', action='store_false')
@@ -194,8 +197,8 @@ def load_levels(sp, mode):
     return levels
 
 
-def build_terrain(sp, levels, frame, view, coll, mat, budget):
-    tiles, report = T.plan_tiles(levels, frame, view, budget=budget)
+def build_terrain(sp, levels, frame, view, coll, mat, budget, all_around=False):
+    tiles, report = T.plan_tiles(levels, frame, view, budget=budget, all_around=all_around)
     objs, stats = [], {}
     for li, lv in enumerate(levels):
         finer = [levels[j].box() for j in range(li)]
@@ -317,7 +320,9 @@ def build(cfg):
                   pixel_rad=2 * half_h / rx, sun_dir=tuple(sp['sun']['dirEnu']), sun_radius_rad=math.radians(sp['sun']['radiusDeg']))
     light = sp['sun'] if sp['dominantLight'] == 'sun' else sp['earth']
     reg_mat, mat_info = hapke_nodes.hapke_material('Regolith | Hapke 2012, LROC WAC 643 nm params | MODEL', sp['photometry']['params'], light['dirEnu'])
-    terrain_objs, tile_report = build_terrain(sp, levels, frame, view, C['POLARIS Terrain'], reg_mat, cfg.budget)
+    if cfg.all_around:
+        view.pixel_rad = math.radians(cfg.all_around_deg)
+    terrain_objs, tile_report = build_terrain(sp, levels, frame, view, C['POLARIS Terrain'], reg_mat, cfg.budget, cfg.all_around)
     t_terrain = time.time() - t0
 
     # --- Sun, Earth, earthshine, sky -----------------------------------------------------------------------------------
@@ -379,7 +384,7 @@ def build(cfg):
     overlay_info = {'present': bool(sp['overlays'])}
     if sp['overlays']:
         top = Vector((0, 0, mast))
-        glow = 0.6 / (2.0 ** cam_p['exposureStops'])     # overlay radiance that lands at ~0.6 of full scale at this exposure
+        glow = 0.6 / (2.0 ** (cam_p['exposureStops'] + cfg.ev_comp))     # overlay radiance that lands at ~0.6 of full scale at this exposure
         overlay_info['rays'] = {}
         for name, body, rgb in (('sun', sun, (1.0, 0.75, 0.3)), ('earth', earth, (0.35, 0.7, 1.0))):
             sl = sp['sightLines'][name]
@@ -389,9 +394,10 @@ def build(cfg):
             overlay_info['rays'][name] = 'drawn'
             length = sl['lengthM'] or 20000.0
             d = Vector(body['dirEnu'])
-            r = 0.03
             col = rgb if sl['state'] == 'clear' else tuple(0.4 * c for c in rgb)
-            bpy.ops.mesh.primitive_cylinder_add(vertices=8, radius=r, depth=length, location=top + d * (length / 2))
+            # cone: ~0.01 m at the mast top, widening to a constant ~0.02 deg seen from the observer
+            bpy.ops.mesh.primitive_cone_add(vertices=8, radius1=0.01, radius2=max(0.01, length * 3.5e-4), depth=length,
+                                            location=top + d * (length / 2))
             ray = put(bpy.context.object, C['POLARIS Overlays'])
             ray.name = f"OVERLAY | {name} sight line | bundle state {sl['state']}" + (f" | ends at {sl['criticalDistanceM']} m" if sl['lengthM'] else '')
             aim(ray, d, track='Z')
@@ -406,8 +412,9 @@ def build(cfg):
             if len(run) > 1:
                 spl = cu.splines.new('POLY')
                 spl.points.add(len(run) - 1)
-                for pnt, c in zip(spl.points, run):
+                for pnt, (c, rad) in zip(spl.points, run):
                     pnt.co = (*c, 1.0)
+                    pnt.radius = rad
             run.clear()
         for a_, e_, d_ in zip(az, el, dist):
             if e_ is None or not d_:
@@ -416,11 +423,11 @@ def build(cfg):
             R = 0.97 * d_ / max(math.cos(math.radians(e_)), 1e-6)
             from v2 import astro
             v = astro.enu_direction(a_, e_)
-            run.append((v[0] * R, v[1] * R, mast + v[2] * R))
+            run.append(((v[0] * R, v[1] * R, mast + v[2] * R), R * 3.5e-4))   # constant ~0.02 deg half-width
         flush()
         sk = bpy.data.objects.new('OVERLAY | bundle skyline (720 bins, 0.97 x critical distance, from mast-top height)', cu)
         C['POLARIS Overlays'].objects.link(sk)
-        cu.bevel_depth = 0.5
+        cu.bevel_depth = 1.0      # x per-point radius
         sk.data.materials.append(emissive('skyline', (0.9, 0.9, 0.85), glow * 0.6))
         camera_only(sk)
         overlay_info.update(sightLines=sp['sightLines'], skyline='bundle bins drawn at 0.97 x critical distance (true angles from the mast top)')
@@ -477,7 +484,7 @@ def build(cfg):
     raw = cam_p['kind'] == 'instrument'
     vs.view_transform = 'Raw' if raw else 'Standard'
     vs.look = 'None'
-    vs.exposure = cam_p['exposureStops']
+    vs.exposure = cam_p['exposureStops'] + cfg.ev_comp
     vs.gamma = 1.0
     scene.display_settings.display_device = 'sRGB'
     ims = scene.render.image_settings
@@ -531,7 +538,7 @@ def build(cfg):
         'spec': {'file': spec_path.name, 'sha256': spec_sha},
         'render': {'engine': scene.render.engine, 'samples': cyc.samples, 'seed': cyc.seed, 'device': cyc.device,
                    'denoise': cyc.use_denoising, 'resolution': [rx, ry], 'viewTransform': vs.view_transform,
-                   'exposureStops': vs.exposure, 'output': f"{ims.color_mode} {ims.color_depth}-bit PNG",
+                   'exposureStops': vs.exposure, 'physicalExposureStops': cam_p['exposureStops'], 'evCompensation': cfg.ev_comp, 'output': f"{ims.color_mode} {ims.color_depth}-bit PNG",
                    'bounces': {'max': cyc.max_bounces, 'diffuse': cyc.diffuse_bounces}},
         'observer': {'groundHeightM': h0, 'groundSource': h_src, 'frame': frame.describe(), 'bundleSiteHeightM': sp['site']['heightM']},
         'terrain': tile_report,

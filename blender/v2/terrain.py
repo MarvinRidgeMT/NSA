@@ -184,12 +184,13 @@ def _sun_side(view, c, observer=(0.0, 0.0, 0.0), wedge_deg=35.0):
     return cosang >= math.cos(math.radians(wedge_deg))
 
 
-def plan_tiles(levels, frame, view, tile_cells=64, budget=2_500_000, k=2.0, near_keep_m=2000.0):
+def plan_tiles(levels, frame, view, tile_cells=64, budget=2_500_000, k=2.0, near_keep_m=2000.0, all_around=False):
     """Choose, per tile of each level, whether to draw it and at what decimation (power of two).
 
     In the view frustum: spacing <= k * distance * pixel angle. Outside it, only tiles toward the Sun (possible shadow casters)
     or within `near_keep_m`: spacing <= distance * tan(Sun angular radius). Cells inside a finer level's box (inset by one coarse
-    cell) are left to that level. If the vertex estimate exceeds `budget`, k doubles (recorded). Returns (tiles, report)."""
+    cell) are left to that level. If the vertex estimate exceeds `budget`, k doubles (recorded). `all_around` treats every
+    tile as in view (skyline consistency check). Returns (tiles, report)."""
     for attempt in range(8):
         tiles, verts = [], 0
         for li, lv in enumerate(levels):
@@ -212,7 +213,7 @@ def plan_tiles(levels, frame, view, tile_cells=64, budget=2_500_000, k=2.0, near
                     c = pts[4]
                     radius = float(np.max(np.linalg.norm(pts[:4] - c, axis=1))) + float(np.nanmax(sub) - np.nanmin(sub)) / 2
                     dist = max(1.0, float(np.linalg.norm(c - np.asarray(view.pos))) - radius)
-                    inside = _in_frustum(view, c, radius)
+                    inside = all_around or _in_frustum(view, c, radius)
                     if inside:
                         need = k * dist * view.pixel_rad
                         role = 'view'
@@ -232,7 +233,7 @@ def plan_tiles(levels, frame, view, tile_cells=64, budget=2_500_000, k=2.0, near
         if verts <= budget:
             break
         k *= 2.0
-    report = {'tiles': len(tiles), 'vertexEstimate': int(verts), 'budget': budget, 'k': k, 'attempts': attempt + 1,
+    report = {'tiles': len(tiles), 'vertexEstimate': int(verts), 'budget': budget, 'k': k, 'attempts': attempt + 1, 'allAround': all_around,
               'rule': 'view: spacing <= k * distance * pixel angle; shadow-caster (toward the Sun, or within near_keep_m): '
                       'spacing <= distance * tan(Sun angular radius); power-of-two decimation, never finer than native',
               'byLevel': {}}

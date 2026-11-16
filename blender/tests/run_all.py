@@ -9,6 +9,7 @@
    compared with blender/tests/reference/ref_site01_eva_eye.png (mean |d| <= 2/255 and 99th percentile <= 16/255);
 4. negative control: the same scene 72 h later (Sun ~40 deg further round) must FAIL that tolerance (the comparison can detect a change);
 5. the build wrote a non-empty .blend and a manifest with Blender version, script hashes, input hashes, CYCLES, samples, device;
+5b. when the solver DEM cache exists: the drawn site01_roi6 terrain reproduces the bundle skyline (blender/tests/skyline_check.py);
 6. glTF provenance rule over web/public/ (blender/tests/glb_proof.py).
 Set POLARIS_UPDATE_REFERENCE=1 to (re)write the reference PNG; the run then reports it and still exits 1 so it is never silent.
 """
@@ -125,6 +126,17 @@ def main():
     prov = json.loads(bpy.context.scene.get('polaris', '{}'))
     need['scene provenance in .blend'] = prov.get('builder') == 'blender/v2/build_scene.py' and prov.get('scriptsSha256') == manifest['scriptsSha256']
     record('manifest + .blend provenance', all(need.values()), ', '.join(k for k, v in need.items() if not v) or 'all fields present')
+
+    # 5b. skyline consistency (needs the solver's DEM cache; skipped and reported when absent) ------------------------------
+    if (ROOT / 'data' / 'cache' / 'site01_roi6_p78_p78.npy').exists():
+        import skyline_check
+        r = skyline_check.measure('site01_roi6', 'cache', 0.05, out=str(tmp / 'skyline'))
+        far = r['far (critical point >= 100 m)']
+        ok = r['unbracketed'] == 0 and r['medianAbsDeg'] <= 0.02 and far['p95AbsDeg'] <= 0.1 and r['p95AbsDeg'] <= 0.3
+        record('drawn terrain reproduces the solver skyline (site01_roi6, 720 bins, Blender ray casts)', ok,
+               f"median |d| {r['medianAbsDeg']:.4f} deg, p95 {r['p95AbsDeg']:.3f}, far-bin p95 {far['p95AbsDeg']:.3f}, max {r['maxAbsDeg']:.3f}")
+    else:
+        print('[run_all] SKIP  skyline consistency: data/cache/site01_roi6_p78_p78.npy not present (solver DEM cache)')
 
     # 6. glTF provenance --------------------------------------------------------------------------------------------------
     import glb_proof
