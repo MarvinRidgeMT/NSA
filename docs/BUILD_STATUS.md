@@ -1337,5 +1337,5 @@ Branch `v2-r3-blender-moon` (from `feature/v2-whole-moon` 72e3430). Plan `docs/v
 - **Whole Moon:** `blender/v2/globe.py` — equal-angle welded cube-sphere from pyramid L0 (box-filtered), .blend + manifest, render from
   the bundle Earth direction; Draco GLB `web/public/globe/polaris_moon_globe.glb` (2.0 MB, git-ignored) passes glb_proof (builder globe.py).
 - **Bug found by a render:** lat/lon of km-scaled globe vertices (every vertex a pole) — fixed + regression test.
-- **Tests:** Blender run_all 14/14 (55.8 s); blender unittest 122 OK; pytest science/tests 405 passed, 2 skipped; vitest 144 passed, 3 skipped.
+- **Tests:** Blender run_all 14/14 (55.8 s); blender unittest 124 OK; pytest science/tests 405 passed, 2 skipped; vitest 144 passed, 3 skipped.
 - **Not done:** web app still loads the SVS globe (swap is the web owner's); pyramid solver bundle for eq sites (R1); NAC albedo; 3D Tiles.
