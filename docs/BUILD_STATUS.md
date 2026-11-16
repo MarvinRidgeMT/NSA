@@ -1198,3 +1198,23 @@ Worked in a separate worktree because the main checkout held another session's u
   registration. Nothing was fetched from them and no workaround was tried. The JAXA SELENE acknowledgement wording is
   still to be copied from the DARTS policy page by a person.
 - Downloads: see the final S2 entry below (or `docs/v2/STATUS.md` S2 row) for GB per product and verify results.
+
+#### v2 S2 final (04:25 EST)
+- Downloaded **105.93 GB, 172 files**, 02:32–04:24 EST, one sequential run at the 16 MiB/s cap, no failures or retries. Free disk is 377.7 GB.
+- `fetch --verify`: 172/172 SHA-256 OK, 0 missing, 0 bad. The WAC MD5 matched. Mirror: `docs/v2/DATA_MANIFEST.json`.
+- Per product (GB):
+  - `sldem2015_512` 45.30 (32 tiles + quality map; label V2.0, km);
+  - `lola_ldem_polar` 37.27 (5/10/20/30/60 m rings, both poles; km);
+  - `pgda67_slope_azimuth_128` 8.49;
+  - `lroc_wac_100m` 5.96;
+  - `lola_ldem_global` 5.37 (16/64/128 ppd; km);
+  - `pgda67_slope_azimuth_64` 2.12;
+  - `lola_roughness_gdr` 1.31;
+  - `pgda70_roughness` 0.11.
+- Tests: `pytest science/tests tools/globe` 216 passed, 2 skipped.
+- Not done:
+  - no co-registration or frame conversion (that is S3);
+  - JAXA SELENE acknowledgement wording not verified;
+  - Ch-2 TMC-2 and CNSA not downloaded (need an account the user has not approved);
+  - Kaguya TC, NAC DTMs and SfS regions are left for on-demand streaming.
+- Frozen refs are unchanged: tag `submission-2026-11-15` → c5dce9f, `submission/merged` → 62cc7b1.

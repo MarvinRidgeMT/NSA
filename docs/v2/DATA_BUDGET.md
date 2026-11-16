@@ -44,6 +44,12 @@ here, so they are not used for science.
 | GSFC SfS (Zenodo 17954508) | see `docs/v2/PRODUCTS.md` | Per region on demand |
 | Chandrayaan-2 TMC-2, CNSA Chang'e | — | Need an account the user has not approved |
 
-## Result (filled in at the end of the session)
-See the S2 section of `docs/BUILD_STATUS.md` and `docs/v2/DATA_MANIFEST.json` (the totals block) for the bytes
-actually downloaded and hashed tonight.
+## Result (16 Nov 2026, 02:32–04:24 EST)
+- The whole plan was downloaded in one run: **105,929,851,643 B (105.93 GB), 172 files**, with no failures and no
+  retries. Throughput was ~16 MB/s, the configured cap.
+- Free space on the internal drive went from 496.0 GB to 377.7 GB, well above the 250 GB floor. 105.9 GB is under the
+  150 GB cap.
+- `python -m tools.globe.fetch --verify` re-hashed all 172 files: 172 OK, 0 missing, 0 bad. The WAC MD5 sidecar matched.
+- Per product (GB): sldem2015_512 45.30 · lola_ldem_polar 37.27 · pgda67_slope_azimuth_128 8.49 · lroc_wac_100m 5.96 ·
+  lola_ldem_global 5.37 · pgda67_slope_azimuth_64 2.12 · lola_roughness_gdr 1.31 · pgda70_roughness 0.11.
+- Committed mirror: `docs/v2/DATA_MANIFEST.json` (totals block). Logs: `$POLARIS_DATA/v2/logs/`.
