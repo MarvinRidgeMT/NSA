@@ -1178,3 +1178,26 @@ Worked in a separate worktree because the main checkout held another session's u
 - Worktree `../NSA-v2`, branch `feature/v2-whole-moon` cut from `feature/5d-complete` (ae9f6d9). Prompt and team inputs copied to `docs/v2/inputs/` (the 5D_MODEL_RESEARCH doc was not found on disk).
 - Frozen: tag `submission-2026-11-15` → c5dce9f (already existed, not moved), tag `submission-final` → 8dde4f1, `submission/merged` → 62cc7b1.
 - Split into six parallel sessions (`docs/v2/SPLIT.md`), interface `docs/v2/TERRAIN_STACK_CONTRACT.md`, status `docs/v2/STATUS.md`.
+
+### v2 S3 — global terrain pyramid, seams, coverage, VISUAL roughness (§2.2, §2.3, §2.5 maps) — Claude, 16 Nov 2026 02:25–10:55 EST
+Branch `claude/v2-s3-pyramid-b01622` (from `feature/v2-whole-moon` eda168c). Plan + "as built": `docs/v2/PHASE_1_PYRAMID_PLAN.md`.
+Contract implemented as written, two dated amendments appended to `docs/v2/TERRAIN_STACK_CONTRACT.md`.
+- **Code:** `science/terrain/stack.py` (TerrainStack open/sample/window/coverage, zone geometry shared with the builder, VISUAL guard),
+  `tools/globe/pyramid.py` (plan/merge/COG tiles/index, `--atomic`, `--min-level`), `pyramid_products.py` (readers, one function +
+  test per datum/frame conversion, PDS3 label checks, VRT mosaic for SLDEM tiles), `pyramid_coreg.py`, `seams.py`, `coverage.py`,
+  `roughness.py`, `analytics.py`; tests `tools/globe/tests/` (58).
+- **Built (git-ignored, `$POLARIS_DATA/v2/pyramid/`):** 85,982 tiles, 71 GB: sp L0–L8 (to 5 m), np L0–L8 (to 5 m), eq L0–L4 (to 512 ppd).
+  Products: PGDA 78 Sites 01/04/07/11, PGDA 90 80 m, LOLA polar LDEMs both poles (5–60 m), LOLA LDEM_128, SLDEM2015 512 ppd.
+- **Coverage** (`docs/v2/COVERAGE_SUMMARY.md`): 100 % of the Moon has real terrain; ≤5 m 0.064 %, 5–20 m 0.90 %, 20–40 m 2.36 %,
+  40–80 m 96.54 %, 160–320 m 0.14 %. Web layers under `web/public/globe/{coverage,qa,analytics}/` (git-ignored, rebuild with the tools).
+- **QA** (`docs/v2/PYRAMID_QA.json`): seams 20 pairs + 2 zone seams pass. Two findings fixed in the merge rather than the tolerance:
+  a gridding boundary effect at the LOLA polar LDEM square edges (p99 52 m at the edge → trimmed 40 native px; north ring seams p99
+  24 m → 1.7–2.3 m) and the hard eq/polar switch (posting change, p99 22 m north → linear blend over 56.5–58.5°). Tolerances changed
+  with recorded causes: SLDEM/LOLA p99 50 m (same pair disagrees by p99 61–75 m away from any seam), zone seam judged on blend slope.
+- **Solver check:** Site04 RoI 3 skyline from pyramid windows vs the committed bundle: median 0.000°, p95 0.0045°, max 0.015° (720 bins).
+- **Roughness (VISUAL, display only):** total RMS slope ratio displayed/real 1.00–1.09 at 15 m–2.56 km (4 sites, pass); the added
+  sub-resolution component is 1.2–1.9× the real 5 m residual (open item; PGDA 78 is itself interpolated between tracks); displayed
+  Hurst exponent 0.94–0.99 vs PGDA 70 0.93–0.98. Static + runtime tests fail if `science/` reads `pyramid_visual`.
+- **Not done:** VISUAL for eq; PGDA 70 as VISUAL parameter source; craters/boulders (no cited statistics); Earth-visibility map;
+  quantized-mesh/3D Tiles; Kaguya TC / NAC / SfS products (not downloaded). Session was paused ~03:16–07:23 EST (not by the work).
+- Frozen refs checked at the end (see the session report).

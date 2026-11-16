@@ -125,13 +125,9 @@ def zone_coverage(stack, zone, log=print):
             cx = np.clip(((U[ok] - Z.left) // c).astype(np.int64), 0, nx - 1)
             cy = np.clip(((Z.top - V[ok]) // c).astype(np.int64), 0, ny - 1)
             cls = class_of(a[2][ok]); src = np.clip(a[1][ok].astype(np.int64), 0, 8)
-            flat = cy * nx + cx
-            for k in np.unique(cls):
-                m = cls == k
-                aL[k].flat[:] += np.bincount(flat[m], weights=area[m], minlength=nx * ny)
-            for k in np.unique(src):
-                m = src == k
-                sL[k].flat[:] += np.bincount(flat[m], weights=area[m], minlength=nx * ny)
+            # O(samples) accumulation (a dense bincount per tile was O(cells) = hours for 49k eq tiles)
+            np.add.at(aL, (cls.astype(np.int64), cy, cx), area)
+            np.add.at(sL, (src, cy, cx), area)
         tot = aL.sum(0)
         new = np.clip(tot - claimed, 0, None)
         share = np.where(tot > 0, new / np.where(tot > 0, tot, 1), 0.0)
