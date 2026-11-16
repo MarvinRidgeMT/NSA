@@ -85,7 +85,25 @@ def assumed_member(dem, product, k, site_seed, model):
                              {**dem.meta, 'member': f'assumed{k:02d}', 'label': LABEL_ASSUMED,
                               'error_model': {**model, 'product': product,
                                               'note': 'field on the lat/lon grid; correlation length along latitude'}})
+    if hasattr(dem, 'window') and hasattr(dem, 'pyr'):        # lazily sampled pyramid near field (eq zone)
+        import dataclasses
+        from .stack import PerturbedField, view
+        w = dem.window
+        f = error_field(w.Z.shape, w.step, model['sigma_m'], model['corr_m'], (site_seed, k))
+        fz = dataclasses.replace(w, Z=f, name='error field', meta={})
+        return PerturbedField(dem, view(fz), f'{dem.name} + {LABEL_ASSUMED} #{k:02d}',
+                              {**dem.meta, 'member': f'assumed{k:02d}', 'label': LABEL_ASSUMED,
+                               'error_model': {**model, 'product': product,
+                                               'note': 'field on the near window grid (oblique stereographic), '
+                                                       'bilinearly added to the native-grid samples'}})
     inner = getattr(dem, 'inner', dem)
+    if hasattr(inner, 'proj'):                    # pyramid ZoneDEM (any proj): perturb its grid, keep its projection
+        import dataclasses
+        f = error_field(inner.Z.shape, inner.step, model['sigma_m'], model['corr_m'], (site_seed, k))
+        zd = dataclasses.replace(inner, Z=inner.Z + f, name=f'{inner.name} + {LABEL_ASSUMED} #{k:02d}',
+                                 meta={**inner.meta, 'member': f'assumed{k:02d}', 'label': LABEL_ASSUMED,
+                                       'error_model': {**model, 'product': product}})
+        return dem.rewrap(zd) if hasattr(dem, 'rewrap') else zd
     Z = inner.Z + error_field(inner.Z.shape, inner.step, model['sigma_m'], model['corr_m'], (site_seed, k))
     nd = demmod.ArrayDEM(Z, inner.x_left, inner.y_top, inner.step, f'{inner.name} + {LABEL_ASSUMED} #{k:02d}',
                          {**inner.meta, 'member': f'assumed{k:02d}', 'label': LABEL_ASSUMED,

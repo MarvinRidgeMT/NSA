@@ -193,13 +193,19 @@ class HorizonsCache(unittest.TestCase):
 @unittest.skipUnless(_have_roi3_data() and P.pgda78_tile('Site04', 20) is not None,
                      'Site04 tile, its 20 clones or PGDA 90 not cached')
 class Site04Roi3Reproduction(unittest.TestCase):
-    """Through the any-site path (lat/lon only): hourly Sun 94.36 %, Sun+Earth 72.11 %, longest hourly Sun gap 19 h;
-    20 PGDA 78 clones 87.54-97.33 % (docs/LONG_FEATURES_2026-11-15.md, float64 rerun; committed bundle metrics)."""
+    """Per-product path (explicit LegacyStack), lat/lon only: hourly Sun 94.36 %, Sun+Earth 72.11 %, longest hourly Sun
+    gap 19 h; 20 PGDA 78 clones 87.54-97.33 % (docs/LONG_FEATURES_2026-11-15.md, float64 rerun; committed bundle
+    metrics); skyline identical to the committed bundle. The pyramid default cannot be bit-identical (feathered tile edge,
+    merged far field, different near-cut rule): Site04Roi3PyramidPath below."""
 
     @classmethod
     def setUpClass(cls):
         cls.b = S.solve(*ROI3, mast_m=1.0, member_kinds=('clones', 'products'), n_members=20, use_cache=False,
-                        allow_network=False, out_dir=ROOT / 'data' / 'cache' / 'anysite' / 'test_bundles')
+                        allow_network=False, out_dir=ROOT / 'data' / 'cache' / 'anysite' / 'test_bundles',
+                        stack=LegacyStack())
+
+    def test_per_product_path(self):
+        self.assertEqual(self.b['anysite']['terrain'], 'per-product')
 
     def test_nominal(self):
         m = self.b['metrics']
@@ -362,16 +368,25 @@ class NearFarSideEarth(unittest.TestCase):
 
 
 # ------------------------------------------------------------------------------------------------ north pole
+def _pyramid_stack():
+    from science.anysite.stack import PyramidStack
+    try:
+        return PyramidStack()
+    except FileNotFoundError as exc:
+        raise unittest.SkipTest(f'whole-Moon pyramid not built in $POLARIS_DATA ({exc})')
+
+
 class NorthPoleSanity(unittest.TestCase):
+    """Runs on the north-polar pyramid (np zone, LOLA 87.5 N 5 m at L8), the default terrain since R1."""
+
     def test_north_pole_run(self):
-        st = LegacyStack()
+        st = _pyramid_stack()
         lat, lon = 89.5, 0.0
-        cov = st.covering(lat, lon)
-        if not cov:
-            self.skipTest('no product in the cache covers (89.5 N, 0 E): PGDA 90 / PGDA 78 are south-polar only and S2 '
-                          'has not downloaded a LOLA global or north-polar LDEM into $POLARIS_DATA/v2/products')
-        b = S.solve(lat, lon, 1.0, member_kinds=(), use_cache=False,
+        b = S.solve(lat, lon, 1.0, member_kinds=(), use_cache=False, stack=st,
                     out_dir=ROOT / 'data' / 'cache' / 'anysite' / 'test_bundles')
+        nf = b['anysite']['near_field']['pyramid']
+        self.assertEqual((nf['zone'], nf['window_proj']), ('np', 'np'))
+        self.assertEqual(b['anysite']['terrain'], 'pyramid')
         self.assertEqual(b['skyline']['n_truncated'], 0)                 # rays over the pole stay inside the product
         el = [v for v in b['skyline']['elevation_deg'] if v is not None]
         self.assertGreater(len(el), 700)
@@ -407,6 +422,87 @@ class ContractOnlyStackShim(unittest.TestCase):
                     out_dir=ROOT / 'data' / 'cache' / 'anysite' / 'test_bundles')
         self.assertEqual(b['metrics']['sun_center_visible_pct_hourly_samples'], 94.362)
         self.assertEqual(b['metrics']['sun_and_earth_center_visible_pct_hourly_samples'], 72.107)
+
+
+class Site04Roi3PyramidPath(unittest.TestCase):
+    """The default (merged pyramid) terrain at Site04 RoI 3 reproduces the committed hourly metrics: Sun 94.36 %,
+    Sun+Earth 72.11 %, longest Sun gap 19 h, 20 PGDA 78 clones 87.54-97.33 %, PGDA 90 the first product member.
+
+    Skyline tolerance vs the committed bundle (measured 16 Nov 2026: median 5e-6 deg, p95 0.0036 deg, max 0.0122 deg;
+    limits set at ~3-20x): median <= 1e-4 deg, p95 <= 0.02 deg, max <= 0.05 deg. Why not identical: the pyramid feathers
+    the outer 8 pixels (40 m) of the PGDA 78 tile into PGDA 90, its far field is the merged 80 m level (PGDA 78
+    block-averaged inside the tile, PGDA 90 / LOLA outside) rather than raw PGDA 90, and the near cut follows the
+    pyramid rule (6620 m: disc of native 5 m data minus sqrt(2) px) instead of the raw tile's square inscribed radius
+    (6317 m). 0.05 deg is ~1 % of the Sun-margin range at this site; the hourly metrics are asserted exactly."""
+
+    @classmethod
+    def setUpClass(cls):
+        if not (_have_roi3_data() and P.pgda78_tile('Site04', 20) is not None):
+            raise unittest.SkipTest('Site04 tile, its 20 clones or PGDA 90 not cached')
+        cls.st = _pyramid_stack()
+        cls.b = S.solve(*ROI3, mast_m=1.0, member_kinds=('clones', 'products'), n_members=20, use_cache=False,
+                        allow_network=False, out_dir=ROOT / 'data' / 'cache' / 'anysite' / 'test_bundles', stack=cls.st)
+
+    def test_default_stack_is_pyramid(self):
+        from science.anysite import stack as STK
+        self.assertEqual(self.b['anysite']['terrain'], 'pyramid')
+        self.assertEqual(STK.get_stack().kind, 'pyramid')
+        self.assertIsInstance(STK.get_stack(prefer_pyramid=False), LegacyStack)
+
+    def test_nominal(self):
+        m = self.b['metrics']
+        self.assertEqual(round(m['sun_center_visible_pct_hourly_samples'], 2), 94.36)
+        self.assertEqual(round(m['sun_and_earth_center_visible_pct_hourly_samples'], 2), 72.11)
+        self.assertEqual(m['longest_sun_center_hidden_h'], 19.0)
+
+    def test_clones_from_products(self):
+        s = self.b['anysite']['uncertainty']['summary']['pgda78-clone']['sun_center_visible_pct_hourly_samples']
+        self.assertEqual(s['n'], 20)
+        self.assertEqual(round(s['min'], 2), 87.54)
+        self.assertEqual(round(s['max'], 2), 97.33)
+        nf = self.b['anysite']['near_field']
+        self.assertEqual((nf['source_family'], nf['member_product_id']), ('pgda78', 'pgda78_Site04'))
+
+    def test_product_members(self):
+        ids = [m['id'] for m in self.b['anysite']['uncertainty']['members'] if m['kind'] == 'product']
+        self.assertEqual(ids[0], 'product:pgda90_80m')
+        self.assertNotIn('product:pgda78_Site04', ids)           # PGDA 78 is the pyramid's own source here
+        self.assertEqual(len(ids), len({i.split(':')[1] for i in ids}))      # one member per product family
+
+    def test_near_cut_rule(self):
+        nf = self.b['anysite']['near_field']['pyramid']
+        self.assertEqual((nf['zone'], nf['level'], nf['pixel_m']), ('sp', 8, 5.0))
+        self.assertAlmostEqual(nf['near_cut_m'], nf['d_fine_m'] - math.sqrt(2) * 5.0, delta=1e-3)
+        # disc to the edge of the native 5 m data minus the 8-px feather band: 6317 + 5 + ~303 (diagonal geometry)
+        self.assertTrue(6300.0 < nf['near_cut_m'] < 6700.0, nf['near_cut_m'])
+        self.assertEqual(self.b['skyline']['near_cut_m'], nf['near_cut_m'])
+        self.assertEqual(self.b['skyline']['step_near_m'], 1.0)
+        self.assertEqual(self.b['skyline']['step_far_m'], 80.0)
+
+    def test_skyline_tolerance(self):
+        ref = json.loads(BUNDLE_ROI3.read_text())['skyline']['elevation_deg']
+        d = np.array([abs(a - b) for a, b in zip(self.b['skyline']['elevation_deg'], ref)])
+        self.assertEqual(d.size, 720)
+        self.assertLessEqual(float(np.median(d)), 1e-4)
+        self.assertLessEqual(float(np.percentile(d, 95)), 0.02)
+        self.assertLessEqual(float(d.max()), 0.05)
+        self.assertEqual(self.b['skyline']['n_truncated'], 0)
+
+    def test_provenance(self):
+        lay = {l['role']: l for l in self.b['skyline']['dem_layers']}
+        self.assertEqual(set(lay), {'near', 'far'})
+        for l in lay.values():
+            self.assertEqual(len(l['pyramid']['index_sha256']), 64)
+            self.assertGreater(l['pyramid']['n_tiles'], 0)
+        self.assertIn(3, lay['near']['pyramid']['source_ids'])   # PGDA 78
+        # beyond-range reference height: max of the far-level tiles (here = the PGDA 90 window max of the bundle)
+        ref = json.loads(BUNDLE_ROI3.read_text())['skyline']['beyond_range_reference_height_m']
+        self.assertAlmostEqual(self.b['skyline']['beyond_range_reference_height_m'], ref, delta=50.0)
+
+    def test_schema(self):
+        import jsonschema
+        schema = json.loads((ROOT / 'schemas' / 'science-results-v1.schema.json').read_text())
+        jsonschema.validate(self.b, schema)
 
 
 class PyramidAgreement(unittest.TestCase):
