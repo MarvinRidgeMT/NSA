@@ -44,14 +44,23 @@ FAMILY = {1: 'nac', 2: 'sfs', 3: 'lola', 4: 'kaguya', 5: 'lola', 6: 'sldem', 7: 
 # - sldem/lola: SLDEM2015 vertical accuracy ~3-4 m (Barker et al. 2016) plus Kaguya TC stereo noise -> 5 m / 40 m.
 # - kaguya, nac, sfs vs lola: stereo / photoclinometry products, accuracy 3-10 m class -> 5 m / 40 m (provisional).
 # - zone (eq vs polar grid of the same merge): reprojection only -> 0.5 m / 10 m.
+# Revised 16 Nov 07:55 EST after investigation (plan §7: cause found before any change):
+# - sldem/lola p99 40 -> 50 m. SLDEM2015 over LOLA LDEM_60N at the +60 deg edge measured p99 41.8 m (median 2.7 m),
+#   LDEM_60S 21.7 m. The same pair disagrees as much AWAY from any seam (SLDEM vs LOLA global at 118 m posting:
+#   p99 61 m at 30N, 75 m at the equator): LOLA gridded products interpolate between tracks where SLDEM has Kaguya TC
+#   detail. The seam is no worse than the products' intrinsic disagreement; the 8-px feather (470 m at 59 m) limits
+#   the added slope to atan(50 / 470) < 6 deg for the worst 1 % of band pixels.
+# - zone p99 10 -> 20 m, median 0.5 -> 2 m. The eq and polar zones are not one grid resampled twice: at 55-60 deg
+#   both show SLDEM, eq at its 59 m posting, polar resampled onto 80 m pixels (L4), so the 57.5 deg switch in
+#   TerrainStack.sample carries a posting change. Measured sp/eq: median 1.14 m, p99 12.3 m.
 TOLERANCES = {
     ('lola', 'lola'): {'median_abs_m': 2.0, 'p99_abs_m': 20.0},
-    ('lola', 'sldem'): {'median_abs_m': 5.0, 'p99_abs_m': 40.0},
+    ('lola', 'sldem'): {'median_abs_m': 5.0, 'p99_abs_m': 50.0},
     ('kaguya', 'lola'): {'median_abs_m': 5.0, 'p99_abs_m': 40.0},
     ('kaguya', 'sldem'): {'median_abs_m': 5.0, 'p99_abs_m': 40.0},
     ('lola', 'nac'): {'median_abs_m': 5.0, 'p99_abs_m': 40.0},
     ('lola', 'sfs'): {'median_abs_m': 5.0, 'p99_abs_m': 40.0},
-    ('zone', 'zone'): {'median_abs_m': 0.5, 'p99_abs_m': 10.0},
+    ('zone', 'zone'): {'median_abs_m': 2.0, 'p99_abs_m': 20.0},
 }
 DEFAULT_TOL = {'median_abs_m': 5.0, 'p99_abs_m': 40.0}
 MIN_N = 50                      # fewer band pixels than this: reported, not judged
@@ -101,7 +110,12 @@ def pair_seam(hi, lo, zone, cells=None, feather_px=PY.FEATHER_PX, between=(), ab
     box = (bh[0] - m, bh[1] - m, bh[2] + m, bh[3] + m)
     tiles = PY.tiles_for_bbox(zone, L, box)
     keep = []
+    own = rh.kind == zone or (Z.kind == 'eq' and rh.kind == 'lonlat')
     for ix, iy in tiles:
+        if own:
+            tb = Z.tile_bounds(L, ix, iy)
+            if bh[0] < tb[0] - m and bh[2] > tb[2] + m and bh[1] < tb[1] - m and bh[3] > tb[3] + m:
+                continue                              # hi covers the padded tile: no hi edge here (no read needed)
         U, V = Z.pixel_centres(L, ix, iy, pad)
         lat, lon = Z.inverse(U, V)
         inz = Z.in_zone(lat)
