@@ -1,0 +1,22 @@
+{
+ "item": "L3_convergence",
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "date_utc": "2026-11-16T04:39:07Z",
+ "command": "python l3_convergence.py",
+ "module": "/Users/anishmeruva/Documents/ChatGPT/NSA-science-limits/science/limits/l3_convergence.py",
+ "code_commit": "b78591df4756e6ef77bcd3e4fcddfb2c88ae4640-dirty",
+ "inputs": [
+  {
+   "path": "data/bundles/site04_roi3_2026-11-14_14d_mast1m.json",
+   "sha256": "ac745d993c36e0066e61a57a01b5e9ab10f76ea41f4494233c044efccbefee1f"
+  },
+  {
+   "path": "data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",
+   "sha256": "ec2e9f24ca80412d5f286bbb9315b5b045becbe764243842e52a9c7f9547e552"
+  }
+ ],
+ "outputs": {
+  "result.json": "6ce40f8bfb34e7c23aa6d5e95023472aceed7adccb8bf4e1736ab3f517921aae",
+  "RESULT.md": "298c7abf3702e3ca56809bd8555692b4936e64ea0d1ee77729cd8c3280d96aab"
+ }
+}

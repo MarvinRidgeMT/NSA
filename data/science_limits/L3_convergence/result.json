@@ -1,0 +1,130 @@
+{
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "item": "L3_convergence",
+ "cases": {
+  "baseline": {
+   "bins": 720,
+   "step_m": 1.0,
+   "max_range_m": 280000.0
+  },
+  "bins1440": {
+   "bins": 1440,
+   "step_m": 1.0,
+   "max_range_m": 280000.0
+  },
+  "bins2880": {
+   "bins": 2880,
+   "step_m": 1.0,
+   "max_range_m": 280000.0
+  },
+  "step0.5": {
+   "bins": 720,
+   "step_m": 0.5,
+   "max_range_m": 280000.0
+  },
+  "range289km": {
+   "bins": 720,
+   "step_m": 1.0,
+   "max_range_m": 289000.0
+  }
+ },
+ "sites": {
+  "site04_roi3": {
+   "nominal": {
+    "baseline": {
+     "sun_pct": 94.362,
+     "d_sun_pct": 0.0,
+     "max_abs_dE_deg": 0.0,
+     "median_abs_dE_deg": 0.0,
+     "n_truncated": 0
+    },
+    "bins1440": {
+     "sun_pct": 94.362,
+     "d_sun_pct": 0.0,
+     "max_abs_dE_deg": 0.0,
+     "median_abs_dE_deg": 0.0,
+     "n_truncated": 0
+    },
+    "bins2880": {
+     "sun_pct": 94.362,
+     "d_sun_pct": 0.0,
+     "max_abs_dE_deg": 0.0,
+     "median_abs_dE_deg": 0.0,
+     "n_truncated": 0
+    },
+    "step0.5": {
+     "sun_pct": 94.362,
+     "d_sun_pct": 0.0,
+     "max_abs_dE_deg": 0.17871,
+     "median_abs_dE_deg": 0.0,
+     "n_truncated": 0
+    },
+    "range289km": {
+     "sun_pct": 94.362,
+     "d_sun_pct": 0.0,
+     "max_abs_dE_deg": 0.0,
+     "median_abs_dE_deg": 0.0,
+     "n_truncated": 0
+    }
+   }
+  },
+  "site01_roi6": {
+   "nominal": {
+    "baseline": {
+     "sun_pct": 100.0,
+     "d_sun_pct": 0.0,
+     "max_abs_dE_deg": 0.0,
+     "median_abs_dE_deg": 0.0,
+     "n_truncated": 0
+    },
+    "bins1440": {
+     "sun_pct": 100.0,
+     "d_sun_pct": 0.0,
+     "max_abs_dE_deg": 0.0,
+     "median_abs_dE_deg": 0.0,
+     "n_truncated": 0
+    },
+    "bins2880": {
+     "sun_pct": 100.0,
+     "d_sun_pct": 0.0,
+     "max_abs_dE_deg": 0.0,
+     "median_abs_dE_deg": 0.0,
+     "n_truncated": 0
+    },
+    "step0.5": {
+     "sun_pct": 100.0,
+     "d_sun_pct": 0.0,
+     "max_abs_dE_deg": 0.06225,
+     "median_abs_dE_deg": 0.0,
+     "n_truncated": 0
+    },
+    "range289km": {
+     "sun_pct": 100.0,
+     "d_sun_pct": 0.0,
+     "max_abs_dE_deg": 0.0,
+     "median_abs_dE_deg": 0.0,
+     "n_truncated": 0
+    }
+   }
+  }
+ },
+ "worst_abs_d_sun_pct": {
+  "baseline": 0.0,
+  "bins1440": 0.0,
+  "bins2880": 0.0,
+  "step0.5": 0.0,
+  "range289km": 0.0
+ },
+ "pass_lt_0p1pt": {
+  "baseline": true,
+  "bins1440": true,
+  "bins2880": true,
+  "step0.5": true,
+  "range289km": true
+ },
+ "not_tested": {
+  "near_radius_25_50km": "5 m tile is ~16 km wide; inscribed near cut ~6.3 km is the maximum",
+  "far_dem_40_20m": "PGDA 90 40/20 m rasters not cached on this Mac",
+  "far_range_600km": "far DEM window is +-290 km; L3 analytic bound covers beyond 280 km"
+ }
+}
