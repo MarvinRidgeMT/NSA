@@ -1098,3 +1098,6 @@ Worked in a separate worktree because the main checkout held another session's u
   solver_reconciliation `--check` up to date; full Playwright (2 workers, load average up to 137) 88 passed, 4 failed. Alone: apex lighting and
   sky-and-5d vertical exaggeration pass. `visual-final.spec.ts:43` (sight-earth tag visible) **also fails on de1d4be without this pass**:
   it was already failing upstream, not caused by E1–E6. `cold-launch.spec.ts` was not run: it hard-codes port 4173, which another session's server held.
+- 23:45 ET, rebased onto 3800cc1: vitest 120/120; pytest 67 passed, 1 skipped; reconciliation `--check` up to date; Playwright coverage-corrections,
+  decision-lab, decision-evidence, penumbra and guided-demo 25 passed, 1 failed. The failure, `decision-evidence.spec.ts:207` (Certainty Height from the batch sidecar),
+  also fails on 3800cc1 without this pass, so it was already failing upstream. Pushed as a fast-forward of submission/merged.
