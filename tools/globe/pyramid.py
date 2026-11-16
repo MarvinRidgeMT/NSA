@@ -166,6 +166,21 @@ def plan(zone, specs, max_level=S.MAX_LEVEL, bbox=None, min_level=0):
                     break
         for t in skipped:
             del lvl[t]
+        # Prune reads: below the highest-priority product that covers the whole padded tile (rectangle in the zone's
+        # own grid, or a global lon/lat grid in eq), nothing can show (it is laid over with w = 1 everywhere), so the
+        # lower-priority products are not read for that tile. Same output, far fewer reads near the poles.
+        for t, pids in lvl.items():
+            tb = Z.tile_bounds(L, *t)
+            pad = PAD_PX * Z.pixel(L)
+            tb = (tb[0] - pad, tb[1] - pad, tb[2] + pad, tb[3] + pad)
+            keep = []
+            for s in sorted((byid[p] for p in pids), key=lambda s: s.priority):
+                keep.append(s.product_id)
+                bb = boxes[s.product_id]
+                own = reader(s).kind == zone or (Z.kind == 'eq' and reader(s).kind == 'lonlat' and reader(s).global_lon)
+                if own and bb[0] <= tb[0] and bb[2] >= tb[2] and bb[1] <= tb[1] and bb[3] >= tb[3]:
+                    break
+            lvl[t] = set(keep)
         if lvl:
             out[L] = {t: sorted(v) for t, v in lvl.items()}
     return out
