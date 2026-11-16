@@ -1089,3 +1089,12 @@ Worked in a separate worktree because the main checkout held another session's u
 - **Tests:** web build OK; vitest 17 files / 112 tests pass; `pytest science/tests` 57 passed, 1 skipped (repo `.venv`; system python lacks pyproj);
   Playwright targeted (coverage-corrections, decision-lab, penumbra, decision-evidence) 20 passed, 2 failed under load average ~90
   (decision-evidence workspaces + ROI export: both load/timing tests listed as flaky above). Full Playwright: see the next entry or the session report.
+
+### Fix-errors pass: retest after rebase onto de1d4be (23:20–23:40 ET)
+- Serial rerun of the 15 earlier failures: 12 passed alone. Two real regressions from this pass were found by comparing with
+  3c380eb and fixed in bc954ef: the Lab PILOT tag inside the Lab button overflowed the Decision page at 390 px. It now sits under the
+  heading (the guided-demo URL check passed again after the same fix).
+- Rebased onto de1d4be (append-only BUILD_STATUS conflict, both kept). vitest 118/118; pytest science/tests 64 passed, 1 skipped;
+  solver_reconciliation `--check` up to date; full Playwright (2 workers, load average up to 137) 88 passed, 4 failed. Alone: apex lighting and
+  sky-and-5d vertical exaggeration pass. `visual-final.spec.ts:43` (sight-earth tag visible) **also fails on de1d4be without this pass**:
+  it was already failing upstream, not caused by E1–E6. `cold-launch.spec.ts` was not run: it hard-codes port 4173, which another session's server held.
