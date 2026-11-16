@@ -52,6 +52,14 @@ into a probability of success.
 | `position_schedule.json.gz` | T(21) × D_pos(81) × S(366 daily starts) | mast 1 m |
 | `products.json` | M(5) | copied from `research/long_features/results/lens_*.json`, `sfs_result.json` |
 | `energy.json.gz` | T(21) × D_array(2) × D_mast(10) × S(366 daily starts) | Phase 5, label ENGINEERING ASSUMPTION; `science/energy/build_energy.py` |
+| `terrain_safety.json` | T(21) × D_pos(81) | Phase 2 slope 5/25/100 m; derived `eva_region`, `safe_and_lit` (R_slope 10°/8°) |
+| `visibility_rule.json.gz` | T(21) × R_vis(4) × D_mast(10) × S(366) | Phase 3; `half_disc` = `centre` under the straight-line horizon |
+| `disc_fraction_hourly.json.gz` | T(21) × D_mast(10) × H(9097) | Phase 3 hourly visible disc fraction, per-mille, flat local horizon |
+| `link.json.gz` | T(21) × D_mast(10) × target(10) × R_margin(3) × S(366) | Phase 4, ENGINEERING ASSUMPTION; derived `year_summary`, `model_sensitivity`, `nasa_sanity_check` |
+| `dispersion.json` | R_slope(2) × D_dispersion(6) × k(22) | Phase 6 sample counts; "share of sampled landing outcomes", not a probability |
+| `asset_layout.json`, `footprint.json`, `asset_heights.json` | T(21) × D_layout(4) / D_pad(5) / D_height(5) × S_window(2) | Phases 8, 9.1, 9.2; asset shapes ILLUSTRATIVE |
+| `launch_calendar.json.gz` | D_mast(10) × R(3) × S_day(365) × S_slip(24) | Phase 9.3, re-indexing of `k_of_N` |
+| `decision_summary.json` | — (`polaris-decision-summary-v1`) | Decision Card rows, one per sub-axis question, precomputed by `science/cube/build_summary.py` |
 
 Browser files are gzip-compressed JSON (the loader checks the gzip magic bytes, so a server that already
 decodes `Content-Encoding` also works). An optional analysis copy (NetCDF/Zarr) is not written yet; the
