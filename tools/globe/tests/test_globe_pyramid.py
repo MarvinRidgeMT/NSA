@@ -1,5 +1,6 @@
 """Grid arithmetic, merge/feather rules, co-registration recovery, and the full build -> TerrainStack chain on a
 synthetic mini pyramid. Real-data checks (PGDA 90 / PGDA 78 on disk, built pyramid) skip cleanly when absent."""
+import json
 import math
 import sys
 from pathlib import Path
@@ -342,3 +343,16 @@ def test_real_skyline_from_pyramid_matches_committed_bundle():
     d = np.array([abs(x - y) for x, y in zip(out['elevation_deg'], b['elevation_deg']) if x is not None and y is not None])
     assert d.size == 720
     assert np.median(d) <= 0.01 and np.percentile(d, 95) <= 0.05 and d.max() <= 0.1
+
+
+def test_index_incremental(mini, monkeypatch):
+    root, _ = mini
+    first = json.loads((root / 'index.json').read_text())
+    PY.write_index(root)                                   # adds bytes/mtime_ns to every entry
+    calls = []
+    real = PY._tile_entry
+    monkeypatch.setattr(PY, '_tile_entry', lambda a: calls.append(a) or real(a))
+    idx = PY.write_index(root, workers=1)
+    assert calls == []                                     # nothing re-hashed when no tile changed
+    assert [t['sha256'] for t in idx['tiles']] == sorted([t['sha256'] for t in idx['tiles']], key=lambda h: [x['sha256'] for x in idx['tiles']].index(h))
+    assert {t['path'] for t in idx['tiles']} == {t['path'] for t in first['tiles']}

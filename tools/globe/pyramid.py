@@ -399,15 +399,36 @@ def load_coreg(root):
     return {k: v for k, v in json.loads(p.read_text()).get('products', {}).items()}
 
 
-def write_index(root, specs=None):
+def _tile_entry(args):
+    zone, L, ix, iy, path, rel = args
     import rasterio
+    Z = S.ZONES[zone]
+    with rasterio.open(path) as ds:
+        tags = ds.tags()
+        h = ds.read(1)
+    st = os.stat(path)
+    return {'zone': zone, 'level': L, 'ix': ix, 'iy': iy, 'path': rel, 'bounds': list(Z.tile_bounds(L, ix, iy)),
+            'pixel': Z.pixel(L), 'sources': [int(v) for v in tags.get('sources', '').split(',') if v],
+            'valid_frac': round(float(np.isfinite(h).mean()), 6), 'sha256': PP.sha256_file(path),
+            'bytes': st.st_size, 'mtime_ns': st.st_mtime_ns}
+
+
+def write_index(root, specs=None, workers=None):
+    """Rescan tiles -> index.json. Incremental: an entry from the previous index is reused when the file's size and
+    mtime_ns are unchanged; new/changed tiles are hashed in a process pool (<= 4 workers)."""
     root = Path(root)
-    tiles = []
+    prev = {}
+    if (root / 'index.json').exists():
+        try:
+            prev = json.loads((root / 'index.json').read_text())
+        except json.JSONDecodeError:
+            prev = {}
+    old = {t['path']: t for t in prev.get('tiles', []) if 'mtime_ns' in t}
+    tiles, todo = [], []
     for zone in ('sp', 'np', 'eq'):
         zd = root / zone
         if not zd.exists():
             continue
-        Z = S.ZONES[zone]
         for ld in sorted(zd.iterdir(), key=lambda p: p.name):
             if not ld.is_dir() or not ld.name.isdigit():
                 continue
@@ -416,27 +437,27 @@ def write_index(root, specs=None):
                 if f.name.endswith('.tmp.tif'):
                     continue
                 ix, iy = (int(v) for v in f.stem.split('_'))
-                with rasterio.open(f) as ds:
-                    tags = ds.tags()
-                    h = ds.read(1)
-                srcs = [int(s) for s in tags.get('sources', '').split(',') if s]
-                tiles.append({'zone': zone, 'level': L, 'ix': ix, 'iy': iy,
-                              'path': f'{zone}/{L}/{f.name}', 'bounds': list(Z.tile_bounds(L, ix, iy)),
-                              'pixel': Z.pixel(L), 'sources': srcs,
-                              'valid_frac': round(float(np.isfinite(h).mean()), 6),
-                              'sha256': PP.sha256_file(f)})
+                rel = f'{zone}/{L}/{f.name}'
+                o = old.get(rel)
+                st = f.stat()
+                if o is not None and o.get('bytes') == st.st_size and o.get('mtime_ns') == st.st_mtime_ns:
+                    tiles.append(o)
+                else:
+                    todo.append((zone, L, ix, iy, str(f), rel))
+    w = workers or workers_default()
+    if todo:
+        if w > 1 and len(todo) > 64:
+            with ProcessPoolExecutor(max_workers=w) as ex:
+                tiles += list(ex.map(_tile_entry, todo, chunksize=64))
+        else:
+            tiles += [_tile_entry(a) for a in todo]
+    tiles.sort(key=lambda t: (t['zone'], t['level'], t['iy'], t['ix']))
     zones = {}
     for zone, Z in S.ZONES.items():
         zones[zone] = {'kind': Z.kind, 'crs_proj4': Z.proj4, 'extent_lbrt': [Z.left, Z.bottom, Z.right, Z.top],
                        'tile_px': Z.tile_px, 'grid_units': 'deg' if Z.kind == 'eq' else 'm',
                        'levels': {str(L): {'pixel': Z.pixel(L), 'pixel_m': Z.pixel_m(L), 'n_tiles': list(Z.n_tiles(L))}
                                   for L in range(S.MAX_LEVEL + 1)}}
-    prev = {}
-    if (root / 'index.json').exists():
-        try:
-            prev = json.loads((root / 'index.json').read_text())
-        except json.JSONDecodeError:
-            prev = {}
     idx = {
         'contract': 'docs/v2/TERRAIN_STACK_CONTRACT.md', 'plan': 'docs/v2/PHASE_1_PYRAMID_PLAN.md',
         'label': LABEL, 'created_utc': _dt.datetime.now(_dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
@@ -447,7 +468,9 @@ def write_index(root, specs=None):
         'products': [s.to_json() for s in specs] if specs is not None else prev.get('products', []),
         'tiles': tiles,
     }
-    (root / 'index.json').write_text(json.dumps(idx, indent=1))
+    tmp = root / 'index.json.tmp'
+    tmp.write_text(json.dumps(idx, indent=1))
+    os.replace(tmp, root / 'index.json')          # readers never see a half-written index
     return idx
 
 
