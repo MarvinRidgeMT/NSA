@@ -1068,3 +1068,9 @@ Cloud container (SwiftShader software WebGL): vitest 101/101; Playwright 69/86 i
 - Labels: geometry SOURCE-BASED · UNVALIDATED; landing/EVA thresholds ENGINEERING ASSUMPTION; k of N is not a probability.
 - Checks (Mac, contended CPU): pytest science/tests 102 passed (test_cube 21, test_slope 19, none skipped); science/stretch 15 passed; vitest 106/106 (after regenerating the git-ignored `demo-decision-fixture.json`, byte-identical to the main checkout's); Playwright 86/88 on port 4187, both cube-slicer specs pass, traceability scan 543 scanned / 0 failed. The 2 failures are the known artefacts: `cold-launch` hard-codes port 4173; `final-apex` P6 sight-sun passed 6/6 when re-run alone.
 - Not done: Phases 3–10 (see `docs/5D_UPGRADES_STATUS.md`); the safe-and-lit layer is in the cube but not yet drawn on the polar map or the Decision Card; no NetCDF/Zarr analysis copy.
+
+### 5D upgrades Phase 3 (visibility rule R_vis) — Claude, 16 Nov 2026 ~00:30 EST, feature/5d-upgrades
+- New `science/cube/build_visibility.py` → `data/cubes/<site>/visibility_rule.json.gz` (T × R_vis{any_limb, centre, half_disc, full_disc} × D_mast × daily S) and `disc_fraction_hourly.json.gz` (T × D_mast × 9097 hours, Sun and Earth, per-mille).
+- `half_disc` equals `centre` by construction under the straight-line horizon (stated in the cube and tested). Disc fraction uses the local-flat-horizon assumption.
+- Default stays `centre`: the centre slice equals the centre cube at every daily start (test). Reproduces science-limits L1 for the nominal and all 20 clones (Site04 RoI 3: any 97.033 %, centre 94.362 %, full 92.285 %).
+- Tests: `science/tests/test_visibility_rule.py` 8 passed (orderings everywhere, analytic segment fractions, L1 identity). Slicer fixed to use the cube's schedule axis (the hourly cube has `H`, not `S`) and to remount per cube.

@@ -193,9 +193,10 @@ def multi_skyline(lat, lon, near_by_t, far, masts_by_t):
 
 
 def run_position(args):
-    """Worker: all T maps at one position offset (10 masts at the centre, 1 m elsewhere)."""
-    site, dx, dy = args
-    masts = MASTS if (dx, dy) == (0, 0) else (1.0,)
+    """Worker: all T maps at one position offset. args = (site, dx, dy) -> 10 masts at the centre, 1 m
+    elsewhere; or (site, dx, dy, masts) with an explicit mast tuple."""
+    site, dx, dy = args[:3]
+    masts = args[3] if len(args) > 3 else (MASTS if (dx, dy) == (0, 0) else (1.0,))
     todo = {t: [m for m in masts if not (SKY / f'{sky_key(site, t, m, dx, dy)}.json').exists()] for t in T_IDS}
     todo = {t: ms for t, ms in todo.items() if ms}
     if not todo:
@@ -213,12 +214,32 @@ def run_position(args):
     return site, dx, dy, len(res)
 
 
+def grid_offsets(half_m, step_m):
+    r = range(-int(half_m), int(half_m) + 1, int(step_m))
+    return tuple((dx, dy) for dx in r for dy in r)
+
+
+def _num(v):
+    f = float(v)
+    return int(f) if f.is_integer() else f
+
+
 if __name__ == '__main__':
+    import argparse
     import os
-    import sys
     from multiprocessing import Pool
-    site_list = sys.argv[1:] or ['site04_roi3', 'site01_roi6']
-    jobs = [(s, 0, 0) for s in site_list] + [(s, dx, dy) for s in site_list for dx, dy in OFFSETS if (dx, dy) != (0, 0)]
+    ap = argparse.ArgumentParser()
+    ap.add_argument('sites', nargs='*', default=['site04_roi3', 'site01_roi6'])
+    ap.add_argument('--grid', nargs=2, type=float, metavar=('HALF_M', 'STEP_M'), help='square offset grid at 1 m mast')
+    ap.add_argument('--points', help='"dx,dy,mast[,mast...];..." explicit offsets (m) and masts')
+    a = ap.parse_args()
+    if a.grid:
+        jobs = [(s, dx, dy, (1.0,)) for s in a.sites for dx, dy in grid_offsets(*a.grid)]
+    elif a.points:
+        pts = [p.split(',') for p in a.points.split(';') if p.strip()]
+        jobs = [(s, _num(p[0]), _num(p[1]), tuple(float(m) for m in p[2:]) or (1.0,)) for s in a.sites for p in pts]
+    else:
+        jobs = [(s, 0, 0) for s in a.sites] + [(s, dx, dy) for s in a.sites for dx, dy in OFFSETS if (dx, dy) != (0, 0)]
     with Pool(int(os.environ.get('CUBE_WORKERS', '6'))) as pool:
         for r in pool.imap_unordered(run_position, jobs):
             print('done', *r, flush=True)

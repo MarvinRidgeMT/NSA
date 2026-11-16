@@ -114,7 +114,7 @@ export function CubeSlicer({ v }: { v: View }) {
         </p>
       )}
       {!cube && !err && <p className="muted small">Loading cube…</p>}
-      {cube && (cube.dims.length === 1 ? <ProductTable cube={cube} /> : <Slicer cube={cube} />)}
+      {cube && (cube.dims.length === 1 ? <ProductTable cube={cube} /> : <Slicer key={cube.cube_id} cube={cube} />)}
     </section>
   );
 }
@@ -161,13 +161,14 @@ function Slicer({ cube }: { cube: ScenarioCube }) {
   const metricKeys = Object.keys(cube.metrics);
   const [metric, setMetric] = useState(metricKeys.includes('sun_earth_pct') ? 'sun_earth_pct' : metricKeys[0]);
   const design = cube.dims.find((d) => d.kind === 'design');
-  const [free, setFree] = useState<string>('S');
+  const scheduleDim = (cube.dims.find((d) => d.kind === 'schedule') ?? cube.dims[cube.dims.length - 1]).name;
+  const [free, setFree] = useState<string>(scheduleDim);
   const [at, setAt] = useState<Record<string, number>>(() => Object.fromEntries(cube.dims.map((d) => [d.name, d.nominal_index ?? 0])));
   const [r, setR] = useState(0);
   useEffect(() => {
     setAt(Object.fromEntries(cube.dims.map((d) => [d.name, d.nominal_index ?? 0])));
-    setFree('S');
-  }, [cube]);
+    setFree(scheduleDim);
+  }, [cube, scheduleDim]);
   const m = cube.metrics[metric];
   const freeDim = cube.dims.find((d) => d.name === free)!;
   const line = useMemo(() => slice1d(cube, metric, free, at), [cube, metric, free, at]);
@@ -178,11 +179,11 @@ function Slicer({ cube }: { cube: ScenarioCube }) {
   const value = cell(cube, metric, at);
   const bandAt = bandKey ? [derivedCell(cube, bandKey, `${metric}_min`, otherAt), derivedCell(cube, bandKey, `${metric}_max`, otherAt)] : null;
   const kd = cube.derived?.k_of_N;
-  const kAt = kd && design ? { R: r, [design.name]: at[design.name], S: at.S } : null;
+  const kAt = kd && design && at.S !== undefined ? { R: r, [design.name]: at[design.name], S: at.S } : null;
   const k = kAt ? derivedCell(cube, 'k_of_N', 'k_pass', kAt) : null;
   const nomPass = kAt ? derivedCell(cube, 'k_of_N', 'nominal_pass', kAt) : null;
-  const regret = cube.derived?.regret ? derivedCell(cube, 'regret', 'regret_max_pct', { S: at.S }) : null;
-  const chosen = cube.derived?.regret ? derivedCell(cube, 'regret', 'chosen_index', { S: at.S }) : null;
+  const regret = cube.derived?.regret && at.S !== undefined ? derivedCell(cube, 'regret', 'regret_max_pct', { S: at.S }) : null;
+  const chosen = cube.derived?.regret && at.S !== undefined ? derivedCell(cube, 'regret', 'chosen_index', { S: at.S }) : null;
   const flipShare = design && cube.derived?.decision_changes ? derivedCell(cube, 'decision_changes', 'share_starts_verdict_depends_on_T', { [design.name]: at[design.name] }) : null;
   const rDim = kd ? derivedDims(cube, 'k_of_N').find((d) => d.name === 'R') : undefined;
   const dec = m.decimals ?? 2;

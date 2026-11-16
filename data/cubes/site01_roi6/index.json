@@ -51,6 +51,33 @@
     "T",
     "D_pos"
    ]
+  },
+  {
+   "file": "visibility_rule.json.gz",
+   "cube_id": "site01_roi6-visibility-rule-v1",
+   "title": "Visibility rule: map x rule x mast x daily start",
+   "bytes": 285750,
+   "uncompressed_bytes": 7995644,
+   "sha256": "de9e9e44e586e5af3e8460a8ef6b8e154bb7c3c06f83dd62dbd06d6e205fdaf0",
+   "dims": [
+    "T",
+    "R_vis",
+    "D_mast",
+    "S"
+   ]
+  },
+  {
+   "file": "disc_fraction_hourly.json.gz",
+   "cube_id": "site01_roi6-disc-fraction-hourly-v1",
+   "title": "Hourly visible disc fraction: map x mast x hour",
+   "bytes": 754409,
+   "uncompressed_bytes": 15880964,
+   "sha256": "36051941d42302954e68683813de95854695c3bbc1221065357238042753d3f2",
+   "dims": [
+    "T",
+    "D_mast",
+    "H"
+   ]
   }
  ],
  "baseline": {
