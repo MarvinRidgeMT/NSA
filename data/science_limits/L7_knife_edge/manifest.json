@@ -1,0 +1,22 @@
+{
+ "item": "L7_knife_edge",
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "date_utc": "2026-11-16T02:57:55Z",
+ "command": "python l7_knife_edge.py",
+ "module": "/Users/anishmeruva/Documents/ChatGPT/NSA-science-limits/science/limits/l7_knife_edge.py",
+ "code_commit": "c4c225ac443a24df26e3b26e8e233c47b22dc3c6",
+ "inputs": [
+  {
+   "path": "data/bundles/site04_roi3_2026-11-14_14d_mast1m.json",
+   "sha256": "ac745d993c36e0066e61a57a01b5e9ab10f76ea41f4494233c044efccbefee1f"
+  },
+  {
+   "path": "data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",
+   "sha256": "ec2e9f24ca80412d5f286bbb9315b5b045becbe764243842e52a9c7f9547e552"
+  }
+ ],
+ "outputs": {
+  "result.json": "572d56740de78bbb594f88e624946224df0afd345d52687056e6c2491286375a",
+  "RESULT.md": "976679dcdc0a780b383587cbab6ebc253250a0849fde4e25bad5f96a7ca5c6c9"
+ }
+}

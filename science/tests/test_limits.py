@@ -98,3 +98,22 @@ def test_l2_no_extrapolation():
     e = Ephem(load_bundle('site04_roi3'), 'sun')
     with pytest.raises(ValueError):
         e(e.t1 + 60)
+
+
+# ------------------------------------------------------------------ L7
+def test_l7_uniform_shift_monotone_and_critical_delta():
+    r = _res('L7_knife_edge'); _manifest_ok('L7_knife_edge')
+    for site, s in r['sites'].items():
+        u = s['uniform_horizon_error']
+        seq = [u[k]['sun_pct'] for k in ('-0.50', '-0.25', '-0.10', '-0.05')] + [u['nominal']['sun_pct']] + \
+              [u[k]['sun_pct'] for k in ('+0.05', '+0.10', '+0.25', '+0.50')]
+        assert all(a >= b - 1e-9 for a, b in zip(seq, seq[1:])), site
+        d = s['critical_uniform_raise_deg']['sun_70pct']
+        assert d is not None and d > 0.5          # the 70 % verdict does not flip within +-0.5 deg
+    w = r['sites']['site04_roi3']['margin_distribution']['within_nominal']
+    assert w['0.1'] <= w['0.25'] <= w['0.5'] <= w['1.0'] and 25 <= w['0.5'] <= 40
+
+
+def test_l7_jacobian_matches_small_angle():
+    c = _res('L7_knife_edge')['sites']['site04_roi3']['controlling_cell']
+    assert c['dE_dh_deg_per_m'] == pytest.approx(math.degrees(1.0 / c['distance_m']), rel=0.05)
