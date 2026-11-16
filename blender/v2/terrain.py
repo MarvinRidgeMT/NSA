@@ -59,7 +59,10 @@ def file_sha256(path, chunk=1 << 22):
 
 
 def load_cache_level(npy, name, hash_file=True):
-    """Solver cache raster (x_left, y_top, step; rows north -> south) -> Level with rows south -> north."""
+    """Solver cache raster (x_left, y_top, step; rows north -> south) -> Level with rows south -> north.
+
+    x_left / y_top are the outer EDGES of the first pixel (science/dem.py ArrayDEM: "left edge of column 0"); heights are
+    pixel-centre values, so node (row 0 after the flip, col 0) sits at (x_left + step/2, y_top - (ny - 1/2) step)."""
     npy = Path(npy)
     meta = json.loads(npy.with_suffix('.json').read_text())
     a = np.load(npy, mmap_mode='r')
@@ -67,11 +70,12 @@ def load_cache_level(npy, name, hash_file=True):
     step = float(meta['step'])
     h = np.ascontiguousarray(a[::-1, :], dtype=np.float64)
     m = meta.get('meta', {})
-    return Level(name=name, h=h, x0=float(meta['x_left']), y0=float(meta['y_top']) - (ny - 1) * step, step=step,
+    return Level(name=name, h=h, x0=float(meta['x_left']) + step / 2, y0=float(meta['y_top']) - (ny - 0.5) * step, step=step,
                  source=m.get('source_url') or m.get('source_path') or meta.get('name', ''),
                  sha256=file_sha256(npy) if hash_file else '',
                  info={'product': meta.get('name'), 'sourceFileSha256': m.get('file_sha256'), 'cacheFile': str(npy.name),
-                       'nodata': 'NaN (never filled)', 'nanNodes': int(np.isnan(h).sum())})
+                       'nodata': 'NaN (never filled)', 'nanNodes': int(np.isnan(h).sum()),
+                       'pixelConvention': 'x_left/y_top are pixel edges; nodes at pixel centres (as science/dem.py)'})
 
 
 def load_bundle_v2_level(bundle_path, dataset_id, name='committed 80 m crop'):
@@ -184,7 +188,8 @@ def _sun_side(view, c, observer=(0.0, 0.0, 0.0), wedge_deg=35.0):
     return cosang >= math.cos(math.radians(wedge_deg))
 
 
-def plan_tiles(levels, frame, view, tile_cells=64, budget=2_500_000, k=2.0, near_keep_m=2000.0, all_around=False):
+def plan_tiles(levels, frame, view, tile_cells=64, budget=2_500_000, k=2.0, near_keep_m=2000.0, all_around=False,
+               upsample_within_m=150.0, upsample_to_m=1.0, upsample_max_native_m=10.0):
     """Choose, per tile of each level, whether to draw it and at what decimation (power of two).
 
     In the view frustum: spacing <= k * distance * pixel angle. Outside it, only tiles toward the Sun (possible shadow casters)
@@ -225,15 +230,21 @@ def plan_tiles(levels, frame, view, tile_cells=64, budget=2_500_000, k=2.0, near
                     f = 1
                     while f * 2 <= tile_cells and lv.step * f * 2 <= need:
                         f *= 2
-                    nvx = (i1 - i0) // f + 2
-                    nvy = (j1 - j0) // f + 2
+                    up = 1
+                    if li == 0 and dist <= upsample_within_m and upsample_to_m < lv.step <= upsample_max_native_m:
+                        f, up = 1, int(round(lv.step / upsample_to_m))   # bilinear densification next to the observer
+                    nvx = (i1 - i0) * up // f + 2
+                    nvy = (j1 - j0) * up // f + 2
                     verts += nvx * nvy + 2 * (nvx + nvy)
-                    tiles.append({'level': li, 'i0': i0, 'i1': i1, 'j0': j0, 'j1': j1, 'decim': f, 'role': role,
-                                  'distM': round(dist, 1), 'spacingM': lv.step * f})
+                    tiles.append({'level': li, 'i0': i0, 'i1': i1, 'j0': j0, 'j1': j1, 'decim': f, 'upsample': up, 'role': role,
+                                  'distM': round(dist, 1), 'spacingM': lv.step * f / up})
         if verts <= budget:
             break
         k *= 2.0
-    report = {'tiles': len(tiles), 'vertexEstimate': int(verts), 'budget': budget, 'k': k, 'attempts': attempt + 1, 'allAround': all_around,
+    report = {'upsampledTiles': sum(t.get('upsample', 1) > 1 for t in tiles),
+              'upsampleRule': f'finest level (native <= {upsample_max_native_m:g} m) within {upsample_within_m:g} m of the observer: DEM bilinearly interpolated to {upsample_to_m:g} m '
+                              '(the solver\'s own interpolation rule; no new data), so the near skyline matches the solver',
+              'tiles': len(tiles), 'vertexEstimate': int(verts), 'budget': budget, 'k': k, 'attempts': attempt + 1, 'allAround': all_around,
               'rule': 'view: spacing <= k * distance * pixel angle; shadow-caster (toward the Sun, or within near_keep_m): '
                       'spacing <= distance * tan(Sun angular radius); power-of-two decimation, never finer than native',
               'byLevel': {}}
@@ -249,6 +260,8 @@ def tile_mesh(level, t, frame, finer_boxes=(), skirt=True):
     """Vertices (N,3 ENU) and quad faces (M,4) for one planned tile. Cells inside a finer box or touching NaN are dropped.
     Skirts: each tile edge gets a strip dropped by 3 x spacing so LOD seams do not open cracks (VISUAL seam filler)."""
     f = t['decim']
+    if t.get('upsample', 1) > 1:
+        return _tile_mesh_upsampled(level, t, frame, finer_boxes, skirt)
     ii = list(range(t['i0'], t['i1'] + 1, f))
     jj = list(range(t['j0'], t['j1'] + 1, f))
     if ii[-1] != t['i1']:
@@ -259,6 +272,29 @@ def tile_mesh(level, t, frame, finer_boxes=(), skirt=True):
     H = level.h[np.ix_(jj, ii)]
     gx = level.x0 + ii * level.step
     gy = level.y0 + jj * level.step
+    return _grid_mesh(level, H, gx, gy, frame, finer_boxes, skirt, 3.0 * level.step * f)
+
+
+def bilinear_nodes(h, fj, fi):
+    """Bilinear interpolation of grid h at fractional row positions fj (rows) x fi (cols); NaN propagates."""
+    ny, nx = h.shape
+    j0 = np.clip(np.floor(fj).astype(int), 0, ny - 2)
+    i0 = np.clip(np.floor(fi).astype(int), 0, nx - 2)
+    tj, ti = (fj - j0)[:, None], (fi - i0)[None, :]
+    a, b = h[np.ix_(j0, i0)], h[np.ix_(j0, i0 + 1)]
+    c, d = h[np.ix_(j0 + 1, i0)], h[np.ix_(j0 + 1, i0 + 1)]
+    return (a * (1 - ti) + b * ti) * (1 - tj) + (c * (1 - ti) + d * ti) * tj
+
+
+def _tile_mesh_upsampled(level, t, frame, finer_boxes, skirt):
+    up = t['upsample']
+    fi = np.arange(t['i0'] * up, t['i1'] * up + 1) / up
+    fj = np.arange(t['j0'] * up, t['j1'] * up + 1) / up
+    H = bilinear_nodes(level.h, fj, fi)
+    return _grid_mesh(level, H, level.x0 + fi * level.step, level.y0 + fj * level.step, frame, finer_boxes, skirt, 3.0 * level.step)
+
+
+def _grid_mesh(level, H, gx, gy, frame, finer_boxes, skirt, depth):
     GX, GY = np.meshgrid(gx, gy)
     nyv, nxv = H.shape
     V = frame.from_grid(GX.ravel(), GY.ravel(), np.nan_to_num(H.ravel(), nan=0.0))
@@ -273,7 +309,6 @@ def tile_mesh(level, t, frame, finer_boxes=(), skirt=True):
     faces = faces[ok]
     dropped = int((~ok).sum())
     if skirt and len(faces):
-        depth = 3.0 * level.step * f
         down = -frame.u @ frame.M.T            # ENU of the local "down" at the observer (approximately -z)
         edges = [np.arange(nxv), (nyv - 1) * nxv + np.arange(nxv)[::-1], np.arange(nyv)[::-1] * nxv, np.arange(nyv) * nxv + nxv - 1]
         extra_v, extra_f = [], []

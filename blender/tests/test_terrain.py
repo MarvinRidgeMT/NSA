@@ -56,9 +56,14 @@ class Tiles(unittest.TestCase):
         tiles, rep = T.plan_tiles([lv], F, self.view(), tile_cells=16, budget=10**9)
         self.assertTrue(tiles)
         for t in tiles:
-            self.assertGreaterEqual(t['spacingM'], lv.step)
+            if t['upsample'] > 1:     # bilinear densification only right next to the observer
+                self.assertLessEqual(t['distM'], 150.0)
+                self.assertAlmostEqual(t['spacingM'], lv.step / t['upsample'])
+            else:
+                self.assertGreaterEqual(t['spacingM'], lv.step)
             self.assertEqual(t['decim'] & (t['decim'] - 1), 0)
-        near = min(tiles, key=lambda t: t['distM'])
+        self.assertTrue(any(t['upsample'] > 1 for t in tiles))
+        near = min((t for t in tiles if t['upsample'] == 1), key=lambda t: t['distM'])
         far = max(tiles, key=lambda t: t['distM'])
         self.assertLessEqual(near['spacingM'], far['spacingM'])
 
@@ -100,6 +105,9 @@ class Tiles(unittest.TestCase):
         F = T.EnuFrame(*np.degrees(T.stereo_inverse(np.array(-10000.0), np.array(-12000.0))).tolist(), 0.0)
         t = {'level': 0, 'i0': 0, 'i1': 16, 'j0': 0, 'j1': 16, 'decim': 1}
         V0, F0, _ = T.tile_mesh(lv, t, F, skirt=False)
+        tu = dict(t, upsample=4)
+        Vu, Fu, _ = T.tile_mesh(lv, tu, F, skirt=False)
+        self.assertEqual(len(Vu), (16 * 4 + 1) ** 2)
         V1, F1, _ = T.tile_mesh(lv, t, F, skirt=True)
         n0 = len(V0)
         skirt_faces = F1[len(F0):]
@@ -120,12 +128,31 @@ class CommittedLevel(unittest.TestCase):
 
 @unittest.skipUnless(NEAR.exists(), 'solver DEM cache not present')
 class SolverCache(unittest.TestCase):
+    def test_pixel_centre_convention_matches_science_dem(self):
+        """Regression (found by skyline_check): cache x_left/y_top are pixel EDGES. Our bilinear sample must equal the
+        solver's science.dem.ArrayDEM.sample at arbitrary points."""
+        import json
+        try:
+            sys.path.insert(0, str(ROOT))
+            from science.dem import ArrayDEM
+        except Exception as e:  # pragma: no cover
+            self.skipTest(f'science.dem not importable ({type(e).__name__})')
+        meta = json.loads(NEAR.with_suffix('.json').read_text())
+        Z = np.load(NEAR)
+        dem = ArrayDEM(Z, x_left=meta['x_left'], y_top=meta['y_top'], step=meta['step'], name='near')
+        lv = T.load_cache_level(NEAR, 'near', hash_file=False)
+        rng = np.random.default_rng(3)
+        for _ in range(200):
+            x = rng.uniform(meta['x_left'] + 20, meta['x_left'] + Z.shape[1] * meta['step'] - 20)
+            y = rng.uniform(meta['y_top'] - Z.shape[0] * meta['step'] + 20, meta['y_top'] - 20)
+            self.assertAlmostEqual(T.sample_bilinear(lv, x, y), float(dem.sample(np.array([x]), np.array([y]))[0]), places=6)
+
     def test_site_height_matches_bundle(self):
         import json
         b = json.loads((ROOT / 'data' / 'bundles' / 'site01_roi6_2026-11-14_14d_mast1m.json').read_text())
         lv = T.load_cache_level(NEAR, 'near', hash_file=False)
         h = T.sample_bilinear(lv, b['site']['grid_x_m'], b['site']['grid_y_m'])
-        self.assertAlmostEqual(h, b['site']['height_m'], delta=0.05)
+        self.assertAlmostEqual(h, b['site']['height_m'], delta=0.002)
 
 
 if __name__ == '__main__':

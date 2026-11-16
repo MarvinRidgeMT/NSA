@@ -132,7 +132,8 @@ def main():
         import skyline_check
         r = skyline_check.measure('site01_roi6', 'cache', 0.05, out=str(tmp / 'skyline'))
         far = r['far (critical point >= 100 m)']
-        ok = r['unbracketed'] == 0 and r['medianAbsDeg'] <= 0.02 and far['p95AbsDeg'] <= 0.1 and r['p95AbsDeg'] <= 0.3
+        # thresholds set after the pixel-edge fix (measured: median 0.0014, p95 0.021, far p95 0.010, max 0.063 deg)
+        ok = r['unbracketed'] == 0 and r['medianAbsDeg'] <= 0.005 and far['p95AbsDeg'] <= 0.02 and r['p95AbsDeg'] <= 0.05 and r['maxAbsDeg'] <= 0.15
         record('drawn terrain reproduces the solver skyline (site01_roi6, 720 bins, Blender ray casts)', ok,
                f"median |d| {r['medianAbsDeg']:.4f} deg, p95 {r['p95AbsDeg']:.3f}, far-bin p95 {far['p95AbsDeg']:.3f}, max {r['maxAbsDeg']:.3f}")
     else:
