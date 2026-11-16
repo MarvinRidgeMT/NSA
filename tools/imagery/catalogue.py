@@ -231,6 +231,28 @@ def counts_tables(rows):
             c = Counter(r[axis] for r in prim if r['instrument'] == ins)
             h = Counter(r[axis] for r in prim if r['instrument'] == ins and r['split'] == 'heldout')
             out.append(f'| {ins} | ' + ' | '.join(f'{c[l]} [{h[l]}]' for l in labs) + ' |')
+    def _t(v):
+        return v in (True, 'true')
+    gated = [r for r in rows if not _t(r['footprint_suspect']) and (_t(r['covers_site_centre']) or float(r['overlap_frac']) >= 0.25)]
+    out.append('\n### Rows passing the protocol\'s metadata gates (§2: not `footprint_suspect`, and covers the site centre '
+               'or overlap ≥ 0.25)\n\nThese are upper bounds: the other gates (product and label fetch, camera model, terrain '
+               'coverage) are checked only when an image is rendered.\n')
+    out.append('| Instrument | ' + ' | '.join(SITE_ORDER) + ' | dev images | held-out images |')
+    out.append('|---|' + '---|' * (len(SITE_ORDER) + 2))
+    for ins in insts:
+        g = [r for r in gated if r['instrument'] == ins]
+        imgs = {}
+        for r in g:
+            imgs[r['product_id']] = r['split']
+        out.append(f'| {ins} | ' + ' | '.join(str(sum(1 for r in g if r['site'] == s)) for s in SITE_ORDER) +
+                   f' | {sum(1 for v in imgs.values() if v == "dev")} | {sum(1 for v in imgs.values() if v == "heldout")} |')
+    hero = Counter(r['instrument'] for r in rows if r['site'] == 'site04_roi3' and _t(r['covers_site_centre'])
+                   and not _t(r['footprint_suspect']))
+    hero_h = Counter(r['instrument'] for r in rows if r['site'] == 'site04_roi3' and _t(r['covers_site_centre'])
+                     and not _t(r['footprint_suspect']) and r['split'] == 'heldout')
+    out.append('\n**Site04 RoI 3 hero point** (footprint contains the point, footprint not suspect): ' +
+               ', '.join(f'{k} {v} ({hero_h[k]} held out)' for k, v in sorted(hero.items())) +
+               '. Coverage is by ODE footprint only; whether the point is resolved and unsaturated in each image is not yet checked.\n')
     strata = Counter(r['stratum'] for r in prim)
     hs = Counter(r['stratum'] for r in prim if r['split'] == 'heldout')
     sizes = Counter(min(n, 10) for n in strata.values())

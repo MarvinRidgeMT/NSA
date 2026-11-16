@@ -1,4 +1,4 @@
-"""Pipeline test: fetch at most 20 ODE thumbnails (small PNG) of DEV images only.
+"""Pipeline test: fetch at most 20 ODE thumbnails (small JPEG; the ODE manual says PNG) of DEV images only.
 
 Purpose: prove the catalogue -> archive -> cached file -> SHA-256 -> decode path works, without
 downloading science imagery. Thumbnails go to data/cache/v2/imagery/thumbs/ (git-ignored) and are
@@ -26,6 +26,35 @@ def png_size(body):
         raise ValueError('not a PNG')
     w, h = struct.unpack('>II', body[16:24])
     return w, h
+
+
+def jpeg_size(body):
+    """Width, height from the first SOFn marker of a baseline/progressive JPEG."""
+    if not body.startswith(b'\xff\xd8'):
+        raise ValueError('not a JPEG')
+    i = 2
+    while i + 9 < len(body):
+        if body[i] != 0xFF:
+            raise ValueError('bad JPEG marker')
+        m = body[i + 1]
+        if m in (0xD8, 0x01) or 0xD0 <= m <= 0xD7:
+            i += 2
+            continue
+        seg = struct.unpack('>H', body[i + 2:i + 4])[0]
+        if m in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
+            h, w = struct.unpack('>HH', body[i + 5:i + 9])
+            return w, h
+        i += 2 + seg
+    raise ValueError('no SOF marker')
+
+
+def image_size(body):
+    """('png'|'jpeg', width, height); raises ValueError for anything else (e.g. a JSON 'not found')."""
+    if body.startswith(PNG_SIG):
+        return ('png',) + png_size(body)
+    if body.startswith(b'\xff\xd8'):
+        return ('jpeg',) + jpeg_size(body)
+    raise ValueError(f'not an image: {body[:60]!r}')
 
 
 def pick(rows, n):
@@ -62,10 +91,10 @@ def run(n=HARD_CAP, catalogue_path=cat.OUT, cache=None):
     for r in pick(rows, n):
         url = thumb_url(r)
         try:
-            body, sha, path, hit = cache.get(url, ext='png')
-            w, h = png_size(body)
+            body, sha, path, hit = cache.get(url, ext='jpg')
+            fmt, w, h = image_size(body)
             report.append({'product_id': r['product_id'], 'instrument': r['instrument'], 'bytes': len(body),
-                           'sha256': sha, 'width': w, 'height': h, 'ok': True})
+                           'sha256': sha, 'format': fmt, 'width': w, 'height': h, 'ok': True, 'cached': hit})
         except Exception as e:  # recorded, not hidden
             report.append({'product_id': r['product_id'], 'instrument': r['instrument'], 'ok': False, 'error': repr(e)[:200]})
     (CACHE_ROOT / 'thumbs').mkdir(parents=True, exist_ok=True)

@@ -18,7 +18,7 @@ from science import horizons as hz
 
 from .http_cache import CACHE_ROOT, PoliteCache, canonical_url
 
-BATCH = 150  # TLIST entries per request (~4 KB GET URL)
+BATCH = 40  # TLIST entries per GET (~1.2 KB of TLIST). 150 (~4 KB) got HTTP 502 from Horizons on 16 Nov 2026.
 
 
 def parse_utc(s):

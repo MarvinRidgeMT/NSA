@@ -34,6 +34,14 @@ ODE — "PDS Geosciences Node, Washington University in St. Louis"; GSFC SfS —
 Haworth, Malapert Massif, Mons Mouton Plateau, Mons Mouton, Nobile Rim 1, Nobile Rim 2, de Gerlache Rim 2, Slater Plain.
 **Not queried:** neither source gives coordinates or outlines, and boxes are not invented from a map image.
 
+## Checks run
+- ODE's `Footprint_SP_geometry` frame = `science/frames.py` (x = ρ sin λ, y = ρ cos λ, R = 1737.4 km): every vertex of a recorded
+  TC footprint matches within 2 m (`tools/imagery/tests/test_geometry.py`).
+- Every ODE query: unique products fetched = ODE's count (one query returned a product twice across a page boundary; deduplicated).
+- Sun az/el wrapper vs the committed bundle `data/bundles/site04_roi3_2026-11-14_14d_mast1m.json` (same Horizons convention,
+  5 samples): max |Δaz| = 4 × 10⁻⁹°, max |Δel| = 7 × 10⁻⁷° (the bundle's observer is 1.7 km higher).
+- Rebuilding the catalogue from the cached responses gives the same SHA-256.
+
 ## Known gaps
 - **Sub-spacecraft position is not in the catalogue.** ODE does not return it. ShadowCam PDS4 labels have it
   (`geom:subspacecraft_latitude/longitude`, `geom:spacecraft_target_subspacecraft_distance`; checked on M013371158SC). LROC CDR
