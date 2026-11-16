@@ -2227,7 +2227,7 @@
    }
   },
   "roughness_median_rms_slope_deg_1km": 4.7987193702695325,
-  "earth_visibility_fraction": "not built (needs per-point horizon masks + libration-aware Earth positions)"
+  "earth_visibility_fraction": "see analytics_r2 (tools/globe/visibility.py, R2)"
  },
  "visual_population": {
   "created_utc": "2026-11-16",

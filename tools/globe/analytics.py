@@ -9,8 +9,8 @@ Maps (git-ignored PNG under web/public/globe/analytics/, committed numbers in do
   * roughness: RMS slope at a ~1 km baseline (RMS of height differences at lag 2 px on eq L1 = 948 m; lag 3 px on
     polar L2 = 960 m, both axes), per output cell. This is the LOLA-style RMS slope definition computed from the
     gridded pyramid, NOT the PGDA 70 / RMHE shot-based maps (not on disk tonight).
-  * Earth-visibility fraction: NOT built (needs libration-aware Earth positions and per-point horizon masks from the
-    any-site solver; a smooth-sphere version would be misleading near the limb).
+  * Earth-visibility fraction and polar Sun-visibility fraction: built by tools/globe/visibility.py (R2), numbers in
+    docs/v2/PYRAMID_QA.json "analytics_r2".
 Output grid: global equirectangular 0.125 deg (2880 x 1440), each cell aggregating the pixels of the zone that owns it
 (polar for |lat| >= 57.5, eq below), area-weighted.
 """
@@ -136,7 +136,7 @@ def run(root=None, write=True, log=print):
            'method': __doc__.strip().split('\n\n')[1], 'levels': LEVEL, 'roughness_lag_px': ROUGH_LAG,
            'cell_deg': CELL_DEG, 'slope_stats_area_weighted': stats,
            'roughness_median_rms_slope_deg_1km': float(np.nanmedian(rough)),
-           'earth_visibility_fraction': 'not built (needs per-point horizon masks + libration-aware Earth positions)'}
+           'earth_visibility_fraction': 'see analytics_r2 (tools/globe/visibility.py)'}
     if write:
         OUT.mkdir(parents=True, exist_ok=True)
         write_png(OUT / 'slope_eqc.png', colormap(slope, 40.0))
