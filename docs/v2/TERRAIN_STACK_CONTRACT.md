@@ -76,3 +76,14 @@ LDEM > LOLA global LDEM. Co-registration shifts (horizontal and vertical) are es
    `science.skyline.compute_skyline` (it hard-codes the south-polar formula).
 7. **Quality 3** = co-registration vs a LOLA reference was estimated (shift applied or found below threshold);
    LOLA-family products (PGDA 78/90, LOLA LDEMs) are logged and never shifted (`$POLARIS_DATA/v2/pyramid/coreg.json`).
+
+## Amendment 2026-11-16 (2) (S3) — zone blend and product edge trim
+1. **Zone blend.** `sample` and `coverage` no longer switch abruptly between `eq` and the polar zone at |lat| = 57.5°:
+   across 56.5–58.5° the height is a linear blend of both zones (polar weight (|lat| − 56.5)/2); `source_id`,
+   `quality`, `level`, `zone` come from the zone with the larger weight and `native_res_m` is the coarser of the two.
+   Reason: at 55–60° both zones show SLDEM2015, eq at its 59 m posting and polar resampled onto 80 m pixels; the raw
+   difference is p99 13.9 m (south) / 21.8 m (north), median 0.5 m, which the blend spreads over ~60 km (≤ 0.021°
+   added slope). `window` still returns a single zone's grid.
+2. **Edge trim.** The outer 40 native pixels of each LOLA polar LDEM (PDS `LDEM_*{S,N}_*M_FLOAT`) are no data:
+   a gridding boundary effect was measured there (p99 |Δ| vs the neighbouring product 52 m at the edge, interior level
+   only 800 m in for the 20/30 m grids). Footprints and coverage reflect the trimmed rectangle.

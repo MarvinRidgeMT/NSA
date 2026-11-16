@@ -355,3 +355,16 @@ def test_index_incremental(mini, monkeypatch):
     idx = PY.write_index(root, workers=1)
     assert calls == []                                     # nothing re-hashed when no tile changed
     assert {t['path'] for t in idx['tiles']} == {t['path'] for t in first['tiles']}
+
+
+@pytest.mark.skipif(_real_stack() is None, reason='real pyramid not built')
+def test_zone_blend_is_continuous():
+    st = _real_stack()
+    lat = np.linspace(55.2, 59.8, 4601); lon = np.full(lat.shape, 37.3)
+    for sgn in (1, -1):
+        h, src, res = st.sample(sgn * lat, lon)
+        assert np.isfinite(h).all()
+        steps = np.abs(np.diff(h))
+        qe = st._query(sgn * lat, lon, zone='eq')['height']
+        # across the band the profile has no step larger than the terrain itself shows on the eq grid
+        assert steps.max() <= np.abs(np.diff(qe)).max() + 1.0

@@ -17,7 +17,8 @@ Zones
             np: x = rho sin(lon), y = -rho cos(lon), rho = 2R tan(pi/4 - lat/2)   (+proj=stere +lat_0=90 +lon_0=0)
             extent +-1,310,720 m, level L pixel = 1280 m / 2^L, tiles 512 px.
   eq      : simple cylindrical lon/lat (deg), lat -60..60, lon -180..180, level L = 32 * 2^L pixels/deg, tiles 480 px.
-`sample`/`coverage` use the polar zones for |lat| >= 57.5 deg and eq below; each zone is a full merge on its own grid.
+`sample`/`coverage` use the polar zones for |lat| >= 57.5 deg and eq below, blending the two linearly across
+56.5-58.5 deg (contract amendment 2026-11-16 §2 of the second amendment); each zone is a full merge on its own grid.
 
 Science code must never read the VISUAL tree (pyramid_visual): `open` and every tile read refuse such paths.
 """
@@ -45,6 +46,7 @@ EQ_L0_PPD = 32
 EQ_TILE_PX = 480
 EQ_MAX_ABS_LAT = 60.0
 ZONE_SWITCH_ABS_LAT = 57.5
+ZONE_BLEND_ABS_LAT = (56.5, 58.5)   # sample/coverage blend eq and polar linearly across this band (amendment 2)
 MAX_LEVEL = 10
 VISUAL_DIRNAME = 'pyramid_visual'
 LABEL = 'SOURCE-BASED · UNVALIDATED'
@@ -346,15 +348,49 @@ class TerrainStack:
                 todo[i[ok]] = False
         return {k: v.reshape(shape) for k, v in out.items()}
 
+    def _query_blended(self, lat, lon, levels=None):
+        """_query with the eq<->polar switch smoothed: for 56.5 <= |lat| <= 58.5 the height is a linear blend of
+        both zones (weight of the polar zone (|lat| - 56.5) / 2), so the posting change at the switch (SLDEM at 59 m
+        in eq vs resampled onto 80 m polar pixels; p99 |diff| 14 m south, 22 m north) becomes a gradient over ~60 km.
+        Other bands come from the zone holding the larger weight; where one zone has no data the other is used."""
+        q = self._query(lat, lon, levels=levels)
+        la = np.asarray(lat, dtype=float); lo = np.asarray(lon, dtype=float)
+        la, lo = np.broadcast_arrays(la, lo)
+        a0, a1 = ZONE_BLEND_ABS_LAT
+        b = (np.abs(la) >= a0) & (np.abs(la) <= a1) & np.isfinite(la)
+        if not b.any():
+            return q
+        lb, lob = la[b], lo[b]
+        qe = self._query(lb, lob, levels=levels, zone='eq')
+        out = {k: v.copy() for k, v in q.items()}
+        for pole, m in (('np', lb > 0), ('sp', lb < 0)):
+            if not m.any():
+                continue
+            qp = self._query(lb[m], lob[m], levels=levels, zone=pole)
+            w = (np.abs(lb[m]) - a0) / (a1 - a0)
+            he, hp = qe['height'][m], qp['height'][m]
+            h = np.where(np.isfinite(he) & np.isfinite(hp), (1 - w) * he + w * hp, np.where(np.isfinite(hp), hp, he))
+            dom_p = np.where(np.isfinite(hp) & np.isfinite(he), w >= 0.5, np.isfinite(hp))
+            idx = np.flatnonzero(b)[m]
+            flat = {k: v.reshape(-1) for k, v in out.items()}
+            flat['height'][idx] = h
+            for k in ('source_id', 'native_res_m', 'quality', 'level', 'zone'):
+                flat[k][idx] = np.where(dom_p, qp[k], qe[k][m])
+            # a blend of two postings: report the coarser native resolution where both contribute
+            both = np.isfinite(he) & np.isfinite(hp)
+            flat['native_res_m'][idx] = np.where(both, np.fmax(qp['native_res_m'], qe['native_res_m'][m]),
+                                                 flat['native_res_m'][idx])
+        return out
+
     # ---- contract API
     def sample(self, lat, lon):
         """Height (m, float64), source_id (uint8), native_res_m (float) at lat/lon (deg). Bilinear on the finest level
         with a finite value at that point; NaN where no level has data. Never extrapolates."""
-        q = self._query(lat, lon)
+        q = self._query_blended(lat, lon)
         return q['height'], q['source_id'], q['native_res_m']
 
     def coverage(self, lat, lon):
-        q = self._query(lat, lon)
+        q = self._query_blended(lat, lon)
         return {k: q[k] for k in ('source_id', 'native_res_m', 'quality', 'level', 'zone')}
 
     def window(self, lat0, lon0, half_m, res_m=None, fill_coarser=False, name=None):
