@@ -1,0 +1,30 @@
+{
+  "site": "site04_roi3",
+  "status": "SOURCE-BASED UNVALIDATED: counts only, no conclusions",
+  "centre": {
+    "lat_deg": -89.78012,
+    "lon_deg_east": -156.32023,
+    "bundle": "data/bundles/site04_roi3_2026-11-14_14d_mast1m.json"
+  },
+  "box": {
+    "half_width_m": 1000.0,
+    "projection": "south polar stereographic, sphere R=1737.4 km, frame of this script",
+    "cell_m": 5.0,
+    "cells": 160000
+  },
+  "source": {
+    "query_url": "https://oderest.rsl.wustl.edu/livegds/?query=lolardr&results=u&output=JSON&minlat=-89.823753&maxlat=-89.735129&westernlon=193.274843&easternlon=215.774368",
+    "product": "LOLA RDR via ODE GDS REST, results=u (valid shots, flag=0)"
+  },
+  "all_cells": {
+    "shot_count": 13981,
+    "cells_with_ge1_shot": 13367,
+    "max_shots_per_cell": 4,
+    "median_nearest_shot_m": 7.94,
+    "p90_nearest_shot_m": 15.18
+  },
+  "top10_lit_crest_cells": {
+    "computed": false,
+    "reason": "needs per-5m-cell lit fraction from the solver; not wired tonight"
+  }
+}

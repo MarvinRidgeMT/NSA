@@ -15,3 +15,13 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 );
+
+// LIVE · CONTEXT panel (display only), mounted only with ?live=1 so the default app is unchanged.
+if (new URLSearchParams(location.search).get('live') === '1') {
+  import('./live/NowPanel').then(({ LiveMount }) => {
+    const el = document.createElement('div');
+    el.id = 'polaris-live';
+    document.body.appendChild(el);
+    createRoot(el).render(<LiveMount />);
+  });
+}
