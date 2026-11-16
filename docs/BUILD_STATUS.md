@@ -1178,3 +1178,23 @@ Worked in a separate worktree because the main checkout held another session's u
 - Worktree `../NSA-v2`, branch `feature/v2-whole-moon` cut from `feature/5d-complete` (ae9f6d9). Prompt and team inputs copied to `docs/v2/inputs/` (the 5D_MODEL_RESEARCH doc was not found on disk).
 - Frozen: tag `submission-2026-11-15` → c5dce9f (already existed, not moved), tag `submission-final` → 8dde4f1, `submission/merged` → 62cc7b1.
 - Split into six parallel sessions (`docs/v2/SPLIT.md`), interface `docs/v2/TERRAIN_STACK_CONTRACT.md`, status `docs/v2/STATUS.md`.
+
+### v2 S2 whole-Moon data (§2.1, §0.4) — Claude, 16 Nov 2026 02:20 EST–, branch claude/v2-s2-data-5d5689
+- Plan `docs/v2/PHASE_1_DATA_PLAN.md`. The catalogue `tools/globe/products.py` covers every §2.1 row. Sizes and URLs come
+  from the live PDS Geosciences / MIT LOLA node / USGS listings; `fetch --check` HEAD-verified 172/172 files.
+- `tools/globe/fetch.py`:
+  - sequential, ≥ 1 s between requests, 16 MiB/s cap;
+  - HTTP Range resume into `.part`, restart on an ignored Range, backoff on 429/5xx;
+  - SHA-256 on completion, USGS MD5 sidecar check, one manifest line per file;
+  - guards for 150 GB new data and 250 GB minimum free space;
+  - `--verify` re-hashes every manifest file and `--mirror` writes `docs/v2/DATA_MANIFEST.json`.
+- Tests: `tools/globe/test_fetch.py` uses a local HTTP server (resume, drops, ignored Range, corrupt partial, 503/404,
+  size mismatch, manifest keys, idempotent re-run, MD5 mismatch, budget stop, throttle, verify);
+  `tools/globe/test_products.py` checks the catalogue's consistency and the pixel arithmetic. 22/22 pass.
+- Finding: the LOLA `*_FLOAT` LDEMs (global and polar) are in **kilometres** relative to 1737.4 km (label
+  `UNIT = KILOMETER`), not metres. S3 must multiply by 1000. Decoded `ldem_16` / `ldem_64`: no NaN, min/max within
+  0.1 km of the label's MINIMUM/MAXIMUM.
+- JAXA DARTS ("Request Rejected") and ISRO PRADAN (403) refuse scripted requests, and CNSA is a JavaScript app behind
+  registration. Nothing was fetched from them and no workaround was tried. The JAXA SELENE acknowledgement wording is
+  still to be copied from the DARTS policy page by a person.
+- Downloads: see the final S2 entry below (or `docs/v2/STATUS.md` S2 row) for GB per product and verify results.
