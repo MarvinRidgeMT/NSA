@@ -109,7 +109,9 @@ def camera_pose(cam, look_az=None, look_el=None, sun=None, emission_deg=0.0, alt
         el = -1.0 if look_el is None else look_el
         d = astro.enu_direction(az, el)
         back = astro.enu_direction(az, 0.0)
-        stand = 6.0 if cam['name'] == 'lander_cam' else 3.0     # behind the site, so the mast/assets and rays are in frame
+        # EVA eye: 3 m behind the site so the mast and rays are in frame; lander camera: on the side of the ILLUSTRATIVE
+        # lander body (r 2 m), 2.3 m out from the site centre toward the view, looking outward
+        stand = -2.3 if cam['name'] == 'lander_cam' else 3.0
         pos = [-stand * back[0], -stand * back[1], cam['height_m']]
         if offset_enu:
             pos = [p + o for p, o in zip(pos, offset_enu)]
