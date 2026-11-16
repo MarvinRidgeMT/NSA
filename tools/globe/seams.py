@@ -71,10 +71,22 @@ def _stats(d):
             'rms_m': float(np.sqrt(np.mean(d * d)))}
 
 
-def pair_seam(hi, lo, zone, cells=None, feather_px=PY.FEATHER_PX, between=()):
+def _covers(a, b, zone):
+    """True if product a's rectangle (in this zone's own grid) contains product b's footprint bbox."""
+    if PY.reader(a).kind != zone:
+        return False
+    ba, bb = PY.product_zone_bbox(a, zone), PY.product_zone_bbox(b, zone)
+    return ba is not None and bb is not None and ba[0] <= bb[0] and ba[1] <= bb[1] and ba[2] >= bb[2] and ba[3] >= bb[3]
+
+
+def pair_seam(hi, lo, zone, cells=None, feather_px=PY.FEATHER_PX, between=(), above=()):
     """Seam statistics of (hi over lo) in one zone, or None if they do not meet there. `between`: products whose
     priority lies between hi and lo; band pixels where any of them has data are excluded (there the merge blends hi
-    with that product, not with lo), so only seams that exist in the merge are judged."""
+    with that product, not with lo), so only seams that exist in the merge are judged. `above`: products of higher
+    priority than hi; pixels they cover are excluded too (the merge shows them there), and a pair whose hi lies
+    entirely inside one of them is skipped."""
+    if any(_covers(a, hi, zone) for a in above):
+        return None
     Z = S.ZONES[zone]
     bh, bl = PY.product_zone_bbox(hi, zone), PY.product_zone_bbox(lo, zone)
     if bh is None or bl is None:
@@ -102,7 +114,7 @@ def pair_seam(hi, lo, zone, cells=None, feather_px=PY.FEATHER_PX, between=()):
         h_lo, _, _ = rl.sample(lat, lon, Z.pixel_m(L))
         w = PY.feather_weight(vh, feather_px)
         band = vh & (w < 1.0) & np.isfinite(h_lo)
-        for mid in between:
+        for mid in list(between) + list(above):
             if not band.any():
                 break
             bm = PY.product_zone_bbox(mid, zone)
@@ -173,7 +185,7 @@ def run(zones=('sp', 'np', 'eq'), specs=None, root=None, write=True, maps=True, 
         for i, hi in enumerate(order):
             for j in range(i + 1, len(order)):
                 lo = order[j]
-                st = pair_seam(hi, lo, zone, cells=cells, between=order[i + 1:j])
+                st = pair_seam(hi, lo, zone, cells=cells, between=order[i + 1:j], above=order[:i])
                 if st is not None:
                     pairs.append(st)
                     log(f"{zone} {hi.product_id} over {lo.product_id}: n={st['n']} median|d|={st['median_abs_m']:.2f} m "

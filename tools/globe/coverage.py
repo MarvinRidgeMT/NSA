@@ -78,6 +78,12 @@ def cell_areas(zone, sub=8):
     """Counted area of every cell (sub x sub subsamples per cell)."""
     Z = S.ZONES[zone]
     c, nx, ny = cell_grid(zone)
+    if zone == 'eq':
+        # exact: R^2 dlon (sin lat2 - sin lat1); 57.5 deg lies on a 1/8 deg cell boundary
+        top = Z.top - np.arange(ny) * c
+        a = S.R ** 2 * math.radians(c) * (np.sin(np.radians(top)) - np.sin(np.radians(top - c)))
+        a = np.where(counted('eq', top - c / 2), a, 0.0)
+        return np.repeat(a[:, None], nx, axis=1)
     s = c / sub
     us = Z.left + (np.arange(nx * sub) + 0.5) * s
     out = np.zeros((ny, nx))
@@ -203,34 +209,40 @@ def write_layers(maps, out=OUT_WEB):
     out = Path(out); out.mkdir(parents=True, exist_ok=True)
     cls_rgb = np.array(CLASS_RGB + [NONE_RGB], np.uint8)
     src_rgb = np.array([NONE_RGB] + [SRC_RGB[i] for i in range(1, 9)] + [NONE_RGB], np.uint8)
-    dom = {}
-    for zone, (frac, fsrc, claimed, ca) in maps.items():
-        dc = _dominant(frac, claimed, ca); ds = _dominant(fsrc, claimed, ca)
-        dom[zone] = (dc, ds)
-        if zone in ('sp', 'np'):
+    dom = {zone: (_dominant(frac, claimed, ca), _dominant(fsrc, claimed, ca))
+           for zone, (frac, fsrc, claimed, ca) in maps.items()}
+
+    def lookup(La, Lo):
+        """Dominant class / source at lat/lon, each point read from the zone that owns it (57.5 deg rule)."""
+        zn = S.zone_name_for(La)
+        res = np.full(La.shape, len(CLASSES), np.int16); src = np.zeros(La.shape, np.int16)
+        for zone in ('sp', 'np', 'eq'):
+            m = zn == zone
+            if not m.any():
+                continue
             Z = S.ZONES[zone]
             c, nx, ny = cell_grid(zone)
-            us = Z.left + (np.arange(nx) + 0.5) * c
-            U, V = np.meshgrid(us, Z.top - (np.arange(ny) + 0.5) * c)
-            lat, _ = Z.inverse(U, V)
-            inz = Z.in_zone(lat)
-            rgba = np.zeros((ny, nx, 4), np.uint8)
-            rgba[..., :3] = cls_rgb[np.where(dc >= 0, dc, len(CLASSES))]
-            rgba[..., 3] = np.where(inz, 255, 0)
-            write_png(out / f'coverage_res_{zone}.png', rgba)
+            u, v = Z.forward(La[m], Lo[m])
+            cx = np.clip(((u - Z.left) // c).astype(np.int64), 0, nx - 1)
+            cy = np.clip(((Z.top - v) // c).astype(np.int64), 0, ny - 1)
+            dc, ds = dom[zone]
+            res[m] = np.where(dc[cy, cx] >= 0, dc[cy, cx], len(CLASSES)); src[m] = np.where(ds[cy, cx] >= 0, ds[cy, cx], 0)
+        return res, src
+
+    for zone in ('sp', 'np'):
+        Z = S.ZONES[zone]
+        c, nx, ny = cell_grid(zone)
+        U, V = np.meshgrid(Z.left + (np.arange(nx) + 0.5) * c, Z.top - (np.arange(ny) + 0.5) * c)
+        lat, lon = Z.inverse(U, V)
+        res, _ = lookup(lat, lon)
+        rgba = np.zeros((ny, nx, 4), np.uint8)
+        rgba[..., :3] = cls_rgb[res]
+        rgba[..., 3] = np.where(Z.in_zone(lat), 255, 0)
+        write_png(out / f'coverage_res_{zone}.png', rgba)
     # global equirectangular 0.25 deg
     lat = 90 - (np.arange(720) + 0.5) * 0.25; lon = -180 + (np.arange(1440) + 0.5) * 0.25
     Lo, La = np.meshgrid(lon, lat)
-    zn = S.zone_name_for(La)
-    res = np.full(La.shape, len(CLASSES), np.int16); src = np.zeros(La.shape, np.int16)
-    for zone in ('sp', 'np', 'eq'):
-        m = zn == zone
-        Z = S.ZONES[zone]
-        c, nx, ny = cell_grid(zone)
-        u, v = Z.forward(La[m], Lo[m])
-        cx = np.clip(((u - Z.left) // c).astype(np.int64), 0, nx - 1); cy = np.clip(((Z.top - v) // c).astype(np.int64), 0, ny - 1)
-        dc, ds = dom[zone]
-        res[m] = np.where(dc[cy, cx] >= 0, dc[cy, cx], len(CLASSES)); src[m] = np.where(ds[cy, cx] >= 0, ds[cy, cx], 0)
+    res, src = lookup(La, Lo)
     rgba = np.concatenate([cls_rgb[res], np.full(res.shape + (1,), 255, np.uint8)], axis=-1)
     write_png(out / 'coverage_res_eqc.png', rgba)
     rgba = np.concatenate([src_rgb[src], np.full(src.shape + (1,), 255, np.uint8)], axis=-1)

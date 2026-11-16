@@ -183,6 +183,51 @@ def feather_weight(valid, feather_px=FEATHER_PX):
     return np.clip(d / float(feather_px), 0.0, 1.0)
 
 
+def _priority_units(specs, zone, sampler):
+    """Merge units, lowest priority first: single products, or groups of overlapping-capable products of EQUAL
+    priority class (same source_id and native posting, e.g. adjacent PGDA 78 site tiles) whose footprints are
+    rectangles in this zone's own grid. Yields (spec, members) with members = [] for a single product."""
+    out = []
+    groups = {}
+    for s in specs:
+        groups.setdefault((s.source_id, s.native_res_m), []).append(s)
+    for key in sorted(groups, reverse=True):
+        mem = sorted(groups[key], key=lambda s: s.priority)
+        rect = sampler is None and len(mem) > 1 and all(reader(s).kind == zone for s in mem)
+        if rect:
+            out.append((mem[0], mem))
+        else:
+            out.extend((s, []) for s in sorted(mem, key=lambda s: s.priority, reverse=True))
+    return out
+
+
+def _equal_priority_mosaic(members, zone, U, V, lat, lon, px_m, feather_px):
+    """Equal-priority tiles: each point takes the tile whose centre is nearest (Voronoi on tile centres; d_i = minus
+    the distance to centre i), blended softly across the bisector: w_i = exp((d_i - d_max) / (feather_px * px)).
+    Replaces an arbitrary product-id order (16 Nov: Site01 overlapping Site04 ~320 m from Site04 RoI 3)."""
+    hs, qs, rs, ws = [], [], [], []
+    native = None
+    for s in members:
+        rd = reader(s)
+        h, q, res = rd.sample(lat, lon, px_m)
+        cx = rd.left + rd.w * rd.px_x / 2; cy = rd.top - rd.h * rd.px_y / 2
+        d = -np.hypot(U - cx, V - cy)                 # nearer the tile centre = deeper inside it
+        d = np.where(np.isfinite(h), d, -np.inf)
+        hs.append(h); qs.append(q); rs.append(res); ws.append(d)
+        native = rd.native_px_m()
+    D = np.stack(ws)
+    dmax = D.max(axis=0)
+    have = np.isfinite(dmax)
+    W = np.where(np.isfinite(D), np.exp(np.clip((D - np.where(have, dmax, 0)) / (feather_px * px_m), -50, 0)), 0.0)
+    Hs = np.nan_to_num(np.stack(hs))
+    sw = W.sum(axis=0)
+    h = np.where(have, (W * Hs).sum(axis=0) / np.where(sw > 0, sw, 1), np.nan)
+    k = np.argmax(D, axis=0)
+    q = np.take_along_axis(np.stack(qs), k[None], 0)[0]
+    res = np.take_along_axis(np.stack(rs), k[None], 0)[0]
+    return h, q.astype(np.uint8), res, native
+
+
 def merge_tile(zone, level, ix, iy, specs, feather_px=FEATHER_PX, pad=PAD_PX, sampler=None):
     """Merged (4, T, T) float32 array for one tile, or None if it holds no fine pixel. `sampler(spec, lat, lon,
     target_px_m) -> (h, q, res)` defaults to the product readers (tests pass synthetic samplers)."""
@@ -195,8 +240,10 @@ def merge_tile(zone, level, ix, iy, specs, feather_px=FEATHER_PX, pad=PAD_PX, sa
     H = np.full(shape, np.nan); FW = np.zeros(shape); RES = np.full(shape, np.nan)
     SRC = np.zeros(shape, np.uint8); Q = np.zeros(shape, np.uint8)
     contributed = []
-    for sp in sorted(specs, key=lambda s: s.priority, reverse=True):     # lowest priority first
-        if sampler is None:
+    for sp, members in _priority_units(specs, zone, sampler):           # lowest priority first
+        if members:
+            h, q, res, native = _equal_priority_mosaic(members, zone, U, V, lat, lon, px_m, feather_px)
+        elif sampler is None:
             rd = reader(sp)
             h, q, res = rd.sample(lat, lon, px_m)
             native = rd.native_px_m()

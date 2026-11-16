@@ -281,16 +281,24 @@ class TerrainStack:
         have = self._tiles.get((zone, level))
         if not have or not ok.any():
             return out
-        ix = np.where(ok, cols // T, -1); iy = np.where(ok, rows // T, -1)
         nx = npx // T
-        key = np.where(ok, iy * nx + ix, -1)
-        for k in np.unique(key[ok]):
-            tx, ty = int(k % nx), int(k // nx)
+        flat_out = out.reshape(4, -1)
+        r = rows.ravel(); c = cols.ravel()
+        idx = np.flatnonzero(ok.ravel())
+        key = (r[idx] // T) * nx + (c[idx] // T)
+        order = np.argsort(key, kind='stable')
+        key_s = key[order]; idx_s = idx[order]
+        cuts = np.flatnonzero(np.diff(key_s)) + 1
+        for grp in np.split(np.arange(key_s.size), cuts):
+            if grp.size == 0:
+                continue
+            k = int(key_s[grp[0]])
+            tx, ty = k % nx, k // nx
             if (tx, ty) not in have:
                 continue
-            m = key == k
             a = self._load(zone, level, tx, ty)
-            out[:, m] = a[:, rows[m] - ty * T, cols[m] - tx * T]
+            j = idx_s[grp]
+            flat_out[:, j] = a[:, r[j] - ty * T, c[j] - tx * T]
         return out
 
     def _query(self, lat, lon, levels=None, zone=None):

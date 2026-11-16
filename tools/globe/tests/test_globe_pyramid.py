@@ -283,3 +283,24 @@ def test_real_stack_matches_existing_site_dems():
         x2, y2 = frames.stereo_forward(la2, lo2)
         h2, src2, _ = st.sample(la2, lo2)
         assert np.allclose(h2, far.sample(x2, y2), atol=2e-3) and (src2 == 5).all()
+
+
+def test_equal_priority_tiles_deepest_wins(tmp_path):
+    # two overlapping 5 m "site tiles" of the same product family (source 3) with values 10 and 20: in the overlap each
+    # pixel follows the tile it lies deepest inside, with a smooth change across the bisector (no product-id order)
+    n = 800
+    fa = write_raster(tmp_path / 'a.tif', np.full((n, n), 10.0), 0.0, 4000.0, 5.0, SP)      # x 0..4000
+    fb = write_raster(tmp_path / 'b.tif', np.full((n, n), 20.0), 2000.0, 4000.0, 5.0, SP)   # x 2000..6000
+    a, b = PP.ProductSpec('zz_a', 3, fa, 5.0), PP.ProductSpec('aa_b', 3, fb, 5.0)
+    Z = S.ZONES['sp']
+    L = 7                                                   # 10 m, 5.12 km tiles
+    ix = int((0.0 - Z.left) // (Z.pixel(L) * Z.tile_px)); iy = int((Z.top - 4000.0) // (Z.pixel(L) * Z.tile_px))
+    arr, _ = PY.merge_tile('sp', L, ix, iy, [a, b])
+    l, bb, r, t = Z.tile_bounds(L, ix, iy)
+    xs = l + (np.arange(Z.tile_px) + 0.5) * Z.pixel(L)
+    row = arr[0][Z.tile_px // 2]
+    # overlap x in [2000, 4000]: tile centres at x = 2000 and 4000 -> bisector at 3000
+    assert np.allclose(row[(xs > 2000) & (xs < 2600)], 10.0, atol=1e-2)
+    assert np.allclose(row[(xs > 3400) & (xs < 4000)], 20.0, atol=1e-2)
+    mid = row[(xs > 2900) & (xs < 3100)]
+    assert np.all(np.diff(row[(xs > 2000) & (xs < 4000)]) >= -1e-9) and 10.0 < mid.mean() < 20.0
