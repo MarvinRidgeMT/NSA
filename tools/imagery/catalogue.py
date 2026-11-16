@@ -40,7 +40,7 @@ RES_EDGES = [(0, 1, 'res<1m'), (1, 5, 'res[1,5)m'), (5, 20, 'res[5,20)m'), (20, 
 
 COLUMNS = ['product_id', 'site', 'instrument', 'ode_pdsid', 'ode_ihid', 'ode_iid', 'ode_pt', 'obs_utc', 'utc_start',
            'utc_stop', 'emission_deg', 'incidence_deg', 'phase_deg', 'pixel_scale_m', 'pixel_scale_source',
-           'center_lat', 'center_lon', 'footprint_source', 'footprint_area_km2', 'overlap_frac',
+           'center_lat', 'center_lon', 'footprint_source', 'footprint_area_km2', 'footprint_width_km', 'overlap_frac',
            'covers_site_centre', 'footprint_suspect', 'terrain', 'sun_az_deg', 'sun_el_deg', 'subsolar_lat_deg',
            'az_bin', 'el_bin', 'em_bin', 'season_bin', 'res_bin', 'stratum', 'is_primary_row', 'prior_use',
            'split', 'label_url', 'product_page_url', 'external_url', 'data_file_url', 'data_file_kbytes', 'orbit']
@@ -252,13 +252,34 @@ def main(argv=None):
     sub.add_parser('build')
     c = sub.add_parser('counts')
     c.add_argument('--catalogue', default=str(OUT))
+    sub.add_parser('doc')
     a = ap.parse_args(argv)
     if a.cmd == 'build':
         rows, side = build()
         print(json.dumps({k: side[k] for k in ('catalogue', 'sha256', 'rows', 'images', 'heldout_images')}, indent=1))
+    elif a.cmd == 'doc':
+        write_doc()
     else:
         print(counts_tables(read_csv_gz(a.catalogue)))
     return 0
+
+
+def write_doc(out_md=ROOT / 'docs' / 'v2' / 'IMAGERY_CATALOGUE.md', catalogue=OUT):
+    rows = read_csv_gz(catalogue)
+    side = json.loads(Path(catalogue).with_name('catalogue.provenance.json').read_text())
+    sha = hashlib.sha256(Path(catalogue).read_bytes()).hexdigest()
+    if sha != side['sha256']:
+        raise SystemExit('catalogue SHA-256 differs from catalogue.provenance.json')
+    head = (Path(__file__).parent / 'catalogue_doc_header.md').read_text()
+    harvest = '\n'.join(f'| {h["site"]} | {h["instrument"]} | {h["ode_candidates"]} | {h["kept"]} | {len(h["ode_responses"])} |'
+                        for h in side['harvest'])
+    summary = (f'\n## Counts\n\nCatalogue SHA-256 `{sha}`: **{side["rows"]} rows** (image × site), **{side["images"]} unique images**, '
+               f'**{side["heldout_images"]} held out** (seed `{side["split_seed"]}`, {int(side["heldout_frac"] * 100)} % of eligible images; '
+               f'`prior_use` images are never held out).\n\n'
+               f'### ODE harvest (bounding-box candidates → kept after the exact stereographic clip)\n\n'
+               f'| Site | Instrument | ODE candidates | Kept rows | ODE responses |\n|---|---|---|---|---|\n{harvest}\n\n')
+    out_md.write_text(head + summary + counts_tables(rows) + '\n')
+    return out_md
 
 
 if __name__ == '__main__':

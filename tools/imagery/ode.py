@@ -32,8 +32,11 @@ PRODUCTS = {
     'Kaguya_TC_stereo': ('SLN', 'TC', 'TCWL2B', 10.0, 'nominal TC 10 m/px at 100 km (Haruyama et al. 2008)'),
     'Kaguya_TC_mono': ('SLN', 'TC', 'TCSL2B', 10.0, 'nominal TC 10 m/px at 100 km (Haruyama et al. 2008)'),
 }
-# NAC: 5064 samples x at most 52224 lines (LROC SIS). Used only for the footprint_suspect flag.
-NAC_SAMPLES, NAC_MAX_LINES = 5064, 52224
+# Cross-track samples, used only for the footprint_suspect strip-width test (upper values, so the test
+# flags only footprints far too wide): NAC 5064 (LROC SIS); WAC 1024 (monochrome frame width; colour
+# frames are 704); ShadowCam 3072 (<elements> in the M013371158SC PDS4 label); Kaguya TC 4096 (CCD
+# length; the archived swath is narrower).
+SWATH_SAMPLES = {'LROC_NAC': 5064, 'LROC_WAC': 1024, 'ShadowCam': 3072, 'Kaguya_TC_stereo': 4096, 'Kaguya_TC_mono': 4096}
 
 
 class ODEError(RuntimeError):
@@ -132,8 +135,12 @@ def parse_product(p, label):
     data = next((f for f in files if str(f.get('Type', '')).lower() == 'product'), files[0] if files else {})
     scale = _f(p.get('Map_resolution'))
     scale_src = 'ODE Map_resolution'
+    if scale is not None and scale <= 0:  # ODE reports 0.0 for some WAC products: missing, not zero
+        scale = None
     if scale is None:
         scale, scale_src = _f(p.get('Map_scale')), 'ODE Map_scale'
+        if scale is not None and scale <= 0:
+            scale = None
     if scale is None and nominal is not None:
         scale, scale_src = nominal, nominal_src
     if scale is None:
@@ -159,6 +166,19 @@ def parse_product(p, label):
     }
 
 
+def footprint_width_check(instrument, polys, area_m2, pixel_scale_m):
+    """Strip-width test. Every catalogued instrument images a strip, so area / length ~ swath width.
+    length = the footprint's bounding-box diagonal (>= true length, so the estimate errs low).
+    suspect iff the estimated width > 3 x nominal swath (samples x pixel scale). Returns
+    (width_km, suspect); suspect is None when the pixel scale is unknown."""
+    diag = geo.bbox_diag(polys)
+    width = area_m2 / diag if diag > 0 else 0.0
+    if not pixel_scale_m:
+        return width / 1e3, None
+    swath = SWATH_SAMPLES[instrument] * pixel_scale_m
+    return width / 1e3, bool(width > 3.0 * swath)
+
+
 def site_filter(row, site_id, half_m=BOX_HALF_M):
     """Exact overlap of the footprint with the site square; returns site row or None."""
     s = SITES[site_id]
@@ -170,13 +190,11 @@ def site_filter(row, site_id, half_m=BOX_HALF_M):
     if ov <= 0.0:
         return None
     area = sum(geo.polygon_area(pp) for pp in polys)
-    suspect = None
-    if row['instrument'] == 'LROC_NAC' and row.get('pixel_scale_m'):
-        nominal = NAC_SAMPLES * NAC_MAX_LINES * row['pixel_scale_m'] ** 2
-        suspect = bool(area > 4.0 * nominal)
+    width_km, suspect = footprint_width_check(row['instrument'], polys, area, row.get('pixel_scale_m'))
     out = {k: v for k, v in row.items() if k != 'sp_wkt'}
     out.update({'site': site_id, 'terrain': s['terrain'],
                 'footprint_area_km2': area / 1e6,
+                'footprint_width_km': width_km,
                 'overlap_frac': ov / ((2 * half_m) ** 2),
                 'covers_site_centre': geo.point_in_polys(cx, cy, polys),
                 'footprint_suspect': suspect})

@@ -150,19 +150,24 @@ def test_site_filter_exact_overlap():
     assert off is None
 
 
-def test_nac_footprint_suspect_flag():
-    # The first commissioning NAC frame's index-table footprint spans ~-89 to the pole.
-    row = ode.parse_product(_products('ode_nac_page.json')[0], 'LROC_NAC')
-    polys = geo.parse_wkt_polygons(row['sp_wkt'])
-    area = sum(geo.polygon_area(p) for p in polys)
-    nominal = ode.NAC_SAMPLES * ode.NAC_MAX_LINES * row['pixel_scale_m'] ** 2
-    x, y = polys[0][0][0]
-    lat, lon = geo.stereo_inverse(x * 0.5, y * 0.5)
-    from tools.imagery import sites
-    sites.SITES['_t'] = {'name': 't', 'lat': lat, 'lon': lon, 'terrain': 'test'}
-    try:
-        r = ode.site_filter(row, '_t')
-    finally:
-        del sites.SITES['_t']
-    if r is not None:
-        assert r['footprint_suspect'] == (area > 4 * nominal)
+def test_footprint_width_check():
+    # a 5 km x 50 km NAC-like strip at 1 m/px is plausible; a 100 km x 100 km "map extent" box is not
+    strip = [[[(0, 0), (5000, 0), (5000, 50000), (0, 50000)]]]
+    w, s = ode.footprint_width_check('LROC_NAC', strip, 5000 * 50000, 1.0)
+    assert 4.4 < w < 5.0 and s is False
+    box = [[[(0, 0), (100000, 0), (100000, 100000), (0, 100000)]]]
+    w, s = ode.footprint_width_check('ShadowCam', box, 1e10, 1.77)
+    assert w > 60 and s is True
+    assert ode.footprint_width_check('LROC_WAC', strip, 2.5e8, None)[1] is None
+    # recorded fixtures: all four instruments' real footprints pass
+    for name, lab in (('ode_nac_page.json', 'LROC_NAC'), ('ode_wac_page.json', 'LROC_WAC'),
+                      ('ode_shadowcam_page.json', 'ShadowCam'), ('ode_tc_page.json', 'Kaguya_TC_stereo')):
+        r = ode.parse_product(_products(name)[0], lab)
+        polys = geo.parse_wkt_polygons(r['sp_wkt'])
+        assert ode.footprint_width_check(lab, polys, sum(geo.polygon_area(p) for p in polys), r['pixel_scale_m'])[1] is False
+
+
+def test_zero_pixel_scale_is_missing():
+    p = dict(_products('ode_wac_page.json')[0], Map_resolution='0')
+    r = ode.parse_product(p, 'LROC_WAC')
+    assert r['pixel_scale_m'] is None and r['pixel_scale_source'] is None
