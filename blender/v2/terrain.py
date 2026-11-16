@@ -284,7 +284,7 @@ class EnuFrame:
 
     def describe(self):
         return {'latDeg': self.lat, 'lonEastDeg': self.lon, 'groundHeightM': self.h0, 'axes': 'x east, y north, z up (site radius)',
-                'transform': 'grid -> (lat, lon) closed-form inverse stereographic -> (R+h) u(lat, lon) Moon-fixed -> ENU at the observer'}
+                'transform': 'grid -> (lat, lon) by the level\'s closed-form inverse (sp / np polar or local oblique stereographic) -> (R+h) u(lat, lon) Moon-fixed -> ENU at the observer'}
 
 
 def sample_bilinear(level, x, y):
