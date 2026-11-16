@@ -73,8 +73,10 @@ class Emitter:
         return out
 
 
-def hapke_material(name, params, light_dir, cap=4.0):
-    """Build the material. Returns (material, info)."""
+def hapke_material(name, params, light_dir, cap=4.0, w_attribute=None):
+    """Build the material. Returns (material, info).
+    w_attribute: name of a per-vertex float attribute holding the Hapke w (WAC albedo, blender/v2/albedo.py). The other
+    parameters stay constants. Every mesh using such a material MUST carry the attribute (a missing one reads 0 = black)."""
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     nt = m.node_tree
@@ -102,6 +104,14 @@ def hapke_material(name, params, light_dir, cap=4.0):
 
     inputs = {'mu0': dot(geo.outputs['Normal'], Lv.outputs[0]), 'mu': dot(geo.outputs['Normal'], geo.outputs['Incoming']),
               'cosg': dot(Lv.outputs[0], geo.outputs['Incoming'])}
+    if w_attribute:
+        at = nt.nodes.new('ShaderNodeAttribute')
+        at.location = (-2400, -500)
+        at.attribute_type = 'GEOMETRY'
+        at.attribute_name = w_attribute
+        at.label = 'Hapke w per vertex (LROC WAC map)'
+        inputs['w'] = at.outputs['Fac']
+        params = dict(params, w=hapke.X.var('w'))
     colour, _r = hapke.diffuse_colour_graph(params, cap=cap)
     em = Emitter(nt, inputs)
     c = em.emit(colour)
@@ -115,7 +125,7 @@ def hapke_material(name, params, light_dir, cap=4.0):
         nt.links.new(rgb.outputs[0], diff.inputs['Color'])
     nt.links.new(diff.outputs[0], out.inputs['Surface'])
     m.diffuse_color = (0.12, 0.12, 0.12, 1)
-    info = {'mathNodes': em.count, 'lightDirEnu': list(light_dir), 'colourCap': cap,
+    info = {'mathNodes': em.count, 'lightDirEnu': list(light_dir), 'colourCap': cap, 'wAttribute': w_attribute,
             'rule': 'Diffuse colour = pi r(i,e,g)/mu0 (capped), dominant light direction constant from the scene spec'}
     m['polaris'] = 'Hapke (2012) regolith, LROC WAC 643 nm parameters (Sato et al. 2014 product); MODEL'
     return m, info

@@ -10,6 +10,8 @@
 4. negative control: the same scene 72 h later (Sun ~40 deg further round) must FAIL that tolerance (the comparison can detect a change);
 5. the build wrote a non-empty .blend and a manifest with Blender version, script hashes, input hashes, CYCLES, samples, device;
 5b. when the solver DEM cache exists: the drawn site01_roi6 terrain reproduces the bundle skyline (blender/tests/skyline_check.py);
+5b'. when the S3 pyramid is built: site01_roi6 drawn from the pyramid reproduces its bundle skyline, and Apollo 15 (eq zone)
+   drawn from the pyramid reproduces science.skyline.compute_skyline on the same windows;
 5c. when the SVS star map is cached: the Magellanic Clouds render where the ICRF->ENU rotation predicts (blender/tests/star_check.py);
 6. glTF provenance rule over web/public/ (blender/tests/glb_proof.py).
 Set POLARIS_UPDATE_REFERENCE=1 to (re)write the reference PNG; the run then reports it and still exits 1 so it is never silent.
@@ -139,6 +141,27 @@ def main():
                f"median |d| {r['medianAbsDeg']:.4f} deg, p95 {r['p95AbsDeg']:.3f}, far-bin p95 {far['p95AbsDeg']:.3f}, max {r['maxAbsDeg']:.3f}")
     else:
         print('[run_all] SKIP  skyline consistency: data/cache/site01_roi6_p78_p78.npy not present (solver DEM cache)')
+
+    # 5b'. pyramid-backed close-ups (S3 pyramid + project venv; skipped and reported when absent) -----------------------------
+    if (ROOT / 'data' / 'cache' / 'v2' / 'pyramid' / 'index.json').exists():
+        import skyline_check
+        # site01_roi6 drawn from the pyramid (sp 5 m + 80 m windows) vs its committed solver bundle
+        r = skyline_check.measure('site01_roi6', 'stack', 0.05, out=str(tmp / 'skyline_stack'))
+        far = r['far (critical point >= 100 m)']
+        ok = r['unbracketed'] == 0 and r['medianAbsDeg'] <= 0.005 and far['p95AbsDeg'] <= 0.02 and r['p95AbsDeg'] <= 0.05 and r['maxAbsDeg'] <= 0.15
+        record('pyramid terrain reproduces the solver skyline (site01_roi6, --terrain stack vs committed bundle)', ok,
+               f"median |d| {r['medianAbsDeg']:.4f} deg, p95 {r['p95AbsDeg']:.3f}, far-bin p95 {far['p95AbsDeg']:.3f}, max {r['maxAbsDeg']:.3f}")
+        # Apollo 15 (eq zone, SLDEM2015 59 m): drawn pyramid vs science.skyline.compute_skyline on the same windows
+        # (measured 16 Nov: median 0.0004, p95 0.020, max 0.050 deg)
+        if (ROOT / skyline_check.BUNDLES['apollo15'][0]).exists():
+            r = skyline_check.measure('apollo15', 'stack', 0.05, out=str(tmp / 'skyline_a15'), reference='pack')
+            ok = r['unbracketed'] == 0 and r['medianAbsDeg'] <= 0.005 and r['p95AbsDeg'] <= 0.05 and r['maxAbsDeg'] <= 0.15
+            record('pyramid terrain reproduces compute_skyline at a mid-latitude site (Apollo 15, eq zone)', ok,
+                   f"median |d| {r['medianAbsDeg']:.4f} deg, p95 {r['p95AbsDeg']:.3f}, max {r['maxAbsDeg']:.3f}, ground {r['reference']['sceneGroundM']:.2f} m")
+        else:
+            print('[run_all] SKIP  Apollo 15 pyramid skyline: any-site bundle for Sun/Earth not cached')
+    else:
+        print('[run_all] SKIP  pyramid-backed skyline checks: no pyramid index under data/cache/v2/pyramid')
 
     # 5c. starfield orientation (needs the SVS map in the cache; skipped and reported when absent) --------------------------
     import star_check

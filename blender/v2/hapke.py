@@ -216,7 +216,8 @@ def hapke_graph(p, mu0=None, mu=None, cosg=None):
 
 def _hapke_tail(p, m0, m, cg, mu0e, mue, S, g, i, e):
     w, b, c, BS0, hS, K = p['w'], p['b'], p['c'], p['B_S0'], p['h_S'], p.get('K', 1.0)
-    gam = math.sqrt(1.0 - w)
+    # w may be a graph variable (per-vertex WAC albedo, blender/v2/albedo.py): then gamma and r0 become nodes too
+    gam = sqrt(1.0 - w) if isinstance(w, X) else math.sqrt(1.0 - w)
     r0 = (1.0 - gam) / (1.0 + gam)
 
     def H(x):
@@ -249,7 +250,12 @@ def diffuse_colour_graph(p, mu0=None, mu=None, cosg=None, cap=4.0):
     mu0 = X.var('mu0') if mu0 is None else mu0
     r, _ = hapke_graph(p, mu0, mu, cosg)
     lit = fmin(math.pi * r / fmax(mu0, EPS), cap)
-    return select(mu0 - BACKLIT_MU0, lit, backlit_colour(p)), r
+    if isinstance(p['w'], X):     # per-vertex w: the backlit colour is the same graph at i = g = 60, e = 0 (constant geometry)
+        r60, _ = hapke_graph(p, X.c(0.5), X.c(1.0), X.c(0.5))
+        back = math.pi * r60 / 0.5
+    else:
+        back = backlit_colour(p)
+    return select(mu0 - BACKLIT_MU0, lit, back), r
 
 
 def r_value(p, i_deg, e_deg, g_deg):
