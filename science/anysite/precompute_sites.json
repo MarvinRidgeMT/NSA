@@ -9,10 +9,30 @@
    "description": "The four POLARIS X sites: PGDA 78 RoI polygon-vertex centroids (science/sites.py ROI_SOURCE; research/long_features/code/sites.py)",
    "source": "PGDA product 78 ROI shapefile, Barker et al. 2021 (PSS 203, 105119), https://pgda.gsfc.nasa.gov/products/78",
    "sites": [
-    {"id": "site04_roi3", "name": "Shackleton rim, Site04 RoI 3", "lat": -89.78012, "lon": -156.32023},
-    {"id": "site01_roi6", "name": "Connecting Ridge, Site01 RoI 6", "lat": -89.47409, "lon": -137.3813},
-    {"id": "site07_roi1", "name": "Peak near Shackleton, Site07 RoI 1", "lat": -88.8063, "lon": 123.54887},
-    {"id": "site11_roi4", "name": "de Gerlache rim, Site11 RoI 4", "lat": -88.70606, "lon": -68.52994}
+    {
+     "id": "site04_roi3",
+     "name": "Shackleton rim, Site04 RoI 3",
+     "lat": -89.78012,
+     "lon": -156.32023
+    },
+    {
+     "id": "site01_roi6",
+     "name": "Connecting Ridge, Site01 RoI 6",
+     "lat": -89.47409,
+     "lon": -137.3813
+    },
+    {
+     "id": "site07_roi1",
+     "name": "Peak near Shackleton, Site07 RoI 1",
+     "lat": -88.8063,
+     "lon": 123.54887
+    },
+    {
+     "id": "site11_roi4",
+     "name": "de Gerlache rim, Site11 RoI 4",
+     "lat": -88.70606,
+     "lon": -68.52994
+    }
    ]
   },
   {
@@ -21,15 +41,60 @@
    "source": "NASA news release 'NASA Provides Update on Artemis III Moon Landing Regions', 28 Oct 2024; T. George, M. A. Rubio, S. J. Lawrence, P. Curell, 'Artemis III site selection update: down-selection from 13 to 9 candidate regions', 57th LPSC (2026), abstract 1901, https://www.hou.usra.edu/meetings/lpsc2026/pdf/1901.pdf",
    "coordinates_status": "NASA publishes these regions as a labelled map only (LPSC 2026 abstract 1901 Image 1; NASA SVS 5013 has no coordinates or shapefiles). No region-centre coordinates are invented here. All nine lie poleward of 84 S (the Artemis exploration zone, >84 S), so the 1-degree south grid below brackets them until NASA region polygons are obtained.",
    "sites": [
-    {"id": "a3_peak_near_cabeus_b", "name": "Peak near Cabeus B", "lat": null, "lon": null},
-    {"id": "a3_haworth", "name": "Haworth", "lat": null, "lon": null},
-    {"id": "a3_malapert_massif", "name": "Malapert Massif", "lat": null, "lon": null},
-    {"id": "a3_mons_mouton_plateau", "name": "Mons Mouton Plateau", "lat": null, "lon": null},
-    {"id": "a3_mons_mouton", "name": "Mons Mouton", "lat": null, "lon": null},
-    {"id": "a3_nobile_rim_1", "name": "Nobile Rim 1", "lat": null, "lon": null},
-    {"id": "a3_nobile_rim_2", "name": "Nobile Rim 2", "lat": null, "lon": null},
-    {"id": "a3_de_gerlache_rim_2", "name": "de Gerlache Rim 2", "lat": null, "lon": null},
-    {"id": "a3_slater_plain", "name": "Slater Plain", "lat": null, "lon": null}
+    {
+     "id": "a3_peak_near_cabeus_b",
+     "name": "Peak near Cabeus B",
+     "lat": null,
+     "lon": null
+    },
+    {
+     "id": "a3_haworth",
+     "name": "Haworth",
+     "lat": null,
+     "lon": null
+    },
+    {
+     "id": "a3_malapert_massif",
+     "name": "Malapert Massif",
+     "lat": null,
+     "lon": null
+    },
+    {
+     "id": "a3_mons_mouton_plateau",
+     "name": "Mons Mouton Plateau",
+     "lat": null,
+     "lon": null
+    },
+    {
+     "id": "a3_mons_mouton",
+     "name": "Mons Mouton",
+     "lat": null,
+     "lon": null
+    },
+    {
+     "id": "a3_nobile_rim_1",
+     "name": "Nobile Rim 1",
+     "lat": null,
+     "lon": null
+    },
+    {
+     "id": "a3_nobile_rim_2",
+     "name": "Nobile Rim 2",
+     "lat": null,
+     "lon": null
+    },
+    {
+     "id": "a3_de_gerlache_rim_2",
+     "name": "de Gerlache Rim 2",
+     "lat": null,
+     "lon": null
+    },
+    {
+     "id": "a3_slater_plain",
+     "name": "Slater Plain",
+     "lat": null,
+     "lon": null
+    }
    ]
   },
   {
@@ -37,21 +102,111 @@
    "description": "Historic and commercial soft-landing sites (useful for the Phase 6 render-vs-real checks)",
    "source": "NASA NSSDC 'Lunar artifact/impact sites' table, https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html (last updated 13 Aug 2025; coordinates on the DE421 frame; Apollo rows = LM descent stage). Read 16 Nov 2026.",
    "sites": [
-    {"id": "apollo11", "name": "Apollo 11 LM", "lat": 0.67416, "lon": 23.47314, "date": "1969-07-20"},
-    {"id": "apollo12", "name": "Apollo 12 LM", "lat": -3.0128, "lon": -23.4219, "date": "1969-11-19"},
-    {"id": "apollo14", "name": "Apollo 14 LM", "lat": -3.64589, "lon": -17.47194, "date": "1971-02-05"},
-    {"id": "apollo15", "name": "Apollo 15 LM", "lat": 26.13239, "lon": 3.63330, "date": "1971-07-30"},
-    {"id": "apollo16", "name": "Apollo 16 LM", "lat": -8.9734, "lon": 15.5011, "date": "1972-04-21"},
-    {"id": "apollo17", "name": "Apollo 17 LM", "lat": 20.1911, "lon": 30.7723, "date": "1972-12-11"},
-    {"id": "change3", "name": "Chang'e 3", "lat": 44.1214, "lon": -19.5117, "date": "2013-12-14"},
-    {"id": "change4", "name": "Chang'e 4", "lat": -45.4561, "lon": 177.5885, "date": "2019-01-03"},
-    {"id": "change5", "name": "Chang'e 5", "lat": 43.0576, "lon": -51.9161, "date": "2020-12-01"},
-    {"id": "change6", "name": "Chang'e 6", "lat": -41.6385, "lon": -153.9852, "date": "2024-06-01"},
-    {"id": "chandrayaan3", "name": "Chandrayaan-3 (Vikram)", "lat": -69.3741, "lon": 32.32, "date": "2023-08-23"},
-    {"id": "slim", "name": "SLIM", "lat": -13.3160, "lon": 25.2510, "date": "2024-01-19"},
-    {"id": "im1", "name": "IM-1 Odysseus", "lat": -80.13, "lon": 1.44, "date": "2024-02-22"},
-    {"id": "im2", "name": "IM-2 Athena", "lat": -84.7906, "lon": 29.1957, "date": "2025-03-06"},
-    {"id": "blue_ghost1", "name": "Blue Ghost Mission 1", "lat": 18.562, "lon": 61.810, "date": "2025-03-02"}
+    {
+     "id": "apollo11",
+     "name": "Apollo 11 LM",
+     "lat": 0.67416,
+     "lon": 23.47314,
+     "date": "1969-07-20"
+    },
+    {
+     "id": "apollo12",
+     "name": "Apollo 12 LM",
+     "lat": -3.0128,
+     "lon": -23.4219,
+     "date": "1969-11-19"
+    },
+    {
+     "id": "apollo14",
+     "name": "Apollo 14 LM",
+     "lat": -3.64589,
+     "lon": -17.47194,
+     "date": "1971-02-05"
+    },
+    {
+     "id": "apollo15",
+     "name": "Apollo 15 LM",
+     "lat": 26.13239,
+     "lon": 3.6333,
+     "date": "1971-07-30"
+    },
+    {
+     "id": "apollo16",
+     "name": "Apollo 16 LM",
+     "lat": -8.9734,
+     "lon": 15.5011,
+     "date": "1972-04-21"
+    },
+    {
+     "id": "apollo17",
+     "name": "Apollo 17 LM",
+     "lat": 20.1911,
+     "lon": 30.7723,
+     "date": "1972-12-11"
+    },
+    {
+     "id": "change3",
+     "name": "Chang'e 3",
+     "lat": 44.1214,
+     "lon": -19.5117,
+     "date": "2013-12-14"
+    },
+    {
+     "id": "change4",
+     "name": "Chang'e 4",
+     "lat": -45.4561,
+     "lon": 177.5885,
+     "date": "2019-01-03"
+    },
+    {
+     "id": "change5",
+     "name": "Chang'e 5",
+     "lat": 43.0576,
+     "lon": -51.9161,
+     "date": "2020-12-01"
+    },
+    {
+     "id": "change6",
+     "name": "Chang'e 6",
+     "lat": -41.6385,
+     "lon": -153.9852,
+     "date": "2024-06-01"
+    },
+    {
+     "id": "chandrayaan3",
+     "name": "Chandrayaan-3 (Vikram)",
+     "lat": -69.3741,
+     "lon": 32.32,
+     "date": "2023-08-23"
+    },
+    {
+     "id": "slim",
+     "name": "SLIM",
+     "lat": -13.316,
+     "lon": 25.251,
+     "date": "2024-01-19"
+    },
+    {
+     "id": "im1",
+     "name": "IM-1 Odysseus",
+     "lat": -80.13,
+     "lon": 1.44,
+     "date": "2024-02-22"
+    },
+    {
+     "id": "im2",
+     "name": "IM-2 Athena",
+     "lat": -84.7906,
+     "lon": 29.1957,
+     "date": "2025-03-06"
+    },
+    {
+     "id": "blue_ghost1",
+     "name": "Blue Ghost Mission 1",
+     "lat": 18.562,
+     "lon": 61.81,
+     "date": "2025-03-02"
+    }
    ]
   },
   {
@@ -63,7 +218,13 @@
    "id": "north_grid_1deg",
    "description": "The same grid poleward of 80 N.",
    "source": "generated",
-   "status": "needs a north-polar DEM (none cached on 16 Nov 2026)"
+   "status": "runs on the north-polar pyramid (LOLA polar LDEMs 5-60 m) since R1, 16 Nov 2026"
+  },
+  {
+   "id": "global_grid_10deg",
+   "description": "Coarse global sample: every 10 deg of latitude from 70 S to 70 N x every 10 deg of longitude (-180..170 E), 540 points; the polar caps poleward of 80 deg are covered by the 1-degree grids.",
+   "source": "generated (science/anysite/precompute.grid_global)",
+   "status": "added by R1 (v2 round 2) to exercise the eq zone and the eq/polar seams of the pyramid"
   }
  ]
 }

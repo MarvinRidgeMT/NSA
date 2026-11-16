@@ -87,3 +87,17 @@ LDEM > LOLA global LDEM. Co-registration shifts (horizontal and vertical) are es
 2. **Edge trim.** The outer 40 native pixels of each LOLA polar LDEM (PDS `LDEM_*{S,N}_*M_FLOAT`) are no data:
    a gridding boundary effect was measured there (p99 |Δ| vs the neighbouring product 52 m at the edge, interior level
    only 800 m in for the 20/30 m grids). Footprints and coverage reflect the trimmed rectangle.
+
+## Amendment 2026-11-16 (3) (R1, v2 round 2) — API additions for the any-site solver; one fix
+1. **`coverage(lat, lon, zone=None)`**: `zone='sp'|'np'|'eq'` returns that zone's grid only (no 56.5–58.5° blend), i.e.
+   what a `window` centred there reads. `zone=None` is unchanged.
+2. **`sample_height(lat, lon, max_level=None, touched=None, min_level=None)`**: heights only (float64), the same bilinear
+   rule, zone switch and blend as `sample` — bit-identical to `sample(lat, lon)[0]` when no level limit is given (test).
+   `max_level` / `min_level`: int or `{zone: level}`; a dict `max_level` reads only the zones it names; `min = max = L`
+   reads exactly one level (no coarser fill). `touched` (a set) receives `(zone, level, ix, iy)` of every tile read.
+   Implementation: the four bilinear corners in one call, tiles found through a dense per-level lookup table (no sort).
+3. **`tile_max_height(zone, level, ix, iy)`**: memoised `nanmax` of a tile's height band.
+4. **Fix:** `_query_blended` indexed the per-hemisphere subset twice (`qp['height'][m]`), so a `sample`/`coverage` call
+   holding blend-band points of *both* hemispheres raised `IndexError`. Now `qp['height']`; values for single-hemisphere
+   calls are unchanged. Regression test: `science/anysite/tests/test_pyramid_solver.py::SampleHeight`.
+The any-site solver uses these through `science/anysite/stack.PyramidStack` (docs/v2/PHASE_1_R1_PLAN.md).

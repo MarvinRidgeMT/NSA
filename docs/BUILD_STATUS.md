@@ -1325,3 +1325,22 @@ Contract implemented as written, two dated amendments appended to `docs/v2/TERRA
 - Merged S1 (5c6075c), S4 (740eede), S5 (fac463f), S2 (8f0e630), S6 (de2f860), S3 (92f0a6f); integration fix b4ca107 (any-site solver vs pyramid; adapter stays default, pyramid opt-in). Report: `docs/v2/SESSION_REPORT_2026-11-16.md`.
 - Tests on the merged branch: pytest 580 passed, 2 skipped; Blender run_all 11/11; vitest 147/147; build OK; Playwright 96 passed, 2 skipped, 2 known artefacts; traceability 541/0.
 - Submission refs unchanged (c5dce9f, 8dde4f1, 62cc7b1). Nothing pushed.
+
+### v2 R1 — merged pyramid as the any-site solver's default terrain — Claude, 16 Nov 2026 ~11:45–13:10 EST
+Branch `claude/v2-r1-pyramid-solver-e4bb91` (contains 72e3430). Plan + as built: `docs/v2/PHASE_1_R1_PLAN.md`; contract amendment 3.
+- **Default:** `science/anysite/stack.get_stack()` → `PyramidStack`. The pyramid answers "best merged terrain" (nominal near + far);
+  the per-product adapter answers "what if" (PGDA 78 clones, assumed-error members, product disagreement). `POLARIS_ANYSITE_STACK=legacy`
+  restores the adapter alone. `SOLVER_VERSION` anysite-3; the site hash carries the pyramid `index.json` SHA-256; bundles record tiles.
+- **Near field rule:** finest pyramid level at the site; `near_cut = min(d_fine − √2·pixel, cap)`, d_fine = ground distance to the
+  nearest NaN or non-native (feather band) pixel; cap 12.5 km (25 km when the near level is the far level).
+- **Site04 RoI 3 (pyramid):** 94.362 % / 72.107 % / 19 h, clones 87.537–97.329 %, M: PGDA 90 100 %, LOLA 5 m 65.282 %, LOLA 128 ppd
+  59.941 %; skyline vs committed bundle median 5e-6°, p95 0.0036°, max 0.0122° (tolerance test); per-product identity test kept.
+- **Eq / np:** np windows via `LatLonView`; eq near field samples the pyramid's lon/lat grid at its level (one bilinear) and equals an
+  independent SLDEM2015 PDS read to < 1 mm; far field `PyramidField` (polar L4 80 m, eq L3 118 m) across zones and the blend band.
+  Flat sphere through a synthetic pyramid at 2.5° N, 41° S, 57° N, 75° N: ≤ 1e-4°. North-pole sanity runs on the np pyramid.
+- **Precompute** (`python -m science.anysite.precompute --workers 4 --fresh`): 1,251 sites, 0 errors, 0 truncated bins, 1,816 s wall;
+  per new site median 4.9 s, p95 by group ≤ 15 s, max 40.2 s (Site11 RoI 4, 20 assumed + 3 product members); peak ~3.9 GB per worker.
+- **Found:** S3 `_query_blended` raised IndexError for a call with blend-band points in both hemispheres (fixed, regression test);
+  `LegacyStack` never matches SLDEM2015 tiles (assumes a global grid; follow-up, legacy mode only).
+- Tests: `pytest science/anysite science/tests` 458 passed, 2 skipped (LOD tiles not built in this worktree).
+- Not done: SLDEM2015 in the per-product adapter; an error model for LOLA polar LDEMs; height-only tile layout (faster far reads).

@@ -2,9 +2,11 @@
 
   python -m science.anysite.solve --lat -89.78012 --lon -156.32023 --mast 1 [--members clones,assumed,products]
 
-Pipeline (docs/v2/PHASE_1_ANYSITE_PLAN.md): terrain stack -> near field (±25 km, native resolution, ray step native/5)
--> far field to the curvature limit -> 720-bin skyline (science.skyline.compute_skyline, unchanged) -> JPL Horizons
-(identical query to science.horizons, raw responses cached by SHA-256) -> hourly-sample metrics -> bundle.
+Pipeline (docs/v2/PHASE_1_ANYSITE_PLAN.md, docs/v2/PHASE_1_R1_PLAN.md): terrain stack (default: merged whole-Moon
+pyramid for the nominal terrain, per-product sources for the members) -> near field (finest level at the site, ray step
+pixel/5 to the near cut of the documented rule) -> far field to the curvature limit -> 720-bin skyline
+(science.skyline.compute_skyline, unchanged) -> JPL Horizons (identical query to science.horizons, raw responses cached by
+SHA-256) -> hourly-sample metrics -> bundle. POLARIS_ANYSITE_STACK=legacy: per-product adapter for everything.
 Labels: geometry SOURCE-BASED UNVALIDATED; error-model members 'assumed error model'.
 """
 from __future__ import annotations
@@ -33,7 +35,7 @@ from .stack import get_stack
 
 ROOT = P.ROOT
 OUT_DIR = ROOT / 'data' / 'cache' / 'anysite' / 'bundles'
-SOLVER_VERSION = 'anysite-2'   # 2: far composite step = PGDA 90 step; far layers >= 75 m
+SOLVER_VERSION = 'anysite-3'   # 3: merged pyramid default (R1); 2: far composite step = PGDA 90 step
 LABEL = B.LABEL
 NEAR_HALF_M = 25_000.0
 BASE_RANGE_M = 280_000.0         # range of every existing bundle
@@ -137,61 +139,26 @@ def solve(lat, lon, mast_m=1.0, start='2026-11-14 00:00', days=14, step_h=1, mem
     if not (-90.0 <= lat <= 90.0) or not math.isfinite(lon):
         raise ValueError(f'latitude must be within [-90, 90] deg (got {lat})')
     stack = stack or get_stack()
-    cov = _coverage(stack, lat, lon)
-    if not cov['products']:
-        raise LookupError(f'no cached terrain product covers ({lat:.5f}, {lon:.5f})')
-    pids = [p['id'] for p in cov['products']]
+    pyr = getattr(stack, 'kind', None) == 'pyramid'
+    cov = stack.coverage(lat, lon) if pyr else _coverage(stack, lat, lon)
+    if pyr:
+        if cov['window']['level'] < 0:
+            raise LookupError(f'no pyramid terrain at ({lat:.5f}, {lon:.5f})')
+        pids = [f'pyramid@{(cov.get("pyramid_index_sha256") or "none")[:12]}'] + [p['id'] for p in cov['products']]
+    else:
+        if not cov['products']:
+            raise LookupError(f'no cached terrain product covers ({lat:.5f}, {lon:.5f})')
+        pids = [p['id'] for p in cov['products']]
     shash = site_hash(lat, lon, mast_m, start, days, step_h, pids, member_kinds, n_members)
     out_p = Path(out_dir) / f'{shash}.json'
     if use_cache and out_p.exists():
         b = json.loads(out_p.read_text()); b['anysite']['cache_hit'] = True
         return b
-    entries = {e['id']: e for e in getattr(stack, 'entries', [])}
-    if not entries:   # pyramid (S3): one merged surface; near at the site's native resolution, far at >= 80 m
-        near_e = {'id': f'pyramid:{cov["source_id"]}', 'res_m': float(cov['native_res_m']), 'clones': {},
-                  'product': 'pyramid'}
-        far_e = {'id': 'pyramid:far', 'res_m': max(80.0, float(cov['native_res_m'])), 'clones': {}, 'product': 'pyramid'}
-        if far_e['res_m'] == near_e['res_m']:
-            far_e = near_e
-        entries = {}
-    else:
-        near_e = entries[cov['source_id']]
-    far_es = _far_entries(near_e, [entries[p] for p in pids if p in entries]) if entries else [far_e]
-    far_e = far_es[0]
+    T = terrain_stage(stack, lat, lon, mast_m, cov, timing)
+    near, far, near_e, far_e, h = T['near'], T['far'], T['near_e'], T['far_e'], T['h']
+    near_cut, step_near, max_range, sky, curv = T['near_cut'], T['step_near'], T['max_range'], T['sky'], T['curv']
+    entries = T['entries']
     x0, y0 = frames.stereo_forward(lat, lon)
-
-    t = time.time()
-    near_half = _near_half(near_e)
-    near = _window(stack, lat, lon, near_half, near_e)
-    h = float(near.sample(x0, y0))
-    if not math.isfinite(h):
-        raise LookupError(f'no height at the site ({lat}, {lon}) in {near_e["id"]}')
-    h_eye = h + mast_m
-    max_range = max(BASE_RANGE_M, float(curvature.limit_m(h_eye, 0.0)))
-    far = _far_window(stack, lat, lon, max_range + FAR_MARGIN_M, far_es)
-    timing['terrain_read_s'] = round(time.time() - t, 2)
-
-    same = near_e['id'] == far_e['id']
-    step_near = near_e['res_m'] / STEP_DIVISOR
-    near_cut = NEAR_HALF_M if same else min(_near_cut(near, lat, lon), FINE_STEP_MAX_M)
-
-    t = time.time()
-    sky = compute_skyline(lat, lon, h, mast_m, near=near, far=far, bins=720, max_range_m=max_range, step_m=step_near,
-                          near_range_m=near_cut, far_step_m=far.step)
-    curv = curvature.record(h_eye, max_range, sky['elevation_deg'], float(np.nanmax(far.Z)))
-    L_req = curv['required_range_world_m']
-    reach = max(_footprint_reach(e, lat, lon) for e in far_es)
-    extended = False
-    if math.isfinite(L_req) and L_req > max_range and reach > max_range + FAR_MARGIN_M:
-        max_range = min(L_req, MAX_EXTENDED_RANGE_M, reach - FAR_MARGIN_M)
-        far = _far_window(stack, lat, lon, max_range + FAR_MARGIN_M, far_es)
-        sky = compute_skyline(lat, lon, h, mast_m, near=near, far=far, bins=720, max_range_m=max_range, step_m=step_near,
-                              near_range_m=near_cut, far_step_m=far.step)
-        curv = curvature.record(h_eye, max_range, sky['elevation_deg'], float(np.nanmax(far.Z)))
-        extended = True
-    curv['extended'] = extended
-    curv['footprint_reach_m'] = round(reach, 1) if math.isfinite(reach) else 'global'
-    timing['skyline_s'] = round(time.time() - t, 2)
 
     t = time.time()
     stop = _stop(start, days)
@@ -213,11 +180,93 @@ def solve(lat, lon, mast_m=1.0, start='2026-11-14 00:00', days=14, step_h=1, mem
     timing['total_s'] = round(time.time() - t_start, 2)
 
     b = assemble(lat, lon, mast_m, h, x0, y0, near, far, sky, rs, re_, met, [src_s, src_e], start, days, step_h, shash,
-                 cov, near_e, far_e, near_cut, step_near, curv, unc, timing, name, site_id, command)
+                 cov, near_e, far_e, near_cut, step_near, curv, unc, timing, name, site_id, command,
+                 pyr_stack=stack if getattr(stack, 'kind', None) == 'pyramid' else None)
     Path(out_dir).mkdir(parents=True, exist_ok=True)
     tmp = out_p.with_suffix(f'.{os.getpid()}.tmp'); tmp.write_text(json.dumps(b, indent=1)); tmp.replace(out_p)
     b['anysite']['cache_hit'] = False
     return b
+
+
+def terrain_stage(stack, lat, lon, mast_m, cov=None, timing=None):
+    """Near field, far field, ray steps, near cut and the skyline (with the curvature-limit extension). Pyramid stacks
+    (`kind == 'pyramid'`) use the merged pyramid for both fields; per-product / contract-only stacks as before."""
+    timing = {} if timing is None else timing
+    pyr = getattr(stack, 'kind', None) == 'pyramid'
+    if cov is None:
+        cov = stack.coverage(lat, lon) if pyr else _coverage(stack, lat, lon)
+    x0, y0 = frames.stereo_forward(lat, lon)
+    t = time.time()
+    if pyr:
+        entries = {e['id']: e for e in stack.products.entries} if cov['products'] else {}
+        near, info = stack.near_field(lat, lon, cov)
+        fam = cov['family']
+        # per-product entry of the pyramid's source family at the site (clones / error model / member exclusion)
+        src_e = next((entries[p['id']] for p in cov['products'] if p['id'] in entries
+                      and entries[p['id']]['product'] == fam), None)
+        near_e = {'id': near.meta['product_id'], 'res_m': info['pixel_m'], 'product': fam, 'zone': info['zone'],
+                  'clones': src_e['clones'] if src_e else {}, 'member_product_id': src_e['id'] if src_e else None,
+                  'member_res_m': src_e['res_m'] if src_e else None, 'pyramid': info,
+                  'source_id': cov['window']['source_id']}
+        h = float(near.sample(x0, y0))
+        if not math.isfinite(h):
+            raise LookupError(f'no height at the site ({lat}, {lon}) in {near_e["id"]}')
+        h_eye = h + mast_m
+        max_range = max(BASE_RANGE_M, float(curvature.limit_m(h_eye, 0.0)))
+        far = stack.far_field(lat, lon, max_range + FAR_MARGIN_M)
+        far_e = {'id': far.meta['product_id'], 'res_m': far.step, 'product': 'pyramid', 'clones': {},
+                 'levels': far.levels}
+        far_es = [far_e]
+        near_cut = info['near_cut_m']
+        step_near = info['pixel_m'] / STEP_DIVISOR
+        reach = float('inf')                            # the pyramid covers the whole Moon
+    else:
+        entries = {e['id']: e for e in getattr(stack, 'entries', [])}
+        if not entries:   # contract-only stack: one merged surface; near at the site's native resolution, far >= 80 m
+            near_e = {'id': f'pyramid:{cov["source_id"]}', 'res_m': float(cov['native_res_m']), 'clones': {},
+                      'product': 'pyramid'}
+            far_e = {'id': 'pyramid:far', 'res_m': max(80.0, float(cov['native_res_m'])), 'clones': {}, 'product': 'pyramid'}
+            if far_e['res_m'] == near_e['res_m']:
+                far_e = near_e
+            far_es = [far_e]
+        else:
+            near_e = entries[cov['source_id']]
+            far_es = _far_entries(near_e, [entries[p] for p in (q['id'] for q in cov['products']) if p in entries])
+        far_e = far_es[0]
+        near_half = _near_half(near_e)
+        near = _window(stack, lat, lon, near_half, near_e)
+        h = float(near.sample(x0, y0))
+        if not math.isfinite(h):
+            raise LookupError(f'no height at the site ({lat}, {lon}) in {near_e["id"]}')
+        h_eye = h + mast_m
+        max_range = max(BASE_RANGE_M, float(curvature.limit_m(h_eye, 0.0)))
+        far = _far_window(stack, lat, lon, max_range + FAR_MARGIN_M, far_es)
+        same = near_e['id'] == far_e['id']
+        step_near = near_e['res_m'] / STEP_DIVISOR
+        near_cut = NEAR_HALF_M if same else min(_near_cut(near, lat, lon), FINE_STEP_MAX_M)
+        reach = max(_footprint_reach(e, lat, lon) for e in far_es)
+    timing['terrain_read_s'] = round(time.time() - t, 2)
+
+    t = time.time()
+    h_eye = h + mast_m
+    sky = compute_skyline(lat, lon, h, mast_m, near=near, far=far, bins=720, max_range_m=max_range, step_m=step_near,
+                          near_range_m=near_cut, far_step_m=far.step)
+    curv = curvature.record(h_eye, max_range, sky['elevation_deg'], float(np.nanmax(far.Z)))
+    L_req = curv['required_range_world_m']
+    extended = False
+    if math.isfinite(L_req) and L_req > max_range and reach > max_range + FAR_MARGIN_M:
+        max_range = min(L_req, MAX_EXTENDED_RANGE_M, reach - FAR_MARGIN_M)
+        far = stack.far_field(lat, lon, max_range + FAR_MARGIN_M) if pyr else \
+            _far_window(stack, lat, lon, max_range + FAR_MARGIN_M, far_es)
+        sky = compute_skyline(lat, lon, h, mast_m, near=near, far=far, bins=720, max_range_m=max_range, step_m=step_near,
+                              near_range_m=near_cut, far_step_m=far.step)
+        curv = curvature.record(h_eye, max_range, sky['elevation_deg'], float(np.nanmax(far.Z)))
+        extended = True
+    curv['extended'] = extended
+    curv['footprint_reach_m'] = round(reach, 1) if math.isfinite(reach) else 'global'
+    timing['skyline_s'] = round(time.time() - t, 2)
+    return {'near': near, 'far': far, 'near_e': near_e, 'far_e': far_e, 'far_es': far_es, 'h': h, 'near_cut': near_cut,
+            'step_near': step_near, 'max_range': max_range, 'sky': sky, 'curv': curv, 'entries': entries, 'cov': cov}
 
 
 def _coverage(stack, lat, lon):
@@ -287,7 +336,9 @@ def run_members(lat, lon, mast_m, stack, near_e, far_e, near, far, near_cut, ste
                 kinds, n, shash, pids, entries):
     out = {'label_note': '"k of N maps is not a probability": member ranges are spreads over alternatives, not '
                          'calibrated probabilities.', 'members': [], 'summary': {}}
-    same = near_e['id'] == far_e['id']
+    mstack = getattr(stack, 'products', stack)          # members always come from the per-product adapter
+    clone_pid = near_e.get('member_product_id', near_e['id'])
+    clone_res = near_e.get('member_res_m') or near_e['res_m']
     jobs = []   # (member_id, kind, near_dem, label)
     clones = sorted(near_e.get('clones', {}))[:n]
     if 'clones' in kinds and clones:
@@ -304,29 +355,40 @@ def run_members(lat, lon, mast_m, stack, near_e, far_e, near, far, near_cut, ste
     if 'clones' in kinds and not clones:
         out['summary']['clones'] = {'status': 'not-run', 'reason': f'no PGDA 78 clones cached for {near_e["id"]}'}
 
-    # T members, batched in chunks (shared ray geometry; bit-identical to compute_skyline, see test)
+    # T members, batched in chunks (shared ray geometry; bit-identical to compute_skyline, see test). Clones: their own
+    # tile, ray step = clone native / 5, near cut = min(nominal cut, the clone window's inscribed radius) -- on the
+    # per-product path both equal the nominal values; on the pyramid path the clone tile is smaller than the nominal
+    # fine region (feathered pyramid vs raw tile), so the clone's own radius applies.
     chunk = 5
-    for i in range(0, len(jobs), chunk):
-        part = jobs[i:i + chunk]; dems = {}
-        for mid, kind, spec, lab in part:
-            if spec[0] == 'clone':
-                dems[mid] = stack.window(lat, lon, _near_half(near_e), near_e['res_m'], product=near_e['id'],
-                                         member=f'clone{spec[1]:04d}')
+    for kind_ in ('clone', 'assumed'):
+        kjobs = [j for j in jobs if j[2][0] == kind_]
+        for i in range(0, len(kjobs), chunk):
+            part = kjobs[i:i + chunk]; dems = {}
+            for mid, kind, spec, lab in part:
+                if spec[0] == 'clone':
+                    e = mstack.entry(clone_pid) if hasattr(mstack, 'entry') else near_e
+                    dems[mid] = mstack.window(lat, lon, _near_half(e), clone_res, product=clone_pid,
+                                              member=f'clone{spec[1]:04d}')
+                else:
+                    dems[mid] = MB.assumed_member(near, near_e.get('product'), spec[1], spec[2], spec[3])
+            if kind_ == 'clone':
+                cut = min([near_cut] + [min(_near_cut(d, lat, lon), FINE_STEP_MAX_M) for d in dems.values()])
+                stp = clone_res / STEP_DIVISOR
             else:
-                dems[mid] = MB.assumed_member(near, near_e.get('product'), spec[1], spec[2], spec[3])
-        res = MB.batched_skyline(lat, lon, dems, far, mast_m, step_near, near_cut, far.step, max_range)
-        for mid, kind, spec, lab in part:
-            sky = res[mid]
-            m = _pct_from_flags(visible_flags(eph, sky), step_h)
-            rec = {'id': mid, 'kind': kind, 'label': lab, 'ground_m': round(sky['ground_m'], 3),
-                   'n_truncated': sky['n_truncated'], 'metrics': m,
-                   'dem': dems[mid].name, 'source_url': dems[mid].meta.get('source_url'),
-                   'file_sha256': dems[mid].meta.get('file_sha256')}
-            if spec[0] == 'assumed':
-                rec['error_model'] = {**spec[3], 'product': near_e.get('product'), 'seed': [spec[2], spec[1]],
-                                      'applied_to': f'near field only (±{NEAR_HALF_M / 1000:g} km)'}
-            out['members'].append(rec)
-        del dems
+                cut, stp = near_cut, step_near
+            res = MB.batched_skyline(lat, lon, dems, far, mast_m, stp, cut, far.step, max_range)
+            for mid, kind, spec, lab in part:
+                sky = res[mid]
+                m = _pct_from_flags(visible_flags(eph, sky), step_h)
+                rec = {'id': mid, 'kind': kind, 'label': lab, 'ground_m': round(sky['ground_m'], 3),
+                       'n_truncated': sky['n_truncated'], 'metrics': m,
+                       'dem': dems[mid].name, 'source_url': dems[mid].meta.get('source_url'),
+                       'file_sha256': dems[mid].meta.get('file_sha256')}
+                if spec[0] == 'assumed':
+                    rec['error_model'] = {**spec[3], 'product': near_e.get('product'), 'seed': [spec[2], spec[1]],
+                                          'applied_to': f'near field only (±{NEAR_HALF_M / 1000:g} km)'}
+                out['members'].append(rec)
+            del dems
     for kind in ('pgda78-clone', 'assumed-error-model'):
         ms = [m for m in out['members'] if m['kind'] == kind]
         if ms:
@@ -337,7 +399,7 @@ def run_members(lat, lon, mast_m, stack, near_e, far_e, near, far, near_cut, ste
 
     # M: product disagreement
     if 'products' in kinds:
-        others, fams = [], {near_e.get('product')}
+        others, fams = [], {near_e.get('product')}       # pyramid: its source family at the site is the nominal
         for p in pids:                                   # one member per other product family (its finest resolution)
             if p in entries and entries[p]['product'] not in fams:
                 others.append(p); fams.add(entries[p]['product'])
@@ -346,7 +408,7 @@ def run_members(lat, lon, mast_m, stack, near_e, far_e, near, far, near_cut, ste
                                                                         'cache (M needs >= 2)'}
         for pid in others:
             e = entries[pid]
-            nd = stack.window(lat, lon, _near_half(e), e['res_m'], product=pid)
+            nd = mstack.window(lat, lon, _near_half(e), e['res_m'], product=pid)
             cut = NEAR_HALF_M if e['res_m'] >= FAR_MIN_RES_M else min(_near_cut(nd, lat, lon), FINE_STEP_MAX_M)
             x0, y0 = frames.stereo_forward(lat, lon)
             g = float(nd.sample(x0, y0))
@@ -360,12 +422,14 @@ def run_members(lat, lon, mast_m, stack, near_e, far_e, near, far, near_cut, ste
                                    'metrics': _pct_from_flags(visible_flags(eph, sky), step_h),
                                    'dem': nd.name, 'file_sha256': nd.meta.get('file_sha256')})
         if others:
-            out['summary']['products'] = {'nominal_near_product': near_e['id'], 'compared': others}
+            out['summary']['products'] = {'nominal_near_product': near_e['id'], 'nominal_family': near_e.get('product'),
+                                          'compared': others,
+                                          'far_field': 'nominal far field (' + str(far_e['id']) + ') for every member'}
     return out
 
 
 def assemble(lat, lon, mast_m, h, x0, y0, near, far, sky, rs, re_, met, srcs, start, days, step_h, shash, cov, near_e,
-             far_e, near_cut, step_near, curv, unc, timing, name, site_id, command):
+             far_e, near_cut, step_near, curv, unc, timing, name, site_id, command, pyr_stack=None):
     sky_out = {k: sky[k] for k in ('bins', 'azimuth_deg', 'elevation_deg', 'status', 'range_limited', 'valid_reach_m',
                                    'critical', 'n_truncated', 'n_range_limited', 'max_range_m', 'near_cut_m',
                                    'step_near_m', 'step_far_m', 'n_samples_per_bin',
@@ -378,14 +442,31 @@ def assemble(lat, lon, mast_m, h, x0, y0, near, far, sky, rs, re_, met, srcs, st
     # bands (source_id, native_res_m, quality, filled), so only a list/tuple means sub-DEMs.
     _fl = getattr(far, 'layers', None)
     far_layers = list(_fl) if isinstance(_fl, (list, tuple)) else [far]
+    pyramid_tiles, pyr_idx = {}, {}
+    if 'pyramid' in near_e and pyr_stack is not None:
+        from .stack import _tile_sha
+        pyr_idx = _tile_sha(pyr_stack.pyramid)
+        pyramid_tiles['near'] = pyr_stack.tiles_of_window(near)
+    pyr = 'pyramid' in near_e
     for role, d in [('near', near)] + [('far' if i == 0 else 'far-fill', l) for i, l in enumerate(far_layers)]:
         eq = d.meta.get('zone') == 'eq' and hasattr(d, 'ppd')
-        layers.append({'role': role, 'name': d.name, 'step_m': d.step, 'bounds_grid_m': list(d.bounds),
-                       'bounds_units': 'deg (lon_west, lat_south, lon_east, lat_north)' if eq else 'south-polar grid m',
-                       'zone': d.meta.get('zone'), 'product_id': d.meta.get('product_id'),
-                       'source_url': d.meta.get('source_url'), 'file_sha256': d.meta.get('file_sha256'),
-                       'array_sha256': d.digest(), 'citation': d.meta.get('citation'),
-                       'unit_scale_to_m': d.meta.get('unit_scale', 1.0)})
+        inner = getattr(d, 'inner', d)
+        units = getattr(d, 'bounds_units', None) or ('deg (lon_west, lat_south, lon_east, lat_north)' if eq else
+                                                     f'{inner.proj} grid m' if hasattr(inner, 'proj') else 'south-polar grid m')
+        rec = {'role': role, 'name': d.name, 'step_m': d.step, 'bounds_grid_m': list(d.bounds), 'bounds_units': units,
+               'zone': d.meta.get('zone'), 'product_id': d.meta.get('product_id'),
+               'source_url': d.meta.get('source_url'), 'file_sha256': d.meta.get('file_sha256'),
+               'array_sha256': d.digest(), 'citation': d.meta.get('citation'),
+               'unit_scale_to_m': d.meta.get('unit_scale', 1.0)}
+        if pyr:
+            tiles = d.tiles() if hasattr(d, 'tiles') else pyramid_tiles.get(role, [])
+            rec['pyramid'] = {'index_sha256': cov.get('pyramid_index_sha256'), 'stack_root': d.meta.get('stack_root'),
+                              'level': d.meta.get('level', d.meta.get('levels')),
+                              'proj': getattr(inner, 'proj', None), 'crs_proj4': d.meta.get('crs_proj4'),
+                              'source_ids': d.meta.get('source_ids'), 'n_tiles': len(tiles),
+                              'tiles_sha256': _tiles_digest(tiles, pyr_idx),
+                              'label': 'SOURCE-BASED · UNVALIDATED (merged pyramid, docs/v2/TERRAIN_STACK_CONTRACT.md)'}
+        layers.append(rec)
     sky_out['dem_layers'] = layers
     sid = site_id or f'anysite_{shash}'
     srcs_out = [dict(role=f'{b}-hourly', path=s['path'], sha256=s['sha256'], retrieved_utc=s['retrieved_utc'],
@@ -393,6 +474,12 @@ def assemble(lat, lon, mast_m, h, x0, y0, near, far, sky, rs, re_, met, srcs, st
     sources = [{'id': 'jpl-horizons', 'description': 'JPL Horizons API, observer tables, CENTER=coord@301, QUANTITIES=4,13,20, '
                                                      'APPARENT=AIRLESS', 'url': H.API}]
     for d in [near] + far_layers:
+        if 'pyramid' in near_e:
+            sources.append({'id': d.meta.get('product_id'), 'description': f'{d.name}; merged science pyramid '
+                            f'(docs/v2/TERRAIN_STACK_CONTRACT.md), index.json SHA-256 below; contributing products: '
+                            f'docs/v2/SOURCE_IDS.json ids {d.meta.get("source_ids")}', 'url': None,
+                            'sha256': cov.get('pyramid_index_sha256'), 'citation': 'docs/v2/DATA_MANIFEST.json'})
+            continue
         sources.append({'id': d.meta.get('product_id'), 'description': d.name, 'url': d.meta.get('source_url'),
                         'sha256': d.meta.get('file_sha256'), 'citation': d.meta.get('citation')})
     vs = B.validation_status({'id': 'site-coordinate-source', 'status': 'not-run',
@@ -400,12 +487,18 @@ def assemble(lat, lon, mast_m, h, x0, y0, near, far, sky, rs, re_, met, srcs, st
                                           f'independent site list. Local slope (50 m baseline) = '
                                           f'{B.site_slope(near, x0, y0):.1f} deg.'})
     vs['checks'].append({'id': 'anysite-reproduces-site04-roi3', 'status': 'pass',
-                         'evidence': 'science/anysite/tests/test_anysite.py::Site04Roi3Reproduction (hourly Sun / Sun+Earth / '
-                                     'gap / clone range of the committed bundle reproduced through the any-site path)'})
+                         'evidence': 'science/anysite/tests/test_anysite.py::Site04Roi3Reproduction (per-product path: '
+                                     'skyline identical to the committed bundle) and ::Site04Roi3PyramidPath (pyramid '
+                                     'default: same hourly Sun / Sun+Earth / gap / clone range, skyline within a stated '
+                                     'tolerance)'})
     lims = [l for l in B.LIMITATIONS if not l.startswith('Tile-centre bundles')] + [
         'Any-site metrics are on hourly Horizons samples (no bisection refinement of crossings).',
-        'Near field: finest cached product within ±25 km at native resolution, ray step native/5 to the inscribed radius '
-        'of that product; coarser products supply samples beyond it at their own step.',
+        ('Terrain: merged whole-Moon science pyramid (nominal near and far field); uncertainty members from the '
+         'individual products. Near field: finest pyramid level with data at the site, ray step pixel/5 to the near cut '
+         '(radius of the native-resolution region minus sqrt(2) pixels, PHASE_1_R1_PLAN.md); beyond it the pyramid is '
+         'sampled at the far level (80 m polar, 118 m eq).' if 'pyramid' in near_e else
+         'Near field: finest cached product within ±25 km at native resolution, ray step native/5 to the inscribed '
+         'radius of that product; coarser products supply samples beyond it at their own step.'),
         'Uncertainty members labelled "assumed error model" come from assumed error statistics, not from the product.',
         'Coordinates are caller-supplied; a single point is not a surveyed landing site.']
     return {
@@ -436,12 +529,25 @@ def assemble(lat, lon, mast_m, h, x0, y0, near, far, sky, rs, re_, met, srcs, st
         'provenance': {'sources': sources, 'horizons_raw': srcs_out},
         'limitations': lims,
         'anysite': {'site_hash': shash, 'solver_version': SOLVER_VERSION, 'coverage': cov,
-                    'near_field': {'product_id': near_e['id'], 'window_half_m': NEAR_HALF_M, 'native_res_m': near_e['res_m'],
-                                   'ray_step_m': step_near, 'fine_step_to_m': near_cut},
+                    'terrain': 'pyramid' if 'pyramid' in near_e else 'per-product',
+                    'near_field': {'product_id': near_e['id'], 'window_half_m': near_e.get('pyramid', {}).get(
+                                       'half_m', _near_half(near_e) if 'pyramid' not in near_e else None),
+                                   'native_res_m': near_e['res_m'], 'ray_step_m': step_near, 'fine_step_to_m': near_cut,
+                                   **({'pyramid': near_e['pyramid'], 'source_family': near_e.get('product'),
+                                       'member_product_id': near_e.get('member_product_id')}
+                                      if 'pyramid' in near_e else {})},
                     'far_field': {'product_id': far_e['id'], 'native_res_m': far_e['res_m'], 'max_range_m': sky['max_range_m']},
                     'uncertainty': unc, 'timing_s': timing,
                     'labels': {'geometry': LABEL, 'error_model_members': MB.LABEL_ASSUMED}},
     }
+
+
+def _tiles_digest(tiles, idx):
+    import hashlib
+    h = hashlib.sha256()
+    for t in sorted(tiles):
+        h.update(f'{t}:{idx.get(tuple(t))}'.encode())
+    return h.hexdigest()
 
 
 def _sample_nodata(a, b):
