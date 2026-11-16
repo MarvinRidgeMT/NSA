@@ -368,7 +368,7 @@ class TerrainStack:
                 continue
             qp = self._query(lb[m], lob[m], levels=levels, zone=pole)
             w = (np.abs(lb[m]) - a0) / (a1 - a0)
-            he, hp = qe['height'][m], qp['height'][m]
+            he, hp = qe['height'][m], qp['height']          # qp holds only the points of this hemisphere (R1 fix)
             h = np.where(np.isfinite(he) & np.isfinite(hp), (1 - w) * he + w * hp, np.where(np.isfinite(hp), hp, he))
             dom_p = np.where(np.isfinite(hp) & np.isfinite(he), w >= 0.5, np.isfinite(hp))
             idx = np.flatnonzero(b)[m]
@@ -389,9 +389,93 @@ class TerrainStack:
         q = self._query_blended(lat, lon)
         return q['height'], q['source_id'], q['native_res_m']
 
-    def coverage(self, lat, lon):
-        q = self._query_blended(lat, lon)
+    def coverage(self, lat, lon, zone=None):
+        """zone=None: the contract rule (57.5 deg switch, 56.5-58.5 deg blend). zone='sp'/'np'/'eq' (API addition, R1):
+        that zone's grid only, no blend -- what a `window` centred here (which uses one zone) reads."""
+        q = self._query_blended(lat, lon) if zone is None else self._query(lat, lon, zone=zone)
         return {k: q[k] for k in ('source_id', 'native_res_m', 'quality', 'level', 'zone')}
+
+    # ---- API addition (R1, any-site far field): heights only, one tile gather per level
+    def sample_height(self, lat, lon, max_level=None, touched=None, min_level=None):
+        """Height (m, float64) at lat/lon: bilinear on the finest level <= max_level with a finite value at each point,
+        coarser levels filling the rest; zone rule and 56.5-58.5 deg blend exactly as `sample` (equal to
+        `sample(lat, lon)[0]` for max_level=None). max_level / min_level: int, or {zone: level} (a dict max_level reads only
+        the zones it names; min_level=L stops the coarser fill at L, e.g. min = max = L reads exactly one level). touched: optional set that receives
+        (zone, level, ix, iy) of every tile read (provenance). The four bilinear corners are gathered in one call, so a
+        tile is decompressed once per level per call (sample() gathers four times, all bands)."""
+        lat = np.asarray(lat, dtype=float); lon = np.asarray(lon, dtype=float)
+        lat, lon = np.broadcast_arrays(lat, lon)
+        shape = lat.shape
+        la = lat.ravel(); lo = lon.ravel()
+        out = self._height(la, lo, max_level, None, touched, min_level)
+        a0, a1 = ZONE_BLEND_ABS_LAT
+        b = np.flatnonzero((np.abs(la) >= a0) & (np.abs(la) <= a1) & np.isfinite(la))
+        if b.size:
+            lb, lob = la[b], lo[b]
+            he = self._height(lb, lob, max_level, 'eq', touched, min_level)
+            hp = np.full(b.size, np.nan)
+            for pole, m in (('np', lb > 0), ('sp', lb < 0)):
+                if m.any():
+                    hp[m] = self._height(lb[m], lob[m], max_level, pole, touched, min_level)
+            w = (np.abs(lb) - a0) / (a1 - a0)
+            out[b] = np.where(np.isfinite(he) & np.isfinite(hp), (1 - w) * he + w * hp,
+                              np.where(np.isfinite(hp), hp, he))
+        return out.reshape(shape)
+
+    def _height(self, la, lo, max_level, zone, touched, min_level=None):
+        n = la.size
+        out = np.full(n, np.nan)
+        zn = zone_name_for(la) if zone is None else np.full(n, zone)
+        for z in ('sp', 'np', 'eq'):
+            m = np.flatnonzero((zn == z) & np.isfinite(la) & np.isfinite(lo))
+            if m.size == 0:
+                continue
+            if isinstance(max_level, dict) and z not in max_level:
+                continue
+            Z = ZONES[z]
+            top = max_level.get(z) if isinstance(max_level, dict) else max_level
+            bot = min_level.get(z) if isinstance(min_level, dict) else min_level
+            u, v = Z.forward(la[m], lo[m])
+            todo = np.ones(m.size, bool)
+            for L in sorted((l for l in self.levels(z) if (top is None or l <= top) and (bot is None or l >= bot)),
+                            reverse=True):
+                if not todo.any():
+                    break
+                i = np.flatnonzero(todo)
+                p = Z.pixel(L)
+                c = (u[i] - Z.left) / p - 0.5
+                r = (Z.top - v[i]) / p - 0.5
+                c0 = np.floor(c).astype(np.int64); r0 = np.floor(r).astype(np.int64)
+                a = c - c0; b = r - r0
+                k = i.size
+                rr = np.concatenate([r0, r0, r0 + 1, r0 + 1]); cc = np.concatenate([c0, c0 + 1, c0, c0 + 1])
+                g = self._gather(z, L, rr, cc)[0]
+                if touched is not None:
+                    T = Z.tile_px
+                    npx, npy = Z.n_pixels(L)
+                    cw = cc % npx if Z.kind == 'eq' else cc
+                    ok = (rr >= 0) & (rr < npy) & (cw >= 0) & (cw < npx)
+                    keys = np.unique((rr[ok] // T) * (npx // T) + cw[ok] // T)
+                    have = self._tiles.get((z, L), ())
+                    touched.update((z, L, int(q % (npx // T)), int(q // (npx // T))) for q in keys
+                                   if (int(q % (npx // T)), int(q // (npx // T))) in have)
+                g00, g01, g10, g11 = g[:k], g[k:2 * k], g[2 * k:3 * k], g[3 * k:]
+                h = ((1 - a) * (1 - b) * g00 + a * (1 - b) * g01 + (1 - a) * b * g10 + a * b * g11)
+                ok = np.isfinite(h)
+                if not ok.any():
+                    continue
+                out[m[i[ok]]] = h[ok]
+                todo[i[ok]] = False
+        return out
+
+    def tile_max_height(self, zone, level, ix, iy):
+        """nanmax of a tile's height band (memoised; NaN for an all-NaN tile). API addition (R1)."""
+        memo = self.__dict__.setdefault('_tile_max', {})
+        key = (zone, level, ix, iy)
+        if key not in memo:
+            a = self._load(zone, level, ix, iy)[0]
+            memo[key] = float(np.nanmax(a)) if np.isfinite(a).any() else float('nan')
+        return memo[key]
 
     def window(self, lat0, lon0, half_m, res_m=None, fill_coarser=False, name=None):
         """Square DEM of half-width half_m centred near (lat0, lon0).
