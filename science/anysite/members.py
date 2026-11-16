@@ -79,6 +79,12 @@ def error_field(shape, step_m, sigma_m, corr_m, seed):
 
 def assumed_member(dem, product, k, site_seed, model):
     """DEM + error field. dem may be an ArrayDEM or SPView (perturbs the inner grid)."""
+    if hasattr(dem, 'perturbed'):                 # EqDEM (global simple-cylindrical window)
+        f = error_field(dem.Z.shape, dem.step, model['sigma_m'], model['corr_m'], (site_seed, k))
+        return dem.perturbed(f, f'{dem.name} + {LABEL_ASSUMED} #{k:02d}',
+                             {**dem.meta, 'member': f'assumed{k:02d}', 'label': LABEL_ASSUMED,
+                              'error_model': {**model, 'product': product,
+                                              'note': 'field on the lat/lon grid; correlation length along latitude'}})
     inner = getattr(dem, 'inner', dem)
     Z = inner.Z + error_field(inner.Z.shape, inner.step, model['sigma_m'], model['corr_m'], (site_seed, k))
     nd = demmod.ArrayDEM(Z, inner.x_left, inner.y_top, inner.step, f'{inner.name} + {LABEL_ASSUMED} #{k:02d}',

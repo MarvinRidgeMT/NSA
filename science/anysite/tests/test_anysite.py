@@ -143,7 +143,8 @@ class Adapter(unittest.TestCase):
         x, y = frames.stereo_forward(*ROI3)
         near = st.window(*ROI3, 9000.0, 5.0)
         self.assertLess(abs(h[0] - float(near.sample(x, y))), 0.05)   # nearest-pixel point read vs bilinear, 5 m DEM
-        self.assertEqual(st.coverage(10.0, 20.0)['products'], [])    # equator: nothing cached tonight
+        sp_only = LegacyStack([e for e in st.entries if e['zone'] == 'sp'])
+        self.assertEqual(sp_only.coverage(10.0, 20.0)['products'], [])   # south-polar products do not reach the equator
 
     def test_site_hash_stable(self):
         a = S.site_hash(*ROI3, 1.0, '2026-11-14 00:00', 14, 1, ['b', 'a'])
@@ -219,7 +220,9 @@ class Site04Roi3Reproduction(unittest.TestCase):
 
     def test_product_disagreement_present(self):
         ms = [m for m in self.b['anysite']['uncertainty']['members'] if m['kind'] == 'product']
-        self.assertEqual([m['id'] for m in ms], ['product:pgda90_80m'])
+        ids = [m['id'] for m in ms]
+        self.assertEqual(ids[0], 'product:pgda90_80m')
+        self.assertEqual(len(ids), len({i.split(':')[1] for i in ids}))      # one member per product family
 
     def test_schema(self):
         import jsonschema
@@ -231,8 +234,11 @@ class Site04Roi3Reproduction(unittest.TestCase):
 class ApiStub(unittest.TestCase):
     def test_no_data_point_is_an_error(self):
         from science.anysite import api
+        with self.assertRaises(ValueError):
+            api.handle({'lat': 95.0, 'lon': 20.0, 'allow_network': False})
+        sp_only = LegacyStack([e for e in LegacyStack().entries if e['zone'] == 'sp'])
         with self.assertRaises(LookupError):
-            api.handle({'lat': 10.0, 'lon': 20.0, 'allow_network': False})
+            S.solve(10.0, 20.0, stack=sp_only, allow_network=False, use_cache=False)
 
     def test_http_roundtrip(self):
         if not _have_roi3_data():
@@ -249,7 +255,7 @@ class ApiStub(unittest.TestCase):
                                                                'allow_network': False}).encode(), method='POST')
             out = json.loads(urllib.request.urlopen(req, timeout=120).read())
             self.assertEqual(out['sun_center_visible_pct_hourly_samples'], 94.362)
-            req = urllib.request.Request(url, data=b'{"lat": 10, "lon": 20, "allow_network": false}', method='POST')
+            req = urllib.request.Request(url, data=b'{"lat": 95, "lon": 20, "allow_network": false}', method='POST')
             with self.assertRaises(urllib.error.HTTPError) as cm:
                 urllib.request.urlopen(req, timeout=60)
             self.assertEqual(cm.exception.code, 400)
@@ -257,20 +263,75 @@ class ApiStub(unittest.TestCase):
             srv.shutdown()
 
 
+# ------------------------------------------------------------------------------------------------ S2 PDS products
+def _entry(st, prefix):
+    return next((e for e in st.entries if e['id'].startswith(prefix)), None)
+
+
+class PdsProducts(unittest.TestCase):
+    """LOLA PDS LDEMs from S2 ($POLARIS_DATA/v2/products): km -> m, georeferencing, seam and pole handling."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.st = LegacyStack()
+
+    def _direct(self, e, lat, lon):
+        from science.anysite.stack import _to_zone
+        x, y = _to_zone(lat, lon, e)
+        return LegacyStack._point(e, float(x), float(y))
+
+    def test_global_eq_window_matches_point_reads(self):
+        e = _entry(self.st, 'lola_global_ldem:ldem_64')
+        if e is None:
+            self.skipTest('LOLA global LDEM 64 ppd not downloaded by S2')
+        # pixel centres (bilinear = the pixel value there), incl. across the 0/360 seam and next to both poles
+        for lat0, lon0 in [(0.3, 0.004), (-45.0, 179.99), (88.0, -0.01), (-89.8, 120.0), (26.13, 3.63)]:
+            d = self.st.window(lat0, lon0, 30_000.0, product=e['id'])
+            for dlat, dlon in [(0, 0), (0.05, -0.08), (-0.1, 0.12)]:
+                r = int(np.floor((90 - (lat0 + dlat)) * 64)); c = int(np.floor(((lon0 + dlon) % 360) * 64))
+                la = 90 - (r + 0.5) / 64; lo = (c + 0.5) / 64
+                x, y = frames.stereo_forward(la, lo)
+                self.assertAlmostEqual(float(d.sample(x, y)), self._direct(e, la, lo), delta=1e-3, msg=(la, lo))
+
+    def test_pole_crossing_ray_has_data(self):
+        e = _entry(self.st, 'lola_global_ldem:ldem_64')
+        if e is None:
+            self.skipTest('LOLA global LDEM 64 ppd not downloaded by S2')
+        d = self.st.window(89.5, 0.0, 120_000.0, product=e['id'])
+        self.assertTrue(d.full_ring)
+        la, lo = frames.destination(89.5, 0.0, 0.0, np.linspace(0, 100_000.0, 400))   # straight over the north pole
+        h = d.sample(*frames.stereo_forward(la, lo))
+        self.assertTrue(np.isfinite(h).all())
+
+    def test_polar_5m_coregistered_with_pgda78(self):
+        e = _entry(self.st, 'lola_polar_ldem:ldem_875s')
+        if e is None or not _have_roi3_data():
+            self.skipTest('LOLA 87.5 S 5 m or PGDA 78 Site04 not cached')
+        a = self.st.window(*ROI3, 8000.0, product='pgda78_Site04')
+        b = self.st.window(*ROI3, 8000.0, product=e['id'])
+        x0, y0 = frames.stereo_forward(*ROI3)
+        rng = np.random.default_rng(0)
+        xs = x0 + rng.uniform(-5000, 5000, 3000); ys = y0 + rng.uniform(-5000, 5000, 3000)
+        ref = a.sample(xs, ys)
+        mad = {s: float(np.nanmedian(np.abs(b.sample(xs + s[0], ys + s[1]) - ref)))
+               for s in [(0, 0), (5, 0), (-5, 0), (0, 5), (0, -5)]}
+        self.assertEqual(min(mad, key=mad.get), (0, 0), mad)                  # no pixel shift / flip
+        self.assertLess(abs(float(np.nanmedian(b.sample(xs, ys) - ref))), 0.5)  # km -> m and datum agree
+        self.assertLess(mad[(0, 0)], 2.0)
+
+
 # ------------------------------------------------------------------------------------------------ north pole
 class NorthPoleSanity(unittest.TestCase):
     def test_north_pole_run(self):
         st = LegacyStack()
-        north = [e for e in st.entries if e['zone'] == 'np']
-        if not north:
-            self.skipTest('no north-polar DEM in the cache: PGDA 90 / PGDA 78 are south-polar only; S2 has not downloaded '
-                          'a LOLA north-polar LDEM into $POLARIS_DATA/v2/products yet')
-        e = north[0]
         lat, lon = 89.5, 0.0
-        if not st.covering(lat, lon):
-            self.skipTest(f'{e["id"]} does not cover (89.5 N, 0 E)')
+        cov = st.covering(lat, lon)
+        if not cov:
+            self.skipTest('no product in the cache covers (89.5 N, 0 E): PGDA 90 / PGDA 78 are south-polar only and S2 '
+                          'has not downloaded a LOLA global or north-polar LDEM into $POLARIS_DATA/v2/products')
         b = S.solve(lat, lon, 1.0, member_kinds=(), use_cache=False,
                     out_dir=ROOT / 'data' / 'cache' / 'anysite' / 'test_bundles')
+        self.assertEqual(b['skyline']['n_truncated'], 0)                 # rays over the pole stay inside the product
         el = [v for v in b['skyline']['elevation_deg'] if v is not None]
         self.assertGreater(len(el), 700)
         self.assertTrue(all(-6.0 < v < 15.0 for v in el))             # plausible lunar polar horizons

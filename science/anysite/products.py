@@ -86,7 +86,9 @@ def file_sha256(path):
 
 def _tif_info(path):
     import rasterio
-    with rasterio.open(path) as ds:
+    import warnings
+    with rasterio.open(path) as ds, warnings.catch_warnings():
+        warnings.simplefilter('ignore', UserWarning)          # pyproj: 'lose projection information' on to_proj4
         b = ds.bounds
         return {'bounds': (b.left, b.bottom, b.right, b.top), 'res_m': abs(ds.transform.a), 'crs_wkt': ds.crs.to_wkt(),
                 'proj4': ds.crs.to_proj4()}
@@ -127,10 +129,11 @@ def registry():
                     'name': 'LOLA LDEM_80S_80MPP_ADJ (PGDA product 90), 80 m',
                     'url': 'https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF', 'clones': {},
                     'citation': 'Barker et al. 2023, PSJ 4, 183 (doi:10.3847/PSJ/acf3e1); PGDA product 90'})
+    out += _pds_products()
     # Any further product S2 has downloaded under $POLARIS_DATA/v2/products/<product_id>/ (GeoTIFF only; zone from CRS).
     for f in sorted(glob.glob(str(POLARIS_DATA / 'v2' / 'products' / '*' / '**' / '*.[tT][iI][fF]'), recursive=True)):
         pid = Path(f).relative_to(POLARIS_DATA / 'v2' / 'products').parts[0]
-        prod = next((k for k in PRIORITY if k in pid.lower().replace('-', '_')), None)
+        prod = _family(pid)
         if prod is None or prod in ('pgda78', 'pgda90') or any(w in Path(f).name.lower() for w in ('err', 'slope', 'hurst')):
             continue
         try:
@@ -144,4 +147,70 @@ def registry():
                     'priority': PRIORITY.index(prod), 'path': f, 'bounds': info['bounds'], 'name': f'{pid} {Path(f).name}',
                     'url': None, 'clones': {}, 'crs_wkt': info['crs_wkt'], 'citation': f'see docs/v2/DATA_MANIFEST.json ({pid})'})
     out.sort(key=lambda e: (e['priority'], e['res_m']))
+    return out
+
+
+# S2 product directory names -> contract product keys (TERRAIN_STACK_CONTRACT.md §6)
+ALIASES = {'lola_ldem_global': 'lola_global_ldem', 'lola_ldem_polar': 'lola_polar_ldem'}
+LOLA_PDS_CITATION = ('Smith, D.E.; Neumann, G.A. (2023). LRO LOLA Processed Data (RDR) Bundle, urn:nasa:pds:lro_lola_rdr v1.0, '
+                     'NASA PDS, doi:10.17189/tnyt-7007 (downloaded by session S2; see $POLARIS_DATA/v2/manifest.jsonl)')
+
+
+def _family(pid):
+    key = ALIASES.get(pid, pid).lower().replace('-', '_')
+    return next((k for k in PRIORITY if k in key), None)
+
+
+def _manifest_url(local_suffix):
+    m = POLARIS_DATA / 'v2' / 'manifest.jsonl'
+    if not m.exists():
+        return None
+    for line in m.read_text().splitlines():
+        try:
+            r = json.loads(line)
+        except Exception:
+            continue
+        if str(r.get('local_path', '')).endswith(local_suffix):
+            return r.get('url')
+    return None
+
+
+def _pds_products():
+    """PDS3 LOLA LDEM float images (.lbl + .img) from S2: heights in KILOMETRES above 1737.4 km (label UNIT / OFFSET),
+    converted to metres on read. Registered only when the .img is complete (size = lines x samples x 4)."""
+    import re
+    out = []
+    root = POLARIS_DATA / 'v2' / 'products'
+    for lbl in sorted(glob.glob(str(root / '*' / '**' / '*.lbl'), recursive=True)):
+        lbl = Path(lbl); pid = lbl.relative_to(root).parts[0]; fam = _family(pid)
+        img = lbl.with_suffix('.img')
+        if fam is None or not img.exists():
+            continue
+        text = lbl.read_text(errors='replace')
+        if 'PC_REAL' not in text or not re.search(r'OFFSET\s*=\s*1737\.4\b', text):
+            continue
+        unit = re.search(r'^\s*UNIT\s*=\s*(\w+)', text, re.M)
+        scale = 1000.0 if unit and unit.group(1).upper() == 'KILOMETER' else 1.0 if unit and unit.group(1).upper() == 'METER' else None
+        if scale is None:
+            continue
+        try:
+            info = _tif_info(lbl)
+            import rasterio
+            with rasterio.open(lbl) as ds:
+                w, h = ds.width, ds.height
+        except Exception:
+            continue
+        if img.stat().st_size < w * h * 4:
+            continue                                  # still downloading
+        zone = _zone_of(info['proj4'])
+        if zone is None:
+            continue
+        ppd = re.search(r'MAP_RESOLUTION\s*=\s*([\d.]+)', text)
+        tag = lbl.stem.replace('_float', '')
+        out.append({'id': f'{fam}:{tag}', 'product': fam, 'zone': zone, 'res_m': info['res_m'],
+                    'priority': PRIORITY.index(fam), 'path': str(lbl), 'bounds': info['bounds'],
+                    'name': f'LOLA {tag.upper()} ({fam}, PDS), {info["res_m"]:.0f} m',
+                    'url': _manifest_url(img.name), 'clones': {}, 'crs_wkt': info['crs_wkt'], 'unit_scale': scale,
+                    'ppd': float(ppd.group(1)) if ppd else None, 'width': w, 'height': h,
+                    'citation': LOLA_PDS_CITATION})
     return out

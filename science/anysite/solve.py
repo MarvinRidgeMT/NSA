@@ -40,6 +40,9 @@ BASE_RANGE_M = 280_000.0         # range of every existing bundle
 MAX_EXTENDED_RANGE_M = 600_000.0
 FAR_MARGIN_M = 10_000.0           # far window half = range + margin (290 km for the existing bundles)
 STEP_DIVISOR = 5.0               # ray step = native / 5 (1 m on 5 m PGDA 78: the converged ROI-bundle step)
+FINE_STEP_MAX_M = 12_500.0       # fine ray step at most this far (RoI bundles: 6.3 km); memory bound for 5 m products
+NEAR_MAX_PX = 6000               # near window <= 6000 px per side (±15 km at 5 m)
+FAR_MIN_RES_M = 60.0             # products used as far-field layers (PGDA 90 80 m, LOLA global); finer ones are near-only
 
 
 def site_hash(lat, lon, mast_m, start, days, step_h, product_ids, member_kinds=(), n_members=20):
@@ -113,6 +116,8 @@ def _range_summary(vals):
 
 
 def _near_cut(near, lat, lon):
+    if hasattr(near, 'ppd'):                      # EqDEM: window built as ±half around the site
+        return NEAR_HALF_M
     inner = getattr(near, 'inner', None)
     if inner is None:
         return _near_extent(near, lat, lon)
@@ -128,6 +133,8 @@ def solve(lat, lon, mast_m=1.0, start='2026-11-14 00:00', days=14, step_h=1, mem
           command=None):
     t_start = time.time(); timing = {}
     lat = float(lat); lon = ((float(lon) + 180.0) % 360.0) - 180.0
+    if not (-90.0 <= lat <= 90.0) or not math.isfinite(lon):
+        raise ValueError(f'latitude must be within [-90, 90] deg (got {lat})')
     stack = stack or get_stack()
     cov = _coverage(stack, lat, lon)
     if not cov['products']:
@@ -148,38 +155,41 @@ def solve(lat, lon, mast_m=1.0, start='2026-11-14 00:00', days=14, step_h=1, mem
         entries = {}
     else:
         near_e = entries[cov['source_id']]
-        far_e = max((entries[p] for p in pids if p in entries), key=lambda e: e['res_m'])
+    far_es = _far_entries(near_e, [entries[p] for p in pids if p in entries]) if entries else [far_e]
+    far_e = far_es[0]
     x0, y0 = frames.stereo_forward(lat, lon)
 
     t = time.time()
-    near = _window(stack, lat, lon, NEAR_HALF_M, near_e)
+    near_half = _near_half(near_e)
+    near = _window(stack, lat, lon, near_half, near_e)
     h = float(near.sample(x0, y0))
     if not math.isfinite(h):
         raise LookupError(f'no height at the site ({lat}, {lon}) in {near_e["id"]}')
     h_eye = h + mast_m
     max_range = max(BASE_RANGE_M, float(curvature.limit_m(h_eye, 0.0)))
-    far = _window(stack, lat, lon, max_range + FAR_MARGIN_M, far_e)
+    far = _far_window(stack, lat, lon, max_range + FAR_MARGIN_M, far_es)
     timing['terrain_read_s'] = round(time.time() - t, 2)
 
     same = near_e['id'] == far_e['id']
     step_near = near_e['res_m'] / STEP_DIVISOR
-    near_cut = NEAR_HALF_M if same else _near_cut(near, lat, lon)
+    near_cut = NEAR_HALF_M if same else min(_near_cut(near, lat, lon), FINE_STEP_MAX_M)
 
     t = time.time()
     sky = compute_skyline(lat, lon, h, mast_m, near=near, far=far, bins=720, max_range_m=max_range, step_m=step_near,
                           near_range_m=near_cut, far_step_m=far.step)
     curv = curvature.record(h_eye, max_range, sky['elevation_deg'], float(np.nanmax(far.Z)))
     L_req = curv['required_range_world_m']
+    reach = max(_footprint_reach(e, lat, lon) for e in far_es)
     extended = False
-    if math.isfinite(L_req) and L_req > max_range and _footprint_reach(far_e, lat, lon) > max_range + FAR_MARGIN_M:
-        max_range = min(L_req, MAX_EXTENDED_RANGE_M, _footprint_reach(far_e, lat, lon) - FAR_MARGIN_M)
-        far = _window(stack, lat, lon, max_range + FAR_MARGIN_M, far_e)
+    if math.isfinite(L_req) and L_req > max_range and reach > max_range + FAR_MARGIN_M:
+        max_range = min(L_req, MAX_EXTENDED_RANGE_M, reach - FAR_MARGIN_M)
+        far = _far_window(stack, lat, lon, max_range + FAR_MARGIN_M, far_es)
         sky = compute_skyline(lat, lon, h, mast_m, near=near, far=far, bins=720, max_range_m=max_range, step_m=step_near,
                               near_range_m=near_cut, far_step_m=far.step)
         curv = curvature.record(h_eye, max_range, sky['elevation_deg'], float(np.nanmax(far.Z)))
         extended = True
     curv['extended'] = extended
-    curv['footprint_reach_m'] = round(_footprint_reach(far_e, lat, lon), 1) if far_e.get('bounds') else None
+    curv['footprint_reach_m'] = round(reach, 1) if math.isfinite(reach) else 'global'
     timing['skyline_s'] = round(time.time() - t, 2)
 
     t = time.time()
@@ -232,8 +242,34 @@ def _window(stack, lat, lon, half_m, e):
     return d
 
 
+def _near_half(e):
+    """Near window half-width: 25 km, capped at NEAR_MAX_PX/2 pixels of the product (a 5 m product gets ±15 km; beyond it
+    the next product supplies samples at its own native resolution)."""
+    return min(NEAR_HALF_M, NEAR_MAX_PX / 2 * e['res_m'])
+
+
+def _far_entries(near_e, covering):
+    """Far-field layers in contract priority: products of >= FAR_MIN_RES_M (one per product family, finest), e.g.
+    PGDA 90 80 m first and LOLA global as the fill where PGDA 90 ends. Falls back to the near product."""
+    out, fams = [], set()
+    for e in covering:                                  # covering is in priority order, finest first per family
+        if e['res_m'] >= FAR_MIN_RES_M and e['product'] not in fams:
+            out.append(e); fams.add(e['product'])
+    return out or [near_e]
+
+
+def _far_window(stack, lat, lon, half_m, far_es):
+    layers = [_window(stack, lat, lon, half_m, e) for e in far_es]
+    if len(layers) == 1:
+        return layers[0]
+    from .stack import CompositeDEM
+    return CompositeDEM(layers, name=' > '.join(l.name for l in layers))
+
+
 def _footprint_reach(e, lat, lon):
-    """Inscribed distance from the site to the product footprint edge (grid metres; sp zone only, else 0)."""
+    """Inscribed distance from the site to the product footprint edge (grid metres; sp zone; eq global = inf)."""
+    if e.get('zone') == 'eq' and e.get('width') and e.get('ppd') and abs(e['width'] / e['ppd'] - 360.0) < 1e-6:
+        return float('inf')
     if not e.get('bounds') or e.get('zone', 'sp') != 'sp':
         return 0.0
     x, y = frames.stereo_forward(lat, lon); l, b, r, t = e['bounds']
@@ -267,7 +303,7 @@ def run_members(lat, lon, mast_m, stack, near_e, far_e, near, far, near_cut, ste
         part = jobs[i:i + chunk]; dems = {}
         for mid, kind, spec, lab in part:
             if spec[0] == 'clone':
-                dems[mid] = stack.window(lat, lon, NEAR_HALF_M, near_e['res_m'], product=near_e['id'],
+                dems[mid] = stack.window(lat, lon, _near_half(near_e), near_e['res_m'], product=near_e['id'],
                                          member=f'clone{spec[1]:04d}')
             else:
                 dems[mid] = MB.assumed_member(near, near_e.get('product'), spec[1], spec[2], spec[3])
@@ -294,16 +330,17 @@ def run_members(lat, lon, mast_m, stack, near_e, far_e, near, far, near_cut, ste
 
     # M: product disagreement
     if 'products' in kinds:
-        others = [p for p in pids if p != near_e['id'] and p in entries]
+        others, fams = [], {near_e.get('product')}
+        for p in pids:                                   # one member per other product family (its finest resolution)
+            if p in entries and entries[p]['product'] not in fams:
+                others.append(p); fams.add(entries[p]['product'])
         if not others:
             out['summary']['products'] = {'status': 'not-run', 'reason': 'only one terrain product covers this site in the '
                                                                         'cache (M needs >= 2)'}
         for pid in others:
             e = entries[pid]
-            if pid == far_e['id']:
-                nd = stack.window(lat, lon, NEAR_HALF_M, e['res_m'], product=pid); cut = NEAR_HALF_M
-            else:
-                nd = stack.window(lat, lon, NEAR_HALF_M, e['res_m'], product=pid); cut = _near_cut(nd, lat, lon)
+            nd = stack.window(lat, lon, _near_half(e), e['res_m'], product=pid)
+            cut = NEAR_HALF_M if e['res_m'] >= FAR_MIN_RES_M else min(_near_cut(nd, lat, lon), FINE_STEP_MAX_M)
             x0, y0 = frames.stereo_forward(lat, lon)
             g = float(nd.sample(x0, y0))
             if not math.isfinite(g):
@@ -330,18 +367,22 @@ def assemble(lat, lon, mast_m, h, x0, y0, near, far, sky, rs, re_, met, srcs, st
     sky_out['label'] = LABEL
     sky_out['curvature_limit'] = curv
     layers = []
-    for role, d in (('near', near), ('far', far)):
+    far_layers = getattr(far, 'layers', [far])
+    for role, d in [('near', near)] + [('far' if i == 0 else 'far-fill', l) for i, l in enumerate(far_layers)]:
+        eq = d.meta.get('zone') == 'eq' and hasattr(d, 'ppd')
         layers.append({'role': role, 'name': d.name, 'step_m': d.step, 'bounds_grid_m': list(d.bounds),
+                       'bounds_units': 'deg (lon_west, lat_south, lon_east, lat_north)' if eq else 'south-polar grid m',
                        'zone': d.meta.get('zone'), 'product_id': d.meta.get('product_id'),
                        'source_url': d.meta.get('source_url'), 'file_sha256': d.meta.get('file_sha256'),
-                       'array_sha256': d.digest(), 'citation': d.meta.get('citation')})
+                       'array_sha256': d.digest(), 'citation': d.meta.get('citation'),
+                       'unit_scale_to_m': d.meta.get('unit_scale', 1.0)})
     sky_out['dem_layers'] = layers
     sid = site_id or f'anysite_{shash}'
     srcs_out = [dict(role=f'{b}-hourly', path=s['path'], sha256=s['sha256'], retrieved_utc=s['retrieved_utc'],
                      cache=s.get('cache'), params_key=s.get('params_key')) for b, s in zip(('sun', 'earth'), srcs)]
     sources = [{'id': 'jpl-horizons', 'description': 'JPL Horizons API, observer tables, CENTER=coord@301, QUANTITIES=4,13,20, '
                                                      'APPARENT=AIRLESS', 'url': H.API}]
-    for d in (near, far):
+    for d in [near] + list(getattr(far, 'layers', [far])):
         sources.append({'id': d.meta.get('product_id'), 'description': d.name, 'url': d.meta.get('source_url'),
                         'sha256': d.meta.get('file_sha256'), 'citation': d.meta.get('citation')})
     vs = B.validation_status({'id': 'site-coordinate-source', 'status': 'not-run',
