@@ -45,5 +45,11 @@
   "bbox_contains_p0": true,
   "label": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/ESALL_SR12/NAC_DTM_ESALL_SR12.xml"
  },
- "status": "hero point UNCHECKED: no orthorectified observation covers it; raw NAC frames and one NAC stereo DTM exist"
+ "status": "hero point UNCHECKED: no orthorectified observation covers it; raw NAC frames and one NAC stereo DTM exist",
+ "gsfc_region6_nac_maps": {
+  "n": 322,
+  "n_read": 322,
+  "n_containing_p0": 0,
+  "max_right_edge_x_m": -2997.5
+ }
 }

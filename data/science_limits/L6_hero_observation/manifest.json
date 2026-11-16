@@ -1,10 +1,10 @@
 {
  "item": "L6_hero_observation",
  "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
- "date_utc": "2026-11-16T03:11:21Z",
+ "date_utc": "2026-11-16T03:15:12Z",
  "command": "python l6_search.py",
  "module": "/Users/anishmeruva/Documents/ChatGPT/NSA-science-limits/science/limits/l6_search.py",
- "code_commit": "b3dba70102a4527b6ec45bba43bdc4a6675a4096",
+ "code_commit": "b076585028a3edf5d52e6c950b7978400f8947b1",
  "inputs": [
   {
    "path": "data/science_limits/L6_hero_observation/zenodo_sfs_region_bounds.json",
@@ -25,9 +25,13 @@
   {
    "path": "tools/validation/hero/HERO_PROTOCOL_A1.md",
    "sha256": "9ab36bccf42475dd3a9983f55a8389f89ed9118abdea4568604323bcf6496f67"
+  },
+  {
+   "path": "data/science_limits/L6_hero_observation/region6_nacmap_bounds.json",
+   "sha256": "2fbf9cf15ca4952378fe43a56a311940b713a1ecd65f96cdf81c87db3eb2afac"
   }
  ],
  "outputs": {
-  "result.json": "cd4a0b1d2efced2c335fe885f1e05d6be7db611d48e6c5827d535a510801de3f"
+  "result.json": "dde8966fe2767274fb2aa9fb845b03f574cff6c6c0e1b537ec4cb808a234fc78"
  }
 }
