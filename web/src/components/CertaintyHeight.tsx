@@ -24,8 +24,10 @@ const fmtPct = (x: number | undefined | null) => (x === null || x === undefined 
 export function CertaintyHeight({ v }: { v: View }) {
   const { setScenario } = usePolaris.getState();
   const sidecar = usePolaris((st) => st.certaintySidecar);
-  const side = v.dataset.derived?.certaintyCurve ? null : sidecarCurveFor(sidecar, v.dataset.siteId);
-  const curve = v.dataset.derived?.certaintyCurve ?? side?.curve ?? null;
+  // Prefer the batch sidecar when it covers this site (source of record for clone ranges and pass counts, same rule as the
+  // coverage gauge); fall back to the bundle's own derived.certaintyCurve (science/certainty.py, per-requirement counts).
+  const side = sidecarCurveFor(sidecar, v.dataset.siteId);
+  const curve = side?.curve ?? v.dataset.derived?.certaintyCurve ?? null;
   const scenarios = v.dataset.derived?.scenarios ?? [];
   const masts = mastScenarios(scenarios);
   const baseline = scenarios.find((s) => s.id === 'baseline') ?? scenarios[0];
