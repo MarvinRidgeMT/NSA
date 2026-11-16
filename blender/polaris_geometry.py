@@ -35,7 +35,20 @@ def cell_id(dem, x, y):
     return {'row': row, 'column': column, 'flat_index': row*n+column}
 
 
+def reject_visual_layer(dem):
+    """Solver guard (visual-layer contract): display rasters are never terrain.
+
+    A visual layer (albedo/morphology image) is flagged status 'VISUAL' / numericalAuthority False and carries an
+    `artifact` instead of elevation `values`. Raise before any height is read from such an object.
+    """
+    if isinstance(dem, dict) and (dem.get('status') == 'VISUAL' or dem.get('numericalAuthority') is False
+                                  or (isinstance(dem.get('artifact'), dict) and 'values' not in dem)):
+        raise ValueError('VISUAL_LAYER_AS_DEM: a visual layer cannot be used as solver terrain')
+    return dem
+
+
 def validate_dem(dem):
+    reject_visual_layer(dem)
     n = int(dem['n'])
     if n < 3 or len(dem['values']) != n*n: raise ValueError('DEM array must be n x n, n >= 3')
     if float(dem['spacing']) <= 0: raise ValueError('DEM spacing must be positive')
@@ -73,6 +86,7 @@ def terrain_horizon(dem, x, y, observer_z, az_deg, radius_m=12000, step_m=None):
     This is an approximate spherical drop correction. Near horizon crossings a
     Moon-centered 3D ray solver is more appropriate for high-precision studies.
     """
+    reject_visual_layer(dem)
     step_m=step_m or float(dem['spacing'])
     az=math.radians(az_deg);east=math.sin(az);north=math.cos(az)
     highest=-90.0;blocking_at=None; evaluated=0
@@ -95,6 +109,7 @@ def terrain_horizon(dem, x, y, observer_z, az_deg, radius_m=12000, step_m=None):
 
 def trace_visibility(dem,x,y,observer_z,az_deg,el_deg,radius_m=12000,step_m=None):
     """First modeled obstruction; source/azimuth convention must be validated."""
+    reject_visual_layer(dem)
     step_m=step_m or float(dem['spacing'])
     a=math.radians(az_deg)
     dx,dy=math.sin(a),math.cos(a)

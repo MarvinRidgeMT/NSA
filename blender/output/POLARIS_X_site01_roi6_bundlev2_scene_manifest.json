@@ -1,0 +1,526 @@
+{
+  "schema": "POLARIS-X-scene-manifest-v2",
+  "generatedUTC": "2026-11-16T02:44:34Z",
+  "bundle": {
+    "file": "polaris-x5d-roi-2026-11-14-v2.json",
+    "sha256": "65a562cbec3318f60f092494f93063fe855fca690e1e4bc960edc8ec31fe301b",
+    "bytes": 7109198,
+    "format": "POLARIS-X5D-v2",
+    "schemaVersion": "2.1.0",
+    "generatedUTC": "2026-11-16T02:29:18Z"
+  },
+  "status": "SOURCE-BASED UNVALIDATED",
+  "demo": false,
+  "site": {
+    "siteId": "site01_roi6",
+    "name": "Connecting Ridge (Site01 ROI6)",
+    "latitudePlanetocentricDeg": -89.47409,
+    "longitudeEastDeg": -137.3813
+  },
+  "scenario": "baseline",
+  "derivedOutputsPresent": true,
+  "blenderVersion": "5.3.0",
+  "units": "1 Blender unit = 1 metre",
+  "axes": {
+    "x": "grid east (south-polar stereographic)",
+    "y": "grid north",
+    "z": "elevation relative to observer ground (m)",
+    "gltf": "exported Y-up (glTF convention): gltf (x, y, z) = blender (x, z, -y)"
+  },
+  "verticalExaggeration": 1.0,
+  "origin": {
+    "gridX": 0.0,
+    "gridY": 0.0,
+    "groundElevationM": 1948.29,
+    "source": "bundle scenario"
+  },
+  "observerMastM": 1.0,
+  "frame": {
+    "localNorthInGrid": [
+      -0.6771161784699896,
+      -0.7358761314611292
+    ],
+    "localEastInGrid": [
+      -0.7358761314611292,
+      0.6771161784699896
+    ],
+    "source": "bundle",
+    "azimuthConvention": "clockwise from local north: N=0, E=90"
+  },
+  "dem": {
+    "layer": "local_5m_crop",
+    "n": 401,
+    "spacingM": 5.0,
+    "meshVerticesPerAxis": 401,
+    "cropValuesSha256": "a04929aafa200e4922a9847494a510f71d94247860c4e33b9917a3f8e993a1cd",
+    "source": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Site01_final_adj_5mpp_surf.tif"
+  },
+  "regionalContext": {
+    "product": "NASA PGDA 90 LDEM_80S_80MPP_ADJ (80 m)",
+    "source": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF",
+    "n": 401,
+    "spacingM": 80.0,
+    "sha256": "38116bf37a1e5e06e73ee9019f8dc98bfabd9e685fd56c548b35edd673d60c09",
+    "sourceCropValuesSha256": "d27c5aa679cd00ffee0a95ce36e0049b3189b477a6e14efb941eecac92d73b5d",
+    "nodesLoweredInsideLocalFootprint": 9604,
+    "visualCutDropM": 40.0,
+    "status": "VISUAL",
+    "numericalAuthority": false,
+    "role": "display context around the 5 m crop; never used for any calculation",
+    "meshVerticesPerAxis": 401
+  },
+  "displaySurface": {
+    "product": "NASA GSFC SfS elevation A306_GLDELEV_005 (Artemis III candidate region 6, Connecting Ridge), 5 m",
+    "citation": "Bertone, S., McKenna, T. E., Barker, M. K., Mazarico, E., Beyer, R. A., Petro, N. (2025), Zenodo, doi:10.5281/zenodo.17954508",
+    "doi": "10.5281/zenodo.17954508",
+    "licence": "CC-BY-4.0",
+    "sha256": "c086788a09037d6de4897b83efa73d26334708eede68ab08759dd9061dd42221",
+    "coverageFraction": 1.0,
+    "fullWeightFraction": 1.0,
+    "minusSolverCropM": {
+      "rms": 1.204,
+      "mean": 0.235,
+      "maxAbs": 8.559,
+      "atSitePoint": 1.966
+    },
+    "rule": "display height = (1 - w) LOLA crop + w SfS, w = clip(distance inside the SfS footprint / 200 m, 0, 1); nodes are the bundle crop nodes",
+    "status": "VISUAL",
+    "numericalAuthority": false,
+    "role": "display surface of the 5 m crop; the bundle crop is what rays and states use",
+    "verticalShiftM": -1.9662
+  },
+  "midRing": {
+    "product": "NASA PGDA 78 5 m tile blended with the NASA GSFC SfS surface where it exists, 4 x 4 block means (20 m)",
+    "n": 401,
+    "spacingM": 20.0,
+    "sha256": "3587d76c7efc4fe608c24ff89960608a80ca1aaedbdd193fba656d4371dce768",
+    "sfsFraction": 1.0,
+    "nodesLoweredInsideLocalFootprint": 9604,
+    "visualCutDropM": 40.0,
+    "status": "VISUAL",
+    "numericalAuthority": false,
+    "meshVerticesPerAxis": 401
+  },
+  "sunLamp": "SUN lamp +Z aimed toward the bundle JPL Sun direction (lamp shines along -Z); keyframed per sample with CONSTANT interpolation; energy 0 when el <= -0.27 deg",
+  "rays": "blocked rays end at bundle firstHitM (horizontal) when derived outputs exist; otherwise drawn to the DEM coverage edge and marked not evaluated",
+  "sky": {
+    "shellRadiusM": 20000.0,
+    "chartRadiusM": 800.0,
+    "chartElevationExaggeration": 5.0,
+    "objects": [],
+    "bodies": {
+      "sunAngularRadiusDeg": 0.2666,
+      "earthAngularRadiusDeg": 0.9497,
+      "source": "nominal display radii (bundle carries no per-sample radii); directions from bundle JPL az/el"
+    },
+    "chartSkylines": [
+      {
+        "id": "baseline",
+        "label": "ROI point \u00b7 1 m mast",
+        "family": "baseline",
+        "selected": true
+      },
+      {
+        "id": "mast10",
+        "label": "ROI point \u00b7 10 m mast",
+        "family": "mast-height",
+        "selected": false
+      },
+      {
+        "id": "clone001",
+        "label": "Terrain clone 1 (all 20 tie hourly)",
+        "family": "dem-clone",
+        "selected": false
+      },
+      {
+        "id": "clone011",
+        "label": "Terrain clone 11 (all 20 tie hourly)",
+        "family": "dem-clone",
+        "selected": false
+      },
+      {
+        "id": "clone020",
+        "label": "Terrain clone 20 (all 20 tie hourly)",
+        "family": "dem-clone",
+        "selected": false
+      }
+    ],
+    "summary": {
+      "sun": {
+        "samples": 337,
+        "clear": 337,
+        "blocked": 0,
+        "notEvaluated": 0,
+        "elevationRangeDeg": [
+          1.015,
+          1.5016
+        ]
+      },
+      "earth": {
+        "samples": 337,
+        "clear": 275,
+        "blocked": 62,
+        "notEvaluated": 0,
+        "elevationRangeDeg": [
+          -5.0276,
+          5.8879
+        ]
+      }
+    },
+    "rule": "Sun/Earth bodies and paths are placed ONLY from bundle JPL az/el samples; path colour = bundle visible flag; skylines = bundle skyline bins. Shell: true directions and angular sizes, distance not to scale. Chart: elevation exaggerated (overview only). Bodies keyframed per sample, CONSTANT interpolation. Not exported to the GLB."
+  },
+  "frameToUtc": {
+    "first": {
+      "frame": 1,
+      "sampleIndex": 0,
+      "utc": "2026-11-14T00:00:00.000Z"
+    },
+    "last": {
+      "frame": 337,
+      "sampleIndex": 336,
+      "utc": "2026-11-28T00:00:00.000Z"
+    },
+    "rule": "frame = sampleIndex + 1"
+  },
+  "renders": [
+    {
+      "label": "start",
+      "frame": 1,
+      "sampleIndex": 0,
+      "utc": "2026-11-14T00:00:00.000Z",
+      "sun": {
+        "az": 263.984800756,
+        "el": 1.501556585,
+        "lampTowardSunGrid": [
+          0.80250538,
+          -0.596069173,
+          0.026204107
+        ],
+        "ray": {
+          "state": "clear",
+          "firstHitM": null
+        }
+      },
+      "earth": {
+        "az": 136.124669057,
+        "el": -5.027600051,
+        "ray": {
+          "state": "blocked",
+          "firstHitM": 167.0
+        }
+      },
+      "bundleMarginDeg": {
+        "sun": 3.68205,
+        "earth": -3.67139
+      },
+      "png": "POLARIS_X_site01_roi6_bundlev2_start_frame001.png",
+      "pngSha256": "7a83fe99e3a836d1802d72a2ca7f98524540c51434e620995ce268caae323314"
+    },
+    {
+      "label": "transition",
+      "frame": 63,
+      "sampleIndex": 62,
+      "utc": "2026-11-16T14:00:00.000Z",
+      "sun": {
+        "az": 232.519982118,
+        "el": 1.234184821,
+        "lampTowardSunGrid": [
+          0.995749766,
+          -0.089545956,
+          0.021538923
+        ],
+        "ray": {
+          "state": "clear",
+          "firstHitM": null
+        }
+      },
+      "earth": {
+        "az": 132.650796503,
+        "el": -1.892976611,
+        "ray": {
+          "state": "clear",
+          "firstHitM": null
+        }
+      },
+      "bundleMarginDeg": {
+        "sun": 3.09874,
+        "earth": 0.04679
+      },
+      "transition": {
+        "target": "earth",
+        "bracketUtc": [
+          "2026-11-16T13:00:00.000Z",
+          "2026-11-16T14:00:00.000Z"
+        ],
+        "before": "blocked",
+        "after": "clear",
+        "note": "change happens between these two hourly samples; not refined"
+      },
+      "png": "POLARIS_X_site01_roi6_bundlev2_transition_frame063.png",
+      "pngSha256": "98acbdc06af90c54ab3a25b96a1a23d040d188a6874805f57d872dd001c5ddaf"
+    },
+    {
+      "label": "mid",
+      "frame": 169,
+      "sampleIndex": 168,
+      "utc": "2026-11-21T00:00:00.000Z",
+      "sun": {
+        "az": 178.831776826,
+        "el": 1.015047529,
+        "lampTowardSunGrid": [
+          0.661868568,
+          0.749410553,
+          0.017714995
+        ],
+        "ray": {
+          "state": "clear",
+          "firstHitM": null
+        }
+      },
+      "earth": {
+        "az": 130.349431043,
+        "el": 4.027037125,
+        "ray": {
+          "state": "clear",
+          "firstHitM": null
+        }
+      },
+      "bundleMarginDeg": {
+        "sun": 2.23272,
+        "earth": 6.2024
+      },
+      "png": "POLARIS_X_site01_roi6_bundlev2_mid_frame169.png",
+      "pngSha256": "c0f8fe7f385099e48192d8bd6631ed5251417ec9d0857381bc7e430a2185d0fe"
+    },
+    {
+      "label": "end",
+      "frame": 337,
+      "sampleIndex": 336,
+      "utc": "2026-11-28T00:00:00.000Z",
+      "sun": {
+        "az": 93.904643126,
+        "el": 1.456138328,
+        "lampTowardSunGrid": [
+          -0.687836797,
+          0.725420422,
+          0.025411672
+        ],
+        "ray": {
+          "state": "clear",
+          "firstHitM": null
+        }
+      },
+      "earth": {
+        "az": 141.200850585,
+        "el": 2.688088265,
+        "ray": {
+          "state": "clear",
+          "firstHitM": null
+        }
+      },
+      "bundleMarginDeg": {
+        "sun": 2.45431,
+        "earth": 3.6586
+      },
+      "png": "POLARIS_X_site01_roi6_bundlev2_end_frame337.png",
+      "pngSha256": "e7da1c37f678cfc3be94adc0a4badc7358aab499fc7b8f4e1f823a4087fff230"
+    },
+    {
+      "label": "hero_low",
+      "frame": 1,
+      "sampleIndex": 0,
+      "utc": "2026-11-14T00:00:00.000Z",
+      "camera": "low, Sun side, 40 deg off the Sun azimuth, +1 stop exposure (presentation)",
+      "png": "POLARIS_X_site01_roi6_bundlev2_hero_low_frame001.png",
+      "pngSha256": "ad62d4bd0dca986653fa10e4d30a2f0111f9c68e49d8f96b4c1138f2f4e44e20"
+    },
+    {
+      "label": "eye_sun_start",
+      "frame": 1,
+      "sampleIndex": 0,
+      "utc": "2026-11-14T00:00:00.000Z",
+      "target": "sun",
+      "camera": "mast eye, 50 mm, aimed at the bundle sun az, el + 2 deg; true angles, no exaggeration",
+      "state": "clear",
+      "png": "POLARIS_X_site01_roi6_bundlev2_eye_sun_start_frame001.png",
+      "pngSha256": "78586ae3a4120ce7a5834539ae73540391559c5ea46b3604aac483f5955624d1"
+    },
+    {
+      "label": "eye_sun_transition",
+      "frame": 63,
+      "sampleIndex": 62,
+      "utc": "2026-11-16T14:00:00.000Z",
+      "target": "earth",
+      "camera": "mast eye, 50 mm, aimed at the bundle earth az, el + 2 deg; true angles, no exaggeration",
+      "state": "clear",
+      "png": "POLARIS_X_site01_roi6_bundlev2_eye_sun_transition_frame063.png",
+      "pngSha256": "da3537e4254add64ed65acfb37688ad8abbd2a95aca32da921d39f1dbc9f9de8"
+    },
+    {
+      "label": "eye_earth_frame063",
+      "frame": 63,
+      "sampleIndex": 62,
+      "utc": "2026-11-16T14:00:00.000Z",
+      "target": "earth",
+      "camera": "mast eye, 50 mm, aimed at the bundle earth az, el + 2 deg; true angles, no exaggeration",
+      "state": "clear",
+      "png": "POLARIS_X_site01_roi6_bundlev2_eye_earth_frame063_frame063.png",
+      "pngSha256": "caf4810308ef6caad08b94f81ab2069d47a5fe9e1fb6e8b1dd0fa515668bc7ec"
+    }
+  ],
+  "glbReimport": {
+    "pureReader": {
+      "bytes": 15500112,
+      "generator": "Khronos glTF Blender I/O v5.3.43",
+      "nodes": [
+        {
+          "name": "CONTEXT L1 | 20 m ring | DISPLAY ONLY | 1:1 metres",
+          "mesh": true,
+          "light": false,
+          "vertices": 160801,
+          "materials": [
+            0
+          ]
+        },
+        {
+          "name": "CONTEXT | PGDA 90 80 m regional crop | DISPLAY ONLY | 1:1 metres",
+          "mesh": true,
+          "light": false,
+          "vertices": 160801,
+          "materials": [
+            1
+          ]
+        },
+        {
+          "name": "DEM | 5 m crop | NASA GSFC SfS DISPLAY surface | 1:1 metres",
+          "mesh": true,
+          "light": false,
+          "vertices": 160801,
+          "materials": [
+            2
+          ]
+        },
+        {
+          "name": "Earth ray",
+          "mesh": true,
+          "light": false,
+          "vertices": 48,
+          "materials": [
+            3
+          ]
+        },
+        {
+          "name": "Observer eye point",
+          "mesh": true,
+          "light": false,
+          "vertices": 1984,
+          "materials": [
+            4
+          ]
+        },
+        {
+          "name": "Observer mast 1.0 m (bundle scenario)",
+          "mesh": true,
+          "light": false,
+          "vertices": 96,
+          "materials": [
+            4
+          ]
+        },
+        {
+          "name": "Sun lamp | aimed by bundle az/el",
+          "mesh": false,
+          "light": true
+        },
+        {
+          "name": "Sun ray",
+          "mesh": true,
+          "light": false,
+          "vertices": 48,
+          "materials": [
+            5
+          ]
+        }
+      ],
+      "meshCount": 7,
+      "materials": [
+        "Regolith | neutral albedo + synthetic micro-relief (visual only).001",
+        "Regolith | neutral albedo + synthetic micro-relief (visual only).002",
+        "Regolith | neutral albedo + synthetic micro-relief (visual only)",
+        "Earth ray",
+        "Observer mast (marker, not hardware)",
+        "Sun ray"
+      ],
+      "boundsGltfM": {
+        "min": [
+          -16201.713,
+          -4551.504,
+          -15775.359
+        ],
+        "max": [
+          15798.287,
+          28.324,
+          16224.641
+        ]
+      },
+      "units": "metres (glTF)",
+      "upAxis": "Y"
+    },
+    "blenderReimport": {
+      "meshObjects": 7,
+      "boundsBlenderM": {
+        "min": [
+          -16201.713,
+          -16224.641,
+          -4551.504
+        ],
+        "max": [
+          15798.287,
+          15775.359,
+          28.324
+        ]
+      },
+      "materials": [
+        "Earth ray",
+        "Observer mast (marker, not hardware)",
+        "Regolith | neutral albedo + synthetic micro-relief (visual only)",
+        "Regolith | neutral albedo + synthetic micro-relief (visual only).001",
+        "Regolith | neutral albedo + synthetic micro-relief (visual only).002",
+        "Sun ray"
+      ]
+    },
+    "exportedMeshVertices": {
+      "DEM | 5 m crop | NASA GSFC SfS DISPLAY surface | 1:1 metres": 160801,
+      "Observer mast 1.0 m (bundle scenario)": 32,
+      "Observer eye point": 482,
+      "Sun ray": 24,
+      "Earth ray": 24,
+      "CONTEXT | PGDA 90 80 m regional crop | DISPLAY ONLY | 1:1 metres": 160801,
+      "CONTEXT L1 | 20 m ring | DISPLAY ONLY | 1:1 metres": 160801
+    },
+    "checks": {
+      "sameMeshCount": true,
+      "terrainVerticesUnchanged": true,
+      "terrainPresent": true,
+      "contextPresent": true
+    },
+    "pass": true
+  },
+  "assets": {
+    "blend": {
+      "file": "POLARIS_X_site01_roi6_bundlev2.blend",
+      "sha256": "4510287d11289251400e8fd1d18af383514edb782862e7dd490e9449e9d49859"
+    },
+    "glb": {
+      "file": "POLARIS_X_site01_roi6_bundlev2.glb",
+      "sha256": "2d8deffb6b3293275b5bf2c61a3adb37145ac2e08d61ed9c6d6774b2c0a3f2bb"
+    }
+  },
+  "limitations": [
+    "Blender places geometry from bundle values only; it computes no skyline, visibility, margin or metric.",
+    "Lighting energy, the dim world fill light, materials and camera are presentation choices; only the Sun lamp DIRECTION comes from the bundle.",
+    "Visibility is target centre above a finite-DEM skyline; not power, not a DSN link.",
+    "With --surface sfs the drawn 5 m terrain is the NASA GSFC shape-from-shading DISPLAY surface (Bertone et al. 2025, doi:10.5281/zenodo.17954508, CC-BY-4.0) where it exists, shifted to meet the bundle ground at the observer; rays and states are the bundle's, computed on the LOLA crop, so a ray can visibly graze or clear the drawn surface differently.",
+    "Regolith albedo variation and the sub-5 m bump are synthetic presentation."
+  ]
+}

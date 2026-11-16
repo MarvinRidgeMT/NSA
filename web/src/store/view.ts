@@ -18,7 +18,12 @@ export interface View {
   loaded: LoadedBundle;
   status: DisplayStatus;
   dataset: Dataset;
+  /** the selected scenario (metrics, deltas, label) */
   scenario: Scenario | null;
+  /** the scenario whose per-sample series drive charts/strips/3D: the selected one if it has series, else the baseline */
+  series: Scenario | null;
+  /** true when the selected scenario has metrics only and the series shown are the baseline's */
+  seriesIsBaseline: boolean;
   times: number[];
   utcMs: number;
   br: Bracket;
@@ -36,16 +41,30 @@ function target(ds: Dataset, sc: Scenario | null, br: Bracket, key: 'sun' | 'ear
   const b = s[br.i1][key];
   const az = br.exact !== null ? s[br.exact][key].az : lerpAzimuth(a.az, b.az, br.f);
   const el = br.exact !== null ? s[br.exact][key].el : lerp(a.el, b.el, br.f);
-  if (!sc) return { az, el, marginDeg: null, horizonElDeg: null, visible: undefined, firstHitM: undefined };
+  if (!sc?.samples) return { az, el, marginDeg: null, horizonElDeg: null, visible: undefined, firstHitM: undefined };
   const ser = sc.samples[key];
+  const num = (x: number) => (Number.isFinite(x) ? x : null);
   return {
     az,
     el,
-    marginDeg: valueAt(ser.marginDeg, br),
-    horizonElDeg: valueAt(ser.horizonElDeg, br),
+    marginDeg: num(valueAt(ser.marginDeg, br)),
+    horizonElDeg: num(valueAt(ser.horizonElDeg, br)),
     visible: flagAt(ser.visible, br),
     firstHitM: ser.firstHitM[nearestIndex(br)],
   };
+}
+
+/** A position-offset scenario was computed with its own JPL samples and local basis. While it drives the view, every
+ * panel reads those instead of the dataset's (same UTC times required; otherwise the dataset is left unchanged). */
+export function withScenarioGeometry(ds: Dataset, sc: Scenario | null, times: number[]): Dataset {
+  const e = sc?.ephemeris;
+  const f = sc?.frame;
+  if (!e && !f) return ds;
+  let out = ds;
+  if (e && e.samples.length === times.length && e.samples.every((s, k) => Date.parse(s.time) === times[k]))
+    out = { ...out, ephemeris: { ...out.ephemeris, samples: e.samples } };
+  if (f?.localNorthInGrid && f.localEastInGrid && out.derived) out = { ...out, derived: { ...out.derived, frame: f } };
+  return out;
 }
 
 /** Everything a panel needs, derived from the ONE store. Returns null until a bundle is loaded. */
@@ -57,7 +76,7 @@ export function useView(): View | null {
   const failureId = usePolaris((s) => s.selectedFailureId);
   return useMemo(() => {
     if (!loaded || utcMs === null) return null;
-    const dataset = loaded.bundle.datasets[datasetIdx];
+    const base = loaded.bundle.datasets[datasetIdx];
     const times = loaded.times[datasetIdx];
     let br: Bracket;
     try {
@@ -65,21 +84,25 @@ export function useView(): View | null {
     } catch {
       return null;
     }
-    const scenario = dataset.derived?.scenarios.find((s) => s.id === scenarioId) ?? null;
+    const scenario = base.derived?.scenarios.find((s) => s.id === scenarioId) ?? null;
+    const series = scenario?.samples ? scenario : (base.derived?.scenarios.find((s) => s.samples) ?? null);
+    const dataset = withScenarioGeometry(base, series, times);
     return {
       loaded,
       status: loaded.status,
       dataset,
       scenario,
+      series,
+      seriesIsBaseline: !!scenario && series !== scenario,
       times,
       utcMs,
       br,
       nearest: nearestIndex(br),
-      sun: target(dataset, scenario, br, 'sun'),
-      earth: target(dataset, scenario, br, 'earth'),
-      both: scenario ? flagAt(scenario.samples.both.visible, br) : undefined,
+      sun: target(dataset, series, br, 'sun'),
+      earth: target(dataset, series, br, 'earth'),
+      both: series?.samples ? flagAt(series.samples.both.visible, br) : undefined,
       basis: basisFor(dataset),
-      failure: scenario?.failures.find((f) => f.id === failureId) ?? null,
+      failure: series?.failures.find((f) => f.id === failureId) ?? null,
     };
   }, [loaded, datasetIdx, scenarioId, utcMs, failureId]);
 }

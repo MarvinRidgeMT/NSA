@@ -17,11 +17,14 @@ test('keyboard-only run: scrub, change scenario, open a failure, provenance', as
   await page.keyboard.press('End');
   await expect(page.getByTestId('utc')).toHaveText(demoTimes[demoTimes.length - 1]);
   await page.keyboard.press('Home');
+  await expect(page.getByTestId('utc')).toHaveText(demoTimes[0]);
 
   // scenario via keyboard
-  await page.getByTestId('scenario-select').focus();
-  await page.keyboard.press('ArrowDown');
-  await expect(page.getByTestId('scenario-select')).toHaveValue('mast10');
+  const scenarioSelect = page.getByTestId('scenario-select');
+  await scenarioSelect.focus();
+  await expect(scenarioSelect).toBeFocused();
+  await scenarioSelect.press('m');
+  await expect(scenarioSelect).toHaveValue('mast10');
 
   // failure via Tab + Enter
   const f = scenario('mast10').failures[0];

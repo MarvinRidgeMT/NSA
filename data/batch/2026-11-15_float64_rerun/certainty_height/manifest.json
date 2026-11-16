@@ -1,0 +1,63 @@
+{
+ "created_utc": "2026-11-15T23:02:02+00:00",
+ "command": "SITE=site04_roi3 python3 code/certainty_f64.py f64 ; SITE=site01_roi6 python3 code/certainty_f64.py f64 ; python3 code/write_rerun64.py",
+ "label": "SOURCE-BASED, UNVALIDATED (corrected precision; not an external validation)",
+ "note": "Float64 re-run of data/batch/2026-11-14 certainty_height + certainty_height_fine (polaris_batch v2). The original run held terrain heights in float32, so R + h (R = 1,737,400 m) was rounded to about 0.125 m and the ray elevation angles carried that error (LONG_FEATURES_2026-11-15 section 0). Run with float32 heights, this script reproduces the original summary to within 0.001 points (same definitions: 720 bins at (k+0.5)*0.5 deg, linear interpolation between bins, near 1 m steps to 25 km, far 80 m to 280 km, h0 = z0 + mast, Sun/Earth centre vs horizon, the bundle's 337 hourly Horizons samples 2026-11-14 00:00 to 2026-11-28 00:00 UTC). Only the precision changes. Site01 ROI6: identical to the original. Site04 ROI3: masts 1-1.75 m change (1 m Sun nominal 93.769 -> 94.362 = the repo bundle's 318/337; clone values shift by up to 1.8 points); 2 m and above identical. Certainty Height, agreement mast and pass counts are unchanged. Columns: only the two metrics the viewer reads (sun_centre_pct, both_centre_pct); sun_disc, earth_any and gap metrics were not re-run. The original folder is untouched.",
+ "author": "Claude (Penumbra session), 15 Nov 2026",
+ "inputs_sha256": {
+  "pgda78_nominal_Site04": "38ff70dbdf2f066c2cfa94a646c3a59d653ce7f6b4528b15fc1b43ee397ce758",
+  "pgda78_nominal_Site01": "3ba7b97cb00a2bcf21189c3aeb535f65afc21207154ab9f0d43c5bdc1f7e747e",
+  "pgda90_80mpp": "82030dcbdd7c4bb0c7d858e9b4b293b9f2cda5a543ba31ec0f42784bd6beee5a",
+  "ephemeris_bundle_polaris-x5d-roi-2026-11-14-v2.json": "5b93dd66c3177d6098531f1261d565b3089101bd58f4d9a38d8ffb617b9cf51f",
+  "clones_Site04": {
+   "0001": "8d6efbddbfde8aa98a4a2454b6f79636ce307138360f3b38b6243cb76a585963",
+   "0002": "a3b58f9000a75c7ed0156ee8222a8bcd66112748fbe8d89fc2de7e248d41bf0f",
+   "0003": "07dad75a48f1f4acf9f9084408bcf0bb3a80a0a5368613da425ad462baad8c89",
+   "0004": "afbf332aa43af39c60791a3d80bd7ba77f46eb3785af02555b402da2145c99df",
+   "0005": "425abb287b1348700dca1ced607d4027a17e832b9efdd576e36e64b1d58ca2b3",
+   "0006": "1ac036b5d0d089f94b0fe884fac42b86f1b0fec1f0c555e893d05dc715f22a52",
+   "0007": "61319ed8b5af3c861d02ef0710216eca9806c4c44cb630266ab1a4761c1e41cf",
+   "0008": "afcf8359689006776e5cfaae87ebc9a013600927f144f706d9e3a9d6c83c4c2a",
+   "0009": "f3bf0719df2c656fe7bbd0f2abf0e2fcaf9d4ef6514c30b0e98a24f36a5a74e2",
+   "0010": "3e522f9679850de3efe3154e3f65c5c624ff32e0e08b215e42aa1ebcd89ddb80",
+   "0011": "997d62055e7d36fdbaeddc994b07d575f1e787372541ac6f85eebf331cb4fd7f",
+   "0012": "0f946b7939ddae8f68387000f5c5abb80a4f43c239f9c03da60cc40271752efd",
+   "0013": "bb4629840f10d37afe25f51b044199c6094ed1581c8acf02826c6bab92c3afd4",
+   "0014": "49161ccf69f48ef0aedb7928251153f2b5d37d92fbd4dd9f0081d7c453e9452d",
+   "0015": "7f0dcfce01e02680a541ead656158fc162b784ae6119f78ce72e29111278c72d",
+   "0016": "d3ffb8ba3163b73d967f38a452d685058eb4905316cb606f8b823f3eff83ede4",
+   "0017": "ebe4f04d78a5304350aa74418e9e1ed27de78e1968e21c86972b74d57d03184f",
+   "0018": "53b9a7ddd81f7e1eb1ff85e90340a6b90fa4d5c81967f8aed8afde8370f1bb88",
+   "0019": "dbe66df5699c21a72bdf4b556db541dea03eae878ee6d9c19bcfcbe0c7a0e9d4",
+   "0020": "99aca2e8044a7f01456391392f0299ffc3c95fa7d31b42faa04e542e811b3333"
+  },
+  "clones_Site01": {
+   "0001": "242de9e3da624a276864cc4fa7c499e96981c95fd27583565e68e92434faf05b",
+   "0002": "97b2c05633e308c72eddfc5a337089836d80b5edb7469321976973f7eeb7dcad",
+   "0003": "2e79f90fcc6b28b06cc5524ac80601ace4ed2ea3b875e18deede92903b64f06c",
+   "0004": "447667f3ab461e246196698c882fe154ecc4388621bf07f7b04b93150f68aaa0",
+   "0005": "252306940146d35a362978aab45f81d2351ef5d097c791a291b68a970d9af51b",
+   "0006": "5eb7ec40a17a6639826aec7b44e4713f77b9a547a90fa0450389cafcc67c3ec0",
+   "0007": "d484e8cb8ee6e0489bd625ac6c17f540310fcd664b78993557411d3fc1f90046",
+   "0008": "ef3c8c17151b4edef013aa51f404f682ce88deec4e9c5df5ffa5ef7d831e8543",
+   "0009": "18e5edd9fee02bfe1995fea80546dcf90e91986c2ed6d05d4d17519c0a9c2309",
+   "0010": "1b7f56fa87d6b98a520eeaf869d5b9a0a4df7092fa8b91e4f294c75ddecfb816",
+   "0011": "a3ef788e076b604ff46ce9484fb854bacee9cd5ed36b486d850a5828f0a04843",
+   "0012": "da0fc5c26820b91c7c5b05e43a432364cb60771fd611a71c22c0f803b63239e7",
+   "0013": "1164bc9ae9f22dc152d1f24dd88f8fd06a2d028c3d2aeae6eb80e8367fbb9544",
+   "0014": "8dcbca4caf7ae240b1e99528e677b0aa75b62a446dfe92150d0117b0f39d05f2",
+   "0015": "c3973b5a6345aa84b94f9f8b49b4d727bd0972703e4d99de3d0c70c492913ad4",
+   "0016": "eb4b540491536af43051942f6f44d52db4b603a19bdaeecc0de609645e86e943",
+   "0017": "1c55d36933f156f6c305e1621fbf6471ba7a00e6bdd66eb2f91f3b43c0328b32",
+   "0018": "b2fead63eace85f1dfa90d7da65d0fb084e321850126697cd824cd6263406b45",
+   "0019": "47d201a05a8e9992452fb48ef3418c56aa4c6745f271d398e2310c3ec4bd5fff",
+   "0020": "a93a9d516548b71d88ca0a218f1c9ecd2e7fb00843eff24628c46ea4d89237b9"
+  }
+ },
+ "outputs_sha256": {
+  "clone_sweep_summary.csv": "f0f0bf0890dcc2c06e96e9a3a0fcd2ea3925baeab305321e0ab243be23aad6c4",
+  "clone_sweep_runs.csv": "6b9d49b952483cebafec8755e3b9c659e06f663916a662d7ee5c2a6a99260821",
+  "code/certainty_f64.py": "9a8141252081776b38925af2f7ce2ea5073975aedefa3fc2849604eadcfd59e0",
+  "code/write_rerun64.py": "d3efd7ab47d98914e3b17ba033bc14f6dc0be28c5516912f31e225b4c0ef0181"
+ }
+}

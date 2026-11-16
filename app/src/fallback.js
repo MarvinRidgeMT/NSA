@@ -4,7 +4,7 @@ import {sampleHeight,scenarioDelta,terrainRayProfile,radians} from './science.js
 const bound=(x,a,b)=>Math.max(a,Math.min(b,x));
 export class FallbackScene{
  constructor(canvas){
-  this.canvas=canvas;this.ctx=canvas.getContext('2d');this.mode='local';this.colorMode='natural';this.yaw=-.65;this.pitch=.68;this.radius=32;this.showRays=true;this.ox=0;this.oy=0;this.height=2;this.uncertainty=0;this.sky=null;this.gl=null;
+  this.canvas=canvas;this.ctx=canvas.getContext('2d');this.mode='local';this.colorMode='natural';this.zMeters=1000;this.yaw=-.65;this.pitch=.68;this.radius=32;this.showRays=true;this.ox=0;this.oy=0;this.height=2;this.uncertainty=0;this.sky=null;this.gl=null;
   let drag=false,last=[];
   canvas.addEventListener('pointerdown',e=>{drag=true;last=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId);});
   canvas.addEventListener('pointerup',()=>drag=false);
@@ -18,6 +18,7 @@ export class FallbackScene{
  setObserver(ox,oy,height){this.ox=ox;this.oy=oy;this.height=height;this.render();}
  setMode(m){this.mode=m;this.preset(m==='globe'?'orbit':'oblique');this.render();}
  setColorMode(m){this.colorMode=m;this.render();}
+ setReliefMode(m){this.zMeters=m==='enhanced'?420:1000;this.render();}
  setRays(show){this.showRays=show;this.render();}
  preset(p){this.pitch=p==='top'?1.48:p==='horizon'?.18:p==='orbit'?.6:.7;this.yaw=p==='orbit'?-.9:-.65;this.radius=p==='horizon'?23:32;this.render();}
  zoom(factor){this.radius=bound(this.radius*factor,7,110);this.render();}
@@ -28,7 +29,7 @@ export class FallbackScene{
   // Local east,north,up represented in display-space x,y,vertical (not a geodetic map).
   let a=this.yaw,s=this.pitch;
   const right=x*Math.cos(a)-z*Math.sin(a),depth=x*Math.sin(a)+z*Math.cos(a);
-  return [cx+right*scale,cy+depth*Math.sin(s)*scale-h/650*Math.cos(s)*scale];
+  return [cx+right*scale,cy+depth*Math.sin(s)*scale-h/this.zMeters*Math.cos(s)*scale];
  }
  render(){
   if(!this.ctx)return;const c=this.canvas,ctx=this.ctx,w=c.clientWidth||1000,h=c.clientHeight||520,dpr=Math.min(window.devicePixelRatio||1,2);

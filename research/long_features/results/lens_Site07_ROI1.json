@@ -1,0 +1,37 @@
+{
+ "products": [
+  {
+   "label": "PGDA 78 5 m + PGDA 90 80 m (POLARIS)",
+   "ground_m": 1647.64,
+   "sun": 100.0,
+   "both": 80.71,
+   "year": 74.01,
+   "max_horizon_deg": 0.007
+  },
+  {
+   "label": "PGDA 90 20 m + 80 m",
+   "ground_m": 1647.65,
+   "sun": 100.0,
+   "both": 79.82,
+   "year": 73.93,
+   "max_horizon_deg": -0.018
+  },
+  {
+   "label": "PGDA 90 40 m + 80 m",
+   "ground_m": 1647.33,
+   "sun": 100.0,
+   "both": 79.82,
+   "year": 72.97,
+   "max_horizon_deg": 0.059
+  },
+  {
+   "label": "PGDA 90 80 m only",
+   "ground_m": 1646.19,
+   "sun": 100.0,
+   "both": 80.12,
+   "year": 70.09,
+   "max_horizon_deg": 0.194
+  }
+ ],
+ "note": "Same 1 m mast and ephemeris on four NASA terrain products. All four give 100 % Sun in the demo window; over 12 months they span 70.1\u201374.0 %, and here the coarser maps read lower (80 m only: 70.1 %), the opposite of Shackleton rim. Note the 20 clones of the 5 m map still range 85\u2013100 % in the demo window: the nominal map hides that uncertainty."
+}

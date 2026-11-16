@@ -1,0 +1,11 @@
+--- polaris_batch/core.py	2026-11-14 13:18:40
++++ /private/tmp/claude-501/-Users-anishmeruva-Documents-ChatGPT-NSA/ad3c0efc-1c3a-4eb4-bd47-798fcb6ad12a/scratchpad/pgda69_f64/polaris_batch/core.py	2026-11-15 21:53:41
+@@ -83,7 +83,7 @@
+     @classmethod
+     def open(cls, path: Path) -> "Dem":
+         with rasterio.open(path) as ds:
+-            z = ds.read(1).astype(np.float32)
++            z = ds.read(1).astype(np.float64)  # float64 rerun 2026-11-15: float32 + R_MOON loses ~0.125 m
+             if ds.nodata is not None:
+                 z[z == ds.nodata] = np.nan
+             z[~np.isfinite(z)] = np.nan

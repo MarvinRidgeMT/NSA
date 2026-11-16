@@ -1,10 +1,12 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {SITES,MOON_RADIUS_M,curvatureDrop,makeDemoTerrain,polarMeters,sampleHeight,horizonProfile,horizonAt,evaluateTimeline,stressTest,validateBundle,ephemerisAt} from '../src/science.js';
+import {SITES,MOON_RADIUS_M,curvatureDrop,makeDemoTerrain,polarMeters,sampleHeight,horizonProfile,horizonAt,evaluateTimeline,stressTest,validateBundle,ephemerisAt,terrainBasis,localOffsetToGrid,localDirectionToGrid} from '../src/science.js';
 const site=SITES[0],dem=makeDemoTerrain(site,41,200);
 test('stereographic projection exactly reaches pole',()=>{let p=polarMeters(-90,0);assert.ok(Math.hypot(p.x,p.y)<1e-8);});
 test('bilinear sampling at grid center returns finite elevation',()=>assert.ok(Number.isFinite(sampleHeight(dem,0,0))));
 test('synthetic horizon responds monotonically to raising observer',()=>{let a=horizonProfile(dem,0,0,1),b=horizonProfile(dem,0,0,10);for(let i=0;i<360;i++)assert.ok(b.angles[i]<=a.angles[i]+1e-8);});
 test('interpolated horizon wraps correctly',()=>{let h=horizonProfile(dem,0,0,1);assert.ok(Math.abs(horizonAt(h,359.9)-horizonAt(h,-.1))<1e-9);});
+test('south-polar grid basis maps Site01 local north radially away from the pole',()=>{const d={longitudeEastDeg:-137.49},b=terrainBasis(d),r=Math.hypot(-10999.14,-11999.26);assert.ok(Math.abs(b.north[0]-(-10999.14/r))<.001);assert.ok(Math.abs(b.north[1]-(-11999.26/r))<.001);const east=localDirectionToGrid(d,90);assert.ok(Math.abs(east.x-b.east[0])<1e-12);assert.ok(Math.abs(east.y-b.east[1])<1e-12);});
+test('local east/north landing offsets rotate into an imported DEM grid',()=>{const d={longitudeEastDeg:-137.49},b=terrainBasis(d),p=localOffsetToGrid(d,125,-40);assert.ok(Math.abs(p.x-(125*b.east[0]-40*b.north[0]))<1e-10);assert.ok(Math.abs(p.y-(125*b.east[1]-40*b.north[1]))<1e-10);});
 test('exact lunar curvature agrees with the short-range analytic approximation',()=>{const d=12000,approx=d*d/(2*MOON_RADIUS_M);assert.ok(Math.abs(curvatureDrop(d)-approx)<.02);});
 test('timeline metrics and stress experiments are finite',()=>{const opts={start:'2026-11-14T14:00:00Z',durationH:12,stepH:1,height:2,uncertainty:20};let v=evaluateTimeline(site,dem,null,opts);assert.equal(v.rows.length,12);assert.ok(v.metrics.sunPct>=0&&v.metrics.sunPct<=100);let s=stressTest(site,dem,null,opts);assert.equal(s.length,9);});
 test('import rejects broken science payload',()=>assert.throws(()=>validateBundle({format:'POLARIS-X5D-v1',datasets:[{siteId:'x',dem:{n:10,spacing:1,values:[1]}}]})));

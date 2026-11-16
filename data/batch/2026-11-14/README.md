@@ -9,6 +9,7 @@ Code used: `code/` (polaris_batch with the changes below). Tests: `python -m pyt
 Made in parallel with the strategy/batch session's package **v2** (12:55 ET, `POLARIS_BATCH_SOURCE` + `_PART2`). Site04 ROI3
 results are identical to v2's cloud run (claude/BATCH_RESULTS_CLOUD_2026-11-14.md). Difference: v2 also uses the 1 m step for
 the PGDA 69 fine variant; this run used 5 m there. Full report: claude/BATCH_RESULTS_THIRD_2026-11-14.md.
+> E1 (15 Nov 2026), Site04 RoI 3 1 m batch-v2 values quoted above (93.77 / 71.22 / 87.2–97.0): float32 heights, superseded by the float64 rerun (94.36 / 72.11 / 87.54–97.33).
 
 1. **Converged near-field ray step.** `compute_horizon(..., near_fine_step, near_fine_m)`; the clone sweep
    uses 1 m out to 1 km, then the 5 m pixel (`--near-fine-step 1 --near-fine-m 1000`, the new defaults).
@@ -31,6 +32,7 @@ Verdict columns use illustrative thresholds (Sun ≥ 70 %, Sun+Earth ≥ 40 %), 
 | Site04 ROI2 | **58.5–96.4 (80.4)** | 23.1–65.9 | 100 | 100 (76.6–77.7) |
 | **Site04 ROI3** | **87.2–97.0 (93.8)** | **62.6–74.8 (71.2)** | **100** | **100 (78.9)** |
 | Site04 ROI4 | 100 | 78.6 | 100 | 100 (78.6) |
+> E1 (15 Nov 2026), Site04 RoI 3 1 m batch-v2 values quoted above (93.77 / 71.22 / 87.2–97.0): float32 heights, superseded by the float64 rerun (94.36 / 72.11 / 87.54–97.33).
 
 ## 2. Certainty Height (queue item 6b): masts 1–15 m × nominal + 20 clones (`certainty_height*/`)
 Smallest mast at which the Sun centre is visible 100 % of the window on all 20 clones (same window).
@@ -39,6 +41,7 @@ Smallest mast at which the Sun centre is visible 100 % of the window on all 20 c
 |---|---|---|---|---|---|---|---|
 | Site04 ROI3 | 87.2–97.0 | 91.1–100 | 96.1–100 | **100** | 100 | 100 | **1.75 m** |
 | Site01 ROI6 | 100 | — | — | — | 100 | 100 | ≤ 1 m |
+> E1 (15 Nov 2026), Site04 RoI 3 1 m batch-v2 values quoted above (93.77 / 71.22 / 87.2–97.0): float32 heights, superseded by the float64 rerun (94.36 / 72.11 / 87.54–97.33).
 
 Site04 ROI3 Sun+Earth at 1.75 m: 78.0–78.6 %; at 10 m: 78.9 % on every clone.
 
@@ -78,6 +81,7 @@ Outliers: single PGDA 69 pixels near 0 % where POLARIS gives 30–50 % (visible 
 - claude/BATCH_RESULTS_CLOUD_2026-11-14.md (strategy session, package v2): Site04 ROI3 hero + Certainty Height identical.
 - claude/BATCH_RESULTS_FULL_2026-11-14.md (second chat on this PC, 13:20 ET): v2 sweep for all 11 ROIs and the PGDA 69
   18.6-yr grid/ROI results identical to the tables above.
+> E1 (15 Nov 2026), Site04 RoI 3 1 m batch-v2 values quoted above (93.77 / 71.22 / 87.2–97.0): float32 heights, superseded by the float64 rerun (94.36 / 72.11 / 87.54–97.33).
 
 ## Provenance
 - `horizons_raw/`: the 22 raw JPL Horizons responses for the 14-day runs, with `MANIFEST.json` (SHA-256).

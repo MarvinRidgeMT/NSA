@@ -1,0 +1,880 @@
+{
+ "summary": [
+  {
+   "variant": "fine",
+   "n_rois": 17,
+   "sun": {
+    "mean_bias_pct_pts": 3.9,
+    "rms_pct_pts": 10.12,
+    "max_abs_pct_pts": 19.4,
+    "spearman_rho": 0.439,
+    "best_roi_ours": "Site01_ROI6",
+    "best_roi_pgda69": "Site01_ROI6"
+   },
+   "earth": {
+    "mean_bias_pct_pts": 2.98,
+    "rms_pct_pts": 4.33,
+    "max_abs_pct_pts": 9.61,
+    "spearman_rho": 0.885,
+    "best_roi_ours": "Site11_ROI1",
+    "best_roi_pgda69": "Site11_ROI3"
+   }
+  },
+  {
+   "variant": "coarse",
+   "n_rois": 17,
+   "sun": {
+    "mean_bias_pct_pts": 4.99,
+    "rms_pct_pts": 10.95,
+    "max_abs_pct_pts": 22.58,
+    "spearman_rho": 0.488,
+    "best_roi_ours": "Site01_ROI6",
+    "best_roi_pgda69": "Site01_ROI6"
+   },
+   "earth": {
+    "mean_bias_pct_pts": 3.15,
+    "rms_pct_pts": 4.58,
+    "max_abs_pct_pts": 11.95,
+    "spearman_rho": 0.887,
+    "best_roi_ours": "Site11_ROI3",
+    "best_roi_pgda69": "Site11_ROI3"
+   }
+  }
+ ],
+ "manifest": {
+  "created_utc": "2026-11-16T02:55:31+00:00",
+  "command": "/private/tmp/claude-501/-Users-anishmeruva-Documents-ChatGPT-NSA/ad3c0efc-1c3a-4eb4-bd47-798fcb6ad12a/scratchpad/pgda69_f64/polaris_batch/pgda69_compare.py --near-step 1 --workers 8 --out results/pgda69_rois",
+  "args": {
+   "data": "data/external",
+   "out": "results/pgda69_rois",
+   "roi_csv": "/private/tmp/claude-501/-Users-anishmeruva-Documents-ChatGPT-NSA/ad3c0efc-1c3a-4eb4-bd47-798fcb6ad12a/scratchpad/pgda69_f64/data/polaris_roi_sites.csv",
+   "sites": null,
+   "rois": null,
+   "start": "2026-01-01 00:00",
+   "stop": "2044-08-08 00:00",
+   "step": "6h",
+   "mast": 1.0,
+   "near_step": 1.0,
+   "variants": "fine,coarse",
+   "n_az": 720,
+   "workers": 8,
+   "grid": null,
+   "grid_n": 15,
+   "grid_stride": 2,
+   "near_step_eff": 1.0
+  },
+  "host": "Anishs-MBP",
+  "python": "3.14.5",
+  "cpu_count": 18,
+  "label": "SOURCE-BASED, UNVALIDATED unless the comparison below says otherwise",
+  "runtime_s": 46.1,
+  "horizons_raw": {
+   "Site01_ROI1": {
+    "sun": [
+     {
+      "file": "horizons_10_33221b77e0961bc970b8.txt",
+      "sha256": "e5679682fa47eae547d91364a0f5737efca916554858798489bf8e954cb10a3c"
+     },
+     {
+      "file": "horizons_10_8463ecbc6bf3f2a37bf9.txt",
+      "sha256": "3df4d5af5ff16dd19758a7a1f2375c6a4a21c7dcbf35bc1f96d7bf1fa6d82488"
+     },
+     {
+      "file": "horizons_10_d13a1e7ed3f2c98e4edc.txt",
+      "sha256": "79cef8e2baf202e53138eb44345cd2827b72f9f6ef58f34f616b072fdf6f38fe"
+     },
+     {
+      "file": "horizons_10_2f75171906362c9c1154.txt",
+      "sha256": "be211b5068da320e41fff721dbf182c2a05572401f31c5bdb2fd95c5108361ab"
+     },
+     {
+      "file": "horizons_10_4d09fc7247e33d818112.txt",
+      "sha256": "bacbbac23b7d4b8e0ed0a0a63280ae28df77e086b81e23e766e817e7d6b147ca"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_65d6c1fa155cc0565d07.txt",
+      "sha256": "383f3bd03163f7714f465f38410e1ed228dc6198da9c9e90ed813cdf75056cad"
+     },
+     {
+      "file": "horizons_399_e0fde389ddc88f764e16.txt",
+      "sha256": "90687e7b58ec4474c6babda06ce456f730fab75e5828230c5f100a66db9d0c20"
+     },
+     {
+      "file": "horizons_399_3ab44e2c4f93f5b0ede7.txt",
+      "sha256": "4547f069e12c4dced43bab48368d4730c10ace058837edf419d401dfc832e6bd"
+     },
+     {
+      "file": "horizons_399_c4d2c9fc65b3de446ee6.txt",
+      "sha256": "46c2b3ffb9e5b00a4e73a48653a08ad473ddbe791b575c3fa950e46895e17534"
+     },
+     {
+      "file": "horizons_399_b24c583b3f9df23f0319.txt",
+      "sha256": "2a26c0bbfd5ef85a0d2c4be349b560b534187da9819fc3b54fb5c7e81cd19f06"
+     }
+    ],
+    "n": 27177
+   },
+   "Site01_ROI2": {
+    "sun": [
+     {
+      "file": "horizons_10_c43b6b33c6c1ad3f1b9d.txt",
+      "sha256": "2c3febf9d0460e2c151165fae1a21a0cbb973ff368d12f70f6df260cc008d42f"
+     },
+     {
+      "file": "horizons_10_fe42c6b1906961cee8f6.txt",
+      "sha256": "c02ce96432b133f032f43907f7315981e2ceb76d77df346b2f36c416db78633a"
+     },
+     {
+      "file": "horizons_10_38bcdd56885d0de8a2ee.txt",
+      "sha256": "11a0d4694fa5b11ca1591c8ab1e533a646fc2dc8e967af46520f99fe023156c9"
+     },
+     {
+      "file": "horizons_10_6ff9c541ae1cfea41d9f.txt",
+      "sha256": "9ff336b8e4d47032ed1704fb591e95738c01abbbe4ed1a787b1797dae7e944f9"
+     },
+     {
+      "file": "horizons_10_14c50e40eee887813e30.txt",
+      "sha256": "38d772c0184b1ca775b1286f01740112c1c559a2380dd24b514d8899a6b408db"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_fc0b92efebbfc250efdd.txt",
+      "sha256": "0f6430a294b5e860b798bb1dcf68ac9598d2469231c4220f32e1b236cbf02a06"
+     },
+     {
+      "file": "horizons_399_39513a7a7ea9369a9b69.txt",
+      "sha256": "6b18a45507153147d03d64c54785d772a11cf5721f4ca1414e4f3feb61737a62"
+     },
+     {
+      "file": "horizons_399_754ad01b45fe69d1e9ff.txt",
+      "sha256": "b91ac0f036442c65274a70720ec4fe0a99880f8a9a59a3e91d2543c86c8801a4"
+     },
+     {
+      "file": "horizons_399_15224dd6f50c7bb0cfaf.txt",
+      "sha256": "b5d4792405c7575baab6fdb83b6872a755685c74d56e52a6fed66b6c80192da4"
+     },
+     {
+      "file": "horizons_399_4b2783b97d41a4e3bfbc.txt",
+      "sha256": "689d481ecabdef320ce33d09ffa41193b382b820e70f6fc05dfe8ec34b973988"
+     }
+    ],
+    "n": 27177
+   },
+   "Site01_ROI3": {
+    "sun": [
+     {
+      "file": "horizons_10_77de330c3f2e39fe3248.txt",
+      "sha256": "e5da58870569c4da62713f50c0c62fb277f74c6e83690c7897a5ecee3522bfd1"
+     },
+     {
+      "file": "horizons_10_77a6128d4663c1d12d97.txt",
+      "sha256": "ef6d8ae5d82bc6fa772f662dc02b330232b10164d32cc539de0675af4e6d7f30"
+     },
+     {
+      "file": "horizons_10_af3471f0bc90ec9b53ef.txt",
+      "sha256": "f7aa6754cb42871261d1de49a4805d4701bcf5f832f2bd978efd246b646e6426"
+     },
+     {
+      "file": "horizons_10_ef018698753878d7adc1.txt",
+      "sha256": "2cec30df56305f107ee393a3f5ed0003686256a3faa05f37cc8d910689584631"
+     },
+     {
+      "file": "horizons_10_2ec6ee9fb34094c008b4.txt",
+      "sha256": "a46095ed760602047eb4827516a179cd624b50e60ab214796f4da21646376a01"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_0a42e33ffa19c3f11a03.txt",
+      "sha256": "1069e4725db9af2a116000e705b0d1ee6193a445492adb68453f275c17b2b9bf"
+     },
+     {
+      "file": "horizons_399_efae3050481650ae6407.txt",
+      "sha256": "b499daa0ad9c67d1b3952eb61113907463f1146a745f1f6e207724a2c117c21d"
+     },
+     {
+      "file": "horizons_399_d2ab1b147271112f794e.txt",
+      "sha256": "767440ff1f768779ddd8ecad9fb6187a2364a68ed252b31feffc2605747267b0"
+     },
+     {
+      "file": "horizons_399_a9832f3261c49500f77b.txt",
+      "sha256": "40db765cd41448d5a6d93a52f3611b0283c3425115fd660841ab09259509d15b"
+     },
+     {
+      "file": "horizons_399_0b33eded48655ed13c65.txt",
+      "sha256": "eb58514136353bb586f2a9db74b8ba75d9403c984434e95565972e9527fcb23c"
+     }
+    ],
+    "n": 27177
+   },
+   "Site01_ROI4": {
+    "sun": [
+     {
+      "file": "horizons_10_4205607a4a04c4aa52d3.txt",
+      "sha256": "4136bd4868d95ba3d4a75b3a849a704880a67f7f6fb41c6e9fbe2a70a27bd250"
+     },
+     {
+      "file": "horizons_10_1964cc8a61a419739cc9.txt",
+      "sha256": "a6cf120b026d9690b230858ba37bdbcac580e9750eb1156e1c75e689bc567ce8"
+     },
+     {
+      "file": "horizons_10_29a5eeaac7b554ab1df2.txt",
+      "sha256": "044cc1653a876fbd29c0622b48d0a511697b9604b75a851c6d251133b520cb4a"
+     },
+     {
+      "file": "horizons_10_fca301350e5926e54775.txt",
+      "sha256": "584c33eb42de3d8a10a262830ee857380e61ff8ffa4a9902c22faf012612f0be"
+     },
+     {
+      "file": "horizons_10_d2436684bab3af8ce1c6.txt",
+      "sha256": "ef0bfb59b7be95a18e60e61c9f872e864dc48a393d929ed532f1fad14baa4cd6"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_8d608d05ab4dbd46c787.txt",
+      "sha256": "2cf062a6b9c3afe68afb6cea6eda16ba3743056d60db0941333a18ac30550e2a"
+     },
+     {
+      "file": "horizons_399_8e0bd0d5a7fd160b3100.txt",
+      "sha256": "8740985c298851cd006e00b9d51167bcef8c1200a492563a1400ffd39d776ff1"
+     },
+     {
+      "file": "horizons_399_4117d741bc5df2e57cb2.txt",
+      "sha256": "81a0c60f82e73a4b8f9f8fd94e16c3e4122465909610411bc58ca5927f4c3b1d"
+     },
+     {
+      "file": "horizons_399_c3bd57a20d00c684ed0f.txt",
+      "sha256": "80c5087871c943e9396e10aaa2e36b482f216c00953a0aeaf65140dab509ca5d"
+     },
+     {
+      "file": "horizons_399_65769cfba8537deea91a.txt",
+      "sha256": "d4fc6889d1f5fd7a2725acd3b4d5050e1949662666b61450414c16850d5f3d00"
+     }
+    ],
+    "n": 27177
+   },
+   "Site01_ROI5": {
+    "sun": [
+     {
+      "file": "horizons_10_4971fe224254c75886e3.txt",
+      "sha256": "be53f992e6d21ab8e06a270c1b983e53cc63ce556be8010c9181b2038f779c3f"
+     },
+     {
+      "file": "horizons_10_fae68a0403c611d23c26.txt",
+      "sha256": "394cd0225f695ee239e6a935619aaaf761abd883c66ba5368d3986c08f070e85"
+     },
+     {
+      "file": "horizons_10_1db97693770e18f822cb.txt",
+      "sha256": "68fc6013aff187fb1169e3525556961f0d0e6c0a2fa0e141b3de0a3a3075f0b4"
+     },
+     {
+      "file": "horizons_10_3c8e28742d8ac2db5d9f.txt",
+      "sha256": "938d54a74c920e7bfa265f81e49c3ebb33fcb5c0155182a2153c84dc449f6c4d"
+     },
+     {
+      "file": "horizons_10_1f2ac19088e3d9cbda68.txt",
+      "sha256": "a96f2817f66d8f284b1bb23d1278b27aef0b524945a56fac51ce957f1f940ec7"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_6efd467fcd5fca3a1d08.txt",
+      "sha256": "ed7d497080e5837c2b46cb8cf4ce2e1b612502641c397eed370b21373347bb2e"
+     },
+     {
+      "file": "horizons_399_3f65620819743bda4ae4.txt",
+      "sha256": "e88377ae86a416f167a9f532eff6c37886dce752c5431a7e72255c7f6b96bfeb"
+     },
+     {
+      "file": "horizons_399_40c65891b4e0b8506b30.txt",
+      "sha256": "47c27e301f3a15638c7ed7119cdfc3426dd8c1f774e71c9690dc5ed5c2223006"
+     },
+     {
+      "file": "horizons_399_6271edfaad5934eadcfc.txt",
+      "sha256": "41fcfd4d85edcf3f52300075a2fabadb07458508c7ec4a3169bf91e364d8a1c2"
+     },
+     {
+      "file": "horizons_399_518928f3ccedeaa5cf5e.txt",
+      "sha256": "5ed743705e6d446a67f6b782db0e461ac03a28d7f1887f85aae82cfde91e6fc8"
+     }
+    ],
+    "n": 27177
+   },
+   "Site01_ROI6": {
+    "sun": [
+     {
+      "file": "horizons_10_004199933af3503e7d5c.txt",
+      "sha256": "1cf7902abbac59172a0fdfc5f242aa02b8a0583426697a7d09b073cdb837d027"
+     },
+     {
+      "file": "horizons_10_e295e82cf548cac3fbea.txt",
+      "sha256": "062ac53d6ebbc1c776e392fc14e83e4f213e5570232880f2652a3384b403eb66"
+     },
+     {
+      "file": "horizons_10_1ea75ada82a32409bcdc.txt",
+      "sha256": "edc4bc2a97cd8f579a211204718fa888c545f377785fc152a4a94bfab9bcd49f"
+     },
+     {
+      "file": "horizons_10_1f5687b94d31775810be.txt",
+      "sha256": "a3044b8ee39af0b89cba1af5087a74b8fdf9b81993935ed1d2119319b9abd544"
+     },
+     {
+      "file": "horizons_10_43c22460812eaaa435b7.txt",
+      "sha256": "a53a99481832dafe5d51099a2b7141fe249f4c980490513dfb5e1cff247969ea"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_001a0e21b3b5e3cd9d0f.txt",
+      "sha256": "29c02093abee3496a6ac61abe2a62988445fa6dc4c0ce51cca985788df682eb3"
+     },
+     {
+      "file": "horizons_399_0c8b000a3e806320226a.txt",
+      "sha256": "31fff610e1aab4d18a6dc67e14644f317855405577c15ba1a838e248c4f5d033"
+     },
+     {
+      "file": "horizons_399_15b6032ce5746f141f52.txt",
+      "sha256": "ed557b1e49f2cb9a39aa15f40e0ff6cc56d245ad78bed77ea3dd29a94cd2ab12"
+     },
+     {
+      "file": "horizons_399_6c29264bbdc5acbf0275.txt",
+      "sha256": "fd5bd322482bb6accb6f2f4860bd295dbbd7f354282251238a7bc8fe909f95b8"
+     },
+     {
+      "file": "horizons_399_ef4d88fde693d113862c.txt",
+      "sha256": "a08069282fc07738eec7ddc883629fdb8386fb72e747ef89dc9174e566cfc0b3"
+     }
+    ],
+    "n": 27177
+   },
+   "Site01_ROI7": {
+    "sun": [
+     {
+      "file": "horizons_10_a15dfc839c180fdda646.txt",
+      "sha256": "0ac6be5f47a329bd9ba41db9fbbb828a74227a9a4ba1fb37fdbc723583669187"
+     },
+     {
+      "file": "horizons_10_6aca4ab85c6d00bc373b.txt",
+      "sha256": "9ecdd7f128a10496c6cbae2e4bdac46514c786e838e4bd5d10f4ab108e4a5f6d"
+     },
+     {
+      "file": "horizons_10_48571610bac9cc11fc51.txt",
+      "sha256": "146041e96c2eeafca0b98238bb2a4fe441cd0afec6b5cc742edbff2af6ef4271"
+     },
+     {
+      "file": "horizons_10_e451642d953da56d73bf.txt",
+      "sha256": "953c053f2ba0dfbb32b40d6582fe54c77a74a8235fade52f420b3ea0cd69e3df"
+     },
+     {
+      "file": "horizons_10_184b93ae1d43f97c21a6.txt",
+      "sha256": "9d470b661eab9d8ab9f6c2ccda3e5726a543bce3d30c07cddf6d7f9dd3f9457b"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_47c79d6b783537333cb4.txt",
+      "sha256": "7e38822ffe15e3f712c3288fed182a62fa8c8272d3430a9b41398eeb16ee3b7e"
+     },
+     {
+      "file": "horizons_399_c6747160003209fadabf.txt",
+      "sha256": "365c7c18ffff4504f953763be305720e8733bc215c384f19894d3c401905fe51"
+     },
+     {
+      "file": "horizons_399_c118baf9cb1710baad2a.txt",
+      "sha256": "cc08533c492c126a635489d11bae1a38bfd488ace933457b482cd147f328bef4"
+     },
+     {
+      "file": "horizons_399_65748bd0aeaf528c986b.txt",
+      "sha256": "a56d13398f038139b3a18e72cace927f717f2b88cf1e83ffed5bb119e758c4c8"
+     },
+     {
+      "file": "horizons_399_983f0bbea98d59e32e5d.txt",
+      "sha256": "e777e42987212aea3579f1567bd0098ddf5365281710b31a0bf7ce82888a32d8"
+     }
+    ],
+    "n": 27177
+   },
+   "Site04_ROI1": {
+    "sun": [
+     {
+      "file": "horizons_10_e5933a146014351fa9e8.txt",
+      "sha256": "bd600aa52435da02a785866e5932a582a9928c54a4899cd89c1ba08706423885"
+     },
+     {
+      "file": "horizons_10_d2f33cc1a7736c9329f7.txt",
+      "sha256": "3b2e9c2e0418ecc32430b6173f7025a28d35eaff6b0cc953f0acc0eaebfeea86"
+     },
+     {
+      "file": "horizons_10_d0738822b9e1c9a887d8.txt",
+      "sha256": "3db0148fe4955a1edf515ebdba83ad01ed28920127914236436a25b25f6d6ecb"
+     },
+     {
+      "file": "horizons_10_4e0cbd3128cecec94ea1.txt",
+      "sha256": "910533011b256bafb72f40e5f6a2cca4b1d745b0cb7eb785634ad061599d1f4d"
+     },
+     {
+      "file": "horizons_10_f74f011862c1e6600098.txt",
+      "sha256": "f1531b6897681f8a18e79e8b888d7022dc4bfc6b13f895fd0a19658d5d749d3c"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_98d001271bc28fbc1337.txt",
+      "sha256": "9139b4956b01d7f088de345c651180c8190706921f38ef65329df31287d5fff9"
+     },
+     {
+      "file": "horizons_399_73587a0c7b6e0e492653.txt",
+      "sha256": "26ac546dc25cc3206fef408f7bb778757e616ef431923ffb098333885e0da797"
+     },
+     {
+      "file": "horizons_399_fd687cd00cacbdf3ff49.txt",
+      "sha256": "a0262a3a8100a10a43b91351bbb1b3cc811963fc7df4adc0a8c80f9b34b9ba86"
+     },
+     {
+      "file": "horizons_399_fa7bc6f072f271055984.txt",
+      "sha256": "40e0dc979c13d9a20638b4f5eed2077e35e238584323208e58de9d3a7d1a5f8d"
+     },
+     {
+      "file": "horizons_399_908bd5b68f8747d0c7e1.txt",
+      "sha256": "4322168cb65bda61d45e93ba18d68fb87229904abe24283126f03d84df563d49"
+     }
+    ],
+    "n": 27177
+   },
+   "Site04_ROI2": {
+    "sun": [
+     {
+      "file": "horizons_10_a4af123244c6b00a7122.txt",
+      "sha256": "9b431e36b864a49218e111f24f0a41754f1a1ea9c8d9ae1d78678ae85b160b2f"
+     },
+     {
+      "file": "horizons_10_76fd7e4b73688aa8d1af.txt",
+      "sha256": "1e77a3f0ef8d1d44af4efeac0c1b16c952ad04d29405be2f5a0a5f83f55c9a89"
+     },
+     {
+      "file": "horizons_10_e05370adabc7270b3c7e.txt",
+      "sha256": "5129c74d33e38bf2de2f2cb93a1d3dbf7015ecf929cea1210f45fc723acda3e2"
+     },
+     {
+      "file": "horizons_10_1d103307c9befd231729.txt",
+      "sha256": "32838a6762612ee69275afc00586a1d8274f6a891e1060eb288527e10ec61834"
+     },
+     {
+      "file": "horizons_10_8c09d8c5486575fe8299.txt",
+      "sha256": "aec181d051262811c5d63fa435a8fc9fb1339f1042fd3fc0ca3afb543426a06a"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_3883ab1b578b07530ae6.txt",
+      "sha256": "6d7e06fa5774129823ff5b2c024e6491bfe7895820d61ca27bd96e53ed3e36e3"
+     },
+     {
+      "file": "horizons_399_8024d1a4a0a2005c4290.txt",
+      "sha256": "ada0d8a024f2b16eda0f9910b6c54a063b699f98856baf7841c759fda75f59ff"
+     },
+     {
+      "file": "horizons_399_d4ae3c62729f3f36a7ff.txt",
+      "sha256": "72f0183e5b65e8e2beb931a555ad967cd6e2b0804618c9666e4feb556a062779"
+     },
+     {
+      "file": "horizons_399_0c6c58d0ef421719c3e2.txt",
+      "sha256": "a635fa2477594359accb82210bd27574f4c117052fa7a8211f35507688bcc28d"
+     },
+     {
+      "file": "horizons_399_54e408b90c6047dc97c2.txt",
+      "sha256": "aebc6d74c66ae26914f5232c74f15c2cf37123de0061fdd12fff28d5fcbcbd23"
+     }
+    ],
+    "n": 27177
+   },
+   "Site04_ROI3": {
+    "sun": [
+     {
+      "file": "horizons_10_e9f6345240bb115716f9.txt",
+      "sha256": "907cd59e6b0f47fbd5b94e1e9fdcc17d645eefa943b13083a336191942b0934d"
+     },
+     {
+      "file": "horizons_10_8e1c907baaee2d7c20ed.txt",
+      "sha256": "487b9e3e8d0b03114d8add9446fdfafdfd1b04cb4531f0a5b84234a8c63956cc"
+     },
+     {
+      "file": "horizons_10_a40a0b2814b24471029f.txt",
+      "sha256": "0b80e4c47e1f202b929d84def33ae47c5a829b8d5b36bbda29edf750c932b9eb"
+     },
+     {
+      "file": "horizons_10_b4bdedcc07b677cdc572.txt",
+      "sha256": "000880bdb3f809ea4fb0fb675e954dbe5696dfbf4155613c69b5213f444b3fd8"
+     },
+     {
+      "file": "horizons_10_ce17e192ba9b370c968e.txt",
+      "sha256": "c36ad862a65e9d79f2950b2166d5370d6ff3a1b64b1025f63c1b89c14cee7484"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_7a36780aa94f251d2268.txt",
+      "sha256": "050bce555b092c77e62a687727ba709335cfad35d26b864545acf9364ad0561f"
+     },
+     {
+      "file": "horizons_399_b286f129d2287611d93f.txt",
+      "sha256": "54cf0eef57a2c13a32655ae1d86948749805579df8e39e41fe43ec3ff097af42"
+     },
+     {
+      "file": "horizons_399_afdd6b6498fc8cc646de.txt",
+      "sha256": "ae8d2bb7e4f5433d39d2e4f7384b69bb2b44c5c6d7294c9c703eb3db31a5be3c"
+     },
+     {
+      "file": "horizons_399_429cda321bb063001905.txt",
+      "sha256": "9ba84f4bc06872bbdde5e98879f4671fa2e43523408fd9a150ce8171df7401fb"
+     },
+     {
+      "file": "horizons_399_c103af1bfd0d174f5cfb.txt",
+      "sha256": "3fd0ce594e32316d23e155e7231acc8947ba083e708b53ddc10bedb2884fa7f5"
+     }
+    ],
+    "n": 27177
+   },
+   "Site04_ROI4": {
+    "sun": [
+     {
+      "file": "horizons_10_6b0b16b8b338d9a2397e.txt",
+      "sha256": "e923296d2fb83dd19444dcd7963fdbadec56b9cf66f02c8b3c0a9409b29fc55e"
+     },
+     {
+      "file": "horizons_10_2b8f8f9662c1fbc0363a.txt",
+      "sha256": "0d4f88b7c5b50cf5f1786f715ca35cb147a9c4659fee59c920fa0ae68b7bf699"
+     },
+     {
+      "file": "horizons_10_a37caf3139c80f714812.txt",
+      "sha256": "0a4b04ddce5cce71968eea30c0954b33409b57fdaa9af4391d233efde4def5d7"
+     },
+     {
+      "file": "horizons_10_a11108424b0fc16e02c0.txt",
+      "sha256": "583d48d0fd901acd64fc9f675094a154686f248ae0d4eaa84269516d89544c00"
+     },
+     {
+      "file": "horizons_10_f29cd4fdd01fdb8cbf18.txt",
+      "sha256": "4c2dcf14507c6506e0e9ae1f11613a2a0b6b4be5f5fb5600b0f5415c4edf99f9"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_734eded91421f686d03e.txt",
+      "sha256": "4d4fd1076b8c9a51de18616407686f53c8a85ea7750a59d21cc6a7d7249f9139"
+     },
+     {
+      "file": "horizons_399_12f563f80b837932ed52.txt",
+      "sha256": "883acc20b7bc0328b764233d43d8e6e53c7535501901ca3566c1e09d207e6b30"
+     },
+     {
+      "file": "horizons_399_77b6756bab5d95c5df70.txt",
+      "sha256": "6f61380d6d8170b88bf40942479a43b31ec1fb57248dbaa5d75359943f062c6c"
+     },
+     {
+      "file": "horizons_399_ca67187cb38dd77a87fc.txt",
+      "sha256": "bd418b6d97486c4a9f6bc2c522e4404195b6a9c343b5a4a53f0e00be784f80a0"
+     },
+     {
+      "file": "horizons_399_28faf1af06cb9cfeaf39.txt",
+      "sha256": "4e8d127a11dec4f45fdaaa377f4c3ba39a3b421c7edd6c59f183517882e5f436"
+     }
+    ],
+    "n": 27177
+   },
+   "Site07_ROI1": {
+    "sun": [
+     {
+      "file": "horizons_10_704f354d389437d0d0e5.txt",
+      "sha256": "a8cac9cb7f489ae51ed0b86fe17dd58ef8337d5939d36f51b2db1bd02be8a2a7"
+     },
+     {
+      "file": "horizons_10_27fb7bbca5d1aaebec4d.txt",
+      "sha256": "d37c23d4b99aa29ac7a76057772ce0be50f82c0d4ce593d78c27d6f7797b38e4"
+     },
+     {
+      "file": "horizons_10_16fcf371fb22fcac73a9.txt",
+      "sha256": "6f3f2383e949d3bf211e43d749630f81e641acef9a9c1656efa9062126df5d3c"
+     },
+     {
+      "file": "horizons_10_7ac8c757c1c5166f1d53.txt",
+      "sha256": "8d7f9d96c260509179e3f48c56ee6569e4c03dca926ff97a490039eaaeecaabf"
+     },
+     {
+      "file": "horizons_10_e1dc33b925f6647f2e59.txt",
+      "sha256": "3f42f867fe7779c256ef44beab0e1cff745c86e09a3d0fae82753d29fe023b42"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_07da923e1eca8bfaece6.txt",
+      "sha256": "659e2742be3c3141d2a23d8699466ebdf59e1b3b5f545fd8601ccc76db4940a7"
+     },
+     {
+      "file": "horizons_399_216212499096cb1f84c8.txt",
+      "sha256": "e25fdd5f5ce9c4e64b6f89fbbf89b860a33fa08558ce8f80dc56239f0e3dd895"
+     },
+     {
+      "file": "horizons_399_62826e995c6ac5368a07.txt",
+      "sha256": "6c2c997899b59f30a2698c5083edd1021e225025b7ebf5cd214fc713901ee471"
+     },
+     {
+      "file": "horizons_399_fb8b42c74192f40e9b7e.txt",
+      "sha256": "262073ec0f37e816a73e1f1023fec71f3724c72046e4352bd4a26a67d5c92228"
+     },
+     {
+      "file": "horizons_399_fe6ec2363d845d7be7e2.txt",
+      "sha256": "a36c7bfbeb3790513839d5d485403cd26971ea2d97f5c8d03524fcb6d41a9e65"
+     }
+    ],
+    "n": 27177
+   },
+   "Site07_ROI2": {
+    "sun": [
+     {
+      "file": "horizons_10_3186e0923d81fc0b6c13.txt",
+      "sha256": "e9b33d9ecf422cd49940ef940c435ad563a778dc0011f0961c92596ae7ed0a4e"
+     },
+     {
+      "file": "horizons_10_778248b1fef409d65e4c.txt",
+      "sha256": "b10c18c07728929ed9df915d7af18b50f4047a9a9c1ae403a77ed47e67d33d5d"
+     },
+     {
+      "file": "horizons_10_46739d2e3b0f8cfb33da.txt",
+      "sha256": "c39bc817431ee6acfa1e3058258fec009e9e90de77ed91ecef83c74f957e26f1"
+     },
+     {
+      "file": "horizons_10_5f87825c010eba4760ec.txt",
+      "sha256": "4baf3a005ad935a71a5d634a5b2dd6e536323eb37853ca82b202f6c9b4f62fdc"
+     },
+     {
+      "file": "horizons_10_603d7f9d94c0afc20aea.txt",
+      "sha256": "4ace99b81c6a8f3a643c94d19eb443126a33ea2a545eba44d09089e4eae2d9ed"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_673c6c8c069e5938c399.txt",
+      "sha256": "7ae3ecaaa95e6b3eea40edbdd8bc9fd17fa9e2f10f9270f7fc6a1d32fd6b2a32"
+     },
+     {
+      "file": "horizons_399_d831e66e32890d0bdf1b.txt",
+      "sha256": "9ae8d393c0fb9b8c4d2c7f69c05244d1c92dd163343f45ffa40dda96fe379701"
+     },
+     {
+      "file": "horizons_399_27f7b09e73292248042d.txt",
+      "sha256": "6d93c6897fa9f525cab3c9c1411233c310516ee42fde3856dfd8ad1db0856515"
+     },
+     {
+      "file": "horizons_399_68d29a4fe49e63238471.txt",
+      "sha256": "0ae041814e8923d3672c5c88c4fba5c6d3af6a028f6cffd439fcb30ef50af7ac"
+     },
+     {
+      "file": "horizons_399_e9990de0833fbe77a710.txt",
+      "sha256": "bb85e246688fd8297011a8b7955cf0671888279b870ca5b4542f060b38d1be90"
+     }
+    ],
+    "n": 27177
+   },
+   "Site11_ROI1": {
+    "sun": [
+     {
+      "file": "horizons_10_bd71c6664435c2ffa627.txt",
+      "sha256": "bf09248451a3f47907c6b9df35f39b409187fa52ccb2838ba8cb5549672265c7"
+     },
+     {
+      "file": "horizons_10_28f6118ca152d400ff5a.txt",
+      "sha256": "e1f4d317acfee275b13e9aedddf613cd830e60670820056af8f59b4523adc24c"
+     },
+     {
+      "file": "horizons_10_ce84e7e45ae7c32afeef.txt",
+      "sha256": "a8296bd74c85c1c6b785ffcd0b57fc0878b364a132a854ccf44d5f81a2683408"
+     },
+     {
+      "file": "horizons_10_f7fbcfb023b8c4a07b32.txt",
+      "sha256": "c5c8316a154579f8b96d490eae362e8a0efef102843a8e29548f954471e214ed"
+     },
+     {
+      "file": "horizons_10_97214aff4f1e41d7b4a4.txt",
+      "sha256": "fefbcb4a92a5073d3f8612395b480daba47010ffde90aeb61445c22514dffe51"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_ce09dae2104d10706f04.txt",
+      "sha256": "b28236c9fd4161c51561d62358498d85d54cfd666634dc86f8ac999e9cd60241"
+     },
+     {
+      "file": "horizons_399_23c1fd441e4bbe34c51f.txt",
+      "sha256": "15f1e092723c98ffc07e64fb295e35d0bf9afcaec712b98c3e7f76562081cfc7"
+     },
+     {
+      "file": "horizons_399_eed0b92c2146d5d8615d.txt",
+      "sha256": "985260a865a4b7d2d49b6940a87147f5bd972cbf34a7b181e2018e254c95b6dd"
+     },
+     {
+      "file": "horizons_399_b28e8b4b7dd709f9dd50.txt",
+      "sha256": "a94a60cd8155006c37d64809839319dbb2d7f14b1fb8ac854dfa1adb5c8b46d7"
+     },
+     {
+      "file": "horizons_399_7305f00cea2a22d347ec.txt",
+      "sha256": "38fd8429c3bfcdbb61fb5e5aa47b16679e804c7f055b753f4076b0a6b8d41a4d"
+     }
+    ],
+    "n": 27177
+   },
+   "Site11_ROI2": {
+    "sun": [
+     {
+      "file": "horizons_10_1fc1b2bfd53f2e96b623.txt",
+      "sha256": "3d7d07c027025daa89beb0e40f718211ca31584253fb234c469772b71ba343eb"
+     },
+     {
+      "file": "horizons_10_8f7d4d0b659250fe027f.txt",
+      "sha256": "ce097b2f507b68baf788ac9668cf090687ff73e1b4b0faaae7dd53be0322e9a0"
+     },
+     {
+      "file": "horizons_10_27e80bdb7c269ec9e4ba.txt",
+      "sha256": "c4cbda990a70fad1e66cb4c31ed55c6756e0064d9e225bcf2c6f1a7a093c6e4b"
+     },
+     {
+      "file": "horizons_10_7a663b3c1420f31df7e5.txt",
+      "sha256": "a8133a865840c6e0ec94d1cd9d9cde40a691b17f9c30ef893aab1dfe0f05a05e"
+     },
+     {
+      "file": "horizons_10_6b0cefbd2dfc31c1ebef.txt",
+      "sha256": "d5c693e8edac764d501966cd30ea03811aeb5cc3f51d3ac429cfddfc632eac3a"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_491c5002870c8292eced.txt",
+      "sha256": "34b92b640ec1548f891400fe0e30fd52cc238aff5abf9acdfe0fbe471ddd146f"
+     },
+     {
+      "file": "horizons_399_a4fb7440858c2fc37e3e.txt",
+      "sha256": "4a48ab1a6c82438bc9c988828dac9d1b2cef9f82634f0d3269c993e75814cce4"
+     },
+     {
+      "file": "horizons_399_cee4524696ddce6be20f.txt",
+      "sha256": "cac3e8cb45b6ed3c02a51d6b141b1ea71b2461d089bdd85fb843065ce0ee08b4"
+     },
+     {
+      "file": "horizons_399_37d3662bf722ae2bd9ee.txt",
+      "sha256": "9b750b42263bbaa6bf424da737c10568af86687a7dd693b087e58dd88eb2e89d"
+     },
+     {
+      "file": "horizons_399_2abbc77893ceca004b4b.txt",
+      "sha256": "0c3ed897522662ef353ece20f7e545ae3b663e833832ceda4dc79b2ee7980518"
+     }
+    ],
+    "n": 27177
+   },
+   "Site11_ROI3": {
+    "sun": [
+     {
+      "file": "horizons_10_20b7ed68966d72be6d07.txt",
+      "sha256": "1786618ac0b2ab3db5d65924419f904ed896aad18e5f20033f624632c787fcd7"
+     },
+     {
+      "file": "horizons_10_b591a351182d1265a2f6.txt",
+      "sha256": "dd6191031e9a8fb483896a3ec8de21c2874852fecb37d1cee86393273996f636"
+     },
+     {
+      "file": "horizons_10_34fa39baf386bb1e0007.txt",
+      "sha256": "be0cf44cecd63790064c26fe8ee6f70f6190f881de2acbb5fd28bc1dfb60b3d4"
+     },
+     {
+      "file": "horizons_10_4ada9436a5628e13dc25.txt",
+      "sha256": "fbc43e3d4a5229c51fd6b3d117405ecaa30adcfa80798056fafde5fcca291e90"
+     },
+     {
+      "file": "horizons_10_2fd62ccf93fe00e46a14.txt",
+      "sha256": "2ef12903b14c2520060c86b34ddb33af94f517b6507a833f233aa5d51ef1e908"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_15b13fe75170512c8d18.txt",
+      "sha256": "3756ffabb9afd38bbd19ef0871b37f792b1a040044423542b148092352f8238f"
+     },
+     {
+      "file": "horizons_399_33c4005a79b87f96fe4c.txt",
+      "sha256": "4fcf04e03d7cf0c19a42b609e15c187e0056b0f662b16eba46e25e60fbf0e43e"
+     },
+     {
+      "file": "horizons_399_c76e4e5e8575596fd9ec.txt",
+      "sha256": "94b868a149682d1621c312c49a165c07c0971374e6d533ab491045a345c75850"
+     },
+     {
+      "file": "horizons_399_2d098797f7de9039ae5a.txt",
+      "sha256": "c976dd056b4f3447d3b5416cdf669737f234eb850d1f500c1fbdae6131567f7e"
+     },
+     {
+      "file": "horizons_399_bd4481f3cfc0b4dda35b.txt",
+      "sha256": "9ef8a5428456ca123fd337238c0f8c9fd419a172ac61423a63937aece831dfc3"
+     }
+    ],
+    "n": 27177
+   },
+   "Site11_ROI4": {
+    "sun": [
+     {
+      "file": "horizons_10_e72b21f81c4fa850919e.txt",
+      "sha256": "87f586e7da93796b017adbff72fa50230c6c3d64c5a394c9bbbb96181d379fce"
+     },
+     {
+      "file": "horizons_10_741842f9c72b0cdbc98d.txt",
+      "sha256": "44ec351b324f3c1ec5d1d6aac8aec3dedc2541467134b2c138010a38475d4fe1"
+     },
+     {
+      "file": "horizons_10_139f06ab1e2de5839904.txt",
+      "sha256": "8a7ab6521c55466cb2244fe80f056b1cd95a2ae2c4ff96b2fb992bcde2113c3c"
+     },
+     {
+      "file": "horizons_10_f050c7b31bd5a1c7590b.txt",
+      "sha256": "f3f429c7384183af65f83002b405cee5d6db3396082e047806de4b9f81fc9fe8"
+     },
+     {
+      "file": "horizons_10_e39bf33e60900079d9a6.txt",
+      "sha256": "a0966a63ce6b9e476f25c89b89f5605ece93f9749cc886e448e6fe9979bd1385"
+     }
+    ],
+    "earth": [
+     {
+      "file": "horizons_399_5d20fd840b93b1375dcb.txt",
+      "sha256": "d35a02c3e691ab54b5809e0f18a7a5f8e503a0fefca33eff9e33f6883bd95d7b"
+     },
+     {
+      "file": "horizons_399_589e8c867f4857915abd.txt",
+      "sha256": "3d445ad096673a193821db0bc41f26dd7fdf560c5ef2cd17f980c35f79a3c846"
+     },
+     {
+      "file": "horizons_399_a0e489f466c1a59a1814.txt",
+      "sha256": "85fd192ed3a971bad3f00709147f3dc400f44eaaf6a82fd28b8b6656666c5dcd"
+     },
+     {
+      "file": "horizons_399_5f7790374bd8f99aa322.txt",
+      "sha256": "e08bbee6810cfe473568e34d1b72d73f34d487a8b972ac42bd8cce5dc3c8de22"
+     },
+     {
+      "file": "horizons_399_21856e9a8bb1521fe86f.txt",
+      "sha256": "0430be9d02b47e8dc7ad93101756b8bbf79ff7920a491e563fb657cb115f1fc3"
+     }
+    ],
+    "n": 27177
+   }
+  },
+  "near_step_m_fine": 1.0,
+  "reference": "NASA PGDA product 69, AVGVISIB_85S_060M_201608(_EARTH).TIF, scale 4e-05",
+  "caveats": [
+   "PGDA 69 is an 18.6-yr average from a 60 m DEM; observer height not stated on the product page.",
+   "Earth 'any part visible' is slightly optimistic for DSN radio links.",
+   "Agreement means consistency with an independent NASA model, not ground truth."
+  ]
+ }
+}

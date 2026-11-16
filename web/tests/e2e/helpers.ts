@@ -14,6 +14,12 @@ export async function openDemo(page: Page) {
   await page.getByTestId('status-badge').waitFor();
 }
 
+/** switch workspace (Sky / Decision / Evidence); the clock and selectors stay above the tabs */
+export async function ws(page: Page, id: 'sky' | 'decision' | 'evidence') {
+  await page.getByTestId(`tab-${id}`).click();
+  await page.locator(`#ws-${id}`).waitFor();
+}
+
 export async function goTo(page: Page, iso: string) {
   const inp = page.getByTestId('utc-input');
   await inp.fill(iso);

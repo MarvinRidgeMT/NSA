@@ -19,6 +19,14 @@ test('synthetic east ridge blocks a low ray at the predicted azimuth',()=>{
  assert.ok(low.firstHit && low.firstHit.d>1000 && low.firstHit.d<1700);
  assert.equal(high.visible,true);
 });
+test('imported polar-grid terrain samples a local-east ridge in its rotated grid direction',()=>{
+ const n=81,spacing=100,origin=-4000,longitudeEastDeg=-137.49,L=longitudeEastDeg*Math.PI/180,east=[Math.cos(L),-Math.sin(L)],values=[];
+ for(let j=0;j<n;j++)for(let i=0;i<n;i++){const x=origin+i*spacing,y=origin+j*spacing,d=x*east[0]+y*east[1];values.push(d>1200&&d<1550?350:0);}
+ const dem={n,spacing,originX:origin,originY:origin,values,kind:'nasa',longitudeEastDeg};
+ const localEast=terrainRayProfile(dem,{az:90,el:1,stepM:50,maxDistanceM:2600});
+ const localNorth=terrainRayProfile(dem,{az:0,el:1,stepM:50,maxDistanceM:2600});
+ assert.ok(localEast.firstHit&&localEast.firstHit.d>1100&&localEast.firstHit.d<1500);assert.equal(localNorth.visible,true);assert.equal(localEast.frame,'derived-from-longitude');
+});
 test('stress-test nominal uses the currently selected observer location and terrain scenario',()=>{
  const opts={start:'2026-11-14T14:00:00Z',durationH:18,stepH:1,ox:300,oy:-300,height:4,uncertainty:25};
  const nominal=evaluateTimeline(s,d,null,opts).metrics,stress=stressTest(s,d,null,opts)[0];

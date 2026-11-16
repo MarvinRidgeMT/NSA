@@ -16,9 +16,14 @@ test('real Codex source bundle: honest status, JPL angles, no invented margins',
   await expect(page.getByTestId('demo-banner')).toHaveCount(0);
   await expect(page.getByTestId('bundle-warning')).toContainText('does not compute');
   const s0 = real.datasets[0].ephemeris.samples[0];
+  // Explore: no skyline in this bundle → honest empty states, nothing invented
+  await expect(page.getByTestId('no-skyline')).toBeVisible();
+  await expect(page.getByTestId('sky-sun')).toContainText('not in bundle');
+  // the exact JPL angles (2 decimals) live in the Decision workspace's Metrics panel since the three-workspace layout
+  await page.getByTestId('tab-decision').click();
   await expect(page.getByTestId('sun-az')).toHaveText(`${s0.sun.az.toFixed(2)}°`);
   await expect(page.getByTestId('sun-margin')).toHaveText('not in bundle');
-  await expect(page.getByTestId('no-skyline')).toBeVisible();
+  await page.getByTestId('tab-sky').click();
   await page.waitForTimeout(1500);
   await page.screenshot({ path: `${shots}/03-real-site01-source-bundle.png`, fullPage: true });
 });
@@ -29,7 +34,7 @@ test('Cesium failure is graceful and token is never persisted', async ({ page })
   await page.getByTestId('cesium-token').fill('not-a-real-token');
   await page.getByTestId('cesium-load').click();
   await expect(page.getByTestId('cesium-error')).toContainText('unaffected');
-  await expect(page.getByTestId('sun-margin')).not.toHaveText('');
+  await expect(page.getByTestId('sky-sun')).toContainText('margin');
   const stored = await page.evaluate(() => JSON.stringify({ ...localStorage }) + JSON.stringify({ ...sessionStorage }));
   expect(stored).not.toContain('not-a-real-token');
 });

@@ -1,0 +1,189 @@
+{
+ "schema": "polaris-showcase-gallery-v1",
+ "items": [
+  {
+   "site": "site01_roi6",
+   "siteName": "Connecting Ridge (Site01 ROI6)",
+   "label": "aerial",
+   "title": "Aerial view across the Sun azimuth",
+   "file": "POLARIS_X_site01_roi6_bundlev2_showcase_aerial.webp",
+   "sha256": "9d1845ecdeee3c83a3286e252419705a3c1b2d12e81ab81c93462b2720dba658",
+   "utc": "2026-11-14T00:00:00.000Z",
+   "sunAz": 263.984800756,
+   "sunEl": 1.501556585,
+   "rays": "sun: clear, earth: blocked (first hit 167 m)",
+   "sourcePng": "POLARIS_X_site01_roi6_bundlev2_showcase_aerial.png",
+   "sourcePngSha256": "94d111c112390db23ff97b9b4d96fac9023982675365acf9491f349c2865823e",
+   "status": "SOURCE-BASED UNVALIDATED",
+   "boulders": {
+    "status": "drawn",
+    "count": 14515,
+    "keepClearRadiusM": 150.0,
+    "maxHeightM": 0.9,
+    "seed": 7,
+    "label": "VISUAL / synthetic: not measured; Poisson-distributed, denser on slopes"
+   }
+  },
+  {
+   "site": "site01_roi6",
+   "siteName": "Connecting Ridge (Site01 ROI6)",
+   "label": "ground",
+   "title": "Ground level, 1.7 m eye height, about 130 m from the mast on the Sun side, looking down-Sun",
+   "file": "POLARIS_X_site01_roi6_bundlev2_showcase_ground.webp",
+   "sha256": "d93cfeb76424037e25a8d3b1d01aafb67e2aba5e0bbced7940a00e1baf0afd5d",
+   "utc": "2026-11-14T00:00:00.000Z",
+   "sunAz": 263.984800756,
+   "sunEl": 1.501556585,
+   "rays": "sun: clear, earth: blocked (first hit 167 m)",
+   "sourcePng": "POLARIS_X_site01_roi6_bundlev2_showcase_ground.png",
+   "sourcePngSha256": "02b1959dfecc59c20c944d88036fae674a5217152a74dc6a18a2771097324a47",
+   "status": "SOURCE-BASED UNVALIDATED",
+   "boulders": {
+    "status": "drawn",
+    "count": 14515,
+    "keepClearRadiusM": 150.0,
+    "maxHeightM": 0.9,
+    "seed": 7,
+    "label": "VISUAL / synthetic: not measured; Poisson-distributed, denser on slopes"
+   }
+  },
+  {
+   "site": "site01_roi6",
+   "siteName": "Connecting Ridge (Site01 ROI6)",
+   "label": "low_sun",
+   "title": "Low camera on the Sun side, grazing light",
+   "file": "POLARIS_X_site01_roi6_bundlev2_showcase_low_sun.webp",
+   "sha256": "b7d1784d60d7a33370feaedb2e10c06864cb9056173234a3ea970b2383c53fe1",
+   "utc": "2026-11-14T00:00:00.000Z",
+   "sunAz": 263.984800756,
+   "sunEl": 1.501556585,
+   "rays": "sun: clear, earth: blocked (first hit 167 m)",
+   "sourcePng": "POLARIS_X_site01_roi6_bundlev2_showcase_low_sun.png",
+   "sourcePngSha256": "9715667fb82da580d0aa6c6cdbd6410981371375e93ffacfb4531d2fb9d09028",
+   "status": "SOURCE-BASED UNVALIDATED",
+   "boulders": {
+    "status": "drawn",
+    "count": 14515,
+    "keepClearRadiusM": 150.0,
+    "maxHeightM": 0.9,
+    "seed": 7,
+    "label": "VISUAL / synthetic: not measured; Poisson-distributed, denser on slopes"
+   }
+  },
+  {
+   "site": "site04_roi3",
+   "siteName": "Shackleton Rim (Site04 ROI3)",
+   "label": "aerial",
+   "title": "Aerial view across the Sun azimuth",
+   "file": "POLARIS_X_site04_roi3_bundlev2_showcase_aerial.webp",
+   "sha256": "47f7f9ab0c7b96a5c68a7f391073d42c38153c6d5a662b5d9c7f24c6f44e9f3c",
+   "utc": "2026-11-14T00:00:00.000Z",
+   "sunAz": 282.931780279,
+   "sunEl": 1.605822877,
+   "rays": "sun: clear, earth: blocked (first hit 10 m)",
+   "sourcePng": "POLARIS_X_site04_roi3_bundlev2_showcase_aerial.png",
+   "sourcePngSha256": "7fbf74b3b68a22e36f2e495f3de90fd97d2e1c2055330f3b8eb188572d816e13",
+   "status": "SOURCE-BASED UNVALIDATED",
+   "boulders": {
+    "status": "drawn",
+    "count": 43592,
+    "keepClearRadiusM": 150.0,
+    "maxHeightM": 0.9,
+    "seed": 7,
+    "label": "VISUAL / synthetic: not measured; Poisson-distributed, denser on slopes"
+   }
+  },
+  {
+   "site": "site04_roi3",
+   "siteName": "Shackleton Rim (Site04 ROI3)",
+   "label": "ground",
+   "title": "Ground level, 1.7 m eye height, about 130 m from the mast on the Sun side, looking down-Sun",
+   "file": "POLARIS_X_site04_roi3_bundlev2_showcase_ground.webp",
+   "sha256": "5ca37c329901b7fb65c9bce2b65b174b4c6551a5859da19f62acc271d1e57af0",
+   "utc": "2026-11-14T00:00:00.000Z",
+   "sunAz": 282.931780279,
+   "sunEl": 1.605822877,
+   "rays": "sun: clear, earth: blocked (first hit 10 m)",
+   "sourcePng": "POLARIS_X_site04_roi3_bundlev2_showcase_ground.png",
+   "sourcePngSha256": "32522cbf84a94869e7690b3eb9c10bad4a8220319ef22c7136b89e7054021131",
+   "status": "SOURCE-BASED UNVALIDATED",
+   "boulders": {
+    "status": "drawn",
+    "count": 43592,
+    "keepClearRadiusM": 150.0,
+    "maxHeightM": 0.9,
+    "seed": 7,
+    "label": "VISUAL / synthetic: not measured; Poisson-distributed, denser on slopes"
+   }
+  },
+  {
+   "site": "site04_roi3",
+   "siteName": "Shackleton Rim (Site04 ROI3)",
+   "label": "low_sun",
+   "title": "Low camera on the Sun side, grazing light",
+   "file": "POLARIS_X_site04_roi3_bundlev2_showcase_low_sun.webp",
+   "sha256": "dfcb18b12dea6d7e4b4dbd457d6cee60e882696706a8dc8d6e37540f19742804",
+   "utc": "2026-11-14T00:00:00.000Z",
+   "sunAz": 282.931780279,
+   "sunEl": 1.605822877,
+   "rays": "sun: clear, earth: blocked (first hit 10 m)",
+   "sourcePng": "POLARIS_X_site04_roi3_bundlev2_showcase_low_sun.png",
+   "sourcePngSha256": "d5dd580d411c0a35fc0fd06e3bd54d2a081c3eaa01d01856bff71d0ad2dfd363",
+   "status": "SOURCE-BASED UNVALIDATED",
+   "boulders": {
+    "status": "drawn",
+    "count": 43592,
+    "keepClearRadiusM": 150.0,
+    "maxHeightM": 0.9,
+    "seed": 7,
+    "label": "VISUAL / synthetic: not measured; Poisson-distributed, denser on slopes"
+   }
+  },
+  {
+   "site": "site04_roi3",
+   "siteName": "Shackleton Rim (Site04 ROI3)",
+   "label": "obstruction_mast1m",
+   "title": "Sun transition hour, 1 m mast: the bundle ray ends at the first terrain hit",
+   "file": "POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast1m.webp",
+   "sha256": "ade92bd8d6f4312c28fd29701f97104a465f9929fc6a369afea8d8a3dc736ac6",
+   "utc": "2026-11-26T23:00:00.000Z",
+   "sunAz": 125.477056562,
+   "sunEl": 1.373273721,
+   "rays": "Sun at 1 m mast: blocked (first hit 16 m), bundle margin -0.04\u00b0",
+   "sourcePng": "POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast1m.png",
+   "sourcePngSha256": "87d7dfa3e8ce6683b9e748af28b35f3e351f5d9a7a0cd72a9ad95e1c493846e0",
+   "status": "SOURCE-BASED UNVALIDATED",
+   "boulders": {
+    "status": "drawn",
+    "count": 43592,
+    "keepClearRadiusM": 150.0,
+    "maxHeightM": 0.9,
+    "seed": 7,
+    "label": "VISUAL / synthetic: not measured; Poisson-distributed, denser on slopes"
+   }
+  },
+  {
+   "site": "site04_roi3",
+   "siteName": "Shackleton Rim (Site04 ROI3)",
+   "label": "obstruction_mast10m",
+   "title": "Same hour, 10 m mast: the bundle ray clears the terrain",
+   "file": "POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast10m.webp",
+   "sha256": "c9124009cd6e6a00f5952b045601549dd370c5b7875169db1cfadc837ad70c1c",
+   "utc": "2026-11-26T23:00:00.000Z",
+   "sunAz": 125.477056562,
+   "sunEl": 1.373273721,
+   "rays": "Sun at 10 m mast: clear, bundle margin +3.75\u00b0",
+   "sourcePng": "POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast10m.png",
+   "sourcePngSha256": "ac762e4172b668bd0e7162ab528c42689138b11a660f8c7a9c2a6e77f755a621",
+   "status": "SOURCE-BASED UNVALIDATED",
+   "boulders": {
+    "status": "drawn",
+    "count": 43592,
+    "keepClearRadiusM": 150.0,
+    "maxHeightM": 0.9,
+    "seed": 7,
+    "label": "VISUAL / synthetic: not measured; Poisson-distributed, denser on slopes"
+   }
+  }
+ ]
+}

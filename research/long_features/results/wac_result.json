@@ -1,0 +1,235 @@
+{
+ "rows": [
+  {
+   "site": "Site01",
+   "roi": 1,
+   "wac_twi_pct": 28.69,
+   "wac_3x3_max": 35.53,
+   "pgda69_pct": 65.0,
+   "ours_any_pct": 73.41,
+   "ours_centre_pct": 68.99
+  },
+  {
+   "site": "Site01",
+   "roi": 2,
+   "wac_twi_pct": 27.63,
+   "wac_3x3_max": 32.63,
+   "pgda69_pct": 75.1,
+   "ours_any_pct": 68.74,
+   "ours_centre_pct": 63.76
+  },
+  {
+   "site": "Site01",
+   "roi": 3,
+   "wac_twi_pct": 31.04,
+   "wac_3x3_max": 36.59,
+   "pgda69_pct": 53.6,
+   "ours_any_pct": 67.98,
+   "ours_centre_pct": 63.03
+  },
+  {
+   "site": "Site01",
+   "roi": 4,
+   "wac_twi_pct": 36.8,
+   "wac_3x3_max": 40.57,
+   "pgda69_pct": 68.5,
+   "ours_any_pct": 75.78,
+   "ours_centre_pct": 69.89
+  },
+  {
+   "site": "Site01",
+   "roi": 5,
+   "wac_twi_pct": 39.3,
+   "wac_3x3_max": 45.43,
+   "pgda69_pct": 79.6,
+   "ours_any_pct": 62.45,
+   "ours_centre_pct": 57.1
+  },
+  {
+   "site": "Site01",
+   "roi": 6,
+   "wac_twi_pct": 48.51,
+   "wac_3x3_max": 49.18,
+   "pgda69_pct": 88.4,
+   "ours_any_pct": 78.51,
+   "ours_centre_pct": 72.26
+  },
+  {
+   "site": "Site01",
+   "roi": 7,
+   "wac_twi_pct": 34.68,
+   "wac_3x3_max": 47.52,
+   "pgda69_pct": 80.1,
+   "ours_any_pct": 68.82,
+   "ours_centre_pct": 61.62
+  },
+  {
+   "site": "Site04",
+   "roi": 1,
+   "wac_twi_pct": 57.46,
+   "wac_3x3_max": 64.66,
+   "pgda69_pct": 61.6,
+   "ours_any_pct": 53.67,
+   "ours_centre_pct": 49.46
+  },
+  {
+   "site": "Site04",
+   "roi": 2,
+   "wac_twi_pct": 44.65,
+   "wac_3x3_max": 45.19,
+   "pgda69_pct": 50.6,
+   "ours_any_pct": 59.72,
+   "ours_centre_pct": 54.18
+  },
+  {
+   "site": "Site04",
+   "roi": 3,
+   "wac_twi_pct": 44.05,
+   "wac_3x3_max": 57.22,
+   "pgda69_pct": 85.2,
+   "ours_any_pct": 59.83,
+   "ours_centre_pct": 54.72
+  },
+  {
+   "site": "Site04",
+   "roi": 4,
+   "wac_twi_pct": 54.95,
+   "wac_3x3_max": 65.1,
+   "pgda69_pct": 85.5,
+   "ours_any_pct": 59.88,
+   "ours_centre_pct": 54.74
+  },
+  {
+   "site": "Site07",
+   "roi": 1,
+   "wac_twi_pct": 22.22,
+   "wac_3x3_max": 36.62,
+   "pgda69_pct": 72.0,
+   "ours_any_pct": 72.73,
+   "ours_centre_pct": 67.49
+  },
+  {
+   "site": "Site07",
+   "roi": 2,
+   "wac_twi_pct": 21.58,
+   "wac_3x3_max": 34.95,
+   "pgda69_pct": 58.2,
+   "ours_any_pct": 72.62,
+   "ours_centre_pct": 68.03
+  },
+  {
+   "site": "Site11",
+   "roi": 1,
+   "wac_twi_pct": 34.08,
+   "wac_3x3_max": 45.3,
+   "pgda69_pct": 76.2,
+   "ours_any_pct": 77.29,
+   "ours_centre_pct": 72.63
+  },
+  {
+   "site": "Site11",
+   "roi": 2,
+   "wac_twi_pct": 39.3,
+   "wac_3x3_max": 41.57,
+   "pgda69_pct": 62.6,
+   "ours_any_pct": 59.71,
+   "ours_centre_pct": 54.52
+  },
+  {
+   "site": "Site11",
+   "roi": 3,
+   "wac_twi_pct": 32.02,
+   "wac_3x3_max": 34.71,
+   "pgda69_pct": 65.1,
+   "ours_any_pct": 65.27,
+   "ours_centre_pct": 60.07
+  },
+  {
+   "site": "Site11",
+   "roi": 4,
+   "wac_twi_pct": 43.52,
+   "wac_3x3_max": 46.78,
+   "pgda69_pct": 77.3,
+   "ours_any_pct": 63.58,
+   "ours_centre_pct": 58.67
+  }
+ ],
+ "ours_any_vs_wac": {
+  "spearman": -0.517,
+  "bias": 29.38,
+  "rmse": 33.11
+ },
+ "ours_centre_vs_wac": {
+  "spearman": -0.568,
+  "bias": 24.16,
+  "rmse": 28.56
+ },
+ "pgda69_vs_wac": {
+  "spearman": 0.324,
+  "bias": 33.18,
+  "rmse": 35.49
+ },
+ "ours_any_vs_pgda69": {
+  "spearman": 0.225,
+  "bias": -3.8,
+  "rmse": 12.7
+ },
+ "note": "WAC TWI = fraction of time-weighted WAC observations in which the 100 m pixel was lit, one lunar year (15 Feb 2010 - 5 Feb 2011, 3807 images). Ours: same period, 2 h, 0.5 m above ground, any part of the Sun disc visible, mean of 5 points within 25 m. PGDA 69: 18.6-yr modelled average, 60 m. Registration check over all of 88\u201390\u00b0 S (950,380 pixels): WAC vs PGDA 69 Pearson r = 0.956, and every flipped orientation is near 0, so the map is placed correctly. Up to 50 % the two agree bin by bin within ~2 pts (PGDA 69 40\u201350 % \u2192 WAC 39.1 %), but WAC compresses bright spots: PGDA 69 70\u201380 % \u2192 WAC 52.2 % (WAC maximum 71.7 %). So WAC validates the regional pattern but cannot rank well-lit landing sites; at these 17 RoIs every model reads ~30 pts above it.",
+ "map_check": {
+  "pearson_wac_vs_pgda69_88_90S": 0.956,
+  "wac_mean_pct": 12.0,
+  "pgda69_mean_pct": 13.8,
+  "n_px": 950380,
+  "binned": [
+   {
+    "pgda69_bin": "0-10",
+    "n_px": 458850,
+    "wac_mean": 2.2,
+    "wac_p90": 6.4
+   },
+   {
+    "pgda69_bin": "10-20",
+    "n_px": 193673,
+    "wac_mean": 12.6,
+    "wac_p90": 17.4
+   },
+   {
+    "pgda69_bin": "20-30",
+    "n_px": 162005,
+    "wac_mean": 21.6,
+    "wac_p90": 27.5
+   },
+   {
+    "pgda69_bin": "30-40",
+    "n_px": 107109,
+    "wac_mean": 31.3,
+    "wac_p90": 37.8
+   },
+   {
+    "pgda69_bin": "40-50",
+    "n_px": 27388,
+    "wac_mean": 39.1,
+    "wac_p90": 44.3
+   },
+   {
+    "pgda69_bin": "50-60",
+    "n_px": 1207,
+    "wac_mean": 41.5,
+    "wac_p90": 51.4
+   },
+   {
+    "pgda69_bin": "60-70",
+    "n_px": 124,
+    "wac_mean": 43.9,
+    "wac_p90": 61.4
+   },
+   {
+    "pgda69_bin": "70-80",
+    "n_px": 24,
+    "wac_mean": 52.2,
+    "wac_p90": 68.1
+   }
+  ],
+  "wac_max_pct": 71.7
+ }
+}

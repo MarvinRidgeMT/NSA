@@ -1,0 +1,972 @@
+{
+ "Site04_ROI3": {
+  "complementarity": {
+   "best_single": {
+    "at": [
+     25,
+     100
+    ],
+    "sun_pct": 75.19,
+    "longest_dark_h": 278
+   },
+   "centre_single": {
+    "sun_pct": 73.82,
+    "longest_dark_h": 461
+   },
+   "best_pairs": [
+    {
+     "a": [
+      -100,
+      100
+     ],
+     "b": [
+      50,
+      -100
+     ],
+     "sep_m": 250.0,
+     "sun_either_pct": 86.61,
+     "longest_both_dark_h": 98,
+     "sun_earth_either_pct": 43.81
+    },
+    {
+     "a": [
+      -100,
+      100
+     ],
+     "b": [
+      25,
+      -100
+     ],
+     "sep_m": 235.8,
+     "sun_either_pct": 86.6,
+     "longest_both_dark_h": 100,
+     "sun_earth_either_pct": 43.57
+    },
+    {
+     "a": [
+      -100,
+      100
+     ],
+     "b": [
+      25,
+      -75
+     ],
+     "sep_m": 215.1,
+     "sun_either_pct": 86.59,
+     "longest_both_dark_h": 101,
+     "sun_earth_either_pct": 43.63
+    },
+    {
+     "a": [
+      -100,
+      100
+     ],
+     "b": [
+      25,
+      -50
+     ],
+     "sep_m": 195.3,
+     "sun_either_pct": 86.57,
+     "longest_both_dark_h": 102,
+     "sun_earth_either_pct": 43.67
+    },
+    {
+     "a": [
+      -100,
+      100
+     ],
+     "b": [
+      0,
+      -25
+     ],
+     "sep_m": 160.1,
+     "sun_either_pct": 86.51,
+     "longest_both_dark_h": 67,
+     "sun_earth_either_pct": 44.09
+    }
+   ],
+   "best_pair_with_centre": {
+    "a": [
+     -100,
+     100
+    ],
+    "b": [
+     0,
+     0
+    ],
+    "sep_m": 141.4,
+    "sun_either_pct": 86.38,
+    "longest_both_dark_h": 132,
+    "sun_earth_either_pct": 44.07
+   },
+   "best_pair_sep_ge_100m": {
+    "a": [
+     -100,
+     100
+    ],
+    "b": [
+     50,
+     -100
+    ],
+    "sep_m": 250.0,
+    "sun_either_pct": 86.61,
+    "longest_both_dark_h": 98,
+    "sun_earth_either_pct": 43.81
+   }
+  },
+  "ellipse": {
+   "sigma_10m": {
+    "share_passing_all3_pct": 100.0,
+    "expected_sun_demo_pct": 94.42,
+    "expected_sun_12mo_pct": 72.63,
+    "worst_point_within_2sigma_sun_demo_pct": 94.36
+   },
+   "sigma_25m": {
+    "share_passing_all3_pct": 91.8,
+    "expected_sun_demo_pct": 88.19,
+    "expected_sun_12mo_pct": 61.72,
+    "worst_point_within_2sigma_sun_demo_pct": 0.0
+   },
+   "sigma_50m": {
+    "share_passing_all3_pct": 65.3,
+    "expected_sun_demo_pct": 75.28,
+    "expected_sun_12mo_pct": 49.63,
+    "worst_point_within_2sigma_sun_demo_pct": 0.0
+   },
+   "sigma_100m": {
+    "share_passing_all3_pct": 54.6,
+    "expected_sun_demo_pct": 72.37,
+    "expected_sun_12mo_pct": 46.14,
+    "worst_point_within_2sigma_sun_demo_pct": 0.0
+   }
+  },
+  "planner": [
+   {
+    "k": 0,
+    "measured": "nothing",
+    "expected_flip_h": 494.0
+   },
+   {
+    "k": 1,
+    "measured": "lander cell",
+    "dist_m": 0.0,
+    "expected_flip_h": 349.3
+   },
+   {
+    "k": 2,
+    "measured": "cell -10,9 m",
+    "dist_m": 13.0,
+    "expected_flip_h": 283.1
+   },
+   {
+    "k": 3,
+    "measured": "cell -5,14 m",
+    "dist_m": 14.4,
+    "expected_flip_h": 227.2
+   },
+   {
+    "k": 4,
+    "measured": "cell -15,4 m",
+    "dist_m": 15.1,
+    "expected_flip_h": 183.6
+   },
+   {
+    "k": 5,
+    "measured": "cell -10,14 m",
+    "dist_m": 16.7,
+    "expected_flip_h": 158.5
+   },
+   {
+    "k": 6,
+    "measured": "cell -15,-21 m",
+    "dist_m": 25.9,
+    "expected_flip_h": 145.6
+   },
+   {
+    "k": 7,
+    "measured": "cell -10,-21 m",
+    "dist_m": 23.5,
+    "expected_flip_h": 139.1
+   },
+   {
+    "k": 8,
+    "measured": "cell -125,-46 m",
+    "dist_m": 133.0,
+    "expected_flip_h": 133.9
+   },
+   {
+    "k": 9,
+    "measured": "cell -125,-51 m",
+    "dist_m": 134.8,
+    "expected_flip_h": 129.4
+   },
+   {
+    "k": 10,
+    "measured": "cell -15,9 m",
+    "dist_m": 17.0,
+    "expected_flip_h": 125.8
+   },
+   {
+    "k": 11,
+    "measured": "cell -10,4 m",
+    "dist_m": 10.3,
+    "expected_flip_h": 122.2
+   },
+   {
+    "k": 12,
+    "measured": "cell 45,109 m",
+    "dist_m": 117.7,
+    "expected_flip_h": 119.5
+   },
+   {
+    "k": 13,
+    "measured": "cell -125,-41 m",
+    "dist_m": 131.4,
+    "expected_flip_h": 117.3
+   },
+   {
+    "k": 14,
+    "measured": "cell -15,-16 m",
+    "dist_m": 22.0,
+    "expected_flip_h": 115.5
+   },
+   {
+    "k": 15,
+    "measured": "cell 45,119 m",
+    "dist_m": 127.0,
+    "expected_flip_h": 114.3
+   }
+  ],
+  "planner_check": {
+   "tested_nothing": 7261,
+   "tested_lander_only": 5748,
+   "tested_top10_plus_lander": 769,
+   "note": "Tested = clone-hours still wrong after a full ray march (20 clones, 12 months); expected = toterr model flip-hours (not the same unit)."
+  }
+ },
+ "Site01_ROI6": {
+  "complementarity": {
+   "best_single": {
+    "at": [
+     -25,
+     0
+    ],
+    "sun_pct": 86.34,
+    "longest_dark_h": 135
+   },
+   "centre_single": {
+    "sun_pct": 85.1,
+    "longest_dark_h": 164
+   },
+   "best_pairs": [
+    {
+     "a": [
+      -25,
+      0
+     ],
+     "b": [
+      25,
+      -25
+     ],
+     "sep_m": 55.9,
+     "sun_either_pct": 86.94,
+     "longest_both_dark_h": 129,
+     "sun_earth_either_pct": 46.4
+    },
+    {
+     "a": [
+      -25,
+      0
+     ],
+     "b": [
+      50,
+      -50
+     ],
+     "sep_m": 90.1,
+     "sun_either_pct": 86.9,
+     "longest_both_dark_h": 133,
+     "sun_earth_either_pct": 46.35
+    },
+    {
+     "a": [
+      -50,
+      0
+     ],
+     "b": [
+      25,
+      -25
+     ],
+     "sep_m": 79.1,
+     "sun_either_pct": 86.87,
+     "longest_both_dark_h": 129,
+     "sun_earth_either_pct": 46.38
+    },
+    {
+     "a": [
+      -25,
+      0
+     ],
+     "b": [
+      25,
+      -50
+     ],
+     "sep_m": 70.7,
+     "sun_either_pct": 86.86,
+     "longest_both_dark_h": 129,
+     "sun_earth_either_pct": 46.33
+    },
+    {
+     "a": [
+      -75,
+      0
+     ],
+     "b": [
+      25,
+      -25
+     ],
+     "sep_m": 103.1,
+     "sun_either_pct": 86.79,
+     "longest_both_dark_h": 129,
+     "sun_earth_either_pct": 46.3
+    }
+   ],
+   "best_pair_with_centre": {
+    "a": [
+     -25,
+     0
+    ],
+    "b": [
+     0,
+     0
+    ],
+    "sep_m": 25.0,
+    "sun_either_pct": 86.55,
+    "longest_both_dark_h": 133,
+    "sun_earth_either_pct": 46.09
+   },
+   "best_pair_sep_ge_100m": {
+    "a": [
+     -75,
+     0
+    ],
+    "b": [
+     25,
+     -25
+    ],
+    "sep_m": 103.1,
+    "sun_either_pct": 86.79,
+    "longest_both_dark_h": 129,
+    "sun_earth_either_pct": 46.3
+   }
+  },
+  "ellipse": {
+   "sigma_10m": {
+    "share_passing_all3_pct": 100.0,
+    "expected_sun_demo_pct": 100.0,
+    "expected_sun_12mo_pct": 84.3,
+    "worst_point_within_2sigma_sun_demo_pct": 100.0
+   },
+   "sigma_25m": {
+    "share_passing_all3_pct": 99.4,
+    "expected_sun_demo_pct": 99.23,
+    "expected_sun_12mo_pct": 77.05,
+    "worst_point_within_2sigma_sun_demo_pct": 98.52
+   },
+   "sigma_50m": {
+    "share_passing_all3_pct": 85.9,
+    "expected_sun_demo_pct": 89.92,
+    "expected_sun_12mo_pct": 64.97,
+    "worst_point_within_2sigma_sun_demo_pct": 31.45
+   },
+   "sigma_100m": {
+    "share_passing_all3_pct": 71.6,
+    "expected_sun_demo_pct": 81.98,
+    "expected_sun_12mo_pct": 57.05,
+    "worst_point_within_2sigma_sun_demo_pct": 7.72
+   }
+  },
+  "planner": [
+   {
+    "k": 0,
+    "measured": "nothing",
+    "expected_flip_h": 125.6
+   },
+   {
+    "k": 1,
+    "measured": "lander cell",
+    "dist_m": 0.0,
+    "expected_flip_h": 85.3
+   },
+   {
+    "k": 2,
+    "measured": "cell -29,8 m",
+    "dist_m": 30.3,
+    "expected_flip_h": 64.9
+   },
+   {
+    "k": 3,
+    "measured": "cell -29,3 m",
+    "dist_m": 29.4,
+    "expected_flip_h": 51.4
+   },
+   {
+    "k": 4,
+    "measured": "cell -29,-2 m",
+    "dist_m": 29.3,
+    "expected_flip_h": 43.7
+   },
+   {
+    "k": 5,
+    "measured": "cell 26,-12 m",
+    "dist_m": 28.5,
+    "expected_flip_h": 41.4
+   },
+   {
+    "k": 6,
+    "measured": "cell 16,-37 m",
+    "dist_m": 40.4,
+    "expected_flip_h": 39.5
+   },
+   {
+    "k": 7,
+    "measured": "cell 21,-37 m",
+    "dist_m": 42.6,
+    "expected_flip_h": 38.0
+   },
+   {
+    "k": 8,
+    "measured": "cell 26,-37 m",
+    "dist_m": 45.2,
+    "expected_flip_h": 36.6
+   },
+   {
+    "k": 9,
+    "measured": "cell 16,-42 m",
+    "dist_m": 45.0,
+    "expected_flip_h": 35.4
+   },
+   {
+    "k": 10,
+    "measured": "cell 6,-47 m",
+    "dist_m": 47.5,
+    "expected_flip_h": 34.2
+   },
+   {
+    "k": 11,
+    "measured": "cell 26,-17 m",
+    "dist_m": 31.0,
+    "expected_flip_h": 33.0
+   },
+   {
+    "k": 12,
+    "measured": "cell 26,-32 m",
+    "dist_m": 41.2,
+    "expected_flip_h": 31.9
+   },
+   {
+    "k": 13,
+    "measured": "cell 11,-42 m",
+    "dist_m": 43.5,
+    "expected_flip_h": 31.3
+   },
+   {
+    "k": 14,
+    "measured": "cell -339,-87 m",
+    "dist_m": 350.2,
+    "expected_flip_h": 30.9
+   },
+   {
+    "k": 15,
+    "measured": "cell 601,163 m",
+    "dist_m": 622.5,
+    "expected_flip_h": 30.6
+   }
+  ],
+  "planner_check": {
+   "tested_nothing": 1701,
+   "tested_lander_only": 1224,
+   "tested_top10_plus_lander": 513,
+   "note": "Tested = clone-hours still wrong after a full ray march (20 clones, 12 months); expected = toterr model flip-hours (not the same unit)."
+  }
+ },
+ "Site07_ROI1": {
+  "complementarity": {
+   "best_single": {
+    "at": [
+     -100,
+     -75
+    ],
+    "sun_pct": 79.58,
+    "longest_dark_h": 400
+   },
+   "centre_single": {
+    "sun_pct": 74.01,
+    "longest_dark_h": 360
+   },
+   "best_pairs": [
+    {
+     "a": [
+      -100,
+      -100
+     ],
+     "b": [
+      -100,
+      100
+     ],
+     "sep_m": 200.0,
+     "sun_either_pct": 84.2,
+     "longest_both_dark_h": 232,
+     "sun_earth_either_pct": 49.98
+    },
+    {
+     "a": [
+      -100,
+      -100
+     ],
+     "b": [
+      -75,
+      100
+     ],
+     "sep_m": 201.6,
+     "sun_either_pct": 84.0,
+     "longest_both_dark_h": 232,
+     "sun_earth_either_pct": 50.22
+    },
+    {
+     "a": [
+      -100,
+      -100
+     ],
+     "b": [
+      -50,
+      100
+     ],
+     "sep_m": 206.2,
+     "sun_either_pct": 83.94,
+     "longest_both_dark_h": 232,
+     "sun_earth_either_pct": 50.04
+    },
+    {
+     "a": [
+      -100,
+      -100
+     ],
+     "b": [
+      -25,
+      100
+     ],
+     "sep_m": 213.6,
+     "sun_either_pct": 83.94,
+     "longest_both_dark_h": 232,
+     "sun_earth_either_pct": 49.93
+    },
+    {
+     "a": [
+      -100,
+      -100
+     ],
+     "b": [
+      0,
+      100
+     ],
+     "sep_m": 223.6,
+     "sun_either_pct": 83.93,
+     "longest_both_dark_h": 233,
+     "sun_earth_either_pct": 49.3
+    }
+   ],
+   "best_pair_with_centre": {
+    "a": [
+     -100,
+     -100
+    ],
+    "b": [
+     0,
+     0
+    ],
+    "sep_m": 141.4,
+    "sun_either_pct": 82.84,
+    "longest_both_dark_h": 234,
+    "sun_earth_either_pct": 49.9
+   },
+   "best_pair_sep_ge_100m": {
+    "a": [
+     -100,
+     -100
+    ],
+    "b": [
+     -100,
+     100
+    ],
+    "sep_m": 200.0,
+    "sun_either_pct": 84.2,
+    "longest_both_dark_h": 232,
+    "sun_earth_either_pct": 49.98
+   }
+  },
+  "ellipse": {
+   "sigma_10m": {
+    "share_passing_all3_pct": 100.0,
+    "expected_sun_demo_pct": 100.0,
+    "expected_sun_12mo_pct": 73.83,
+    "worst_point_within_2sigma_sun_demo_pct": 100.0
+   },
+   "sigma_25m": {
+    "share_passing_all3_pct": 99.7,
+    "expected_sun_demo_pct": 99.67,
+    "expected_sun_12mo_pct": 68.93,
+    "worst_point_within_2sigma_sun_demo_pct": 100.0
+   },
+   "sigma_50m": {
+    "share_passing_all3_pct": 97.3,
+    "expected_sun_demo_pct": 97.57,
+    "expected_sun_12mo_pct": 61.48,
+    "worst_point_within_2sigma_sun_demo_pct": 31.45
+   },
+   "sigma_100m": {
+    "share_passing_all3_pct": 96.5,
+    "expected_sun_demo_pct": 96.79,
+    "expected_sun_12mo_pct": 59.31,
+    "worst_point_within_2sigma_sun_demo_pct": 31.45
+   }
+  },
+  "planner": [
+   {
+    "k": 0,
+    "measured": "nothing",
+    "expected_flip_h": 125.8
+   },
+   {
+    "k": 1,
+    "measured": "lander cell",
+    "dist_m": 0.0,
+    "expected_flip_h": 67.3
+   },
+   {
+    "k": 2,
+    "measured": "cell -1,32 m",
+    "dist_m": 32.4,
+    "expected_flip_h": 64.9
+   },
+   {
+    "k": 3,
+    "measured": "cell -1,-133 m",
+    "dist_m": 132.6,
+    "expected_flip_h": 63.1
+   },
+   {
+    "k": 4,
+    "measured": "cell -46,97 m",
+    "dist_m": 107.6,
+    "expected_flip_h": 61.5
+   },
+   {
+    "k": 5,
+    "measured": "cell -56,-148 m",
+    "dist_m": 157.7,
+    "expected_flip_h": 60.0
+   },
+   {
+    "k": 6,
+    "measured": "cell -51,-148 m",
+    "dist_m": 156.0,
+    "expected_flip_h": 58.6
+   },
+   {
+    "k": 7,
+    "measured": "cell -71,-138 m",
+    "dist_m": 154.7,
+    "expected_flip_h": 57.2
+   },
+   {
+    "k": 8,
+    "measured": "cell -51,92 m",
+    "dist_m": 105.4,
+    "expected_flip_h": 55.8
+   },
+   {
+    "k": 9,
+    "measured": "cell -126,-53 m",
+    "dist_m": 136.2,
+    "expected_flip_h": 54.7
+   },
+   {
+    "k": 10,
+    "measured": "cell -61,-148 m",
+    "dist_m": 159.6,
+    "expected_flip_h": 53.7
+   },
+   {
+    "k": 11,
+    "measured": "cell 4,-133 m",
+    "dist_m": 132.7,
+    "expected_flip_h": 52.7
+   },
+   {
+    "k": 12,
+    "measured": "cell -6,-123 m",
+    "dist_m": 122.7,
+    "expected_flip_h": 51.7
+   },
+   {
+    "k": 13,
+    "measured": "cell -91,-123 m",
+    "dist_m": 152.5,
+    "expected_flip_h": 50.7
+   },
+   {
+    "k": 14,
+    "measured": "cell -1,-123 m",
+    "dist_m": 122.6,
+    "expected_flip_h": 49.7
+   },
+   {
+    "k": 15,
+    "measured": "cell -141,-23 m",
+    "dist_m": 142.5,
+    "expected_flip_h": 48.8
+   }
+  ],
+  "planner_check": null
+ },
+ "Site11_ROI4": {
+  "complementarity": {
+   "best_single": {
+    "at": [
+     0,
+     0
+    ],
+    "sun_pct": 74.66,
+    "longest_dark_h": 211
+   },
+   "centre_single": {
+    "sun_pct": 74.66,
+    "longest_dark_h": 211
+   },
+   "best_pairs": [
+    {
+     "a": [
+      -100,
+      -100
+     ],
+     "b": [
+      25,
+      100
+     ],
+     "sep_m": 235.8,
+     "sun_either_pct": 78.82,
+     "longest_both_dark_h": 148,
+     "sun_earth_either_pct": 38.29
+    },
+    {
+     "a": [
+      -100,
+      -75
+     ],
+     "b": [
+      25,
+      100
+     ],
+     "sep_m": 215.1,
+     "sun_either_pct": 78.8,
+     "longest_both_dark_h": 148,
+     "sun_earth_either_pct": 42.94
+    },
+    {
+     "a": [
+      -75,
+      -100
+     ],
+     "b": [
+      25,
+      100
+     ],
+     "sep_m": 223.6,
+     "sun_either_pct": 78.79,
+     "longest_both_dark_h": 148,
+     "sun_earth_either_pct": 38.11
+    },
+    {
+     "a": [
+      -75,
+      -75
+     ],
+     "b": [
+      25,
+      100
+     ],
+     "sep_m": 201.6,
+     "sun_either_pct": 78.76,
+     "longest_both_dark_h": 148,
+     "sun_earth_either_pct": 41.87
+    },
+    {
+     "a": [
+      -50,
+      -75
+     ],
+     "b": [
+      25,
+      100
+     ],
+     "sep_m": 190.4,
+     "sun_either_pct": 78.71,
+     "longest_both_dark_h": 148,
+     "sun_earth_either_pct": 41.74
+    }
+   ],
+   "best_pair_with_centre": {
+    "a": [
+     0,
+     0
+    ],
+    "b": [
+     25,
+     100
+    ],
+    "sep_m": 103.1,
+    "sun_either_pct": 78.27,
+    "longest_both_dark_h": 145,
+    "sun_earth_either_pct": 44.97
+   },
+   "best_pair_sep_ge_100m": {
+    "a": [
+     -100,
+     -100
+    ],
+    "b": [
+     25,
+     100
+    ],
+    "sep_m": 235.8,
+    "sun_either_pct": 78.82,
+    "longest_both_dark_h": 148,
+    "sun_earth_either_pct": 38.29
+   }
+  },
+  "ellipse": {
+   "sigma_10m": {
+    "share_passing_all3_pct": 100.0,
+    "expected_sun_demo_pct": 100.0,
+    "expected_sun_12mo_pct": 73.55,
+    "worst_point_within_2sigma_sun_demo_pct": 100.0
+   },
+   "sigma_25m": {
+    "share_passing_all3_pct": 96.0,
+    "expected_sun_demo_pct": 97.74,
+    "expected_sun_12mo_pct": 64.8,
+    "worst_point_within_2sigma_sun_demo_pct": 89.02
+   },
+   "sigma_50m": {
+    "share_passing_all3_pct": 77.1,
+    "expected_sun_demo_pct": 85.85,
+    "expected_sun_12mo_pct": 56.47,
+    "worst_point_within_2sigma_sun_demo_pct": 25.22
+   },
+   "sigma_100m": {
+    "share_passing_all3_pct": 66.2,
+    "expected_sun_demo_pct": 78.36,
+    "expected_sun_12mo_pct": 53.18,
+    "worst_point_within_2sigma_sun_demo_pct": 20.18
+   }
+  },
+  "planner": [
+   {
+    "k": 0,
+    "measured": "nothing",
+    "expected_flip_h": 61.0
+   },
+   {
+    "k": 1,
+    "measured": "lander cell",
+    "dist_m": 0.0,
+    "expected_flip_h": 36.4
+   },
+   {
+    "k": 2,
+    "measured": "cell 58,101 m",
+    "dist_m": 116.2,
+    "expected_flip_h": 33.8
+   },
+   {
+    "k": 3,
+    "measured": "cell -7,81 m",
+    "dist_m": 81.0,
+    "expected_flip_h": 31.6
+   },
+   {
+    "k": 4,
+    "measured": "cell -62,121 m",
+    "dist_m": 135.7,
+    "expected_flip_h": 29.8
+   },
+   {
+    "k": 5,
+    "measured": "cell -42,126 m",
+    "dist_m": 132.5,
+    "expected_flip_h": 28.0
+   },
+   {
+    "k": 6,
+    "measured": "cell -52,126 m",
+    "dist_m": 136.0,
+    "expected_flip_h": 26.5
+   },
+   {
+    "k": 7,
+    "measured": "cell -57,126 m",
+    "dist_m": 138.0,
+    "expected_flip_h": 25.3
+   },
+   {
+    "k": 8,
+    "measured": "cell -47,126 m",
+    "dist_m": 134.2,
+    "expected_flip_h": 24.2
+   },
+   {
+    "k": 9,
+    "measured": "cell -2,81 m",
+    "dist_m": 80.7,
+    "expected_flip_h": 23.1
+   },
+   {
+    "k": 10,
+    "measured": "cell -37,131 m",
+    "dist_m": 135.8,
+    "expected_flip_h": 22.1
+   },
+   {
+    "k": 11,
+    "measured": "cell 3,116 m",
+    "dist_m": 115.7,
+    "expected_flip_h": 21.2
+   },
+   {
+    "k": 12,
+    "measured": "cell -12,81 m",
+    "dist_m": 81.6,
+    "expected_flip_h": 20.4
+   },
+   {
+    "k": 13,
+    "measured": "cell -2,116 m",
+    "dist_m": 115.7,
+    "expected_flip_h": 19.5
+   },
+   {
+    "k": 14,
+    "measured": "cell -32,131 m",
+    "dist_m": 134.6,
+    "expected_flip_h": 18.7
+   },
+   {
+    "k": 15,
+    "measured": "cell -37,126 m",
+    "dist_m": 131.0,
+    "expected_flip_h": 18.0
+   }
+  ],
+  "planner_check": null
+ }
+}

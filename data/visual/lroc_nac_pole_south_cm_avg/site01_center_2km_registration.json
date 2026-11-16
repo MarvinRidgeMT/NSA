@@ -1,0 +1,21 @@
+{
+ "peakNcc": 0.4164,
+ "nccAtZeroShift": 0.3736,
+ "imageShiftRelativeToDemM": {
+  "x": -6.01,
+  "y": 1.15
+ },
+ "searchRadiusM": 60.0,
+ "comparedPixels5m": 160000,
+ "rowsUsed1m": 2000,
+ "atSearchEdge": false,
+ "windowM": {
+  "xmin": -12000.0,
+  "xmax": -10000.0,
+  "ymax": -11000.0,
+  "ymin": -13000.0
+ },
+ "dem": "app/data/source/pgda78/Site01/Site01_final_adj_5mpp_surf.tif",
+ "status": "display-alignment-evidence-only",
+ "method": "5 m block mean of image vs DEM mean-low-Sun proxy, 25-px high-pass, integer NCC + parabola"
+}

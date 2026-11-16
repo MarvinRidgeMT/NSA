@@ -1,0 +1,116 @@
+{
+ "schema": "polaris-blender-showcase-v1",
+ "generatedUTC": "2026-11-16T02:24:17Z",
+ "status": "SOURCE-BASED UNVALIDATED",
+ "site": "site01_roi6",
+ "bundle": {
+  "file": "polaris-x5d-roi-2026-11-14-v2.json",
+  "sha256": "5b93dd66c3177d6098531f1261d565b3089101bd58f4d9a38d8ffb617b9cf51f"
+ },
+ "blenderVersion": "5.3.0",
+ "device": "METAL",
+ "samples": 128,
+ "resolution": "1920x1080",
+ "renders": [
+  {
+   "label": "aerial",
+   "camera": "Camera | showcase aerial",
+   "frame": 1,
+   "sampleIndex": 0,
+   "utc": "2026-11-14T00:00:00.000Z",
+   "sun": {
+    "az": 263.984800756,
+    "el": 1.501556585
+   },
+   "exposureStops": 0.0,
+   "png": "POLARIS_X_site01_roi6_bundlev2_showcase_aerial.png",
+   "pngSha256": "94d111c112390db23ff97b9b4d96fac9023982675365acf9491f349c2865823e",
+   "rays": {
+    "sun": {
+     "state": "clear",
+     "firstHitM": null
+    },
+    "earth": {
+     "state": "blocked",
+     "firstHitM": 167.0
+    }
+   }
+  },
+  {
+   "label": "ground",
+   "camera": "Camera | showcase ground 1.7 m",
+   "frame": 1,
+   "sampleIndex": 0,
+   "utc": "2026-11-14T00:00:00.000Z",
+   "sun": {
+    "az": 263.984800756,
+    "el": 1.501556585
+   },
+   "exposureStops": 0.7,
+   "png": "POLARIS_X_site01_roi6_bundlev2_showcase_ground.png",
+   "pngSha256": "02b1959dfecc59c20c944d88036fae674a5217152a74dc6a18a2771097324a47",
+   "rays": {
+    "sun": {
+     "state": "clear",
+     "firstHitM": null
+    },
+    "earth": {
+     "state": "blocked",
+     "firstHitM": 167.0
+    }
+   }
+  },
+  {
+   "label": "low_sun",
+   "camera": "Camera | low cross-lit hero",
+   "frame": 1,
+   "sampleIndex": 0,
+   "utc": "2026-11-14T00:00:00.000Z",
+   "sun": {
+    "az": 263.984800756,
+    "el": 1.501556585
+   },
+   "exposureStops": 1.0,
+   "png": "POLARIS_X_site01_roi6_bundlev2_showcase_low_sun.png",
+   "pngSha256": "9715667fb82da580d0aa6c6cdbd6410981371375e93ffacfb4531d2fb9d09028",
+   "rays": {
+    "sun": {
+     "state": "clear",
+     "firstHitM": null
+    },
+    "earth": {
+     "state": "blocked",
+     "firstHitM": 167.0
+    }
+   }
+  }
+ ],
+ "obstructionPair": {
+  "present": false,
+  "reason": "no Sun transition in this window for the baseline mast"
+ },
+ "showcaseBlend": "POLARIS_X_site01_roi6_bundlev2_showcase.blend",
+ "webGlb": {
+  "file": "POLARIS_X_site01_roi6_bundlev2_web.glb",
+  "bytes": 926048,
+  "sha256": "f325994a60ee843faa1f4472dfdde47e533924419c1e4beb784eba007f59d095",
+  "draco": true
+ },
+ "syntheticDetail": {
+  "boulders": {
+   "status": "drawn",
+   "count": 14515,
+   "keepClearRadiusM": 150.0,
+   "maxHeightM": 0.9,
+   "seed": 7,
+   "label": "VISUAL / synthetic: not measured; Poisson-distributed, denser on slopes"
+  },
+  "regolithMaterial": "albedo variation, grit and craterlet bump are synthetic shading; geometry unchanged"
+ },
+ "limitations": [
+  "Showcase renders are presentation. Terrain geometry is the bundle crop or the NASA GSFC SfS display surface (see the hero manifest).",
+  "Rays, ray lengths and visible/blocked states come from the bundle; nothing in this script computes visibility.",
+  "Boulders, albedo variation and micro-relief are synthetic; none lies within the keep-clear radius of the observer.",
+  "Lighting energy, exposure and the dim fill seen by terrain (not by the camera) are presentation choices."
+ ]
+}

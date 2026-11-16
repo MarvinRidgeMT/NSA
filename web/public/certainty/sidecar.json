@@ -1,0 +1,536 @@
+{
+ "agreement_tolerance_p": 1.0,
+ "definitions": {
+  "agreement_mast_m": "smallest SAMPLED mast at which Sun-centre max - min across tested maps <= 1.0 percentage points",
+  "all_maps_100pct_sun_mast_m": "smallest SAMPLED mast at which the Sun centre is visible 100 % of the window on every tested map (the batch README's 'Certainty Height')",
+  "certainty_height_m": "per requirement: smallest SAMPLED mast at which every tested map passes (pass k == N); null = none in the sweep"
+ },
+ "format": "polaris-certainty-sidecar-v1",
+ "generated_by": "tools/certainty/build_certainty_sidecar.py",
+ "requirements": [
+  {
+   "label": "Sun centre visible",
+   "metric": "sun_centre_pct",
+   "op": ">=",
+   "source": "team requirement (CSV pass columns); not a NASA mission requirement",
+   "threshold": 70.0,
+   "unit": "%"
+  },
+  {
+   "label": "Sun and Earth together",
+   "metric": "both_centre_pct",
+   "op": ">=",
+   "source": "team requirement (CSV pass columns); not a NASA mission requirement",
+   "threshold": 40.0,
+   "unit": "%"
+  }
+ ],
+ "sites": {
+  "site01_roi6": {
+   "agreement_mast_m": 1.0,
+   "all_maps_100pct_sun_mast_m": 1.0,
+   "certainty_curve": [
+    {
+     "mast_m": 1.0,
+     "max": 81.602,
+     "median": 81.602,
+     "metric": "both_centre_pct",
+     "min": 81.602,
+     "n_clones": 20,
+     "nominal": 81.602,
+     "p10": 81.602,
+     "p90": 81.602,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 1.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 2.0,
+     "max": 81.602,
+     "median": 81.602,
+     "metric": "both_centre_pct",
+     "min": 81.602,
+     "n_clones": 20,
+     "nominal": 81.602,
+     "p10": 81.602,
+     "p90": 81.602,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 2.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 3.0,
+     "max": 81.602,
+     "median": 81.602,
+     "metric": "both_centre_pct",
+     "min": 81.602,
+     "n_clones": 20,
+     "nominal": 81.602,
+     "p10": 81.602,
+     "p90": 81.602,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 3.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 5.0,
+     "max": 81.602,
+     "median": 81.602,
+     "metric": "both_centre_pct",
+     "min": 81.602,
+     "n_clones": 20,
+     "nominal": 81.602,
+     "p10": 81.602,
+     "p90": 81.602,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 5.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 7.0,
+     "max": 81.602,
+     "median": 81.602,
+     "metric": "both_centre_pct",
+     "min": 81.602,
+     "n_clones": 20,
+     "nominal": 81.602,
+     "p10": 81.602,
+     "p90": 81.602,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 7.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 10.0,
+     "max": 81.602,
+     "median": 81.602,
+     "metric": "both_centre_pct",
+     "min": 81.602,
+     "n_clones": 20,
+     "nominal": 81.602,
+     "p10": 81.602,
+     "p90": 81.602,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 10.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 15.0,
+     "max": 81.602,
+     "median": 81.602,
+     "metric": "both_centre_pct",
+     "min": 81.602,
+     "n_clones": 20,
+     "nominal": 81.602,
+     "p10": 81.602,
+     "p90": 81.602,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 15.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    }
+   ],
+   "certainty_height_m": {
+    "both_centre_pct": 1.0,
+    "sun_centre_pct": 1.0
+   },
+   "sampled_masts_m": [
+    1.0,
+    2.0,
+    3.0,
+    5.0,
+    7.0,
+    10.0,
+    15.0
+   ]
+  },
+  "site04_roi3": {
+   "agreement_mast_m": 1.75,
+   "all_maps_100pct_sun_mast_m": 1.75,
+   "certainty_curve": [
+    {
+     "mast_m": 1.0,
+     "max": 74.481,
+     "median": 67.656,
+     "metric": "both_centre_pct",
+     "min": 64.392,
+     "n_clones": 20,
+     "nominal": 72.107,
+     "p10": 65.519,
+     "p90": 72.552,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 1.0,
+     "max": 97.329,
+     "median": 90.653,
+     "metric": "sun_centre_pct",
+     "min": 87.537,
+     "n_clones": 20,
+     "nominal": 94.362,
+     "p10": 88.724,
+     "p90": 95.074,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 1.25,
+     "max": 78.338,
+     "median": 72.997,
+     "metric": "both_centre_pct",
+     "min": 68.546,
+     "n_clones": 20,
+     "nominal": 78.042,
+     "p10": 70.801,
+     "p90": 78.042,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 1.25,
+     "max": 100.0,
+     "median": 95.549,
+     "metric": "sun_centre_pct",
+     "min": 91.395,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 93.323,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 1.5,
+     "max": 78.635,
+     "median": 78.042,
+     "metric": "both_centre_pct",
+     "min": 74.184,
+     "n_clones": 20,
+     "nominal": 78.338,
+     "p10": 75.638,
+     "p90": 78.368,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 1.5,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 96.439,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 97.596,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 1.75,
+     "max": 78.635,
+     "median": 78.338,
+     "metric": "both_centre_pct",
+     "min": 78.042,
+     "n_clones": 20,
+     "nominal": 78.635,
+     "p10": 78.309,
+     "p90": 78.635,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 1.75,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 2.0,
+     "max": 78.635,
+     "median": 78.635,
+     "metric": "both_centre_pct",
+     "min": 78.338,
+     "n_clones": 20,
+     "nominal": 78.635,
+     "p10": 78.635,
+     "p90": 78.635,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 2.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 3.0,
+     "max": 78.635,
+     "median": 78.635,
+     "metric": "both_centre_pct",
+     "min": 78.635,
+     "n_clones": 20,
+     "nominal": 78.635,
+     "p10": 78.635,
+     "p90": 78.635,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 3.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 5.0,
+     "max": 78.635,
+     "median": 78.635,
+     "metric": "both_centre_pct",
+     "min": 78.635,
+     "n_clones": 20,
+     "nominal": 78.635,
+     "p10": 78.635,
+     "p90": 78.635,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 5.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 7.0,
+     "max": 78.635,
+     "median": 78.635,
+     "metric": "both_centre_pct",
+     "min": 78.635,
+     "n_clones": 20,
+     "nominal": 78.635,
+     "p10": 78.635,
+     "p90": 78.635,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 7.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 10.0,
+     "max": 78.932,
+     "median": 78.932,
+     "metric": "both_centre_pct",
+     "min": 78.932,
+     "n_clones": 20,
+     "nominal": 78.932,
+     "p10": 78.932,
+     "p90": 78.932,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 10.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 15.0,
+     "max": 78.932,
+     "median": 78.932,
+     "metric": "both_centre_pct",
+     "min": 78.932,
+     "n_clones": 20,
+     "nominal": 78.932,
+     "p10": 78.932,
+     "p90": 78.932,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    },
+    {
+     "mast_m": 15.0,
+     "max": 100.0,
+     "median": 100.0,
+     "metric": "sun_centre_pct",
+     "min": 100.0,
+     "n_clones": 20,
+     "nominal": 100.0,
+     "p10": 100.0,
+     "p90": 100.0,
+     "pass": "20/20",
+     "source_csv": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv"
+    }
+   ],
+   "certainty_height_m": {
+    "both_centre_pct": 1.0,
+    "sun_centre_pct": 1.0
+   },
+   "sampled_masts_m": [
+    1.0,
+    1.25,
+    1.5,
+    1.75,
+    2.0,
+    3.0,
+    5.0,
+    7.0,
+    10.0,
+    15.0
+   ]
+  }
+ },
+ "source": {
+  "files": [
+   {
+    "path": "data/batch/2026-11-15_float64_rerun/certainty_height/clone_sweep_summary.csv",
+    "sha256": "f0f0bf0890dcc2c06e96e9a3a0fcd2ea3925baeab305321e0ab243be23aad6c4"
+   }
+  ],
+  "manifests": [
+   {
+    "command": "SITE=site04_roi3 python3 code/certainty_f64.py f64 ; SITE=site01_roi6 python3 code/certainty_f64.py f64 ; python3 code/write_rerun64.py",
+    "created_utc": "2026-11-15T23:02:02+00:00",
+    "label": "SOURCE-BASED, UNVALIDATED (corrected precision; not an external validation)",
+    "note": "Float64 re-run of data/batch/2026-11-14 certainty_height + certainty_height_fine (polaris_batch v2). The original run held terrain heights in float32, so R + h (R = 1,737,400 m) was rounded to about 0.125 m and the ray elevation angles carried that error (LONG_FEATURES_2026-11-15 section 0). Run with float32 heights, this script reproduces the original summary to within 0.001 points (same definitions: 720 bins at (k+0.5)*0.5 deg, linear interpolation between bins, near 1 m steps to 25 km, far 80 m to 280 km, h0 = z0 + mast, Sun/Earth centre vs horizon, the bundle's 337 hourly Horizons samples 2026-11-14 00:00 to 2026-11-28 00:00 UTC). Only the precision changes. Site01 ROI6: identical to the original. Site04 ROI3: masts 1-1.75 m change (1 m Sun nominal 93.769 -> 94.362 = the repo bundle's 318/337; clone values shift by up to 1.8 points); 2 m and above identical. Certainty Height, agreement mast and pass counts are unchanged. Columns: only the two metrics the viewer reads (sun_centre_pct, both_centre_pct); sun_disc, earth_any and gap metrics were not re-run. The original folder is untouched.",
+    "path": "data/batch/2026-11-15_float64_rerun/certainty_height/manifest.json",
+    "sha256": "bc92b686f57615a6ed85f76fd1a099c7cc1ded996090278dd6d69e805e133942"
+   }
+  ],
+  "repo_branch": "b-experience",
+  "repo_commit": "uncommitted (15 Nov float64 re-run)",
+  "solver_note": "The original batch sweep held terrain heights in float32, which moved Site04 ROI3 values at 1-1.75 m masts by up to 1.8 points (Site01 ROI6 and masts of 2 m and above unchanged); this float64 re-run reproduces the original exactly when run in float32. At Site04 ROI3, 1 m mast, its nominal now matches the repo bundle sample for sample (Sun 318 of 337 hourly samples, Sun and Earth 243 of 337); the bundle's own percentages are weighted over the window, so they differ slightly. Certainty Height and the agreement mast are unchanged.",
+  "what": "Float64 re-run (15 Nov 2026, code in data/batch/2026-11-15_float64_rerun/certainty_height/code) of the polaris_batch v2 clone sweep in data/batch/2026-11-14: same definitions, nominal + 20 PGDA 78 clones, 1 m near ray step, window 2026-11-14 00:00 to 2026-11-28 00:00 UTC at 1 h (337 samples); terrain heights in float64 instead of float32"
+ },
+ "status": "SOURCE_BASED_UNVALIDATED"
+}

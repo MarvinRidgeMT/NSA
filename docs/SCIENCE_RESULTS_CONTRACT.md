@@ -98,7 +98,50 @@ shift from the toterr raster) and `repair`.
 - Margin = body centre elevation − skyline (deg); visible = perpendicular margin > 0 (§3). Clone spread = N of N terrain
   models tested, not a probability.
 
-## 5e. derived.certainty (A2, optional; same block in every mast bundle of a site)
+## 5e. derived.arrival_slip (stretch PILOT, optional)
+
+- Produced by `python -m science.stretch.arrival_slip`; the established `science/` solver remains read-only.
+- `slip_hours` is the exact tested grid. `points[]` has a stable `result_id`, `label: PILOT`, shifted UTC window,
+  hourly `sample_count`, nominal Sun-centre and Sun+Earth percentages, clone min/max for both metrics, and the number
+  of clones passing the bundle-carried thresholds. A clone passes jointly only when both requirements pass.
+- Nominal plus PGDA 78 clones 1–20 use the input bundle's observer, 1 m near-ray step, 280 km finite horizon reach and
+  LDEM 80 m far field. One extended JPL Horizons hourly series per body/site is evaluated without browser computation,
+  interpolation or extrapolation.
+- Percentages are shares of hourly samples including both window endpoints. This MVP does not bisect shifted-window
+  crossings. Clone min/max and k/N are deterministic terrain alternatives, not calibrated probabilities.
+- Every block and point is labelled `PILOT`; underlying inputs remain `SOURCE-BASED UNVALIDATED`. Results are local
+  geometric visibility only, not certified illumination/power or DSN telecommunications availability.
+
+## 5f. derived.hotspots (stretch PILOT, optional)
+
+- Produced by `python -m science.stretch.hotspots`; no existing file under `science/` is modified.
+- `tiles[]` ranks nominal near-field skyline-controlling PGDA 78 pixels. Each tile carries a stable result ID, `PILOT`
+  label, pixel ID, latitude/east longitude, clone height variance, linearised horizon variance, Sun/Earth contributions
+  and total `score` in deg² h. `top_tiles[]` is the first ten ranked tiles, copied for display without browser science.
+- Paired controlling-pixel minus observer-ground relief spread is sampled across deterministic clones 1–20, propagated
+  through `degrees(cos(theta)^2 / distance)`, and summed only over source-bundle Sun/Earth samples inside the bundle's
+  `derived.coverage.critical_threshold_deg` band. Absolute pixel variance is retained as a diagnostic.
+- Far-field controllers lack PGDA 78 clone support and are excluded. Any supplied candidate beyond
+  `skyline.max_range_m` scores exactly zero. The method is a sensitivity ranking, not probability, formal value of
+  information, or calibrated risk. Controller switching is deferred to the flip-forecast PILOT.
+
+## 5g. derived.flip_forecast (stretch PILOT, optional)
+
+- Produced by `python -m science.stretch.flip_forecast`; the established `science/` solver and its files remain
+  read-only. Every block, comparison row and per-clone record carries a stable result ID and `PILOT` label.
+- The forecast holds each nominal skyline controller fixed, samples each PGDA 78 clone at that controller and the
+  observer, evaluates their Moon-fixed elevation-angle finite difference, and adds the resulting horizon delta to the
+  stored nominal skyline. It does not search a clone for a replacement controller.
+- `forecast_vs_actual[]` compares the nominal-controller prediction with complete clone skylines from the existing
+  solver for hourly Sun-centre, Earth-centre and Sun+Earth visibility flips, plus mission-threshold pass/fail flips by
+  clone. Rows carry case and flip counts, TP/FP/FN/TN, precision, recall and display strings.
+- `precision` or `recall` is `null` and its display string is `not evaluable` when its denominator is zero. The
+  browser must copy these fields and must not convert an unevaluable case into a perfect score.
+- Mission thresholds and their source result ID are copied from `derived.arrival_slip`. Clones are deterministic
+  alternatives, not probabilities. The first-order forecast cannot represent skyline argmax/controller switching;
+  the full-solver comparison exposes that limitation rather than calibrating it away.
+
+## 5h. derived.certainty (A2, optional; same block in every mast bundle of a site)
 - `masts_m`, `clone_ids`, `certainty_curve[]` = {`mast_m`, `metric` (`sun_center_pct` / `both_center_pct`), `nominal`, `min`,
   `p10`, `median`, `p90`, `max`, `n_clones`, `pass` {requirement: "k/N" over clones}, `nominal_pass`, `by_clone`}.
 - `certainty_height_m`: smallest tested mast where the nominal DEM and every clone have 100 % Sun centre

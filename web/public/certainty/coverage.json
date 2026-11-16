@@ -1,0 +1,23 @@
+{
+  "definition": "share of window hours (14-28 Nov 2026, 1 h, nominal DEM, 1 m mast) whose skyline-controlling cell lies inside the clone tile; not a probability",
+  "format": "polaris-coverage-sidecar-v1",
+  "sites": {
+    "site01_roi6": {
+      "earth_pct": 0.0,
+      "sun_pct": 11.0,
+      "tile_inscribed_radius_m": 7735
+    },
+    "site04_roi3": {
+      "earth_pct": 58.5,
+      "sun_pct": 34.1,
+      "tile_inscribed_radius_m": 6322
+    }
+  },
+  "source": {
+    "path": "data/batch/2026-11-14/certainty_height/coverage_gauge.json",
+    "record": "claude/BATCH_RESULTS_THIRD_2026-11-14.md",
+    "repo_commit": "971df9a (a-science)",
+    "sha256": "2b694deb51de8f979bbfdd33ca88195fca85885cc09c92f6555419db29d954b1"
+  },
+  "status": "SOURCE_BASED_UNVALIDATED"
+}

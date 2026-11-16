@@ -255,6 +255,7 @@ SOURCE-BASED UNVALIDATED. Spec: IMPLEMENTATION_PROMPT A3, A4. A1 is on GitHub as
 - Cross-check with the batch (BATCH_RESULTS_CLOUD / THIRD, 20 clones, 1 m step):
   - Site04 ROI3 1 m Sun range: repo 87.5–97.3 % vs batch 87.2–97.0 %, i.e. **1 hourly sample higher at each end** (same
     direction and size as the nominal gap explained in A_SCIENCE_STATUS 13:06: bin-centre placement).
+> E1 (15 Nov 2026), Site04 RoI 3 1 m batch-v2 values quoted above (93.77 / 71.22 / 87.2–97.0): float32 heights, superseded by the float64 rerun (94.36 / 72.11 / 87.54–97.33).
   - Sun+Earth: repo 64.4–74.5 % vs batch 62.6–74.8 %; the minimum differs by 6 samples (Earth side). Not investigated.
   - Batch coverage gauge (inscribed-radius test, all hours): Site04 ROI3 Sun 34.1 / Earth 58.5 %, Site01 ROI6 Sun 11.0 /
     Earth 0 %; repo 34.4 / 61.1 % and 9.5 / 0 %. Same picture, different tie-breaking.

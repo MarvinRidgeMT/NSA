@@ -87,13 +87,29 @@ export function ProvenanceDrawer({ v, open, onClose }: { v: View | null; open: b
               )}
             </tbody>
           </table>
+          {ds.sourceLayers && ds.sourceLayers.length > 0 && (
+            <>
+              <h3>Terrain used by the science pipeline</h3>
+              <ul className="links">
+                {ds.sourceLayers.map((l) => (
+                  <li key={l.name} className="small">
+                    {l.role ? `${l.role}: ` : ''}
+                    {l.name}
+                    {l.stepM ? ` · ${l.stepM} m steps` : ''} {l.url && <a href={l.url} target="_blank" rel="noopener noreferrer">source</a>}
+                    <br />
+                    <span className="mono">file {l.sha256 ?? '—'} · array {l.arraySha256 ?? '—'}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
           <h3>Ephemeris</h3>
           <p>
             {ds.ephemeris.source} · {ds.ephemeris.frame} · {ds.ephemeris.angleType ?? ''} · {ds.ephemeris.samples.length} samples ({ds.ephemeris.sampling})
           </p>
           <ul className="links">
-            {ds.ephemeris.records.map((r) => (
-              <li key={r.target} className="mono small">
+            {ds.ephemeris.records.map((r, i) => (
+              <li key={`${i}-${r.target}`} className="mono small">
                 {r.target}: {r.sha256 ? String(r.sha256) : 'no hash'} {r.rawFile ? `· ${String(r.rawFile)}` : ''}
               </li>
             ))}
@@ -107,6 +123,16 @@ export function ProvenanceDrawer({ v, open, onClose }: { v: View | null; open: b
               </li>
             ))}
           </ul>
+          {ds.limitations && ds.limitations.length > 0 && (
+            <>
+              <h3>Limitations (from the bundle)</h3>
+              <ul className="links small">
+                {ds.limitations.map((l) => (
+                  <li key={l}>{l}</li>
+                ))}
+              </ul>
+            </>
+          )}
           <p className="muted">Visibility here means the target centre is above a finite-DEM skyline. It is not power, not a DSN link, not flight software.</p>
         </div>
       )}

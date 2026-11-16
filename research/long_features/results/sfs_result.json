@@ -1,0 +1,2002 @@
+{
+ "Site01_ROI6": {
+  "masts": [
+   {
+    "sun": 100.0,
+    "both": 81.6,
+    "gap": 0,
+    "year": 85.25,
+    "mast": 1,
+    "ground_m": 1950.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 85.1,
+    "lola_year_clones": [
+     80.12,
+     86.09
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 81.6,
+    "gap": 0,
+    "year": 86.44,
+    "mast": 1.25,
+    "ground_m": 1950.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 86.06,
+    "lola_year_clones": [
+     83.61,
+     86.46
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 81.6,
+    "gap": 0,
+    "year": 86.73,
+    "mast": 1.5,
+    "ground_m": 1950.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 86.38,
+    "lola_year_clones": [
+     84.88,
+     86.6
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 81.6,
+    "gap": 0,
+    "year": 87.02,
+    "mast": 1.75,
+    "ground_m": 1950.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 86.58,
+    "lola_year_clones": [
+     85.63,
+     86.78
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 81.6,
+    "gap": 0,
+    "year": 87.15,
+    "mast": 2,
+    "ground_m": 1950.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 86.77,
+    "lola_year_clones": [
+     86.28,
+     86.99
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 81.6,
+    "gap": 0,
+    "year": 87.94,
+    "mast": 3,
+    "ground_m": 1950.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 87.47,
+    "lola_year_clones": [
+     87.08,
+     87.58
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 81.6,
+    "gap": 0,
+    "year": 89.12,
+    "mast": 5,
+    "ground_m": 1950.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 88.67,
+    "lola_year_clones": [
+     88.33,
+     88.79
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 81.6,
+    "gap": 0,
+    "year": 90.53,
+    "mast": 10,
+    "ground_m": 1950.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 90.06,
+    "lola_year_clones": [
+     89.9,
+     90.15
+    ],
+    "year_inside_clone_range": false
+   }
+  ],
+  "hours": {
+   "sfs_vs_lola_disagree_h": 109,
+   "of_which_clones_also_flip_h": 66,
+   "sfs_state_within_clone_set_pct": 99.51
+  },
+  "grid": {
+   "n": 81,
+   "demo_sun_diff_mean": -3.12,
+   "demo_sun_absdiff_max": 65.28,
+   "year_sun_diff_mean": -3.31,
+   "year_sun_absdiff_median": 3.34,
+   "pass_all3_sfs": true,
+   "pass_all3_lola": true,
+   "verdict_changes": true,
+   "cells": [
+    {
+     "dx": -100,
+     "dy": -100,
+     "sfs": {
+      "sun": 11.57,
+      "both": 7.42,
+      "gap": 298,
+      "year": 9.31
+     },
+     "lola": {
+      "sun": 26.71,
+      "both": 21.36,
+      "gap": 246,
+      "year": 20.39
+     }
+    },
+    {
+     "dx": -100,
+     "dy": -75,
+     "sfs": {
+      "sun": 8.61,
+      "both": 0.0,
+      "gap": 308,
+      "year": 13.21
+     },
+     "lola": {
+      "sun": 18.1,
+      "both": 15.13,
+      "gap": 276,
+      "year": 20.04
+     }
+    },
+    {
+     "dx": -100,
+     "dy": -50,
+     "sfs": {
+      "sun": 25.22,
+      "both": 16.32,
+      "gap": 252,
+      "year": 31.79
+     },
+     "lola": {
+      "sun": 28.19,
+      "both": 19.29,
+      "gap": 242,
+      "year": 29.31
+     }
+    },
+    {
+     "dx": -100,
+     "dy": -25,
+     "sfs": {
+      "sun": 47.48,
+      "both": 35.61,
+      "gap": 177,
+      "year": 46.28
+     },
+     "lola": {
+      "sun": 45.99,
+      "both": 35.01,
+      "gap": 182,
+      "year": 44.26
+     }
+    },
+    {
+     "dx": -100,
+     "dy": 0,
+     "sfs": {
+      "sun": 80.12,
+      "both": 70.92,
+      "gap": 67,
+      "year": 64.97
+     },
+     "lola": {
+      "sun": 88.72,
+      "both": 75.07,
+      "gap": 38,
+      "year": 65.29
+     }
+    },
+    {
+     "dx": -100,
+     "dy": 25,
+     "sfs": {
+      "sun": 80.42,
+      "both": 80.42,
+      "gap": 66,
+      "year": 56.89
+     },
+     "lola": {
+      "sun": 84.87,
+      "both": 81.6,
+      "gap": 51,
+      "year": 63.13
+     }
+    },
+    {
+     "dx": -100,
+     "dy": 50,
+     "sfs": {
+      "sun": 73.0,
+      "both": 73.0,
+      "gap": 91,
+      "year": 30.57
+     },
+     "lola": {
+      "sun": 77.74,
+      "both": 77.74,
+      "gap": 75,
+      "year": 34.24
+     }
+    },
+    {
+     "dx": -100,
+     "dy": 75,
+     "sfs": {
+      "sun": 59.94,
+      "both": 59.94,
+      "gap": 135,
+      "year": 24.47
+     },
+     "lola": {
+      "sun": 65.88,
+      "both": 65.88,
+      "gap": 115,
+      "year": 26.94
+     }
+    },
+    {
+     "dx": -100,
+     "dy": 100,
+     "sfs": {
+      "sun": 35.91,
+      "both": 35.91,
+      "gap": 194,
+      "year": 6.4
+     },
+     "lola": {
+      "sun": 53.12,
+      "both": 53.12,
+      "gap": 158,
+      "year": 16.68
+     }
+    },
+    {
+     "dx": -75,
+     "dy": -100,
+     "sfs": {
+      "sun": 10.39,
+      "both": 4.45,
+      "gap": 302,
+      "year": 14.92
+     },
+     "lola": {
+      "sun": 13.65,
+      "both": 11.57,
+      "gap": 291,
+      "year": 18.39
+     }
+    },
+    {
+     "dx": -75,
+     "dy": -75,
+     "sfs": {
+      "sun": 5.34,
+      "both": 0.0,
+      "gap": 319,
+      "year": 22.52
+     },
+     "lola": {
+      "sun": 7.72,
+      "both": 0.0,
+      "gap": 311,
+      "year": 20.26
+     }
+    },
+    {
+     "dx": -75,
+     "dy": -50,
+     "sfs": {
+      "sun": 48.07,
+      "both": 24.63,
+      "gap": 175,
+      "year": 45.78
+     },
+     "lola": {
+      "sun": 31.45,
+      "both": 14.84,
+      "gap": 231,
+      "year": 39.55
+     }
+    },
+    {
+     "dx": -75,
+     "dy": -25,
+     "sfs": {
+      "sun": 79.23,
+      "both": 56.68,
+      "gap": 70,
+      "year": 60.87
+     },
+     "lola": {
+      "sun": 90.8,
+      "both": 67.95,
+      "gap": 31,
+      "year": 62.65
+     }
+    },
+    {
+     "dx": -75,
+     "dy": 0,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 73.48
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 74.6
+     }
+    },
+    {
+     "dx": -75,
+     "dy": 25,
+     "sfs": {
+      "sun": 78.34,
+      "both": 78.34,
+      "gap": 73,
+      "year": 47.55
+     },
+     "lola": {
+      "sun": 83.98,
+      "both": 81.6,
+      "gap": 54,
+      "year": 54.35
+     }
+    },
+    {
+     "dx": -75,
+     "dy": 50,
+     "sfs": {
+      "sun": 70.62,
+      "both": 70.62,
+      "gap": 99,
+      "year": 32.67
+     },
+     "lola": {
+      "sun": 74.78,
+      "both": 74.78,
+      "gap": 85,
+      "year": 36.22
+     }
+    },
+    {
+     "dx": -75,
+     "dy": 75,
+     "sfs": {
+      "sun": 52.52,
+      "both": 52.52,
+      "gap": 160,
+      "year": 23.76
+     },
+     "lola": {
+      "sun": 59.35,
+      "both": 59.35,
+      "gap": 137,
+      "year": 26.36
+     }
+    },
+    {
+     "dx": -75,
+     "dy": 100,
+     "sfs": {
+      "sun": 35.91,
+      "both": 35.91,
+      "gap": 216,
+      "year": 6.49
+     },
+     "lola": {
+      "sun": 45.7,
+      "both": 45.7,
+      "gap": 183,
+      "year": 14.64
+     }
+    },
+    {
+     "dx": -50,
+     "dy": -100,
+     "sfs": {
+      "sun": 57.86,
+      "both": 21.07,
+      "gap": 142,
+      "year": 44.66
+     },
+     "lola": {
+      "sun": 58.16,
+      "both": 20.77,
+      "gap": 141,
+      "year": 41.32
+     }
+    },
+    {
+     "dx": -50,
+     "dy": -75,
+     "sfs": {
+      "sun": 44.81,
+      "both": 11.87,
+      "gap": 186,
+      "year": 45.06
+     },
+     "lola": {
+      "sun": 51.63,
+      "both": 16.02,
+      "gap": 163,
+      "year": 48.16
+     }
+    },
+    {
+     "dx": -50,
+     "dy": -50,
+     "sfs": {
+      "sun": 67.06,
+      "both": 35.01,
+      "gap": 111,
+      "year": 57.37
+     },
+     "lola": {
+      "sun": 71.22,
+      "both": 40.65,
+      "gap": 97,
+      "year": 58.1
+     }
+    },
+    {
+     "dx": -50,
+     "dy": -25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 79.53,
+      "gap": 0,
+      "year": 75.49
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 80.12,
+      "gap": 0,
+      "year": 76.68
+     }
+    },
+    {
+     "dx": -50,
+     "dy": 0,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 81.21
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 80.25
+     }
+    },
+    {
+     "dx": -50,
+     "dy": 25,
+     "sfs": {
+      "sun": 93.47,
+      "both": 81.6,
+      "gap": 22,
+      "year": 58.9
+     },
+     "lola": {
+      "sun": 99.7,
+      "both": 81.6,
+      "gap": 1,
+      "year": 62.09
+     }
+    },
+    {
+     "dx": -50,
+     "dy": 50,
+     "sfs": {
+      "sun": 70.33,
+      "both": 70.33,
+      "gap": 100,
+      "year": 36.45
+     },
+     "lola": {
+      "sun": 73.29,
+      "both": 73.29,
+      "gap": 90,
+      "year": 37.9
+     }
+    },
+    {
+     "dx": -50,
+     "dy": 75,
+     "sfs": {
+      "sun": 51.63,
+      "both": 51.63,
+      "gap": 163,
+      "year": 25.56
+     },
+     "lola": {
+      "sun": 58.16,
+      "both": 58.16,
+      "gap": 141,
+      "year": 29.81
+     }
+    },
+    {
+     "dx": -50,
+     "dy": 100,
+     "sfs": {
+      "sun": 39.76,
+      "both": 39.76,
+      "gap": 203,
+      "year": 16.19
+     },
+     "lola": {
+      "sun": 43.03,
+      "both": 43.03,
+      "gap": 192,
+      "year": 20.44
+     }
+    },
+    {
+     "dx": -25,
+     "dy": -100,
+     "sfs": {
+      "sun": 57.57,
+      "both": 17.51,
+      "gap": 143,
+      "year": 42.4
+     },
+     "lola": {
+      "sun": 67.06,
+      "both": 29.97,
+      "gap": 111,
+      "year": 51.82
+     }
+    },
+    {
+     "dx": -25,
+     "dy": -75,
+     "sfs": {
+      "sun": 32.05,
+      "both": 0.0,
+      "gap": 229,
+      "year": 30.48
+     },
+     "lola": {
+      "sun": 50.15,
+      "both": 10.39,
+      "gap": 168,
+      "year": 50.33
+     }
+    },
+    {
+     "dx": -25,
+     "dy": -50,
+     "sfs": {
+      "sun": 34.72,
+      "both": 5.34,
+      "gap": 220,
+      "year": 48.92
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 67.36,
+      "gap": 0,
+      "year": 62.88
+     }
+    },
+    {
+     "dx": -25,
+     "dy": -25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 85.2
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 79.53,
+      "gap": 0,
+      "year": 84.81
+     }
+    },
+    {
+     "dx": -25,
+     "dy": 0,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 86.3
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 86.34
+     }
+    },
+    {
+     "dx": -25,
+     "dy": 25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 68.3
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 66.43
+     }
+    },
+    {
+     "dx": -25,
+     "dy": 50,
+     "sfs": {
+      "sun": 83.98,
+      "both": 81.6,
+      "gap": 54,
+      "year": 44.68
+     },
+     "lola": {
+      "sun": 89.61,
+      "both": 81.6,
+      "gap": 35,
+      "year": 48.08
+     }
+    },
+    {
+     "dx": -25,
+     "dy": 75,
+     "sfs": {
+      "sun": 60.83,
+      "both": 60.83,
+      "gap": 132,
+      "year": 32.8
+     },
+     "lola": {
+      "sun": 59.35,
+      "both": 59.35,
+      "gap": 137,
+      "year": 33.85
+     }
+    },
+    {
+     "dx": -25,
+     "dy": 100,
+     "sfs": {
+      "sun": 39.76,
+      "both": 39.76,
+      "gap": 203,
+      "year": 23.32
+     },
+     "lola": {
+      "sun": 45.7,
+      "both": 45.7,
+      "gap": 183,
+      "year": 25.45
+     }
+    },
+    {
+     "dx": 0,
+     "dy": -100,
+     "sfs": {
+      "sun": 54.01,
+      "both": 10.98,
+      "gap": 155,
+      "year": 35.68
+     },
+     "lola": {
+      "sun": 61.72,
+      "both": 23.44,
+      "gap": 129,
+      "year": 52.59
+     }
+    },
+    {
+     "dx": 0,
+     "dy": -75,
+     "sfs": {
+      "sun": 31.16,
+      "both": 0.0,
+      "gap": 232,
+      "year": 30.04
+     },
+     "lola": {
+      "sun": 31.75,
+      "both": 0.0,
+      "gap": 230,
+      "year": 37.2
+     }
+    },
+    {
+     "dx": 0,
+     "dy": -50,
+     "sfs": {
+      "sun": 100.0,
+      "both": 69.73,
+      "gap": 0,
+      "year": 67.87
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 72.7,
+      "gap": 0,
+      "year": 71.48
+     }
+    },
+    {
+     "dx": 0,
+     "dy": -25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 83.77
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.31,
+      "gap": 0,
+      "year": 80.23
+     }
+    },
+    {
+     "dx": 0,
+     "dy": 0,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 85.25
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 85.1
+     }
+    },
+    {
+     "dx": 0,
+     "dy": 25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 70.89
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 71.8
+     }
+    },
+    {
+     "dx": 0,
+     "dy": 50,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 53.01
+     },
+     "lola": {
+      "sun": 98.52,
+      "both": 81.6,
+      "gap": 5,
+      "year": 51.01
+     }
+    },
+    {
+     "dx": 0,
+     "dy": 75,
+     "sfs": {
+      "sun": 78.04,
+      "both": 78.04,
+      "gap": 74,
+      "year": 42.11
+     },
+     "lola": {
+      "sun": 74.48,
+      "both": 74.48,
+      "gap": 86,
+      "year": 41.17
+     }
+    },
+    {
+     "dx": 0,
+     "dy": 100,
+     "sfs": {
+      "sun": 61.72,
+      "both": 61.72,
+      "gap": 129,
+      "year": 35.93
+     },
+     "lola": {
+      "sun": 55.19,
+      "both": 55.19,
+      "gap": 151,
+      "year": 35.13
+     }
+    },
+    {
+     "dx": 25,
+     "dy": -100,
+     "sfs": {
+      "sun": 62.02,
+      "both": 15.73,
+      "gap": 128,
+      "year": 47.97
+     },
+     "lola": {
+      "sun": 57.57,
+      "both": 18.1,
+      "gap": 143,
+      "year": 52.47
+     }
+    },
+    {
+     "dx": 25,
+     "dy": -75,
+     "sfs": {
+      "sun": 64.39,
+      "both": 18.69,
+      "gap": 120,
+      "year": 56.2
+     },
+     "lola": {
+      "sun": 47.48,
+      "both": 7.42,
+      "gap": 177,
+      "year": 49.22
+     }
+    },
+    {
+     "dx": 25,
+     "dy": -50,
+     "sfs": {
+      "sun": 88.43,
+      "both": 58.75,
+      "gap": 39,
+      "year": 65.18
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 70.03,
+      "gap": 0,
+      "year": 68.22
+     }
+    },
+    {
+     "dx": 25,
+     "dy": -25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 77.67
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 78.77
+     }
+    },
+    {
+     "dx": 25,
+     "dy": 0,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 76.99
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 81.83
+     }
+    },
+    {
+     "dx": 25,
+     "dy": 25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 73.48
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 78.43
+     }
+    },
+    {
+     "dx": 25,
+     "dy": 50,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 68.04
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 66.1
+     }
+    },
+    {
+     "dx": 25,
+     "dy": 75,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 64.41
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 62.79
+     }
+    },
+    {
+     "dx": 25,
+     "dy": 100,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 53.84
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 55.62
+     }
+    },
+    {
+     "dx": 50,
+     "dy": -100,
+     "sfs": {
+      "sun": 72.4,
+      "both": 32.94,
+      "gap": 93,
+      "year": 53.56
+     },
+     "lola": {
+      "sun": 67.66,
+      "both": 27.3,
+      "gap": 109,
+      "year": 54.3
+     }
+    },
+    {
+     "dx": 50,
+     "dy": -75,
+     "sfs": {
+      "sun": 73.29,
+      "both": 34.72,
+      "gap": 90,
+      "year": 57.58
+     },
+     "lola": {
+      "sun": 78.04,
+      "both": 43.92,
+      "gap": 74,
+      "year": 60.42
+     }
+    },
+    {
+     "dx": 50,
+     "dy": -50,
+     "sfs": {
+      "sun": 78.64,
+      "both": 44.81,
+      "gap": 72,
+      "year": 57.57
+     },
+     "lola": {
+      "sun": 93.77,
+      "both": 67.06,
+      "gap": 12,
+      "year": 66.21
+     }
+    },
+    {
+     "dx": 50,
+     "dy": -25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 78.93,
+      "gap": 0,
+      "year": 63.11
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 79.23,
+      "gap": 0,
+      "year": 71.22
+     }
+    },
+    {
+     "dx": 50,
+     "dy": 0,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 65.87
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 75.31
+     }
+    },
+    {
+     "dx": 50,
+     "dy": 25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 66.27
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 71.52
+     }
+    },
+    {
+     "dx": 50,
+     "dy": 50,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 67.28
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 72.65
+     }
+    },
+    {
+     "dx": 50,
+     "dy": 75,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 68.12
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 70.31
+     }
+    },
+    {
+     "dx": 50,
+     "dy": 100,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 64.54
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 65.6
+     }
+    },
+    {
+     "dx": 75,
+     "dy": -100,
+     "sfs": {
+      "sun": 75.07,
+      "both": 39.17,
+      "gap": 84,
+      "year": 50.77
+     },
+     "lola": {
+      "sun": 73.59,
+      "both": 37.98,
+      "gap": 80,
+      "year": 55.43
+     }
+    },
+    {
+     "dx": 75,
+     "dy": -75,
+     "sfs": {
+      "sun": 76.26,
+      "both": 40.95,
+      "gap": 80,
+      "year": 52.57
+     },
+     "lola": {
+      "sun": 78.34,
+      "both": 44.21,
+      "gap": 73,
+      "year": 56.01
+     }
+    },
+    {
+     "dx": 75,
+     "dy": -50,
+     "sfs": {
+      "sun": 85.76,
+      "both": 54.01,
+      "gap": 48,
+      "year": 55.32
+     },
+     "lola": {
+      "sun": 85.16,
+      "both": 56.38,
+      "gap": 50,
+      "year": 57.77
+     }
+    },
+    {
+     "dx": 75,
+     "dy": -25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 79.23,
+      "gap": 0,
+      "year": 61.53
+     },
+     "lola": {
+      "sun": 94.96,
+      "both": 69.14,
+      "gap": 17,
+      "year": 59.55
+     }
+    },
+    {
+     "dx": 75,
+     "dy": 0,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 61.77
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 63.51
+     }
+    },
+    {
+     "dx": 75,
+     "dy": 25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 56.18
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 63.31
+     }
+    },
+    {
+     "dx": 75,
+     "dy": 50,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 55.55
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 64.54
+     }
+    },
+    {
+     "dx": 75,
+     "dy": 75,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 53.66
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 63.49
+     }
+    },
+    {
+     "dx": 75,
+     "dy": 100,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 51.08
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 55.15
+     }
+    },
+    {
+     "dx": 100,
+     "dy": -100,
+     "sfs": {
+      "sun": 53.41,
+      "both": 9.2,
+      "gap": 157,
+      "year": 25.48
+     },
+     "lola": {
+      "sun": 66.77,
+      "both": 27.6,
+      "gap": 112,
+      "year": 43.01
+     }
+    },
+    {
+     "dx": 100,
+     "dy": -75,
+     "sfs": {
+      "sun": 50.45,
+      "both": 4.15,
+      "gap": 167,
+      "year": 32.55
+     },
+     "lola": {
+      "sun": 64.99,
+      "both": 25.22,
+      "gap": 118,
+      "year": 45.01
+     }
+    },
+    {
+     "dx": 100,
+     "dy": -50,
+     "sfs": {
+      "sun": 88.43,
+      "both": 56.38,
+      "gap": 39,
+      "year": 53.29
+     },
+     "lola": {
+      "sun": 89.32,
+      "both": 62.02,
+      "gap": 36,
+      "year": 57.35
+     }
+    },
+    {
+     "dx": 100,
+     "dy": -25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 62.09
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 79.82,
+      "gap": 0,
+      "year": 61.43
+     }
+    },
+    {
+     "dx": 100,
+     "dy": 0,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 62.77
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 60.07
+     }
+    },
+    {
+     "dx": 100,
+     "dy": 25,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 49.14
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 48.15
+     }
+    },
+    {
+     "dx": 100,
+     "dy": 50,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 53.85
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 51.17
+     }
+    },
+    {
+     "dx": 100,
+     "dy": 75,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 47.72
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 52.05
+     }
+    },
+    {
+     "dx": 100,
+     "dy": 100,
+     "sfs": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 42.86
+     },
+     "lola": {
+      "sun": 100.0,
+      "both": 81.6,
+      "gap": 0,
+      "year": 47.8
+     }
+    }
+   ]
+  },
+  "split": {
+   "LOLA within 100 m, SfS beyond": {
+    "ground_m": 1948.29,
+    "sun_demo": 100.0,
+    "year": 81.94
+   },
+   "SfS within 100 m, LOLA beyond": {
+    "ground_m": 1950.28,
+    "sun_demo": 100.0,
+    "year": 86.01
+   }
+  }
+ },
+ "Site04_ROI3": {
+  "masts": [
+   {
+    "sun": 94.36,
+    "both": 72.11,
+    "gap": 19,
+    "year": 73.79,
+    "mast": 1,
+    "ground_m": 1737.51,
+    "lola_sun": 94.36,
+    "lola_sun_clones": [
+     87.54,
+     97.33
+    ],
+    "lola_year": 73.82,
+    "lola_year_clones": [
+     62.72,
+     75.47
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 78.93,
+    "gap": 0,
+    "year": 87.36,
+    "mast": 10,
+    "ground_m": 1737.51,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 87.38,
+    "lola_year_clones": [
+     87.36,
+     87.38
+    ],
+    "year_inside_clone_range": true
+   }
+  ]
+ },
+ "Site11_ROI4": {
+  "region": "A3CLR22_9_deGerlache_Rim",
+  "cover_frac": 1.0,
+  "sfs_minus_lola_rms": 0.976,
+  "masts": [
+   {
+    "sun": 100.0,
+    "both": 78.34,
+    "gap": 0,
+    "year": 75.85,
+    "mast": 1,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 74.66,
+    "lola_year_clones": [
+     71.92,
+     74.64
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.12,
+    "gap": 0,
+    "year": 76.62,
+    "mast": 1.25,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 74.91,
+    "lola_year_clones": [
+     73.12,
+     74.98
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.42,
+    "gap": 0,
+    "year": 77.23,
+    "mast": 1.5,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 75.03,
+    "lola_year_clones": [
+     73.92,
+     75.24
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.42,
+    "gap": 0,
+    "year": 77.98,
+    "mast": 2,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 75.54,
+    "lola_year_clones": [
+     74.93,
+     76.0
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.42,
+    "gap": 0,
+    "year": 78.61,
+    "mast": 3,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 77.37,
+    "lola_year_clones": [
+     76.0,
+     77.86
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.42,
+    "gap": 0,
+    "year": 79.04,
+    "mast": 5,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 78.58,
+    "lola_year_clones": [
+     78.43,
+     78.58
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.42,
+    "gap": 0,
+    "year": 80.29,
+    "mast": 10,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 79.66,
+    "lola_year_clones": [
+     79.53,
+     79.68
+    ],
+    "year_inside_clone_range": false
+   }
+  ],
+  "hours": {
+   "sfs_vs_lola_disagree_h": 104,
+   "of_which_clones_also_flip_h": 18
+  },
+  "split": {
+   "LOLA within 100 m, SfS beyond": {
+    "ground_m": 1779.31,
+    "year": 73.02,
+    "sun_demo": 100.0
+   },
+   "SfS within 100 m, LOLA beyond": {
+    "ground_m": 1782.28,
+    "year": 76.08,
+    "sun_demo": 100.0
+   }
+  }
+ },
+ "_roi_heights": {
+  "n": 13,
+  "centroid_diff_mean": 1.54,
+  "centroid_diff_min": 0.24,
+  "centroid_diff_max": 3.2,
+  "n_positive": 13,
+  "median_100m_diff_mean": 1.26,
+  "rows": [
+   {
+    "site": "Site01",
+    "roi": 1,
+    "sfs_minus_lola_at_centroid_m": 1.6,
+    "toterr_m": 0.507,
+    "z_sigma": 3.1,
+    "sfs_minus_lola_median_100m_m": 0.5
+   },
+   {
+    "site": "Site01",
+    "roi": 2,
+    "sfs_minus_lola_at_centroid_m": 0.78,
+    "toterr_m": 0.581,
+    "z_sigma": 1.3,
+    "sfs_minus_lola_median_100m_m": 0.63
+   },
+   {
+    "site": "Site01",
+    "roi": 3,
+    "sfs_minus_lola_at_centroid_m": 1.32,
+    "toterr_m": 0.311,
+    "z_sigma": 4.3,
+    "sfs_minus_lola_median_100m_m": 1.02
+   },
+   {
+    "site": "Site01",
+    "roi": 4,
+    "sfs_minus_lola_at_centroid_m": 1.04,
+    "toterr_m": 0.28,
+    "z_sigma": 3.7,
+    "sfs_minus_lola_median_100m_m": 0.91
+   },
+   {
+    "site": "Site01",
+    "roi": 5,
+    "sfs_minus_lola_at_centroid_m": 0.81,
+    "toterr_m": 0.305,
+    "z_sigma": 2.6,
+    "sfs_minus_lola_median_100m_m": 1.0
+   },
+   {
+    "site": "Site01",
+    "roi": 6,
+    "sfs_minus_lola_at_centroid_m": 1.99,
+    "toterr_m": 0.27,
+    "z_sigma": 7.4,
+    "sfs_minus_lola_median_100m_m": 1.83
+   },
+   {
+    "site": "Site01",
+    "roi": 7,
+    "sfs_minus_lola_at_centroid_m": 3.2,
+    "toterr_m": 0.317,
+    "z_sigma": 10.1,
+    "sfs_minus_lola_median_100m_m": 2.77
+   },
+   {
+    "site": "Site07",
+    "roi": 1,
+    "sfs_minus_lola_at_centroid_m": 0.54,
+    "toterr_m": 0.371,
+    "z_sigma": 1.5,
+    "sfs_minus_lola_median_100m_m": 0.23
+   },
+   {
+    "site": "Site07",
+    "roi": 2,
+    "sfs_minus_lola_at_centroid_m": 0.24,
+    "toterr_m": 0.39,
+    "z_sigma": 0.6,
+    "sfs_minus_lola_median_100m_m": 0.19
+   },
+   {
+    "site": "Site11",
+    "roi": 1,
+    "sfs_minus_lola_at_centroid_m": 2.09,
+    "toterr_m": 0.5,
+    "z_sigma": 4.2,
+    "sfs_minus_lola_median_100m_m": 1.79
+   },
+   {
+    "site": "Site11",
+    "roi": 2,
+    "sfs_minus_lola_at_centroid_m": 1.81,
+    "toterr_m": 0.204,
+    "z_sigma": 8.9,
+    "sfs_minus_lola_median_100m_m": 1.59
+   },
+   {
+    "site": "Site11",
+    "roi": 3,
+    "sfs_minus_lola_at_centroid_m": 1.64,
+    "toterr_m": 0.253,
+    "z_sigma": 6.5,
+    "sfs_minus_lola_median_100m_m": 1.28
+   },
+   {
+    "site": "Site11",
+    "roi": 4,
+    "sfs_minus_lola_at_centroid_m": 2.97,
+    "toterr_m": 0.341,
+    "z_sigma": 8.7,
+    "sfs_minus_lola_median_100m_m": 2.61
+   }
+  ]
+ },
+ "_diff_vs_illumination": {
+  "Site01": [
+   {
+    "illum_pct": "0-10",
+    "n_blocks": 7994,
+    "sfs_minus_lola_median_m": 0.0
+   },
+   {
+    "illum_pct": "10-30",
+    "n_blocks": 31989,
+    "sfs_minus_lola_median_m": 0.04
+   },
+   {
+    "illum_pct": "30-50",
+    "n_blocks": 30215,
+    "sfs_minus_lola_median_m": -0.13
+   },
+   {
+    "illum_pct": "50-70",
+    "n_blocks": 545,
+    "sfs_minus_lola_median_m": 0.33
+   },
+   {
+    "illum_pct": "70-100",
+    "n_blocks": 13,
+    "sfs_minus_lola_median_m": 1.09
+   }
+  ],
+  "Site11": [
+   {
+    "illum_pct": "0-10",
+    "n_blocks": 4725,
+    "sfs_minus_lola_median_m": 0.01
+   },
+   {
+    "illum_pct": "10-30",
+    "n_blocks": 35700,
+    "sfs_minus_lola_median_m": 0.03
+   },
+   {
+    "illum_pct": "30-50",
+    "n_blocks": 29899,
+    "sfs_minus_lola_median_m": -0.04
+   },
+   {
+    "illum_pct": "50-70",
+    "n_blocks": 427,
+    "sfs_minus_lola_median_m": 1.02
+   }
+  ]
+ },
+ "Site07_ROI1": {
+  "region": "A3CLR22_8_Peak_Near_Shackleton",
+  "cover_frac": 1.0,
+  "sfs_minus_lola_rms": 0.749,
+  "masts": [
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 75.56,
+    "mast": 1,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     85.16,
+     100.0
+    ],
+    "lola_year": 74.01,
+    "lola_year_clones": [
+     54.83,
+     76.49
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 76.27,
+    "mast": 1.25,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 75.17,
+    "lola_year_clones": [
+     65.89,
+     77.32
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 76.94,
+    "mast": 1.5,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 75.84,
+    "lola_year_clones": [
+     70.95,
+     78.05
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 78.45,
+    "mast": 2,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 77.27,
+    "lola_year_clones": [
+     73.9,
+     79.18
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 80.32,
+    "mast": 3,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 79.79,
+    "lola_year_clones": [
+     77.03,
+     81.06
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 83.68,
+    "mast": 5,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 83.18,
+    "lola_year_clones": [
+     81.5,
+     83.89
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 85.46,
+    "mast": 10,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 85.46,
+    "lola_year_clones": [
+     85.46,
+     85.46
+    ],
+    "year_inside_clone_range": true
+   }
+  ],
+  "hours": {
+   "sfs_vs_lola_disagree_h": 136,
+   "of_which_clones_also_flip_h": 136
+  },
+  "split": {
+   "LOLA within 100 m, SfS beyond": {
+    "ground_m": 1647.64,
+    "year": 73.66,
+    "sun_demo": 100.0
+   },
+   "SfS within 100 m, LOLA beyond": {
+    "ground_m": 1648.18,
+    "year": 75.92,
+    "sun_demo": 100.0
+   }
+  }
+ }
+}

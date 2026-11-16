@@ -1,6 +1,8 @@
 import type { Bundle, Dataset, DisplayStatus, LoadedBundle, RawStatus, Scenario } from './types';
+import { BundleError } from './errors';
+import { adaptScienceV2, isScienceV2, normalizeDerivedBlocks } from './scienceV2';
 
-export class BundleError extends Error {}
+export { BundleError };
 
 const RAW_TO_DISPLAY: Record<RawStatus, DisplayStatus> = {
   DEMO_ONLY: 'DEMO',
@@ -38,21 +40,35 @@ export function displayStatus(b: Bundle): DisplayStatus {
   return 'VALIDATED';
 }
 
+/** Numbers or explicit "no value" (null / NaN). Infinity and non-numbers are refused. */
+function numberOrGap(a: unknown, len: number, where: string) {
+  if (!Array.isArray(a) || a.length !== len) fail(`${where}: expected ${len} values`);
+  for (let i = 0; i < a.length; i++) {
+    const x = a[i];
+    if (x === null || (typeof x === 'number' && (Number.isFinite(x) || Number.isNaN(x)))) continue;
+    fail(`${where}[${i}] is not a number`);
+  }
+}
+
 function checkScenario(s: Scenario, nSamples: number, where: string) {
   if (!s.id) fail(`${where}: scenario without id`);
   const sk = s.skyline;
-  const nb = finiteArray(sk?.azimuthDeg, null, `${where}.skyline.azimuthDeg`).length;
-  finiteArray(sk.elevationDeg, nb, `${where}.skyline.elevationDeg`);
-  for (const az of sk.azimuthDeg) if (az < 0 || az >= 360) fail(`${where}.skyline.azimuthDeg out of [0,360)`);
-  for (const t of ['sun', 'earth'] as const) {
-    const ser = s.samples?.[t];
-    if (!ser) fail(`${where}.samples.${t} missing`);
-    if (!Array.isArray(ser.visible) || ser.visible.length !== nSamples) fail(`${where}.samples.${t}.visible must have ${nSamples} entries`);
-    finiteArray(ser.marginDeg, nSamples, `${where}.samples.${t}.marginDeg`);
-    finiteArray(ser.horizonElDeg, nSamples, `${where}.samples.${t}.horizonElDeg`);
-    if (!Array.isArray(ser.firstHitM) || ser.firstHitM.length !== nSamples) fail(`${where}.samples.${t}.firstHitM must have ${nSamples} entries`);
+  if (sk) {
+    const nb = finiteArray(sk.azimuthDeg, null, `${where}.skyline.azimuthDeg`).length;
+    numberOrGap(sk.elevationDeg, nb, `${where}.skyline.elevationDeg`);
+    for (const az of sk.azimuthDeg) if (az < 0 || az >= 360) fail(`${where}.skyline.azimuthDeg out of [0,360)`);
   }
-  if (!Array.isArray(s.samples.both?.visible) || s.samples.both.visible.length !== nSamples) fail(`${where}.samples.both.visible must have ${nSamples} entries`);
+  if (s.samples) {
+    for (const t of ['sun', 'earth'] as const) {
+      const ser = s.samples[t];
+      if (!ser) fail(`${where}.samples.${t} missing`);
+      if (!Array.isArray(ser.visible) || ser.visible.length !== nSamples) fail(`${where}.samples.${t}.visible must have ${nSamples} entries`);
+      numberOrGap(ser.marginDeg, nSamples, `${where}.samples.${t}.marginDeg`);
+      numberOrGap(ser.horizonElDeg, nSamples, `${where}.samples.${t}.horizonElDeg`);
+      if (!Array.isArray(ser.firstHitM) || ser.firstHitM.length !== nSamples) fail(`${where}.samples.${t}.firstHitM must have ${nSamples} entries`);
+    }
+    if (!Array.isArray(s.samples.both?.visible) || s.samples.both.visible.length !== nSamples) fail(`${where}.samples.both.visible must have ${nSamples} entries`);
+  }
   for (const m of s.metrics ?? []) if (!Number.isFinite(m.value)) fail(`${where}.metrics.${m.id} not finite`);
   for (const f of s.failures ?? []) {
     if (f.sampleIndex < 0 || f.sampleIndex >= nSamples) fail(`${where}.failures.${f.id} sampleIndex out of range`);
@@ -67,11 +83,15 @@ function checkDataset(d: Dataset, i: number): number[] {
   if (!d.siteId) fail(`${w}.siteId missing`);
   if (!d.site || !Number.isFinite(d.site.longitudeEastDeg)) fail(`${w}.site.longitudeEastDeg missing`);
   const dem = d.dem;
-  if (!dem || !Number.isInteger(dem.n) || dem.n < 4) fail(`${w}.dem.n invalid`);
-  if (!(dem.spacing > 0)) fail(`${w}.dem.spacing must be > 0`);
-  if (dem.verticalUnits !== 'meters') fail(`${w}.dem.verticalUnits must be "meters"`);
-  if (!/south-to-north/.test(dem.rowOrder ?? '')) fail(`${w}.dem.rowOrder must be south-to-north`);
-  finiteArray(dem.values, dem.n * dem.n, `${w}.dem.values`);
+  if (dem) {
+    if (!Number.isInteger(dem.n) || dem.n < 4) fail(`${w}.dem.n invalid`);
+    if (!(dem.spacing > 0)) fail(`${w}.dem.spacing must be > 0`);
+    if (dem.verticalUnits !== 'meters') fail(`${w}.dem.verticalUnits must be "meters"`);
+    if (!/south-to-north/.test(dem.rowOrder ?? '')) fail(`${w}.dem.rowOrder must be south-to-north`);
+    finiteArray(dem.values, dem.n * dem.n, `${w}.dem.values`);
+  } else if (!d.derived) {
+    fail(`${w}: neither a DEM nor derived science outputs`);
+  }
   const e = d.ephemeris;
   if (!e || e.timeScale !== 'UTC') fail(`${w}.ephemeris.timeScale must be UTC`);
   if (!Array.isArray(e.samples) || e.samples.length < 2) fail(`${w}.ephemeris needs at least 2 samples`);
@@ -93,17 +113,58 @@ function checkDataset(d: Dataset, i: number): number[] {
   return times;
 }
 
+/** Structural checks on the raw (snake_case) A1–A4 blocks of a POLARIS-X5D-v2 derived object. Refuses; never repairs. */
+function checkDecisionBlocks(d: Record<string, unknown>, nSamples: number, w: string): void {
+  const rec = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 'object' && !Array.isArray(x);
+  const a = d.attribution;
+  if (rec(a) && Array.isArray(a.ridges)) {
+    const ids = new Set<string>();
+    (a.ridges as Record<string, unknown>[]).forEach((r, k) => {
+      if (r.source !== undefined && r.source !== 'near_5m' && r.source !== 'far_80m') fail(`${w}.attribution.ridges[${k}].source must be near_5m or far_80m`);
+      if (typeof r.id === 'string') ids.add(r.id);
+    });
+    const pb = a.per_bin;
+    if (rec(pb) && Array.isArray(pb.ridge_id))
+      (pb.ridge_id as (string | null)[]).forEach((id, k) => {
+        if (id !== null && !ids.has(id)) fail(`${w}.attribution.per_bin.ridge_id[${k}]: "${id}" is not a listed ridge`);
+      });
+  }
+  if (Array.isArray(d.certainty_curve))
+    (d.certainty_curve as Record<string, unknown>[]).forEach((c, k) => {
+      // pass is "k/N" (batch sidecar / A2 contract) or, from science/certainty.py, {requirement: "k/N"} per requirement.
+      const passes = typeof c.pass === 'string' ? [c.pass] : rec(c.pass) ? Object.values(c.pass) : c.pass === undefined ? [] : [c.pass];
+      for (const p of passes) {
+        const m = typeof p === 'string' ? /^(\d+)\/(\d+)$/.exec(p) : null;
+        if (!m || Number(m[1]) > Number(m[2]) || (typeof c.n_clones === 'number' && Number(m[2]) !== c.n_clones)) fail(`${w}.certainty_curve[${k}].pass must be "k/N" with k ≤ N = n_clones`);
+      }
+      const lo = c.min as number, med = c.median as number, hi = c.max as number;
+      if ([lo, med, hi].every((x) => typeof x === 'number') && !(lo <= med && med <= hi)) fail(`${w}.certainty_curve[${k}]: min ≤ median ≤ max violated`);
+    });
+  if (rec(d.coverage) && typeof d.coverage.covered_frac === 'number' && !(d.coverage.covered_frac >= 0 && d.coverage.covered_frac <= 1))
+    fail(`${w}.coverage.covered_frac must be in [0, 1]`);
+  const mg = d.margins ?? d.margin_series;
+  if (rec(mg))
+    for (const k of ['sun_margin_deg', 'earth_margin_deg', 'sun_clone_min_deg', 'sun_clone_max_deg', 'earth_clone_min_deg', 'earth_clone_max_deg'])
+      if (Array.isArray(mg[k]) && (mg[k] as unknown[]).length !== nSamples) fail(`${w}.margins.${k}: expected ${nSamples} values, got ${(mg[k] as unknown[]).length}`);
+}
+
 /** Parse + structurally validate. Throws BundleError with a specific message. */
 export function validateBundle(raw: unknown): { bundle: Bundle; times: number[][]; status: DisplayStatus; warnings: string[] } {
   if (!raw || typeof raw !== 'object') fail('bundle is not a JSON object');
-  const b = raw as Bundle;
-  if (b.format !== 'POLARIS-X5D-v2') fail(`unsupported format "${String((b as { format?: unknown }).format)}" (expected POLARIS-X5D-v2)`);
-  if (!/^2\./.test(b.schemaVersion ?? '')) fail(`unsupported schemaVersion "${b.schemaVersion}"`);
+  const b = isScienceV2(raw) ? adaptScienceV2(raw) : (raw as Bundle);
+  if (b.format !== 'POLARIS-X5D-v2' && b.format !== 'science-bundle-v2' && b.format !== 'polaris-science-results-v1')
+    fail(`unsupported format "${String((b as { format?: unknown }).format ?? (b as { schema?: unknown }).schema)}" (expected science-bundle-v2, polaris-science-results-v1 or POLARIS-X5D-v2)`);
+  if (!/^2/.test(b.schemaVersion ?? '')) fail(`unsupported schemaVersion "${b.schemaVersion}"`);
   if (!b.validation?.status) fail('validation.status missing');
   if (!Array.isArray(b.datasets) || b.datasets.length === 0) fail('datasets empty');
   const times = b.datasets.map(checkDataset);
+  // POLARIS-X5D-v2 exports (science/viewer.py) carry derived.attribution in the science branch's snake_case A1 shape
+  b.datasets.forEach((d, i) => d.derived && checkDecisionBlocks(d.derived as unknown as Record<string, unknown>, times[i].length, `datasets[${i}].derived`));
+  for (const d of b.datasets) if (d.derived) normalizeDerivedBlocks(d.derived as unknown as Record<string, unknown>);
   const warnings: string[] = [];
   b.datasets.forEach((d) => {
+    if (!d.dem && d.derived)
+      warnings.push(`${d.site.name}: this bundle ships no DEM grid. The 3D view shows the bundle's own 720-bin horizon silhouette (angles exact from the observer).`);
     if (!d.derived)
       warnings.push(
         `${d.site.name}: bundle has no "derived" science outputs (skyline, margins, metrics). Visibility and margins are not shown; the viewer does not compute them.`,
