@@ -42,9 +42,11 @@ FAR_MARGIN_M = 10_000.0           # far window half = range + margin (290 km for
 STEP_DIVISOR = 5.0               # ray step = native / 5 (1 m on 5 m PGDA 78: the converged ROI-bundle step)
 
 
-def site_hash(lat, lon, mast_m, start, days, step_h, product_ids):
+def site_hash(lat, lon, mast_m, start, days, step_h, product_ids, member_kinds=(), n_members=20):
+    """Cache key. Includes the member set: a bundle cached without clones must not answer a request with clones."""
     key = {'lat': round(float(lat), 7), 'lon': round(((float(lon) + 180) % 360) - 180, 7), 'mast_m': float(mast_m),
-           'start': start, 'days': days, 'step_h': step_h, 'products': sorted(product_ids), 'solver': SOLVER_VERSION}
+           'start': start, 'days': days, 'step_h': step_h, 'products': sorted(product_ids), 'solver': SOLVER_VERSION,
+           'members': sorted(member_kinds), 'n_members': int(n_members) if member_kinds else 0}
     return hashlib.sha256(json.dumps(key, sort_keys=True).encode()).hexdigest()[:16]
 
 
@@ -131,7 +133,7 @@ def solve(lat, lon, mast_m=1.0, start='2026-11-14 00:00', days=14, step_h=1, mem
     if not cov['products']:
         raise LookupError(f'no cached terrain product covers ({lat:.5f}, {lon:.5f})')
     pids = [p['id'] for p in cov['products']]
-    shash = site_hash(lat, lon, mast_m, start, days, step_h, pids)
+    shash = site_hash(lat, lon, mast_m, start, days, step_h, pids, member_kinds, n_members)
     out_p = Path(out_dir) / f'{shash}.json'
     if use_cache and out_p.exists():
         b = json.loads(out_p.read_text()); b['anysite']['cache_hit'] = True

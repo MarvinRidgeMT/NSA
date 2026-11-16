@@ -149,6 +149,9 @@ class Adapter(unittest.TestCase):
         a = S.site_hash(*ROI3, 1.0, '2026-11-14 00:00', 14, 1, ['b', 'a'])
         self.assertEqual(a, S.site_hash(-89.780120000001, -156.32023 + 360, 1.0, '2026-11-14 00:00', 14, 1, ['a', 'b']))
         self.assertNotEqual(a, S.site_hash(*ROI3, 2.0, '2026-11-14 00:00', 14, 1, ['a', 'b']))
+        # regression (found in the first precompute run): a bundle cached without clones answered a request with clones
+        self.assertNotEqual(S.site_hash(*ROI3, 1.0, '2026-11-14 00:00', 14, 1, ['a'], ('products',)),
+                            S.site_hash(*ROI3, 1.0, '2026-11-14 00:00', 14, 1, ['a'], ('clones', 'products')))
 
 
 class HorizonsCache(unittest.TestCase):
