@@ -1015,3 +1015,20 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .stage .views > .btn { transition: background-color var(--dur-base) var(--ease-standard), color var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard); }
 .stage .views > .btn[aria-pressed='true'] { background: var(--bone); color: var(--basalt); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); }
 .stage .views > .btn:hover:not([aria-pressed='true']) { background: rgba(30, 30, 28, 0.9); }
+
+/* Scenario cube slicer (Phase 1, docs/SCENARIO_CUBE_CONTRACT.md) */
+.cube-slicer { margin-top: 18px; }
+.cube-ctls { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 10px 0 12px; }
+.cube-ctl { display: flex; flex-direction: column; gap: 4px; font-size: 12px; min-width: 150px; }
+.cube-ctl > span { color: var(--ash); }
+.cube-ctl.free { outline: 1px solid var(--selenite); outline-offset: 4px; }
+.cube-ctl .cube-val { color: var(--selenite); font-family: 'JetBrains Mono', monospace; }
+.cube-strip { margin: 0; }
+.cube-strip svg { width: 100%; height: 120px; display: block; background: rgba(255,255,255,0.02); color: var(--ash); }
+.cube-band { fill: var(--selenite); opacity: 0.18; }
+.cube-line { stroke: var(--solar); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.cube-sel { stroke: var(--selenite); stroke-width: 1; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+.cube-card { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px 18px; margin: 12px 0; }
+.cube-card dt { font-size: 11px; color: var(--ash); }
+.cube-card dd { margin: 2px 0 0; font-family: 'JetBrains Mono', monospace; }
+.cube-missing-cell { background: repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.08) 4px 6px); color: var(--ash); }

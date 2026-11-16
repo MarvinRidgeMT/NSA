@@ -10,6 +10,8 @@ web/dist/
 web/test-results/
 web/playwright-report/
 web/public/bundles/*.json
+# scenario cubes are copied from data/cubes/ by sync-bundles
+web/public/cubes/
 !web/public/bundles/demo-fixture.json
 # large upstream NASA rasters (re-download: see docs/DATA_PROVENANCE.md); SHA-256 recorded in the bundles
 app/data/source/**/*.tif

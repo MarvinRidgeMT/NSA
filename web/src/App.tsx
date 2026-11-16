@@ -32,6 +32,7 @@ import { RidgePanel } from './components/RidgePanel';
 import { EvidencePipeline, EvidenceRecord } from './components/EvidenceRecord';
 import { CoverageGauge } from './components/CoverageGauge';
 import { CertaintyHeight } from './components/CertaintyHeight';
+import { CubeSlicer } from './components/CubeSlicer';
 import type { BundleIndexEntry } from './bundle/types';
 import { fetchIndex, IndexError } from './bundle/bootIndex';
 import { startUrlSync } from './store/urlState';
@@ -654,6 +655,9 @@ export default function App() {
                     <FlipForecastTable v={v} />
                   </div>
                 </div>
+                <Guard label="Scenario cube">
+                  <CubeSlicer v={v} />
+                </Guard>
               </div>
             )}
             {ws === 'evidence' && (
