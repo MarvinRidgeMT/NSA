@@ -66,6 +66,13 @@ export function CoverageGauge({ v }: { v: View }) {
   const batch = useCoverageSidecar();
   const bc = batch?.sites[v.dataset.siteId] ?? null;
   const cov = bc ? null : (v.dataset.derived?.coverage ?? null);
+  // E3 (15 Nov): the bundle's own derived.coverage, shown next to the batch sidecar when both exist (different sampling).
+  const bundleCov = v.dataset.derived?.coverage ?? null;
+  const altSun = bundleCov?.sun.allHoursInside ?? null;
+  const altEarth = bundleCov?.earth.allHoursInside ?? null;
+  // E4: all_hours_covered_frac = 0 for both bodies means no window hour's controlling horizon lies in the clone tile.
+  const noCloneCoverage = altSun === 0 && altEarth === 0;
+  const pct2 = (f: number) => `${(f * 100).toFixed(2)} %`;
   const side = usePolaris((st) => st.certaintySidecar);
   const pass1 = (side?.sites?.[v.dataset.siteId]?.certainty_curve as { mast_m: number; metric: string; pass: string }[] | undefined)?.find(
     (r) => r.mast_m === 1 && r.metric === 'sun_centre_pct',
@@ -121,6 +128,11 @@ export function CoverageGauge({ v }: { v: View }) {
                 horizon is set by terrain those realizations vary.
               </p>
             )}
+          {altSun !== null && altEarth !== null && (
+            <p className="muted small" data-testid="coverage-bundle-alt">
+              Bundle derived.coverage: Sun {pct2(altSun)}, Earth {pct2(altEarth)} (different sampling; see docs/SOLVER_RECONCILIATION.md)
+            </p>
+          )}
           <details className="dec-more">
             <summary>What coverage measures · definition and source</summary>
           <p className="source-line">
@@ -143,6 +155,13 @@ export function CoverageGauge({ v }: { v: View }) {
           </div>
           </details>
         </div>
+      )}
+      {noCloneCoverage && (
+        <p className="warn" data-testid="coverage-no-clone">
+          No clone coverage at this RoI: at every Sun and Earth azimuth reached in this window the bundle's controlling horizon comes from the 80 m regional DEM,
+          outside the 5 m clone tile (derived.coverage all_hours_covered_frac = 0 for both). Clone agreement here says nothing about terrain uncertainty. See
+          docs/SOLVER_RECONCILIATION.md §E4.
+        </p>
       )}
       <details className="dec-more" open={!bc}>
         <summary>Per-sample tally from this bundle (blocked samples only)</summary>

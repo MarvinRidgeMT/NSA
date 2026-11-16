@@ -621,7 +621,10 @@ export default function App() {
                         <h1>Does this ground keep the light?</h1>
                       </div>
                       <a className="btn" href={`${import.meta.env.BASE_URL}lab/index.html`} data-testid="decision-lab-link">
-                        Decision Lab · four sites, 12 months
+                        Decision Lab · four sites, 12 months{' '}
+                        <span className="src-tag" data-testid="decision-lab-pilot" title="The Lab's 12-month and Site07/Site11 sections are pilot results (cloud batch, SOURCE-BASED · UNVALIDATED); the Lab page itself is hash-pinned and does not carry this label.">
+                          PILOT
+                        </span>
                       </a>
                     </div>
                     <DecisionHero v={v} />

@@ -230,6 +230,8 @@ export interface CoverageTarget {
   /** fraction of controlling-cell-hours in truncated/range-limited bins (horizon unknown beyond reach) */
   unknownHours: number;
   hoursTotal: number;
+  /** bundle all_hours_covered_frac (0..1): same near-tile test over every hourly sample; copied, never computed here */
+  allHoursInside?: number | null;
 }
 
 export interface Coverage {
