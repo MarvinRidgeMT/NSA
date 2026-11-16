@@ -1,0 +1,33 @@
+{
+ "item": "L6_hero_observation",
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "date_utc": "2026-11-16T03:11:21Z",
+ "command": "python l6_search.py",
+ "module": "/Users/anishmeruva/Documents/ChatGPT/NSA-science-limits/science/limits/l6_search.py",
+ "code_commit": "b3dba70102a4527b6ec45bba43bdc4a6675a4096",
+ "inputs": [
+  {
+   "path": "data/science_limits/L6_hero_observation/zenodo_sfs_region_bounds.json",
+   "sha256": "685645d6b53929c91aee3cccea8eae3df2bfece5e1a9b1e5a427779579db1a07"
+  },
+  {
+   "path": "data/science_limits/L6_hero_observation/ode_cdrnac_p0.json",
+   "sha256": "16cb6ed005a5f9251e46c03a31c95e6a96d00924fc766a937c5891ec1f19c15b"
+  },
+  {
+   "path": "data/science_limits/L6_hero_observation/ode_nacdtm_p0.json",
+   "sha256": "7973d9f1cb48fd21f4fb2c85b83d9019fe7cc3b7fdb3adf219c8c321a9d06c94"
+  },
+  {
+   "path": "tools/validation/hero/HERO_PROTOCOL.md",
+   "sha256": "81d12824b05cf42fe3ec46fc6d82ae8e9cd08b57e5792ce28901c362e5770684"
+  },
+  {
+   "path": "tools/validation/hero/HERO_PROTOCOL_A1.md",
+   "sha256": "9ab36bccf42475dd3a9983f55a8389f89ed9118abdea4568604323bcf6496f67"
+  }
+ ],
+ "outputs": {
+  "result.json": "cd4a0b1d2efced2c335fe885f1e05d6be7db611d48e6c5827d535a510801de3f"
+ }
+}

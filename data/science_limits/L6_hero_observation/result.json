@@ -1,0 +1,49 @@
+{
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "item": "L6_hero_observation",
+ "hero_point": {
+  "lat": -89.78012,
+  "lon_east": -156.32023,
+  "grid_x_m": -2677.834,
+  "grid_y_m": -6106.132
+ },
+ "gsfc_sfs_regions": {
+  "n_regions": 13,
+  "regions_containing_p0": [],
+  "nearest_region": "A3CLR22_6_Connecting_Ridge",
+  "nearest_distance_m": 322.2
+ },
+ "lroc_nac_cdr_frames_footprint_intersecting_p0_box": {
+  "n": 234,
+  "years": {
+   "2009": 32,
+   "2010": 146,
+   "2011": 33,
+   "2012": 1,
+   "2013": 1,
+   "2015": 1,
+   "2019": 5,
+   "2020": 6,
+   "2022": 4,
+   "2023": 4,
+   "2024": 1
+  },
+  "incidence_deg_quantiles_0_10_50_90_100": [
+   86.66,
+   88.06,
+   89.68,
+   91.02,
+   92.82
+  ],
+  "n_sun_elev_proxy_between_-1_and_3_deg": 209,
+  "note": "incidence at frame centre, not at P0; footprint intersection per ODE polygons; raw frames need orthorectification"
+ },
+ "lroc_nac_dtm": {
+  "product": "NAC_DTM_ESALL_SR12.TIF",
+  "producer": "Arizona State University",
+  "resolution_m": "2",
+  "bbox_contains_p0": true,
+  "label": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/ESALL_SR12/NAC_DTM_ESALL_SR12.xml"
+ },
+ "status": "hero point UNCHECKED: no orthorectified observation covers it; raw NAC frames and one NAC stereo DTM exist"
+}

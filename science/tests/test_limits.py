@@ -140,3 +140,14 @@ def test_l3_far_bound_geometry_and_result():
     for s in r['sites'].values():
         for body in ('sun', 'earth'):
             assert s[body]['hours_affected_by_bound'] == 0 and s[body]['min_per_hour_slack_deg'] > 0
+
+
+# ------------------------------------------------------------------ L6
+def test_l6_protocols_frozen_and_point_unchecked():
+    from science.limits.common import sha256_file
+    h = ROOT / 'tools' / 'validation' / 'hero'
+    for doc in ('HERO_PROTOCOL', 'HERO_PROTOCOL_A1'):
+        assert sha256_file(h / f'{doc}.md') == (h / f'{doc}.sha256').read_text().split()[0], f'{doc} changed since freeze'
+    r = _res('L6_hero_observation'); _manifest_ok('L6_hero_observation')
+    assert r['gsfc_sfs_regions']['regions_containing_p0'] == []
+    assert 'UNCHECKED' in r['status']

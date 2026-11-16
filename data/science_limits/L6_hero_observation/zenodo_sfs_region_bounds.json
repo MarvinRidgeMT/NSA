@@ -1,0 +1,197 @@
+{
+ "A3CLR22_0_Amundsen_Rim": {
+  "member": "A3CLR22_0_Amundsen_Rim/A300_GLDELEV_005.tif",
+  "bounds": [
+   154000.0,
+   51500.0,
+   174000.0,
+   71500.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 166932.4
+ },
+ "A3CLR22_1_Nobile_Rim_2": {
+  "member": "A3CLR22_1_Nobile_Rim_2/A301_GLDELEV_005.tif",
+  "bounds": [
+   147000.0,
+   85000.0,
+   167000.0,
+   105000.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 175224.9
+ },
+ "A3CLR22_2_Haworth": {
+  "member": "A3CLR22_2_Haworth/A302_GLDELEV_005.tif",
+  "bounds": [
+   -52900.0,
+   75600.0,
+   -23100.0,
+   105400.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 84219.7
+ },
+ "A3CLR22_3_Faustini_Rim_A": {
+  "member": "A3CLR22_3_Faustini_Rim_A/A303_GLDELEV_005.tif",
+  "bounds": [
+   54000.0,
+   -10000.0,
+   74000.0,
+   10000.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 56677.8
+ },
+ "A3CLR22_4_deGerlache_Rim_2": {
+  "member": "A3CLR22_4_deGerlache_Rim_2/A304_GLDELEV_005.tif",
+  "bounds": [
+   -58500.0,
+   13000.0,
+   -38500.0,
+   33000.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 40598.9
+ },
+ "A3CLR22_5_Connecting_Ridge_Extension": {
+  "member": "A3CLR22_5_Connecting_Ridge_Extension/A305_GLDELEV_005.tif",
+  "bounds": [
+   -38700.0,
+   -16100.0,
+   -18700.0,
+   3900.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 16022.2
+ },
+ "A3CLR22_6_Connecting_Ridge": {
+  "member": "A3CLR22_6_Connecting_Ridge/A306_GLDELEV_005.tif",
+  "bounds": [
+   -19000.0,
+   -20000.0,
+   -3000.0,
+   -4000.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 322.2
+ },
+ "A3CLR22_7_Nobile_Rim_1": {
+  "member": "A3CLR22_7_Nobile_Rim_1/A307_GLDELEV_005.tif",
+  "bounds": [
+   74000.0,
+   100000.0,
+   94000.0,
+   120000.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 130912.2
+ },
+ "A3CLR22_8_Peak_Near_Shackleton": {
+  "member": "A3CLR22_8_Peak_Near_Shackleton/A308_GLDELEV_005.tif",
+  "bounds": [
+   22000.0,
+   -28000.0,
+   38000.0,
+   -12000.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 25371.9
+ },
+ "A3CLR22_9_deGerlache_Rim": {
+  "member": "A3CLR22_9_deGerlache_Rim/A309_GLDELEV_005.tif",
+  "bounds": [
+   -45000.0,
+   7000.0,
+   -29000.0,
+   23000.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 29404.5
+ },
+ "A3CLR22_10_Leibnitz_Beta_Plateau": {
+  "member": "A3CLR22_10_Leibnitz_Beta_Plateau/A310_GLDELEV_005.tif",
+  "bounds": [
+   65000.0,
+   110000.0,
+   81000.0,
+   126000.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 134390.9
+ },
+ "A3CLR22_11_Malapert_Massif": {
+  "member": "A3CLR22_11_Malapert_Massif/A311_GLDELEV_005.tif",
+  "bounds": [
+   -11000.0,
+   111000.0,
+   10000.0,
+   132000.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 117106.1
+ },
+ "A3CLR22_12_deGerlache_Kocher_Massif": {
+  "member": "A3CLR22_12_deGerlache_Kocher_Massif/A312_GLDELEV_005.tif",
+  "bounds": [
+   -123400.0,
+   -66100.0,
+   -103400.0,
+   -46100.0
+  ],
+  "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs=True",
+  "res": [
+   5.0,
+   5.0
+  ],
+  "dist_to_hero_m": 108371.9
+ }
+}

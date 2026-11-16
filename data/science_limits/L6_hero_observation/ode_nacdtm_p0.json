@@ -1,0 +1,17 @@
+{
+ "query": "PDS ODE live2, pt=SDNDTM, same box",
+ "product": {
+  "Product_name": "NAC_DTM_ESALL_SR12.TIF",
+  "Description": "Shackleton Crater Rim Potential Landing Site for ESA Lunar Lander\n        high-resolution NAC digital terrain model in GeoTIFF format. DEM is IEEE\n        floating point GeoTIFF, 32 bits/sample, 1 samples/pixel in single image\n        plane configuration. Height [m] equals DN. Vertical reference: Height\n        above the sphere/ellipsoid (as defined by map axis). The NoDATA value is\n        -3.40282266e+038 with a missing constant of -1e+32. For more info, see\n        [OBERSTETAL2010].",
+  "Producer_id": "Arizona State University",
+  "Map_resolution": "2",
+  "Minimum_latitude": "-89.8397",
+  "Maximum_latitude": "-89.6333",
+  "Westernmost_longitude": "180.8194",
+  "Easternmost_longitude": "226.6153",
+  "UTC_start_time": "2010-09-23T02:08:25Z",
+  "UTC_stop_time": "2010-10-10T14:28:55Z",
+  "LabelURL": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/ESALL_SR12/NAC_DTM_ESALL_SR12.xml",
+  "ProductURL": "https://ode.rsl.wustl.edu/moon/indexproductpage.aspx?product_id=sdp.nac_dtm.esall_sr12.nac_dtm_esall_sr12&product_idGeo=38311410"
+ }
+}
