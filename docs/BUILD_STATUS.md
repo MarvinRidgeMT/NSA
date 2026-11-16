@@ -1187,3 +1187,40 @@ Worked in a separate worktree because the main checkout held another session's u
 - `docs/v2/BACKLOG.md`: 15 P0/P1(/P2) defects and 17 UX rules from the two team prompts with source lines and open/partial/fixed evidence; conflict table (v2 wins on science/data). Open P0s: Decision copy tests (B1, partial), atomic ZIP + checksum sidecar (B2).
 - Tests: new `science/tests/test_cube_v2.py` 211 passed (22 s); new vitest `scenarioCubeV2.test.ts` 6; vitest total 147/147 (after regenerating the git-ignored `demo-decision-fixture.json`, byte-identical to the main checkout's); `npm run build` OK (tsc clean); Playwright on port 4201: `cube-slicer`, new `cube-slicer-roles`, `cube-views`, `traceability` 8/8, traceability 541 scanned / 0 failed / 13 bundles. `pytest science/tests` 405 passed, 2 skipped (`test_lod_tiles.py` built-tile checks: the git-ignored LOD tiles are not built in this worktree). Full Playwright suite not run (only the slicer, cube-view and traceability specs). Frozen refs unchanged: `submission-2026-11-15` c5dce9f, `submission-final` 8dde4f1, `submission/merged` 62cc7b1.
 - Not done: §4 decision panels (robust choice / regret / VoI / Pareto across the whole Moon), a `D_relay` axis split out of `target`, any backlog fix (S1 owns none of those files).
+## v2 Phase 1 · §2.4 any-site solver (session S4, 16 Nov 2026 02:30–03:30 EST, branch `claude/v2-s4-anysite-fef161`)
+Labels: geometry SOURCE-BASED · UNVALIDATED; error-model members "assumed error model". Plan: `docs/v2/PHASE_1_ANYSITE_PLAN.md`.
+
+- **Built** `science/anysite/`: contract-shaped terrain adapter (`stack.LegacyStack`: PGDA 78 tiles + clones, PGDA 90 80 m,
+  and S2's LOLA PDS LDEMs — global 16/64/128 ppd, polar 5–60 m both poles — km → m, exact pixel-registered lat/lon grid,
+  0/360 seam and pole-crossing rays handled); `get_stack()` prefers S3's `TerrainStack` when present (shim tested with a
+  contract-only stack). `solve.solve(lat, lon, mast, window)`: near field ±25 km at native resolution (≤ 6000 px; ray step
+  native/5 to the finest product's inscribed radius, ≤ 12.5 km), far field = PGDA 90 then LOLA global fill to
+  max(280 km, curvature limit), `science.skyline.compute_skyline` unchanged (720 bins), JPL Horizons with the identical query
+  (raw responses cached by params SHA-256; the committed archive is reused read-only when params match), hourly-sample
+  metrics, `polaris-science-results-v1` bundle + `anysite` block (provenance, curvature limit, members, timings) into
+  `data/cache/anysite/bundles/<site_hash>.json` (git-ignored). Members: PGDA 78 clones; "assumed error model" fields elsewhere;
+  product disagreement (M), one member per other product family. Local API stub `python -m science.anysite.api --serve 8766`.
+- **Curvature limit** `θ(e) = acos((R+h_eye) cos e / (R+H)) − e`, H = +10 786 m (highest lunar point): Site04 RoI 3 needs
+  265 km for every bin (regional H 7 026 m: 227 km) < 280 km used; 35 of 692 polar-grid sites have 1 bin flagged
+  `range_limited_world` (a lower bound in that bin only).
+- **Reproduced through lat/lon only** (Site04 RoI 3, 1 m, 14–28 Nov 2026 hourly): Sun 94.362 %, Sun+Earth 72.107 %, longest
+  hourly Sun gap 19 h, 20 PGDA 78 clones 87.537–97.329 %; skyline identical to the committed bundle (max |Δ| = 0.0°); far
+  window array SHA-256 identical. Site01 RoI 6: 100 % / 81.602 % (= committed bundle).
+- **Product disagreement at Site04 RoI 3** (Sun % / Sun+Earth %): PGDA 78 94.4 / 72.1; PGDA 90 alone 100 / 76.6; LOLA 87.5° S
+  5 m 65.3 / 24.6; LOLA global 128 ppd 59.9 / 17.5. LOLA 5 m is co-registered with PGDA 78 (best fit at zero shift, bias 3 cm,
+  median |Δh| 0.9 m, test pinned), so the spread is structural uncertainty at a rim site with a 1 m mast, not a frame error.
+- **Timing (this Mac, 4 sites in parallel, other sessions running):** 711 new sites in 300 s; median 1.4 s per site
+  (nominal only), Site04 RoI 3 with 20 clones + 3 products 16.5 s (serial 16.4 s), Site07/Site11 with 20 assumed members
+  + 4 products 26 s. Target ≤ 60 s met.
+- **Precompute** (`science/anysite/precompute_sites.json`, cited; summary committed as `data/anysite/precompute_summary.json`):
+  4 current sites, 15 landing sites (NSSDC table, 13 Aug 2025), south and north ≈1°-of-arc grids poleward of 80° (346 each):
+  all done, 0 errors, 0 truncated bins. Sanity: Chang'e 4 / 6 Earth 0 %, Apollo sites Earth 100 %; north pole Sun 0 % in this
+  window. Artemis III's 9 regions (NASA 28 Oct 2024; LPSC 2026 #1901) have no published coordinates: listed, not run.
+- **Bugs found and fixed (each with a regression test):** cache key ignored the member set; GDAL's rounded LOLA global bounds
+  dropped lon 0 to the 16 ppd grid; using GDAL bounds for the column origin shifted samples 0.06 px; a 60 m far-fill layer
+  changed the far ray step (moved RoI 3 by 0.008°).
+- **Tests:** `python -m pytest -q science/anysite science/tests` → anysite 30 pass, 1 skip (S3 pyramid absent);
+  science/tests 194 pass, 2 skip (LOD tiles not built in this worktree).
+- **Not done:** pyramid-agreement test (waits for S3 tiles); bisection-refined events (any-site metrics are hourly); PGDA 90
+  ERR layer and an error model for LOLA polar LDEMs (Chandrayaan-3 has no assumed members); Artemis III coordinates; SLDEM2015
+  (S2) for a low-latitude second product; the precompute ran while S2 was still downloading — rerun after S2 finishes.
