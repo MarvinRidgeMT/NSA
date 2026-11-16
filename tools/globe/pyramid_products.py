@@ -499,10 +499,73 @@ def manifest_products(manifest=None):
         if mk is None:
             unknown.append(e.get('product_id'))
             continue
-        spec = mk(e, fn)
+        try:
+            spec = mk(e, fn)
+        except ValueError as err:                 # label does not match the reader: report, never guess
+            unknown.append(f"{e.get('product_id')}:{Path(lp).name} ({err})")
+            continue
         if spec is not None:
             specs.append(spec)
+    specs = _mosaic_tiled(specs)
     return specs, sorted(set(u for u in unknown if u))
+
+
+# Products published as tiles of one grid are merged as ONE product through a GDAL VRT mosaic, so adjacent tiles
+# are not feathered against each other and bilinear sampling across a tile boundary sees both sides.
+TILED_PRODUCTS = {'sldem2015_512'}
+
+
+def _mosaic_tiled(specs):
+    out, groups = [], {}
+    for s in specs:
+        base = s.product_id.split('__')[0]
+        if base in TILED_PRODUCTS:
+            groups.setdefault(base, []).append(s)
+        else:
+            out.append(s)
+    for base, ss in groups.items():
+        vrt = polaris_data() / 'v2' / 'pyramid' / 'vrt' / f'{base}.vrt'
+        write_vrt_mosaic([x.abspath for x in ss], vrt)
+        s0 = ss[0]
+        out.append(ProductSpec(base, s0.source_id, str(vrt), s0.native_res_m, units=s0.units, datum=s0.datum,
+                               ref_radius_m=s0.ref_radius_m, scale=s0.scale, offset=s0.offset, frame=s0.frame,
+                               version=f'{len(ss)} tiles: ' + s0.version, url=s0.url.rsplit('/', 1)[0] + '/',
+                               sha256='; '.join(x.sha256[:12] for x in ss),
+                               notes=f'VRT mosaic of {len(ss)} tiles ({vrt.name}); ' + s0.notes))
+    return out
+
+
+def write_vrt_mosaic(paths, out):
+    """VRT mosaic of north-up rasters that share CRS and pixel size (each tile placed by its own geotransform)."""
+    import rasterio
+    from xml.sax.saxutils import escape
+    out = Path(out); out.parent.mkdir(parents=True, exist_ok=True)
+    info = []
+    for p in paths:
+        with rasterio.open(p) as ds:
+            info.append((str(p), ds.transform, ds.width, ds.height, ds.crs.to_wkt(), ds.nodata, ds.dtypes[0]))
+    t0 = info[0][1]
+    px, py = t0.a, -t0.e
+    for _, t, *_ in info:
+        if abs(t.a - px) > 1e-9 * abs(px) or abs(-t.e - py) > 1e-9 * abs(py):
+            raise ValueError('tiles do not share a pixel size')
+    left = min(t.c for _, t, *_ in info); top = max(t.f for _, t, *_ in info)
+    right = max(t.c + w * px for _, t, w, *_ in info); bottom = min(t.f - h * py for _, t, _, h, *_ in info)
+    W = int(round((right - left) / px)); H = int(round((top - bottom) / py))
+    dt = {'float32': 'Float32', 'int16': 'Int16', 'uint16': 'UInt16', 'float64': 'Float64'}[info[0][6]]
+    nod = info[0][5]
+    src = []
+    for p, t, w, h, *_ in info:
+        xo = int(round((t.c - left) / px)); yo = int(round((top - t.f) / py))
+        src.append(f'<SimpleSource><SourceFilename relativeToVRT="0">{escape(p)}</SourceFilename><SourceBand>1</SourceBand>'
+                   f'<SrcRect xOff="0" yOff="0" xSize="{w}" ySize="{h}"/><DstRect xOff="{xo}" yOff="{yo}" xSize="{w}" ySize="{h}"/>'
+                   f'</SimpleSource>')
+    xml = (f'<VRTDataset rasterXSize="{W}" rasterYSize="{H}"><SRS>{escape(info[0][4])}</SRS>'
+           f'<GeoTransform>{left!r}, {px!r}, 0, {top!r}, 0, {-py!r}</GeoTransform>'
+           f'<VRTRasterBand dataType="{dt}" band="1">' + (f'<NoDataValue>{nod!r}</NoDataValue>' if nod is not None else '')
+           + ''.join(src) + '</VRTRasterBand></VRTDataset>')
+    out.write_text(xml)
+    return out
 
 
 def parse_pds3_label(path):
@@ -523,14 +586,14 @@ def _f(v):
     return float(str(v).split()[0])
 
 
-def lola_pds_spec(entry, source_id_polar=7, source_id_global=8):
+def lola_pds_spec(entry, source_id_polar=7, source_id_global=8, id_sep='_'):
     """LOLA GDR LDEM *_FLOAT.IMG (PDS3 label next to it). Checks the label before accepting: PC_REAL km heights
     relative to 1737.4 km (DN * 1, the label's OFFSET 1737.4 is the radius of the reference sphere and is NOT added:
     we store height above that sphere), 1737.4 km sphere, MEAN EARTH/POLAR AXIS frame. Returns None if the file is
     incomplete (size differs from the manifest) or the label does not match."""
     lp = entry.get('local_path', '')
-    if not lp.lower().endswith('.img'):
-        return None
+    if not lp.lower().endswith('.img') or 'quality' in Path(lp).name.lower():
+        return None                               # labels, XML, and non-height layers (SLDEM data-quality map)
     img = polaris_data() / lp
     lbl = img.with_suffix('.lbl')
     if not lbl.exists():
@@ -562,7 +625,7 @@ def lola_pds_spec(entry, source_id_polar=7, source_id_global=8):
     else:
         native = R * math.radians(1.0 / _f(L['MAP_RESOLUTION']))
     pid = L.get('PRODUCT_ID', img.stem).lower()
-    return ProductSpec(f"{entry['product_id']}_{pid}", source_id_polar if polar else source_id_global, str(lbl), native,
+    return ProductSpec(f"{entry['product_id']}{id_sep}{pid}", source_id_polar if polar else source_id_global, str(lbl), native,
                        units='km', datum='height', scale=1.0, offset=0.0, frame='ME',
                        version=f"{L.get('PRODUCT_ID')} {L.get('PRODUCT_VERSION_ID', '')} ({entry.get('product_version', '')})",
                        url=entry.get('url', ''), sha256=entry.get('sha256', ''),
@@ -575,6 +638,8 @@ def lola_pds_spec(entry, source_id_polar=7, source_id_global=8):
 KNOWN_PRODUCTS = {
     'lola_ldem_global': lambda e, fn: lola_pds_spec(e),
     'lola_ldem_polar': lambda e, fn: lola_pds_spec(e),
+    # SLDEM2015 512 ppd float tiles: same PDS3 layout (km rel. 1737.4 km, ME); merged as one VRT mosaic (source 6)
+    'sldem2015_512': lambda e, fn: lola_pds_spec(e, source_id_global=6, id_sep='__'),
 }
 
 

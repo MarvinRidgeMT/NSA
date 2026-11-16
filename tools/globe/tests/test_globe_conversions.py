@@ -189,3 +189,55 @@ def test_small_gap_fill_only():
     out, filled = PP.fill_small_gaps(G, max_px=2)
     assert out[5, 5] == 5.0 and filled[5, 5]
     assert np.isnan(out[10:15, 10:15]).all() and not filled[10:15, 10:15].any()
+
+
+LBL = """PDS_VERSION_ID = "PDS3"
+PRODUCT_ID = "LDEM_85S_10M"
+PRODUCT_VERSION_ID = "V2.1"
+    SAMPLE_TYPE = PC_REAL
+    UNIT = {unit}
+    SCALING_FACTOR = 1
+    OFFSET = 1737.4
+ MAP_PROJECTION_TYPE = "POLAR STEREOGRAPHIC"
+ A_AXIS_RADIUS = 1737.4 <km>
+ B_AXIS_RADIUS = 1737.4 <km>
+ C_AXIS_RADIUS = 1737.4 <km>
+ MAP_SCALE = 10 <m/pix>
+ MAXIMUM_LATITUDE = -85 <deg>
+ MINIMUM_LATITUDE = -90 <deg>
+ COORDINATE_SYSTEM_NAME = "MEAN EARTH/POLAR AXIS OF DE421"
+END
+"""
+
+
+def test_lola_pds_label_checked_and_manifest_robust(tmp_path, monkeypatch):
+    import json
+    monkeypatch.setenv('POLARIS_DATA', str(tmp_path))
+    d = tmp_path / 'v2' / 'products' / 'p'
+    d.mkdir(parents=True)
+    (d / 'good.img').write_bytes(b'\0' * 64); (d / 'good.lbl').write_text(LBL.format(unit='KILOMETER'))
+    (d / 'bad.img').write_bytes(b'\0' * 64); (d / 'bad.lbl').write_text(LBL.format(unit='METER'))
+    (d / 'part.img').write_bytes(b'\0' * 10); (d / 'part.lbl').write_text(LBL.format(unit='KILOMETER'))
+    m = tmp_path / 'v2' / 'manifest.jsonl'
+    rows = [{'product_id': 'lola_ldem_polar', 'local_path': f'v2/products/p/{n}.img', 'bytes': 64, 'sha256': 'x' * 64}
+            for n in ('good', 'bad', 'part')]
+    rows.append({'product_id': 'mystery', 'local_path': 'v2/products/p/x.img', 'bytes': 1})
+    m.write_text('\n'.join(json.dumps(r) for r in rows) + '\n')
+    specs, unknown = PP.manifest_products(m)
+    assert [s.product_id for s in specs] == ['lola_ldem_polar_ldem_85s_10m']
+    s = specs[0]
+    assert (s.source_id, s.native_res_m, s.units, s.datum, s.scale, s.offset, s.frame) == (7, 10.0, 'km', 'height', 1.0, 0.0, 'ME')
+    assert any('bad.img' in u and 'UNIT' in u for u in unknown) and 'mystery' in unknown   # reported, never guessed
+    # 'part' (size != manifest bytes) is silently skipped until complete
+
+
+def test_vrt_mosaic_is_seamless(tmp_path):
+    # two abutting 1 ppd lon/lat tiles, value = lon; the mosaic samples across the boundary without a NaN line
+    a = np.tile((np.arange(45) + 0.5)[None, :], (30, 1)); b = a + 45.0
+    fa = write_raster(tmp_path / 'a.tif', a / 100.0, 0.0, 30.0, 1.0, LONLAT)
+    fb = write_raster(tmp_path / 'b.tif', b / 100.0, 45.0, 30.0, 1.0, LONLAT)
+    vrt = PP.write_vrt_mosaic([fa, fb], tmp_path / 'm.vrt')
+    rd = PP.ProductReader(PP.ProductSpec('m', 6, str(vrt), PP.R * math.radians(1.0), units='km'))
+    lon = np.array([44.6, 45.0, 45.4]); lat = np.full(3, 10.0)
+    h, _, _ = rd.sample(lat, lon, rd.native_px_m())
+    assert np.isfinite(h).all() and np.allclose(h, lon * 10.0, atol=1e-3)
