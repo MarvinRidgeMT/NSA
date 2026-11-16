@@ -38,8 +38,11 @@ def _to_zone(lat, lon, entry):
 
 @functools.lru_cache(maxsize=16)
 def _eq_lon0(wkt):
+    import warnings
     from pyproj import CRS
-    p = CRS.from_wkt(wkt).to_dict()
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore', UserWarning)       # to_dict goes through PROJ strings; parameters are kept
+        p = CRS.from_wkt(wkt).to_dict()
     if p.get('proj') != 'eqc' or abs(p.get('R', frames.R_MOON_M) - frames.R_MOON_M) > 1 or p.get('lat_ts', 0) != 0:
         raise ValueError(f'unsupported equirectangular CRS {p}')
     return float(p.get('lon_0', 0.0))
