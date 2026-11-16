@@ -129,7 +129,7 @@ def solve(lat, lon, mast_m=1.0, start='2026-11-14 00:00', days=14, step_h=1, mem
     t_start = time.time(); timing = {}
     lat = float(lat); lon = ((float(lon) + 180.0) % 360.0) - 180.0
     stack = stack or get_stack()
-    cov = stack.coverage(lat, lon)
+    cov = _coverage(stack, lat, lon)
     if not cov['products']:
         raise LookupError(f'no cached terrain product covers ({lat:.5f}, {lon:.5f})')
     pids = [p['id'] for p in cov['products']]
@@ -139,19 +139,26 @@ def solve(lat, lon, mast_m=1.0, start='2026-11-14 00:00', days=14, step_h=1, mem
         b = json.loads(out_p.read_text()); b['anysite']['cache_hit'] = True
         return b
     entries = {e['id']: e for e in getattr(stack, 'entries', [])}
-    near_e = entries.get(cov['source_id'], {'id': cov['source_id'], 'res_m': cov['native_res_m'], 'clones': {},
-                                            'product': cov['source_id']})
-    far_e = max((entries[p] for p in pids if p in entries), key=lambda e: e['res_m'], default=near_e)
+    if not entries:   # pyramid (S3): one merged surface; near at the site's native resolution, far at >= 80 m
+        near_e = {'id': f'pyramid:{cov["source_id"]}', 'res_m': float(cov['native_res_m']), 'clones': {},
+                  'product': 'pyramid'}
+        far_e = {'id': 'pyramid:far', 'res_m': max(80.0, float(cov['native_res_m'])), 'clones': {}, 'product': 'pyramid'}
+        if far_e['res_m'] == near_e['res_m']:
+            far_e = near_e
+        entries = {}
+    else:
+        near_e = entries[cov['source_id']]
+        far_e = max((entries[p] for p in pids if p in entries), key=lambda e: e['res_m'])
     x0, y0 = frames.stereo_forward(lat, lon)
 
     t = time.time()
-    near = stack.window(lat, lon, NEAR_HALF_M, near_e['res_m'], product=near_e['id'])
+    near = _window(stack, lat, lon, NEAR_HALF_M, near_e)
     h = float(near.sample(x0, y0))
     if not math.isfinite(h):
         raise LookupError(f'no height at the site ({lat}, {lon}) in {near_e["id"]}')
     h_eye = h + mast_m
     max_range = max(BASE_RANGE_M, float(curvature.limit_m(h_eye, 0.0)))
-    far = stack.window(lat, lon, max_range + FAR_MARGIN_M, far_e['res_m'], product=far_e['id'])
+    far = _window(stack, lat, lon, max_range + FAR_MARGIN_M, far_e)
     timing['terrain_read_s'] = round(time.time() - t, 2)
 
     same = near_e['id'] == far_e['id']
@@ -166,7 +173,7 @@ def solve(lat, lon, mast_m=1.0, start='2026-11-14 00:00', days=14, step_h=1, mem
     extended = False
     if math.isfinite(L_req) and L_req > max_range and _footprint_reach(far_e, lat, lon) > max_range + FAR_MARGIN_M:
         max_range = min(L_req, MAX_EXTENDED_RANGE_M, _footprint_reach(far_e, lat, lon) - FAR_MARGIN_M)
-        far = stack.window(lat, lon, max_range + FAR_MARGIN_M, far_e['res_m'], product=far_e['id'])
+        far = _window(stack, lat, lon, max_range + FAR_MARGIN_M, far_e)
         sky = compute_skyline(lat, lon, h, mast_m, near=near, far=far, bins=720, max_range_m=max_range, step_m=step_near,
                               near_range_m=near_cut, far_step_m=far.step)
         curv = curvature.record(h_eye, max_range, sky['elevation_deg'], float(np.nanmax(far.Z)))
@@ -200,6 +207,29 @@ def solve(lat, lon, mast_m=1.0, start='2026-11-14 00:00', days=14, step_h=1, mem
     tmp = out_p.with_suffix(f'.{os.getpid()}.tmp'); tmp.write_text(json.dumps(b, indent=1)); tmp.replace(out_p)
     b['anysite']['cache_hit'] = False
     return b
+
+
+def _coverage(stack, lat, lon):
+    """Contract coverage() plus a 'products' list (the legacy adapter provides it; the pyramid gives one merged source)."""
+    cov = dict(stack.coverage(lat, lon))
+    if 'products' not in cov:
+        ok = cov.get('source_id') is not None and cov.get('native_res_m') and cov.get('quality', 0) > 0
+        cov['products'] = [{'id': f'pyramid:{cov["source_id"]}', 'res_m': cov['native_res_m']}] if ok else []
+    return cov
+
+
+def _window(stack, lat, lon, half_m, e):
+    """Legacy adapter: product-specific window. Pyramid: contract window(lat, lon, half_m, res_m); a non-south-polar
+    ArrayDEM is wrapped (SPView) using the CRS it carries in meta['crs_wkt']."""
+    if getattr(stack, 'entries', None):
+        return stack.window(lat, lon, half_m, e['res_m'], product=e['id'])
+    d = stack.window(lat, lon, half_m, e['res_m'])
+    zone = d.meta.get('zone') or ('sp' if lat < -54 else 'np' if lat > 54 else 'eq')
+    d.meta.setdefault('product_id', e['id']); d.meta.setdefault('zone', zone)
+    if zone != 'sp' and not hasattr(d, 'inner'):
+        from .stack import SPView
+        return SPView(d, {'zone': zone, 'crs_wkt': d.meta['crs_wkt']})
+    return d
 
 
 def _footprint_reach(e, lat, lon):

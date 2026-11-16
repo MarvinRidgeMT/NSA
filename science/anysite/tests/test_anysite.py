@@ -227,6 +227,36 @@ class Site04Roi3Reproduction(unittest.TestCase):
         jsonschema.validate(self.b, schema)
 
 
+# ------------------------------------------------------------------------------------------------ API stub
+class ApiStub(unittest.TestCase):
+    def test_no_data_point_is_an_error(self):
+        from science.anysite import api
+        with self.assertRaises(LookupError):
+            api.handle({'lat': 10.0, 'lon': 20.0, 'allow_network': False})
+
+    def test_http_roundtrip(self):
+        if not _have_roi3_data():
+            self.skipTest('PGDA 78 Site04 / PGDA 90 not cached')
+        import threading
+        import urllib.request
+        from http.server import HTTPServer
+        from science.anysite import api
+        srv = HTTPServer(('127.0.0.1', 0), api._H)
+        th = threading.Thread(target=srv.serve_forever, daemon=True); th.start()
+        try:
+            url = f'http://127.0.0.1:{srv.server_port}/anysite'
+            req = urllib.request.Request(url, data=json.dumps({'lat': ROI3[0], 'lon': ROI3[1], 'members': [],
+                                                               'allow_network': False}).encode(), method='POST')
+            out = json.loads(urllib.request.urlopen(req, timeout=120).read())
+            self.assertEqual(out['sun_center_visible_pct_hourly_samples'], 94.362)
+            req = urllib.request.Request(url, data=b'{"lat": 10, "lon": 20, "allow_network": false}', method='POST')
+            with self.assertRaises(urllib.error.HTTPError) as cm:
+                urllib.request.urlopen(req, timeout=60)
+            self.assertEqual(cm.exception.code, 400)
+        finally:
+            srv.shutdown()
+
+
 # ------------------------------------------------------------------------------------------------ north pole
 class NorthPoleSanity(unittest.TestCase):
     def test_north_pole_run(self):
@@ -251,6 +281,32 @@ class NorthPoleSanity(unittest.TestCase):
 
 
 # ------------------------------------------------------------------------------------------------ pyramid agreement
+class _ContractOnlyStack:
+    """Exposes only the contract API (no product/member kwargs, coverage without 'products'), as S3's stack will."""
+
+    def __init__(self):
+        self._s = LegacyStack()
+
+    def coverage(self, lat, lon):
+        c = self._s.coverage(lat, lon)
+        return {k: c[k] for k in ('source_id', 'native_res_m', 'quality', 'level')}
+
+    def window(self, lat0, lon0, half_m, res_m=None):
+        return self._s.window(lat0, lon0, half_m, res_m)
+
+    def sample(self, lat, lon):
+        return self._s.sample(lat, lon)
+
+
+@unittest.skipUnless(_have_roi3_data(), 'PGDA 78 Site04 / PGDA 90 not cached')
+class ContractOnlyStackShim(unittest.TestCase):
+    def test_solver_runs_on_contract_api_alone(self):
+        b = S.solve(*ROI3, 1.0, member_kinds=(), stack=_ContractOnlyStack(), use_cache=False, allow_network=False,
+                    out_dir=ROOT / 'data' / 'cache' / 'anysite' / 'test_bundles')
+        self.assertEqual(b['metrics']['sun_center_visible_pct_hourly_samples'], 94.362)
+        self.assertEqual(b['metrics']['sun_and_earth_center_visible_pct_hourly_samples'], 72.107)
+
+
 class PyramidAgreement(unittest.TestCase):
     """At Site04 RoI 3 (covered by PGDA 78 and the merged pyramid) the masks must agree: median |Δ| <= 0.05 deg and
     95th percentile <= 0.3 deg. Tolerance: the pyramid's finest level there should be the same PGDA 78 data; differences
