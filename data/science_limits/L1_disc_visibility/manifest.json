@@ -1,0 +1,36 @@
+{
+ "item": "L1_disc_visibility",
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "date_utc": "2026-11-16T02:53:39Z",
+ "command": "python l1_disc.py",
+ "module": "/Users/anishmeruva/Documents/ChatGPT/NSA-science-limits/science/limits/l1_disc.py",
+ "code_commit": "3c380eb5d3662ac2689bd40f5301b1af103fdef9",
+ "inputs": [
+  {
+   "path": "data/bundles/site04_roi3_2026-11-14_14d_mast1m.json",
+   "sha256": "ac745d993c36e0066e61a57a01b5e9ab10f76ea41f4494233c044efccbefee1f"
+  },
+  {
+   "path": "data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",
+   "sha256": "ec2e9f24ca80412d5f286bbb9315b5b045becbe764243842e52a9c7f9547e552"
+  },
+  {
+   "path": "tools/validation/nac/nac_v2_summary.json",
+   "sha256": "b1b1e40588575a3451dd53c3af6a80815c16ca7465baf043f7067015b725f33a"
+  },
+  {
+   "path": "data/cache/p78/* (PGDA 78 Site01/Site04 surf + clones 0001-0020)",
+   "sha256": "per-file SHA-256 recorded in each bundle skyline.dem_layers and derived.margin_series.clones[].near_sha256",
+   "note": "NASA rasters, git-ignored"
+  },
+  {
+   "path": "data/cache/ldem/LDEM_80S_80MPP_ADJ.TIF",
+   "sha256": "82030dcbdd7c4bb0c7d858e9b4b293b9f2cda5a543ba31ec0f42784bd6beee5a",
+   "note": "PGDA 90, git-ignored"
+  }
+ ],
+ "outputs": {
+  "result.json": "c0d5412b0255b2459ec701f21128d6eef35e37ba401398393f2527635c32c0c0",
+  "RESULT.md": "a8f49940136ce392c0bf2006f1272c778e399df467c71d7a7066baebd2451dac"
+ }
+}
