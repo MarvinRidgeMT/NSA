@@ -219,16 +219,18 @@ _add(Product("pgda78_sites", "PGDA 78 LOLA 5 m site tiles + clones", 3, "https:/
 _add(Product("kaguya_tc_dtm", "Kaguya TC DTMs (JAXA SLDEM2013 / TC DTM MAP; USGS ASP TC DTMs)", 4,
              "https://darts.isas.jaxa.jp/planet/pdap/selene/", "JAXA DARTS (SELENE archive); USGS Astrogeology", "see PRODUCTS.md",
              "near-global", "TC ~10 m images; DTMs posted ~7.4 m (TC DTM MAP 4096 ppd) / 35 m (USGS ASP)", "see PRODUCTS.md",
-             "JAXA SELENE data policy (see PRODUCTS.md)", "JAXA SELENE wording (see PRODUCTS.md)", 0, "not-downloaded",
-             "~0.8 TB class: stream per tile on demand (section 2.1); not mirrored tonight"))
+             "JAXA SELENE data policy (see PRODUCTS.md)", "JAXA SELENE wording NOT verified (DARTS rejects scripted requests)", 0,
+             "not-downloaded", "~0.8 TB class: stream per tile on demand (section 2.1); not mirrored tonight"))
 _add(Product("lroc_nac_dtm", "LROC NAC DTMs (PDS SDNDTM / ASPDTM)", 1, "https://wms.lroc.asu.edu/lroc/rdr_product_select",
              "LROC SOC / PDS Imaging", "see PRODUCTS.md", "hundreds of sites", "2-5 m", "see per-DTM label",
              "NASA/GSFC/Arizona State University", "see PRODUCTS.md", 0, "not-downloaded",
              "per-site on demand (S4 / S6); not bulk-mirrored"))
 _add(Product("gsfc_sfs", "GSFC shape-from-shading polar DEMs (Zenodo 10.5281/zenodo.17954508)", 2,
              "https://doi.org/10.5281/zenodo.17954508", "Zenodo", "see PRODUCTS.md", "selected polar regions", "5 m (some finer)",
-             "see Zenodo record", "CC-BY-4.0 (per Zenodo record; verify)", "see PRODUCTS.md", 0, "not-downloaded",
-             "per-region on demand; display-only use so far (docs/DATA_PROVENANCE.md)"))
+             "polar stereographic, +proj=stere +lat_0=-90 +lon_0=0 +R=1737400 (per region GeoTIFF)",
+             "CC-BY-4.0 (Zenodo record v1.0.0, 2025-12-16)", "Bertone, S., McKenna, T. E., Barker, M. K., Mazarico, E., "
+             "Beyer, R. A., Petro, N. (2025), Zenodo, doi:10.5281/zenodo.17954508", 0, "not-downloaded",
+             "13 region zips, 26,559,680,857 B total; per-region on demand; region 6 used for display only"))
 _add(Product("ch2_tmc2_dem", "Chandrayaan-2 TMC-2 DEMs (ISRO PRADAN)", None, "https://pradan.issdc.gov.in/",
              "ISRO ISSDC PRADAN", "n/a", "partial", "~10 m class", "n/a", "ISRO PRADAN terms (registration)", "n/a", 0,
              "not-downloaded", "not downloaded: needs an account the user has not approved"))

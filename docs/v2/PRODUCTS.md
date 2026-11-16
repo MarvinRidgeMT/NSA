@@ -16,6 +16,11 @@ Archive roots used:
 - USGS Astrogeology map-a-planet mosaics: `https://planetarymaps.usgs.gov/mosaic/`, which redirects to the public S3
   bucket `https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/`.
 
+**Units warning (read from the downloaded labels):** the LOLA `*_FLOAT` LDEMs are `PC_REAL` float32 with `UNIT = KILOMETER`,
+HEIGHT relative to `OFFSET = 1737.4` km. Multiply by 1000 to get the contract's metres. Example: `LDEM_64_FLOAT.LBL` has
+PRODUCT_VERSION_ID V3.1, DATA_SET_ID LRO-L-LOLA-4-GDR-V1.0, data through LRO_ES_52, GRGM900C orbits, created 2019-03-15.
+Check every product's own `.lbl` for UNIT, SCALING_FACTOR, OFFSET and projection offsets before use.
+
 ## Acknowledgement wording (use verbatim in credits)
 | Key | Wording | Where it comes from |
 |---|---|---|
@@ -112,12 +117,21 @@ products are "made available, but are unsupported by the LOLA Science Team" (thi
 - **PGDA 78** 5 m site tiles and 20+ clones per site: `data/cache/p78`, `data/external/pgda78`, `app/data/source/pgda78`.
 
 ## Not downloaded (`status = not-downloaded`)
+Access checks on 16 Nov 2026, ~02:55 EST, one plain GET each with no login:
+- `https://darts.isas.jaxa.jp/planet/pdap/selene/` and `/en/policy` answered "Request Rejected" (the site's firewall
+  refuses scripted clients). No workaround was tried. **JAXA's exact SELENE acknowledgement wording is therefore not
+  verified tonight.** Someone has to copy it from the DARTS SELENE policy page in a browser before any Kaguya TC data
+  is used; it is deliberately not paraphrased here.
+- `https://pradan.issdc.gov.in/pradan/` returned HTTP 403 "The URL you requested has been blocked". PRADAN downloads
+  need a registered ISSDC account in any case. Not downloaded.
+- `https://moon.bao.ac.cn/` is a JavaScript application, and data download needs a registered account. Not downloaded.
+
 | Product | Official page | Why not | Notes |
 |---|---|---|---|
 | Kaguya TC DTMs: JAXA SLDEM2013 / TC DTM MAP | JAXA DARTS SELENE archive, https://darts.isas.jaxa.jp/planet/pdap/selene/ | A ~10 m-class global surface is ≈ 4 × 10¹¹ px ≈ 0.8 TB; §2.1 says stream it per tile and never mirror it | JAXA SELENE acknowledgement wording: see § JAXA below |
 | USGS ASP Kaguya TC DTMs | USGS Astrogeology | Per-tile, on demand | — |
 | LROC NAC DTMs (SDNDTM / ASPDTM) | https://wms.lroc.asu.edu/lroc/rdr_product_select | Hundreds of sites at ~0.1–2 GB each; per site on demand (S4/S6) | Credit NASA/GSFC/Arizona State University |
-| GSFC SfS polar DEMs | https://doi.org/10.5281/zenodo.17954508 | Per region on demand (e.g. A3CLR22 region 6 zip is 2,206,485,514 B); one region already used for display | CC-BY-4.0 |
+| GSFC SfS polar DEMs | https://doi.org/10.5281/zenodo.17954508 ("Archived Dataset for 'Enhanced Topography Models for selected Lunar South Pole regions with Shape-from-Shading'", v1.0.0, 2025-12-16; Bertone, McKenna, Barker, Mazarico, Beyer, Petro) | Per region on demand: 13 region zips (A3CLR22_0 … _12) + README, 26,559,680,857 B in total (1.05–4.35 GB each; region 6 Connecting Ridge 2,206,485,514 B is already used for display) | CC-BY-4.0 (Zenodo API `license.id = cc-by-4.0`, read 16 Nov 2026) |
 | LROC NAC images | https://wms.lroc.asu.edu/lroc | S6 imagery catalogue (`tools/imagery`) | — |
 | Chandrayaan-2 TMC-2 DEMs | ISRO ISSDC PRADAN, https://pradan.issdc.gov.in/ | **not downloaded: needs an account the user has not approved** | No account was created and no terms were accepted |
 | CNSA Chang'e DEMs | CNSA/NAOC Lunar and Planetary Data Release System, https://moon.bao.ac.cn/ | **not downloaded: needs an account the user has not approved** | No account was created |
