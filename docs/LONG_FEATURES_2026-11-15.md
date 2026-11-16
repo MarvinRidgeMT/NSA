@@ -1,4 +1,4 @@
-# POLARIS X: long-feature pilots + Decision Lab viewer (Claude cloud session, Sun 15 Nov 2026, 00:07–01:55, 13:32–15:10 and 16:47–18:35 EST)
+# POLARIS X: long-feature pilots + Decision Lab viewer (Claude cloud session, Sun 15 Nov 2026, 00:07–01:55, 13:32–15:10, 16:47–18:35 and 18:38–19:20 EST)
 
 *Session: Sid asked to "finish some of the unfinished features that take over 4 h" from the Features Not Done Yet sheet
 (https://claude.ai/artifact/J4D38DPs3UWnur9CgPhPDa). Work done in this chat's Claude cloud workspace (2 cores, 7 GB) from NASA
@@ -191,11 +191,43 @@ Not done this round: hotspot full-ray-march test for Sites 07/11; SfS for Sites 
 in the repo (Codex). Code: `sites.py`, `step15_new_prep.py`, `step17_surrogate.py`, `step18_hot_corr.py`, `step18b_test.py`,
 `step18c_oos.py`, `api/` (polaris_solver).
 
+## 9. Round 5 (18:38–19:20): finished the cloud half for the new sites; a terrain-product finding
+Viewer version `1794788131-f296` (same link).
+
+**Hotspot full-ray-march test, Sites 07/11** (20 clones, 12 months, clone-hours still wrong; nothing measured → best):
+Site07 RoI 1: 5,228 → lander only 2,567; top-10 + lander 2,262; nearest-10 + lander 2,259 (measuring near cells removes only ~57 %:
+most disagreement there comes from terrain the near cells do not control). Site11 RoI 4: 2,227 → 946; 651; 757.
+The 16-ridge linearised model captures only 37–44 % of the full-ray disagreement at these two sites (vs 90–95 % at Sites 01/04):
+it ranks strategies correctly but undercounts.
+**Out-of-sample planning** (plan on clones 1–10, test on 11–20): Site07 clone-error plan 10 cells **607** vs error-map top-10 + lander
+714, nearest-10 + lander 749; Site11 **406** vs 398 / 469. Over four sites the clone-error plan beats the nearest-cells rule
+everywhere and the NASA error-map rule at three of four (Site11 is a tie).
+
+**NASA GSFC SfS at three sites** (regions 6 Connecting Ridge, 8 Peak Near Shackleton, 9 de Gerlache Rim; Zenodo
+10.5281/zenodo.17954508, CC-BY-4.0):
+
+| Site, 1 m mast | SfS ground − LOLA | 12-mo Sun: SfS / LOLA (20 clones) | SfS–LOLA disagree h/yr (clones also flip) |
+|---|---|---|---|
+| Site01 RoI 6 | +1.99 m | 85.25 / 85.10 (80.1–86.1) inside | 109 (66) |
+| Site07 RoI 1 | +0.54 m | 75.56 / 74.01 (54.8–76.5) inside | 136 (136) |
+| Site11 RoI 4 | +2.97 m | **75.85 / 74.66 (71.9–74.6) outside at every mast 1–10 m** | 104 (18) |
+
+**Finding (SOURCE-BASED, needs expert review):** at **all 13 PGDA RoIs** the three SfS regions cover, SfS is **higher than LOLA at
+the centroid, by 0.24–3.2 m (mean 1.54 m)**, 1.3–10× NASA's per-pixel height error; over each RoI's 100 m neighbourhood, mean
++1.26 m. Over the same tiles binned by PGDA 69 illumination, the two products agree within ~0.1 m where illumination ≤ 50 % but
+differ by +0.33 to +1.09 m (Site01) and +1.02 m (Site11) on the best-lit 60 m blocks. So NASA's two newest 5 m products disagree on
+lit crests, exactly where landers go, by more than the clone spread. Which is closer to the truth is not established (candidate
+explanations: LOLA interpolation between sparse tracks flattening crests; SfS bias on sunlit slopes). Decision impact so far: none in
+the 14-day demo window (100 % at all three); up to +1.2 pts in 12-month Sun (Site11, outside the clone range).
+
+Code: `step19_sfs_site.py`, `step20_roi_heights.py`, `run_test_new.sh`.
+
 ## 5. Handoffs
 - **Batch session / 3rd + 4th computers (P1):** apply the float64 fix (§0) and relabel published batch numbers.
 - **Organizer (P3):** add this doc to INDEX, close C19 with §0, CHANGELOG row "15 Nov 00:07–00:50, long-feature session:
   float32 bug in batch v2 (explains C19); RQ2 pilot; Information Hotspots pilot; 12-month strip / arrival slip / seasons".
 - **Sid + Anish:** whether the arrival-slip line goes in the story (§3); nothing here changes the demo-window numbers (repo values).
+- **Sid + Anish:** the SfS-vs-LOLA crest finding (§9) is the strongest new science lead; worth one sentence in the pitch as "two NASA terrain products disagree by ~1.5 m at every landing RoI we checked" only with the caveat that the truth is not established.
 - **Sid:** paste Codex's final reports (batch 1 and 2) back into this chat for a check; nothing from Codex has been verified by this session.
 - **Anish (post-freeze):** port viewer sections into `web/` if wanted; the page's `build_data.py` output is the data contract.
 - **Sid + Anish:** the SfS result is a science lead worth one sentence in the pitch only if you want it: an independent NASA terrain product agrees at Connecting Ridge (85.25 vs 85.10 %), but by partial cancellation.
@@ -205,6 +237,7 @@ in the repo (Codex). Code: `sites.py`, `step15_new_prep.py`, `step17_surrogate.p
 | When (EST) | Change |
 |---|---|
 | 15 Nov 00:45 | Created. |
+| 15 Nov 19:20 | §9 added (hotspot tests + OOS planning for Sites 07/11; SfS at three sites; 13-RoI crest finding). |
 | 15 Nov 18:35 | §8 added (Codex split, four sites, surrogate screener, solver API, correlated-error planning with out-of-sample test). |
 | 15 Nov 15:10 | §7 added (round 3: 20-clone upgrades, two-lander, ellipse, planner, asset twin, SfS, WAC, skeptic mode). |
 | 15 Nov 01:55 | §6 added (Decision Lab viewer + round-2 features); §4 updated. |

@@ -1521,5 +1521,482 @@
     "year_inside_clone_range": true
    }
   ]
+ },
+ "Site11_ROI4": {
+  "region": "A3CLR22_9_deGerlache_Rim",
+  "cover_frac": 1.0,
+  "sfs_minus_lola_rms": 0.976,
+  "masts": [
+   {
+    "sun": 100.0,
+    "both": 78.34,
+    "gap": 0,
+    "year": 75.85,
+    "mast": 1,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 74.66,
+    "lola_year_clones": [
+     71.92,
+     74.64
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.12,
+    "gap": 0,
+    "year": 76.62,
+    "mast": 1.25,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 74.91,
+    "lola_year_clones": [
+     73.12,
+     74.98
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.42,
+    "gap": 0,
+    "year": 77.23,
+    "mast": 1.5,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 75.03,
+    "lola_year_clones": [
+     73.92,
+     75.24
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.42,
+    "gap": 0,
+    "year": 77.98,
+    "mast": 2,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 75.54,
+    "lola_year_clones": [
+     74.93,
+     76.0
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.42,
+    "gap": 0,
+    "year": 78.61,
+    "mast": 3,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 77.37,
+    "lola_year_clones": [
+     76.0,
+     77.86
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.42,
+    "gap": 0,
+    "year": 79.04,
+    "mast": 5,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 78.58,
+    "lola_year_clones": [
+     78.43,
+     78.58
+    ],
+    "year_inside_clone_range": false
+   },
+   {
+    "sun": 100.0,
+    "both": 80.42,
+    "gap": 0,
+    "year": 80.29,
+    "mast": 10,
+    "ground_m": 1782.28,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 79.66,
+    "lola_year_clones": [
+     79.53,
+     79.68
+    ],
+    "year_inside_clone_range": false
+   }
+  ],
+  "hours": {
+   "sfs_vs_lola_disagree_h": 104,
+   "of_which_clones_also_flip_h": 18
+  },
+  "split": {
+   "LOLA within 100 m, SfS beyond": {
+    "ground_m": 1779.31,
+    "year": 73.02,
+    "sun_demo": 100.0
+   },
+   "SfS within 100 m, LOLA beyond": {
+    "ground_m": 1782.28,
+    "year": 76.08,
+    "sun_demo": 100.0
+   }
+  }
+ },
+ "_roi_heights": {
+  "n": 13,
+  "centroid_diff_mean": 1.54,
+  "centroid_diff_min": 0.24,
+  "centroid_diff_max": 3.2,
+  "n_positive": 13,
+  "median_100m_diff_mean": 1.26,
+  "rows": [
+   {
+    "site": "Site01",
+    "roi": 1,
+    "sfs_minus_lola_at_centroid_m": 1.6,
+    "toterr_m": 0.507,
+    "z_sigma": 3.1,
+    "sfs_minus_lola_median_100m_m": 0.5
+   },
+   {
+    "site": "Site01",
+    "roi": 2,
+    "sfs_minus_lola_at_centroid_m": 0.78,
+    "toterr_m": 0.581,
+    "z_sigma": 1.3,
+    "sfs_minus_lola_median_100m_m": 0.63
+   },
+   {
+    "site": "Site01",
+    "roi": 3,
+    "sfs_minus_lola_at_centroid_m": 1.32,
+    "toterr_m": 0.311,
+    "z_sigma": 4.3,
+    "sfs_minus_lola_median_100m_m": 1.02
+   },
+   {
+    "site": "Site01",
+    "roi": 4,
+    "sfs_minus_lola_at_centroid_m": 1.04,
+    "toterr_m": 0.28,
+    "z_sigma": 3.7,
+    "sfs_minus_lola_median_100m_m": 0.91
+   },
+   {
+    "site": "Site01",
+    "roi": 5,
+    "sfs_minus_lola_at_centroid_m": 0.81,
+    "toterr_m": 0.305,
+    "z_sigma": 2.6,
+    "sfs_minus_lola_median_100m_m": 1.0
+   },
+   {
+    "site": "Site01",
+    "roi": 6,
+    "sfs_minus_lola_at_centroid_m": 1.99,
+    "toterr_m": 0.27,
+    "z_sigma": 7.4,
+    "sfs_minus_lola_median_100m_m": 1.83
+   },
+   {
+    "site": "Site01",
+    "roi": 7,
+    "sfs_minus_lola_at_centroid_m": 3.2,
+    "toterr_m": 0.317,
+    "z_sigma": 10.1,
+    "sfs_minus_lola_median_100m_m": 2.77
+   },
+   {
+    "site": "Site07",
+    "roi": 1,
+    "sfs_minus_lola_at_centroid_m": 0.54,
+    "toterr_m": 0.371,
+    "z_sigma": 1.5,
+    "sfs_minus_lola_median_100m_m": 0.23
+   },
+   {
+    "site": "Site07",
+    "roi": 2,
+    "sfs_minus_lola_at_centroid_m": 0.24,
+    "toterr_m": 0.39,
+    "z_sigma": 0.6,
+    "sfs_minus_lola_median_100m_m": 0.19
+   },
+   {
+    "site": "Site11",
+    "roi": 1,
+    "sfs_minus_lola_at_centroid_m": 2.09,
+    "toterr_m": 0.5,
+    "z_sigma": 4.2,
+    "sfs_minus_lola_median_100m_m": 1.79
+   },
+   {
+    "site": "Site11",
+    "roi": 2,
+    "sfs_minus_lola_at_centroid_m": 1.81,
+    "toterr_m": 0.204,
+    "z_sigma": 8.9,
+    "sfs_minus_lola_median_100m_m": 1.59
+   },
+   {
+    "site": "Site11",
+    "roi": 3,
+    "sfs_minus_lola_at_centroid_m": 1.64,
+    "toterr_m": 0.253,
+    "z_sigma": 6.5,
+    "sfs_minus_lola_median_100m_m": 1.28
+   },
+   {
+    "site": "Site11",
+    "roi": 4,
+    "sfs_minus_lola_at_centroid_m": 2.97,
+    "toterr_m": 0.341,
+    "z_sigma": 8.7,
+    "sfs_minus_lola_median_100m_m": 2.61
+   }
+  ]
+ },
+ "_diff_vs_illumination": {
+  "Site01": [
+   {
+    "illum_pct": "0-10",
+    "n_blocks": 7994,
+    "sfs_minus_lola_median_m": 0.0
+   },
+   {
+    "illum_pct": "10-30",
+    "n_blocks": 31989,
+    "sfs_minus_lola_median_m": 0.04
+   },
+   {
+    "illum_pct": "30-50",
+    "n_blocks": 30215,
+    "sfs_minus_lola_median_m": -0.13
+   },
+   {
+    "illum_pct": "50-70",
+    "n_blocks": 545,
+    "sfs_minus_lola_median_m": 0.33
+   },
+   {
+    "illum_pct": "70-100",
+    "n_blocks": 13,
+    "sfs_minus_lola_median_m": 1.09
+   }
+  ],
+  "Site11": [
+   {
+    "illum_pct": "0-10",
+    "n_blocks": 4725,
+    "sfs_minus_lola_median_m": 0.01
+   },
+   {
+    "illum_pct": "10-30",
+    "n_blocks": 35700,
+    "sfs_minus_lola_median_m": 0.03
+   },
+   {
+    "illum_pct": "30-50",
+    "n_blocks": 29899,
+    "sfs_minus_lola_median_m": -0.04
+   },
+   {
+    "illum_pct": "50-70",
+    "n_blocks": 427,
+    "sfs_minus_lola_median_m": 1.02
+   }
+  ]
+ },
+ "Site07_ROI1": {
+  "region": "A3CLR22_8_Peak_Near_Shackleton",
+  "cover_frac": 1.0,
+  "sfs_minus_lola_rms": 0.749,
+  "masts": [
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 75.56,
+    "mast": 1,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     85.16,
+     100.0
+    ],
+    "lola_year": 74.01,
+    "lola_year_clones": [
+     54.83,
+     76.49
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 76.27,
+    "mast": 1.25,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 75.17,
+    "lola_year_clones": [
+     65.89,
+     77.32
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 76.94,
+    "mast": 1.5,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 75.84,
+    "lola_year_clones": [
+     70.95,
+     78.05
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 78.45,
+    "mast": 2,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 77.27,
+    "lola_year_clones": [
+     73.9,
+     79.18
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 80.32,
+    "mast": 3,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 79.79,
+    "lola_year_clones": [
+     77.03,
+     81.06
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 83.68,
+    "mast": 5,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 83.18,
+    "lola_year_clones": [
+     81.5,
+     83.89
+    ],
+    "year_inside_clone_range": true
+   },
+   {
+    "sun": 100.0,
+    "both": 80.71,
+    "gap": 0,
+    "year": 85.46,
+    "mast": 10,
+    "ground_m": 1648.18,
+    "lola_sun": 100.0,
+    "lola_sun_clones": [
+     100.0,
+     100.0
+    ],
+    "lola_year": 85.46,
+    "lola_year_clones": [
+     85.46,
+     85.46
+    ],
+    "year_inside_clone_range": true
+   }
+  ],
+  "hours": {
+   "sfs_vs_lola_disagree_h": 136,
+   "of_which_clones_also_flip_h": 136
+  },
+  "split": {
+   "LOLA within 100 m, SfS beyond": {
+    "ground_m": 1647.64,
+    "year": 73.66,
+    "sun_demo": 100.0
+   },
+   "SfS within 100 m, LOLA beyond": {
+    "ground_m": 1648.18,
+    "year": 75.92,
+    "sun_demo": 100.0
+   }
+  }
  }
 }

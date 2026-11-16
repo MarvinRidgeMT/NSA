@@ -274,5 +274,281 @@
   "pool_cells": 3535,
   "overlap_with_toterr_top10_plus_lander": 3,
   "note": "Clone-error (correlated) model via the 16-ridge linearised horizon; 'clone-hours wrong' = 20 clones x 8,761 h."
+ },
+ "Site07_ROI1": {
+  "calibration": {
+   "none": {
+    "linearised": 2305,
+    "full_ray_march": 5228
+   },
+   "observer_only": {
+    "linearised": 1086,
+    "full_ray_march": 2567
+   },
+   "hotspots_top10": {
+    "linearised": 2248,
+    "full_ray_march": 5179
+   },
+   "nearest10": {
+    "linearised": 2246,
+    "full_ray_march": 5155
+   },
+   "hotspots_top10+observer": {
+    "linearised": 798,
+    "full_ray_march": 2262
+   },
+   "nearest10+observer": {
+    "linearised": 822,
+    "full_ray_march": 2259
+   }
+  },
+  "plan_clone_errors": [
+   {
+    "k": 0,
+    "measured": "nothing",
+    "clone_hours_wrong": 2305
+   },
+   {
+    "k": 1,
+    "cell_rc": [
+     1600,
+     1633
+    ],
+    "measured": "lander cell",
+    "dist_m": 2.5,
+    "clone_hours_wrong": 1086
+   },
+   {
+    "k": 2,
+    "cell_rc": [
+     1595,
+     1633
+    ],
+    "measured": "cell -1,27 m",
+    "dist_m": 27.4,
+    "clone_hours_wrong": 747
+   },
+   {
+    "k": 3,
+    "cell_rc": [
+     1603,
+     1637
+    ],
+    "measured": "cell 19,-13 m",
+    "dist_m": 23.0,
+    "clone_hours_wrong": 614
+   },
+   {
+    "k": 4,
+    "cell_rc": [
+     1595,
+     1631
+    ],
+    "measured": "cell -11,27 m",
+    "dist_m": 29.4,
+    "clone_hours_wrong": 557
+   },
+   {
+    "k": 5,
+    "cell_rc": [
+     1585,
+     1609
+    ],
+    "measured": "cell -121,77 m",
+    "dist_m": 143.4,
+    "clone_hours_wrong": 523
+   },
+   {
+    "k": 6,
+    "cell_rc": [
+     1581,
+     1623
+    ],
+    "measured": "cell -51,97 m",
+    "dist_m": 109.8,
+    "clone_hours_wrong": 496
+   },
+   {
+    "k": 7,
+    "cell_rc": [
+     1615,
+     1614
+    ],
+    "measured": "cell -96,-73 m",
+    "dist_m": 120.1,
+    "clone_hours_wrong": 470
+   },
+   {
+    "k": 8,
+    "cell_rc": [
+     1613,
+     1605
+    ],
+    "measured": "cell -141,-63 m",
+    "dist_m": 154.0,
+    "clone_hours_wrong": 445
+   },
+   {
+    "k": 9,
+    "cell_rc": [
+     1588,
+     1634
+    ],
+    "measured": "cell 4,62 m",
+    "dist_m": 62.6,
+    "clone_hours_wrong": 422
+   },
+   {
+    "k": 10,
+    "cell_rc": [
+     1624,
+     1632
+    ],
+    "measured": "cell -6,-118 m",
+    "dist_m": 117.7,
+    "clone_hours_wrong": 399
+   }
+  ],
+  "pool_cells": 2358,
+  "overlap_with_toterr_top10_plus_lander": 2,
+  "note": "Clone-error (correlated) model via the 16-ridge linearised horizon; 'clone-hours wrong' = 20 clones x 8,761 h."
+ },
+ "Site11_ROI4": {
+  "calibration": {
+   "none": {
+    "linearised": 832,
+    "full_ray_march": 2227
+   },
+   "observer_only": {
+    "linearised": 329,
+    "full_ray_march": 946
+   },
+   "hotspots_top10": {
+    "linearised": 790,
+    "full_ray_march": 2062
+   },
+   "nearest10": {
+    "linearised": 774,
+    "full_ray_march": 2095
+   },
+   "hotspots_top10+observer": {
+    "linearised": 228,
+    "full_ray_march": 651
+   },
+   "nearest10+observer": {
+    "linearised": 275,
+    "full_ray_march": 757
+   }
+  },
+  "plan_clone_errors": [
+   {
+    "k": 0,
+    "measured": "nothing",
+    "clone_hours_wrong": 832
+   },
+   {
+    "k": 1,
+    "cell_rc": [
+     1727,
+     1696
+    ],
+    "measured": "lander cell",
+    "dist_m": 2.1,
+    "clone_hours_wrong": 329
+   },
+   {
+    "k": 2,
+    "cell_rc": [
+     1707,
+     1708
+    ],
+    "measured": "cell 58,101 m",
+    "dist_m": 116.2,
+    "clone_hours_wrong": 275
+   },
+   {
+    "k": 3,
+    "cell_rc": [
+     1711,
+     1696
+    ],
+    "measured": "cell -2,81 m",
+    "dist_m": 80.7,
+    "clone_hours_wrong": 235
+   },
+   {
+    "k": 4,
+    "cell_rc": [
+     1702,
+     1687
+    ],
+    "measured": "cell -47,126 m",
+    "dist_m": 134.2,
+    "clone_hours_wrong": 200
+   },
+   {
+    "k": 5,
+    "cell_rc": [
+     1710,
+     1693
+    ],
+    "measured": "cell -17,86 m",
+    "dist_m": 87.4,
+    "clone_hours_wrong": 168
+   },
+   {
+    "k": 6,
+    "cell_rc": [
+     1707,
+     1699
+    ],
+    "measured": "cell 13,101 m",
+    "dist_m": 101.5,
+    "clone_hours_wrong": 147
+   },
+   {
+    "k": 7,
+    "cell_rc": [
+     1712,
+     1693
+    ],
+    "measured": "cell -17,76 m",
+    "dist_m": 77.6,
+    "clone_hours_wrong": 126
+   },
+   {
+    "k": 8,
+    "cell_rc": [
+     1701,
+     1684
+    ],
+    "measured": "cell -62,131 m",
+    "dist_m": 144.7,
+    "clone_hours_wrong": 106
+   },
+   {
+    "k": 9,
+    "cell_rc": [
+     1702,
+     1690
+    ],
+    "measured": "cell -32,126 m",
+    "dist_m": 129.7,
+    "clone_hours_wrong": 92
+   },
+   {
+    "k": 10,
+    "cell_rc": [
+     1709,
+     1705
+    ],
+    "measured": "cell 43,91 m",
+    "dist_m": 100.4,
+    "clone_hours_wrong": 81
+   }
+  ],
+  "pool_cells": 2421,
+  "overlap_with_toterr_top10_plus_lander": 2,
+  "note": "Clone-error (correlated) model via the 16-ridge linearised horizon; 'clone-hours wrong' = 20 clones x 8,761 h."
  }
 }

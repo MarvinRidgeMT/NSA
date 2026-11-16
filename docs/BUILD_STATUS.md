@@ -220,3 +220,10 @@ bundle, `.blend`, `.glb` and render-pixel hashes all match.
 - The supplied real-input API tests pass 5/5. Site04 RoI 3 at 1 m reports 94.36 % Sun, 72.11 % Sun+Earth and a 19 h longest dark run; the three-clone and cautious-label checks also pass.
 - Against the committed hourly bundle metrics, Site04 differs by 0.002 points (Sun) and 0.003 points (Sun+Earth); Site01 RoI 6 differs by 0.000 and 0.002 points respectively. All are within the required 0.01 points.
 - The README exposes the request-file CLI, local server and tool-spec commands, and states that k of N is a terrain-clone count rather than a probability.
+
+## D3 + v3 lab (2026-11-15, Claude, after Codex hit its limit)
+
+- D3: research/long_features synced (sites.py, step15/17/18/18b/18c, surrogate, correlated-error planner incl. out-of-sample train 1–10 / test 11–20). Commit "research: sync long-features research copy (D3)".
+- v3 Decision Lab copied to web/public/lab/ (index.html SHA-256 d12e0896f70c34dc389e89a0b47847ad7b569aa95e7dbb6c75c788bcbe4d36dc, verified on disk). Adds SfS-vs-LOLA at the site (step19) and 13-RoI SfS heights (step20); results sfs_result.json, hot_corr*.json, hotspots_report.json updated in research copy.
+- Verified: `npm run build` OK (clean npm ci on Linux scratch copy; Mac node_modules untouched). Playwright full suite 25/25 passed against that build, incl. decision-lab four-site spec; TRACEABILITY_SCAN scanned=1171 failed=0 bundles=11.
+- Existing bundle numbers unchanged. No push, no merge.
