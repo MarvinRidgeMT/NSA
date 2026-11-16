@@ -22,7 +22,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-
 .num,td.n,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
 header.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px max(4vw,14px);display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
 header.bar b{font-weight:700;letter-spacing:.01em}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .seg button{all:unset;cursor:pointer;padding:9px 12px;font-size:14px;min-height:24px}
 .seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
 .seg button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
@@ -40,7 +40,7 @@ table{border-collapse:collapse;width:100%;font-size:14px}
 th{text-align:left;font-weight:600;color:var(--mute);border-bottom:1px solid var(--line);padding:6px 8px}
 td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
 td.n,th.n{text-align:right;white-space:nowrap}
-.scroll{overflow-x:auto}.kv td.n{white-space:normal}.kv td:first-child{width:55%}
+.scroll{overflow-x:auto}.kv td.n,#surBox td.n,#pairBox td.n{white-space:normal}.kv td:first-child{width:55%}
 .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap}
 .p-ok{background:color-mix(in srgb,var(--ok) 22%,transparent);color:var(--ok)}.p-bad{background:color-mix(in srgb,var(--bad) 20%,transparent);color:var(--bad)}
 .p-mid{background:color-mix(in srgb,var(--mid) 25%,transparent);color:var(--ink)}
@@ -134,6 +134,8 @@ footer{font-size:13px;color:var(--mute)}
     <div class="card"><h2 style="font-size:17px">Position (1 m mast)</h2>
       <div class="seg" role="group" aria-label="Grid metric" id="posSeg" style="margin-bottom:10px"></div>
       <div class="heat" id="heat"></div><div class="note" id="posRead"></div></div>
+    <div class="card" style="grid-column:1/-1"><h2 style="font-size:17px">Site screen ±500 m (SURROGATE, re-checked)</h2>
+      <div class="grid2" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)"><div class="fig" style="min-height:320px"><canvas id="surFig" aria-label="Surrogate 12-month Sun map around the site"></canvas></div><div id="surBox"></div></div></div>
   </div>
 </section>
 
@@ -144,6 +146,7 @@ footer{font-size:13px;color:var(--mute)}
     <div class="card"><div class="fig short"><svg id="hotFig"></svg></div><p class="note">Grid metres from the lander (polar-stereographic axes). Area ∝ expected Sun flip-hours per year removed by measuring that 5 m cell to 0.05 m.</p></div>
     <div class="card scroll"><table id="hotT"></table><p class="note">Test: in each of 20 clone worlds, copy the clone's true heights into the map for the chosen cells, re-run the full ray march, count clone-hours that still disagree (12 months).</p></div>
   </div>
+  <div class="card" style="margin-top:18px"><h2 style="font-size:17px">Planning with the clones' correlated errors (out-of-sample test)</h2><div class="scroll"><table id="hcT"></table></div><p class="note" id="hcNote"></p></div>
   <div class="card" style="margin-top:18px"><h2 style="font-size:17px">Measurement planner</h2><p class="note" style="margin-top:0">Greedy order: each step measures the one 5 m cell (to 0.05 m) that removes the most expected Sun flip-hours given the cells already measured. NASA height-error model, 12 months.</p><div class="scroll"><table id="planT"></table></div><p class="note" id="planNote"></p></div>
 </section>
 
@@ -278,7 +281,8 @@ function sky(){const k=S().sky;$('skyLede').textContent=`Behind the skyline, ove
   o+=`<polygon fill="${css('--ink')}" opacity=".18" points="${L},${y(lo)} ${k.sky_nom.map((v,i)=>x(i+.5)+','+y(v)).join(' ')} ${W-8},${y(lo)}"/>`;
   o+=poly(k.sky_clone_max.map((v,i)=>[x(i+.5),y(v)]),css('--mid'),1)+poly(k.sky_nom.map((v,i)=>[x(i+.5),y(v)]),css('--ink'),1.5);
   for(const a of [0,90,180,270,360])o+=`<text x="${x(a)-10}" y="${H-6}" font-size="12" fill="${css('--mute')}">${a}°</text>`;return o})}
-function replay(){const r=S().replay;if(!r.hours.length){$('repLede').textContent=`No Sun-blocked or near-critical hour (|margin| < 0.5°) in the 14-day demo window at this site: Sun visible all 337 hours on the nominal map and on ${r.clone_blocked_hours.filter(v=>v===0).length} of 20 clones.`;$('hours').innerHTML='';$('prof').innerHTML='';$('repRead').innerHTML='';$('play').hidden=true;return}
+function replay(){const r=S().replay;if(!r.hours.length){$('repLede').textContent=`No Sun-blocked or near-critical hour (|margin| < 0.5°) in the 14-day demo window at this site: Sun visible all 337 hours on the nominal map and on ${r.clone_blocked_hours.filter(v=>v===0).length} of 20 clones.`;$('hours').innerHTML='';$('prof').innerHTML='';$('repRead').innerHTML='';$('play').hidden=true;$('prof').closest('.grid2').style.display='none';return}
+  $('prof').closest('.grid2').style.display='';
   $('play').hidden=false;const iv=r.intervals.map(i=>`${i.start} → ${i.end} UTC (${i.hours} h, worst margin ${i.min_margin}°)`).join('; ');
   $('repLede').textContent=`The nominal map loses the Sun centre for ${r.blocked_hours} of 337 hours: ${iv}. Step through every blocked or near-critical hour; the profile is the terrain along the Sun's azimuth, vertical scale exaggerated.`;
   $('hours').innerHTML=r.hours.map((h,i)=>`<button aria-pressed="${i===repI}" data-i="${i}"><span>${h.time.slice(5)}</span><span style="color:${h.visible?css('--ok'):css('--bad')}">${h.margin_deg>0?'+':''}${h.margin_deg.toFixed(3)}°</span><span>${h.clones_visible}/20</span></button>`).join('');
@@ -311,12 +315,13 @@ function repairs(){const m=S().masts;
   $('heat').innerHTML=h;$('heat').querySelectorAll('button').forEach(b=>b.onclick=()=>{posSel=b.dataset.k;repairs()});
   const p=by[posSel||'0,0'];const cl=p.cl_sun?` · clones 1–${p.cl_sun.length}: Sun ${f1(Math.min(...p.cl_sun))}–${f1(Math.max(...p.cl_sun))} %, pass ${p.cl_sun.filter((v,i)=>passClone(v,p.cl_both[i],p.cl_gap[i])).length}/${p.cl_sun.length}`:' · clones run only within ±25 m';
   $('posRead').innerHTML=`Cell ${p.dx}, ${p.dy} m (ground ${p.dz_m>=0?'+':''}${p.dz_m} m vs lander): Sun ${f2(p.sun)} %, Sun+Earth ${f2(p.both)} %, 12-month Sun ${f2(p.year)} %, longest dark ${p.gap} h${cl}. Grid axes are polar-stereographic; centre outlined.`}
-function hot(){const h=S().hot,t=h.test.year;
+function hot(){const h=S().hot,t=(h.test&&h.test.year)||null;
   $('hotLede').textContent=`Where better elevation data would most change the decision. Expected Sun flip-hours per year from NASA's height-error map: ${Math.round(h.total)}. The single biggest contributor is the lander's own ground cell (${Math.round(h.lander)} h, height error ${h.lander_toterr} m).`;
   svgFig('hotFig',(W,H)=>{const R=Math.max(60,...h.top.map(c=>Math.max(Math.abs(c.dx),Math.abs(c.dy))))*1.12,cx=W/2,cy=H/2,sc=Math.min(W,H)/2/R,mx=Math.max(h.lander,...h.top.map(c=>c.v));let o='';
     let lastR=-99;for(const rr of [25,50,100,200].filter(v=>v<R)){o+=`<circle cx="${cx}" cy="${cy}" r="${rr*sc}" fill="none" stroke="${css('--line')}"/>`;if(rr*sc-lastR>34){o+=`<text x="${cx+rr*sc*0.71+3}" y="${cy+rr*sc*0.71+12}" font-size="11" fill="${css('--mute')}">${rr} m</text>`;lastR=rr*sc}}
     for(const c of h.top)o+=`<circle cx="${cx+c.dx*sc}" cy="${cy-c.dy*sc}" r="${2+14*Math.sqrt(c.v/mx)}" fill="${css('--sun')}" opacity=".75"><title>${c.d} m away, ${c.v} h/yr, error ${c.err} m</title></circle>`;
     o+=`<circle cx="${cx}" cy="${cy}" r="${2+14*Math.sqrt(h.lander/mx)}" fill="none" stroke="${css('--ok')}" stroke-width="2.5"/><text x="${cx-58}" y="${cy-14}" font-size="12" fill="${css('--ok')}">lander</text>`;return o});
+  if(!t){$('hotT').innerHTML='<tbody><tr><td>The full-ray-march measurement test was run for Shackleton rim and Connecting Ridge only.</td></tr></tbody>';return}
   const lab={none:'Nothing measured',hotspots_top10:'Top-10 hotspots',nearest10:'10 nearest cells',observer_only:'Lander cell only','hotspots_top10+observer':'Top-10 hotspots + lander','nearest10+observer':'10 nearest + lander'};
   const rnd=['random_a','random_b','random_c'].map(k=>t[k]),rnd2=['random_a+observer','random_b+observer','random_c+observer'].map(k=>t[k]).filter(v=>v!==undefined);
   const rows=Object.entries(lab).filter(([k])=>t[k]!==undefined).map(([k,l])=>[l,t[k]]);rows.splice(2,0,['10 random cells (3 draws)',`${Math.min(...rnd)}–${Math.max(...rnd)}`]);if(rnd2.length)rows.push(['10 random + lander (3 draws)',`${Math.min(...rnd2)}–${Math.max(...rnd2)}`]);
@@ -326,9 +331,9 @@ function evidence(){const q=S().rq2;const r=(w,k)=>q[w][k];
   $('rqNote').textContent=`Predicts which hours flip between visible and blocked across 20 clones without ray-marching them. Truth: ${q.nov14d.truth_flip_hours_any_clone} flip hours (14 days), ${q.year.truth_flip_hours_any_clone} (12 months). Finite-difference check of the Jacobian: median error ${(100*q.fd.median_rel_err).toFixed(2)} % over ${q.fd.n} tests.`;
   const L=S().lens;if(L){$('lensT').innerHTML=`<thead><tr><th>Terrain product</th><th class="n">Sun 14 d</th><th class="n">Sun+Earth</th><th class="n">Sun 12 mo</th></tr></thead><tbody>`+L.products.map(p=>`<tr><td>${p.label.replace('PGDA 78 5 m + PGDA 90 80 m (POLARIS)','5 m + 80 m (POLARIS)').replace('PGDA 90 ','')}</td><td class="n">${f1(p.sun)} %</td><td class="n">${f1(p.both)} %</td><td class="n">${f1(p.year)} %</td></tr>`).join('')+'</tbody>';$('lensNote').textContent=L.note+' Products: PGDA 78 (5 m), PGDA 90 LDEM 20/40/80 m.'}else{$('lensT').innerHTML='';$('lensNote').textContent='Still computing.'}
   const B=D.barker;if(B){$('barkT').innerHTML=`<thead><tr><th>RoI</th><th class="n">Barker %</th><th class="n">Ours, nominal</th><th class="n">Ours, worst</th></tr></thead><tbody>`+B.rows.map(x=>`<tr><td>${x.roi}</td><td class="n">${f2(x.barker_A1_5m)}</td><td class="n">${f2(x.ours5_nom)}</td><td class="n">${f2(x.ours5_cl_min)}</td></tr>`).join('')+'</tbody>';$('barkNote').textContent='Barker = 1st percentile of 100 clones, case A (RoI-averaged), Site01 (Connecting Ridge). '+B.note}else{$('barkT').innerHTML='';$('barkNote').textContent='Still computing.'}}
-function planner(){const m=S().more;if(!m){$('planT').innerHTML='';return}const P=m.planner,pc=m.planner_check;
+function planner(){const m=S().more;if(!m){$('planT').innerHTML='';return}const P=m.planner,pc=m.planner_check||null;
   $('planT').innerHTML=`<thead><tr><th class="n">Step</th><th>Measure</th><th class="n">From lander</th><th class="n">Expected flip-h/yr left</th></tr></thead><tbody>`+P.map(p=>`<tr><td class="n">${p.k}</td><td>${p.measured}</td><td class="n">${p.k?p.dist_m+' m':'–'}</td><td class="n">${p.expected_flip_h}</td></tr>`).join('')+'</tbody>';
-  $('planNote').textContent=`Checked with full ray marches (20 clones, 12 months, clone-hours still wrong): nothing ${pc.tested_nothing.toLocaleString('en-US')}, lander cell only ${pc.tested_lander_only.toLocaleString('en-US')}, top-10 hotspots + lander ${pc.tested_top10_plus_lander.toLocaleString('en-US')}. The plan's first step (the lander's own ground) matches the test's biggest single gain; after the first few cells, extra measurements buy little.`}
+  $('planNote').textContent=!pc?'Full-ray-march check not run for this site.':`Checked with full ray marches (20 clones, 12 months, clone-hours still wrong): nothing ${pc.tested_nothing.toLocaleString('en-US')}, lander cell only ${pc.tested_lander_only.toLocaleString('en-US')}, top-10 hotspots + lander ${pc.tested_top10_plus_lander.toLocaleString('en-US')}. The plan's first step (the lander's own ground) matches the test's biggest single gain; after the first few cells, extra measurements buy little.`}
 function layout(){const m=S().more,a=S().asset;if(!m){return}const c=m.complementarity,bp=c.best_pairs[0];
   svgFig('pairFig',(W,H)=>{const sc=Math.min(W,H)/2/120,cx=W/2,cy=H/2;let o='';for(let dx=-100;dx<=100;dx+=25)for(let dy=-100;dy<=100;dy+=25)o+=`<circle cx="${cx+dx*sc}" cy="${cy-dy*sc}" r="2" fill="${css('--mid')}"/>`;
     const P=(p,col,l)=>`<circle cx="${cx+p[0]*sc}" cy="${cy-p[1]*sc}" r="7" fill="${col}"/><text x="${cx+p[0]*sc+10}" y="${cy-p[1]*sc+4}" font-size="12" fill="${css('--ink')}">${l}</text>`;
@@ -362,10 +367,21 @@ function skeptic(){const s=S(),d=s.demo,c=d.cl,k=c.sun.map((v,i)=>passClone(v,c.
   if(mo)n+=`<p>A second lander placed ${L(mo.complementarity.best_pairs[0].sep_m+' m','layout')} from the first would keep at least one in sunlight ${L(f1(mo.complementarity.best_pairs[0].sun_either_pct)+' %','layout')} of the year, with no stretch of both dark longer than ${L(mo.complementarity.best_pairs[0].longest_both_dark_h+' h','layout')}.</p>`;
   n+=`<p>The most useful new measurement is the height of the landing spot itself; it accounts for ${L(Math.round(s.hot.lander)+' of '+Math.round(s.hot.total),'hotspots')} expected uncertain hours a year.</p><p class="note">Geometric visibility only, research reference site, k of 20 is not a probability.</p>`;
   $('narr').innerHTML=n}
-function renderAll(){ST=stripStats();siteSeg();card();drawStrip();stripRead();season();slip();sky();replay();repairs();hot();planner();layout();evidence();evidence2();skeptic()}
+function screen(){const u=S().sur,cv=$('surFig');if(!u){$('surBox').innerHTML='<p class="note">Screen not run for this site.</p>';const g=cv.getContext('2d');g.clearRect(0,0,cv.width,cv.height);return}
+  const r=cv.getBoundingClientRect(),dpr=devicePixelRatio||1;cv.width=r.width*dpr;cv.height=r.height*dpr;const g=cv.getContext('2d');g.scale(dpr,dpr);
+  const n=41,sz=Math.min(r.width,r.height),cell=sz/n,ox=(r.width-sz)/2,v=u.surrogate_sun_12mo,mx=Math.max(...v);
+  u.cells.forEach((c,i)=>{const t=v[i]/mx;g.fillStyle=css('--sun');g.globalAlpha=Math.max(0.04,t*t);g.fillRect(ox+(c[0]+500)/25*cell,(500-c[1])/25*cell,cell+0.5,cell+0.5)});g.globalAlpha=1;
+  g.strokeStyle=css('--ok');g.lineWidth=2;g.strokeRect(ox+20*cell-1,20*cell-1,cell+2,cell+2);
+  g.strokeStyle=css('--ink');g.lineWidth=1.2;u.top20.forEach(c=>g.strokeRect(ox+(c.dx+500)/25*cell+1,(500-c.dy)/25*cell+1,cell-2,cell-2));
+  const b=u.best_checked;$('surBox').innerHTML=`<table><tbody><tr><td>Cells screened</td><td class="n">${u.grid.n.toLocaleString('en-US')} (25 m, ±500 m)</td></tr><tr><td>Surrogate vs full solver, 20 random cells</td><td class="n">ρ ${u.random_spearman.toFixed(3)}, mean error ${u.random_mae_pts} pts</td></tr><tr><td>Top 20 by surrogate, full solver</td><td class="n">${f1(u.top20_full_min)}–${f1(Math.max(...u.top20.map(t=>t.full)))} %</td></tr><tr><td>Median random cell, full solver</td><td class="n">${f1(u.random_full_median)} %</td></tr><tr><td><b>Best re-checked cell</b></td><td class="n"><b>${b.dx}, ${b.dy} m: ${f1(b.full)} %</b></td></tr><tr><td>RoI centre (full solver)</td><td class="n">${f1(S().masts?S().masts.year_sun[0][0]:NaN)} %</td></tr><tr><td>Cost per cell</td><td class="n">${u.seconds.surrogate_per_cell} s vs ${u.seconds.full_per_cell} s full</td></tr></tbody></table><p class="note">Sun-centre %, 12 months, 1 m mast, nominal map. Brighter = more sun; outlined = top 20 (all re-checked with the full solver); teal = RoI centre. The surrogate (180 bins, 5 m step to 3 km) only ranks cells; every number in this table is from the full solver.</p>`}
+function hotc(){const h=S().hotc;if(!h||!h.out_of_sample){$('hcT').innerHTML='';$('hcNote').textContent=h&&h.plan_clone_errors?'Out-of-sample test not run for this site (plan below is in-sample).':'Not run for this site.';return}
+  const o=h.out_of_sample.results,lab={none:'Nothing measured',lander_only:'Lander cell only','nearest10+lander':'10 nearest cells + lander','toterr_top10+lander':'NASA error-map top 10 + lander',clone_plan_5:'Clone-error plan, first 5 cells',clone_plan_10:'<b>Clone-error plan, 10 cells</b>'};
+  $('hcT').innerHTML=`<thead><tr><th>Measured</th><th class="n">Cells</th><th class="n">Clone-hours still wrong</th></tr></thead><tbody>`+Object.entries(lab).filter(([k])=>o[k]).map(([k,l])=>`<tr><td>${l}</td><td class="n">${o[k].cells}</td><td class="n">${o[k].clone_hours_wrong.toLocaleString('en-US')}</td></tr>`).join('')+'</tbody>';
+  $('hcNote').textContent=`Plan chosen on clones 1–10 (16-ridge linearised horizon, the clones' real correlated height errors), then every strategy tested with full ray marches on clones 11–20 it never saw (12 months, hourly). Plan order: ${h.out_of_sample.plan_train.map(p=>p.measured).join(' → ')}.`}
+function renderAll(){ST=stripStats();siteSeg();card();drawStrip();stripRead();season();slip();sky();replay();repairs();screen();hot();hotc();planner();layout();evidence();evidence2();skeptic()}
 ['tSun','tBoth','tGap'].forEach((id,i)=>$(id).addEventListener('input',e=>{const v=parseFloat(e.target.value);if(!isFinite(v))return;thr[['sun','both','gap'][i]]=v;renderAll()}));
 $('slipR').addEventListener('input',e=>{slipH=+e.target.value;slip()});
-new ResizeObserver(()=>drawStrip()).observe($('strip'));
+new ResizeObserver(()=>drawStrip()).observe($('strip'));new ResizeObserver(()=>screen()).observe($('surFig'));
 $('inputs').textContent='Inputs (SHA-256, first 16 hex): '+D.inputs.map(x=>`${x.file} ${x.sha256_16}`).join(' · ');
 $('gen').textContent=`Generated ${D.generated}. Code and results: polaris_long_features ZIP; write-up: claude/LONG_FEATURES_2026-11-15.md.`;
 renderAll();

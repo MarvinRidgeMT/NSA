@@ -1,4 +1,4 @@
-# POLARIS X: long-feature pilots + Decision Lab viewer (Claude cloud session, Sun 15 Nov 2026, 00:07–01:55 and 13:32–15:10 EST)
+# POLARIS X: long-feature pilots + Decision Lab viewer (Claude cloud session, Sun 15 Nov 2026, 00:07–01:55, 13:32–15:10 and 16:47–18:35 EST)
 
 *Session: Sid asked to "finish some of the unfinished features that take over 4 h" from the Features Not Done Yet sheet
 (https://claude.ai/artifact/J4D38DPs3UWnur9CgPhPDa). Work done in this chat's Claude cloud workspace (2 cores, 7 GB) from NASA
@@ -174,11 +174,29 @@ relay comms, rover sorties, moonshots, Shadow Tomography (47, 48, 50, 51), decis
 Code (this workspace): `step10_barker.py` (20 clones + SfS), `step11_sfs_prep.py`, `step11_sfs_analyze.py`, `step11b_split.py`,
 `step12_more.py`, `step13_asset.py`, `step14_wac_prep.py`, `step14_wac_analyze.py`, `build_data.py`, `viewer_template.html`.
 
+## 8. Round 4 (16:47–18:35): split with Codex; four sites, screener, solver API, correlated-error planning
+Sid: "keep working, split half with Codex". **Codex (repo half)** got `CODEX_PROMPT_repo_half.md` + `polaris_lab_handoff.zip`
+(C1 Decision Lab into `web/public/lab/`, C2 float32 check, C3 `science/decision_card.py`, C4 Playwright traceability scan,
+C5 reproducibility hash, C6 README credits), then `CODEX_PROMPT_batch2.md` + `polaris_lab_handoff_v2.zip` (D1 lab v2, D2
+`tools/polaris_solver`, D3 research code). Codex's report has not come back to this session yet. **This session (cloud half):**
+
+| Feature (sheet row) | Result |
+|---|---|
+| Viewer: four sites | Decision Lab now has Site04 RoI 3, Site01 RoI 6, **Site07 RoI 1 (Peak near Shackleton)**, **Site11 RoI 4 (de Gerlache rim)**: 20 clones, 12-month strip, slip, masts 1–10 m, ±100 m grid, replay, Sky Envelope, lens (4 products), hotspot scores and plan, two-lander, asset twin. Version `1794785343-8b38`, same link. Site07 RoI 1: demo window 100 % on the nominal map but **85.2–100 % across clones** (the nominal hides it); Certainty Height 1.25 m; 40.2 % of 12-month starts pass 70 % Sun on all 20, 28.5 % marginal; two landers 200 m apart 74.0 → 84.2 % (worst dark 360 → 232 h). Site11 RoI 4: 100 % on every clone in the demo window; 56.3 % of starts robust; 74.7 → 78.8 % with a second lander. The full-ray-march hotspot test was not run for the new sites (labelled). |
+| **Surrogate screener** (38) | SURROGATE = 180 bins, 5 m step to 3 km, 2-hourly; used only to rank. 1,681 cells (±500 m, 25 m) per site; full-solver re-check of the top 20 + 20 random. **Random-cell rank agreement ρ 0.995–1.000, mean error 0.06–0.15 pts**, 10–20× cheaper per cell. All top-20 cells beat the median random cell at every site. Best re-checked cell vs RoI centre (12-month Sun): Site04 RoI 3 **82.5 % at (25, 150 m) vs 73.8 %**; Site07 RoI 1 82.4 % at (−125, −50 m) vs 74.0 %; Site01 RoI 6 86.3 % at (−25, 0) vs 85.1 %; Site11 RoI 4 74.9 % vs 74.7 %. |
+| **Solver API** (39) | `polaris_solver`: `solve(request) → result` (JSON), CLI, `--serve` (POST /solve), `--tool-spec` (function-calling schema for an assistant). Auto-selects the PGDA 78 tile, float64 heights, provenance with file SHA-256s and raw Horizons hashes, "k of N is not a probability" in every clone result. **5/5 tests pass** incl. Site04 RoI 3 from scratch: 94.36 % / 72.11 % / 19 h. Handed to Codex (D2). |
+| **Hotspots with correlated errors** (14) | Uses the clones' real (correlated) height errors through the 16-ridge linearised horizon. Calibration against the full-ray-march test: same ordering, counts 10–40 % lower (e.g. Site04 nothing measured 6,579 vs 7,261). **Out-of-sample test** (plan on clones 1–10, full ray marches on clones 11–20, 12 months): Site04 RoI 3 — clone-error plan 10 cells **258** clone-hours wrong vs NASA error-map top 10 + lander 276, 10 nearest + lander 366, nothing 3,777; first 5 cells 349 ≈ 11 nearest. Site01 RoI 6 — **279** vs 350 / 310 / 1,098. So planning on correlated clone errors beats both simple rules at both sites with one cell fewer; the margin is modest (7–25 %). The plan reaches cells 120–150 m away that the near-field rule never picks. |
+
+Not done this round: hotspot full-ray-march test for Sites 07/11; SfS for Sites 07/11 (other Zenodo regions not checked); anything
+in the repo (Codex). Code: `sites.py`, `step15_new_prep.py`, `step17_surrogate.py`, `step18_hot_corr.py`, `step18b_test.py`,
+`step18c_oos.py`, `api/` (polaris_solver).
+
 ## 5. Handoffs
 - **Batch session / 3rd + 4th computers (P1):** apply the float64 fix (§0) and relabel published batch numbers.
 - **Organizer (P3):** add this doc to INDEX, close C19 with §0, CHANGELOG row "15 Nov 00:07–00:50, long-feature session:
   float32 bug in batch v2 (explains C19); RQ2 pilot; Information Hotspots pilot; 12-month strip / arrival slip / seasons".
 - **Sid + Anish:** whether the arrival-slip line goes in the story (§3); nothing here changes the demo-window numbers (repo values).
+- **Sid:** paste Codex's final reports (batch 1 and 2) back into this chat for a check; nothing from Codex has been verified by this session.
 - **Anish (post-freeze):** port viewer sections into `web/` if wanted; the page's `build_data.py` output is the data contract.
 - **Sid + Anish:** the SfS result is a science lead worth one sentence in the pitch only if you want it: an independent NASA terrain product agrees at Connecting Ridge (85.25 vs 85.10 %), but by partial cancellation.
 - **a-science:** repo Decision Card (`science/decision_card.py`) still open; the viewer's card is a stand-in.
@@ -187,6 +205,7 @@ Code (this workspace): `step10_barker.py` (20 clones + SfS), `step11_sfs_prep.py
 | When (EST) | Change |
 |---|---|
 | 15 Nov 00:45 | Created. |
+| 15 Nov 18:35 | §8 added (Codex split, four sites, surrogate screener, solver API, correlated-error planning with out-of-sample test). |
 | 15 Nov 15:10 | §7 added (round 3: 20-clone upgrades, two-lander, ellipse, planner, asset twin, SfS, WAC, skeptic mode). |
 | 15 Nov 01:55 | §6 added (Decision Lab viewer + round-2 features); §4 updated. |
 | 15 Nov 00:50 | Wording checked against the result files: early-start claim (2–7 days, not 1), April–May wording, random+lander range 21–60 %. |

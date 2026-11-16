@@ -56,6 +56,6 @@ for key,site,lat,lon in (("Site01_ROI6","Site01",-89.47409,-137.3813),("Site04_R
                          "pass_all3_sfs":sum(ok(x["sfs"]) for x in g),"pass_all3_lola":sum(ok(x["lola"]) for x in g),
                          "verdict_changes":sum(ok(x["sfs"])!=ok(x["lola"]) for x in g),"cells":g}
     out[key]=rec
-    print(key,json.dumps({k:v for k,v in rec.items() if k!="grid"},default=str)[:1800]);
+    print(key,json.dumps({k:v for k,v in rec.items() if k!="grid"},default=str)[:1800]); 
     if "grid" in rec: print(" grid",{k:v for k,v in rec["grid"].items() if k!="cells"})
 json.dump(out,open(W/"sfs_result.json","w"),indent=1,default=bool)

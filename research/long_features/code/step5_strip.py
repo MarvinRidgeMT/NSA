@@ -11,7 +11,8 @@ import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 
 W = Path("work"); HZ = W / "hz"; OUT = W / "strip"; OUT.mkdir(exist_ok=True)
-KEYS = ["Site04_ROI3", "Site01_ROI6"]
+from sites import selected, merge_dump
+KEYS = list(selected())
 S0, NSTART, L = 312, 8761, 337
 DEMS = ["nominal"] + [f"clone_{n:04d}" for n in range(1, 21)]
 THR_SUN, THR_BOTH = 70.0, 40.0
@@ -103,7 +104,7 @@ def main():
         print(key, json.dumps({k: v for k, v in summary[key].items() if k not in ("season",)}, indent=1))
         for mk, v in season.items():
             print("  ", mk, v)
-    json.dump(summary, open(OUT / "strip_summary.json", "w"), indent=1)
+    merge_dump(OUT / "strip_summary.json", summary, indent=1)
 
 
 if __name__ == "__main__":

@@ -4,7 +4,8 @@ from rasterio.windows import from_bounds
 from pathlib import Path
 from polaris_batch import core
 D=Path("data/external"); W=Path("work")
-R={"Site04_ROI3":("Site04",-89.78012,-156.32023),"Site01_ROI6":("Site01",-89.47409,-137.3813)}
+from sites import selected
+R=selected()
 def window_dem(path,lon,lat,half=30000.0):
     with rasterio.open(path) as ds:
         tr=pyproj.Transformer.from_crs(core.LONLAT,ds.crs,always_xy=True); x,y=tr.transform(lon,lat)

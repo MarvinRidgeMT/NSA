@@ -38,5 +38,41 @@
     }
    ]
   }
+ },
+ "Site07_ROI1": {
+  "z0": 1647.6430574896967,
+  "n": 10201,
+  "raw": {
+   "sun": [
+    {
+     "file": "horizons_10_89d2ad62712e9bd81d4f.txt",
+     "sha256": "eb4666ee65054690d068b3e3b0eeac50af0f6985d5561766b5ab59402f2c8b63"
+    }
+   ],
+   "earth": [
+    {
+     "file": "horizons_399_2f6b30395c013dc9e72c.txt",
+     "sha256": "03712dba6a43fe898f1f1a3f7dbc6d69ddee5f025e5f111a3329c70eebaf7ddc"
+    }
+   ]
+  }
+ },
+ "Site11_ROI4": {
+  "z0": 1779.310707805683,
+  "n": 10201,
+  "raw": {
+   "sun": [
+    {
+     "file": "horizons_10_7ff5f3d9381f65b7520d.txt",
+     "sha256": "c7297cc9b4597331560c54aee47c3e909bc9a22f85e91106b0b30898456b42d7"
+    }
+   ],
+   "earth": [
+    {
+     "file": "horizons_399_c30d20dd95b2913e96d9.txt",
+     "sha256": "a12065c2818d1cc7c7e71fe4195cd6906d247774a6a97fafa0c88e8da5240284"
+    }
+   ]
+  }
  }
 }

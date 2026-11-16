@@ -3,7 +3,8 @@ import json, numpy as np
 from pathlib import Path
 from polaris_batch import core, ext
 D=Path("data/external"); W=Path("work")
-R={"Site04_ROI3":("Site04",-89.78012,-156.32023),"Site01_ROI6":("Site01",-89.47409,-137.3813)}
+from sites import selected, merge_dump
+R=selected()
 out={}
 for key,(site,lat,lon) in R.items():
     near=core.Dem.open(core.site_files(site,D)["surf"][1]); far=core.Dem.open(D/"pgda90/LDEM_80S_80MPP_ADJ.TIF")
@@ -30,4 +31,4 @@ for key,(site,lat,lon) in R.items():
     out[key]={"mast_m":1.0,"z0":float(nom["z0"]),"n_samples":337,"blocked_hours":int(blk.sum()),"intervals":ints,"hours":rows,
               "clone_blocked_hours":[int((~stc[k]).sum()) for k in range(20)]}
     print(key,"blocked",int(blk.sum()),"near/blocked rows",len(rows),ints)
-json.dump(out,open(W/"replay.json","w"))
+merge_dump(W/"replay.json",out)

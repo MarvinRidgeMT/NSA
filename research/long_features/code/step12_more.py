@@ -6,7 +6,8 @@ from polaris_batch import core, ext
 from build_data import transfer_azel, interp, longest
 
 D = Path("data/external"); W = Path("work"); J = W / "jobs"
-R = {"Site04_ROI3": ("Site04", -89.78012, -156.32023), "Site01_ROI6": ("Site01", -89.47409, -137.3813)}
+from sites import selected, merge_dump
+R = selected()
 DEMO = slice(312, 312 + 337); YEAR = slice(312, 312 + 8761)
 out = {}
 for key, (site, lat, lon) in R.items():
@@ -87,10 +88,10 @@ for key, (site, lat, lon) in R.items():
         else:
             rr, cc = divmod(c, 10000); xx, yy = (~near.inv) * (cc + .5, rr + .5); lab = f"cell {round(xx - x0)},{round(yy - y0)} m"; dist = math.hypot(xx - x0, yy - y0)
         plan.append({"k": k, "measured": lab, "dist_m": round(dist, 1), "expected_flip_h": round(v, 1)})
-    hs = json.load(open(W / "hotspots_report.json"))["measurement_test"][key]["year"]
+    hs = json.load(open(W / "hotspots_report.json")).get("measurement_test", {}).get(key, {}).get("year")
     out[key] = {"complementarity": comp, "ellipse": ell, "planner": plan,
-                "planner_check": {"tested_nothing": hs["none"], "tested_lander_only": hs["observer_only"], "tested_top10_plus_lander": hs["hotspots_top10+observer"],
-                                  "note": "Tested = clone-hours still wrong after a full ray march (20 clones, 12 months); expected = toterr model flip-hours (not the same unit)."}}
+                "planner_check": ({"tested_nothing": hs["none"], "tested_lander_only": hs["observer_only"], "tested_top10_plus_lander": hs["hotspots_top10+observer"],
+                                  "note": "Tested = clone-hours still wrong after a full ray march (20 clones, 12 months); expected = toterr model flip-hours (not the same unit)."} if hs else None)}
     print(key, json.dumps({k: v for k, v in out[key].items() if k != "planner"}, indent=0)[:2500])
     for p in plan: print("   ", p)
-json.dump(out, open(W / "more.json", "w"), indent=1)
+merge_dump(W / "more.json", out, indent=1)

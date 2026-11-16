@@ -6,7 +6,8 @@ import numpy as np
 from polaris_batch import core
 from build_data import transfer_azel, interp, longest
 D=Path("data/external"); W=Path("work")
-R={"Site04_ROI3":("Site04",-89.78012,-156.32023),"Site01_ROI6":("Site01",-89.47409,-137.3813)}
+from sites import selected, merge_dump
+R=selected()
 BODY_R, BODY_H = 2.0, 4.0
 ASSETS=[("Solar panel, ground mast",0.0,5.0,1.0,"sun"),("Solar panel, deck top",0.0,0.0,4.5,"sun"),("Antenna, away from Earth",0.0,-5.0,2.0,"earth"),("Antenna, Earth side",0.0,5.0,2.0,"earth")]
 far=core.Dem.open(D/"pgda90/LDEM_80S_80MPP_ADJ.TIF"); out={}
@@ -41,4 +42,4 @@ for key,(site,lat,lon) in R.items():
               "power_and_link_12mo_pct":round(100*(anyp&states[ASSETS[3][0]][1])[Y].mean(),2),"power_and_link_bad_layout_12mo_pct":round(100*(anyp&states[ASSETS[2][0]][1])[Y].mean(),2),
               "body":{"radius_m":BODY_R,"height_m":BODY_H,"note":"illustrative cylinder, not a lander design"}}
     print(key,{k:v for k,v in out[key].items() if k!="assets"})
-json.dump(out,open(W/"asset.json","w"),indent=1)
+merge_dump(W/"asset.json",out,indent=1)

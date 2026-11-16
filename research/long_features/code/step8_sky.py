@@ -3,7 +3,8 @@ with the nominal skyline and the 20-clone skyline envelope (1 m mast). Also the 
 import json, numpy as np
 from pathlib import Path
 W=Path("work"); out={}
-for key in ("Site04_ROI3","Site01_ROI6"):
+from sites import selected, merge_dump
+for key in selected():
     e=np.load(W/f"eph186_{key}.npz")
     nom=np.load(W/f"hz/{key}_nominal_m1.npz")
     cl=np.array([np.load(W/f"hz/{key}_clone_{n:04d}_m1.npz")["elev"] for n in range(1,21)])
@@ -30,4 +31,4 @@ for key in ("Site04_ROI3","Site01_ROI6"):
     rec["always_blocked_sun_az_deg"]=int(np.sum(smax<=sk))
     out[key]=rec
     print(key,rec["n_samples"],"sun vis %",rec["sun_visible_pct_18p6yr_nominal"],"earth",rec["earth_visible_pct_18p6yr_nominal"],"contested",rec["contested_sun_az_deg"],"always blocked",rec["always_blocked_sun_az_deg"])
-json.dump(out,open(W/"sky.json","w"))
+merge_dump(W/"sky.json",out)

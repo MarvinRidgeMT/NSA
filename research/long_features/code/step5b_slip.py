@@ -3,7 +3,8 @@ from pathlib import Path
 from step5_strip import interp_bins, longest_run, DEMS, HZ, W, L
 from numpy.lib.stride_tricks import sliding_window_view
 out={}
-for key in ("Site04_ROI3","Site01_ROI6"):
+from sites import selected, merge_dump
+for key in selected():
     e=np.load(W/f"eph_{key}.npz"); t=e["time"]
     i0=312-7*24; n=14*24+1  # starts from 2026-11-07 00:00 to 11-21 00:00
     sl=slice(i0,i0+n+L-1)
@@ -27,4 +28,4 @@ for key in ("Site04_ROI3","Site01_ROI6"):
     ok=[r["slip_h"] for r in rec if r["pass_sun70"]==20]
     lo=max([r["slip_h"] for r in rec if r["slip_h"]<=0 and r["pass_sun70"]<20], default=None); hi=min([r["slip_h"] for r in rec if r["slip_h"]>=0 and r["pass_sun70"]<20], default=None)
     print(key,"all-20-pass interval around demo start: first failing slip before",lo,"after",hi)
-json.dump(out,open(W/"strip/slip_pm7d.json","w"))
+merge_dump(W/"strip/slip_pm7d.json",out)

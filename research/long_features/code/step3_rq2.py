@@ -12,7 +12,8 @@ import numpy as np
 from polaris_batch import core, ext
 
 D = Path("data/external"); W = Path("work"); HZ = W / "hz"
-R = {"Site04_ROI3": ("Site04", -89.78012, -156.32023), "Site01_ROI6": ("Site01", -89.47409, -137.3813)}
+from sites import selected, merge_dump
+R = selected()
 CLONES = [f"clone_{n:04d}" for n in range(1, 21)]
 WIN = {"nov14d": (312, 312 + 337),        # 2026-11-14 00:00 .. 11-28 00:00, 337 hourly samples (demo window)
        "year": (312, 312 + 8761)}         # 2026-11-14 00:00 .. 2027-11-14 00:00, 8761 hourly samples
@@ -190,7 +191,7 @@ def main():
         report[key] = out_site
         np.savez(W / f"rq2_{key}.npz", m0=m0, st0=st0, stc=stc, stA=stA, stK=stK, J1=J1, J01=J01, J2=J2, J02=J02,
                  s1=s1, s2=s2, s0=s0, dz0=dz0, dh1=dh["p1"], dh2=dh["p2"])
-    json.dump(report, open(W / "rq2_report.json", "w"), indent=1, default=float)
+    merge_dump(W / "rq2_report.json", report, indent=1, default=float)
 
 
 if __name__ == "__main__":

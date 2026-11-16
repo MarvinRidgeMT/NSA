@@ -16,7 +16,10 @@ import numpy as np
 from polaris_batch import core, ext
 
 D = Path("data/external"); W = Path("work"); HZ = W / "hz"
-R = {"Site04_ROI3": ("Site04", -89.78012, -156.32023), "Site01_ROI6": ("Site01", -89.47409, -137.3813)}
+from sites import selected, merge_dump
+import os
+R = selected()
+NOTEST = os.environ.get("NOTEST") == "1"
 WIN = {"nov14d": (312, 312 + 337), "year": (312, 312 + 8761)}
 SIGMA_NEW = 0.05
 K = 10
@@ -155,7 +158,7 @@ def main():
                            "nearest10": nearest, "observer_only": [obs], "hotspots_top10+observer": top + [obs],
                            "random_a+observer": rand[0] + [obs], "random_b+observer": rand[1] + [obs], "random_c+observer": rand[2] + [obs],
                            "nearest10+observer": nearest + [obs]}
-    jobs = [(k, n, cells, tag) for k, st in strategies.items() for tag, cells in st.items() for n in range(1, 21)]
+    jobs = [] if NOTEST else [(k, n, cells, tag) for k, st in strategies.items() for tag, cells in st.items() for n in range(1, 21)]
     print(f"{len(jobs)} full ray marches", flush=True)
     res = {}
     with ProcessPoolExecutor(2) as ex:
@@ -164,7 +167,7 @@ def main():
             if i % 20 == 0:
                 print(i, flush=True)
     test = {}
-    for key in R:
+    for key in ([] if NOTEST else R):
         e = np.load(W / f"eph_{key}.npz")
         test[key] = {}
         for wname, (a, b) in WIN.items():
@@ -180,7 +183,7 @@ def main():
     rep["strategies"] = {k: {t: [list(map(int, c)) for c in v] for t, v in s.items()} for k, s in strategies.items()}
     rep["notes"] = {"sigma_new_m": SIGMA_NEW, "block_px": 2 * BLOCK + 1, "K": K,
                     "metric": "clone-hours (20 clones x hourly samples) where the updated map's Sun-centre state differs from that clone's"}
-    json.dump(rep, open(W / "hotspots_report.json", "w"), indent=1, default=float)
+    merge_dump(W / "hotspots_report.json", rep, indent=1, default=float)
 
 
 if __name__ == "__main__":

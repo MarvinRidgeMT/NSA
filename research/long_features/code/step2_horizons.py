@@ -4,7 +4,8 @@ from concurrent.futures import ProcessPoolExecutor
 from functools import lru_cache
 from polaris_batch import core, ext
 D=Path("data/external"); OUT=Path("work/hz"); OUT.mkdir(parents=True, exist_ok=True)
-R={"Site04_ROI3":("Site04",-89.78012,-156.32023),"Site01_ROI6":("Site01",-89.47409,-137.3813)}
+from sites import R as _R, NEW
+R={k:v[:3] for k,v in _R.items() if k in NEW}
 @lru_cache(2)
 def dem(p): return core.Dem.open(Path(p))
 def job(a):

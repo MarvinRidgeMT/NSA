@@ -6,7 +6,9 @@ from numpy.lib.stride_tricks import sliding_window_view
 from polaris_batch import core
 
 D = Path("data/external"); W = Path("work"); J = W / "jobs"
-R = {"Site04_ROI3": ("Site04", -89.78012, -156.32023, "Shackleton rim, Site04 RoI 3"),
+from sites import R as _RALL
+R = dict(_RALL)
+_UNUSED = {"Site04_ROI3": ("Site04", -89.78012, -156.32023, "Shackleton rim, Site04 RoI 3"),
      "Site01_ROI6": ("Site01", -89.47409, -137.3813, "Connecting Ridge, Site01 RoI 6")}
 L = 337
 CLONES = [f"clone_{n:04d}" for n in range(1, 21)]
@@ -154,14 +156,14 @@ def main():
         s["hot"] = {"total": hy["expected_flip_hours_total"], "lander": c0["expected_flip_hours_removed"], "lander_toterr": c0["toterr_m"],
                     "top": [{"dx": r["x_m"] - x0, "dy": r["y_m"] - y0, "d": r["dist_from_lander_m"], "v": r["expected_flip_hours_removed"],
                              "err": r["toterr_m"]} for r in hy["top"]],
-                    "test": hs["measurement_test"][key]}
+                    "test": hs.get("measurement_test", {}).get(key)}
         rq = json.load(open(W / "rq2_report.json"))
         s["rq2"] = {w: {k: rq[f"{key}/{w}"][k] for k in ("truth_flip_hours_any_clone", "A16_linearised_16_ridges", "A_linearised", "B_toterr_rho0")}
                     for w in ("nov14d", "year")}
         s["rq2"]["fd"] = {k: rq[key]["finite_difference"][k] for k in ("n", "median_rel_err")}
         sm = json.load(open(W / "strip/strip_summary.json"))[key]
         s["season"] = sm["season"]
-        for nm, fn in (("more", "more.json"), ("asset", "asset.json"), ("sfs", "sfs_result.json")):
+        for nm, fn in (("more", "more.json"), ("asset", "asset.json"), ("sfs", "sfs_result.json"), ("sur", "surrogate.json"), ("hotc", "hot_corr.json")):
             if (W / fn).exists():
                 s[nm] = json.load(open(W / fn)).get(key)
         lens = W / f"lens_{key}.json"
