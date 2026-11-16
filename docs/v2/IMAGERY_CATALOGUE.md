@@ -59,7 +59,7 @@ Haworth, Malapert Massif, Mons Mouton Plateau, Mons Mouton, Nobile Rim 1, Nobile
 
 ## Counts
 
-Catalogue SHA-256 `95342177910af2a3bf3b4ed2f1c72c3c0700ade1d1ffcd96f85b203edc1b9676`: **11726 rows** (image × site), **7298 unique images**, **2124 held out** (seed `polaris-x-v2-heldout-2026-11-16`, 30 % of eligible images; `prior_use` images are never held out).
+Catalogue SHA-256 `4b941d61f1ecb06155a2b0ffcc7f9a5f9ea1dc5b41ef6918ff1f69f424515e01`: **11726 rows** (image × site), **7298 unique images**, **2124 held out** (seed `polaris-x-v2-heldout-2026-11-16`, 30 % of eligible images; `prior_use` images are never held out).
 
 ### ODE harvest (bounding-box candidates → kept after the exact stereographic clip)
 
@@ -104,8 +104,8 @@ Catalogue SHA-256 `95342177910af2a3bf3b4ed2f1c72c3c0700ade1d1ffcd96f85b203edc1b9
 | Kaguya_TC_mono | 0 [0] | 0 [0] | 10 [3] | 0 [0] | 11 [4] | 15 [4] | 21 [6] | 18 [5] |
 | Kaguya_TC_stereo | 193 [58] | 69 [21] | 243 [73] | 147 [44] | 152 [45] | 418 [126] | 344 [103] | 182 [54] |
 | LROC_NAC | 275 [76] | 322 [93] | 310 [89] | 335 [86] | 215 [54] | 245 [62] | 311 [85] | 279 [78] |
-| LROC_WAC | 63 [19] | 60 [18] | 49 [15] | 41 [12] | 39 [12] | 43 [13] | 53 [16] | 75 [22] |
-| ShadowCam | 459 [138] | 374 [113] | 285 [85] | 246 [73] | 296 [89] | 352 [106] | 357 [107] | 391 [117] |
+| LROC_WAC | 65 [20] | 62 [18] | 49 [15] | 42 [12] | 39 [12] | 42 [13] | 51 [15] | 73 [22] |
+| ShadowCam | 498 [149] | 470 [141] | 340 [102] | 327 [98] | 268 [80] | 275 [83] | 283 [85] | 299 [90] |
 
 ### Images by `el_bin` (primary rows; held-out in brackets)
 
@@ -114,8 +114,8 @@ Catalogue SHA-256 `95342177910af2a3bf3b4ed2f1c72c3c0700ade1d1ffcd96f85b203edc1b9
 | Kaguya_TC_mono | 8 [3] | 21 [6] | 22 [6] | 24 [7] | 0 [0] |
 | Kaguya_TC_stereo | 168 [52] | 350 [102] | 914 [275] | 316 [95] | 0 [0] |
 | LROC_NAC | 961 [262] | 634 [179] | 430 [113] | 233 [62] | 34 [7] |
-| LROC_WAC | 2 [1] | 58 [18] | 247 [74] | 106 [32] | 10 [2] |
-| ShadowCam | 852 [255] | 738 [220] | 490 [148] | 495 [149] | 185 [56] |
+| LROC_WAC | 2 [1] | 59 [17] | 247 [74] | 105 [32] | 10 [3] |
+| ShadowCam | 886 [265] | 691 [206] | 458 [138] | 545 [165] | 180 [54] |
 
 ### Images by `em_bin` (primary rows; held-out in brackets)
 
@@ -124,8 +124,8 @@ Catalogue SHA-256 `95342177910af2a3bf3b4ed2f1c72c3c0700ade1d1ffcd96f85b203edc1b9
 | Kaguya_TC_mono | 0 [0] | 9 [3] | 66 [19] | 0 [0] | 0 [0] |
 | Kaguya_TC_stereo | 0 [0] | 354 [105] | 1394 [419] | 0 [0] | 0 [0] |
 | LROC_NAC | 2220 [601] | 1 [0] | 10 [2] | 61 [20] | 0 [0] |
-| LROC_WAC | 405 [123] | 5 [0] | 4 [2] | 7 [2] | 2 [0] |
-| ShadowCam | 2537 [759] | 0 [0] | 220 [67] | 3 [2] | 0 [0] |
+| LROC_WAC | 405 [123] | 5 [1] | 4 [1] | 7 [2] | 2 [0] |
+| ShadowCam | 2537 [760] | 0 [0] | 220 [68] | 3 [0] | 0 [0] |
 
 ### Images by `season_bin` (primary rows; held-out in brackets)
 
@@ -134,8 +134,8 @@ Catalogue SHA-256 `95342177910af2a3bf3b4ed2f1c72c3c0700ade1d1ffcd96f85b203edc1b9
 | Kaguya_TC_mono | 33 [9] | 34 [10] | 8 [3] |
 | Kaguya_TC_stereo | 1309 [396] | 288 [82] | 151 [46] |
 | LROC_NAC | 655 [168] | 790 [208] | 847 [247] |
-| LROC_WAC | 334 [97] | 88 [30] | 1 [0] |
-| ShadowCam | 1202 [361] | 522 [160] | 1036 [307] |
+| LROC_WAC | 334 [102] | 88 [25] | 1 [0] |
+| ShadowCam | 1202 [361] | 522 [156] | 1036 [311] |
 
 ### Images by `terrain` (primary rows; held-out in brackets)
 
@@ -144,8 +144,8 @@ Catalogue SHA-256 `95342177910af2a3bf3b4ed2f1c72c3c0700ade1d1ffcd96f85b203edc1b9
 | Kaguya_TC_mono | 33 [9] | 39 [11] | 3 [2] |
 | Kaguya_TC_stereo | 981 [292] | 550 [166] | 217 [66] |
 | LROC_NAC | 1174 [322] | 732 [200] | 386 [101] |
-| LROC_WAC | 399 [121] | 23 [6] | 1 [0] |
-| ShadowCam | 2094 [632] | 594 [177] | 72 [19] |
+| LROC_WAC | 392 [116] | 24 [8] | 7 [3] |
+| ShadowCam | 1542 [464] | 1118 [335] | 100 [29] |
 
 ### Images by `res_bin` (primary rows; held-out in brackets)
 
@@ -154,7 +154,7 @@ Catalogue SHA-256 `95342177910af2a3bf3b4ed2f1c72c3c0700ade1d1ffcd96f85b203edc1b9
 | Kaguya_TC_mono | 0 [0] | 0 [0] | 75 [22] | 0 [0] | 0 [0] | 0 [0] |
 | Kaguya_TC_stereo | 0 [0] | 0 [0] | 1748 [524] | 0 [0] | 0 [0] | 0 [0] |
 | LROC_NAC | 214 [56] | 1966 [537] | 83 [23] | 29 [7] | 0 [0] | 0 [0] |
-| LROC_WAC | 0 [0] | 0 [0] | 0 [0] | 413 [124] | 8 [3] | 2 [0] |
+| LROC_WAC | 0 [0] | 0 [0] | 0 [0] | 413 [125] | 8 [2] | 2 [0] |
 | ShadowCam | 0 [0] | 2760 [828] | 0 [0] | 0 [0] | 0 [0] | 0 [0] |
 
 ### Rows passing the protocol's metadata gates (§2: not `footprint_suspect`, and covers the site centre or overlap ≥ 0.25)
@@ -167,14 +167,14 @@ These are upper bounds: the other gates (product and label fetch, camera model, 
 | Kaguya_TC_stereo | 697 | 574 | 550 | 283 | 1003 | 421 |
 | LROC_NAC | 185 | 187 | 178 | 154 | 495 | 167 |
 | LROC_WAC | 401 | 367 | 313 | 232 | 296 | 127 |
-| ShadowCam | 6 | 19 | 22 | 8 | 31 | 19 |
+| ShadowCam | 6 | 19 | 22 | 8 | 40 | 10 |
 
-**Site04 RoI 3 hero point** (footprint contains the point, footprint not suspect): Kaguya_TC_mono 16 (3 held out), Kaguya_TC_stereo 616 (184 held out), LROC_NAC 113 (22 held out), LROC_WAC 388 (117 held out). Coverage is by ODE footprint only; whether the point is resolved and unsaturated in each image is not yet checked.
+**Site04 RoI 3 hero point** (footprint contains the point, footprint not suspect): Kaguya_TC_mono 16 (3 held out), Kaguya_TC_stereo 616 (184 held out), LROC_NAC 113 (22 held out), LROC_WAC 388 (119 held out). Coverage is by ODE footprint only; whether the point is resolved and unsaturated in each image is not yet checked.
 
 
 ### Full strata
 
-531 non-empty strata (instrument × az × el × emission × season × terrain × resolution). Stratum size distribution (10 = 10 or more): 1: 99, 2: 78, 3: 35, 4: 28, 5: 14, 6: 21, 7: 14, 8: 20, 9: 13, 10: 209.
+544 non-empty strata (instrument × az × el × emission × season × terrain × resolution). Stratum size distribution (10 = 10 or more): 1: 97, 2: 80, 3: 39, 4: 28, 5: 16, 6: 21, 7: 14, 8: 17, 9: 14, 10: 218.
 
 <details><summary>Every non-empty stratum: images [held-out]</summary>
 
@@ -545,16 +545,19 @@ These are upper bounds: the other gates (product and label fetch, camera model, 
 | `LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 3 | 1 |
 | `LROC_WAC|NE|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 2 | 0 |
 | `LROC_WAC|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m` | 17 | 5 |
-| `LROC_WAC|NE|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res>=100m` | 1 | 1 |
-| `LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 19 | 5 |
-| `LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m` | 8 | 3 |
+| `LROC_WAC|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res>=100m` | 1 | 1 |
+| `LROC_WAC|NE|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res>=100m` | 1 | 0 |
+| `LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 19 | 6 |
+| `LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m` | 8 | 2 |
+| `LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m` | 1 | 0 |
 | `LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 13 | 4 |
-| `LROC_WAC|NW|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 1 | 0 |
+| `LROC_WAC|NW|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 1 | 1 |
 | `LROC_WAC|NW|el[-0.5,0.5)|em[5,15)|ssl[-0.75,0.75)|crater_rim|res[20,100)m` | 1 | 0 |
 | `LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 20 | 6 |
-| `LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res>=100m` | 2 | 1 |
+| `LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res>=100m` | 1 | 0 |
 | `LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m` | 7 | 2 |
-| `LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 43 | 13 |
+| `LROC_WAC|NW|el[0.5,1.5)|em[5,15)|ssl<-0.75|ridge|res>=100m` | 1 | 1 |
+| `LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 41 | 12 |
 | `LROC_WAC|NW|el[1.5,2.5)|em[5,15)|ssl<-0.75|crater_rim|res>=100m` | 1 | 0 |
 | `LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 7 | 2 |
 | `LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 11 | 4 |
@@ -562,10 +565,10 @@ These are upper bounds: the other gates (product and label fetch, camera model, 
 | `LROC_WAC|N|el[0.5,1.5)|unknown|ssl[-0.75,0.75)|crater_rim|unknown` | 1 | 0 |
 | `LROC_WAC|N|el[1.5,2.5)|em>=30|ssl<-0.75|crater_rim|res[20,100)m` | 2 | 1 |
 | `LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 32 | 9 |
-| `LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m` | 1 | 1 |
-| `LROC_WAC|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[20,100)m` | 1 | 0 |
-| `LROC_WAC|SE|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|crater_rim|res>=100m` | 2 | 1 |
-| `LROC_WAC|SE|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m` | 1 | 0 |
+| `LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m` | 3 | 1 |
+| `LROC_WAC|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[20,100)m` | 1 | 1 |
+| `LROC_WAC|SE|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|crater_rim|res>=100m` | 2 | 0 |
+| `LROC_WAC|SE|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m` | 2 | 1 |
 | `LROC_WAC|SE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m` | 9 | 3 |
 | `LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 27 | 8 |
 | `LROC_WAC|SE|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[20,100)m` | 2 | 0 |
@@ -573,143 +576,153 @@ These are upper bounds: the other gates (product and label fetch, camera model, 
 | `LROC_WAC|SW|el<-0.5|em[15,30)|ssl>=0.75|crater_rim|res[20,100)m` | 1 | 0 |
 | `LROC_WAC|SW|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|crater_rim|res>=100m` | 1 | 0 |
 | `LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m` | 6 | 2 |
-| `LROC_WAC|SW|el[-0.5,0.5)|em[5,15)|ssl<-0.75|crater_rim|res>=100m` | 1 | 0 |
-| `LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 31 | 10 |
-| `LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m` | 2 | 0 |
-| `LROC_WAC|S|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[20,100)m` | 1 | 1 |
-| `LROC_WAC|S|el[0.5,1.5)|em>=30|ssl<-0.75|crater_rim|res[20,100)m` | 2 | 0 |
+| `LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 31 | 9 |
+| `LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m` | 2 | 1 |
+| `LROC_WAC|S|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[20,100)m` | 1 | 0 |
+| `LROC_WAC|S|el[0.5,1.5)|em>=30|ssl<-0.75|crater_rim|res[20,100)m` | 2 | 1 |
 | `LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 36 | 11 |
 | `LROC_WAC|W|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 1 | 0 |
-| `LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 35 | 11 |
+| `LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 34 | 10 |
 | `LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m` | 1 | 0 |
 | `LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m` | 5 | 2 |
 | `LROC_WAC|W|el[0.5,1.5)|unknown|ssl[-0.75,0.75)|crater_rim|unknown` | 1 | 0 |
-| `LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 10 | 3 |
-| `ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 88 | 26 |
-| `ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 8 | 3 |
-| `ShadowCam|E|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 17 | 5 |
+| `LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m` | 9 | 3 |
+| `ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 68 | 20 |
+| `ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 33 | 10 |
+| `ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m` | 1 | 0 |
+| `ShadowCam|E|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 15 | 5 |
+| `ShadowCam|E|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 10 | 3 |
 | `ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 1 | 0 |
-| `ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 37 | 11 |
-| `ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 36 | 11 |
-| `ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 5 | 1 |
-| `ShadowCam|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 46 | 14 |
-| `ShadowCam|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 3 | 1 |
+| `ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 24 | 7 |
+| `ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 53 | 16 |
+| `ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 6 | 2 |
+| `ShadowCam|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 39 | 12 |
+| `ShadowCam|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 24 | 7 |
 | `ShadowCam|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m` | 1 | 0 |
 | `ShadowCam|E|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 8 | 3 |
 | `ShadowCam|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 13 | 4 |
-| `ShadowCam|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 17 | 5 |
+| `ShadowCam|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 5 | 1 |
+| `ShadowCam|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 15 | 5 |
+| `ShadowCam|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 14 | 4 |
 | `ShadowCam|E|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 5 | 1 |
-| `ShadowCam|NE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 51 | 16 |
-| `ShadowCam|NE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 2 | 0 |
-| `ShadowCam|NE|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 26 | 8 |
-| `ShadowCam|NE|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 1 | 0 |
+| `ShadowCam|E|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 5 | 2 |
+| `ShadowCam|NE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 47 | 14 |
+| `ShadowCam|NE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 35 | 10 |
+| `ShadowCam|NE|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m` | 1 | 1 |
+| `ShadowCam|NE|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 25 | 7 |
+| `ShadowCam|NE|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 3 | 1 |
 | `ShadowCam|NE|el>=2.5|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 2 | 1 |
-| `ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 75 | 22 |
-| `ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 18 | 6 |
+| `ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 65 | 19 |
+| `ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 22 | 7 |
 | `ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|ridge|res[1,5)m` | 7 | 2 |
-| `ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 19 | 6 |
-| `ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 12 | 3 |
-| `ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 2 | 1 |
+| `ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 17 | 5 |
+| `ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 22 | 7 |
+| `ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 3 | 1 |
 | `ShadowCam|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m` | 1 | 0 |
-| `ShadowCam|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 22 | 7 |
+| `ShadowCam|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 20 | 6 |
 | `ShadowCam|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 27 | 8 |
-| `ShadowCam|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 2 | 0 |
-| `ShadowCam|NE|el[1.5,2.5)|em>=30|ssl<-0.75|crater_rim|res[1,5)m` | 2 | 1 |
-| `ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 64 | 19 |
-| `ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 10 | 3 |
+| `ShadowCam|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 2 | 1 |
+| `ShadowCam|NE|el[1.5,2.5)|em>=30|ssl<-0.75|crater_rim|res[1,5)m` | 2 | 0 |
+| `ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 53 | 16 |
+| `ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 67 | 20 |
 | `ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m` | 12 | 4 |
-| `ShadowCam|NE|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 11 | 3 |
-| `ShadowCam|NE|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 8 | 3 |
-| `ShadowCam|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 51 | 15 |
+| `ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 5 | 1 |
+| `ShadowCam|NE|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 11 | 4 |
+| `ShadowCam|NE|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 21 | 6 |
+| `ShadowCam|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 31 | 9 |
 | `ShadowCam|NW|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 20 | 6 |
 | `ShadowCam|NW|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m` | 3 | 1 |
-| `ShadowCam|NW|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 31 | 9 |
+| `ShadowCam|NW|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 13 | 4 |
 | `ShadowCam|NW|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 4 | 1 |
-| `ShadowCam|NW|el>=2.5|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 6 | 2 |
-| `ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 61 | 18 |
-| `ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 13 | 4 |
-| `ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 1 | 1 |
-| `ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 1 | 0 |
-| `ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 57 | 17 |
-| `ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 10 | 3 |
-| `ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 75 | 22 |
-| `ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 22 | 7 |
-| `ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m` | 1 | 0 |
-| `ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 5 | 2 |
-| `ShadowCam|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 19 | 6 |
-| `ShadowCam|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 11 | 3 |
-| `ShadowCam|N|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m` | 12 | 3 |
-| `ShadowCam|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 79 | 24 |
-| `ShadowCam|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 20 | 6 |
+| `ShadowCam|NW|el>=2.5|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 2 | 1 |
+| `ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 41 | 12 |
+| `ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 19 | 6 |
+| `ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 7 | 2 |
+| `ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 30 | 9 |
+| `ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 12 | 3 |
+| `ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 55 | 17 |
+| `ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 26 | 8 |
+| `ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m` | 9 | 2 |
+| `ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 2 | 1 |
+| `ShadowCam|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 14 | 4 |
+| `ShadowCam|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 11 | 4 |
+| `ShadowCam|N|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m` | 17 | 5 |
+| `ShadowCam|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 73 | 22 |
+| `ShadowCam|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 32 | 9 |
 | `ShadowCam|N|el>=2.5|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 16 | 5 |
-| `ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 112 | 34 |
-| `ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 28 | 8 |
-| `ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|ridge|res[1,5)m` | 1 | 0 |
-| `ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 3 | 1 |
-| `ShadowCam|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 31 | 9 |
-| `ShadowCam|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 6 | 2 |
-| `ShadowCam|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 1 | 1 |
-| `ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 46 | 13 |
-| `ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 36 | 11 |
-| `ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m` | 11 | 3 |
-| `ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 34 | 11 |
+| `ShadowCam|N|el>=2.5|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 10 | 3 |
+| `ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 102 | 31 |
+| `ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 49 | 14 |
+| `ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|ridge|res[1,5)m` | 1 | 1 |
+| `ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 3 | 0 |
+| `ShadowCam|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 14 | 5 |
+| `ShadowCam|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 21 | 6 |
+| `ShadowCam|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 1 | 0 |
+| `ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 39 | 12 |
+| `ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 51 | 15 |
+| `ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m` | 14 | 4 |
+| `ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 30 | 9 |
+| `ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 2 | 1 |
 | `ShadowCam|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 10 | 3 |
-| `ShadowCam|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 12 | 3 |
-| `ShadowCam|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[1,5)m` | 1 | 1 |
-| `ShadowCam|SE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 96 | 28 |
-| `ShadowCam|SE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 25 | 8 |
-| `ShadowCam|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 43 | 13 |
-| `ShadowCam|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 1 | 0 |
-| `ShadowCam|SE|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 26 | 8 |
-| `ShadowCam|SE|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 4 | 1 |
-| `ShadowCam|SE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 1 | 0 |
-| `ShadowCam|SE|el[-0.5,0.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 4 | 2 |
-| `ShadowCam|SE|el[-0.5,0.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 2 | 0 |
-| `ShadowCam|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 24 | 7 |
-| `ShadowCam|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 8 | 3 |
+| `ShadowCam|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 12 | 4 |
+| `ShadowCam|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[1,5)m` | 1 | 0 |
+| `ShadowCam|SE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 86 | 26 |
+| `ShadowCam|SE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 47 | 14 |
+| `ShadowCam|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 35 | 10 |
+| `ShadowCam|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 30 | 9 |
+| `ShadowCam|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 1 | 1 |
+| `ShadowCam|SE|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 26 | 7 |
+| `ShadowCam|SE|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 11 | 4 |
+| `ShadowCam|SE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 5 | 1 |
+| `ShadowCam|SE|el[-0.5,0.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 4 | 1 |
+| `ShadowCam|SE|el[-0.5,0.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 2 | 1 |
+| `ShadowCam|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 22 | 7 |
+| `ShadowCam|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 37 | 11 |
 | `ShadowCam|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m` | 9 | 2 |
-| `ShadowCam|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 3 | 1 |
-| `ShadowCam|SW|el<-0.5|em>=30|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 1 | 1 |
-| `ShadowCam|SW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 118 | 35 |
-| `ShadowCam|SW|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 7 | 2 |
-| `ShadowCam|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 11 | 3 |
-| `ShadowCam|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 12 | 4 |
-| `ShadowCam|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 46 | 14 |
-| `ShadowCam|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 13 | 4 |
-| `ShadowCam|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 23 | 7 |
+| `ShadowCam|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 12 | 4 |
+| `ShadowCam|SW|el<-0.5|em>=30|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 1 | 0 |
+| `ShadowCam|SW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 87 | 26 |
+| `ShadowCam|SW|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 18 | 6 |
+| `ShadowCam|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 3 | 1 |
+| `ShadowCam|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 21 | 6 |
+| `ShadowCam|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 24 | 7 |
+| `ShadowCam|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 20 | 6 |
+| `ShadowCam|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 16 | 5 |
 | `ShadowCam|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 1 | 0 |
-| `ShadowCam|SW|el[-0.5,0.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 12 | 4 |
-| `ShadowCam|SW|el[-0.5,0.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 2 | 0 |
-| `ShadowCam|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 45 | 14 |
-| `ShadowCam|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 28 | 8 |
+| `ShadowCam|SW|el[-0.5,0.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 3 | 1 |
+| `ShadowCam|SW|el[-0.5,0.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 2 | 1 |
+| `ShadowCam|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 18 | 5 |
+| `ShadowCam|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 32 | 10 |
 | `ShadowCam|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m` | 1 | 0 |
-| `ShadowCam|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 14 | 5 |
-| `ShadowCam|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 18 | 5 |
-| `ShadowCam|S|el<-0.5|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 2 | 1 |
-| `ShadowCam|S|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 108 | 32 |
-| `ShadowCam|S|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 24 | 7 |
-| `ShadowCam|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 28 | 9 |
-| `ShadowCam|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 1 | 0 |
-| `ShadowCam|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 77 | 23 |
-| `ShadowCam|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 42 | 13 |
-| `ShadowCam|S|el[-0.5,0.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 12 | 3 |
+| `ShadowCam|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 10 | 3 |
+| `ShadowCam|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 18 | 6 |
+| `ShadowCam|S|el<-0.5|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 2 | 0 |
+| `ShadowCam|S|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 92 | 28 |
+| `ShadowCam|S|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 37 | 11 |
+| `ShadowCam|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 16 | 5 |
+| `ShadowCam|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 14 | 4 |
+| `ShadowCam|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 50 | 15 |
+| `ShadowCam|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 53 | 16 |
+| `ShadowCam|S|el[-0.5,0.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 2 | 0 |
 | `ShadowCam|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 2 | 1 |
-| `ShadowCam|W|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 90 | 27 |
-| `ShadowCam|W|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 15 | 4 |
-| `ShadowCam|W|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 16 | 5 |
-| `ShadowCam|W|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 2 | 1 |
-| `ShadowCam|W|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 2 | 0 |
-| `ShadowCam|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 26 | 8 |
+| `ShadowCam|W|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 67 | 20 |
+| `ShadowCam|W|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m` | 38 | 11 |
+| `ShadowCam|W|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 10 | 3 |
+| `ShadowCam|W|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m` | 1 | 1 |
+| `ShadowCam|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 15 | 4 |
 | `ShadowCam|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m` | 12 | 4 |
-| `ShadowCam|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 1 | 0 |
-| `ShadowCam|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 63 | 19 |
-| `ShadowCam|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 21 | 6 |
-| `ShadowCam|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 7 | 2 |
-| `ShadowCam|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 13 | 4 |
+| `ShadowCam|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m` | 2 | 0 |
+| `ShadowCam|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 25 | 8 |
+| `ShadowCam|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 29 | 9 |
+| `ShadowCam|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m` | 4 | 1 |
+| `ShadowCam|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m` | 6 | 2 |
+| `ShadowCam|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 7 | 2 |
 | `ShadowCam|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 6 | 2 |
-| `ShadowCam|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 47 | 14 |
-| `ShadowCam|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 16 | 5 |
-| `ShadowCam|W|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 9 | 3 |
+| `ShadowCam|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[1,5)m` | 2 | 0 |
+| `ShadowCam|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m` | 26 | 8 |
+| `ShadowCam|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m` | 18 | 5 |
+| `ShadowCam|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m` | 1 | 1 |
+| `ShadowCam|W|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m` | 3 | 1 |
 | `ShadowCam|W|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m` | 11 | 3 |
 
 </details>

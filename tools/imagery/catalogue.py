@@ -188,6 +188,12 @@ def build(out=OUT, harvest_dir=CACHE_ROOT / 'harvest', sun_fn=None, prior=None):
     if not rows:
         raise SystemExit('no harvest rows: run python -m tools.imagery.ode harvest first')
     sun_sources = add_sun(rows, sun_fn)
+    # Round every float to the CSV's precision BEFORE strata and the split, so both can be re-derived
+    # exactly from the published file (overlaps that differ past 1e-6 would otherwise tie differently).
+    for r in rows:
+        for k, v in r.items():
+            if isinstance(v, float) and math.isfinite(v):
+                r[k] = round(v, 6)
     held = assign_split(rows, prior if prior is not None else prior_use_ids())
     sha = write_csv_gz(rows, out)
     side = {'catalogue': str(Path(out).relative_to(ROOT)) if Path(out).is_relative_to(ROOT) else str(out),
