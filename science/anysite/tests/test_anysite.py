@@ -106,6 +106,14 @@ class BatchedSkylineIdentity(unittest.TestCase):
         self.assertEqual(out['elevation_deg'], ref['elevation_deg'])
         self.assertEqual(out['status'], ref['status'])
 
+    def test_composite_far_step_is_primary_layer(self):
+        # regression: a 60 m fill layer made the composite's far ray step 60 m instead of PGDA 90's 80 m (moved RoI 3)
+        from science.anysite.stack import CompositeDEM
+        a = demmod.ArrayDEM(np.zeros((10, 10)), 0.0, 800.0, 80.0, 'a')
+        b = demmod.ArrayDEM(np.ones((10, 10)), 0.0, 600.0, 60.0, 'b')
+        self.assertEqual(CompositeDEM([a, b]).step, 80.0)
+        self.assertGreater(S.FAR_MIN_RES_M, 60.0)
+
     def test_error_field_statistics(self):
         f = MB.error_field((500, 500), 80.0, 1.0, 400.0, (7, 1))
         self.assertAlmostEqual(float(f.std()), 1.0, delta=0.08)

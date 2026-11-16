@@ -33,7 +33,7 @@ from .stack import get_stack
 
 ROOT = P.ROOT
 OUT_DIR = ROOT / 'data' / 'cache' / 'anysite' / 'bundles'
-SOLVER_VERSION = 'anysite-1'
+SOLVER_VERSION = 'anysite-2'   # 2: far composite step = PGDA 90 step; far layers >= 75 m
 LABEL = B.LABEL
 NEAR_HALF_M = 25_000.0
 BASE_RANGE_M = 280_000.0         # range of every existing bundle
@@ -42,7 +42,8 @@ FAR_MARGIN_M = 10_000.0           # far window half = range + margin (290 km for
 STEP_DIVISOR = 5.0               # ray step = native / 5 (1 m on 5 m PGDA 78: the converged ROI-bundle step)
 FINE_STEP_MAX_M = 12_500.0       # fine ray step at most this far (RoI bundles: 6.3 km); memory bound for 5 m products
 NEAR_MAX_PX = 6000               # near window <= 6000 px per side (±15 km at 5 m)
-FAR_MIN_RES_M = 60.0             # products used as far-field layers (PGDA 90 80 m, LOLA global); finer ones are near-only
+FAR_MIN_RES_M = 75.0             # far-field layers: PGDA 90 80 m class and coarser (LOLA global); finer ones are near-only
+                                 # (a ±290 km window of the 60 m LOLA polar product would be ~750 MB per worker)
 
 
 def site_hash(lat, lon, mast_m, start, days, step_h, product_ids, member_kinds=(), n_members=20):

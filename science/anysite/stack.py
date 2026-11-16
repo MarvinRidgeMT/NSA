@@ -194,7 +194,8 @@ class CompositeDEM:
     """First finite sample among layers (priority order). Used when > 2 products cover a near field."""
 
     def __init__(self, layers, name=None):
-        self.layers = layers; self.step = min(l.step for l in layers)
+        # ray step / cell size of the composite = its primary layer's (fill layers must not change the far step)
+        self.layers = layers; self.step = layers[0].step
         self.name = name or ' > '.join(l.name for l in layers)
         self.meta = {'layers': [l.name for l in layers], **{k: v for k, v in layers[0].meta.items()
                                                              if k in ('product_id', 'product', 'zone')}}
