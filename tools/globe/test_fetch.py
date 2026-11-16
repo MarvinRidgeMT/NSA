@@ -249,6 +249,16 @@ class FetchTests(unittest.TestCase):
         th.pace(500, t0=t[0], done=5000)  # 5000 B at 1000 B/s must take 5 s
         self.assertAlmostEqual(slept[-1], 5.0)
 
+    def test_verify_detects_tampered_and_missing_files(self):
+        fetch.fetch_product(self._product(), self.tmp, FAST, fetch.Throttle(FAST), self._budget(), log=self.log)
+        self.assertEqual(fetch.verify(self.tmp, log=self.log)["ok"], 2)
+        img = os.path.join(self.tmp, "v2/products/test_prod/sub/a.img")
+        with open(img, "r+b") as f:
+            f.write(b"X")
+        os.remove(os.path.join(self.tmp, "v2/products/test_prod/sub/a.lbl"))
+        r = fetch.verify(self.tmp, log=self.log)
+        self.assertEqual((r["ok"], r["bad"], r["missing"]), (0, 1, 1))
+
     def test_manifest_rejects_entries_missing_contract_keys(self):
         with self.assertRaises(ValueError):
             fetch.append_manifest(self.tmp, {"url": "x"})

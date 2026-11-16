@@ -15,6 +15,7 @@ Usage:
   python -m tools.globe.fetch                               # download the plan in priority order
   python -m tools.globe.fetch --products lola_ldem_global   # just one product
   python -m tools.globe.fetch --mirror docs/v2/DATA_MANIFEST.json   # write the committed manifest mirror
+  python -m tools.globe.fetch --verify                      # re-hash every manifest file
 
 Never sends credentials; only public, no-login URLs are in the catalogue.
 """
@@ -318,6 +319,24 @@ def fetch_product(product, root: str, policy: Policy, throttle: Throttle, budget
     return written
 
 
+def verify(root: str, log: Callable[[str], None] = print) -> Dict[str, int]:
+    """Re-hash every file in the manifest (latest entry per path). Returns counts: ok, missing, bad."""
+    out = {"ok": 0, "missing": 0, "bad": 0, "bytes": 0}
+    for rel, e in sorted(latest_by_path(read_manifest(root)).items()):
+        path = os.path.join(root, rel)
+        if not os.path.exists(path):
+            out["missing"] += 1
+            log(f"MISSING {rel}")
+        elif os.path.getsize(path) != int(e["bytes"]) or sha256_file(path) != e["sha256"]:
+            out["bad"] += 1
+            log(f"BAD {rel}")
+        else:
+            out["ok"] += 1
+            out["bytes"] += int(e["bytes"])
+    log(f"verify: {out}")
+    return out
+
+
 def check(products, policy: Policy, log: Callable[[str], None] = print) -> int:
     """HEAD every file; report size mismatches and missing files. Returns the number of problems."""
     throttle = Throttle(policy)
@@ -350,8 +369,12 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--max-mbps", type=float, default=16.0, help="bandwidth cap in MiB/s (0 = none)")
     ap.add_argument("--min-interval", type=float, default=1.0, help="seconds between requests")
     ap.add_argument("--mirror", default=None, help="write the committed manifest mirror to this path and exit")
+    ap.add_argument("--verify", action="store_true", help="re-hash every manifest file against its SHA-256 and exit")
     a = ap.parse_args(argv)
     root = polaris_data(a.root)
+    if a.verify:
+        r = verify(root)
+        return 1 if (r["missing"] or r["bad"]) else 0
     if a.mirror:
         n = write_mirror(root, a.mirror)
         print(f"wrote {n} entries to {a.mirror}")
