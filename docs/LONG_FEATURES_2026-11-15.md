@@ -222,6 +222,12 @@ the 14-day demo window (100 % at all three); up to +1.2 pts in 12-month Sun (Sit
 
 Code: `step19_sfs_site.py`, `step20_roi_heights.py`, `run_test_new.sh`.
 
+## 10. Repo integration status (19:40 ET, 15 Nov)
+
+Branch `codex/lab-integration` on Anish's Mac (local only, not pushed, not merged): C1–C6, F2, F3, D1, D2 by Codex; D3 (d75cd59) and v3 lab (2582ad8) by Claude after Codex hit its limit. Lab index.html SHA-256 d12e0896…, build OK, Playwright 25/25, traceability scan 1171/0. Working tree clean apart from the two untracked FABLE prompt docs.
+
+Open decision (F1): session A's 3D web rebuild (GlobalMoon, TerrainSurface, SfS relief, larger e2e suite) is only in `~/Downloads/POLARIS-X5D-Blender-Codex` (branch b-experience, ~198 uncommitted changes). It is not in any branch of the submission repo. Team must pick which web/ ships.
+
 ## 5. Handoffs
 - **Batch session / 3rd + 4th computers (P1):** apply the float64 fix (§0) and relabel published batch numbers.
 - **Organizer (P3):** add this doc to INDEX, close C19 with §0, CHANGELOG row "15 Nov 00:07–00:50, long-feature session:
@@ -237,6 +243,7 @@ Code: `step19_sfs_site.py`, `step20_roi_heights.py`, `run_test_new.sh`.
 | When (EST) | Change |
 |---|---|
 | 15 Nov 00:45 | Created. |
+| 15 Nov 19:40 | §10 added (repo integration finished: D3 + v3 lab committed locally; F1 decision open). |
 | 15 Nov 19:20 | §9 added (hotspot tests + OOS planning for Sites 07/11; SfS at three sites; 13-RoI crest finding). |
 | 15 Nov 18:35 | §8 added (Codex split, four sites, surrogate screener, solver API, correlated-error planning with out-of-sample test). |
 | 15 Nov 15:10 | §7 added (round 3: 20-clone upgrades, two-lander, ellipse, planner, asset twin, SfS, WAC, skeptic mode). |
