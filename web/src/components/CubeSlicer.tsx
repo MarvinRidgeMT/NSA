@@ -66,6 +66,7 @@ export function CubeSlicer({ v }: { v: View }) {
     if (!file) return;
     let live = true;
     setCube(null);
+    setErr(null);
     loadCube(siteId, file)
       .then((c) => live && setCube(c))
       .catch((e: Error) => live && setErr(e.message));

@@ -28,6 +28,7 @@ function useIndex(siteId: string) {
   const [ix, setIx] = useState<CubeIndex | null | undefined>(undefined);
   useEffect(() => {
     let live = true;
+    setIx(undefined);
     loadCubeIndex(siteId)
       .then((i) => live && setIx(i))
       .catch(() => live && setIx(null));
@@ -41,6 +42,7 @@ function useIndex(siteId: string) {
 function useCubeFile(siteId: string, ix: CubeIndex | null | undefined, file: string) {
   const [c, setC] = useState<ScenarioCube | null | undefined>(undefined);
   useEffect(() => {
+    setC(undefined);
     if (ix === undefined) return;
     if (!ix || !ix.cubes.some((x) => x.file === file)) {
       setC(null);
@@ -61,6 +63,7 @@ export function CubeQuestionRows({ siteId }: { siteId: string }) {
   const [s, setS] = useState<DecisionSummary | null | undefined>(undefined);
   useEffect(() => {
     let live = true;
+    setS(undefined);
     fetch(`${cubeBase(siteId)}decision_summary.json`)
       .then(async (r) => {
         if (!r.ok || (r.headers.get('content-type') ?? '').includes('text/html')) return null;
@@ -212,7 +215,7 @@ export function SafeLitGrid({ siteId }: { siteId: string }) {
     const v = mm.values[lim * pos.length + j];
     return typeof v === 'boolean' ? (v ? 1 : 0) : (v as number);
   };
-  // grid: dx outer (columns, west→east), dy inner (rows, north→south when drawn top-down)
+  // grid: dx outer (columns, grid west→east), dy inner (rows drawn grid-north (+y) at the top; +y is NOT local north here)
   const xs = [...new Set(pos.map((p) => Number(p.split(',')[0])))].sort((a, b) => a - b);
   const ys = [...new Set(pos.map((p) => Number(p.split(',')[1])))].sort((a, b) => b - a);
   const nSafeLit = pos.filter((_, j) => val('k_safe_and_lit', j) === 20).length;
@@ -232,7 +235,7 @@ export function SafeLitGrid({ siteId }: { siteId: string }) {
           ))}
         </select>
       </label>
-      <div className="sl-grid" role="grid" aria-label="Position grid, 25 m cells, north up">
+      <div className="sl-grid" role="grid" aria-label="Position grid, 25 m cells, grid north up (polar-stereographic +y, toward the lunar near side), not local north">
         {ys.map((y) => (
           <div className="sl-row" role="row" key={y}>
             {xs.map((x) => {

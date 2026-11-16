@@ -260,7 +260,9 @@ def build_products(site):
     sfs_row, sfs_reason = None, ''
     if m1 is None:
         sfs_reason = 'no SfS result for this site in research/long_features/results/sfs_result.json'
-    elif cover is None or cover < 1.0:
+    elif cover is None:
+        sfs_reason = f'no SfS tile coverage recorded for {tile} in sfs_meta.json, so the research SfS entry is not used here'
+    elif cover < 1.0:
         sfs_reason = (f'SfS DEM covers {cover:.1%} of the {tile} tile (sfs_meta.json); coverage at this site is '
                       'not confirmed, so the research SfS entry is not used here')
     else:
@@ -311,9 +313,14 @@ def build_site(site):
         files.append({'file': name, 'cube_id': c['cube_id'], 'title': c['title'], 'bytes': p.stat().st_size,
                       'uncompressed_bytes': raw or p.stat().st_size, 'sha256': sha256_file(p),
                       'dims': [x['name'] for x in c['dims']]})
-    idx = {'schema': 'scenario-cube-index-v1', 'site_id': site, 'label': LABEL, 'cubes': files,
-           'baseline': baseline_check(b, c1)}
-    (d / 'index.json').write_text(json.dumps(idx, indent=1) + '\n')
+    # merge into an existing index (other builders add their cubes with build_visibility.add_to_index)
+    ip = d / 'index.json'
+    idx = json.loads(ip.read_text()) if ip.exists() else {'schema': 'scenario-cube-index-v1', 'site_id': site, 'label': LABEL, 'cubes': []}
+    mine = {f['file'] for f in files}
+    old = [c for c in idx.get('cubes', []) if c['file'] not in mine]
+    idx['cubes'] = files + old
+    idx['baseline'] = baseline_check(b, c1)
+    ip.write_text(json.dumps(idx, indent=1) + '\n')
     return idx
 
 

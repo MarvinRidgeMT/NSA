@@ -108,7 +108,16 @@ def outcome(vis, slope, idx, limit):
     return k, nom, inside
 
 
+def missing_skylines(site):
+    return [(t, dx, dy) for dx, dy in field_offsets() for t in C.T_IDS
+            if not (C.SKY / f'{C.sky_key(site, t, 1.0, dx, dy)}.json').exists()]
+
+
 def build(site):
+    miss = missing_skylines(site)
+    if miss:
+        raise SystemExit(f'{site}: {len(miss)} field skylines missing for +-{HALF} m; run '
+                         f'`python -m science.cube.compute {site} --grid {HALF} {STEP}` first (refusing to compute them serially here)')
     b, eph = site_inputs(site)
     vis, slope = field_pass(site, eph)
     D = list(DISPERSIONS)
