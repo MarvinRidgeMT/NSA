@@ -1,6 +1,9 @@
 import { SURFACE_LAYERS, useSurface, type SurfaceLayerId } from '../store/surface';
 import { layerCoverageOnCrop, type VisualLayer } from '../bundle/visualLayers';
 import type { View } from '../store/view';
+import { useUi } from '../store/ui';
+
+export const EXAGGERATIONS = [1, 2, 3, 5, 10] as const;
 
 /** The registered image layer that covers this view's DEM crop best (≥ 20 % of it), or null. Pure lookup, no numbers change. */
 export function albedoLayerFor(v: View, layers: VisualLayer[] | undefined): { layer: VisualLayer; coverage: number } | null {
@@ -30,6 +33,23 @@ export function SurfaceLayerPicker() {
           <option key={l.id} value={l.id} disabled={l.id === 'albedo' && albedoCoverage <= 0}>
             {l.label}
             {l.id === 'albedo' && albedoCoverage <= 0 ? ' (no registered image here)' : ''}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+/** Vertical exaggeration of the DRAWN scene only. The bundle numbers (visibility, margins, metrics) never change. */
+export function ExaggerationPicker() {
+  const k = useUi((s) => s.exaggeration);
+  return (
+    <label className="exag-pick" title="Display only: stretches the drawn terrain, mast, rays and markers vertically together. Visibility, margins and metrics are the bundle's and do not change.">
+      <span className="lab">Vertical</span>
+      <select value={k} onChange={(e) => useUi.getState().set({ exaggeration: Number(e.target.value) })} data-testid="vertical-exaggeration" aria-label="Vertical exaggeration (display only)">
+        {EXAGGERATIONS.map((x) => (
+          <option key={x} value={x}>
+            {x === 1 ? '1× physical' : `${x}× (display)`}
           </option>
         ))}
       </select>

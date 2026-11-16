@@ -276,6 +276,29 @@ void main() {
  * computeVertexNormals pass): the 801 x 801 L1 ring has 640k vertices and 1.28M triangles, and the generic path took seconds.
  * Normal = cross(p[i+1] - p[i-1], p[j+1] - p[j-1]) (one-sided at the edges), which points up after the (x, z, -y) mapping.
  */
+/** true for software WebGL (SwiftShader, llvmpipe, Microsoft Basic Render): used only to thin dense display meshes */
+export function softwareGl(gl: THREE.WebGLRenderer): boolean {
+  try {
+    const c = gl.getContext();
+    const ext = c.getExtension('WEBGL_debug_renderer_info');
+    const r = String(ext ? c.getParameter(ext.UNMASKED_RENDERER_WEBGL) : c.getParameter(c.RENDERER));
+    return /swiftshader|llvmpipe|software|basic render/i.test(r);
+  } catch {
+    return false;
+  }
+}
+
+/** node stride for a display mesh of n x n nodes: full density on a GPU (up to 1601²), at most ~401² on a software renderer */
+export function meshStride(n: number, software: boolean): number {
+  const cap = software ? 401 : 1601;
+  let s = 1;
+  while (Math.floor((n - 1) / s) + 1 > cap || (n - 1) % s !== 0) {
+    s += 1;
+    if (s > n) return 1;
+  }
+  return s;
+}
+
 function gridGeometry(n: number, at: (i: number, j: number) => [number, number, number]) {
   const pos = new Float32Array(n * n * 3);
   let k = 0;
@@ -420,8 +443,23 @@ export function TerrainSurface({ v, dem, obs, local, ctx, layer, albedo }: Terra
     // SfS-blended ring around it would not match it: the ring is then left out (5 m LOLA crop inside the 80 m LOLA context).
     const midOk = meta.mid && ctx.mid && ctx.midHorizon && meta.horizon.mid && (D || !(meta.mid.sfsFraction && meta.mid.sfsFraction > 0));
     const M = midOk ? meta.mid! : null;
-    const mid = M ? gridGeometry(M.n, (i, j) => [M.originX + i * M.spacingM - obs.x, ctx.mid![j * M.n + i] + dShift - obs.ground, -(M.originY + j * M.spacingM - obs.y)]) : null;
-    const midSkirt = mid && M ? skirtGeometry(mid, M.n) : null;
+    // L1 is full 5 m data (1601², 8 km). A hardware GPU draws every node; a software renderer (SwiftShader / llvmpipe, used by the
+    // headless tests) draws every `midStride`-th node so the page stays responsive. Display only; the data are unchanged.
+    // On a software renderer both the mesh AND the shadow-march height texture are thinned (every s-th node, same extent), so
+    // headless test pages see what they saw with the old 20 m ring; a GPU gets the full 5 m data.
+    const midStride = M ? meshStride(M.n, softwareGl(gl)) : 1;
+    const midN = M ? Math.floor((M.n - 1) / midStride) + 1 : 0;
+    const MS = M ? { ...M, n: midN, spacingM: M.spacingM * midStride } : null;
+    let midZ: Float32Array | null = M ? ctx.mid! : null;
+    if (M && midStride > 1) {
+      const z = new Float32Array(midN * midN);
+      for (let b = 0; b < midN; b++) for (let a = 0; a < midN; a++) z[b * midN + a] = ctx.mid![b * midStride * M.n + a * midStride];
+      midZ = z;
+    }
+    const mid = MS && midZ
+      ? gridGeometry(MS.n, (i, j) => [MS.originX + i * MS.spacingM - obs.x, midZ![j * MS.n + i] + dShift - obs.ground, -(MS.originY + j * MS.spacingM - obs.y)])
+      : null;
+    const midSkirt = mid && MS ? skirtGeometry(mid, MS.n) : null;
     const K = meta.horizon.azimuths;
     const texLocal = horizonTexture(ctx.localHorizon, meta.horizon.local.m, K);
     const texRegional = horizonTexture(ctx.regionalHorizon, meta.horizon.regional.m, K);
@@ -450,7 +488,7 @@ export function TerrainSurface({ v, dem, obs, local, ctx, layer, albedo }: Terra
     };
     const demL = floatTex(D ? Float32Array.from(D, (z) => z + dShift) : dem.values instanceof Float32Array ? dem.values : Float32Array.from(dem.values), dem.n);
     const demR = floatTex(dShift ? Float32Array.from(ctx.regional, (z) => z + dShift) : ctx.regional, R.n);
-    const demM = M ? floatTex(dShift ? Float32Array.from(ctx.mid!, (z) => z + dShift) : ctx.mid!, M.n) : floatTex(new Float32Array(1), 1);
+    const demM = MS && midZ ? floatTex(dShift ? Float32Array.from(midZ, (z) => z + dShift) : midZ, MS.n) : floatTex(new Float32Array(1), 1);
     // Shadow texture on every 2nd DEM cell (10 m for the 5 m crops). Two targets: the front one is sampled while the back one is
     // filled a few rows per frame (session A, 15 Nov: filling all 161k cells in one frame stalled the M5 Pro GPU ~1 s per sample).
     // LOLA crop: every 2nd cell (10 m). SfS display surface: every cell (5 m), because its relief is real at that scale and
@@ -469,7 +507,7 @@ export function TerrainSurface({ v, dem, obs, local, ctx, layer, albedo }: Terra
         uDemLGrid: { value: new THREE.Vector4(dem.originX, dem.originY, dem.spacing, dem.n) },
         uMarchGrid: { value: shadowGrid },
         uDemM: { value: demM },
-        uDemMGrid: { value: M ? new THREE.Vector4(M.originX, M.originY, M.spacingM, M.n) : new THREE.Vector4(0, 0, 1, 1) },
+        uDemMGrid: { value: MS ? new THREE.Vector4(MS.originX, MS.originY, MS.spacingM, MS.n) : new THREE.Vector4(0, 0, 1, 1) },
         uHasMid: { value: M ? 1 : 0 },
         uNear: { value: D ? 7 : 3 },
         uDemR: { value: demR },

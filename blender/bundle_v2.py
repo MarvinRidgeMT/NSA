@@ -126,6 +126,21 @@ def scenario(d, scenario_id=None):
     raise BundleError(f'no scenario {scenario_id!r}')
 
 
+def with_scenario_geometry(d, sc):
+    """Position-offset scenarios carry their own JPL samples (same UTC times) and local-ENU basis. Return the dataset with
+    those swapped in, exactly like the web viewer (web/src/store/view.ts withScenarioGeometry); unchanged otherwise."""
+    if not sc:
+        return d
+    out = d
+    e = sc.get('ephemeris')
+    if e and [s['time'] for s in e['samples']] == [s['time'] for s in d['ephemeris']['samples']]:
+        out = dict(out, ephemeris=dict(out['ephemeris'], samples=e['samples']))
+    f = sc.get('frame')
+    if f and f.get('localNorthInGrid') and f.get('localEastInGrid') and out.get('derived'):
+        out = dict(out, derived=dict(out['derived'], frame=f))
+    return out
+
+
 def observer(d, sc):
     """Observer in grid metres: from the scenario if present, else the DEM node nearest the crop centre (display only)."""
     if sc:
@@ -293,7 +308,7 @@ def display_shift(local_dem, display_values, obs):
 
 
 def context_mid_dem(context_dir, local_dem):
-    """L1 ring of a context pack (`mid`, 20 m, about +-4 km), as a dem-like grid, with nodes strictly inside the local 5 m
+    """L1 ring of a context pack (`mid`, full 5 m since 15 Nov 22:00, earlier packs 20 m; about +-4 km), as a dem-like grid, with nodes strictly inside the local 5 m
     footprint (inset one L1 cell) lowered by CONTEXT_CUT_DROP_M so the two surfaces never coincide. Returns (dem_like, info,
     box) where box = (xmin, xmax, ymin, ymax) of the ring, or (None, reason, None)."""
     d, meta, why = _pack_meta(context_dir, local_dem)
@@ -318,7 +333,7 @@ def context_mid_dem(context_dir, local_dem):
             if x0 < ox + i * s < x1:
                 vals[j * n + i] -= CONTEXT_CUT_DROP_M
                 cut += 1
-    dem_like = {'kind': 'nasa', 'layer': 'L1_20m_ring_DISPLAY_ONLY', 'n': n, 'spacing': s, 'originX': ox, 'originY': oy, 'values': vals}
+    dem_like = {'kind': 'nasa', 'layer': f'L1_{s:g}m_ring_DISPLAY_ONLY', 'n': n, 'spacing': s, 'originX': ox, 'originY': oy, 'values': vals}
     info = {'product': m.get('product'), 'n': n, 'spacingM': s, 'sha256': m['sha256'], 'sfsFraction': m.get('sfsFraction'),
             'nodesLoweredInsideLocalFootprint': cut, 'visualCutDropM': CONTEXT_CUT_DROP_M, 'status': 'VISUAL', 'numericalAuthority': False}
     return dem_like, info, (ox, ox + (n - 1) * s, oy, oy + (n - 1) * s)

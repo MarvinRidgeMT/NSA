@@ -11,24 +11,40 @@ const COLS: { id: string; label: string; unit: string; better: 'up' | 'down' }[]
   { id: 'longest_earth_center_hidden_h', label: 'Max Earth gap (h)', unit: 'h', better: 'down' },
 ];
 
-const FAMILY_ORDER = ['baseline', 'repair', 'position-offset', 'mast-height', 'arrival-shift', 'dem-uncertainty'];
+const FAMILY_ORDER = ['baseline', 'repair', 'position-offset', 'mast-height', 'arrival-shift', 'dem-clone', 'dem-uncertainty'];
 const FAMILY_TITLE: Record<string, string> = {
   baseline: 'Baseline',
   repair: 'Recomputed repair',
   'position-offset': 'Position offsets (±100 m)',
   'mast-height': 'Mast height',
   'arrival-shift': 'Arrival time',
+  'dem-clone': 'Terrain clones (NASA PGDA 78, 3 of 20 shown)',
   'dem-uncertainty': 'Terrain uncertainty (NASA error data)',
 };
 
-function metric(s: Scenario, id: string) {
-  return s.metrics.find((m) => m.id === id);
+/** ROI viewer exports (science/viewer.py) name the same window metrics differently */
+const ALIAS: Record<string, string> = {
+  sun_center_visible_pct: 'sun_fraction',
+  earth_center_visible_pct: 'earth_fraction',
+  sun_and_earth_center_visible_pct: 'both_fraction',
+  longest_sun_center_hidden_h: 'longest_dark',
+  longest_earth_center_hidden_h: 'longest_blackout',
+};
+
+/** family of a scenario; ROI exports use kind ids (baseline, mast_height, dem_clone, position_offset) */
+export function familyOf(s: Scenario): string {
+  return s.family ?? s.kind.replace(/_/g, '-');
 }
 
-function OffsetGrid({ scs, sel, onPick }: { scs: Scenario[]; sel: string | null; onPick: (id: string) => void }) {
-  const cell = (e: number, n: number) => scs.find((s) => Number(s.parameters?.east_m) === e && Number(s.parameters?.north_m) === n);
+function metric(s: Scenario, id: string) {
+  return s.metrics.find((m) => m.id === id) ?? s.metrics.find((m) => m.id === ALIAS[id]);
+}
+
+function OffsetGrid({ scs, base, sel, onPick }: { scs: Scenario[]; base?: Scenario; sel: string | null; onPick: (id: string) => void }) {
+  const cell = (e: number, n: number) =>
+    scs.find((s) => Number(s.parameters?.east_m) === e && Number(s.parameters?.north_m) === n) ?? (e === 0 && n === 0 ? base : undefined);
   const all = scs.map((s) => metric(s, 'sun_center_visible_pct')?.value).filter((x): x is number => x !== undefined);
-  if (all.length < 9) return null;
+  if (all.length < 4) return null;
   return (
     <figure className="offset-grid" data-testid="offset-grid" data-classification="SCENARIO">
       <figcaption>
@@ -47,6 +63,7 @@ function OffsetGrid({ scs, sel, onPick }: { scs: Scenario[]; sel: string | null;
                 className={`og-cell ${sel === s?.id ? 'sel' : ''} ${e === 0 && n === 0 ? 'centre' : ''}`}
                 style={{ background: `color-mix(in oklab, #1a1f27, #f2b84b ${Math.round(t * 100)}%)`, color: t > 0.55 ? '#120d04' : '#e8eef6' }}
                 onClick={() => s && onPick(s.id)}
+                disabled={!s}
                 aria-label={`${e} m east, ${n} m north: Sun ${val?.toFixed(1)} %`}
                 data-testid={`og-${e}_${n}`}
               >
@@ -65,16 +82,16 @@ export function ScenarioTable({ v }: { v: View }) {
   const scs = v.dataset.derived?.scenarios ?? [];
   const { setScenario } = usePolaris.getState();
   if (scs.length < 2 || !scs.some((s) => s.metrics.some((m) => m.delta !== undefined))) return null;
-  const fams = FAMILY_ORDER.filter((f) => scs.some((s) => (s.family ?? s.kind) === f));
-  const base = scs.find((s) => (s.family ?? s.kind) === 'baseline');
-  const offsets = scs.filter((s) => s.family === 'position-offset');
+  const fams = FAMILY_ORDER.filter((f) => scs.some((s) => familyOf(s) === f));
+  const base = scs.find((s) => familyOf(s) === 'baseline');
+  const offsets = scs.filter((s) => familyOf(s) === 'position-offset');
   return (
     <section className="panel" aria-labelledby="sc-title" data-testid="scenario-table">
       <div className="panel-head">
         <h2 id="sc-title">5D resilience · {scs.length - 1} scenarios</h2>
         <span className="muted">deterministic alternatives, not probabilities · click a row to inspect</span>
       </div>
-      <OffsetGrid scs={offsets} sel={v.scenario?.id ?? null} onPick={setScenario} />
+      <OffsetGrid scs={offsets} base={base} sel={v.scenario?.id ?? null} onPick={setScenario} />
       <div className="table-scroll">
         <table className="constraints scen">
           <thead>
@@ -95,7 +112,7 @@ export function ScenarioTable({ v }: { v: View }) {
                 </th>
               </tr>
               {scs
-                .filter((s) => (s.family ?? s.kind) === f)
+                .filter((s) => familyOf(s) === f)
                 .map((s) => (
                   <tr
                     key={s.id}
@@ -127,8 +144,8 @@ export function ScenarioTable({ v }: { v: View }) {
       </div>
       {base && (
         <p className="muted small">
-          Deltas are the bundle’s <code>delta_vs_baseline</code>. Green = better for the mission, red = worse. Only the baseline carries a full time series; other rows are
-          scenario metrics recomputed by the science pipeline (new skyline, new Horizons queries where needed).
+          Deltas are the bundle’s <code>delta_vs_baseline</code> (scenario minus baseline). Green = better for the mission, red = worse. Every row is a full recomputation by the
+          science pipeline (new skyline, new Horizons queries where needed). Rows with a time series drive the charts and 3D when selected; the rest are metrics only.
         </p>
       )}
     </section>

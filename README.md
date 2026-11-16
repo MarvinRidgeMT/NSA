@@ -38,6 +38,19 @@ bash run_blender.command \
 
 Outputs are in `blender/output/`: editable `.blend`, GLB v2, source/visibility metadata, a hash manifest, and start/middle/end PNG renders. Blender 5.3.0 on Apple Silicon was used for the verified build.
 
+Build a real ROI hero scene with the Sun/Earth sky model (true-angle sky shell, ×5 sky chart with the 5th-axis skylines, and mast-eye renders looking at the Sun and Earth):
+
+```bash
+bash rebuild_blender_hero.command site04_roi3
+```
+
+Rebuild the 5th-axis scenario bundles (PGDA 78 clones and ±100 m offsets; queries JPL Horizons) and the viewer export:
+
+```bash
+.venv/bin/python -m science.scenario_bundles --site site04_roi3
+.venv/bin/python -m science.viewer --out data/viewer/polaris-x5d-roi-2026-11-14-v2.json --dataset site01_roi6:1,10 --dataset site04_roi3:1,10 --dataset site04_roi4:1,10
+```
+
 ## Verify
 
 Fast tests:
@@ -85,6 +98,7 @@ Set `POLARIS_DATA=../data/external` to keep downloaded NASA rasters and cached r
 ## Documentation
 
 - `docs/BUILD_STATUS.md` — implemented work and remaining gaps
+- `docs/5D_SCENARIO_AXIS.md` — 5th-axis scenarios, Sun/Earth sky model, terrain-size diagnosis
 - `docs/ARCHITECTURE.md` — data and component boundaries
 - `docs/SCIENTIFIC_CONTRACT.md` — frames, units, time, visibility and 5D semantics
 - `docs/DATA_PROVENANCE.md` — source artifacts and checksums

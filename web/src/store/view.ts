@@ -54,6 +54,19 @@ function target(ds: Dataset, sc: Scenario | null, br: Bracket, key: 'sun' | 'ear
   };
 }
 
+/** A position-offset scenario was computed with its own JPL samples and local basis. While it drives the view, every
+ * panel reads those instead of the dataset's (same UTC times required; otherwise the dataset is left unchanged). */
+export function withScenarioGeometry(ds: Dataset, sc: Scenario | null, times: number[]): Dataset {
+  const e = sc?.ephemeris;
+  const f = sc?.frame;
+  if (!e && !f) return ds;
+  let out = ds;
+  if (e && e.samples.length === times.length && e.samples.every((s, k) => Date.parse(s.time) === times[k]))
+    out = { ...out, ephemeris: { ...out.ephemeris, samples: e.samples } };
+  if (f?.localNorthInGrid && f.localEastInGrid && out.derived) out = { ...out, derived: { ...out.derived, frame: f } };
+  return out;
+}
+
 /** Everything a panel needs, derived from the ONE store. Returns null until a bundle is loaded. */
 export function useView(): View | null {
   const loaded = usePolaris((s) => s.loaded);
@@ -63,7 +76,7 @@ export function useView(): View | null {
   const failureId = usePolaris((s) => s.selectedFailureId);
   return useMemo(() => {
     if (!loaded || utcMs === null) return null;
-    const dataset = loaded.bundle.datasets[datasetIdx];
+    const base = loaded.bundle.datasets[datasetIdx];
     const times = loaded.times[datasetIdx];
     let br: Bracket;
     try {
@@ -71,8 +84,9 @@ export function useView(): View | null {
     } catch {
       return null;
     }
-    const scenario = dataset.derived?.scenarios.find((s) => s.id === scenarioId) ?? null;
-    const series = scenario?.samples ? scenario : (dataset.derived?.scenarios.find((s) => s.samples) ?? null);
+    const scenario = base.derived?.scenarios.find((s) => s.id === scenarioId) ?? null;
+    const series = scenario?.samples ? scenario : (base.derived?.scenarios.find((s) => s.samples) ?? null);
+    const dataset = withScenarioGeometry(base, series, times);
     return {
       loaded,
       status: loaded.status,
