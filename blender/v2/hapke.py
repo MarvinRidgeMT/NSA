@@ -233,11 +233,23 @@ def _hapke_tail(p, m0, m, cg, mu0e, mue, S, g, i, e):
     return r, {'g': g, 'i': i, 'e': e, 'S': S, 'mu0e': mu0e, 'mue': mue, 'p': pg, 'BSH': BSH}
 
 
+BACKLIT_MU0 = 0.01   # below this cos(i) for the dominant light, the surface gets only indirect light / earthshine
+
+
+def backlit_colour(p):
+    """Lambert-equivalent colour pi r / mu0 at the LROC normalisation geometry (i = g = 60, e = 0): used where the dominant
+    light does not reach the facet (cos i <= BACKLIT_MU0), so scattered light and earthshine are still reflected. APPROXIMATION
+    (documented): such facets are shaded as Lambertian with that colour for all non-dominant light."""
+    return math.pi * reference_r(p, 60.0, 0.0, 60.0) / 0.5
+
+
 def diffuse_colour_graph(p, mu0=None, mu=None, cosg=None, cap=4.0):
-    """Colour for a Cycles Diffuse BSDF so that it returns L = r E under a beam of irradiance E: pi r / mu0 (capped)."""
+    """Colour for a Cycles Diffuse BSDF so that it returns L = r E under a beam of irradiance E: pi r / mu0 (capped);
+    backlit_colour(p) where the dominant light is behind the facet."""
     mu0 = X.var('mu0') if mu0 is None else mu0
     r, _ = hapke_graph(p, mu0, mu, cosg)
-    return fmin(math.pi * r / fmax(mu0, EPS), cap), r
+    lit = fmin(math.pi * r / fmax(mu0, EPS), cap)
+    return select(mu0 - BACKLIT_MU0, lit, backlit_colour(p)), r
 
 
 def r_value(p, i_deg, e_deg, g_deg):

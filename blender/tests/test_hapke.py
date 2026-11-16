@@ -76,6 +76,16 @@ class Physics(unittest.TestCase):
         env = {'mu0': math.cos(math.radians(60)), 'mu': 1.0, 'cosg': math.cos(math.radians(60))}
         self.assertAlmostEqual(col.eval(env) / math.pi * env['mu0'], r.eval(env), places=12)
 
+    def test_backlit_facets_still_reflect(self):
+        """Regression (found on a ShadowCam render): facets facing away from the dominant light must keep a non-zero colour so
+        earthshine and terrain-scattered light are reflected."""
+        col, _ = H.diffuse_colour_graph(self.p)
+        back = col.eval({'mu0': -0.3, 'mu': 0.8, 'cosg': 0.2})
+        self.assertAlmostEqual(back, H.backlit_colour(self.p), places=12)
+        self.assertTrue(0.05 < back < 0.3, back)
+        lit = col.eval({'mu0': 0.5, 'mu': 1.0, 'cosg': 0.5})
+        self.assertAlmostEqual(lit, math.pi * H.reference_r(self.p, 60, 0, 60) / 0.5, places=9)
+
     def test_fixed_parameters_from_pds_readme(self):
         self.assertEqual(H.FIXED, {'B_C0': 0.0, 'h_C': 1.0, 'theta_bar_deg': 23.657, 'K': 1.0})
 
