@@ -1,6 +1,5 @@
 # POLARIS X — Lunar Landing Site Navigator (NASA Space Apps 2026)
 **Live demo:** [https://polarisx.earth](https://polarisx.earth/)  ·  **Demo video:** [Youtube](https://youtu.be/EZtttWtJaFc)
-NASA data: LOLA PGDA 78/90/69, JPL Horizons. AI use: Claude and Codex (see "Use of AI" below).
 
 # POLARIS X — 5D lunar digital twin research build
 
