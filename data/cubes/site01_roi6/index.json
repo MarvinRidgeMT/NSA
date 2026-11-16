@@ -107,6 +107,45 @@
     "S_day",
     "S_slip"
    ]
+  },
+  {
+   "file": "asset_layout.json",
+   "cube_id": "site01_roi6-asset-layout-v1",
+   "title": "Multi-asset layout: power, link, joint",
+   "bytes": 7297,
+   "uncompressed_bytes": 7297,
+   "sha256": "a9ff50387d4c227b67e6edf43665f60c20916d3ad19da42ec002601ac3fa0be7",
+   "dims": [
+    "T",
+    "D_layout",
+    "S_window"
+   ]
+  },
+  {
+   "file": "footprint.json",
+   "cube_id": "site01_roi6-footprint-v1",
+   "title": "Lander footprint: centre and corners of a 9 m pad",
+   "bytes": 7380,
+   "uncompressed_bytes": 7380,
+   "sha256": "775ca4311be27b805eb92074ad9a1da02f6fc25053203a6457928fd63e8e6175",
+   "dims": [
+    "T",
+    "D_pad",
+    "S_window"
+   ]
+  },
+  {
+   "file": "asset_heights.json",
+   "cube_id": "site01_roi6-asset-heights-v1",
+   "title": "Per-asset heights at the site",
+   "bytes": 7131,
+   "uncompressed_bytes": 7131,
+   "sha256": "08c7a5e4f78532919d4fcdb1f5feedd7e7ce8ece335d200f0b4435a9be59fc21",
+   "dims": [
+    "T",
+    "D_height",
+    "S_window"
+   ]
   }
  ],
  "baseline": {

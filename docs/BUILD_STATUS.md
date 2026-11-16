@@ -1090,3 +1090,10 @@ Cloud container (SwiftShader software WebGL): vitest 101/101; Playwright 69/86 i
 - Web: `CubeViews.tsx` (Decision Card rows, safe-and-lit 9 × 9 grid with the 10°/8° limit, launch calendar heatmap). The card change is one slot; no existing row changed.
 - `docs/design/THERMAL_MODEL.md`, `docs/design/TRAVERSE_PLANNER.md` (design only; implementation needs Sid's and Anish's go-ahead).
 - Tests: `science/tests/test_cube_views.py` (calendar re-index identity, summary rows vs cubes, synthetic cylinder shadow), `web/tests/e2e/cube-views.spec.ts`.
+
+### 5D upgrades Phases 8, 9.1, 9.2 (assets, footprint, heights) — Claude, 16 Nov 2026 ~01:45 EST, feature/5d-upgrades
+- `science/cube/build_assets.py` → `asset_layout.json` (T × D_layout{single, research, bad, tower} × {demo, 12 months}: power, link, power AND link, longest dark), `footprint.json` (9 m pad, centre + 4 corners, worst/best), `asset_heights.json` (1.0 / 1.7 crew eye / 2.0 / 4.5 / 15 m).
+- Self-shadowing from ILLUSTRATIVE cylinders (lander body r 2 m h 4 m; 15 m tower r 0.3 m) raised onto each asset's own terrain skyline; extra skylines computed with `compute.py --points`.
+- Checks: the antenna behind the lander gets 0 % Earth on all 21 maps (reproduces the research pilot); the single-point layout equals the centre and link cubes; the pad centre equals the point result; taller assets never see less Sun.
+- 12-month power AND link, nominal map: single point 39.1 / 45.3 %, research layout 44.5 / 47.1 %, 15 m tower 45.1 / 49.1 % (Site04 / Site01).
+- Tests: `science/tests/test_assets.py` 9 passed.

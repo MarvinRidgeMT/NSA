@@ -192,6 +192,20 @@ def multi_skyline(lat, lon, near_by_t, far, masts_by_t):
     return out
 
 
+_DEMS = {}
+
+
+def _worker_dem(site, t_id):
+    """Per-process DEM cache: a pool worker loads each terrain map once instead of once per task."""
+    key = (site, t_id)
+    if key not in _DEMS:
+        if len([k for k in _DEMS if k[0] != site]) and t_id == 'far':
+            for k in [k for k in _DEMS if k[0] != site]:
+                del _DEMS[k]                      # keep one site resident
+        _DEMS[key] = sites.far_dem(site) if t_id == 'far' else sites.near_dem(site, clone=_clone_of(t_id))
+    return _DEMS[key]
+
+
 def run_position(args):
     """Worker: all T maps at one position offset. args = (site, dx, dy) -> 10 masts at the centre, 1 m
     elsewhere; or (site, dx, dy, masts) with an explicit mast tuple."""
@@ -201,8 +215,8 @@ def run_position(args):
     todo = {t: ms for t, ms in todo.items() if ms}
     if not todo:
         return site, dx, dy, 0
-    near = {t: sites.near_dem(site, clone=_clone_of(t)) for t in todo}
-    far = sites.far_dem(site)
+    near = {t: _worker_dem(site, t) for t in todo}
+    far = _worker_dem(site, 'far')
     if (dx, dy) == (0, 0):
         s = sites.SITES[site]; lat, lon = s['lat'], s['lon']
     else:
