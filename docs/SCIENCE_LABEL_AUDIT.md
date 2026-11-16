@@ -57,3 +57,13 @@ The panel and card carry `data-source="scenario cube <cube_id>"` and `data-label
 | Requirement presets (team 70/40/120 h; strict 80/50/72 h; loose 60/30/168 h) | team requirement + research all3 gap limit; strict/loose are sensitivity presets | labelled as presets, not mission requirements |
 | Products table, "not in source" | `products.json` missing mask with reason | Site04 SfS cell missing (tile coverage 25.8 %) |
 | Terrain-safety values (slope °, safe-and-lit k) | `terrain_safety.json`; thresholds 10° / 8° / 20° are ENGINEERING ASSUMPTION | test_slope synthetic planes ±0.1° |
+
+## Energy trade view (5D upgrades Phase 5, 16 Nov 2026, branch feature/5d-phase5-energy)
+Component `web/src/components/EnergyTrade.tsx`; every value is a cell of `data/cubes/<site>/energy.json.gz` (built by `science/energy/`).
+Panel `data-label="ENGINEERING ASSUMPTION · inputs SOURCE-BASED · UNVALIDATED"`, badge shows the cube label `ENGINEERING ASSUMPTION`.
+
+| Claim on screen | Source | Check |
+|---|---|---|
+| Battery needed (kWh), demo start / every start, nominal / worst of 20 | `derived.trade` | equals parent-cube cells (test_energy, vitest energyCube) |
+| "k of 20 maps where X kWh holds every start", "% of starts hold on all 20" | `derived.trade.k_ok_all`, `share_starts_ok_all20` | recount from hours_below_reserve; wording never says probability |
+| Assumptions line (area, η, azimuth, battery, efficiencies, reserve, initial SoC, load) | cube `fixed`, copied from `science/energy/assumptions.yaml` | test_energy checks fixed = YAML |

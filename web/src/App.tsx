@@ -33,6 +33,7 @@ import { EvidencePipeline, EvidenceRecord } from './components/EvidenceRecord';
 import { CoverageGauge } from './components/CoverageGauge';
 import { CertaintyHeight } from './components/CertaintyHeight';
 import { CubeSlicer } from './components/CubeSlicer';
+import { EnergyTrade } from './components/EnergyTrade';
 import type { BundleIndexEntry } from './bundle/types';
 import { fetchIndex, IndexError } from './bundle/bootIndex';
 import { startUrlSync } from './store/urlState';
@@ -657,6 +658,9 @@ export default function App() {
                 </div>
                 <Guard label="Scenario cube">
                   <CubeSlicer v={v} />
+                </Guard>
+                <Guard label="Energy margin">
+                  <EnergyTrade v={v} />
                 </Guard>
               </div>
             )}

@@ -1,0 +1,22 @@
+# POLARIS X Phase 5 energy margin — ENGINEERING ASSUMPTION parameters.
+# These are illustrative design numbers chosen by the team, not a lander specification and not NASA values.
+# Every value below is copied into the energy cube's `fixed` block and shown on screen next to the result.
+# Edit here and rerun:  python -m science.energy.build_energy site04_roi3 site01_roi6
+array:
+  area_m2: 2.0                 # active cell area (one vertical face)
+  efficiency: 0.28             # end-to-end: cell, packing, temperature, MPPT, harness (assumed)
+  fixed_azimuth_deg: auto      # (b) fixed vertical array normal azimuth, 0 N / 90 E; auto = best year-mean on nominal map at 1 m
+battery:
+  capacity_wh: 10000           # usable nameplate for the hours-below-reserve / min-SoC metrics
+  charge_efficiency: 0.95      # energy stored per energy offered
+  discharge_efficiency: 0.95   # energy delivered per energy drawn
+  min_reserve_fraction: 0.20   # state of charge must stay at or above this fraction of capacity
+  initial_soc_fraction: 1.00   # state of charge at each window start
+load:
+  constant_w: 150              # survival heaters + avionics (assumed)
+  scheduled:
+    - name: science_and_comms
+      power_w: 100             # extra load while active
+      start_utc_hour: 12       # first active hour, UTC hour of day
+      duration_h: 4            # active hours per period
+      every_h: 24              # period
