@@ -64,3 +64,37 @@ def test_l1_nac_offset_shrinks_only_for_full_disc():
     for a in r['nac_v2_rescore'].values():
         assert a['offset_disc_fraction_ge_0p5_deg'] == a['crossing_centre_margin_deg']
         assert abs(a['offset_full_disc_rule_deg'][1]) < abs(a['crossing_centre_margin_deg'])
+
+
+# ------------------------------------------------------------------ L2
+def test_l2_spline_matches_horizons_bisection():
+    r = _res('L2_event_timing'); _manifest_ok('L2_event_timing')
+    for s in r['sites'].values():
+        assert s['validation_vs_horizons_bisection']
+        assert max(abs(e['diff_s']) for e in s['validation_vs_horizons_bisection']) < 60.0
+
+
+def test_l2_nominal_reproduces_bundle_continuous():
+    r = _res('L2_event_timing')['sites']['site04_roi3']
+    assert r['maps']['nominal']['centre']['sun_pct'] == pytest.approx(r['bundle_reference']['sun_center_visible_pct'], abs=0.01)
+    assert r['maps']['nominal']['centre']['longest_sun_gap_h'] == pytest.approx(r['bundle_reference']['longest_sun_center_hidden_h'], abs=0.01)
+
+
+def test_l2_refined_transitions_inside_hourly_bracket():
+    r = _res('L2_event_timing')
+    for s in r['sites'].values():
+        for m in s['maps'].values():
+            for v in m.values():
+                for k in ('sun_bracket_check', 'earth_bracket_check'):
+                    c = v[k]
+                    assert c['n_inside_bracket'] == c['n_events'] - c['n_subhour_blinks']
+                    # every hourly sign change is matched by one refined event inside it
+                    assert c['n_inside_bracket'] >= c['n_hourly_sign_changes']
+
+
+def test_l2_no_extrapolation():
+    from science.limits.l2_timing import Ephem
+    from science.limits.common import load_bundle
+    e = Ephem(load_bundle('site04_roi3'), 'sun')
+    with pytest.raises(ValueError):
+        e(e.t1 + 60)

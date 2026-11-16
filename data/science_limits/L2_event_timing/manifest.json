@@ -1,0 +1,22 @@
+{
+ "item": "L2_event_timing",
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "date_utc": "2026-11-16T02:55:39Z",
+ "command": "python l2_timing.py",
+ "module": "/Users/anishmeruva/Documents/ChatGPT/NSA-science-limits/science/limits/l2_timing.py",
+ "code_commit": "82f006a59b79193c5253648d5b96c4706c4da95a",
+ "inputs": [
+  {
+   "path": "data/bundles/site04_roi3_2026-11-14_14d_mast1m.json",
+   "sha256": "ac745d993c36e0066e61a57a01b5e9ab10f76ea41f4494233c044efccbefee1f"
+  },
+  {
+   "path": "data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",
+   "sha256": "ec2e9f24ca80412d5f286bbb9315b5b045becbe764243842e52a9c7f9547e552"
+  }
+ ],
+ "outputs": {
+  "result.json": "1c8f3211b85d1602f08f10288500cad8a638084d7279489e81a6626630d9c2c1",
+  "RESULT.md": "e79bbfc9394f7935c1dc8ea2bf10a080b4dedb95e35e1e8df4b33ca5cab7075e"
+ }
+}

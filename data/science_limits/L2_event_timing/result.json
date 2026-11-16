@@ -1,0 +1,4791 @@
+{
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "item": "L2_event_timing",
+ "sites": {
+  "site04_roi3": {
+   "validation_vs_horizons_bisection": [
+    {
+     "body": "earth",
+     "kind": "upper_limb",
+     "event": "first_light",
+     "horizons_bisection_utc": "2026-11-16T11:05:20.581Z",
+     "spline_utc": "2026-11-16T11:05:20Z",
+     "diff_s": 0.03
+    },
+    {
+     "body": "earth",
+     "kind": "center",
+     "event": "center_rise",
+     "horizons_bisection_utc": "2026-11-17T02:55:55.444Z",
+     "spline_utc": "2026-11-17T02:55:55Z",
+     "diff_s": 0.19
+    },
+    {
+     "body": "earth",
+     "kind": "lower_limb",
+     "event": "fully_visible",
+     "horizons_bisection_utc": "2026-11-17T18:54:51.723Z",
+     "spline_utc": "2026-11-17T18:54:51Z",
+     "diff_s": 0.15
+    },
+    {
+     "body": "sun",
+     "kind": "lower_limb",
+     "event": "begins_occultation",
+     "horizons_bisection_utc": "2026-11-26T19:27:39.594Z",
+     "spline_utc": "2026-11-26T19:27:39Z",
+     "diff_s": 0.04
+    },
+    {
+     "body": "sun",
+     "kind": "center",
+     "event": "center_set",
+     "horizons_bisection_utc": "2026-11-26T22:33:23.247Z",
+     "spline_utc": "2026-11-26T22:33:23Z",
+     "diff_s": -0.12
+    },
+    {
+     "body": "sun",
+     "kind": "upper_limb",
+     "event": "last_light",
+     "horizons_bisection_utc": "2026-11-27T03:25:59.399Z",
+     "spline_utc": "2026-11-27T03:25:59Z",
+     "diff_s": 0.12
+    },
+    {
+     "body": "sun",
+     "kind": "upper_limb",
+     "event": "first_light",
+     "horizons_bisection_utc": "2026-11-27T13:43:11.235Z",
+     "spline_utc": "2026-11-27T13:43:11Z",
+     "diff_s": -0.07
+    },
+    {
+     "body": "sun",
+     "kind": "center",
+     "event": "center_rise",
+     "horizons_bisection_utc": "2026-11-27T17:59:59.340Z",
+     "spline_utc": "2026-11-27T17:59:59Z",
+     "diff_s": 0.01
+    },
+    {
+     "body": "sun",
+     "kind": "lower_limb",
+     "event": "fully_visible",
+     "horizons_bisection_utc": "2026-11-27T21:30:51.196Z",
+     "spline_utc": "2026-11-27T21:30:51Z",
+     "diff_s": 0.09
+    }
+   ],
+   "maps": {
+    "nominal": {
+     "any": {
+      "sun_pct": 96.939,
+      "earth_pct": 82.414,
+      "sun_and_earth_pct_1min": 79.346,
+      "longest_sun_gap_h": 10.287,
+      "longest_earth_gap_h": 59.089,
+      "sun_events_utc": [
+       [
+        "2026-11-27T03:25:59Z",
+        "set"
+       ],
+       [
+        "2026-11-27T13:43:11Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T11:05:20Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 94.213,
+      "earth_pct": 77.699,
+      "sun_and_earth_pct_1min": 71.916,
+      "longest_sun_gap_h": 19.443,
+      "longest_earth_gap_h": 74.932,
+      "sun_events_utc": [
+       [
+        "2026-11-26T22:33:23Z",
+        "set"
+       ],
+       [
+        "2026-11-27T17:59:59Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T02:55:55Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 92.246,
+      "earth_pct": 72.942,
+      "sun_and_earth_pct_1min": 65.19,
+      "longest_sun_gap_h": 26.053,
+      "longest_earth_gap_h": 90.914,
+      "sun_events_utc": [
+       [
+        "2026-11-26T19:27:39Z",
+        "set"
+       ],
+       [
+        "2026-11-27T21:30:51Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T18:54:51Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone01": {
+     "any": {
+      "sun_pct": 96.042,
+      "earth_pct": 82.408,
+      "sun_and_earth_pct_1min": 78.448,
+      "longest_sun_gap_h": 13.297,
+      "longest_earth_gap_h": 59.11,
+      "sun_events_utc": [
+       [
+        "2026-11-27T00:02:40Z",
+        "set"
+       ],
+       [
+        "2026-11-27T13:20:30Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T11:06:35Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 94.267,
+      "earth_pct": 77.674,
+      "sun_and_earth_pct_1min": 71.941,
+      "longest_sun_gap_h": 19.264,
+      "longest_earth_gap_h": 75.016,
+      "sun_events_utc": [
+       [
+        "2026-11-26T21:51:49Z",
+        "set"
+       ],
+       [
+        "2026-11-27T17:07:41Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T03:00:56Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 92.905,
+      "earth_pct": 72.873,
+      "sun_and_earth_pct_1min": 65.78,
+      "longest_sun_gap_h": 23.838,
+      "longest_earth_gap_h": 91.146,
+      "sun_events_utc": [
+       [
+        "2026-11-26T19:37:12Z",
+        "set"
+       ],
+       [
+        "2026-11-27T19:27:28Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T19:08:46Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone02": {
+     "any": {
+      "sun_pct": 95.206,
+      "earth_pct": 82.141,
+      "sun_and_earth_pct_1min": 77.347,
+      "longest_sun_gap_h": 16.109,
+      "longest_earth_gap_h": 60.007,
+      "sun_events_utc": [
+       [
+        "2026-11-26T23:08:26Z",
+        "set"
+       ],
+       [
+        "2026-11-27T15:14:56Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T12:00:25Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 93.504,
+      "earth_pct": 77.321,
+      "sun_and_earth_pct_1min": 70.82,
+      "longest_sun_gap_h": 21.828,
+      "longest_earth_gap_h": 76.203,
+      "sun_events_utc": [
+       [
+        "2026-11-26T20:51:46Z",
+        "set"
+       ],
+       [
+        "2026-11-27T18:41:26Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:10Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 92.119,
+      "earth_pct": 72.471,
+      "sun_and_earth_pct_1min": 64.59,
+      "longest_sun_gap_h": 26.481,
+      "longest_earth_gap_h": 92.498,
+      "sun_events_utc": [
+       [
+        "2026-11-26T18:30:28Z",
+        "set"
+       ],
+       [
+        "2026-11-27T20:59:20Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T20:29:52Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone03": {
+     "any": {
+      "sun_pct": 91.291,
+      "earth_pct": 80.867,
+      "sun_and_earth_pct_1min": 72.154,
+      "longest_sun_gap_h": 29.264,
+      "longest_earth_gap_h": 64.286,
+      "sun_events_utc": [
+       [
+        "2026-11-26T14:33:17Z",
+        "set"
+       ],
+       [
+        "2026-11-27T19:49:06Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T16:17:11Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 88.774,
+      "earth_pct": 75.732,
+      "sun_and_earth_pct_1min": 64.506,
+      "longest_sun_gap_h": 37.721,
+      "longest_earth_gap_h": 81.54,
+      "sun_events_utc": [
+       [
+        "2026-11-26T08:50:02Z",
+        "set"
+       ],
+       [
+        "2026-11-27T22:33:16Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T09:32:23Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 87.321,
+      "earth_pct": 70.683,
+      "sun_and_earth_pct_1min": 57.998,
+      "longest_sun_gap_h": 42.601,
+      "longest_earth_gap_h": 98.506,
+      "sun_events_utc": [
+       [
+        "2026-11-26T05:23:55Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-18T02:30:20Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone04": {
+     "any": {
+      "sun_pct": 91.89,
+      "earth_pct": 81.931,
+      "sun_and_earth_pct_1min": 73.821,
+      "longest_sun_gap_h": 27.251,
+      "longest_earth_gap_h": 60.712,
+      "sun_events_utc": [
+       [
+        "2026-11-26T18:43:13Z",
+        "set"
+       ],
+       [
+        "2026-11-27T21:58:16Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T12:42:44Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 90.673,
+      "earth_pct": 77.08,
+      "sun_and_earth_pct_1min": 67.75,
+      "longest_sun_gap_h": 31.34,
+      "longest_earth_gap_h": 77.011,
+      "sun_events_utc": [
+       [
+        "2026-11-26T16:39:36Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T05:00:39Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 89.955,
+      "earth_pct": 72.16,
+      "sun_and_earth_pct_1min": 62.115,
+      "longest_sun_gap_h": 33.75,
+      "longest_earth_gap_h": 93.542,
+      "sun_events_utc": [
+       [
+        "2026-11-26T14:15:01Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T21:32:30Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone05": {
+     "any": {
+      "sun_pct": 93.992,
+      "earth_pct": 82.086,
+      "sun_and_earth_pct_1min": 76.078,
+      "longest_sun_gap_h": 20.186,
+      "longest_earth_gap_h": 60.189,
+      "sun_events_utc": [
+       [
+        "2026-11-26T22:01:43Z",
+        "set"
+       ],
+       [
+        "2026-11-27T18:12:53Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T12:11:21Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 92.825,
+      "earth_pct": 77.243,
+      "sun_and_earth_pct_1min": 70.066,
+      "longest_sun_gap_h": 24.108,
+      "longest_earth_gap_h": 76.463,
+      "sun_events_utc": [
+       [
+        "2026-11-26T20:01:59Z",
+        "set"
+       ],
+       [
+        "2026-11-27T20:08:26Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:27:45Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 91.625,
+      "earth_pct": 72.445,
+      "sun_and_earth_pct_1min": 64.069,
+      "longest_sun_gap_h": 28.142,
+      "longest_earth_gap_h": 92.585,
+      "sun_events_utc": [
+       [
+        "2026-11-26T17:59:27Z",
+        "set"
+       ],
+       [
+        "2026-11-27T22:07:57Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T20:35:05Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone06": {
+     "any": {
+      "sun_pct": 98.557,
+      "earth_pct": 82.484,
+      "sun_and_earth_pct_1min": 81.038,
+      "longest_sun_gap_h": 2.732,
+      "longest_earth_gap_h": 58.855,
+      "sun_events_utc": [
+       [
+        "2026-11-27T05:50:09Z",
+        "set"
+       ],
+       [
+        "2026-11-27T08:34:05Z",
+        "rise"
+       ],
+       [
+        "2026-11-27T09:26:33Z",
+        "set"
+       ],
+       [
+        "2026-11-27T11:33:35Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T10:51:16Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 4,
+       "n_hourly_sign_changes": 4,
+       "n_inside_bracket": 4,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 96.207,
+      "earth_pct": 77.784,
+      "sun_and_earth_pct_1min": 73.989,
+      "longest_sun_gap_h": 12.744,
+      "longest_earth_gap_h": 74.646,
+      "sun_events_utc": [
+       [
+        "2026-11-27T00:43:35Z",
+        "set"
+       ],
+       [
+        "2026-11-27T13:28:14Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T02:38:45Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 94.925,
+      "earth_pct": 73.05,
+      "sun_and_earth_pct_1min": 67.973,
+      "longest_sun_gap_h": 17.051,
+      "longest_earth_gap_h": 90.55,
+      "sun_events_utc": [
+       [
+        "2026-11-26T22:17:43Z",
+        "set"
+       ],
+       [
+        "2026-11-27T15:20:48Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T18:33:01Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone07": {
+     "any": {
+      "sun_pct": 92.001,
+      "earth_pct": 82.097,
+      "sun_and_earth_pct_1min": 74.099,
+      "longest_sun_gap_h": 26.875,
+      "longest_earth_gap_h": 60.154,
+      "sun_events_utc": [
+       [
+        "2026-11-26T18:12:02Z",
+        "set"
+       ],
+       [
+        "2026-11-27T21:04:33Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T12:09:15Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 90.687,
+      "earth_pct": 77.211,
+      "sun_and_earth_pct_1min": 67.898,
+      "longest_sun_gap_h": 31.293,
+      "longest_earth_gap_h": 76.571,
+      "sun_events_utc": [
+       [
+        "2026-11-26T16:05:17Z",
+        "set"
+       ],
+       [
+        "2026-11-27T23:22:51Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:34:15Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 89.372,
+      "earth_pct": 72.459,
+      "sun_and_earth_pct_1min": 61.827,
+      "longest_sun_gap_h": 35.711,
+      "longest_earth_gap_h": 92.539,
+      "sun_events_utc": [
+       [
+        "2026-11-26T12:17:19Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T20:32:20Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone08": {
+     "any": {
+      "sun_pct": 95.162,
+      "earth_pct": 82.205,
+      "sun_and_earth_pct_1min": 77.362,
+      "longest_sun_gap_h": 16.256,
+      "longest_earth_gap_h": 59.79,
+      "sun_events_utc": [
+       [
+        "2026-11-26T22:10:55Z",
+        "set"
+       ],
+       [
+        "2026-11-27T14:26:17Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T11:47:22Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 92.968,
+      "earth_pct": 77.134,
+      "sun_and_earth_pct_1min": 70.106,
+      "longest_sun_gap_h": 23.627,
+      "longest_earth_gap_h": 76.829,
+      "sun_events_utc": [
+       [
+        "2026-11-26T19:32:02Z",
+        "set"
+       ],
+       [
+        "2026-11-27T19:09:39Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:49:45Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 90.085,
+      "earth_pct": 72.166,
+      "sun_and_earth_pct_1min": 62.249,
+      "longest_sun_gap_h": 33.316,
+      "longest_earth_gap_h": 93.522,
+      "sun_events_utc": [
+       [
+        "2026-11-26T12:10:23Z",
+        "set"
+       ],
+       [
+        "2026-11-27T21:29:21Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T21:31:18Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone09": {
+     "any": {
+      "sun_pct": 92.106,
+      "earth_pct": 82.02,
+      "sun_and_earth_pct_1min": 74.128,
+      "longest_sun_gap_h": 26.524,
+      "longest_earth_gap_h": 60.411,
+      "sun_events_utc": [
+       [
+        "2026-11-26T19:36:21Z",
+        "set"
+       ],
+       [
+        "2026-11-27T22:07:47Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T12:24:40Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 90.905,
+      "earth_pct": 77.155,
+      "sun_and_earth_pct_1min": 68.057,
+      "longest_sun_gap_h": 30.559,
+      "longest_earth_gap_h": 76.758,
+      "sun_events_utc": [
+       [
+        "2026-11-26T17:26:26Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:45:28Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 89.947,
+      "earth_pct": 72.312,
+      "sun_and_earth_pct_1min": 62.259,
+      "longest_sun_gap_h": 33.778,
+      "longest_earth_gap_h": 93.032,
+      "sun_events_utc": [
+       [
+        "2026-11-26T14:13:17Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T21:01:55Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone10": {
+     "any": {
+      "sun_pct": 89.701,
+      "earth_pct": 81.886,
+      "sun_and_earth_pct_1min": 71.584,
+      "longest_sun_gap_h": 34.604,
+      "longest_earth_gap_h": 60.862,
+      "sun_events_utc": [
+       [
+        "2026-11-26T13:23:44Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T12:51:44Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 88.76,
+      "earth_pct": 76.909,
+      "sun_and_earth_pct_1min": 65.666,
+      "longest_sun_gap_h": 37.766,
+      "longest_earth_gap_h": 77.586,
+      "sun_events_utc": [
+       [
+        "2026-11-26T10:14:03Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T05:35:08Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 88.097,
+      "earth_pct": 72.154,
+      "sun_and_earth_pct_1min": 60.25,
+      "longest_sun_gap_h": 39.993,
+      "longest_earth_gap_h": 93.563,
+      "sun_events_utc": [
+       [
+        "2026-11-26T08:00:26Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T21:33:46Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone11": {
+     "any": {
+      "sun_pct": 88.358,
+      "earth_pct": 82.248,
+      "sun_and_earth_pct_1min": 70.602,
+      "longest_sun_gap_h": 39.118,
+      "longest_earth_gap_h": 59.647,
+      "sun_events_utc": [
+       [
+        "2026-11-26T08:52:53Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T11:38:48Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 87.585,
+      "earth_pct": 77.53,
+      "sun_and_earth_pct_1min": 65.111,
+      "longest_sun_gap_h": 41.715,
+      "longest_earth_gap_h": 75.5,
+      "sun_events_utc": [
+       [
+        "2026-11-26T06:17:07Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T03:30:00Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 86.79,
+      "earth_pct": 72.755,
+      "sun_and_earth_pct_1min": 59.541,
+      "longest_sun_gap_h": 44.386,
+      "longest_earth_gap_h": 91.542,
+      "sun_events_utc": [
+       [
+        "2026-11-26T03:36:51Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T19:32:31Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone12": {
+     "any": {
+      "sun_pct": 90.4,
+      "earth_pct": 82.015,
+      "sun_and_earth_pct_1min": 72.412,
+      "longest_sun_gap_h": 32.256,
+      "longest_earth_gap_h": 60.43,
+      "sun_events_utc": [
+       [
+        "2026-11-26T15:44:39Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T12:25:46Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 89.316,
+      "earth_pct": 77.15,
+      "sun_and_earth_pct_1min": 66.465,
+      "longest_sun_gap_h": 35.899,
+      "longest_earth_gap_h": 76.776,
+      "sun_events_utc": [
+       [
+        "2026-11-26T12:06:03Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:46:32Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 88.519,
+      "earth_pct": 72.46,
+      "sun_and_earth_pct_1min": 60.974,
+      "longest_sun_gap_h": 38.576,
+      "longest_earth_gap_h": 92.534,
+      "sun_events_utc": [
+       [
+        "2026-11-26T09:25:24Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T20:32:03Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone13": {
+     "any": {
+      "sun_pct": 90.799,
+      "earth_pct": 82.252,
+      "sun_and_earth_pct_1min": 73.052,
+      "longest_sun_gap_h": 30.916,
+      "longest_earth_gap_h": 59.633,
+      "sun_events_utc": [
+       [
+        "2026-11-26T17:05:03Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T11:37:58Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 89.42,
+      "earth_pct": 77.477,
+      "sun_and_earth_pct_1min": 66.896,
+      "longest_sun_gap_h": 35.55,
+      "longest_earth_gap_h": 75.677,
+      "sun_events_utc": [
+       [
+        "2026-11-26T12:27:00Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T03:40:37Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 88.492,
+      "earth_pct": 72.779,
+      "sun_and_earth_pct_1min": 61.267,
+      "longest_sun_gap_h": 38.667,
+      "longest_earth_gap_h": 91.461,
+      "sun_events_utc": [
+       [
+        "2026-11-26T09:19:59Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T19:27:39Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone14": {
+     "any": {
+      "sun_pct": 94.423,
+      "earth_pct": 82.815,
+      "sun_and_earth_pct_1min": 77.238,
+      "longest_sun_gap_h": 18.739,
+      "longest_earth_gap_h": 57.74,
+      "sun_events_utc": [
+       [
+        "2026-11-26T20:16:24Z",
+        "set"
+       ],
+       [
+        "2026-11-27T15:00:43Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T09:44:25Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 91.847,
+      "earth_pct": 77.884,
+      "sun_and_earth_pct_1min": 69.729,
+      "longest_sun_gap_h": 27.393,
+      "longest_earth_gap_h": 74.31,
+      "sun_events_utc": [
+       [
+        "2026-11-26T15:39:51Z",
+        "set"
+       ],
+       [
+        "2026-11-27T19:03:25Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T02:18:36Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 89.047,
+      "earth_pct": 72.863,
+      "sun_and_earth_pct_1min": 61.912,
+      "longest_sun_gap_h": 36.801,
+      "longest_earth_gap_h": 91.181,
+      "sun_events_utc": [
+       [
+        "2026-11-26T08:48:25Z",
+        "set"
+       ],
+       [
+        "2026-11-27T21:36:29Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T19:10:51Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone15": {
+     "any": {
+      "sun_pct": 90.443,
+      "earth_pct": 82.016,
+      "sun_and_earth_pct_1min": 72.457,
+      "longest_sun_gap_h": 32.113,
+      "longest_earth_gap_h": 60.426,
+      "sun_events_utc": [
+       [
+        "2026-11-26T15:53:14Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T12:25:32Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 89.281,
+      "earth_pct": 77.257,
+      "sun_and_earth_pct_1min": 66.539,
+      "longest_sun_gap_h": 36.015,
+      "longest_earth_gap_h": 76.417,
+      "sun_events_utc": [
+       [
+        "2026-11-26T11:59:06Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:24:59Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 88.463,
+      "earth_pct": 72.507,
+      "sun_and_earth_pct_1min": 60.969,
+      "longest_sun_gap_h": 38.763,
+      "longest_earth_gap_h": 92.377,
+      "sun_events_utc": [
+       [
+        "2026-11-26T09:14:12Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T20:22:38Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone16": {
+     "any": {
+      "sun_pct": 91.07,
+      "earth_pct": 81.893,
+      "sun_and_earth_pct_1min": 72.958,
+      "longest_sun_gap_h": 30.004,
+      "longest_earth_gap_h": 60.84,
+      "sun_events_utc": [
+       [
+        "2026-11-26T17:59:47Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T12:50:23Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 89.92,
+      "earth_pct": 77.104,
+      "sun_and_earth_pct_1min": 67.02,
+      "longest_sun_gap_h": 33.868,
+      "longest_earth_gap_h": 76.932,
+      "sun_events_utc": [
+       [
+        "2026-11-26T14:07:54Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:55:55Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 88.759,
+      "earth_pct": 72.274,
+      "sun_and_earth_pct_1min": 61.029,
+      "longest_sun_gap_h": 37.77,
+      "longest_earth_gap_h": 93.16,
+      "sun_events_utc": [
+       [
+        "2026-11-26T10:13:47Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T21:09:34Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone17": {
+     "any": {
+      "sun_pct": 90.629,
+      "earth_pct": 82.4,
+      "sun_and_earth_pct_1min": 73.022,
+      "longest_sun_gap_h": 31.487,
+      "longest_earth_gap_h": 59.138,
+      "sun_events_utc": [
+       [
+        "2026-11-26T16:30:46Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T11:08:15Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 89.285,
+      "earth_pct": 77.381,
+      "sun_and_earth_pct_1min": 66.658,
+      "longest_sun_gap_h": 36.003,
+      "longest_earth_gap_h": 76.0,
+      "sun_events_utc": [
+       [
+        "2026-11-26T11:59:50Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:00:00Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 88.41,
+      "earth_pct": 72.608,
+      "sun_and_earth_pct_1min": 61.014,
+      "longest_sun_gap_h": 38.942,
+      "longest_earth_gap_h": 92.036,
+      "sun_events_utc": [
+       [
+        "2026-11-26T09:03:28Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T20:02:08Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone18": {
+     "any": {
+      "sun_pct": 97.506,
+      "earth_pct": 82.86,
+      "sun_and_earth_pct_1min": 80.368,
+      "longest_sun_gap_h": 8.379,
+      "longest_earth_gap_h": 57.59,
+      "sun_events_utc": [
+       [
+        "2026-11-27T05:03:03Z",
+        "set"
+       ],
+       [
+        "2026-11-27T13:25:48Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T09:35:24Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 95.214,
+      "earth_pct": 77.62,
+      "sun_and_earth_pct_1min": 72.834,
+      "longest_sun_gap_h": 14.806,
+      "longest_earth_gap_h": 75.198,
+      "sun_events_utc": [
+       [
+        "2026-11-27T00:55:18Z",
+        "set"
+       ],
+       [
+        "2026-11-27T15:43:41Z",
+        "rise"
+       ],
+       [
+        "2026-11-27T15:59:49Z",
+        "set"
+       ],
+       [
+        "2026-11-27T17:16:16Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T03:11:52Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 4,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 2
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 93.578,
+      "earth_pct": 72.745,
+      "sun_and_earth_pct_1min": 66.321,
+      "longest_sun_gap_h": 21.578,
+      "longest_earth_gap_h": 91.575,
+      "sun_events_utc": [
+       [
+        "2026-11-26T22:38:28Z",
+        "set"
+       ],
+       [
+        "2026-11-27T20:13:08Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T19:34:31Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone19": {
+     "any": {
+      "sun_pct": 99.867,
+      "earth_pct": 82.026,
+      "sun_and_earth_pct_1min": 81.891,
+      "longest_sun_gap_h": 0.448,
+      "longest_earth_gap_h": 60.392,
+      "sun_events_utc": [
+       [
+        "2026-11-27T06:49:13Z",
+        "set"
+       ],
+       [
+        "2026-11-27T07:16:05Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T12:23:32Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 97.19,
+      "earth_pct": 77.265,
+      "sun_and_earth_pct_1min": 74.456,
+      "longest_sun_gap_h": 9.44,
+      "longest_earth_gap_h": 76.39,
+      "sun_events_utc": [
+       [
+        "2026-11-27T04:31:11Z",
+        "set"
+       ],
+       [
+        "2026-11-27T13:57:35Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:23:23Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 95.101,
+      "earth_pct": 72.537,
+      "sun_and_earth_pct_1min": 67.636,
+      "longest_sun_gap_h": 16.461,
+      "longest_earth_gap_h": 92.275,
+      "sun_events_utc": [
+       [
+        "2026-11-27T00:31:55Z",
+        "set"
+       ],
+       [
+        "2026-11-27T16:59:35Z",
+        "rise"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T20:16:30Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 2,
+       "n_hourly_sign_changes": 2,
+       "n_inside_bracket": 2,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone20": {
+     "any": {
+      "sun_pct": 90.588,
+      "earth_pct": 82.509,
+      "sun_and_earth_pct_1min": 73.092,
+      "longest_sun_gap_h": 31.625,
+      "longest_earth_gap_h": 58.77,
+      "sun_events_utc": [
+       [
+        "2026-11-26T16:22:31Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-16T10:46:12Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 88.802,
+      "earth_pct": 77.734,
+      "sun_and_earth_pct_1min": 66.534,
+      "longest_sun_gap_h": 37.625,
+      "longest_earth_gap_h": 74.812,
+      "sun_events_utc": [
+       [
+        "2026-11-26T10:22:31Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T02:48:44Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 87.811,
+      "earth_pct": 72.937,
+      "sun_and_earth_pct_1min": 60.746,
+      "longest_sun_gap_h": 40.955,
+      "longest_earth_gap_h": 90.933,
+      "sun_events_utc": [
+       [
+        "2026-11-26T07:02:40Z",
+        "set"
+       ]
+      ],
+      "earth_events_utc": [
+       [
+        "2026-11-17T18:55:59Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    }
+   },
+   "continuous_minus_hourly": {
+    "nominal": {
+     "any": {
+      "d_sun_pct": -0.094,
+      "d_sun_earth_pct": 0.118,
+      "d_longest_sun_gap_h": 0.287
+     },
+     "centre": {
+      "d_sun_pct": -0.149,
+      "d_sun_earth_pct": -0.191,
+      "d_longest_sun_gap_h": 0.443
+     },
+     "full": {
+      "d_sun_pct": -0.039,
+      "d_sun_earth_pct": -0.092,
+      "d_longest_sun_gap_h": 0.053
+     }
+    },
+    "clone01": {
+     "any": {
+      "d_sun_pct": -0.1,
+      "d_sun_earth_pct": 0.11,
+      "d_longest_sun_gap_h": 0.297
+     },
+     "centre": {
+      "d_sun_pct": 0.202,
+      "d_sun_earth_pct": 0.428,
+      "d_longest_sun_gap_h": -0.736
+     },
+     "full": {
+      "d_sun_pct": 0.027,
+      "d_sun_earth_pct": 0.201,
+      "d_longest_sun_gap_h": -0.162
+     }
+    },
+    "clone02": {
+     "any": {
+      "d_sun_pct": -0.046,
+      "d_sun_earth_pct": 0.196,
+      "d_longest_sun_gap_h": 0.109
+     },
+     "centre": {
+      "d_sun_pct": 0.032,
+      "d_sun_earth_pct": 0.197,
+      "d_longest_sun_gap_h": -0.172
+     },
+     "full": {
+      "d_sun_pct": -0.166,
+      "d_sun_earth_pct": -0.098,
+      "d_longest_sun_gap_h": 0.481
+     }
+    },
+    "clone03": {
+     "any": {
+      "d_sun_pct": -0.104,
+      "d_sun_earth_pct": 0.047,
+      "d_longest_sun_gap_h": 0.264
+     },
+     "centre": {
+      "d_sun_pct": 0.05,
+      "d_sun_earth_pct": 0.114,
+      "d_longest_sun_gap_h": -0.279
+     },
+     "full": {
+      "d_sun_pct": 0.081,
+      "d_sun_earth_pct": 0.134,
+      "d_longest_sun_gap_h": -0.399
+     }
+    },
+    "clone04": {
+     "any": {
+      "d_sun_pct": -0.098,
+      "d_sun_earth_pct": -0.066,
+      "d_longest_sun_gap_h": 0.251
+     },
+     "centre": {
+      "d_sun_pct": 0.169,
+      "d_sun_earth_pct": 0.391,
+      "d_longest_sun_gap_h": -0.66
+     },
+     "full": {
+      "d_sun_pct": 0.044,
+      "d_sun_earth_pct": 0.097,
+      "d_longest_sun_gap_h": -0.25
+     }
+    },
+    "clone05": {
+     "any": {
+      "d_sun_pct": -0.073,
+      "d_sun_earth_pct": 0.114,
+      "d_longest_sun_gap_h": 0.186
+     },
+     "centre": {
+      "d_sun_pct": -0.053,
+      "d_sun_earth_pct": 0.036,
+      "d_longest_sun_gap_h": 0.108
+     },
+     "full": {
+      "d_sun_pct": 0.23,
+      "d_sun_earth_pct": 0.271,
+      "d_longest_sun_gap_h": -0.858
+     }
+    },
+    "clone06": {
+     "any": {
+      "d_sun_pct": 0.041,
+      "d_sun_earth_pct": 0.029,
+      "d_longest_sun_gap_h": -0.268
+     },
+     "centre": {
+      "d_sun_pct": 0.065,
+      "d_sun_earth_pct": 0.102,
+      "d_longest_sun_gap_h": -0.256
+     },
+     "full": {
+      "d_sun_pct": -0.03,
+      "d_sun_earth_pct": 0.02,
+      "d_longest_sun_gap_h": 0.051
+     }
+    },
+    "clone07": {
+     "any": {
+      "d_sun_pct": 0.013,
+      "d_sun_earth_pct": 0.212,
+      "d_longest_sun_gap_h": -0.125
+     },
+     "centre": {
+      "d_sun_pct": -0.114,
+      "d_sun_earth_pct": -0.055,
+      "d_longest_sun_gap_h": 0.293
+     },
+     "full": {
+      "d_sun_pct": 0.054,
+      "d_sun_earth_pct": 0.106,
+      "d_longest_sun_gap_h": -0.289
+     }
+    },
+    "clone08": {
+     "any": {
+      "d_sun_pct": -0.09,
+      "d_sun_earth_pct": -0.086,
+      "d_longest_sun_gap_h": 0.256
+     },
+     "centre": {
+      "d_sun_pct": 0.09,
+      "d_sun_earth_pct": 0.076,
+      "d_longest_sun_gap_h": -0.373
+     },
+     "full": {
+      "d_sun_pct": -0.123,
+      "d_sun_earth_pct": -0.066,
+      "d_longest_sun_gap_h": 0.316
+     }
+    },
+    "clone09": {
+     "any": {
+      "d_sun_pct": 0.118,
+      "d_sun_earth_pct": 0.241,
+      "d_longest_sun_gap_h": -0.476
+     },
+     "centre": {
+      "d_sun_pct": 0.104,
+      "d_sun_earth_pct": 0.104,
+      "d_longest_sun_gap_h": -0.441
+     },
+     "full": {
+      "d_sun_pct": 0.036,
+      "d_sun_earth_pct": 0.241,
+      "d_longest_sun_gap_h": -0.222
+     }
+    },
+    "clone10": {
+     "any": {
+      "d_sun_pct": 0.087,
+      "d_sun_earth_pct": 0.071,
+      "d_longest_sun_gap_h": -0.396
+     },
+     "centre": {
+      "d_sun_pct": 0.036,
+      "d_sun_earth_pct": 0.087,
+      "d_longest_sun_gap_h": -0.234
+     },
+     "full": {
+      "d_sun_pct": -0.034,
+      "d_sun_earth_pct": 0.013,
+      "d_longest_sun_gap_h": -0.007
+     }
+    },
+    "clone11": {
+     "any": {
+      "d_sun_pct": 0.227,
+      "d_sun_earth_pct": 0.276,
+      "d_longest_sun_gap_h": -0.882
+     },
+     "centre": {
+      "d_sun_pct": 0.048,
+      "d_sun_earth_pct": 0.126,
+      "d_longest_sun_gap_h": -0.285
+     },
+     "full": {
+      "d_sun_pct": 0.143,
+      "d_sun_earth_pct": 0.194,
+      "d_longest_sun_gap_h": -0.614
+     }
+    },
+    "clone12": {
+     "any": {
+      "d_sun_pct": 0.192,
+      "d_sun_earth_pct": 0.305,
+      "d_longest_sun_gap_h": -0.744
+     },
+     "centre": {
+      "d_sun_pct": -0.002,
+      "d_sun_earth_pct": -0.004,
+      "d_longest_sun_gap_h": -0.101
+     },
+     "full": {
+      "d_sun_pct": 0.092,
+      "d_sun_earth_pct": 0.143,
+      "d_longest_sun_gap_h": -0.424
+     }
+    },
+    "clone13": {
+     "any": {
+      "d_sun_pct": -0.002,
+      "d_sun_earth_pct": 0.055,
+      "d_longest_sun_gap_h": -0.084
+     },
+     "centre": {
+      "d_sun_pct": 0.102,
+      "d_sun_earth_pct": 0.13,
+      "d_longest_sun_gap_h": -0.45
+     },
+     "full": {
+      "d_sun_pct": 0.065,
+      "d_sun_earth_pct": 0.139,
+      "d_longest_sun_gap_h": -0.333
+     }
+    },
+    "clone14": {
+     "any": {
+      "d_sun_pct": 0.061,
+      "d_sun_earth_pct": 0.087,
+      "d_longest_sun_gap_h": -0.261
+     },
+     "centre": {
+      "d_sun_pct": 0.156,
+      "d_sun_earth_pct": 0.293,
+      "d_longest_sun_gap_h": -0.607
+     },
+     "full": {
+      "d_sun_pct": 0.026,
+      "d_sun_earth_pct": 0.191,
+      "d_longest_sun_gap_h": -0.199
+     }
+    },
+    "clone15": {
+     "any": {
+      "d_sun_pct": 0.235,
+      "d_sun_earth_pct": 0.35,
+      "d_longest_sun_gap_h": -0.887
+     },
+     "centre": {
+      "d_sun_pct": 0.26,
+      "d_sun_earth_pct": 0.367,
+      "d_longest_sun_gap_h": -0.985
+     },
+     "full": {
+      "d_sun_pct": 0.036,
+      "d_sun_earth_pct": 0.138,
+      "d_longest_sun_gap_h": -0.237
+     }
+    },
+    "clone16": {
+     "any": {
+      "d_sun_pct": 0.269,
+      "d_sun_earth_pct": 0.258,
+      "d_longest_sun_gap_h": -0.996
+     },
+     "centre": {
+      "d_sun_pct": 0.009,
+      "d_sun_earth_pct": -0.042,
+      "d_longest_sun_gap_h": -0.132
+     },
+     "full": {
+      "d_sun_pct": 0.035,
+      "d_sun_earth_pct": 0.198,
+      "d_longest_sun_gap_h": -0.23
+     }
+    },
+    "clone17": {
+     "any": {
+      "d_sun_pct": 0.125,
+      "d_sun_earth_pct": 0.322,
+      "d_longest_sun_gap_h": -0.513
+     },
+     "centre": {
+      "d_sun_pct": 0.264,
+      "d_sun_earth_pct": 0.486,
+      "d_longest_sun_gap_h": -0.997
+     },
+     "full": {
+      "d_sun_pct": -0.017,
+      "d_sun_earth_pct": 0.183,
+      "d_longest_sun_gap_h": -0.058
+     }
+    },
+    "clone18": {
+     "any": {
+      "d_sun_pct": -0.12,
+      "d_sun_earth_pct": -0.047,
+      "d_longest_sun_gap_h": 0.379
+     },
+     "centre": {
+      "d_sun_pct": 0.259,
+      "d_sun_earth_pct": 0.43,
+      "d_longest_sun_gap_h": -2.194
+     },
+     "full": {
+      "d_sun_pct": 0.106,
+      "d_sun_earth_pct": 0.149,
+      "d_longest_sun_gap_h": -0.422
+     }
+    },
+    "clone19": {
+     "any": {
+      "d_sun_pct": 0.164,
+      "d_sun_earth_pct": 0.289,
+      "d_longest_sun_gap_h": -0.552
+     },
+     "centre": {
+      "d_sun_pct": -0.139,
+      "d_sun_earth_pct": -0.025,
+      "d_longest_sun_gap_h": 0.44
+     },
+     "full": {
+      "d_sun_pct": -0.151,
+      "d_sun_earth_pct": -0.02,
+      "d_longest_sun_gap_h": 0.461
+     }
+    },
+    "clone20": {
+     "any": {
+      "d_sun_pct": 0.084,
+      "d_sun_earth_pct": 0.095,
+      "d_longest_sun_gap_h": -0.375
+     },
+     "centre": {
+      "d_sun_pct": 0.078,
+      "d_sun_earth_pct": 0.065,
+      "d_longest_sun_gap_h": -0.375
+     },
+     "full": {
+      "d_sun_pct": -0.023,
+      "d_sun_earth_pct": -0.085,
+      "d_longest_sun_gap_h": -0.045
+     }
+    }
+   },
+   "summary": {
+    "any": {
+     "nominal_sun_pct": 96.939,
+     "clone_sun_pct": [
+      88.358,
+      99.867
+     ],
+     "nominal_sun_earth_pct": 79.346,
+     "clone_sun_earth_pct": [
+      70.602,
+      81.891
+     ],
+     "nominal_longest_sun_gap_h": 10.287,
+     "clone_longest_sun_gap_h": [
+      0.448,
+      39.118
+     ],
+     "max_abs_d_sun_pct_vs_hourly": 0.269,
+     "max_abs_d_gap_h_vs_hourly": 0.996,
+     "total_subhour_blinks_sun": 0
+    },
+    "centre": {
+     "nominal_sun_pct": 94.213,
+     "clone_sun_pct": [
+      87.585,
+      97.19
+     ],
+     "nominal_sun_earth_pct": 71.916,
+     "clone_sun_earth_pct": [
+      64.506,
+      74.456
+     ],
+     "nominal_longest_sun_gap_h": 19.443,
+     "clone_longest_sun_gap_h": [
+      9.44,
+      41.715
+     ],
+     "max_abs_d_sun_pct_vs_hourly": 0.264,
+     "max_abs_d_gap_h_vs_hourly": 2.194,
+     "total_subhour_blinks_sun": 2
+    },
+    "full": {
+     "nominal_sun_pct": 92.246,
+     "clone_sun_pct": [
+      86.79,
+      95.101
+     ],
+     "nominal_sun_earth_pct": 65.19,
+     "clone_sun_earth_pct": [
+      57.998,
+      67.973
+     ],
+     "nominal_longest_sun_gap_h": 26.053,
+     "clone_longest_sun_gap_h": [
+      16.461,
+      44.386
+     ],
+     "max_abs_d_sun_pct_vs_hourly": 0.23,
+     "max_abs_d_gap_h_vs_hourly": 0.858,
+     "total_subhour_blinks_sun": 0
+    }
+   },
+   "bundle_reference": {
+    "sun_center_visible_pct": 94.213,
+    "sun_and_earth_center_visible_pct": 71.912,
+    "longest_sun_center_hidden_h": 19.4434,
+    "earth_center_visible_pct": 77.699
+   }
+  },
+  "site01_roi6": {
+   "validation_vs_horizons_bisection": [
+    {
+     "body": "earth",
+     "kind": "upper_limb",
+     "event": "first_light",
+     "horizons_bisection_utc": "2026-11-15T22:07:24.067Z",
+     "spline_utc": "2026-11-15T22:07:23Z",
+     "diff_s": -0.12
+    },
+    {
+     "body": "earth",
+     "kind": "center",
+     "event": "center_rise",
+     "horizons_bisection_utc": "2026-11-16T13:14:47.036Z",
+     "spline_utc": "2026-11-16T13:14:46Z",
+     "diff_s": -0.14
+    },
+    {
+     "body": "earth",
+     "kind": "lower_limb",
+     "event": "fully_visible",
+     "horizons_bisection_utc": "2026-11-17T04:12:40.913Z",
+     "spline_utc": "2026-11-17T04:12:40Z",
+     "diff_s": 0.02
+    }
+   ],
+   "maps": {
+    "nominal": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.123,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:23Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.246,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:46Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.211,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:40Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone01": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.124,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:27Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.247,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:49Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.212,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:44Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone02": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.122,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:20Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.245,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:43Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.21,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:37Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone03": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.123,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:23Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.246,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:46Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.212,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:41Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone04": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.272,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.125,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:31Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.771,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.248,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:53Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.317,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.213,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:48Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone05": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.274,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.121,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:15Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.773,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.244,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:38Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.319,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.209,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:33Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone06": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.122,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:19Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.245,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:41Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.21,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:36Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone07": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.122,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:17Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.245,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:41Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.21,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:35Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone08": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.124,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:26Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.247,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:48Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.212,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:43Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone09": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.122,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:20Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.246,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:44Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.211,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:38Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone10": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.123,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:24Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.247,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:47Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.212,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:42Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone11": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.124,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:25Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.247,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:48Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.212,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:42Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone12": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.123,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:21Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.246,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:44Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.211,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:39Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone13": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.123,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:23Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.246,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:46Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.211,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:40Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone14": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.274,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.121,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:15Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.773,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.244,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:38Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.319,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.209,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:32Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone15": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.272,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.125,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:28Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.248,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:51Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.213,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:46Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone16": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.123,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:22Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.246,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:45Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.211,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:39Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone17": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.122,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:19Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.245,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:42Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.21,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:37Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone18": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.272,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.126,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:35Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.771,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.249,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:57Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.317,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.214,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:51Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone19": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.123,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:23Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.246,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:46Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.211,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:40Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    },
+    "clone20": {
+     "any": {
+      "sun_pct": 100.0,
+      "earth_pct": 86.273,
+      "sun_and_earth_pct_1min": 86.271,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 46.124,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-15T22:07:26Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "centre": {
+      "sun_pct": 100.0,
+      "earth_pct": 81.772,
+      "sun_and_earth_pct_1min": 81.772,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 61.247,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-16T13:14:48Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     },
+     "full": {
+      "sun_pct": 100.0,
+      "earth_pct": 77.318,
+      "sun_and_earth_pct_1min": 77.318,
+      "longest_sun_gap_h": 0.0,
+      "longest_earth_gap_h": 76.212,
+      "sun_events_utc": [],
+      "earth_events_utc": [
+       [
+        "2026-11-17T04:12:43Z",
+        "rise"
+       ]
+      ],
+      "sun_bracket_check": {
+       "n_events": 0,
+       "n_hourly_sign_changes": 0,
+       "n_inside_bracket": 0,
+       "n_subhour_blinks": 0
+      },
+      "earth_bracket_check": {
+       "n_events": 1,
+       "n_hourly_sign_changes": 1,
+       "n_inside_bracket": 1,
+       "n_subhour_blinks": 0
+      }
+     }
+    }
+   },
+   "continuous_minus_hourly": {
+    "nominal": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone01": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone02": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone03": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone04": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone05": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone06": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone07": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone08": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone09": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone10": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone11": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone12": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone13": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone14": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone15": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone16": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone17": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone18": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone19": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    },
+    "clone20": {
+     "any": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.218,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "centre": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.17,
+      "d_longest_sun_gap_h": 0.0
+     },
+     "full": {
+      "d_sun_pct": 0.0,
+      "d_sun_earth_pct": 0.167,
+      "d_longest_sun_gap_h": 0.0
+     }
+    }
+   },
+   "summary": {
+    "any": {
+     "nominal_sun_pct": 100.0,
+     "clone_sun_pct": [
+      100.0,
+      100.0
+     ],
+     "nominal_sun_earth_pct": 86.271,
+     "clone_sun_earth_pct": [
+      86.271,
+      86.271
+     ],
+     "nominal_longest_sun_gap_h": 0.0,
+     "clone_longest_sun_gap_h": [
+      0.0,
+      0.0
+     ],
+     "max_abs_d_sun_pct_vs_hourly": 0.0,
+     "max_abs_d_gap_h_vs_hourly": 0.0,
+     "total_subhour_blinks_sun": 0
+    },
+    "centre": {
+     "nominal_sun_pct": 100.0,
+     "clone_sun_pct": [
+      100.0,
+      100.0
+     ],
+     "nominal_sun_earth_pct": 81.772,
+     "clone_sun_earth_pct": [
+      81.772,
+      81.772
+     ],
+     "nominal_longest_sun_gap_h": 0.0,
+     "clone_longest_sun_gap_h": [
+      0.0,
+      0.0
+     ],
+     "max_abs_d_sun_pct_vs_hourly": 0.0,
+     "max_abs_d_gap_h_vs_hourly": 0.0,
+     "total_subhour_blinks_sun": 0
+    },
+    "full": {
+     "nominal_sun_pct": 100.0,
+     "clone_sun_pct": [
+      100.0,
+      100.0
+     ],
+     "nominal_sun_earth_pct": 77.318,
+     "clone_sun_earth_pct": [
+      77.318,
+      77.318
+     ],
+     "nominal_longest_sun_gap_h": 0.0,
+     "clone_longest_sun_gap_h": [
+      0.0,
+      0.0
+     ],
+     "max_abs_d_sun_pct_vs_hourly": 0.0,
+     "max_abs_d_gap_h_vs_hourly": 0.0,
+     "total_subhour_blinks_sun": 0
+    }
+   },
+   "bundle_reference": {
+    "sun_center_visible_pct": 100.0,
+    "sun_and_earth_center_visible_pct": 81.772,
+    "longest_sun_center_hidden_h": 0.0,
+    "earth_center_visible_pct": 81.772
+   }
+  }
+ }
+}
