@@ -1,11 +1,12 @@
+# POLARIS X — Lunar Landing Site Navigator (NASA Space Apps 2026)
+**Live demo:** [https://polarisx.earth](https://polarisx.earth/)  ·  **Demo video:** [Youtube](https://youtu.be/EZtttWtJaFc)
+NASA data: LOLA PGDA 78/90/69, JPL Horizons. AI use: Claude and Codex (see "Use of AI" below).
+
 # POLARIS X — 5D lunar digital twin research build
 
 POLARIS X is a local Mac research prototype for lunar south-pole terrain, time-dependent Sun/Earth geometry and deterministic uncertainty scenarios. It contains a source-backed browser dashboard, a reproducible NASA PGDA/JPL Horizons ingest pipeline, and editable Blender/GLB outputs.
 
 **Scientific status: `SOURCE_BASED_UNVALIDATED`.** Official source records and internal consistency gates are present. Independent illumination validation is not complete. This is not flight software, a communications guarantee, or a NASA endorsement.
-
-## Website
-[https://polarisx.earth](https://polarisx.earth/)
 
 ## Launch
 
