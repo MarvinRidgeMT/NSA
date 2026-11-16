@@ -166,9 +166,9 @@
    "file": "dispersion.json",
    "cube_id": "site01_roi6-dispersion-v1",
    "title": "Landing dispersion x terrain",
-   "bytes": 4183,
-   "uncompressed_bytes": 4183,
-   "sha256": "88c896219841538f97522d4239e7656dea0576f4019b5cb74d9131958be6d276",
+   "bytes": 4186,
+   "uncompressed_bytes": 4186,
+   "sha256": "56f9d603f25defb58fe5a1a042a709ec9b9c024fb3fef01b2c1c352275c08c43",
    "dims": [
     "R_slope",
     "D_dispersion",
