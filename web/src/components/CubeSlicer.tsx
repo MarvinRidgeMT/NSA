@@ -5,19 +5,30 @@ import {
   derivedCell,
   derivedDims,
   derivedSlice1d,
-  loadCube,
   loadCubeIndex,
   slice1d,
   type CubeDim,
   type CubeIndex,
   type ScenarioCube,
 } from '../bundle/scenarioCube';
+import { groupByRole, loadCubeAny, ROLE_HEADING, type CubeDimV2, type CubeRole, type RoledCube } from '../bundle/scenarioCubeV2';
 
 /**
  * Scenario-cube slicer (Phase 1, docs/SCENARIO_CUBE_CONTRACT.md). One control per sub-axis; the strip runs
  * along one free axis (S or D) and shows: solid line = the selected map (computed), band = min–max over the
  * 21 terrain maps (precomputed `band_over_T`), hatch = missing cells. Every number is a slice of the cube.
+ *
+ * v2 (docs/v2/6D_MODEL.md): controls are grouped by axis role, read from a v2 file or given to a v1 file by the
+ * deterministic rule in scenarioCubeV2.ts: "What we don't know" (uncertainty X), "What we choose" (decision L), then
+ * requirements (filters on outcomes) and context selectors. Roles only group controls; nothing is computed from them.
  */
+const ROLE_ORDER: CubeRole[] = ['uncertainty', 'decision', 'requirement', 'context'];
+const ROLE_SUB: Record<CubeRole, string> = {
+  uncertainty: 'X · not under mission control · stress over these (k of N maps is not a probability)',
+  decision: 'L · mission levers · compare choices across these',
+  requirement: 'filter on outcomes · not an axis to optimise or stress',
+  context: 'selector · neither stressed nor optimised',
+};
 const QUESTION: Record<string, string> = {
   uncertainty_terrain: 'T · how sure?',
   uncertainty_model: 'M · do the data products agree?',
@@ -41,7 +52,7 @@ export function CubeSlicer({ v }: { v: View }) {
   const siteId = v.dataset.site.id;
   const [index, setIndex] = useState<CubeIndex | null | undefined>(undefined);
   const [file, setFile] = useState<string | null>(null);
-  const [cube, setCube] = useState<ScenarioCube | null>(null);
+  const [cube, setCube] = useState<RoledCube | null>(null);
   const [err, setErr] = useState<string | null>(null);
   // The hourly cube is ~38 MB of JSON once decompressed: fetch and parse it only once the panel is on screen.
   const boxRef = useRef<HTMLElement | null>(null);
@@ -81,7 +92,7 @@ export function CubeSlicer({ v }: { v: View }) {
     let live = true;
     setCube(null);
     setErr(null);
-    loadCube(siteId, file)
+    loadCubeAny(siteId, file)
       .then((c) => live && setCube(c))
       .catch((e: Error) => live && setErr(e.message));
     return () => {
@@ -173,7 +184,7 @@ function ProductTable({ cube }: { cube: ScenarioCube }) {
   );
 }
 
-function Slicer({ cube }: { cube: ScenarioCube }) {
+function Slicer({ cube }: { cube: RoledCube }) {
   const metricKeys = Object.keys(cube.metrics);
   const [metric, setMetric] = useState(metricKeys.includes('sun_earth_pct') ? 'sun_earth_pct' : metricKeys[0]);
   const design = cube.dims.find((d) => d.kind === 'design');
@@ -202,6 +213,7 @@ function Slicer({ cube }: { cube: ScenarioCube }) {
   const chosen = cube.derived?.regret && at.S !== undefined ? derivedCell(cube, 'regret', 'chosen_index', { S: at.S }) : null;
   const flipShare = design && cube.derived?.decision_changes ? derivedCell(cube, 'decision_changes', 'share_starts_verdict_depends_on_T', { [design.name]: at[design.name] }) : null;
   const rDim = kd ? derivedDims(cube, 'k_of_N').find((d) => d.name === 'R') : undefined;
+  const groups = useMemo(() => groupByRole(cube.dims), [cube]);
   const dec = m.decimals ?? 2;
 
   return (
@@ -217,50 +229,64 @@ function Slicer({ cube }: { cube: ScenarioCube }) {
             ))}
           </select>
         </label>
-        {cube.dims.map((d) => (
-          <div className={`cube-ctl ${free === d.name ? 'free' : ''}`} key={d.name} data-testid={`cube-dim-${d.name}`}>
-            <span title={d.label}>
-              {QUESTION[d.kind] ?? d.kind} <small className="muted">({d.name})</small>
-            </span>
-            {d.values.length > 40 ? (
-              <input
-                type="range"
-                min={0}
-                max={d.values.length - 1}
-                value={at[d.name]}
-                onChange={(e) => setAt({ ...at, [d.name]: Number(e.target.value) })}
-                aria-label={d.label}
-                data-testid={`cube-ctl-${d.name}`}
-              />
-            ) : (
-              <select value={at[d.name]} onChange={(e) => setAt({ ...at, [d.name]: Number(e.target.value) })} aria-label={d.label} data-testid={`cube-ctl-${d.name}`}>
-                {d.values.map((_, i) => (
-                  <option key={i} value={i}>
-                    {valueLabel(d, i)}
-                  </option>
+        {ROLE_ORDER.map((role) => {
+          const ds = groups[role];
+          const withR = role === 'requirement' ? rDim : undefined;
+          if (!ds.length && !withR) return null;
+          return (
+            <fieldset className={`cube-group cube-group-${role}`} key={role} data-testid={`cube-group-${role}`} data-role={role} style={GROUP_STYLE}>
+              <legend style={LEGEND_STYLE}>
+                {ROLE_HEADING[role]} <small className="muted">· {ROLE_SUB[role]}</small>
+              </legend>
+              <div className="cube-ctls" style={GROUP_ROW_STYLE}>
+                {ds.map((d) => (
+                  <div className={`cube-ctl ${free === d.name ? 'free' : ''}`} key={d.name} data-testid={`cube-dim-${d.name}`}>
+                    <span title={(d as CubeDimV2).role_note ? `${d.label} · ${(d as CubeDimV2).role_note}` : d.label}>
+                      {QUESTION[d.kind] ?? d.kind} <small className="muted">({d.name})</small>
+                    </span>
+                    {d.values.length > 40 ? (
+                      <input
+                        type="range"
+                        min={0}
+                        max={d.values.length - 1}
+                        value={at[d.name]}
+                        onChange={(e) => setAt({ ...at, [d.name]: Number(e.target.value) })}
+                        aria-label={d.label}
+                        data-testid={`cube-ctl-${d.name}`}
+                      />
+                    ) : (
+                      <select value={at[d.name]} onChange={(e) => setAt({ ...at, [d.name]: Number(e.target.value) })} aria-label={d.label} data-testid={`cube-ctl-${d.name}`}>
+                        {d.values.map((_, i) => (
+                          <option key={i} value={i}>
+                            {valueLabel(d, i)}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                    <small className="cube-val">{valueLabel(d, at[d.name])}</small>
+                    {d.kind !== 'uncertainty_terrain' && (
+                      <button type="button" className={`btn btn-small ${free === d.name ? 'on' : ''}`} onClick={() => setFree(d.name)} data-testid={`cube-free-${d.name}`}>
+                        strip along {d.name}
+                      </button>
+                    )}
+                  </div>
                 ))}
-              </select>
-            )}
-            <small className="cube-val">{valueLabel(d, at[d.name])}</small>
-            {d.kind !== 'uncertainty_terrain' && (
-              <button type="button" className={`btn btn-small ${free === d.name ? 'on' : ''}`} onClick={() => setFree(d.name)} data-testid={`cube-free-${d.name}`}>
-                strip along {d.name}
-              </button>
-            )}
-          </div>
-        ))}
-        {rDim && (
-          <label className="cube-ctl">
-            <span>{QUESTION.requirement}</span>
-            <select value={r} onChange={(e) => setR(Number(e.target.value))} data-testid="cube-ctl-R">
-              {rDim.values.map((_, i) => (
-                <option key={i} value={i}>
-                  {valueLabel(rDim, i)}
-                </option>
-              ))}
-            </select>
-          </label>
-        )}
+                {withR && (
+                  <label className="cube-ctl">
+                    <span>{QUESTION.requirement}</span>
+                    <select value={r} onChange={(e) => setR(Number(e.target.value))} data-testid="cube-ctl-R">
+                      {withR.values.map((_, i) => (
+                        <option key={i} value={i}>
+                          {valueLabel(withR, i)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                )}
+              </div>
+            </fieldset>
+          );
+        })}
       </div>
       <CubeStrip line={line} lo={lo} hi={hi} dim={freeDim} sel={at[free]} units={m.units} label={m.label} />
       <dl className="cube-card" data-testid="cube-card" data-source={`scenario cube ${cube.cube_id}`} data-label={cube.label}>
@@ -320,6 +346,10 @@ function Slicer({ cube }: { cube: ScenarioCube }) {
     </div>
   );
 }
+
+const GROUP_STYLE = { border: '1px solid var(--line)', borderRadius: 4, padding: '6px 10px 4px', margin: 0, minWidth: 0 } as const;
+const LEGEND_STYLE = { fontSize: 12, color: 'var(--bone)', padding: '0 4px' } as const;
+const GROUP_ROW_STYLE = { margin: '6px 0 4px' } as const;
 
 function CubeStrip({ line, lo, hi, dim, sel, units, label }: { line: (number | null)[]; lo: (number | null)[] | null; hi: (number | null)[] | null; dim: CubeDim; sel: number; units: string; label: string }) {
   const W = 640;
