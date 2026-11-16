@@ -30,7 +30,8 @@ test('no duplicate-key React errors when loading the default bundle', async ({ p
 });
 
 test('South Pole map labels do not overlap', async ({ page }) => {
-  await page.goto(url);
+  await page.goto(`${url}#evidence`);
+  await page.getByTestId('status-badge').waitFor();
   const map = page.getByTestId('polar-map');
   await map.scrollIntoViewIfNeeded();
   await page.waitForTimeout(800);

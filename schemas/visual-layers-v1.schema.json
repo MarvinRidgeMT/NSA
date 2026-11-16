@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://polaris-x.local/schemas/visual-layers-v1.schema.json",
+  "title": "POLARIS X visual layers v1",
+  "description": "Display-only raster layers (albedo, morphology, hillshade...). Deliberately separate from numerical terrain: a visual layer has no elevation values, no vertical units, and numericalAuthority is always false. Solvers must reject these objects.",
+  "type": "object",
+  "required": ["schema", "releaseStatus", "layers"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "polaris-visual-layers-v1" },
+    "generatedUTC": { "type": "string" },
+    "releaseStatus": { "const": "SOURCE_BASED_UNVALIDATED" },
+    "note": { "type": "string" },
+    "layers": { "type": "array", "items": { "$ref": "#/$defs/layer" } }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "layer": {
+      "type": "object",
+      "required": ["id", "role", "title", "label", "status", "numericalAuthority", "productId", "sourceUrl", "artifact", "sourceHash",
+                   "pixelSizeM", "projection", "frame", "boundsM", "rowOrder", "registration", "display", "limitations"],
+      "additionalProperties": false,
+      "not": { "anyOf": [ { "required": ["values"] }, { "required": ["verticalUnits"] }, { "required": ["spacing"] }, { "required": ["n"] },
+                          { "required": ["originX"] }, { "required": ["originY"] }, { "required": ["layer"] }, { "required": ["kind"] } ] },
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{2,63}$" },
+        "role": { "enum": ["albedo", "morphology", "hillshade", "reference-image"] },
+        "title": { "type": "string", "minLength": 3 },
+        "label": { "type": "string", "pattern": "VISUAL" },
+        "status": { "const": "VISUAL" },
+        "numericalAuthority": { "const": false },
+        "productId": { "type": "string", "minLength": 3 },
+        "sourceUrl": { "type": "string", "pattern": "^https://" },
+        "productPage": { "type": "string", "pattern": "^https://" },
+        "cite": { "type": "string" },
+        "siteId": { "type": "string" },
+        "artifact": {
+          "type": "object", "required": ["path", "sha256", "width", "height", "format"], "additionalProperties": false,
+          "properties": {
+            "path": { "type": "string", "pattern": "^(?!/)(?!.*\\.\\.)[A-Za-z0-9_./-]+$" },
+            "sha256": { "$ref": "#/$defs/sha256" },
+            "width": { "type": "integer", "minimum": 1 }, "height": { "type": "integer", "minimum": 1 },
+            "format": { "enum": ["png-8bit-gray", "webp-8bit-gray", "jpeg-8bit-gray"] },
+            "bytes": { "type": "integer", "minimum": 1 },
+            "noDataValue": { "type": "integer" }
+          }
+        },
+        "sourceHash": {
+          "type": "object", "required": ["kind", "sha256"], "additionalProperties": false,
+          "properties": {
+            "kind": { "enum": ["whole-file", "byte-range-window"] },
+            "sha256": { "$ref": "#/$defs/sha256" },
+            "wholeFileSha256": { "anyOf": [ { "type": "null" }, { "$ref": "#/$defs/sha256" } ] },
+            "note": { "type": "string" }
+          }
+        },
+        "pixelSizeM": { "type": "number", "exclusiveMinimum": 0 },
+        "projection": {
+          "type": "object", "required": ["type", "centreLatDeg", "centreLonEastDeg", "radiusM", "units"], "additionalProperties": false,
+          "properties": {
+            "type": { "const": "south_polar_stereographic" },
+            "centreLatDeg": { "const": -90 }, "centreLonEastDeg": { "const": 0 },
+            "radiusM": { "const": 1737400 }, "units": { "const": "m" },
+            "axes": { "type": "string" }
+          }
+        },
+        "frame": { "type": "string", "minLength": 3 },
+        "boundsM": {
+          "type": "object", "required": ["xmin", "xmax", "ymin", "ymax", "boundsAre"], "additionalProperties": false,
+          "properties": { "xmin": { "type": "number" }, "xmax": { "type": "number" }, "ymin": { "type": "number" }, "ymax": { "type": "number" },
+                          "boundsAre": { "const": "pixel-edges" } }
+        },
+        "rowOrder": { "const": "north-to-south" },
+        "registration": {
+          "type": "object", "required": ["method", "against", "offsetM", "status"], "additionalProperties": false,
+          "properties": {
+            "method": { "type": "string", "minLength": 3 },
+            "against": { "type": "string", "minLength": 3 },
+            "offsetM": { "type": "object", "required": ["x", "y"], "additionalProperties": false,
+                         "properties": { "x": { "type": "number" }, "y": { "type": "number" } } },
+            "peakNcc": { "type": "number", "minimum": -1, "maximum": 1 },
+            "nccAtZeroShift": { "type": "number", "minimum": -1, "maximum": 1 },
+            "comparedPixels": { "type": "integer", "minimum": 1 },
+            "appliedShiftM": { "type": "object", "required": ["x", "y"], "additionalProperties": false,
+                               "properties": { "x": { "type": "number" }, "y": { "type": "number" } } },
+            "status": { "const": "display-alignment-evidence-only" },
+            "evidencePath": { "type": "string" }
+          }
+        },
+        "display": {
+          "type": "object", "required": ["processing"], "additionalProperties": false,
+          "properties": { "processing": { "type": "string", "minLength": 3 }, "stretchLow": { "type": "number" }, "stretchHigh": { "type": "number" } }
+        },
+        "limitations": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 8 } }
+      }
+    }
+  }
+}

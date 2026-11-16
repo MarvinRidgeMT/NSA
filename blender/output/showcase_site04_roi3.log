@@ -1,0 +1,60 @@
+00:00.301  blend            | Read blend: "/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2.blend"
+/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/showcase.py:103: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m.use_nodes = True
+/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/showcase.py:155: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m.use_nodes = True
+00:08.656  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_aerial.png'
+00:14.324  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_ground.png'
+00:20.295  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_low_sun.png'
+00:27.185  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast1m.png'
+00:35.946  render           | Saved: '/Users/anishmeruva/Downloads/POLARIS-X5D-Blender-Codex/blender/output/POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast10m.png'
+[POLARIS] showcase render aerial: POLARIS_X_site04_roi3_bundlev2_showcase_aerial.png
+[POLARIS] showcase render ground: POLARIS_X_site04_roi3_bundlev2_showcase_ground.png
+[POLARIS] showcase render low_sun: POLARIS_X_site04_roi3_bundlev2_showcase_low_sun.png
+[POLARIS] showcase render obstruction_mast1m: POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast1m.png
+[POLARIS] showcase render obstruction_mast10m: POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast10m.png
+Info: Saved copy as "POLARIS_X_site04_roi3_bundlev2_showcase.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/lib/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/lib/libbf_intern_meshopt_bridge.dylib
+20:42:30 | INFO: Starting glTF 2.0 export
+20:42:30 | INFO: Extracting primitive: DEM grid.001
+20:42:30 | INFO: Primitives created: 1
+20:42:30 | INFO: Extracting primitive: DEM grid.002
+20:42:30 | INFO: Primitives created: 1
+20:42:30 | INFO: Extracting primitive: DEM grid
+20:42:31 | INFO: Primitives created: 1
+20:42:31 | INFO: Extracting primitive: Earth ray
+20:42:31 | INFO: Primitives created: 1
+20:42:31 | INFO: Extracting primitive: Sphere
+20:42:31 | INFO: Primitives created: 1
+20:42:31 | INFO: Extracting primitive: Cylinder
+20:42:31 | INFO: Primitives created: 1
+20:42:31 | INFO: Extracting primitive: Sun ray
+20:42:31 | INFO: Primitives created: 1
+20:42:31 | INFO: Draco encoder: Encoding mesh CONTEXT L1 | 20 m ring | DISPLAY ONLY | 1:1 metres.
+20:42:31 | INFO: Draco encoder: Encoding mesh CONTEXT | PGDA 90 80 m regional crop | DISPLAY ONLY | 1:1 metres.
+20:42:31 | INFO: Draco encoder: Encoding mesh DEM | 5 m crop | NASA GSFC SfS DISPLAY surface | 1:1 metres.
+20:42:31 | INFO: Draco encoder: Encoding mesh Earth ray.
+20:42:31 | INFO: Draco encoder: Encoding mesh Observer eye point.
+20:42:31 | INFO: Draco encoder: Encoding mesh Observer mast 1.0 m (bundle scenario).
+20:42:31 | INFO: Draco encoder: Encoding mesh Sun ray.
+20:42:31 | INFO: Finished glTF 2.0 export in 0.4185037612915039 s
+
+[POLARIS] showcase done: 5 renders, boulders drawn (43592), device METAL, web GLB 929116
+Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:31:21)
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 160801 vertices, 960000 indices, raw size: 7699224, encoded size: 302279, compression ratio: 25.47
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 160801 vertices, 960000 indices, raw size: 7699224, encoded size: 295952, compression ratio: 26.02
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 160801 vertices, 960000 indices, raw size: 7699224, encoded size: 313556, compression ratio: 24.55
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 48 vertices, 72 indices, raw size: 1296, encoded size: 364, compression ratio: 3.56
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1984 vertices, 2880 indices, raw size: 69248, encoded size: 9696, compression ratio: 7.14
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 96 vertices, 180 indices, raw size: 3432, encoded size: 858, compression ratio: 4.00
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 48 vertices, 72 indices, raw size: 1296, encoded size: 364, compression ratio: 3.56
+
+Blender quit

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { BundleError, loadBundleBytes } from '../bundle/validate';
 import { bracket, CoverageError } from '../bundle/sampling';
 import type { BundleIndexEntry, LoadedBundle } from '../bundle/types';
+import type { CertaintySidecar } from '../bundle/certaintySidecar';
 
 /**
  * ONE store. UTC time, site (dataset) and scenario live here and nothing else
@@ -12,6 +13,8 @@ export interface PolarisState {
   loaded: LoadedBundle | null;
   loading: boolean;
   loadError: string | null;
+  /** what Retry does for the current loadError: re-run the cold launch, or reload the same bundle URL (never a different bundle) */
+  loadRetry: (() => void) | null;
   datasetIdx: number;
   scenarioId: string | null;
   utcMs: number | null;
@@ -19,6 +22,10 @@ export interface PolarisState {
   /** informational: e.g. the requested time was snapped to the nearest bundle sample */
   timeNote: string | null;
   selectedFailureId: string | null;
+  /** optional Certainty Height sidecar (batch sweep), loaded once from certainty/sidecar.json; null = absent */
+  certaintySidecar: CertaintySidecar | null;
+  /** skyline bin highlighted by the Ridge of Record panel (null = none) */
+  selectedBin: number | null;
   playing: boolean;
 
   setIndex: (e: BundleIndexEntry[]) => void;
@@ -30,6 +37,7 @@ export interface PolarisState {
   stepSample: (delta: number) => void;
   setSampleIndex: (i: number) => void;
   selectFailure: (id: string | null) => void;
+  selectBin: (bin: number | null) => void;
   setPlaying: (p: boolean) => void;
 }
 
@@ -44,11 +52,13 @@ export const usePolaris = create<PolarisState>((set, get) => {
       loaded: lb,
       loading: false,
       loadError: null,
+      loadRetry: null,
       datasetIdx: 0,
       scenarioId: ds.derived?.scenarios[0]?.id ?? null,
       utcMs: lb.times[0][0],
       timeError: null,
       selectedFailureId: null,
+      selectedBin: null,
       playing: false,
     });
   };
@@ -60,24 +70,29 @@ export const usePolaris = create<PolarisState>((set, get) => {
     loaded: null,
     loading: false,
     loadError: null,
+    loadRetry: null,
     datasetIdx: 0,
     scenarioId: null,
     utcMs: null,
     timeError: null,
     timeNote: null,
     selectedFailureId: null,
+    certaintySidecar: null,
+    selectedBin: null,
     playing: false,
 
     setIndex: (index) => set({ index }),
 
     loadFromUrl: async (url, name, origin) => {
-      set({ loading: true, loadError: null });
+      set({ loading: true, loadError: null, loadRetry: null });
       try {
-        const r = await fetch(url);
-        if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
+        const r = await fetch(url, { cache: 'no-store' });
+        if (!r.ok) throw new Error(r.status === 404 ? `${url} was not found (HTTP 404). It may have been renamed or removed; run \`npm run sync-bundles\`.` : `${url}: HTTP ${r.status}`);
         adopt(await loadBundleBytes(await r.arrayBuffer(), name, origin));
       } catch (e) {
         failLoad(e);
+        // Retry reloads exactly this URL; it never falls back to another bundle.
+        set({ loadRetry: () => void get().loadFromUrl(url, name, origin) });
       }
     },
 
@@ -103,10 +118,12 @@ export const usePolaris = create<PolarisState>((set, get) => {
         utcMs: keep ? cur : times[0],
         timeError: null,
         selectedFailureId: null,
+        selectedBin: null,
       });
     },
 
-    setScenario: (id) => set({ scenarioId: id, selectedFailureId: null }),
+    setScenario: (id) => set({ scenarioId: id, selectedFailureId: null, selectedBin: null }),
+    selectBin: (bin) => set({ selectedBin: bin }),
 
     /** Refuses (returns false, sets timeError) for any time outside coverage. */
     setTime: (ms) => {

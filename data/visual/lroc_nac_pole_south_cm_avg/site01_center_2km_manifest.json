@@ -1,0 +1,85 @@
+{
+  "role": "visual-context-only",
+  "numericalAuthority": false,
+  "product": {
+    "dataSetId": "LRO-L-LROC-5-RDR-V1.0",
+    "productId": "NAC_POLE_SOUTH_CM_AVG_P892S2250",
+    "title": "Controlled 1 m/pixel South Pole Average Mosaic",
+    "productPage": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_POLE_SOUTH_CM_AVG",
+    "url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/BDR/NAC_POLE/NAC_POLE_SOUTH_CM_AVG/NAC_POLE_SOUTH_CM_AVG_P892S2250.IMG",
+    "resolvedUrl": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/NAC_POLE/NAC_POLE_SOUTH_CM_AVG/NAC_POLE_SOUTH_CM_AVG_P892S2250.IMG",
+    "fileBytes": 8276814528,
+    "etag": "\"6a8156b9afee8d513ed4fdea5be2d145-1579\"",
+    "lastModified": "Fri, 21 Aug 2026 04:44:16 GMT",
+    "cite": "Archinal et al. (2023), Controlled High-Resolution LROC NAC Polar Mosaics, LPSC 54, abstract 2333",
+    "wholeFileSha256": null,
+    "wholeFileChecksumStatus": "8.28 GB tile not downloaded; only the byte ranges below"
+  },
+  "label": {
+    "RECORD_BYTES": 181952.0,
+    "LABEL_RECORDS": 1.0,
+    "LINES": 45488.0,
+    "LINE_SAMPLES": 45488.0,
+    "SAMPLE_BITS": 32.0,
+    "SAMPLE_TYPE": "PC_REAL",
+    "MAP_SCALE": 1.0,
+    "CENTER_LATITUDE": -90.0,
+    "CENTER_LONGITUDE": 0.0,
+    "LINE_PROJECTION_OFFSET": -0.5,
+    "SAMPLE_PROJECTION_OFFSET": 45487.5,
+    "A_AXIS_RADIUS": 1737.4,
+    "MAP_PROJECTION_TYPE": "POLAR STEREOGRAPHIC",
+    "POSITIVE_LONGITUDE_DIRECTION": "EAST"
+  },
+  "labelSha256": "2cac51eec7318619304934d4b709e362b1cfba4e3775596c975e253692cbe671",
+  "projection": {
+    "type": "south polar stereographic",
+    "centreLatDeg": -90,
+    "centreLonEastDeg": 0,
+    "radiusM": 1737400,
+    "pixelScaleM": 1.0,
+    "axes": "+x toward 90 E, +y toward 0 E (same as PGDA 78/90 GeoTIFFs)",
+    "pixelRule": "x = (sample-1) - SAMPLE_PROJECTION_OFFSET; y = LINE_PROJECTION_OFFSET - (line-1); pixel centres"
+  },
+  "window": {
+    "xminM": -12000.0,
+    "xmaxM": -10000.0,
+    "yminM": -13000.0,
+    "ymaxM": -11000.0,
+    "boundsAre": "pixel edges",
+    "sampleFirst": 33489,
+    "sampleLast": 35488,
+    "lineFirst": 11001,
+    "lineLast": 13000,
+    "width": 2000,
+    "height": 2000,
+    "rowOrder": "row 0 = northmost (largest y), as in the source"
+  },
+  "acquiredUTC": "2026-11-15T03:04:11Z",
+  "rawWindowSha256": "35ef3b5805cdee4e43f3a8d23066a165d3f4bce8aceafbeb74005e759d4be991",
+  "rawWindowDtype": "little-endian float32",
+  "stats": {
+    "validFraction": 1.0,
+    "min": 0.014417876489460468,
+    "max": 1.0870062112808228,
+    "mean": 0.1300496608018875
+  },
+  "display8bit": {
+    "file": "site01_center_2km_1m_8bit.png",
+    "sha256": "8ff9a6248a2614838b20aa361c12c7ede0f871aaa6200a4b06ab3105687ef5e4",
+    "stretch": "linear, 0.5-99.5 percentile of valid pixels -> 1..255; 0 = no data",
+    "p0_5": 0.02244909849949181,
+    "p99_5": 0.44088754430413235,
+    "label": "VISUAL: display stretch, not radiometry"
+  },
+  "float32": {
+    "file": "site01_center_2km_1m_f32.tif",
+    "sha256": "e2cee071d519dcbe3b10896b7b81065859097cd6c6fa3751b25958c5937db3c1"
+  },
+  "limitations": [
+    "Average of many NAC images under different Sun directions: not a real lighting state, and shading is baked in.",
+    "Never an input to horizons, rays, elevations or metrics.",
+    "Registration to the PGDA 78 5 m DEM is not guaranteed by either product; see the registration check in docs/DATA_PROVENANCE.md.",
+    "Units of the averaged pixel value are not stated in the label read here; treated as relative brightness."
+  ]
+}

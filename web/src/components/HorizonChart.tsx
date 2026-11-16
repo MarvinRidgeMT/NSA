@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { binRuns, useRidgeFocus } from '../store/ridge';
 import { fmtSigned, type TargetView, type View } from '../store/view';
 
 const W = 760;
@@ -76,6 +77,7 @@ export function HorizonChart({ v }: { v: View }) {
     </g>
   );
 
+  const { focus } = useRidgeFocus(v);
   const n = sk?.azimuthDeg.length ?? 0;
   const hoverIdx = hover !== null && sk ? Math.round((hover / 360) * n) % n : null;
   const hEl = hoverIdx !== null && sk ? sk.elevationDeg[hoverIdx] : null;
@@ -128,6 +130,17 @@ export function HorizonChart({ v }: { v: View }) {
           <text x={W / 2} y={H / 2} className="chart-note" textAnchor="middle" data-testid="no-skyline">
             Skyline not provided by this bundle — not computed by the viewer
           </text>
+        )}
+        {focus && sk && focus.bins.length > 0 && (
+          <g className={`ridge-mark from-${focus.source}`} data-testid="ridge-mark" data-ridge={focus.ridge?.id ?? ''}>
+            {binRuns(focus.bins).map(([b0, b1]) => (
+              <rect key={b0} x={x(sk.azimuthDeg[b0]) - 3} y={M.t} width={Math.max(x(sk.azimuthDeg[b1]) - x(sk.azimuthDeg[b0]), 0) + 6} height={H - M.t - M.b} />
+            ))}
+            <text x={Math.min(x(sk.azimuthDeg[focus.bins[0]]) + 8, W - 260)} y={H - M.b - 6} className="chart-label">
+              {focus.ridge ? `${focus.ridge.label ?? focus.ridge.id} · ridge of record` : 'selected bin'} · az {sk.azimuthDeg[focus.bins[0]].toFixed(1)}
+              {focus.bins.length > 1 ? `–${sk.azimuthDeg[focus.bins[focus.bins.length - 1]].toFixed(1)}` : ''}°
+            </text>
+          </g>
         )}
         {marker(v.sun, 'sun', 'Sun')}
         {marker(v.earth, 'earth', 'Earth')}

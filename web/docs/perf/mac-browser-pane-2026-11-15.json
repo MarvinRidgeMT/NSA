@@ -1,0 +1,24 @@
+{
+  "schema": "polaris-perf-v1",
+  "measuredUTC": "2026-11-15T05:30:00Z",
+  "who": "b-experience session A, via the Claude desktop browser pane (Chromium 156) on Anish's Mac",
+  "hardware": "Apple M5 Pro; WebGL renderer 'ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro)'",
+  "build": "web/ dev server (vite, localhost:5174), Explore on the ROI export Site04 ROI3, terrain context pack loaded (5 m crop + 80 m regional), Penumbra shading + DEM-marched shadows",
+  "viewport": {"css": [1512, 982], "devicePixelRatio": 2, "canvasPixels": [3024, 1852]},
+  "method": "requestAnimationFrame intervals over fixed windows; long tasks and long-animation-frame entries via PerformanceObserver; WebGL call counts by wrapping WebGL2RenderingContext.prototype methods",
+  "results": {
+    "firstContentfulPaintMs": 644,
+    "steadyStateIdle": {"frames": 480, "windowS": 4, "meanMs": 8.33, "p50Ms": 8.3, "p95Ms": 9.3, "p99Ms": 9.4, "maxMs": 9.4, "note": "display-limited at 120 Hz"},
+    "cameraTransitionToSouthPoleContext": {"p50Ms": 8.3, "p95Ms": 9.1, "maxMs": 17.0},
+    "jsHeapMB": {"afterLoad": 70, "afterPlaybackTests": 108},
+    "perTimeStepBefore": {"programLinks": 2, "bufferAllocations": 70, "framesAfterStep": "first frame delayed 0.8-1.0 s", "cause": "drei <Line> disposes its material whenever its points change; the sight-line shader programs were freed and recompiled (ANGLE -> Metal) on every sample and every camera change"},
+    "perTimeStepAfter": {"programLinks": 0, "bufferAllocations": 0, "framesAfterStep": "p95 9.2 ms, max 16.6 ms", "fix": "web/src/three/StableLine.tsx keeps the material and writes into the existing buffers"},
+    "reactRenderPerSampleMs": "52-57 (one long task per sample during playback)",
+    "castShadowPass": "now spread over ~26 frames (8 of 201 rows per frame, double-buffered); previously one full 401x401 pass per sample"
+  },
+  "caveats": [
+    "In this embedded pane any main-thread task longer than ~50 ms is followed by a ~1 s pause in frame production. A synthetic 52 ms busy task every 400 ms with no app involvement reproduced it (3 pauses in 4 s), so those pauses are a property of the pane, not of the scene. In regular Chrome the same task costs one dropped frame (~50 ms).",
+    "GPU time per frame was not measured directly (no timer-query results); frame intervals are capped by the 120 Hz display, so 8.3 ms is an upper bound on the per-frame cost, not the cost itself.",
+    "Clean numbers outside the pane: run `node scripts/perf_mac.mjs` (Mac Chrome, Metal) and keep its JSON beside this file."
+  ]
+}

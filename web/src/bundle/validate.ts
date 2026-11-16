@@ -1,6 +1,6 @@
 import type { Bundle, Dataset, DisplayStatus, LoadedBundle, RawStatus, Scenario } from './types';
 import { BundleError } from './errors';
-import { adaptScienceV2, isScienceV2 } from './scienceV2';
+import { adaptScienceV2, isScienceV2, normalizeDerivedBlocks } from './scienceV2';
 
 export { BundleError };
 
@@ -113,16 +113,52 @@ function checkDataset(d: Dataset, i: number): number[] {
   return times;
 }
 
+/** Structural checks on the raw (snake_case) A1–A4 blocks of a POLARIS-X5D-v2 derived object. Refuses; never repairs. */
+function checkDecisionBlocks(d: Record<string, unknown>, nSamples: number, w: string): void {
+  const rec = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 'object' && !Array.isArray(x);
+  const a = d.attribution;
+  if (rec(a) && Array.isArray(a.ridges)) {
+    const ids = new Set<string>();
+    (a.ridges as Record<string, unknown>[]).forEach((r, k) => {
+      if (r.source !== undefined && r.source !== 'near_5m' && r.source !== 'far_80m') fail(`${w}.attribution.ridges[${k}].source must be near_5m or far_80m`);
+      if (typeof r.id === 'string') ids.add(r.id);
+    });
+    const pb = a.per_bin;
+    if (rec(pb) && Array.isArray(pb.ridge_id))
+      (pb.ridge_id as (string | null)[]).forEach((id, k) => {
+        if (id !== null && !ids.has(id)) fail(`${w}.attribution.per_bin.ridge_id[${k}]: "${id}" is not a listed ridge`);
+      });
+  }
+  if (Array.isArray(d.certainty_curve))
+    (d.certainty_curve as Record<string, unknown>[]).forEach((c, k) => {
+      if (c.pass !== undefined) {
+        const m = typeof c.pass === 'string' ? /^(\d+)\/(\d+)$/.exec(c.pass) : null;
+        if (!m || Number(m[1]) > Number(m[2]) || (typeof c.n_clones === 'number' && Number(m[2]) !== c.n_clones)) fail(`${w}.certainty_curve[${k}].pass must be "k/N" with k ≤ N = n_clones`);
+      }
+      const lo = c.min as number, med = c.median as number, hi = c.max as number;
+      if ([lo, med, hi].every((x) => typeof x === 'number') && !(lo <= med && med <= hi)) fail(`${w}.certainty_curve[${k}]: min ≤ median ≤ max violated`);
+    });
+  if (rec(d.coverage) && typeof d.coverage.covered_frac === 'number' && !(d.coverage.covered_frac >= 0 && d.coverage.covered_frac <= 1))
+    fail(`${w}.coverage.covered_frac must be in [0, 1]`);
+  const mg = d.margins ?? d.margin_series;
+  if (rec(mg))
+    for (const k of ['sun_margin_deg', 'earth_margin_deg', 'sun_clone_min_deg', 'sun_clone_max_deg', 'earth_clone_min_deg', 'earth_clone_max_deg'])
+      if (Array.isArray(mg[k]) && (mg[k] as unknown[]).length !== nSamples) fail(`${w}.margins.${k}: expected ${nSamples} values, got ${(mg[k] as unknown[]).length}`);
+}
+
 /** Parse + structurally validate. Throws BundleError with a specific message. */
 export function validateBundle(raw: unknown): { bundle: Bundle; times: number[][]; status: DisplayStatus; warnings: string[] } {
   if (!raw || typeof raw !== 'object') fail('bundle is not a JSON object');
   const b = isScienceV2(raw) ? adaptScienceV2(raw) : (raw as Bundle);
-  if (b.format !== 'POLARIS-X5D-v2' && b.format !== 'science-bundle-v2')
-    fail(`unsupported format "${String((b as { format?: unknown }).format ?? (b as { schema?: unknown }).schema)}" (expected science-bundle-v2 or POLARIS-X5D-v2)`);
+  if (b.format !== 'POLARIS-X5D-v2' && b.format !== 'science-bundle-v2' && b.format !== 'polaris-science-results-v1')
+    fail(`unsupported format "${String((b as { format?: unknown }).format ?? (b as { schema?: unknown }).schema)}" (expected science-bundle-v2, polaris-science-results-v1 or POLARIS-X5D-v2)`);
   if (!/^2/.test(b.schemaVersion ?? '')) fail(`unsupported schemaVersion "${b.schemaVersion}"`);
   if (!b.validation?.status) fail('validation.status missing');
   if (!Array.isArray(b.datasets) || b.datasets.length === 0) fail('datasets empty');
   const times = b.datasets.map(checkDataset);
+  // POLARIS-X5D-v2 exports (science/viewer.py) carry derived.attribution in the science branch's snake_case A1 shape
+  b.datasets.forEach((d, i) => d.derived && checkDecisionBlocks(d.derived as unknown as Record<string, unknown>, times[i].length, `datasets[${i}].derived`));
+  for (const d of b.datasets) if (d.derived) normalizeDerivedBlocks(d.derived as unknown as Record<string, unknown>);
   const warnings: string[] = [];
   b.datasets.forEach((d) => {
     if (!d.dem && d.derived)

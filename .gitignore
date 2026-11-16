@@ -22,3 +22,8 @@ tmp/
 
 # PGDA 69 / 78 downloads for tools/pgda69 (re-fetched with pinned SHA-256)
 data/raw/pgda69/
+
+# LROC NAC visual windows: keep the 8-bit PNG + manifest, not the float32 copy or partial downloads
+data/visual/**/*_f32.tif
+data/visual/**/*.partial
+data/visual/**/*.rows

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { demoTimes, goTo, openDemo, scenario, shots } from './helpers';
+import { demoTimes, goTo, openDemo, scenario, shots, ws } from './helpers';
 
 test.describe('displayed margins equal bundle values', () => {
   for (const idx of [3, 21, 40]) {
@@ -9,6 +9,7 @@ test.describe('displayed margins equal bundle values', () => {
       await expect(page.getByTestId('status-badge')).toHaveAttribute('data-status', 'DEMO');
       await goTo(page, demoTimes[idx]);
       await expect(page.getByTestId('utc')).toHaveText(demoTimes[idx]);
+      await ws(page, 'decision');
       for (const sid of ['baseline', 'mast10', 'east100']) {
         await page.getByTestId('scenario-select').selectOption(sid);
         const sc = scenario(sid);

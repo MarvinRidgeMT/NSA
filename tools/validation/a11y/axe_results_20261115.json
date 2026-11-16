@@ -1,0 +1,275 @@
+[
+ {
+  "name": "cold launch (default)",
+  "path": "/",
+  "viewport": [
+   1440,
+   900
+  ],
+  "violations": [],
+  "passes": 28,
+  "incomplete": [
+   {
+    "id": "color-contrast",
+    "n": 41
+   }
+  ]
+ },
+ {
+  "name": "decision Site04 ROI3",
+  "path": "/?bundle=polaris-x5d-roi-2026-11-14-v2.json&site=site04_roi3#decision",
+  "viewport": [
+   1440,
+   900
+  ],
+  "violations": [
+   {
+    "id": "definition-list",
+    "impact": "serious",
+    "help": "<dl> elements must only directly contain properly-ordered <dt> and <dd> groups, <script>, <template> or <div> elements",
+    "nodes": [
+     {
+      "target": ".three-heights",
+      "summary": "Fix all of the following:\n  dl element has direct children that are not allowed: p"
+     }
+    ],
+    "n": 1
+   },
+   {
+    "id": "nested-interactive",
+    "impact": "serious",
+    "help": "Interactive controls must not be nested",
+    "nodes": [
+     {
+      "target": "svg[viewBox=\"0 0 760 230\"]",
+      "summary": "Fix any of the following:\n  Element has focusable descendants. Move them outside of the element, or remove them."
+     }
+    ],
+    "n": 1
+   }
+  ],
+  "passes": 36,
+  "incomplete": [
+   {
+    "id": "color-contrast",
+    "n": 25
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "n": 2
+   }
+  ]
+ },
+ {
+  "name": "decision Site01 ROI6",
+  "path": "/?bundle=polaris-x5d-roi-2026-11-14-v2.json&site=site01_roi6#decision",
+  "viewport": [
+   1440,
+   900
+  ],
+  "violations": [
+   {
+    "id": "definition-list",
+    "impact": "serious",
+    "help": "<dl> elements must only directly contain properly-ordered <dt> and <dd> groups, <script>, <template> or <div> elements",
+    "nodes": [
+     {
+      "target": ".three-heights",
+      "summary": "Fix all of the following:\n  dl element has direct children that are not allowed: p"
+     }
+    ],
+    "n": 1
+   },
+   {
+    "id": "nested-interactive",
+    "impact": "serious",
+    "help": "Interactive controls must not be nested",
+    "nodes": [
+     {
+      "target": "svg[viewBox=\"0 0 760 230\"]",
+      "summary": "Fix any of the following:\n  Element has focusable descendants. Move them outside of the element, or remove them."
+     }
+    ],
+    "n": 1
+   }
+  ],
+  "passes": 36,
+  "incomplete": [
+   {
+    "id": "color-contrast",
+    "n": 22
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "n": 2
+   }
+  ]
+ },
+ {
+  "name": "explorer Site04 ROI3",
+  "path": "/?bundle=polaris-x5d-roi-2026-11-14-v2.json&site=site04_roi3#sky",
+  "viewport": [
+   1440,
+   900
+  ],
+  "violations": [],
+  "passes": 37,
+  "incomplete": [
+   {
+    "id": "aria-prohibited-attr",
+    "n": 1
+   },
+   {
+    "id": "color-contrast",
+    "n": 180
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "n": 3
+   }
+  ]
+ },
+ {
+  "name": "evidence Site04 ROI3",
+  "path": "/?bundle=polaris-x5d-roi-2026-11-14-v2.json&site=site04_roi3#evidence",
+  "viewport": [
+   1440,
+   900
+  ],
+  "violations": [
+   {
+    "id": "nested-interactive",
+    "impact": "serious",
+    "help": "Interactive controls must not be nested",
+    "nodes": [
+     {
+      "target": ".polar-overlay",
+      "summary": "Fix any of the following:\n  Element has focusable descendants. Move them outside of the element, or remove them."
+     }
+    ],
+    "n": 1
+   }
+  ],
+  "passes": 37,
+  "incomplete": [
+   {
+    "id": "color-contrast",
+    "n": 27
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "n": 2
+   }
+  ]
+ },
+ {
+  "name": "missing bundle error",
+  "path": "/?bundle=does_not_exist_2026.json#sky",
+  "viewport": [
+   1440,
+   900
+  ],
+  "violations": [
+   {
+    "id": "aria-valid-attr-value",
+    "impact": "critical",
+    "help": "ARIA attributes must conform to valid values",
+    "nodes": [
+     {
+      "target": "#tab-sky",
+      "summary": "Fix all of the following:\n  Invalid ARIA attribute value: aria-controls=\"ws-sky\""
+     }
+    ],
+    "n": 1
+   },
+   {
+    "id": "nested-interactive",
+    "impact": "serious",
+    "help": "Interactive controls must not be nested",
+    "nodes": [
+     {
+      "target": ".polar-overlay",
+      "summary": "Fix any of the following:\n  Element has focusable descendants. Move them outside of the element, or remove them."
+     }
+    ],
+    "n": 1
+   }
+  ],
+  "passes": 34,
+  "incomplete": [
+   {
+    "id": "color-contrast",
+    "n": 23
+   }
+  ]
+ },
+ {
+  "name": "decision phone",
+  "path": "/?bundle=polaris-x5d-roi-2026-11-14-v2.json&site=site04_roi3#decision",
+  "viewport": [
+   390,
+   844
+  ],
+  "violations": [
+   {
+    "id": "definition-list",
+    "impact": "serious",
+    "help": "<dl> elements must only directly contain properly-ordered <dt> and <dd> groups, <script>, <template> or <div> elements",
+    "nodes": [
+     {
+      "target": ".three-heights",
+      "summary": "Fix all of the following:\n  dl element has direct children that are not allowed: p"
+     }
+    ],
+    "n": 1
+   },
+   {
+    "id": "nested-interactive",
+    "impact": "serious",
+    "help": "Interactive controls must not be nested",
+    "nodes": [
+     {
+      "target": "svg[viewBox=\"0 0 760 230\"]",
+      "summary": "Fix any of the following:\n  Element has focusable descendants. Move them outside of the element, or remove them."
+     }
+    ],
+    "n": 1
+   }
+  ],
+  "passes": 36,
+  "incomplete": [
+   {
+    "id": "color-contrast",
+    "n": 25
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "n": 2
+   }
+  ]
+ },
+ {
+  "name": "explorer phone",
+  "path": "/?bundle=polaris-x5d-roi-2026-11-14-v2.json&site=site04_roi3#sky",
+  "viewport": [
+   390,
+   844
+  ],
+  "violations": [],
+  "passes": 37,
+  "incomplete": [
+   {
+    "id": "aria-prohibited-attr",
+    "n": 1
+   },
+   {
+    "id": "color-contrast",
+    "n": 1834
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "n": 3
+   }
+  ]
+ }
+]

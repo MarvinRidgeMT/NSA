@@ -20,7 +20,7 @@ test('keyboard-only run: scrub, change scenario, open a failure, provenance', as
 
   // scenario via keyboard
   await page.getByTestId('scenario-select').focus();
-  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('KeyM');
   await expect(page.getByTestId('scenario-select')).toHaveValue('mast10');
 
   // failure via Tab + Enter

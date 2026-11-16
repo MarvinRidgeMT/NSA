@@ -46,11 +46,7 @@ export function VisibilityStrips({ v }: { v: View }) {
               </text>
               {row.flags ? (
                 row.flags.map((f, i) => (
-                  <rect key={i} x={LBL + i * cw} y={y0} width={Math.max(cw - 1, 0.5)} height={ROW} className={f ? 'vis-on' : 'vis-off'}>
-                    <title>
-                      {fmtUtc(v.times[i])} · {row.label} {f ? 'visible' : 'blocked'}
-                    </title>
-                  </rect>
+                  <rect key={i} x={LBL + i * cw} y={y0} width={Math.max(cw - 1, 0.5)} height={ROW} className={f ? 'vis-on' : 'vis-off'} />
                 ))
               ) : (
                 <rect x={LBL} y={y0} width={W - LBL} height={ROW} className="vis-none" />

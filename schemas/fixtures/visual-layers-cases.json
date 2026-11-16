@@ -1,0 +1,62 @@
+{
+  "note": "Shared contract cases. Python (tools/sources/test_visual_layers.py), app JS (app/tests/visual-layers.test.js) and web TS (web/tests/unit/visual-layers.test.ts) all run these. FIXTURE values: hashes and offsets below are synthetic test values, not measurements.",
+  "valid": {
+    "schema": "polaris-visual-layers-v1",
+    "releaseStatus": "SOURCE_BASED_UNVALIDATED",
+    "layers": [
+      {
+        "id": "fixture-nac-avg-site01",
+        "role": "albedo",
+        "title": "FIXTURE controlled NAC average mosaic window",
+        "label": "LROC NAC AVG · VISUAL",
+        "status": "VISUAL",
+        "numericalAuthority": false,
+        "productId": "NAC_POLE_SOUTH_CM_AVG_P892S2250",
+        "sourceUrl": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/BDR/NAC_POLE/NAC_POLE_SOUTH_CM_AVG/NAC_POLE_SOUTH_CM_AVG_P892S2250.IMG",
+        "artifact": { "path": "data/visual/fixture/fixture_1m_8bit.png", "sha256": "0000000000000000000000000000000000000000000000000000000000000001", "width": 2000, "height": 2000, "format": "png-8bit-gray", "noDataValue": 0 },
+        "sourceHash": { "kind": "byte-range-window", "sha256": "0000000000000000000000000000000000000000000000000000000000000002", "wholeFileSha256": null },
+        "pixelSizeM": 1,
+        "projection": { "type": "south_polar_stereographic", "centreLatDeg": -90, "centreLonEastDeg": 0, "radiusM": 1737400, "units": "m" },
+        "frame": "controlled to LOLA track data; planetocentric, east-positive",
+        "boundsM": { "xmin": -12000, "xmax": -10000, "ymin": -13000, "ymax": -11000, "boundsAre": "pixel-edges" },
+        "rowOrder": "north-to-south",
+        "registration": { "method": "fixture", "against": "PGDA 78 Site01 5 m DEM", "offsetM": { "x": -5, "y": 0 }, "peakNcc": 0.4, "status": "display-alignment-evidence-only" },
+        "display": { "processing": "linear percentile stretch to 1..255; 0 = no data", "stretchLow": 0.02, "stretchHigh": 0.3 },
+        "limitations": ["Average of many images under different Sun directions; not a lighting state."]
+      }
+    ]
+  },
+  "invalid": [
+    { "name": "missing visual status", "delete": ["layers.0.status"], "code": "VISUAL_STATUS" },
+    { "name": "status is not VISUAL", "set": { "layers.0.status": "SOURCE" }, "code": "VISUAL_STATUS" },
+    { "name": "label without the word VISUAL", "set": { "layers.0.label": "LROC NAC AVG" }, "code": "VISUAL_STATUS" },
+    { "name": "claims numerical authority", "set": { "layers.0.numericalAuthority": true }, "code": "NUMERICAL_AUTHORITY" },
+    { "name": "numericalAuthority missing", "delete": ["layers.0.numericalAuthority"], "code": "NUMERICAL_AUTHORITY" },
+    { "name": "unknown projection", "set": { "layers.0.projection.type": "equirectangular" }, "code": "PROJECTION" },
+    { "name": "wrong sphere radius", "set": { "layers.0.projection.radiusM": 1737100 }, "code": "PROJECTION" },
+    { "name": "unknown units", "set": { "layers.0.projection.units": "km" }, "code": "UNITS" },
+    { "name": "artifact hash not 64 hex", "set": { "layers.0.artifact.sha256": "abc123" }, "code": "HASH" },
+    { "name": "source hash upper-case / wrong length", "set": { "layers.0.sourceHash.sha256": "ZZ00000000000000000000000000000000000000000000000000000000000002" }, "code": "HASH" },
+    { "name": "elevation values smuggled into a visual layer", "set": { "layers.0.values": [1, 2, 3] }, "code": "DEM_FIELDS" },
+    { "name": "vertical units on a visual layer", "set": { "layers.0.verticalUnits": "meters" }, "code": "DEM_FIELDS" },
+    { "name": "inverted bounds", "set": { "layers.0.boundsM.xmin": -9000 }, "code": "BOUNDS" },
+    { "name": "bounds do not match artifact size x pixel size", "set": { "layers.0.artifact.width": 1000 }, "code": "BOUNDS" },
+    { "name": "unknown role", "set": { "layers.0.role": "elevation" }, "code": "ROLE" },
+    { "name": "no limitations", "set": { "layers.0.limitations": [] }, "code": "LIMITATIONS" },
+    { "name": "registration claims validation", "set": { "layers.0.registration.status": "validated" }, "code": "REGISTRATION" },
+    { "name": "absolute artifact path", "set": { "layers.0.artifact.path": "/tmp/x.png" }, "code": "ARTIFACT" },
+    { "name": "wrong release status", "set": { "releaseStatus": "VALIDATED_NASA_JPL" }, "code": "RELEASE_STATUS" },
+    { "name": "duplicate ids", "duplicateLayer": 0, "code": "DUPLICATE_ID" }
+  ],
+  "solverGuard": {
+    "note": "assertNumericalDem / reject_visual_layer must throw for `rejected` and accept `accepted`.",
+    "rejected": [
+      { "name": "a visual layer", "useLayer": 0 },
+      { "name": "DEM-shaped object flagged numericalAuthority false", "object": { "n": 3, "spacing": 5, "originX": 0, "originY": 0, "values": [0,0,0,0,0,0,0,0,0], "numericalAuthority": false } },
+      { "name": "DEM-shaped object with status VISUAL", "object": { "n": 3, "spacing": 5, "originX": 0, "originY": 0, "values": [0,0,0,0,0,0,0,0,0], "status": "VISUAL" } }
+    ],
+    "accepted": [
+      { "name": "plain numerical DEM", "object": { "kind": "nasa", "n": 3, "spacing": 5, "originX": 0, "originY": 0, "values": [0,0,0,0,0,0,0,0,0], "verticalUnits": "meters" } }
+    ]
+  }
+}

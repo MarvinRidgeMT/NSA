@@ -16,6 +16,7 @@ echo "[2/6] NASA/JPL preparation pipeline"
 "$PYTHON" -m unittest discover -s app/scripts -p 'test_*.py' -v
 
 echo "[3/6] Direct-file browser distributable"
+"$PYTHON" app/scripts/make_runtime_cache.py
 if [[ -x "$ROOT/app/node_modules/.bin/esbuild" ]]; then
   (cd app && npm run build:file)
 elif [[ ! -s "$ROOT/app/dist/polaris-file.js" ]]; then
@@ -33,6 +34,13 @@ echo "[5/6] Python syntax"
 
 echo "[6/6] JSON Schema and source-bundle integrity"
 "$PYTHON" app/scripts/verify_artifacts.py
+
+echo "[sources] Source-tool tests and source-registry hash check"
+"$PYTHON" -m unittest discover -s tools/sources -p 'test_*.py'
+"$PYTHON" tools/sources/build_source_registry.py --check >/dev/null
+"$PYTHON" tools/sources/build_visual_layers.py --check >/dev/null
+echo "[terrain] Display-only terrain context tests (horizon maps; numpy)"
+"$PYTHON" -m unittest discover -s tools/terrain -p 'test_*.py'
 
 if [[ "${1:-}" == "--full" ]]; then
   echo "[full] Rebuilding Blender demonstration scene"

@@ -1,0 +1,16 @@
+{
+ "Site04_ROI3": {
+  "tile_inscribed_radius_m": 6322,
+  "pct_hours_controlling_cell_inside_clone_tile": {
+   "sun": 34.1,
+   "earth": 58.5
+  }
+ },
+ "Site01_ROI6": {
+  "tile_inscribed_radius_m": 7735,
+  "pct_hours_controlling_cell_inside_clone_tile": {
+   "sun": 11.0,
+   "earth": 0.0
+  }
+ }
+}

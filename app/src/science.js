@@ -1,3 +1,4 @@
+import {assertNumericalDem} from './visual-layers.js';
 // POLARIS X — transparent teaching model and source-labelled scientific pipeline.
 // Never equate a pedagogical ephemeris or demonstration DEM with flight-ready NASA calculations.
 export const MOON_RADIUS_M = 1737400;
@@ -13,6 +14,17 @@ export const clamp = (v,lo,hi) => Math.max(lo,Math.min(hi,v));
 export const norm360 = v => (v%360+360)%360;
 export function curvatureDrop(distanceM){const d=Math.abs(distanceM);if(d>=MOON_RADIUS_M)throw Error('Tangent-plane distance must be smaller than Moon radius');return MOON_RADIUS_M-Math.sqrt(MOON_RADIUS_M*MOON_RADIUS_M-d*d);}
 export function polarMeters(lat, lon) { const rho=2*MOON_RADIUS_M*Math.tan(Math.PI/4+radians(lat)/2);return {x:rho*Math.sin(radians(lon)), y:rho*Math.cos(radians(lon))}; }
+// NASA south-polar DEMs are sampled in map-grid axes, while Horizons azimuth and
+// the UI landing offsets are local ENU. Synthetic DEMs omit a longitude and are
+// already local ENU. An explicit bundle basis wins over longitude derivation.
+export function terrainBasis(dem){
+ const declaredNorth=dem?.localNorthInGrid,declaredEast=dem?.localEastInGrid;
+ if(Array.isArray(declaredNorth)&&declaredNorth.length===2&&declaredNorth.every(Number.isFinite)&&Array.isArray(declaredEast)&&declaredEast.length===2&&declaredEast.every(Number.isFinite))return {north:declaredNorth,east:declaredEast,source:'bundle'};
+ if(Number.isFinite(dem?.longitudeEastDeg)){const L=radians(dem.longitudeEastDeg);return {north:[Math.sin(L),Math.cos(L)],east:[Math.cos(L),-Math.sin(L)],source:'derived-from-longitude'};}
+ return {north:[0,1],east:[1,0],source:'local-enu'};
+}
+export function localOffsetToGrid(dem,eastM=0,northM=0){const b=terrainBasis(dem);return {x:eastM*b.east[0]+northM*b.north[0],y:eastM*b.east[1]+northM*b.north[1],basisSource:b.source};}
+export function localDirectionToGrid(dem,azDeg){const b=terrainBasis(dem),a=radians(azDeg);return {x:Math.sin(a)*b.east[0]+Math.cos(a)*b.north[0],y:Math.sin(a)*b.east[1]+Math.cos(a)*b.north[1],basisSource:b.source};}
 function hash(x,y,seed){ const v=Math.sin(x*127.1+y*311.7+seed*13.17)*43758.5453123;return v-Math.floor(v);}
 function crater(x,y,cx,cy,r,depth){let d=Math.hypot(x-cx,y-cy)/r;if(d>2.5)return 0;return -depth*Math.exp(-Math.pow(d/0.72,4))+depth*.42*Math.exp(-Math.pow((d-1)/.19,2));}
 export function makeDemoTerrain(site,n=105,spacing=220){
@@ -31,20 +43,20 @@ export function sampleHeight(dem,x,y){const fx=(x-dem.originX)/dem.spacing,fy=(y
 export function scenarioDelta(x,y,seed=17){ // deterministic bounded spatial perturbation field, not a statistical error model
  return .53*Math.sin(x/1350+seed*.32)*Math.cos(y/1650+seed*.27)+.32*Math.sin((x+y)/760)+.15*Math.cos((x-y)/530);
 }
-export function horizonProfile(dem,ox=0,oy=0,height=2,uncertainty=0,bins=360){
- const base=sampleHeight(dem,ox,oy);if(!Number.isFinite(base))throw new Error('Observer outside terrain coverage');
+export function horizonProfile(dem,ox=0,oy=0,height=2,uncertainty=0,bins=360){assertNumericalDem(dem);
+ const observer=localOffsetToGrid(dem,ox,oy),base=sampleHeight(dem,observer.x,observer.y);if(!Number.isFinite(base))throw new Error('Observer outside terrain coverage');
  const profile=[], blockers=[];const reach=(dem.n-2)*dem.spacing*.47;
  const step=Math.max(dem.spacing*.78,80);
  for(let a=0;a<bins;a++){
-  const az=2*Math.PI*a/bins,ex=Math.sin(az),ny=Math.cos(az);let best=-90,bestD=0;
-  for(let d=step;d<=reach;d+=step){let x=ox+ex*d,y=oy+ny*d;let z=sampleHeight(dem,x,y);if(!Number.isFinite(z))break;
+  const direction=localDirectionToGrid(dem,360*a/bins),ex=direction.x,ny=direction.y;let best=-90,bestD=0;
+  for(let d=step;d<=reach;d+=step){let x=observer.x+ex*d,y=observer.y+ny*d;let z=sampleHeight(dem,x,y);if(!Number.isFinite(z))break;
    z+=uncertainty*scenarioDelta(x,y,dem.seed||17);
    const theta=degrees(Math.atan2(z-base-height-curvatureDrop(d),d));
    if(theta>best){best=theta;bestD=d;}
   }
   profile.push(best===-90?-5:best);blockers.push(bestD);
  }
- return {angles:profile,distances:blockers,reachM:reach,observerElevationM:base+height,bins};
+ return {angles:profile,distances:blockers,reachM:reach,observerElevationM:base+height,bins,frame:terrainBasis(dem).source};
 }
 export function horizonAt(h,az){let p=norm360(az)/360*h.bins,i=Math.floor(p),f=p-i;return h.angles[i]*(1-f)+h.angles[(i+1)%h.bins]*f;}
 // This is a simplified geometric pedagogical approximation. For real analysis import JPL Horizons CSV-derived ephemerides.
@@ -79,26 +91,27 @@ export function evaluateTimeline(site,dem,ephem,options={}){
  function longestMissing(key){let longest=0,current=0;for(const r of rows){if(!r[key])current+=stepH;else {longest=Math.max(longest,current);current=0;}}return Math.max(longest,current);}
  return {horizon,rows,metrics:{sunPct:frac('sunVisible'),earthPct:frac('earthVisible'),bothPct:frac('both'),darkH:longestMissing('sunVisible'),blackoutH:longestMissing('earthVisible'),minSunMargin:Math.min(...rows.map(x=>x.sunMargin)),minEarthMargin:Math.min(...rows.map(x=>x.earthMargin))},dataMode:dem.kind==='nasa'&&rows.every(r=>r.source==='jpl-horizons-interpolated')?'nasa+jpl':'mixed-or-demo',demSource:dem.source,stepH};
 }
-// A geometrical ray is expressed in the SAME local ENU frame as the DEM.
-// Height along the local tangent plane includes the lunar curvature term.
+// A geometrical ray is supplied in local ENU and rotated into an imported DEM's
+// south-polar grid (synthetic DEMs are already ENU). Height along the local
+// tangent plane includes the lunar curvature term.
 // This detects the FIRST obstruction, rather than the skyline's maximum-angle feature.
-export function terrainRayProfile(dem,{ox=0,oy=0,height=2,az=0,el=0,uncertainty=0,maxDistanceM=0,stepM=0}={}){
- const z0=sampleHeight(dem,ox,oy);
+export function terrainRayProfile(dem,{ox=0,oy=0,height=2,az=0,el=0,uncertainty=0,maxDistanceM=0,stepM=0}={}){assertNumericalDem(dem);
+ const observer=localOffsetToGrid(dem,ox,oy),z0=sampleHeight(dem,observer.x,observer.y);
  if(!Number.isFinite(z0))throw Error('Observer outside terrain coverage');
  const reach=maxDistanceM || (dem.n-2)*dem.spacing*.47;
  const step=stepM || Math.max(70,dem.spacing*.6);
- const east=Math.sin(radians(az)),north=Math.cos(radians(az));
- const rows=[{d:0,terrain:z0,ray:z0+height,clearance:height,x:ox,y:oy}];
+ const direction=localDirectionToGrid(dem,az),east=direction.x,north=direction.y;
+ const rows=[{d:0,terrain:z0,ray:z0+height,clearance:height,x:observer.x,y:observer.y}];
  let firstHit=null;
  for(let d=step;d<=reach;d+=step){
-  const x=ox+east*d,y=oy+north*d;
+  const x=observer.x+east*d,y=observer.y+north*d;
   let terrain=sampleHeight(dem,x,y);if(!Number.isFinite(terrain))break;
   terrain+=uncertainty*scenarioDelta(x,y,dem.seed||17);
   const ray=z0+height+d*Math.tan(radians(el))+curvatureDrop(d);
   const row={d,terrain,ray,clearance:ray-terrain,x,y};rows.push(row);
   if(!firstHit&&row.clearance<=0)firstHit=row;
  }
- return {rows,firstHit,visible:!firstHit,reachM:rows.at(-1).d,az,el};
+ return {rows,firstHit,visible:!firstHit,reachM:rows.at(-1).d,az,el,frame:direction.basisSource};
 }
 export function windowEvents(rows,stepH=1){
  const events=[];

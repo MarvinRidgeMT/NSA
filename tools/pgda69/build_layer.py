@@ -241,7 +241,7 @@ def main():
             '18.6-year average at the surface: not a specific mission window, not a mast height.',
             'Single 60 m pixels can vary strongly on ridges; compare regions and rankings, not one pixel.',
             'Visible means any part of the disc, not the centre (POLARIS bundles report centre visibility).',
-            'Isolated very dark 60 m pixels appear in places; a POLARIS comparison suggests pits in the older 2016 60 m DEM (hypothesis, not checked).',
+            'Isolated very low-visibility 60 m pixels are displayed as supplied and have not been independently investigated.',
         ],
         'crs': '+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +R=1737400 +units=m (same grid axes as POLARIS DEM crops)',
         'encoding': {'scale': 1 / Q, 'nodata': NODATA_Q, 'note': 'grey value / 250 = fraction (0.4 % steps); 255 = no data'},

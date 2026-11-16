@@ -1,0 +1,946 @@
+{
+ "schema": "polaris-source-registry-v1",
+ "generatedUTC": "2026-11-15T03:04:35Z",
+ "releaseStatus": "SOURCE_BASED_UNVALIDATED",
+ "roles": {
+  "numerical-authority": "feeds horizons, rays, metrics",
+  "ephemeris-authority": "feeds Sun/Earth directions",
+  "reference-layer": "shown beside results, never mixed in",
+  "visual-context": "display only, never numerical",
+  "reference-only": "consulted, not stored or used"
+ },
+ "summary": {
+  "localFiles": 61,
+  "bytes": 470823621,
+  "documentedHashesChecked": 12,
+  "hashMismatches": [],
+  "missingDocumentedFiles": []
+ },
+ "sources": [
+  {
+   "id": "NASA_PGDA_78",
+   "role": "numerical-authority",
+   "title": "LOLA 5 m/px south-pole site DEMs, uncertainty and clones",
+   "url": "https://pgda.gsfc.nasa.gov/products/78",
+   "dataUrl": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/",
+   "credit": "NASA GSFC Planetary Geodesy Data Archive (PGDA)",
+   "license": "not stated on the product page read; NASA public data, credit PGDA",
+   "frame": "MOON_ME (mean Earth / polar axis) tied to DE421",
+   "projection": "south polar stereographic, centre 90 S / 0 E, sphere R = 1737400 m, metres; +x toward 90 E, +y toward 0 E",
+   "pixelScaleM": 5,
+   "verticalUnits": "metres (height relative to the 1737.4 km sphere)",
+   "use": "local scientific geometry (nominal), total-Z RMS display, deterministic clones as alternatives (never probabilities)",
+   "limitations": [
+    "5 m is grid spacing: the product page reports that a large fraction of pixels are interpolated between LOLA tracks",
+    "only Site01 files are stored here; Site04 5 m data enters through a-science bundles"
+   ],
+   "files": [
+    {
+     "path": "app/data/source/pgda78/README.txt",
+     "acquired": "2026-11-14 (docs/DATA_PROVENANCE.md)",
+     "present": true,
+     "bytes": 1829,
+     "sha256": "e985a2337c9de1cd665b0ddad8b7f1fac88d65c96d1e47d1b975a91c8e53e7bd",
+     "localFileMtimeUTC": "2026-11-14T11:18:23Z"
+    },
+    {
+     "path": "app/data/source/pgda78/Site01/Clones/Site01_final_adj_5mpp_0001_err.tif",
+     "acquired": "2026-11-14 (docs/DATA_PROVENANCE.md)",
+     "present": true,
+     "bytes": 40987165,
+     "sha256": "242de9e3da624a276864cc4fa7c499e96981c95fd27583565e68e92434faf05b",
+     "localFileMtimeUTC": "2026-11-14T11:19:13Z",
+     "documentedSha256": "242de9e3da624a276864cc4fa7c499e96981c95fd27583565e68e92434faf05b",
+     "matchesDocumented": true,
+     "raster": {
+      "width": 3200,
+      "height": 3200,
+      "dtype": "float32",
+      "nodata": "nan",
+      "pixelSizeM": [
+       5.0,
+       5.0
+      ],
+      "originUpperLeftM": [
+       -19000.0,
+       -4000.0
+      ],
+      "rowOrder": "row 0 = north (largest y)",
+      "pixelRegistration": "Area",
+      "boundsM": [
+       -19000.0,
+       -20000.0,
+       -3000.0,
+       -4000.0
+      ],
+      "crsWkt": "PROJCS[\"unknown\",GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",1737400,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]"
+     }
+    },
+    {
+     "path": "app/data/source/pgda78/Site01/Clones/Site01_final_adj_5mpp_0002_err.tif",
+     "acquired": "2026-11-14 (docs/DATA_PROVENANCE.md)",
+     "present": true,
+     "bytes": 40987165,
+     "sha256": "97b2c05633e308c72eddfc5a337089836d80b5edb7469321976973f7eeb7dcad",
+     "localFileMtimeUTC": "2026-11-14T11:30:34Z",
+     "documentedSha256": "97b2c05633e308c72eddfc5a337089836d80b5edb7469321976973f7eeb7dcad",
+     "matchesDocumented": true,
+     "raster": {
+      "width": 3200,
+      "height": 3200,
+      "dtype": "float32",
+      "nodata": "nan",
+      "pixelSizeM": [
+       5.0,
+       5.0
+      ],
+      "originUpperLeftM": [
+       -19000.0,
+       -4000.0
+      ],
+      "rowOrder": "row 0 = north (largest y)",
+      "pixelRegistration": "Area",
+      "boundsM": [
+       -19000.0,
+       -20000.0,
+       -3000.0,
+       -4000.0
+      ],
+      "crsWkt": "PROJCS[\"unknown\",GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",1737400,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]"
+     }
+    },
+    {
+     "path": "app/data/source/pgda78/Site01/Clones/Site01_final_adj_5mpp_0050_err.tif",
+     "acquired": "2026-11-14 (docs/DATA_PROVENANCE.md)",
+     "present": true,
+     "bytes": 40987161,
+     "sha256": "5819388022b1f32d50eab7bdd1c8d8446a9ddfcf88ba4693d24116f86ea02e37",
+     "localFileMtimeUTC": "2026-11-14T11:30:34Z",
+     "documentedSha256": "5819388022b1f32d50eab7bdd1c8d8446a9ddfcf88ba4693d24116f86ea02e37",
+     "matchesDocumented": true,
+     "raster": {
+      "width": 3200,
+      "height": 3200,
+      "dtype": "float32",
+      "nodata": "nan",
+      "pixelSizeM": [
+       5.0,
+       5.0
+      ],
+      "originUpperLeftM": [
+       -19000.0,
+       -4000.0
+      ],
+      "rowOrder": "row 0 = north (largest y)",
+      "pixelRegistration": "Area",
+      "boundsM": [
+       -19000.0,
+       -20000.0,
+       -3000.0,
+       -4000.0
+      ],
+      "crsWkt": "PROJCS[\"unknown\",GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",1737400,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]"
+     }
+    },
+    {
+     "path": "app/data/source/pgda78/Site01/Clones/Site01_final_adj_5mpp_0100_err.tif",
+     "acquired": "2026-11-14 (docs/DATA_PROVENANCE.md)",
+     "present": true,
+     "bytes": 40987165,
+     "sha256": "596dcdf341b411893e2994571685bd54f911bfb476855ca6ce8d8f0f5f676698",
+     "localFileMtimeUTC": "2026-11-14T11:30:35Z",
+     "documentedSha256": "596dcdf341b411893e2994571685bd54f911bfb476855ca6ce8d8f0f5f676698",
+     "matchesDocumented": true,
+     "raster": {
+      "width": 3200,
+      "height": 3200,
+      "dtype": "float32",
+      "nodata": "nan",
+      "pixelSizeM": [
+       5.0,
+       5.0
+      ],
+      "originUpperLeftM": [
+       -19000.0,
+       -4000.0
+      ],
+      "rowOrder": "row 0 = north (largest y)",
+      "pixelRegistration": "Area",
+      "boundsM": [
+       -19000.0,
+       -20000.0,
+       -3000.0,
+       -4000.0
+      ],
+      "crsWkt": "PROJCS[\"unknown\",GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",1737400,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]"
+     }
+    },
+    {
+     "path": "app/data/source/pgda78/Site01/Site01_final_adj_5mpp_surf.tif",
+     "acquired": "2026-11-14 (docs/DATA_PROVENANCE.md)",
+     "present": true,
+     "bytes": 40980810,
+     "sha256": "3ba7b97cb00a2bcf21189c3aeb535f65afc21207154ab9f0d43c5bdc1f7e747e",
+     "localFileMtimeUTC": "2026-11-14T11:18:41Z",
+     "documentedSha256": "3ba7b97cb00a2bcf21189c3aeb535f65afc21207154ab9f0d43c5bdc1f7e747e",
+     "matchesDocumented": true,
+     "raster": {
+      "width": 3200,
+      "height": 3200,
+      "dtype": "float32",
+      "nodata": "nan",
+      "pixelSizeM": [
+       5.0,
+       5.0
+      ],
+      "originUpperLeftM": [
+       -19000.0,
+       -4000.0
+      ],
+      "rowOrder": "row 0 = north (largest y)",
+      "pixelRegistration": "Area",
+      "boundsM": [
+       -19000.0,
+       -20000.0,
+       -3000.0,
+       -4000.0
+      ],
+      "crsWkt": "PROJCS[\"unnamed\",GEOGCS[\"unnamed ellipse\",DATUM[\"unknown\",SPHEROID[\"unnamed\",1737400,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]"
+     }
+    },
+    {
+     "path": "app/data/source/pgda78/Site01/Site01_final_adj_5mpp_toterr.tif",
+     "acquired": "2026-11-14 (docs/DATA_PROVENANCE.md)",
+     "present": true,
+     "bytes": 40980810,
+     "sha256": "cf2cf52f52d2aa51e60d058010d10b0ebfb1d3e920f5a2b9a46eb6c51054ab1c",
+     "localFileMtimeUTC": "2026-11-14T11:18:57Z",
+     "documentedSha256": "cf2cf52f52d2aa51e60d058010d10b0ebfb1d3e920f5a2b9a46eb6c51054ab1c",
+     "matchesDocumented": true,
+     "raster": {
+      "width": 3200,
+      "height": 3200,
+      "dtype": "float32",
+      "nodata": "nan",
+      "pixelSizeM": [
+       5.0,
+       5.0
+      ],
+      "originUpperLeftM": [
+       -19000.0,
+       -4000.0
+      ],
+      "rowOrder": "row 0 = north (largest y)",
+      "pixelRegistration": "Area",
+      "boundsM": [
+       -19000.0,
+       -20000.0,
+       -3000.0,
+       -4000.0
+      ],
+      "crsWkt": "PROJCS[\"unnamed\",GEOGCS[\"unnamed ellipse\",DATUM[\"unknown\",SPHEROID[\"unnamed\",1737400,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]"
+     }
+    }
+   ]
+  },
+  {
+   "id": "NASA_PGDA_90",
+   "role": "numerical-authority",
+   "title": "LOLA regional south-pole DEM, LDEM_80S_80MPP_ADJ.TIF",
+   "url": "https://pgda.gsfc.nasa.gov/products/90",
+   "dataUrl": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF",
+   "credit": "NASA GSFC PGDA",
+   "frame": "MOON_ME (mean Earth / polar axis) tied to DE421",
+   "projection": "south polar stereographic, centre 90 S / 0 E, sphere R = 1737400 m, metres; +x toward 90 E, +y toward 0 E",
+   "pixelScaleM": 80,
+   "verticalUnits": "metres",
+   "use": "regional horizon / long-range obstruction; not a substitute for the 5 m local surface",
+   "wholeFileSha256": null,
+   "wholeFileChecksumStatus": "remote COG read by HTTP range requests; never downloaded in full",
+   "decodedCropSha256": {
+    "Site01 401x401": "d27c5aa679cd00ffee0a95ce36e0049b3189b477a6e14efb941eecac92d73b5d",
+    "Site04 401x401": "e48bee96e517fe1e4d455a749d4f414e144be34c8a4639d536b8727cdc6383a4"
+   },
+   "decodedCropHashSource": "docs/DATA_PROVENANCE.md and the bundles' dem.cropValuesSha256",
+   "files": []
+  },
+  {
+   "id": "NASA_PGDA_69",
+   "role": "reference-layer",
+   "title": "Polar average Sun / Earth visibility (18.6-year, 60 m)",
+   "url": "https://pgda.gsfc.nasa.gov/products/69",
+   "credit": "NASA GSFC PGDA",
+   "pixelScaleM": 60,
+   "projection": "south polar stereographic, centre 90 S / 0 E, sphere R = 1737400 m, metres; +x toward 90 E, +y toward 0 E",
+   "use": "separate reference/ranking map in the React viewer",
+   "limitations": [
+    "different quantity (disc-edge, surface pixel, 18.6-year average, 2016 DEM): NOT validation of the POLARIS mission-window solver"
+   ],
+   "files": [
+    {
+     "path": "data/raw/pgda69/AVGVISIB_85S_060M_201608.LBL",
+     "present": true,
+     "bytes": 4094,
+     "sha256": "33decce957d5d4d9608557d8d969d1e1b94056a159b2563624ade4b528a0c917",
+     "localFileMtimeUTC": "2026-11-14T16:09:46Z"
+    },
+    {
+     "path": "data/raw/pgda69/AVGVISIB_85S_060M_201608.TIF",
+     "present": true,
+     "bytes": 33994464,
+     "sha256": "ccf67d4f39e0a970c111196da7d6551ffcf50d075470b93067fb3904c0b05806",
+     "localFileMtimeUTC": "2026-11-14T16:09:40Z",
+     "raster": {
+      "width": 5058,
+      "height": 5058,
+      "dtype": "int16",
+      "nodata": "-32768.0",
+      "pixelSizeM": [
+       60.0,
+       60.0
+      ],
+      "originUpperLeftM": [
+       -151740.0,
+       151740.0
+      ],
+      "rowOrder": "row 0 = north (largest y)",
+      "pixelRegistration": "Area",
+      "boundsM": [
+       -151740.0,
+       -151740.0,
+       151740.0,
+       151740.0
+      ],
+      "crsWkt": "PROJCS[\"Moon2000_spole\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]"
+     }
+    },
+    {
+     "path": "data/raw/pgda69/AVGVISIB_85S_060M_201608_EARTH.LBL",
+     "present": true,
+     "bytes": 4111,
+     "sha256": "45a61697d779fdb9170bca2553f9e0188aeda1159811d3531c348df8f57f68bd",
+     "localFileMtimeUTC": "2026-11-14T16:09:46Z"
+    },
+    {
+     "path": "data/raw/pgda69/AVGVISIB_85S_060M_201608_EARTH.TIF",
+     "present": true,
+     "bytes": 24862958,
+     "sha256": "d71dc5adfff653e0e924e0a4cbf03795b996caa30b4ace3d5843a70a5ab2f3d2",
+     "localFileMtimeUTC": "2026-11-14T16:09:46Z",
+     "raster": {
+      "width": 5058,
+      "height": 5058,
+      "dtype": "int16",
+      "nodata": "-32768.0",
+      "pixelSizeM": [
+       60.0,
+       60.0
+      ],
+      "originUpperLeftM": [
+       -151740.0,
+       151740.0
+      ],
+      "rowOrder": "row 0 = north (largest y)",
+      "pixelRegistration": "Area",
+      "boundsM": [
+       -151740.0,
+       -151740.0,
+       151740.0,
+       151740.0
+      ],
+      "crsWkt": "PROJCS[\"Moon2000_spole\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]"
+     }
+    },
+    {
+     "path": "data/raw/pgda69/Site01_ROIs.tgz",
+     "present": true,
+     "bytes": 2934,
+     "sha256": "40b961417a344ce0274aecbab522e171a22f658507d82e8fb4d7bc97526ffc4f",
+     "localFileMtimeUTC": "2026-11-14T16:09:46Z"
+    },
+    {
+     "path": "data/raw/pgda69/Site04_ROIs.tgz",
+     "present": true,
+     "bytes": 1712,
+     "sha256": "8e8b788f9fdf6400f23fd36dad02138102bd1a905b4b71a5739a9a4fd8a0e07a",
+     "localFileMtimeUTC": "2026-11-14T16:09:46Z"
+    },
+    {
+     "path": "data/raw/pgda69/Site07_ROIs.tgz",
+     "present": true,
+     "bytes": 1312,
+     "sha256": "694d85297c40133e91570f020e46f7fd0b25c14e94f0a7c5b6d001e8728bddbe",
+     "localFileMtimeUTC": "2026-11-14T16:09:46Z"
+    },
+    {
+     "path": "data/raw/pgda69/Site11_ROIs.tgz",
+     "present": true,
+     "bytes": 1719,
+     "sha256": "6ec7a3110717f3d0b76abc49fe634580f2960f216372f835ae6a7d5797c4d278",
+     "localFileMtimeUTC": "2026-11-14T16:09:46Z"
+    }
+   ]
+  },
+  {
+   "id": "JPL_HORIZONS",
+   "role": "ephemeris-authority",
+   "title": "JPL Horizons observer tables, Sun (10) and Earth (399) from coord@301",
+   "url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+   "docs": "https://ssd-api.jpl.nasa.gov/doc/horizons.html",
+   "conventions": "UTC; airless apparent azimuth/elevation; azimuth clockwise from north (N 0, E 90); east-positive longitude",
+   "use": "the only source of Sun/Earth directions; never Blender lamps or screen lighting",
+   "note": "query URLs and API versions are stored inside each bundle's ephemeris.records[]",
+   "files": [
+    {
+     "path": "app/data/raw/jpl/connecting-earth-20261114T140000Z.txt",
+     "present": true,
+     "bytes": 23948,
+     "sha256": "55fdc902ad10f7a108e31e3b8141c6e27c8bee39c3b94ca64ac045de099996fa",
+     "localFileMtimeUTC": "2026-11-14T11:43:40Z"
+    },
+    {
+     "path": "app/data/raw/jpl/connecting-sun-20261114T140000Z.txt",
+     "present": true,
+     "bytes": 23948,
+     "sha256": "954f9293fb7c92aad05386f4c407088223b6069f39ab5ba18398e696fbc54f23",
+     "localFileMtimeUTC": "2026-11-14T11:43:40Z"
+    },
+    {
+     "path": "app/data/raw/jpl/shackleton-earth-20261114T140000Z.txt",
+     "present": true,
+     "bytes": 23948,
+     "sha256": "1922b9d77976ce34b698691cfca5005fdc4fef275d00f3121290b6938f312a41",
+     "localFileMtimeUTC": "2026-11-14T11:43:41Z"
+    },
+    {
+     "path": "app/data/raw/jpl/shackleton-sun-20261114T140000Z.txt",
+     "present": true,
+     "bytes": 23948,
+     "sha256": "7e9a71191450d7061fb00f7a4dc51fa9f6c426af46964c3d9a18fc15715c5a3c",
+     "localFileMtimeUTC": "2026-11-14T11:43:41Z"
+    },
+    {
+     "path": "app/data/raw/jpl/site01/connecting-earth-20261114T140000Z.txt",
+     "present": true,
+     "bytes": 23948,
+     "sha256": "65a2c8eeee12a23f43bac4d0f9d0d01ae9cdc881a483d1003abd6dbfa4db7c81",
+     "localFileMtimeUTC": "2026-11-14T11:44:08Z"
+    },
+    {
+     "path": "app/data/raw/jpl/site01/connecting-sun-20261114T140000Z.txt",
+     "present": true,
+     "bytes": 23948,
+     "sha256": "6346b02074c2711eec549045e219e58b24a8dd85f656c10253158749da7204be",
+     "localFileMtimeUTC": "2026-11-14T11:44:07Z"
+    },
+    {
+     "path": "app/data/raw/jpl/two-site/connecting-earth-20261114T140000Z.txt",
+     "present": true,
+     "bytes": 23948,
+     "sha256": "3124f60492bbe60f38e3bd72ceb0c43b42fbb23b377dac179ce00ed74f48fb5b",
+     "localFileMtimeUTC": "2026-11-14T11:44:10Z"
+    },
+    {
+     "path": "app/data/raw/jpl/two-site/connecting-sun-20261114T140000Z.txt",
+     "present": true,
+     "bytes": 23948,
+     "sha256": "348b5a72857dbb5c99f0c7e4b2df38837f804115f6560124d70279a1ef95bc82",
+     "localFileMtimeUTC": "2026-11-14T11:44:09Z"
+    },
+    {
+     "path": "app/data/raw/jpl/two-site/shackleton-earth-20261114T140000Z.txt",
+     "present": true,
+     "bytes": 23948,
+     "sha256": "6783cbd8ec571bf0b32bdc04089fab90d4f5a1a04844d54b9141c6d2f5ccc864",
+     "localFileMtimeUTC": "2026-11-14T11:44:11Z"
+    },
+    {
+     "path": "app/data/raw/jpl/two-site/shackleton-sun-20261114T140000Z.txt",
+     "present": true,
+     "bytes": 23948,
+     "sha256": "fbb83d3aca818413cf3f9ddc1202609de5acb1a9743f844056e06e70676513f3",
+     "localFileMtimeUTC": "2026-11-14T11:44:11Z"
+    }
+   ]
+  },
+  {
+   "id": "NASA_SVS_14959",
+   "role": "visual-context",
+   "title": "Moon 3D Models for Web, AR, and Animation",
+   "url": "https://svs.gsfc.nasa.gov/14959/",
+   "credit": "NASA's Goddard Space Flight Center",
+   "numericalAuthority": false,
+   "use": "global navigation only; never sampled by any calculation",
+   "limitations": [
+    "the source page notes pinching/artifacts at the poles of the global model, which matters for a south-pole product"
+   ],
+   "files": [
+    {
+     "path": "app/assets/nasa/NASA_SVS_Moon_NASA_LRO_8k_Topo_Small.glb",
+     "acquired": "2026-11-14 (app/assets/nasa/README.md)",
+     "present": true,
+     "bytes": 81505784,
+     "sha256": "c4b65fb4df622a37fd75366c2ed9bf9e163e41c0fde178b3b27e31b0173e6953",
+     "localFileMtimeUTC": "2026-11-14T16:14:12Z",
+     "documentedSha256": "c4b65fb4df622a37fd75366c2ed9bf9e163e41c0fde178b3b27e31b0173e6953",
+     "matchesDocumented": true
+    },
+    {
+     "path": "app/assets/nasa/NASA_SVS_moon_small.glb",
+     "acquired": "2026-11-14 (app/assets/nasa/README.md)",
+     "present": true,
+     "bytes": 13799876,
+     "sha256": "12d3b0bb7fe214903f51447d1bc61710f442e92a11c703fcaca6d4e7ff8e67d4",
+     "localFileMtimeUTC": "2026-11-14T15:28:11Z",
+     "documentedSha256": "12d3b0bb7fe214903f51447d1bc61710f442e92a11c703fcaca6d4e7ff8e67d4",
+     "matchesDocumented": true
+    }
+   ]
+  },
+  {
+   "id": "LROC_NAC_POLE_SOUTH_CM_AVG",
+   "role": "visual-context",
+   "title": "LROC Controlled 1 m/pixel South Pole Average Mosaic",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_POLE_SOUTH_CM_AVG",
+   "dataUrl": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/BDR/NAC_POLE/NAC_POLE_SOUTH_CM_AVG/",
+   "credit": "NASA/GSFC/Arizona State University (LROC team); cite Archinal et al. 2023, LPSC 54, #2333",
+   "license": "not stated on the pages read; PDS-archived NASA mission data",
+   "numericalAuthority": false,
+   "frame": "controlled to LOLA track data (ISIS jigsaw); planetocentric, east-positive; frame name not stated in the label read",
+   "projection": "south polar stereographic, centre 90 S / 0 E, sphere R = 1737400 m, metres; +x toward 90 E, +y toward 0 E",
+   "pixelScaleM": 1,
+   "use": "registered albedo/morphology texture over the 5 m DEM footprint (display only)",
+   "limitations": [
+    "average of 18,323 images under many Sun directions: per its label it does not represent any realistic lighting condition",
+    "shading is baked into the image; never use it as current-time illumination or to infer elevation",
+    "whole tile is 8.28 GB; only byte-range windows are stored, so there is no whole-file hash"
+   ],
+   "windows": [
+    {
+     "role": "visual-context-only",
+     "numericalAuthority": false,
+     "product": {
+      "dataSetId": "LRO-L-LROC-5-RDR-V1.0",
+      "productId": "NAC_POLE_SOUTH_CM_AVG_P892S2250",
+      "title": "Controlled 1 m/pixel South Pole Average Mosaic",
+      "productPage": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_POLE_SOUTH_CM_AVG",
+      "url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/BDR/NAC_POLE/NAC_POLE_SOUTH_CM_AVG/NAC_POLE_SOUTH_CM_AVG_P892S2250.IMG",
+      "resolvedUrl": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/NAC_POLE/NAC_POLE_SOUTH_CM_AVG/NAC_POLE_SOUTH_CM_AVG_P892S2250.IMG",
+      "fileBytes": 8276814528,
+      "etag": "\"6a8156b9afee8d513ed4fdea5be2d145-1579\"",
+      "lastModified": "Fri, 21 Aug 2026 04:44:16 GMT",
+      "cite": "Archinal et al. (2023), Controlled High-Resolution LROC NAC Polar Mosaics, LPSC 54, abstract 2333",
+      "wholeFileSha256": null,
+      "wholeFileChecksumStatus": "8.28 GB tile not downloaded; only the byte ranges below"
+     },
+     "label": {
+      "RECORD_BYTES": 181952.0,
+      "LABEL_RECORDS": 1.0,
+      "LINES": 45488.0,
+      "LINE_SAMPLES": 45488.0,
+      "SAMPLE_BITS": 32.0,
+      "SAMPLE_TYPE": "PC_REAL",
+      "MAP_SCALE": 1.0,
+      "CENTER_LATITUDE": -90.0,
+      "CENTER_LONGITUDE": 0.0,
+      "LINE_PROJECTION_OFFSET": -0.5,
+      "SAMPLE_PROJECTION_OFFSET": 45487.5,
+      "A_AXIS_RADIUS": 1737.4,
+      "MAP_PROJECTION_TYPE": "POLAR STEREOGRAPHIC",
+      "POSITIVE_LONGITUDE_DIRECTION": "EAST"
+     },
+     "labelSha256": "2cac51eec7318619304934d4b709e362b1cfba4e3775596c975e253692cbe671",
+     "projection": {
+      "type": "south polar stereographic",
+      "centreLatDeg": -90,
+      "centreLonEastDeg": 0,
+      "radiusM": 1737400,
+      "pixelScaleM": 1.0,
+      "axes": "+x toward 90 E, +y toward 0 E (same as PGDA 78/90 GeoTIFFs)",
+      "pixelRule": "x = (sample-1) - SAMPLE_PROJECTION_OFFSET; y = LINE_PROJECTION_OFFSET - (line-1); pixel centres"
+     },
+     "window": {
+      "xminM": -12000.0,
+      "xmaxM": -10000.0,
+      "yminM": -13000.0,
+      "ymaxM": -11000.0,
+      "boundsAre": "pixel edges",
+      "sampleFirst": 33489,
+      "sampleLast": 35488,
+      "lineFirst": 11001,
+      "lineLast": 13000,
+      "width": 2000,
+      "height": 2000,
+      "rowOrder": "row 0 = northmost (largest y), as in the source"
+     },
+     "acquiredUTC": "2026-11-15T03:04:11Z",
+     "rawWindowSha256": "35ef3b5805cdee4e43f3a8d23066a165d3f4bce8aceafbeb74005e759d4be991",
+     "rawWindowDtype": "little-endian float32",
+     "stats": {
+      "validFraction": 1.0,
+      "min": 0.014417876489460468,
+      "max": 1.0870062112808228,
+      "mean": 0.1300496608018875
+     },
+     "display8bit": {
+      "file": "site01_center_2km_1m_8bit.png",
+      "sha256": "8ff9a6248a2614838b20aa361c12c7ede0f871aaa6200a4b06ab3105687ef5e4",
+      "stretch": "linear, 0.5-99.5 percentile of valid pixels -> 1..255; 0 = no data",
+      "p0_5": 0.02244909849949181,
+      "p99_5": 0.44088754430413235,
+      "label": "VISUAL: display stretch, not radiometry"
+     },
+     "float32": {
+      "file": "site01_center_2km_1m_f32.tif",
+      "sha256": "e2cee071d519dcbe3b10896b7b81065859097cd6c6fa3751b25958c5937db3c1"
+     },
+     "limitations": [
+      "Average of many NAC images under different Sun directions: not a real lighting state, and shading is baked in.",
+      "Never an input to horizons, rays, elevations or metrics.",
+      "Registration to the PGDA 78 5 m DEM is not guaranteed by either product; see the registration check in docs/DATA_PROVENANCE.md.",
+      "Units of the averaged pixel value are not stated in the label read here; treated as relative brightness."
+     ],
+     "manifestPath": "data/visual/lroc_nac_pole_south_cm_avg/site01_center_2km_manifest.json"
+    }
+   ],
+   "registrationChecks": [
+    {
+     "peakNcc": 0.4164,
+     "nccAtZeroShift": 0.3736,
+     "imageShiftRelativeToDemM": {
+      "x": -6.01,
+      "y": 1.15
+     },
+     "searchRadiusM": 60.0,
+     "comparedPixels5m": 160000,
+     "rowsUsed1m": 2000,
+     "atSearchEdge": false,
+     "windowM": {
+      "xmin": -12000.0,
+      "xmax": -10000.0,
+      "ymax": -11000.0,
+      "ymin": -13000.0
+     },
+     "dem": "app/data/source/pgda78/Site01/Site01_final_adj_5mpp_surf.tif",
+     "status": "display-alignment-evidence-only",
+     "method": "5 m block mean of image vs DEM mean-low-Sun proxy, 25-px high-pass, integer NCC + parabola",
+     "path": "data/visual/lroc_nac_pole_south_cm_avg/site01_center_2km_registration.json"
+    }
+   ],
+   "files": [
+    {
+     "path": "data/visual/lroc_nac_pole_south_cm_avg/site01_center_2km_1m_8bit.png",
+     "present": true,
+     "bytes": 2161407,
+     "sha256": "8ff9a6248a2614838b20aa361c12c7ede0f871aaa6200a4b06ab3105687ef5e4",
+     "localFileMtimeUTC": "2026-11-15T03:04:10Z"
+    },
+    {
+     "path": "data/visual/lroc_nac_pole_south_cm_avg/site01_center_2km_1m_f32.tif",
+     "present": true,
+     "bytes": 12259306,
+     "sha256": "e2cee071d519dcbe3b10896b7b81065859097cd6c6fa3751b25958c5937db3c1",
+     "localFileMtimeUTC": "2026-11-15T03:04:11Z",
+     "raster": {
+      "width": 2000,
+      "height": 2000,
+      "dtype": "float32",
+      "nodata": "-3.4028226550889045e+38",
+      "pixelSizeM": [
+       1.0,
+       1.0
+      ],
+      "originUpperLeftM": [
+       -12000.0,
+       -11000.0
+      ],
+      "rowOrder": "row 0 = north (largest y)",
+      "pixelRegistration": "Area",
+      "boundsM": [
+       -12000.0,
+       -13000.0,
+       -10000.0,
+       -11000.0
+      ],
+      "crsWkt": "PROJCS[\"Moon south polar stereographic, sphere R=1737400 m\",GEOGCS[\"Moon sphere\",DATUM[\"Moon_sphere\",SPHEROID[\"Moon_sphere\",1737400,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]"
+     }
+    },
+    {
+     "path": "data/visual/lroc_nac_pole_south_cm_avg/site01_center_2km_manifest.json",
+     "present": true,
+     "bytes": 3577,
+     "sha256": "6a6a7c45c0ec8d2238ed59ca3f6ad1455132da116ea8f0d845c24634c2a56d8d",
+     "localFileMtimeUTC": "2026-11-15T03:04:11Z"
+    },
+    {
+     "path": "data/visual/lroc_nac_pole_south_cm_avg/site01_center_2km_registration.json",
+     "present": true,
+     "bytes": 528,
+     "sha256": "9fc12443357acf1a842ab146178ecd03ed24314c20cbabebc390a4e20035be99",
+     "localFileMtimeUTC": "2026-11-15T03:04:26Z"
+    }
+   ]
+  },
+  {
+   "id": "USGS_LROC_WAC_MORPHOLOGY_100M",
+   "role": "reference-only",
+   "status": "not downloaded",
+   "url": "https://astrogeology.usgs.gov/search/map/moon_lro_lroc_wac_global_morphology_mosaic_100m",
+   "pixelScaleM": 100,
+   "note": "candidate regional/global albedo; projection and the polar/non-polar brightness discontinuity must be checked before use",
+   "files": []
+  },
+  {
+   "id": "NASA_SVS_CGI_MOON_KIT",
+   "role": "reference-only",
+   "status": "not downloaded",
+   "url": "https://svs.gsfc.nasa.gov/4720",
+   "note": "look-development textures; the page says aesthetic products are not substitutes for scientific source data",
+   "files": []
+  },
+  {
+   "id": "SHADOWCAM",
+   "role": "reference-only",
+   "status": "not downloaded",
+   "url": "https://www.nasa.gov/solar-system/nasas-shadowcam-images-lunar-south-pole-region/",
+   "note": "PSR imagery only; never blend with illuminated LROC imagery as if radiometry matched",
+   "files": []
+  },
+  {
+   "id": "NASA_EYES_MOON_TREK",
+   "role": "reference-only",
+   "status": "interaction benchmarks, no data used",
+   "url": "https://science.nasa.gov/eyes/",
+   "url2": "https://trek.nasa.gov/moon/",
+   "files": []
+  }
+ ],
+ "derived": {
+  "note": "generated by this repository from the sources above; not sources themselves",
+  "files": [
+   {
+    "path": "app/data/polaris-offline-source-case.json",
+    "present": true,
+    "bytes": 3161879,
+    "sha256": "11919cfbbd9d84e68dad02520dadfc95880dd3a40aabe16d9e60a8e48a1dfee3",
+    "localFileMtimeUTC": "2026-11-14T11:44:11Z",
+    "documentedSha256": "11919cfbbd9d84e68dad02520dadfc95880dd3a40aabe16d9e60a8e48a1dfee3",
+    "matchesDocumented": true
+   },
+   {
+    "path": "app/data/polaris-runtime-source-case.json",
+    "present": true,
+    "bytes": 12231782,
+    "sha256": "713099a1623690fd761dcab8b3b2a0439e3f87f96cddd58d0d722fddc4e72062",
+    "localFileMtimeUTC": "2026-11-15T00:48:30Z",
+    "documentedSha256": "713099a1623690fd761dcab8b3b2a0439e3f87f96cddd58d0d722fddc4e72062",
+    "matchesDocumented": true
+   },
+   {
+    "path": "app/data/polaris-source-site01-2026-11-14-v2.json",
+    "present": true,
+    "bytes": 10644153,
+    "sha256": "6a16ee59965e47afe54527c0b2bcdd90c6d40ba40a2423ca964e7da8e89a4fb6",
+    "localFileMtimeUTC": "2026-11-14T11:44:08Z",
+    "documentedSha256": "6a16ee59965e47afe54527c0b2bcdd90c6d40ba40a2423ca964e7da8e89a4fb6",
+    "matchesDocumented": true
+   },
+   {
+    "path": "app/data/polaris-source-site01-2026-11-14-v2.validation.json",
+    "present": true,
+    "bytes": 2463,
+    "sha256": "4b2f1b1e7529062ad024d489aceeabecde74ca339ec91702c4c600d0c2fd7671",
+    "localFileMtimeUTC": "2026-11-14T11:44:08Z"
+   },
+   {
+    "path": "app/data/polaris-source-two-site-2026-11-14-v2.json",
+    "present": true,
+    "bytes": 3161751,
+    "sha256": "b60129a0399e9dd58ab42e6fb7fe76c82355b2b823dbbf4f3fa80e3aa87658ee",
+    "localFileMtimeUTC": "2026-11-14T11:44:11Z",
+    "documentedSha256": "b60129a0399e9dd58ab42e6fb7fe76c82355b2b823dbbf4f3fa80e3aa87658ee",
+    "matchesDocumented": true
+   },
+   {
+    "path": "app/data/polaris-source-two-site-2026-11-14-v2.validation.json",
+    "present": true,
+    "bytes": 4007,
+    "sha256": "5a6f4f155a41061ab9e6969559a97072d5dc9241b301b7bc099779fa0f44b2de",
+    "localFileMtimeUTC": "2026-11-14T11:44:11Z"
+   },
+   {
+    "path": "data/bundles/site01_roi6_2026-11-14_14d_mast10m.json",
+    "present": true,
+    "bytes": 576187,
+    "sha256": "6f4dae2ab0eebeef66cd9885c68af74ae3f851e61a045b5857287084aa4d8a2b",
+    "localFileMtimeUTC": "2026-11-14T18:41:10Z"
+   },
+   {
+    "path": "data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",
+    "present": true,
+    "bytes": 571886,
+    "sha256": "3a02df4a07e778fcd10e2aa13cbd6c77c190b4d03e243fa1d71f35afde1eb41f",
+    "localFileMtimeUTC": "2026-11-14T18:41:10Z"
+   },
+   {
+    "path": "data/bundles/site04_roi3_2026-11-14_14d_mast10m.json",
+    "present": true,
+    "bytes": 584038,
+    "sha256": "6c81f877e6221207522e32920b037debe7d7123c7c3936a3ffe0ec5184b2aee0",
+    "localFileMtimeUTC": "2026-11-14T18:41:10Z"
+   },
+   {
+    "path": "data/bundles/site04_roi3_2026-11-14_14d_mast1m.json",
+    "present": true,
+    "bytes": 561759,
+    "sha256": "69228e7af481e920895c669ce8dc53c245b1718178e6aa0a2e1df00ff46193a4",
+    "localFileMtimeUTC": "2026-11-14T18:41:10Z"
+   },
+   {
+    "path": "data/bundles/site04_roi4_2026-11-14_14d_mast10m.json",
+    "present": true,
+    "bytes": 583933,
+    "sha256": "fa67d290644bd986d52d47bffddc27e96409635166e91ec37e40c28d01d52c77",
+    "localFileMtimeUTC": "2026-11-14T18:41:10Z"
+   },
+   {
+    "path": "data/bundles/site04_roi4_2026-11-14_14d_mast1m.json",
+    "present": true,
+    "bytes": 582165,
+    "sha256": "858709cacf8334ed3eba98c6d5159364204e633e6c8b9775d719fb9b6d2571e9",
+    "localFileMtimeUTC": "2026-11-14T18:41:10Z"
+   },
+   {
+    "path": "data/viewer/polaris-x5d-roi-2026-11-14-v2.json",
+    "present": true,
+    "bytes": 5296508,
+    "sha256": "5b93dd66c3177d6098531f1261d565b3089101bd58f4d9a38d8ffb617b9cf51f",
+    "localFileMtimeUTC": "2026-11-14T18:41:10Z"
+   }
+  ],
+  "displayOnly": {
+   "note": "VISUAL packs derived from the numerical DEMs for rendering only (numericalAuthority false): regional display copy + horizon maps (tools/terrain/build_terrain_context.py) and the visual-layers file",
+   "files": [
+    {
+     "path": "data/visual/terrain_context/connecting/context.json",
+     "present": true,
+     "bytes": 3634,
+     "sha256": "f7b9651fa49173d9973231c7319e14854e8a3db2a13977be325b7bc66d79f33d",
+     "localFileMtimeUTC": "2026-11-15T01:09:00Z"
+    },
+    {
+     "path": "data/visual/terrain_context/connecting/local_horizon_u8.bin",
+     "present": true,
+     "bytes": 1939248,
+     "sha256": "34445328e9d7490eaeb5ddf0806a69a0389288b73c8d0d28b31acaea879d7b43",
+     "localFileMtimeUTC": "2026-11-15T01:09:00Z"
+    },
+    {
+     "path": "data/visual/terrain_context/connecting/regional_f32.bin",
+     "present": true,
+     "bytes": 643204,
+     "sha256": "38116bf37a1e5e06e73ee9019f8dc98bfabd9e685fd56c548b35edd673d60c09",
+     "localFileMtimeUTC": "2026-11-15T01:09:00Z"
+    },
+    {
+     "path": "data/visual/terrain_context/connecting/regional_horizon_u8.bin",
+     "present": true,
+     "bytes": 1939248,
+     "sha256": "92c3073c17053b0776470fb323c6a0efc2b156416e9fb40b23745d2204c45fe5",
+     "localFileMtimeUTC": "2026-11-15T01:09:00Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site01_roi6/context.json",
+     "present": true,
+     "bytes": 3963,
+     "sha256": "96110169d86c06b93be9ddb7b6ed0701f4266193b535e0b41c6b6e47fb2289b7",
+     "localFileMtimeUTC": "2026-11-15T01:08:20Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site01_roi6/local_horizon_u8.bin",
+     "present": true,
+     "bytes": 1939248,
+     "sha256": "f3c5bee8a3bcc2716222283c11d0aef4c74e5a581c70751d292ad464e3f8269d",
+     "localFileMtimeUTC": "2026-11-15T01:08:20Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site01_roi6/regional_f32.bin",
+     "present": true,
+     "bytes": 643204,
+     "sha256": "38116bf37a1e5e06e73ee9019f8dc98bfabd9e685fd56c548b35edd673d60c09",
+     "localFileMtimeUTC": "2026-11-15T01:08:20Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site01_roi6/regional_horizon_u8.bin",
+     "present": true,
+     "bytes": 1939248,
+     "sha256": "17f44327ba97c4a7e7c61a860d948fc6bc767da162be7d557d2a57194568a4f6",
+     "localFileMtimeUTC": "2026-11-15T01:08:20Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site04_roi3/context.json",
+     "present": true,
+     "bytes": 3980,
+     "sha256": "b9c2a1c54702ac6a3be052c1799d69ff003d12a54a483f2597c69761e4fc006a",
+     "localFileMtimeUTC": "2026-11-15T01:08:34Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site04_roi3/local_horizon_u8.bin",
+     "present": true,
+     "bytes": 1939248,
+     "sha256": "1fe874d6eefd7bc8a170abce5dbb368af0fa2535b79cba240cba13842f3f7424",
+     "localFileMtimeUTC": "2026-11-15T01:08:34Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site04_roi3/regional_f32.bin",
+     "present": true,
+     "bytes": 643204,
+     "sha256": "0a734240a7fcd7d291404c871e7a63adcb865c85ad615b2d396960ad12e7ed90",
+     "localFileMtimeUTC": "2026-11-15T01:08:34Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site04_roi3/regional_horizon_u8.bin",
+     "present": true,
+     "bytes": 1939248,
+     "sha256": "40781c2bb618c688d9e9686f1c50944da0a42aaa76d5af1f584572f15298965c",
+     "localFileMtimeUTC": "2026-11-15T01:08:34Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site04_roi4/context.json",
+     "present": true,
+     "bytes": 3977,
+     "sha256": "7a15c47718673c240b7f1f0ac80a0f5e8df3b7eb1ac3379f892d798be543b7b5",
+     "localFileMtimeUTC": "2026-11-15T01:08:47Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site04_roi4/local_horizon_u8.bin",
+     "present": true,
+     "bytes": 1939248,
+     "sha256": "ccd26ff7f3fb7e3bbefad76efa03b8a2c8523f924e6ae2ca455aa436858e44c5",
+     "localFileMtimeUTC": "2026-11-15T01:08:47Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site04_roi4/regional_f32.bin",
+     "present": true,
+     "bytes": 643204,
+     "sha256": "0a734240a7fcd7d291404c871e7a63adcb865c85ad615b2d396960ad12e7ed90",
+     "localFileMtimeUTC": "2026-11-15T01:08:47Z"
+    },
+    {
+     "path": "data/visual/terrain_context/site04_roi4/regional_horizon_u8.bin",
+     "present": true,
+     "bytes": 1939248,
+     "sha256": "835eb849fcad54f81658773ec5c86aedcd8466b95ce4a6c0af1a431c993f3e40",
+     "localFileMtimeUTC": "2026-11-15T01:08:47Z"
+    },
+    {
+     "path": "data/visual/visual_layers.json",
+     "present": true,
+     "bytes": 3389,
+     "sha256": "d1c349f8be51f990838383f890d3ffe61cade79ae49b16d3cd37586721638e3c",
+     "localFileMtimeUTC": "2026-11-15T03:04:35Z"
+    }
+   ]
+  }
+ }
+}

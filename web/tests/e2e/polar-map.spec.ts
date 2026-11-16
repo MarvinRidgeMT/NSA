@@ -7,7 +7,8 @@ const meta = JSON.parse(readFileSync(resolve(__dirname, '../../public/layers/pgd
 const shots = resolve(__dirname, '../../docs/screenshots');
 
 test('South Pole map: NASA PGDA 69 layer, regions and zoom', async ({ page }) => {
-  await page.goto('/?bundle=demo-fixture.json');
+  await page.goto('/?bundle=demo-fixture.json#evidence');
+  await page.getByTestId('status-badge').waitFor();
   const map = page.getByTestId('polar-map');
   await map.scrollIntoViewIfNeeded();
   await expect(page.getByTestId('pgda69-badge')).toContainText('NASA PGDA 69');
@@ -21,7 +22,9 @@ test('South Pole map: NASA PGDA 69 layer, regions and zoom', async ({ page }) =>
   await expect(page.getByTestId('polar-area')).toHaveValue('Site01');
   await page.getByTestId('roi-Site01-ROI6').click();
   await expect(page.getByTestId('roi-detail')).toContainText(`${roi6.sun.mean.toFixed(1)} %`);
-  await page.getByTestId('layer-earth').check({ force: true });
+  await page.waitForTimeout(400); // the ROI click re-renders the map; let React settle before the layer radio
+  await page.getByTestId('layer-earth').evaluate((el) => (el as HTMLInputElement).click());
+  await expect(page.getByTestId('layer-earth')).toBeChecked();
   await page.waitForTimeout(600);
   await map.screenshot({ path: `${shots}/07-polar-map-site01-earth.png` });
 });

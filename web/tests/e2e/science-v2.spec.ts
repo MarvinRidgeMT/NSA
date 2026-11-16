@@ -15,6 +15,7 @@ test.describe('Person A science-bundle-v2 (Site01, 14 d)', () => {
     await page.goto(`/?bundle=${file}`);
     await expect(page.getByTestId('status-badge')).toHaveAttribute('data-status', 'SOURCE-BASED UNVALIDATED');
     await expect(page.getByTestId('demo-banner')).toHaveCount(0);
+    await page.getByTestId('tab-decision').click();
     for (const k of [17, 168, 300]) {
       const s = raw.samples[k];
       await page.getByTestId('utc-input').fill(s.utc.replace('.000Z', 'Z'));
@@ -39,7 +40,7 @@ test.describe('Person A science-bundle-v2 (Site01, 14 d)', () => {
   });
 
   test('5D table: repair row shows bundle deltas and keeps baseline series labelled', async ({ page }) => {
-    await page.goto(`/?bundle=${file}`);
+    await page.goto(`/?bundle=${file}#decision`);
     const rep = raw.scenarios.find((s: { family: string }) => s.family === 'repair');
     const row = page.getByTestId(`scen-${rep.id}`);
     await row.scrollIntoViewIfNeeded();
