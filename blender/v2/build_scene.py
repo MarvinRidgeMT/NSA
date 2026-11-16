@@ -52,7 +52,8 @@ def parse(argv=None):
     p.add_argument('--emission', type=float, default=0.0, help='orbital cameras: emission angle off nadir (deg)')
     p.add_argument('--alt-km', type=float, default=None)
     p.add_argument('--layout', default=None, choices=sorted(specmod.ASSET_LAYOUTS))
-    p.add_argument('--terrain', default='cache', choices=['cache', 'committed'])
+    p.add_argument('--terrain', default='cache', choices=['cache', 'committed', 'stack'],
+                   help='cache: the solver DEM cache; committed: the 80 m crop in git (site01 only); stack: S3 global pyramid')
     p.add_argument('--resolution', type=int, default=512, help='longest image side (px)')
     p.add_argument('--samples', type=int, default=32)
     p.add_argument('--seed', type=int, default=0)
@@ -185,6 +186,11 @@ def load_levels(sp, mode):
             raise SystemExit(f'--terrain committed exists only for {sorted(COMMITTED_TERRAIN)} (the only DEM crop in git)')
         f, ds = COMMITTED_TERRAIN[key]
         return [T.load_bundle_v2_level(ROOT / f, ds, name=f'committed PGDA 90 80 m crop ({ds})')]
+    if mode == 'stack':
+        lv, why = T.stack_levels(sp['site']['latDeg'], sp['site']['lonEastDeg'])
+        if lv is None:
+            raise SystemExit(f'--terrain stack: {why}')
+        return lv
     cache = ROOT / 'data' / 'cache'
     near, far = cache / f'{site}_p78_p78.npy', cache / f'{site}_ldem80_290km.npy'
     levels = []

@@ -94,13 +94,41 @@ def load_bundle_v2_level(bundle_path, dataset_id, name='committed 80 m crop'):
                        'layer': dem.get('layer'), 'note': 'sha256 is of the whole bundle file'})
 
 
-def stack_level(lat, lon, half_m, res_m):
-    """S3 TerrainStack window, when science/terrain/stack.py exists. Returns (Level | None, reason)."""
+def level_from_arraydem(dem, name, source='', sha256='', info=None):
+    """science.dem.ArrayDEM (or S3's ZoneDEM with proj 'sp') -> Level. ArrayDEM rows run north -> south and x_left / y_top are
+    the outer pixel EDGES (values at pixel centres), exactly like the solver cache."""
+    proj = getattr(dem, 'proj', 'sp')
+    if proj != 'sp':
+        raise ValueError(f"only south-polar stereographic windows are supported here (got proj {proj!r})")
+    Z = np.asarray(dem.Z, dtype=np.float64)
+    ny, nx = Z.shape
+    step = float(dem.step)
+    return Level(name=name, h=np.ascontiguousarray(Z[::-1, :]), x0=float(dem.x_left) + step / 2,
+                 y0=float(dem.y_top) - (ny - 0.5) * step, step=step, source=source, sha256=sha256,
+                 info=dict(info or {}, pixelConvention='x_left/y_top are pixel edges; nodes at pixel centres (as science/dem.py)',
+                           nanNodes=int(np.isnan(Z).sum())))
+
+
+def stack_levels(lat, lon, near_half_m=8000.0, near_res_m=5.0, far_half_m=290_000.0, far_res_m=80.0, root=None):
+    """Near + far levels from S3's global pyramid through science.terrain.stack (docs/v2/TERRAIN_STACK_CONTRACT.md §5), when
+    that module and a built pyramid exist. Returns (levels | None, reason)."""
     try:
-        from science.terrain.stack import TerrainStack  # noqa: F401  (S3, not on this branch yet)
-    except Exception as e:                              # pragma: no cover - depends on S3
-        return None, f'science.terrain.stack not available ({type(e).__name__})'
-    return None, 'TerrainStack present but not wired yet (contract §5 window() -> ArrayDEM)'
+        from science.terrain.stack import TerrainStack          # S3; on feature/v2-whole-moon once merged
+    except Exception as e:
+        return None, f'science.terrain.stack not importable ({type(e).__name__}: {e})'
+    try:
+        st = TerrainStack.open(root)
+        out = []
+        for name, half, res in (('near (S3 pyramid)', near_half_m, near_res_m), ('far (S3 pyramid)', far_half_m, far_res_m)):
+            dem = st.window(lat, lon, half, res)
+            meta = dict(getattr(dem, 'meta', {}) or {})
+            digest = dem.digest() if hasattr(dem, 'digest') else ''
+            out.append(level_from_arraydem(dem, f'{name} {dem.step:g} m', source=str(meta.get('stack_root', 'TerrainStack')),
+                                           sha256=digest, info={'stackMeta': {k: v for k, v in meta.items() if isinstance(v, (str, int, float))},
+                                                                'sha256Is': 'ArrayDEM.digest() of the window'}))
+        return out, 'ok'
+    except Exception as e:
+        return None, f'TerrainStack present but unusable here ({type(e).__name__}: {e})'
 
 
 # ---------------------------------------------------------------- frames

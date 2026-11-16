@@ -115,6 +115,35 @@ class Tiles(unittest.TestCase):
         self.assertTrue(np.all(skirt_faces >= n0), 'skirt faces must not share surface vertices (smooth normals)')
 
 
+class StackAdapter(unittest.TestCase):
+    def test_arraydem_conversion_matches_science_sampler(self):
+        """S3's ZoneDEM is an ArrayDEM subclass: the adapter must keep the pixel-edge convention."""
+        try:
+            sys.path.insert(0, str(ROOT))
+            from science.dem import ArrayDEM
+        except Exception as e:  # pragma: no cover
+            self.skipTest(f'science.dem not importable ({type(e).__name__})')
+        rng = np.random.default_rng(5)
+        Z = rng.normal(1500, 30, size=(60, 80))
+        dem = ArrayDEM(Z, x_left=-12000.0, y_top=-9000.0, step=5.0, name='synthetic')
+        lv = T.level_from_arraydem(dem, 'stack test')
+        for _ in range(100):
+            x = rng.uniform(-12000 + 5, -12000 + 80 * 5 - 5)
+            y = rng.uniform(-9000 - 60 * 5 + 5, -9000 - 5)
+            self.assertAlmostEqual(T.sample_bilinear(lv, x, y), float(dem.sample(np.array([x]), np.array([y]))[0]), places=8)
+
+    def test_non_polar_window_refused(self):
+        class Fake:
+            proj, Z, step, x_left, y_top = 'local-stere', np.zeros((2, 2)), 1.0, 0.0, 0.0
+        with self.assertRaises(ValueError):
+            T.level_from_arraydem(Fake(), 'x')
+
+    def test_stack_reports_why_when_absent(self):
+        lv, why = T.stack_levels(-89.5, -137.0)
+        if lv is None:
+            self.assertTrue(why)
+
+
 @unittest.skipUnless(COMMITTED.exists(), 'committed bundle missing')
 class CommittedLevel(unittest.TestCase):
     def test_committed_crop_loads_in_absolute_grid(self):
