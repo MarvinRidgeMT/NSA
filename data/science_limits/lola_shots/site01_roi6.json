@@ -25,6 +25,65 @@
   },
   "top10_lit_crest_cells": {
     "computed": false,
-    "reason": "needs per-5m-cell lit fraction from the solver; not wired tonight"
+    "reason": "no per-5m-cell lit-fraction grid is stored in the repo; see top10_hotspot_tiles for the closest stored per-tile product"
+  },
+  "top10_hotspot_tiles": {
+    "source": "data/stretch/hotspots/site01_roi6.json (hotspots-site01_roi6-m1-20261114-pilot-v1, ranked by clone-jacobian critical-margin score, not lit fraction)",
+    "n_tiles": 10,
+    "all_inside_box": true,
+    "median_nearest_shot_m": 7.91,
+    "max_nearest_shot_m": 21.77,
+    "per_tile": [
+      {
+        "tile_id": "p78-r1513-c1758",
+        "rank": 1,
+        "nearest_shot_m": 21.77
+      },
+      {
+        "tile_id": "p78-r1514-c1760",
+        "rank": 2,
+        "nearest_shot_m": 17.46
+      },
+      {
+        "tile_id": "p78-r1514-c1761",
+        "rank": 3,
+        "nearest_shot_m": 16.17
+      },
+      {
+        "tile_id": "p78-r1516-c1761",
+        "rank": 4,
+        "nearest_shot_m": 6.34
+      },
+      {
+        "tile_id": "p78-r1517-c1761",
+        "rank": 5,
+        "nearest_shot_m": 2.12
+      },
+      {
+        "tile_id": "p78-r1518-c1761",
+        "rank": 6,
+        "nearest_shot_m": 4.34
+      },
+      {
+        "tile_id": "p78-r1519-c1762",
+        "rank": 7,
+        "nearest_shot_m": 9.48
+      },
+      {
+        "tile_id": "p78-r1520-c1763",
+        "rank": 8,
+        "nearest_shot_m": 10.75
+      },
+      {
+        "tile_id": "p78-r1523-c1771",
+        "rank": 9,
+        "nearest_shot_m": 4.84
+      },
+      {
+        "tile_id": "p78-r1524-c1771",
+        "rank": 10,
+        "nearest_shot_m": 5.07
+      }
+    ]
   }
 }

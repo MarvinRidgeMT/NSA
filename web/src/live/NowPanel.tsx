@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { TrekBasemap } from './TrekBasemap';
 import { fetchDonki, fetchSkyNow, fetchSwpc, type BodyNow, type DonkiNote, type FeedState, type LiveSite, type ProtonNow } from './feeds';
 
 // LIVE · CONTEXT panel. Display only; never writes to the store or to any stored result.
@@ -117,5 +118,22 @@ export function LiveMount() {
       .then((b) => b?.site && b?.skyline && setSite({ ...b.site, skyline: b.skyline }))
       .catch(() => setSite(null));
   }, []);
-  return <NowPanel site={site} />;
+  const [trek, setTrek] = useState(false);
+  return (
+    <>
+      <NowPanel site={site} />
+      {site?.grid_x_m != null && site.grid_y_m != null && (
+        <aside
+          aria-label="Moon Trek basemap, display only"
+          style={{ position: 'fixed', left: 12, bottom: 12, zIndex: 50, padding: 10, borderRadius: 8,
+            background: 'rgba(10,12,16,.92)', color: '#e8eaee', font: '12px/1.4 system-ui, sans-serif' }}
+        >
+          <label>
+            <input type="checkbox" checked={trek} onChange={(e) => setTrek(e.target.checked)} /> Moon Trek basemap (display only)
+          </label>
+          {trek && <TrekBasemap x={site.grid_x_m} y={site.grid_y_m} label={site.id} />}
+        </aside>
+      )}
+    </>
+  );
 }

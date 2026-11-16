@@ -65,3 +65,12 @@ describe('NowPanel (LIVE · CONTEXT)', () => {
     expect(maskAt(site.skyline, 315)).toBeCloseTo(2.5);
   });
 });
+
+import { trekResolution, trekTileOf } from '../../src/live/TrekBasemap';
+describe('TrekBasemap tile math (WMTSCapabilities default028mm)', () => {
+  it('matches the tile fetched by hand for Site04 RoI 3 at level 11', () => {
+    expect(trekResolution(11)).toBeCloseTo(4.18064, 4);
+    const t = trekTileOf(-2677.834, -6106.132, 11);
+    expect([t.row, t.col]).toEqual([1029, 1021]);
+  });
+});

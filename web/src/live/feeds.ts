@@ -96,6 +96,8 @@ export interface LiveSite {
   lat_deg: number;
   lon_deg_east: number;
   height_m: number;
+  grid_x_m?: number;
+  grid_y_m?: number;
   skyline: { azimuth_deg: number[]; elevation_deg: number[] };
 }
 export interface BodyNow {
