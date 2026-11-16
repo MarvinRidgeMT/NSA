@@ -95,9 +95,6 @@ export function Header({
               e.target.value = '';
             }}
           />
-          <a className="btn" href={`${import.meta.env.BASE_URL}lab/index.html`} data-testid="decision-lab-link">
-            Decision Lab
-          </a>
           <label>
             <span className="sr-only">Site</span>
             <select data-testid="site-select" title="Site" value={datasetIdx} disabled={!loaded} onChange={(e) => { markSiteChosen(); setSite(Number(e.target.value)); }}>

@@ -61,9 +61,11 @@ function Rings({ sun, earth }: { sun: number; earth: number }) {
 }
 
 export function CoverageGauge({ v }: { v: View }) {
-  const cov = v.dataset.derived?.coverage ?? null;
+  // Merge note (15 Nov): prefer the batch Coverage Gauge sidecar when it covers this site (session A's
+  // verified view); fall back to the bundle's derived.coverage, then to the display tally.
   const batch = useCoverageSidecar();
-  const bc = cov ? null : (batch?.sites[v.dataset.siteId] ?? null);
+  const bc = batch?.sites[v.dataset.siteId] ?? null;
+  const cov = bc ? null : (v.dataset.derived?.coverage ?? null);
   const side = usePolaris((st) => st.certaintySidecar);
   const pass1 = (side?.sites?.[v.dataset.siteId]?.certainty_curve as { mast_m: number; metric: string; pass: string }[] | undefined)?.find(
     (r) => r.mast_m === 1 && r.metric === 'sun_centre_pct',

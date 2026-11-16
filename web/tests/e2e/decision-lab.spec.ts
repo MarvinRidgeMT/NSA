@@ -4,7 +4,7 @@ test('four-site Decision Lab is linked and switches every site without page erro
   const errors: Error[] = [];
   page.on('pageerror', (error) => errors.push(error));
 
-  await page.goto('/');
+  await page.goto('/#decision');
   await expect(page.getByTestId('decision-lab-link')).toHaveAttribute('href', './lab/index.html');
 
   await page.goto('/lab/index.html');

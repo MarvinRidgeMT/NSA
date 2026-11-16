@@ -605,6 +605,9 @@ export default function App() {
                         <div className="lab">Decision · {v.dataset.site.name}</div>
                         <h1>Does this ground keep the light?</h1>
                       </div>
+                      <a className="btn" href={`${import.meta.env.BASE_URL}lab/index.html`} data-testid="decision-lab-link">
+                        Decision Lab · four sites, 12 months
+                      </a>
                     </div>
                     <DecisionHero v={v} />
                   </div>

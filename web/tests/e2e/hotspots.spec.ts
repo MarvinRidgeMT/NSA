@@ -17,7 +17,7 @@ test.describe('PILOT information-hotspot traceability', () => {
 
   test('toggle plots the bundle top ten and method without recomputing values', async ({ page }) => {
     const block = raw.derived.hotspots;
-    await page.goto(`/?bundle=${file}`);
+    await page.goto(`/?bundle=${file}#evidence`);
     await page.getByTestId('polar-map').scrollIntoViewIfNeeded();
     await page.getByTestId('polar-area').selectOption('Site04');
     await page.getByTestId('hotspot-toggle').check();
@@ -41,7 +41,7 @@ test.describe('PILOT information-hotspot traceability', () => {
   test('zero-positive bundle discloses missing clone-covered critical sensitivity', async ({ page }) => {
     test.skip(!zeroRaw, 'run npm run sync-bundles first');
     const block = zeroRaw.derived.hotspots;
-    await page.goto(`/?bundle=${zeroFile}`);
+    await page.goto(`/?bundle=${zeroFile}#evidence`);
     await page.getByTestId('polar-map').scrollIntoViewIfNeeded();
     await page.getByTestId('hotspot-toggle').check();
     await expect(page.getByTestId('hotspot-caption')).toContainText(block.zero_state_caption);

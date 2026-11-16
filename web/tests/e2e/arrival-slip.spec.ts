@@ -14,7 +14,7 @@ test.describe('PILOT arrival-slip traceability', () => {
 
   test('strip and exact table copy the bundle result IDs, metrics and pass counts', async ({ page }) => {
     const block = raw.derived.arrival_slip;
-    await page.goto(`/?bundle=${file}`);
+    await page.goto(`/?bundle=${file}#decision`);
     await expect(page.getByTestId('arrival-slip')).toBeVisible();
     await expect(page.getByTestId('arrival-slip-label')).toHaveText(block.label);
     for (const slip of [-72, 0, 66, 72]) {

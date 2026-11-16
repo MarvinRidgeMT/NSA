@@ -14,7 +14,7 @@ test.describe('PILOT flip-forecast traceability', () => {
 
   test('small table copies forecast/actual metrics, null state and result IDs', async ({ page }) => {
     const block = raw.derived.flip_forecast;
-    await page.goto(`/?bundle=${file}`);
+    await page.goto(`/?bundle=${file}#decision`);
     const panel = page.getByTestId('flip-forecast');
     await expect(panel).toBeVisible();
     await expect(page.getByTestId('flip-forecast-label')).toHaveText(block.label);
