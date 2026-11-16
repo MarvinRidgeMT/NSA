@@ -59,6 +59,23 @@ class Rules(unittest.TestCase):
         ok, _ = G.check(p, 'web/public/c.glb')
         self.assertTrue(ok)
 
+    def test_globe_builder_passes_unknown_builder_fails(self):
+        for builder, want in (('blender/v2/globe.py', True), ('blender/v2/other.py', False)):
+            p = self.d / 'g.glb'
+            prov = json.dumps({'builder': builder, 'tag': 'globe'})
+            make_glb(p, {'version': '2.0', 'generator': 'Khronos glTF Blender I/O v5.3.0'}, [{'nodes': [], 'extras': {'polaris': prov}}])
+            ok, _ = G.check(p, 'web/public/globe/g.glb')
+            self.assertEqual(ok, want, builder)
+
+    def test_web_globe_passes_when_built(self):
+        """The whole-Moon globe GLB written by globe.py (git-ignored) passes the same rule."""
+        p = ROOT / 'web' / 'public' / 'globe' / 'polaris_moon_globe.glb'
+        if not p.exists():
+            self.skipTest('globe GLB not built (blender -b -P blender/v2/globe.py)')
+        ok, why = G.check(p, p.relative_to(ROOT).as_posix())
+        self.assertTrue(ok, why)
+        self.assertIn('globe.py', why)
+
     def test_changed_whitelisted_file_loses_exemption(self):
         rel = next(iter(G.WHITELIST))
         p = self.d / 'w.glb'

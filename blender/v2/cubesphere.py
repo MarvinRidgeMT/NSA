@@ -47,8 +47,10 @@ def texel_params(n):
 
 
 def latlon_deg(d):
+    """(lat, lon) degrees of vectors of ANY length (normalised here: a globe vertex in km is not a unit vector)."""
     d = np.asarray(d, float)
-    return np.degrees(np.arcsin(np.clip(d[..., 2], -1, 1))), np.degrees(np.arctan2(d[..., 1], d[..., 0]))
+    r = np.linalg.norm(d, axis=-1)
+    return np.degrees(np.arcsin(np.clip(d[..., 2] / r, -1, 1))), np.degrees(np.arctan2(d[..., 1], d[..., 0]))
 
 
 def supersample_params(n, s):

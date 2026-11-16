@@ -51,6 +51,15 @@ class CubeSphere(unittest.TestCase):
         self.assertLess(smax / smin, 1.45)
         self.assertAlmostEqual(smax, 1_737_400 * (math.pi / 2) / 256, delta=0.02 * smax)
 
+    def test_latlon_of_scaled_vertices(self):
+        """Regression (first globe render): vertices in km were read as unit vectors -> every vertex a pole, except a 1 km
+        band at the equator (a dark line and no albedo contrast)."""
+        d = C.directions(0, np.array([0.3, -0.5]), np.array([0.2, 0.7]))
+        la1, lo1 = C.latlon_deg(d)
+        la2, lo2 = C.latlon_deg(d * 1738.4)
+        self.assertTrue(np.allclose(la1, la2) and np.allclose(lo1, lo2))
+        self.assertTrue(np.all(np.abs(la2) < 45))
+
     def test_texel_params_orientation(self):
         A, B = C.texel_params(4)
         self.assertTrue(B[0, 0] > 0 > B[-1, 0])                # image row 0 = +v edge

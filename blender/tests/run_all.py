@@ -13,6 +13,7 @@
 5b'. when the S3 pyramid is built: site01_roi6 drawn from the pyramid reproduces its bundle skyline, and Apollo 15 (eq zone)
    drawn from the pyramid reproduces science.skyline.compute_skyline on the same windows;
 5c. when the SVS star map is cached: the Magellanic Clouds render where the ICRF->ENU rotation predicts (blender/tests/star_check.py);
+5d. when the S3 pyramid is built: the whole-Moon globe builds (closed mesh, WAC w range, .blend, GLB passes the provenance rule);
 6. glTF provenance rule over web/public/ (blender/tests/glb_proof.py).
 Set POLARIS_UPDATE_REFERENCE=1 to (re)write the reference PNG; the run then reports it and still exits 1 so it is never silent.
 """
@@ -74,7 +75,7 @@ def main():
     # 2. photometry -------------------------------------------------------------------------------------------------------
     import photometry_check
     ok, rows = photometry_check.run(tol=0.02)
-    record('Hapke node material = Python Hapke (Cycles flat plane, 6 geometries)', ok, f'max rel err {max(r["relErr"] for r in rows):.2e}')
+    record('Hapke node material = Python Hapke (Cycles flat plane, 6 geometries + 3 per-vertex WAC w)', ok, f'max rel err {max(r["relErr"] for r in rows):.2e}')
 
     # 3. reference rebuild ------------------------------------------------------------------------------------------------
     from v2 import build_scene
@@ -162,6 +163,23 @@ def main():
             print('[run_all] SKIP  Apollo 15 pyramid skyline: any-site bundle for Sun/Earth not cached')
     else:
         print('[run_all] SKIP  pyramid-backed skyline checks: no pyramid index under data/cache/v2/pyramid')
+
+    # 5d. whole-Moon globe (cube-sphere from pyramid L0 + WAC w; GLB to tmp so web/public is untouched) ----------------------
+    if (ROOT / 'data' / 'cache' / 'v2' / 'pyramid' / 'index.json').exists():
+        from v2 import globe
+        gm, gout, gtag = globe.build(globe.parse(['--n', '384', '--web-n', '192', '--resolution', '128', '--samples', '4',
+                                                  '--out', str(tmp / 'globe'), '--glb-path', str(tmp / 'globe' / 'g.glb')]))
+        import glb_proof
+        gok, gwhy = glb_proof.check(tmp / 'globe' / 'g.glb', 'web/public/globe/g.glb')
+        g = gm['globe']
+        need = {'closed welded mesh (6 n^2 + 2 vertices)': g['vertices'] == 6 * 384 ** 2 + 2 and g['droppedQuads'] == 0,
+                'heights within -9.2..+10.8 km': -9200 < g['heightRangeM'][0] and g['heightRangeM'][1] < 10800,
+                'w spans maria..highlands': g['wRange'][0] < 0.25 and g['wRange'][1] > 0.40,
+                'GLB provenance': gok, '.blend saved': (gout / f'{gtag}.blend').exists()}
+        record('whole-Moon globe (globe.py): mesh, albedo, .blend, Draco GLB provenance', all(need.values()),
+               ', '.join(k for k, v in need.items() if not v) or f"{g['vertices']} verts, w {g['wRange'][0]:.3f}-{g['wRange'][1]:.3f}, {gwhy[:60]}")
+    else:
+        print('[run_all] SKIP  whole-Moon globe: no pyramid index')
 
     # 5c. starfield orientation (needs the SVS map in the cache; skipped and reported when absent) --------------------------
     import star_check

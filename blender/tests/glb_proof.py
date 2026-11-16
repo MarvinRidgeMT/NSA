@@ -2,8 +2,8 @@
 
 Rule for every .glb / .gltf under web/public/:
   1. asset.generator starts with "Khronos glTF Blender I/O" (the exporter Blender ships);
-  2. scenes[*].extras.polaris names builder "blender/v2/build_scene.py" (written by build_scene.py via export_extras), so a
-     file merely re-saved by some other Blender session does not pass as a POLARIS asset;
+  2. scenes[*].extras.polaris names a POLARIS builder, "blender/v2/build_scene.py" (close-ups) or "blender/v2/globe.py" (the
+     whole-Moon globe), written via export_extras, so a file merely re-saved by some other Blender session does not pass;
 unless the file is on WHITELIST with a reason AND still has the pinned SHA-256 (a changed file loses its exemption).
 Pure Python; used by test_glb_proof.py and run_all.py.
 """
@@ -14,6 +14,7 @@ from pathlib import Path
 
 GENERATOR_PREFIX = 'Khronos glTF Blender I/O'
 BUILDER = 'blender/v2/build_scene.py'
+BUILDERS = (BUILDER, 'blender/v2/globe.py')
 
 WHITELIST = {
     'web/public/globe/NASA_SVS_moon_small.glb': {
@@ -69,8 +70,8 @@ def check(path, rel):
     if not gen.startswith(GENERATOR_PREFIX):
         return False, f'asset.generator {gen!r} is not the Blender glTF exporter'
     x = polaris_extras(j)
-    if not x or x.get('builder') != BUILDER:
-        return False, f'generator is Blender ({gen}) but scenes[].extras.polaris does not name {BUILDER}'
+    if not x or x.get('builder') not in BUILDERS:
+        return False, f'generator is Blender ({gen}) but scenes[].extras.polaris does not name a POLARIS builder {BUILDERS}'
     return True, f'Blender ({gen}), built by {x["builder"]} tag {x.get("tag")}'
 
 
