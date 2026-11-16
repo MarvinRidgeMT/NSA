@@ -2,9 +2,11 @@
 
   python -m science.anysite.solve --lat -89.78012 --lon -156.32023 --mast 1 [--members clones,assumed,products]
 
-Pipeline (docs/v2/PHASE_1_ANYSITE_PLAN.md): terrain stack -> near field (±25 km, native resolution, ray step native/5)
--> far field to the curvature limit -> 720-bin skyline (science.skyline.compute_skyline, unchanged) -> JPL Horizons
-(identical query to science.horizons, raw responses cached by SHA-256) -> hourly-sample metrics -> bundle.
+Pipeline (docs/v2/PHASE_1_ANYSITE_PLAN.md, docs/v2/PHASE_1_R1_PLAN.md): terrain stack (default: merged whole-Moon
+pyramid for the nominal terrain, per-product sources for the members) -> near field (finest level at the site, ray step
+pixel/5 to the near cut of the documented rule) -> far field to the curvature limit -> 720-bin skyline
+(science.skyline.compute_skyline, unchanged) -> JPL Horizons (identical query to science.horizons, raw responses cached by
+SHA-256) -> hourly-sample metrics -> bundle. POLARIS_ANYSITE_STACK=legacy: per-product adapter for everything.
 Labels: geometry SOURCE-BASED UNVALIDATED; error-model members 'assumed error model'.
 """
 from __future__ import annotations
