@@ -124,7 +124,9 @@ def _write(by_id, wall=None, workers=None):
            'note': 'wall_s per site was measured with up to 4 sites in parallel (shared CPU with other sessions).',
            'sites': rows}
     if wall is not None:
-        out['last_run'] = {'wall_s': round(wall, 1), 'workers': workers}
+        out['last_run'] = {'wall_s': round(wall, 1), 'workers': workers,
+                           'products_registered_at_end': [e['id'] for e in P.registry()],
+                           'note': 'S2 was still downloading; a site records its own near/far products (bundle dem_layers)'}
     SUMMARY.parent.mkdir(parents=True, exist_ok=True)
     tmp = SUMMARY.with_suffix(f'.{os.getpid()}.tmp'); tmp.write_text(json.dumps(out, indent=1)); tmp.replace(SUMMARY)
 

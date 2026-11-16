@@ -293,6 +293,15 @@ class PdsProducts(unittest.TestCase):
                 x, y = frames.stereo_forward(la, lo)
                 self.assertAlmostEqual(float(d.sample(x, y)), self._direct(e, la, lo), delta=1e-3, msg=(la, lo))
 
+    def test_seam_longitude_covered_by_finest_global(self):
+        # regression: at lon 0 (x = -pi R in the lon_0 = 180 CRS) GDAL's rounded bounds excluded the 128/64 ppd grids
+        e = _entry(self.st, 'lola_global_ldem:ldem_128')
+        if e is None:
+            self.skipTest('LOLA global LDEM 128 ppd not downloaded by S2')
+        for lon in (0.0, 360.0, -180.0, 180.0, 1e-9):
+            ids = [c['id'] for c in self.st.covering(10.0, lon)]
+            self.assertIn('lola_global_ldem:ldem_128', ids, lon)
+
     def test_pole_crossing_ray_has_data(self):
         e = _entry(self.st, 'lola_global_ldem:ldem_64')
         if e is None:
@@ -318,6 +327,30 @@ class PdsProducts(unittest.TestCase):
         self.assertEqual(min(mad, key=mad.get), (0, 0), mad)                  # no pixel shift / flip
         self.assertLess(abs(float(np.nanmedian(b.sample(xs, ys) - ref))), 0.5)  # km -> m and datum agree
         self.assertLess(mad[(0, 0)], 2.0)
+
+
+# ------------------------------------------------------------------------------------------------ near/far side
+class NearFarSideEarth(unittest.TestCase):
+    """Physics sanity on LOLA global: the Earth is never above the horizon at Chang'e 4 (far side, 177.6 E) and always
+    above it at Apollo 11 (near side, flat mare). Uses cached Horizons responses only."""
+
+    def _run(self, lat, lon):
+        if not LegacyStack().covering(lat, lon):
+            self.skipTest('LOLA global LDEM not downloaded by S2')
+        try:
+            return S.solve(lat, lon, 1.0, member_kinds=(), use_cache=False, allow_network=False,
+                           out_dir=ROOT / 'data' / 'cache' / 'anysite' / 'test_bundles')
+        except LookupError as exc:
+            self.skipTest(f'Horizons response not cached ({exc})')
+
+    def test_far_side(self):
+        b = self._run(-45.4561, 177.5885)
+        self.assertEqual(b['metrics']['earth_center_visible_pct'], 0.0)
+        self.assertTrue(all(s['earth']['el_deg'] < 0 for s in b['samples']))
+
+    def test_near_side(self):
+        b = self._run(0.67416, 23.47314)
+        self.assertEqual(b['metrics']['earth_center_visible_pct'], 100.0)
 
 
 # ------------------------------------------------------------------------------------------------ north pole

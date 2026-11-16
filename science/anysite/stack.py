@@ -55,6 +55,10 @@ def _eq_lon_left(e):
     return (round(raw * e['ppd']) / e['ppd']) % 360.0
 
 
+def _is_global_eq(e):
+    return e.get('zone') == 'eq' and e.get('ppd') and abs(e['width'] / e['ppd'] - 360.0) < 1e-6
+
+
 EQ_MAX_PX = 60_000_000      # an equirectangular window above this is read from the next coarser resolution of the product
 
 
@@ -240,7 +244,10 @@ class LegacyStack:
         for e in self.entries:
             x, y = _to_zone(lat, lon, e)
             l, b, r, t = e['bounds']
-            if not (l <= float(x) <= r and b <= float(y) <= t):
+            if _is_global_eq(e):
+                if not -90.0 <= lat <= 90.0:      # GDAL's rounded bounds miss x = -pi R (lon_0 - 180) by 4 m
+                    continue
+            elif not (l <= float(x) <= r and b <= float(y) <= t):
                 continue
             if np.isfinite(self._point(e, float(x), float(y))):
                 out.append(e)
