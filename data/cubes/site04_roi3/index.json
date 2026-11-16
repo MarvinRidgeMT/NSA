@@ -146,6 +146,21 @@
     "D_height",
     "S_window"
    ]
+  },
+  {
+   "file": "energy.json.gz",
+   "cube_id": "site04_roi3-energy-v1",
+   "title": "Energy margin: map x array x mast x daily start (ENGINEERING ASSUMPTION)",
+   "label": "ENGINEERING ASSUMPTION",
+   "bytes": 323636,
+   "uncompressed_bytes": 3184403,
+   "sha256": "e0dae1c37f1d0384e3068413caa559772568b909643b4bc57f9b0cc25d74bede",
+   "dims": [
+    "T",
+    "D_array",
+    "D_mast",
+    "S"
+   ]
   }
  ],
  "baseline": {

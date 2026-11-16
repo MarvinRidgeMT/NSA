@@ -51,6 +51,7 @@ into a probability of success.
 | `centre_mast_schedule.json.gz` | T(21) × D_mast(10) × S(8761 hourly starts) | site centre |
 | `position_schedule.json.gz` | T(21) × D_pos(81) × S(366 daily starts) | mast 1 m |
 | `products.json` | M(5) | copied from `research/long_features/results/lens_*.json`, `sfs_result.json` |
+| `energy.json.gz` | T(21) × D_array(2) × D_mast(10) × S(366 daily starts) | Phase 5, label ENGINEERING ASSUMPTION; `science/energy/build_energy.py` |
 
 Browser files are gzip-compressed JSON (the loader checks the gzip magic bytes, so a server that already
 decodes `Content-Encoding` also works). An optional analysis copy (NetCDF/Zarr) is not written yet; the

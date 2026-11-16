@@ -75,10 +75,19 @@ def rows(site):
                     'value': f'DTE {g("earth_dsn"):.1f} % · +1 relay {g("dte_plus_1_relay"):.1f} % · +2 relays {g("dte_plus_2_relays"):.1f} %',
                     'answer': '12 months, 1 m, nominal map, LCRNS reference constellation (not an operational schedule).'})
     en = _load(site, 'energy.json.gz') or _load(site, 'energy.json')
-    out.append({'axis': 'energy', 'question': 'does the battery survive?', 'label': EA,
-                'source': f'scenario cube {en["cube_id"]}' if en else 'not in bundle',
-                'value': 'see energy cube' if en else 'not in bundle',
-                'answer': 'battery sizing per mast and map (Phase 5).' if en else 'energy cube not built on this branch.'})
+    if en and 'trade' in en.get('derived', {}):
+        tr = en['derived']['trade']; dd = _ddims(en, 'trade')
+        arr = dd[0]['values']; masts = dd[1]['values']
+        mm = tr['metrics']['needed_all_worst20']
+        nw = np.array(mm['values'], float).reshape(len(arr), len(masts)) * mm.get('scale', 1.0)   # stored Wh, scale 0.001 -> kWh
+        a = arr.index('vsat') if 'vsat' in arr else 0
+        val = ' · '.join(f'{m:g} m: {nw[a, masts.index(m)]:.1f} kWh' for m in (1.0, 5.0) if m in masts)
+        out.append({'axis': 'energy', 'question': 'does the battery survive?', 'label': EA, 'source': f'scenario cube {en["cube_id"]}',
+                    'value': val, 'answer': f'battery needed so charge stays above reserve for every daily start on all 20 maps ({arr[a]} array; '
+                                            f'{en["fixed"].get("load_constant_w", "?")} W base load, assumptions in {en["fixed"].get("assumptions_file", "the cube")}).'})
+    else:
+        out.append({'axis': 'energy', 'question': 'does the battery survive?', 'label': EA, 'source': 'not in bundle',
+                    'value': 'not in bundle', 'answer': 'energy cube not built on this branch.'})
     ts = _load(site, 'terrain_safety.json')
     if ts:
         sl = np.array(ts['derived']['safe_and_lit']['metrics']['k_safe_and_lit']['values']).reshape(2, -1)

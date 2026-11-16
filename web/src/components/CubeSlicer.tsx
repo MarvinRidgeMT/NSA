@@ -92,11 +92,11 @@ export function CubeSlicer({ v }: { v: View }) {
       data-testid="cube-slicer"
       data-source={cube ? `scenario cube ${cube.cube_id}` : 'scenario cube'}
       data-result-id={cube?.cube_id}
-      data-label={index.label}
+      data-label={cube && cube.label !== index.label ? `${cube.label} · inputs ${index.label}` : index.label}
     >
       <div className="panel-head">
         <h2>Scenario cube · named sub-axes</h2>
-        <span className="pilot-badge">{index.label}</span>
+        <span className="pilot-badge">{cube?.label ?? index.label}</span>
       </div>
       <label className="cube-ctl">
         <span>Cube</span>

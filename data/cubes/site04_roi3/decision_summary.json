@@ -55,9 +55,9 @@
    "axis": "energy",
    "question": "does the battery survive?",
    "label": "ENGINEERING ASSUMPTION",
-   "source": "not in bundle",
-   "value": "not in bundle",
-   "answer": "energy cube not built on this branch."
+   "source": "scenario cube site04_roi3-energy-v1",
+   "value": "1 m: 73.7 kWh · 5 m: 13.9 kWh",
+   "answer": "battery needed so charge stays above reserve for every daily start on all 20 maps (vsat array; 150.0 W base load, assumptions in science/energy/assumptions.yaml)."
   },
   {
    "axis": "safety",
