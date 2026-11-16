@@ -1320,3 +1320,8 @@ Contract implemented as written, two dated amendments appended to `docs/v2/TERRA
 - **Not done:** VISUAL for eq; PGDA 70 as VISUAL parameter source; craters/boulders (no cited statistics); Earth-visibility map;
   quantized-mesh/3D Tiles; Kaguya TC / NAC / SfS products (not downloaded). Session was paused ~03:16–07:23 EST (not by the work).
 - Frozen refs checked at the end (see the session report).
+
+### POLARIS X v2 overnight integration — Claude (coordinator), 16 Nov 2026 ~11:30 EST, feature/v2-whole-moon
+- Merged S1 (5c6075c), S4 (740eede), S5 (fac463f), S2 (8f0e630), S6 (de2f860), S3 (92f0a6f); integration fix b4ca107 (any-site solver vs pyramid; adapter stays default, pyramid opt-in). Report: `docs/v2/SESSION_REPORT_2026-11-16.md`.
+- Tests on the merged branch: pytest 580 passed, 2 skipped; Blender run_all 11/11; vitest 147/147; build OK; Playwright 96 passed, 2 skipped, 2 known artefacts; traceability 541/0.
+- Submission refs unchanged (c5dce9f, 8dde4f1, 62cc7b1). Nothing pushed.
