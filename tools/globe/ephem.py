@@ -15,7 +15,7 @@ Topocentric directions (vectors in the Moon ME frame, metres):
 Cross-check (`python -m tools.globe.ephem check`): az/el derived here at a site vs Horizons coord@301 az/el (an
 independent query path through the observer-site machinery).
 
-    python -m tools.globe.ephem fetch          # 2026-01-01 .. 2044-08-01 at 3 h (>= one 18.6-year nodal cycle)
+    python -m tools.globe.ephem fetch          # 2026-01-01 .. 2044-08-01 at 3 h (18.58 y, ~one 18.61-year nodal cycle)
     python -m tools.globe.ephem check
 """
 from __future__ import annotations
@@ -41,7 +41,7 @@ R_MOON = 1737400.0
 AU_M = 149_597_870_700.0
 R_EARTH_EQ_M = 6_378_137.0
 R_SUN_M = 695_700_000.0                 # IAU 2015 nominal solar radius
-SPAN = ('2026-01-01', '2044-08-01')     # 18.58 years >= one lunar nodal cycle (18.61 y)
+SPAN = ("2026-01-01", "2044-08-01")     # 18.58 years: one lunar nodal cycle (18.61 y) less 11 days
 STEP = '3h'
 CHUNKS = (('2026-01-01', '2035-05-01'), ('2035-05-01', '2044-08-01'))
 MONTHS = {m: i + 1 for i, m in enumerate('Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split())}
