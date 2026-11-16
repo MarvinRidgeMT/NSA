@@ -156,10 +156,10 @@ Source: the Terminal log pasted at 20:09. `tmp/final_validation_mac.command` was
 | ~17:50 | before the opening-site change | 77/79; 2 layout failures at 390 px (`final-apex` P6, `terrain-context` phone). |
 | ~17:52 | same | **79/79** passed. |
 | ~19:25 | after session A's opening-site change (Sid 18:15; `App.tsx`/`Header.tsx` 18:51) | 75/79. Failures: guided-demo "Play advances" (still 1/5 after 15 s), `terrain-context` image layer and global Moon (default site now Site01), `visual-final` sight lines (Earth margin of the other site). |
-| ~19:40 | after `siteDefaults.ts` 19:34 | **78/79.** Failure: guided-demo "Play advances", still 1/5 after 15 s on the Mac GPU. |
+| ~19:40 | after `siteDefaults.ts` 19:34 | **78/79.** Failure: guided-demo "Play advances", still 1/5 after 15 s. |
 
-- That test passed in every Mac run before the opening-site change, so this is a regression, not a slow renderer.
-- At 19:48, session A raised its limit from 15 s to 25 s, citing SwiftShader. That reason does not cover the Mac failure. Until a Mac run shows the cause is fixed, this is **not counted as a pass**.
+- That test passed at 15 s in every Mac run before the opening-site change. *(Correction 21:00: Mac Playwright also renders with SwiftShader, `--use-angle=swiftshader` in `playwright.config.ts`, so these are software-GL timings on the Mac CPU, not the M5 GPU. Only `perf:mac` uses Metal.)*
+- At 19:48, session A raised its limit from 15 s to 25 s, citing SwiftShader. The Mac runs are SwiftShader too, so the reason applies. The cause of the slower main thread after the opening-site change is not proven.
 
 **Blender:** Site01 ROI6 (17:05, 17:19, 17:54) and Site04 ROI3 (17:11) rebuilt; GLB re-import PASS each time.
 
@@ -172,7 +172,41 @@ Source: the Terminal log pasted at 20:09. `tmp/final_validation_mac.command` was
 
 **Status: still RELEASE BLOCKED.** Next: on the current tree, run `bash tmp/final_validation_mac.command`, then `package_release.command`, then re-check the SHA-256.
 
+### Final Mac run, `tmp/final_validation_mac.command`, 15 Nov 20:15–20:21 EST: release decision
+
+**Environment:**
+- macOS 26.5 (25F71) on an Apple M5 Pro, 20-core GPU, Metal 4, on AC power.
+- node v26.4.0, Python 3.12.14, Chrome 157.0.8103.78, Blender 5.3.0.
+- HEAD `8079924` (`b-experience`), 200 changed entries, nothing committed.
+- Source fingerprint at start: `783032a2…a4`.
+
+**Results** (logs in `tmp/final_validation_logs/`):
+
+| Check | Result |
+|---|---|
+| `test_all.command` | PASS |
+| Vitest | **99/99**, no skips; the Site01 science bundle test ran |
+| Production build | OK |
+| Playwright, 4 workers | **79/79**, 0 skipped, 0 flaky. The re-run step found no failures. |
+| `perf:mac` (Chrome, Metal, AC power) | mean frame 8.33 ms in idle, camera moves and playback; p95 ≤ 9.1 ms; max 9.4 ms; 0 long tasks; model visible in 911 ms; heap 69 MB |
+| Blender | GLB re-import PASS |
+
+- The guided-demo "Play" test took 35.1 s in total. Before the opening-site change it took 38–40 s, which is consistent with the scene advancing in about 12 s in this run. The cause of the earlier slowdown is not proven (session A, REBUILD_PHASES 20:35). The Mac Playwright runs use SwiftShader.
+- Blender caveat: the step labelled "site04" built Site01 ROI6, because `rebuild_blender_hero.command` now defaults to `site01_roi6`. The Site04 ROI3 scene was last built at 17:11, before the 17:42 Blender script edit.
+- The end fingerprint differs from the start because the build rewrites `web/public/context/*` and `bundles/index.json`. No source file is newer than the release ZIP.
+
+**Release archive:**
+- `dist/POLARIS-X5D-SourceBuild-Mac.zip` (20:12): 373,765,794 B, 780 files, SHA-256 **`236c57cc6ed1e3bbddca92a91831a28f5a1c6d9b3084abde9ee5c7a9383fd6ae`**.
+- Preserved copy: `dist/POLARIS-X5D-SourceBuild-Mac-RC-20261115-2012.zip`.
+- Checked: `unzip -t` OK. Extracted into a clean folder, served by Python `http.server` exactly as `open_web_viewer.command` does, and opened in Chrome. Story, Explore, Decision and Evidence load with no page errors; the only 404 is `/favicon.ico`. Contains the float64 sidecar `73792233…`.
+
+**Classification: SOURCE-BASED · UNVALIDATED.**
+- The build is reproducible and every critical test passes on the Mac.
+- The independent NAC comparison passes on two areas of new terrain, but it does not observe the Site04 ROI3 result, so the headline remains unvalidated.
+- Not committed, pushed or published.
+
 ## Change log
 - 15 Nov 2026 02:10 EST (Penumbra session): created.
 - 15 Nov 2026 19:05 EST (Penumbra session): final scientific validation section added (NAC validation, float64 re-run, axe scan, status).
 - 15 Nov 2026 20:15 EST (Penumbra session): Mac results from Anish's Terminal log recorded; status unchanged (RELEASE BLOCKED).
+- 15 Nov 2026 20:35 EST (Penumbra session): final Mac run recorded; ZIP 236c57cc verified; classification SOURCE-BASED · UNVALIDATED.

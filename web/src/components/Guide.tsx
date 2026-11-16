@@ -221,7 +221,10 @@ export function Guide({ go }: { go: (r: Route) => void }) {
       st.selectBin(null);
       setUi({ run: null });
       st.setSampleIndex(0);
-      cam.request('approach');
+      // The opening scene arrives: it starts on the whole-crop Regional framing and descends to the Approach framing (a camera move
+      // only; the final state is the same Approach view). Reduced motion: the rig cuts. (The 80 m context framing was tried first;
+      // it is too heavy to fly through on software-GL test machines.)
+      cam.request('approach', { from: 'regional', ms: 2600 });
     } else if (step === 1 || step === 2) {
       go('sky');
       toMast(1);
@@ -233,7 +236,10 @@ export function Guide({ go }: { go: (r: Route) => void }) {
         st.setSampleIndex(0);
         setUi({ run: null });
       }
-      if (step === 1 && r) {
+      // scenes 2 and 3 keep the same ridge selected, so the camera stays beside the obstruction: scene 2 names the rise, scene 3
+      // raises the mast in that same profile view (the picked height grows as an outline next to the 1 m mast; numbers stay the
+      // evaluated batch values). 15 Nov, 14islands pass: scene 3 used the mast-eye view, where the mast itself is hidden.
+      if (r) {
         const idx = v.dataset.derived!.attribution!.ridges.indexOf(r.rr.ridge);
         const bins = ridgeBins(v.dataset.derived?.attribution, idx);
         st.selectBin(bins.length ? bins[Math.floor(bins.length / 2)] : null);
@@ -242,7 +248,7 @@ export function Guide({ go }: { go: (r: Route) => void }) {
         const cert = side?.sites?.[HERO_SITE]?.all_maps_100pct_sun_mast_m;
         if (cert != null) toMast(cert);
       }
-      cam.request(step === 1 ? 'ridge' : 'mast');
+      cam.request('ridge');
     } else if (step === 3) {
       go('sky');
       toMast(1);

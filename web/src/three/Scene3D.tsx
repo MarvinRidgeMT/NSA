@@ -10,7 +10,8 @@ import type { View } from '../store/view';
 import HorizonDome from './HorizonDome';
 import { useRidgeFocus } from '../store/ridge';
 import { fmtRidgeDistance, type RidgeNow } from '../bundle/evidence';
-import { CameraRig, type Framing } from './CameraRig';
+import { CameraRig, MAP_FOV, dollyFactor, type Framing } from './CameraRig';
+import { setCameraHeading } from '../store/heading';
 import { useCamera, type CameraViewId } from '../store/camera';
 import { useUi } from '../store/ui';
 import { loadTerrainContext, type TerrainContext } from '../bundle/terrainContext';
@@ -228,7 +229,7 @@ function Ray({ v, obs, target, edge, ridgeNow }: { v: View; obs: Observer; targe
   const camera = useThree((st) => st.camera);
   const arcRef = useRef<THREE.Group>(null);
   const top = toThree(0, 0, obs.mast);
-  useFrame(() => arcRef.current?.scale.setScalar(Math.max(camera.position.distanceTo(top) * 0.09, 0.4)));
+  useFrame(() => arcRef.current?.scale.setScalar(Math.max(camera.position.distanceTo(top) * 0.09 * lensScale(camera), 0.4)));
   if (!Number.isFinite(t.az) || !Number.isFinite(t.el)) return null;
   const state = t.visible === undefined ? 'unknown' : t.visible === null ? 'transition' : t.visible ? 'clear' : 'blocked';
   const color = target === 'sun' ? '#E8A53C' : '#7FA8DA';
@@ -319,11 +320,19 @@ function openCrossLightAz(v: View): number {
   return pick;
 }
 
+/** tan(fov/2) relative to the base lens; 1 for the normal views, < 1 for the Overhead map lens (screen-constant markers). */
+const TAN_BASE = Math.tan((42 * Math.PI) / 360);
+function lensScale(camera: THREE.Camera): number {
+  const fov = (camera as THREE.PerspectiveCamera).fov;
+  return typeof fov === 'number' ? Math.tan((fov * Math.PI) / 360) / TAN_BASE : 1;
+}
+
 /** Keeps a marker a constant apparent size (k × camera distance) so true-scale terrain is never hidden behind symbols. */
 function ScreenSized({ position, k, children }: { position: THREE.Vector3; k: number; children: React.ReactNode }) {
   const ref = useRef<THREE.Group>(null);
   const { camera } = useThree();
-  useFrame(() => ref.current?.scale.setScalar(Math.max(camera.position.distanceTo(position) * k, 1e-3)));
+  // apparent size ∝ distance × tan(fov/2): with the Overhead map lens (narrow FOV) the marker keeps the same on-screen size
+  useFrame(() => ref.current?.scale.setScalar(Math.max(camera.position.distanceTo(position) * k * lensScale(camera), 1e-3)));
   return (
     <group ref={ref} position={position}>
       {children}
@@ -397,6 +406,66 @@ function RidgeOnTerrain({ v, obs, dem }: { v: View; obs: Observer; dem: Dem }) {
   );
 }
 
+/**
+ * Picked sampled mast with no bundle series: an outline that GROWS from the bundle mast to the picked height when the user picks it
+ * (Blobmixer: a parameter change answers at once in the 3D object). Only the drawing eases; the instrument's numbers switch
+ * discretely between evaluated heights and are never interpolated. A bracket shows the extra height. Display only.
+ */
+function GhostMast({ from, to }: { from: number; to: number }) {
+  const grp = useRef<THREE.Group>(null);
+  const cyl = useRef<THREE.Mesh>(null);
+  const t0 = useRef(performance.now());
+  const instant = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  useFrame(() => {
+    const k = instant ? 1 : Math.min(1, (performance.now() - t0.current) / 650);
+    const e = 1 - Math.pow(1 - k, 3);
+    const h = from + (to - from) * e;
+    if (cyl.current) {
+      cyl.current.scale.set(1, Math.max(h, 0.01), 1);
+      cyl.current.position.set(0, h / 2, 0);
+    }
+    if (grp.current) grp.current.userData.h = h;
+  });
+  const dh = to - from;
+  return (
+    <group ref={grp}>
+      <mesh ref={cyl} position={toThree(0, 0, from / 2)}>
+        <cylinderGeometry args={[0.08, 0.08, 1, 10, 1, true]} />
+        <meshBasicMaterial color="#F2B84B" wireframe transparent opacity={0.75} />
+      </mesh>
+      {/* bracket from the bundle mast top to the picked height, offset to the side */}
+      <StableLine points={[toThree(0.35, 0, from), toThree(0.45, 0, from), toThree(0.45, 0, to), toThree(0.35, 0, to)]} color="#F2B84B" lineWidth={1.2} transparent opacity={0.85} />
+      <Html position={toThree(0.45, 0, (from + to) / 2)} distanceFactor={undefined} zIndexRange={[5, 0]}>
+        <span className="ghost-mast side" data-testid="ghost-mast" title="display outline: a sampled batch height with no bundle time series">
+          {to} m <em>({dh > 0 ? '+' : '−'}{Math.abs(dh).toFixed(2)} m vs bundle mast)</em> · outline
+        </span>
+      </Html>
+    </group>
+  );
+}
+
+/** Publishes the camera's view azimuth in the site's local frame (0 = local north) for the heading tape. Display only. */
+function HeadingProbe({ toward }: { toward: (az: number, d: number) => THREE.Vector3 }) {
+  const camera = useThree((s) => s.camera);
+  const basis = useMemo(() => ({ n: new THREE.Vector3(), e: new THREE.Vector3(), d: new THREE.Vector3(), u: new THREE.Vector3() }), []);
+  useFrame(() => {
+    basis.n.copy(toward(0, 1)).normalize();
+    basis.e.copy(toward(90, 1)).normalize();
+    camera.getWorldDirection(basis.d);
+    let x = basis.d.dot(basis.e);
+    let y = basis.d.dot(basis.n);
+    if (Math.hypot(x, y) < 0.2) {
+      // looking (nearly) straight down: the screen's up direction is the heading
+      basis.u.set(0, 1, 0).applyQuaternion(camera.quaternion);
+      x = basis.u.dot(basis.e);
+      y = basis.u.dot(basis.n);
+    }
+    setCameraHeading(((Math.atan2(x, y) * 180) / Math.PI + 360) % 360);
+  });
+  useEffect(() => () => setCameraHeading(null), []);
+  return null;
+}
+
 interface SurfaceExtras {
   ctx: TerrainContext | null;
   albedo: { texture: THREE.Texture; layer: VisualLayer } | null;
@@ -444,8 +513,13 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
     // the 5 m crop inside its 80 m surroundings (only meaningful when the context pack is drawn)
     if (id === 'context') return ctx ? { pos: new THREE.Vector3(H * 6.5, H * 5.2, H * 6.5), target: new THREE.Vector3(0, 0, 0) } : null;
     if (id === 'overhead') {
-      const up = toThree(0, 0, H * 2.3);
-      return { pos: up.add(toward(180, 0.01)), target: new THREE.Vector3(0, 0, 0) };
+      // a true plan view: far away through a long lens (MAP_FOV), same footprint as before; perspective nearly vanishes, so the
+      // crop reads as a map. Moving in or out of it is a dolly zoom (CameraRig). Display only.
+      const D = H * 2.3 * dollyFactor(MAP_FOV);
+      // a tiny southward offset (0.1°) keeps local north at the top of the screen; it must scale with the distance, or lookAt
+      // loses the orientation (the up vector becomes parallel to the view) and the map keeps the previous heading
+      const up = toThree(0, 0, D);
+      return { pos: up.add(toward(180, D * 0.002)), target: new THREE.Vector3(0, 0, 0), fov: MAP_FOV };
     }
     if (id === 'mast') {
       // the eye IS the mast top (bundle observer height), looking along the Sun azimuth about 2° down so the near ground and
@@ -476,7 +550,7 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
   const earthDisc = toThree(trueEarth[0], trueEarth[1], trueEarth[2]).multiplyScalar(halfExtent * 6);
   const S = halfExtent * 1.05;
   // with the regional context drawn the far plane must reach its corners (~23 km); display only
-  const farPlane = ctx ? 90000 : halfExtent * 20;
+  const farPlane = ctx ? 90000 : halfExtent * 48; // the Overhead map view sits ~39 half-extents away (long lens)
   useEffect(() => {
     if (camera.far !== farPlane) {
       camera.far = farPlane;
@@ -545,20 +619,9 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
         </>
       )}
       {/* picked sampled height with no bundle series: an outline only, labelled; rays and timeline stay on the bundle mast */}
-      {mastPick !== null && mastPick !== obs.mast && camView !== 'mast' && (
-        <group>
-          <mesh position={toThree(0, 0, mastPick / 2)}>
-            <cylinderGeometry args={[0.08, 0.08, mastPick, 10, 1, true]} />
-            <meshBasicMaterial color="#F2B84B" wireframe transparent opacity={0.7} />
-          </mesh>
-          <Html position={toThree(0, 0, mastPick)} center distanceFactor={undefined} zIndexRange={[5, 0]}>
-            <span className="ghost-mast" data-testid="ghost-mast">
-              {mastPick} m · display outline (batch value, no bundle series)
-            </span>
-          </Html>
-        </group>
-      )}
+      {mastPick !== null && mastPick !== obs.mast && camView !== 'mast' && <GhostMast key={mastPick} from={obs.mast} to={mastPick} />}
       <RidgeOnTerrain v={v} obs={obs} dem={dem} />
+      <HeadingProbe toward={toward} />
       <SightLabelDriver />
       {camView !== 'mast' && (
         <>

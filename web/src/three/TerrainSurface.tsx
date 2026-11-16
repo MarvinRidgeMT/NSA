@@ -152,7 +152,11 @@ void main() {
     vec2 uvS = ((vGrid - uShadowGrid.xy) / uShadowGrid.z + 0.5) / uShadowGrid.w;
     hDeg = max(texture2D(uShadowL, uvS).r * 12.75 - 3.0, uFarHorizon);
   }
-  float vis = smoothstep(hDeg - 0.266, hDeg + 0.266, uSunEl);
+  // Shadow edge: the Sun's half-width (0.266 deg) on the 5 m crop. The 20 m and 80 m rings read a coarse horizon map (40 m / 160 m
+  // texels); a hard edge there turns each texel into a dot at a grazing Sun (15 Nov: regular dotted pattern in the mid distance), so
+  // their edge is widened to about the angle a texel spans. Display only, like every shadow here.
+  float soft = uLevel < 0.5 || (uMarch > 0.5 && inLocal) ? 0.266 : uLevel < 1.5 ? 1.8 : 2.2;
+  float vis = smoothstep(hDeg - soft, hDeg + soft, uSunEl);
   float mu0 = max(dot(n, uSunDir), 0.0);
   vec3 vdir = normalize(cameraPosition - vW);
   float mu = abs(dot(n, vdir));

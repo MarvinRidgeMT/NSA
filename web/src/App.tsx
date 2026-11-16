@@ -17,6 +17,7 @@ import { Guide } from './components/Guide';
 import { firstBlockedRun, ridgesOfRecord } from './bundle/ridgeSeek';
 import { ridgeBins } from './bundle/evidence';
 import { TimeBar } from './components/TimeBar';
+import { HeadingTape } from './components/HeadingTape';
 import { HorizonChart } from './components/HorizonChart';
 import { HorizonWheel } from './components/HorizonWheel';
 import { VisibilityStrips } from './components/VisibilityStrips';
@@ -395,6 +396,19 @@ export default function App() {
   const [gl] = useState(webglAvailable);
   const [route, setRoute] = useState<Route>(fromHash);
   const cam = useCamera();
+  const stageFocus = useUi((s) => s.focus);
+  // F toggles the stage focus (panels hidden, terrain fills the stage); Esc leaves it. Ignored while typing in a field.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      if (el && (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if ((e.key === 'f' || e.key === 'F') && location.hash.replace('#', '') === 'sky') useUi.getState().set({ focus: !useUi.getState().focus });
+      else if (e.key === 'Escape' && useUi.getState().focus) useUi.getState().set({ focus: false });
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   const [wide, setWide] = useState(() => typeof matchMedia !== 'function' || matchMedia('(min-width: 1024px)').matches);
   useEffect(() => {
     if (typeof matchMedia !== 'function') return;
@@ -475,7 +489,7 @@ export default function App() {
             {/* Explore stays mounted (hidden) while another workspace is open: the 3D camera and scene survive tab switches,
                 and the canvas is never torn down mid-frame. Its render loop pauses while hidden. */}
             <div id="ws-sky" role="tabpanel" aria-labelledby="tab-sky" hidden={ws !== 'sky'}>
-              <section className="stage" aria-label="Immersive stage">
+              <section className={`stage${stageFocus ? ' is-focus' : ''}`} aria-label="Immersive stage" data-focus={stageFocus ? 'on' : 'off'}>
                 {gl ? (
                   <Guard label="3D view">
                     <Suspense fallback={<p className="note">Loading 3D…</p>}>
@@ -487,7 +501,8 @@ export default function App() {
                     WebGL is not available in this browser, so the 3D view is off. Every value is still in the instrument, the charts and the tables below.
                   </p>
                 )}
-                <div className="stage-title">
+                {gl && hasDem && <HeadingTape v={v} />}
+                <div className="stage-title" key={`${v.dataset.siteId}`}>
                   <div className="lab" data-testid="stage-view" data-view={cam.view}>
                     View · {CAMERA_VIEWS.find((c) => c.id === cam.view)?.label ?? 'Approach'} · {hasDem ? 'real surface' : 'horizon geometry'}
                   </div>

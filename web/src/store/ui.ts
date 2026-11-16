@@ -8,6 +8,7 @@ import type { CameraViewId } from './camera';
  *  - returnTo: camera view + sample to go back to after a Ridge of Record inspection
  *  - run: a sample interval to outline on the Margin Ribbon (the obstruction being inspected)
  *  - guide: current step of the guided demonstration (null = closed)
+ *  - focus: Explore stage with the panels hidden so the terrain fills it (display only)
  */
 interface UiState {
   mastPick: number | null;
@@ -15,6 +16,7 @@ interface UiState {
   returnTo: { view: CameraViewId; sample: number } | null;
   run: { i0: number; i1: number; target: 'sun' | 'earth' } | null;
   guide: number | null;
+  focus: boolean;
   set: (p: Partial<Omit<UiState, 'set'>>) => void;
 }
-export const useUi = create<UiState>((set) => ({ mastPick: null, trueLight: false, returnTo: null, run: null, guide: null, set: (p) => set(p) }));
+export const useUi = create<UiState>((set) => ({ mastPick: null, trueLight: false, returnTo: null, run: null, guide: null, focus: false, set: (p) => set(p) }));

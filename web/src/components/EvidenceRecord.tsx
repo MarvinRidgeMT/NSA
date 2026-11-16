@@ -225,6 +225,10 @@ export function EvidenceRecord({ v }: { v: View }) {
               </a>
             </>
           )}
+          {' · '}
+          <a href="showcase/index.html" target="_blank" rel="noopener" data-testid="evr-showcase" title="Blender Cycles renders of the same sites; boulders and micro-relief are synthetic">
+            Blender renders (presentation)
+          </a>
         </p>
       </details>
     </section>

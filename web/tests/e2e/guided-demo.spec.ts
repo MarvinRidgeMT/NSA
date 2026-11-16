@@ -32,11 +32,15 @@ test('fresh launch: every scene has a fixed state, and stepping Back reproduces 
   for (let i = 2; i <= 5; i++) {
     await page.getByTestId('guide-next').click();
     fwd.push(await scene(page, i));
+    // scene 3 raises the mast in 3D: the picked Certainty Height is drawn next to the bundle mast, with the extra height named
+    if (i === 3) await expect(page.getByTestId('ghost-mast')).toContainText('m vs bundle mast');
   }
   expect(fwd[0].url).toBe('#sky');
   expect(fwd[4].url).toBe('#decision');
   expect(fwd[1].view).toBe('ridge');
-  expect(fwd[2].view).toBe('mast');
+  // 15 Nov 21:20 (14islands pass): scene 3 stays in the Ridge of Record profile so the mast can be seen growing; it used the
+  // mast-eye view ('mast'), where the camera sits at the mast top and the mast is hidden
+  expect(fwd[2].view).toBe('ridge');
   expect(fwd[1].utc).toBe(fwd[2].utc); // Certainty Height is shown at the same blocked hour as the Ridge of Record
   expect(fwd[0].utc).not.toBe(fwd[1].utc);
   for (let i = 4; i >= 1; i--) {

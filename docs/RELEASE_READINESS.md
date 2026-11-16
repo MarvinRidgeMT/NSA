@@ -81,4 +81,6 @@ Summary: `docs/FINAL_APEX_AUDIT.md`.
 
 Status: **RELEASE BLOCKED** (Mac test run not yet done; no package built). Full record: `docs/FINAL_APEX_AUDIT.md` § Final scientific validation. Independent illumination validation: `docs/validation/NAC_ILLUMINATION_RESULT.md` (v2 PASS on two new areas; does not observe Site04 ROI3). Certainty sidecar rebuilt from the float64 re-run (`73792233…2472`).
 
-**20:15 EST update:** Mac Playwright 78/79 on the tree after the opening-site change. The guided-demo Play test fails on the Mac GPU; it passed before the change. ZIP `9fc88f15…` (19:32) is stale: it predates edits at 19:34 and 19:48. Still **RELEASE BLOCKED**. Details: FINAL_APEX_AUDIT.
+**20:15 EST update:** Mac Playwright 78/79 on the tree after the opening-site change. The guided-demo Play test fails at 15 s (Mac Playwright uses SwiftShader); it passed before the change. ZIP `9fc88f15…` (19:32) is stale: it predates edits at 19:34 and 19:48. Still **RELEASE BLOCKED**. Details: FINAL_APEX_AUDIT.
+
+**20:35 EST, final:** Mac run all green: test_all PASS, Vitest 99/99, Playwright 79/79, perf p95 ≤ 9.1 ms, Blender PASS. Release ZIP `236c57cc6ed1e3bbddca92a91831a28f5a1c6d9b3084abde9ee5c7a9383fd6ae` (copy `dist/POLARIS-X5D-SourceBuild-Mac-RC-20261115-2012.zip`) extracts and launches. **Classification: SOURCE-BASED · UNVALIDATED.** Details: FINAL_APEX_AUDIT.
