@@ -10,6 +10,8 @@ web/dist/
 web/test-results/
 web/playwright-report/
 web/public/bundles/*.json
+# scenario cubes are copied from data/cubes/ by sync-bundles
+web/public/cubes/
 !web/public/bundles/demo-fixture.json
 # large upstream NASA rasters (re-download: see docs/DATA_PROVENANCE.md); SHA-256 recorded in the bundles
 app/data/source/**/*.tif
@@ -42,3 +44,6 @@ web/public/visual/site01_center_2km_1m_8bit.png
 data/visual/lroc_nac_pole_south_cm_avg/*.png
 blender/output/
 app/dist/
+
+# 5D Phase 9.4 near-field LOD tiles (NASA PGDA 78 derived; rebuilt by tools/terrain/build_lod_tiles.py). Not committed.
+web/public/context/lod/

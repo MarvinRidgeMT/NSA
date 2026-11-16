@@ -1016,6 +1016,52 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .stage .views > .btn[aria-pressed='true'] { background: var(--bone); color: var(--basalt); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); }
 .stage .views > .btn:hover:not([aria-pressed='true']) { background: rgba(30, 30, 28, 0.9); }
 
+/* Scenario cube slicer (Phase 1, docs/SCENARIO_CUBE_CONTRACT.md) */
+.cube-slicer { margin-top: 18px; }
+.cube-ctls { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 10px 0 12px; }
+.cube-ctl { display: flex; flex-direction: column; gap: 4px; font-size: 12px; min-width: 150px; }
+.cube-ctl > span { color: var(--ash); }
+.cube-ctl.free { outline: 1px solid var(--selenite); outline-offset: 4px; }
+.cube-ctl .cube-val { color: var(--selenite); font-family: 'JetBrains Mono', monospace; }
+.cube-strip { margin: 0; }
+.cube-strip svg { width: 100%; height: 120px; display: block; background: rgba(255,255,255,0.02); color: var(--ash); }
+.cube-band { fill: var(--selenite); opacity: 0.18; }
+.cube-line { stroke: var(--solar); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.cube-sel { stroke: var(--selenite); stroke-width: 1; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+.cube-card { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px 18px; margin: 12px 0; }
+.cube-card dt { font-size: 11px; color: var(--ash); }
+.cube-card dd { margin: 2px 0 0; font-family: 'JetBrains Mono', monospace; }
+.cube-missing-cell { background: repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.08) 4px 6px); color: var(--ash); }
+.cube-views { margin-top: 18px; }
+.cal-canvas { width: 100%; height: 120px; display: block; image-rendering: pixelated; cursor: crosshair; border: 1px solid var(--line-strong); }
+.sl-grid { display: inline-flex; flex-direction: column; gap: 2px; margin: 10px 0; }
+.sl-row { display: flex; gap: 2px; }
+.sl-cell { width: 30px; height: 30px; display: grid; place-items: center; font: 11px 'JetBrains Mono', monospace; color: var(--basalt); }
+.sl-cell.unsafe { background: repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.12) 4px 6px); color: var(--ash); }
+.sl-cell.centre { outline: 2px solid var(--solar); outline-offset: -2px; }
+.dc-axes { margin: 10px 0 6px; display: grid; gap: 4px; }
+.dc-axis { display: grid; grid-template-columns: minmax(150px, 34%) 1fr; gap: 8px; font-size: 11.5px; border-top: 1px solid rgba(0,0,0,0.12); padding-top: 4px; }
+.dc-axis dt { margin: 0; } .dc-axis dd { margin: 0; } .dc-axis .v { font-weight: 600; }
+@media (max-width: 600px) { .dc-axis { grid-template-columns: 1fr; } .sl-cell { width: 24px; height: 24px; } }
+
+/* 5D Phase 9.4: near-field LOD toggle + "display only" statement (Scene3D LodPanel) */
+.lod-panel { position: absolute; z-index: 6; left: 20px; top: 172px; max-width: min(560px, calc(100% - 40px)); font: 400 11px/1.5 var(--f-mono); color: var(--ash); text-shadow: 0 0 8px #000; }
+.lod-panel .detail-toggle { padding: 1px 7px; min-height: 22px; font: 500 10px var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; background: var(--scrim); color: var(--bone); border: 1px solid var(--line); cursor: pointer; }
+.lod-panel .detail-toggle[aria-pressed='true'] { background: var(--bone); color: var(--basalt); }
+.lod-panel .detail-toggle:focus-visible { outline: 2px solid var(--bone); outline-offset: 2px; }
+.lod-panel .lod-label strong { color: var(--bone); font-weight: 500; text-transform: uppercase; }
+@media (max-width: 760px) { .lod-panel { top: 8px; left: auto; right: 8px; max-width: calc(100% - 16px); font-size: 10px; } }
+/* What matters bar (Phase 7, science/cube/build_sensitivity.py): display-only Shapley shares */
+.what-matters { margin-top: 18px; }
+.wm-bar { display: flex; height: 18px; width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--line); margin: 8px 0; }
+.wm-seg { display: block; height: 100%; min-width: 0; }
+.wm-key { display: inline-block; width: 10px; height: 10px; vertical-align: -1px; }
+.wm-t { background: var(--selenite); }
+.wm-d { background: var(--solar); }
+.wm-s { background: var(--earth); }
+.wm-o { background: var(--ash); }
+.wm-seg + .wm-seg { box-shadow: inset 1px 0 0 var(--basalt); }
+.wm-table td { font-family: var(--f-mono); }
 /* bundle says the body is blocked: faint marker on its true direction, never drawn as visible */
 .tag3d.hidden-body { border-style: dashed; color: var(--ash); }
 /* display-only vertical exaggeration: small overlay in the stage's lower-left corner, out of the layout flow */

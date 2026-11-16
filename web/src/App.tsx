@@ -32,6 +32,10 @@ import { RidgePanel } from './components/RidgePanel';
 import { EvidencePipeline, EvidenceRecord } from './components/EvidenceRecord';
 import { CoverageGauge } from './components/CoverageGauge';
 import { CertaintyHeight } from './components/CertaintyHeight';
+import { CubeSlicer } from './components/CubeSlicer';
+import { LaunchCalendar, SafeLitGrid } from './components/CubeViews';
+import { EnergyTrade } from './components/EnergyTrade';
+import { WhatMatters } from './components/WhatMatters';
 import type { BundleIndexEntry } from './bundle/types';
 import { fetchIndex, IndexError } from './bundle/bootIndex';
 import { startUrlSync } from './store/urlState';
@@ -657,6 +661,23 @@ export default function App() {
                     <FlipForecastTable v={v} />
                   </div>
                 </div>
+                <Guard label="Scenario cube">
+                  <CubeSlicer v={v} />
+                </Guard>
+                <div className="grid cube-views">
+                  <Guard label="Safe and lit">
+                    <SafeLitGrid siteId={v.dataset.site.id} />
+                  </Guard>
+                  <Guard label="Launch calendar">
+                    <LaunchCalendar siteId={v.dataset.site.id} />
+                  </Guard>
+                </div>
+                <Guard label="Energy margin">
+                  <EnergyTrade v={v} />
+                </Guard>
+                <Guard label="What matters">
+                  <WhatMatters v={v} />
+                </Guard>
               </div>
             )}
             {ws === 'evidence' && (

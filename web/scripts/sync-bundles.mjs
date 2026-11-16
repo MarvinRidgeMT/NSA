@@ -99,3 +99,16 @@ const hero = entries.findIndex((e) => e.file === 'site04_roi3_2026-11-14_14d_mas
 if (hero > 0) entries.unshift(...entries.splice(hero, 1));
 writeFileSync(join(out, 'index.json'), JSON.stringify({ generated: new Date().toISOString(), bundles: entries }, null, 2));
 console.log(`bundles: ${entries.map((e) => `${e.file} [${e.status}]`).join(', ') || 'none'}`);
+
+// Scenario cubes (docs/SCENARIO_CUBE_CONTRACT.md): copy data/cubes/<site>/* to public/cubes/<site>/ unchanged.
+const cubesSrc = join(repo, 'data', 'cubes');
+if (existsSync(cubesSrc)) {
+  for (const site of readdirSync(cubesSrc)) {
+    const sd = join(cubesSrc, site);
+    let files;
+    try { files = readdirSync(sd); } catch { continue; }
+    const dd = join(web, 'public', 'cubes', site);
+    mkdirSync(dd, { recursive: true });
+    for (const f of files) if (/\.(json|json\.gz)$/.test(f)) copyFileSync(join(sd, f), join(dd, f));
+  }
+}

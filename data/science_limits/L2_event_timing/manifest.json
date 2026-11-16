@@ -1,0 +1,24 @@
+{
+ "item": "L2_event_timing",
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "date_utc": "2026-11-16T02:55:39Z",
+ "command": "python l2_timing.py",
+ "module": "/Users/anishmeruva/Documents/ChatGPT/NSA-science-limits/science/limits/l2_timing.py",
+ "code_commit": "82f006a59b79193c5253648d5b96c4706c4da95a",
+ "inputs": [
+  {
+   "path": "data/bundles/site04_roi3_2026-11-14_14d_mast1m.json",
+   "sha256": "061d7c0376069cc47034b22b130aaea23acca07a4bc286d9f9f1ea0866ad4deb",
+   "note": "[hash refreshed: main 8dde4f1 added derived.certainty* to the bundle; metrics, samples, site and margin_series identical (checked)]"
+  },
+  {
+   "path": "data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",
+   "sha256": "3aff6b65ee1b4df9e8a2c599d377304365b65be54ac5b16050fa34b8513045c6",
+   "note": "[hash refreshed: main 8dde4f1 added derived.certainty* to the bundle; metrics, samples, site and margin_series identical (checked)]"
+  }
+ ],
+ "outputs": {
+  "result.json": "1c8f3211b85d1602f08f10288500cad8a638084d7279489e81a6626630d9c2c1",
+  "RESULT.md": "e79bbfc9394f7935c1dc8ea2bf10a080b4dedb95e35e1e8df4b33ca5cab7075e"
+ }
+}

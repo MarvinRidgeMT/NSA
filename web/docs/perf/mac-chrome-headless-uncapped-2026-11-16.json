@@ -1,0 +1,90 @@
+{
+  "schema": "polaris-perf-v1",
+  "power": "Now drawing from 'AC Power' |  -InternalBattery-0 (id=23134307)\t69%; charging; (no estimate) present: true",
+  "lowPowerMode": false,
+  "chromeEnergySaverDisabled": true,
+  "pageErrors": [],
+  "measuredUTC": "2026-11-16T06:15:49.305Z",
+  "browser": "157.0.8103.78",
+  "viewport": {
+    "css": [
+      1512,
+      982
+    ],
+    "devicePixelRatio": 2
+  },
+  "build": "web/dist via vite preview",
+  "headless": true,
+  "uncapped": true,
+  "modelVisibleMs": 2719,
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+  "canvas": [
+    3024,
+    1852
+  ],
+  "idle": {
+    "frames": 2152,
+    "meanMs": 2.73,
+    "p50Ms": 2.5,
+    "p95Ms": 4.2,
+    "p99Ms": 7.5,
+    "maxMs": 855.6,
+    "over33ms": 1
+  },
+  "cameraToContext": {
+    "frames": 949,
+    "meanMs": 2.59,
+    "p50Ms": 1.3,
+    "p95Ms": 3.8,
+    "p99Ms": 6.3,
+    "maxMs": 793,
+    "over33ms": 1
+  },
+  "cameraToRegional": {
+    "frames": 956,
+    "meanMs": 2.62,
+    "p50Ms": 2.3,
+    "p95Ms": 4.4,
+    "p99Ms": 9.5,
+    "maxMs": 208,
+    "over33ms": 3
+  },
+  "cameraToOverhead": {
+    "frames": 969,
+    "meanMs": 2.57,
+    "p50Ms": 1.6,
+    "p95Ms": 4.8,
+    "p99Ms": 12.4,
+    "maxMs": 156.1,
+    "over33ms": 4
+  },
+  "cameraToApproach": {
+    "frames": 939,
+    "meanMs": 2.61,
+    "p50Ms": 1.9,
+    "p95Ms": 4.5,
+    "p99Ms": 8.9,
+    "maxMs": 206.6,
+    "over33ms": 3
+  },
+  "timeSteps": {
+    "p95Ms": 934.1,
+    "maxMs": 934.1,
+    "longTasksMs": [
+      938
+    ]
+  },
+  "playback": {
+    "frames": 3003,
+    "meanMs": 2.66,
+    "p50Ms": 2.6,
+    "p95Ms": 4.6,
+    "p99Ms": 11,
+    "maxMs": 104.6,
+    "over33ms": 2
+  },
+  "playbackLongTasksMs": [
+    105
+  ],
+  "jsHeapMB": 75
+}

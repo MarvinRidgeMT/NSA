@@ -1,0 +1,197 @@
+{
+  "schema": "polaris-perf-lod-v1",
+  "measuredUTC": "2026-11-16T06:01:07.714Z",
+  "where": "Claude desktop app browser pane",
+  "url": "http://localhost:4191/?bundle=polaris-x5d-roi-2026-11-14-v2.json&site=site04_roi3&t=2026-11-14T00:00:00Z&sc=baseline&cam=approach&layer=regolith#sky",
+  "paneVisibility": "visible",
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+  "canvas": [
+    2048,
+    1424
+  ],
+  "devicePixelRatio": 2,
+  "lod": "on",
+  "views": {
+    "approach": {
+      "transition": {
+        "frames": 72,
+        "meanMs": 22.68,
+        "p50Ms": 8.3,
+        "p95Ms": 9.7,
+        "p99Ms": 1016.7,
+        "maxMs": 1016.7,
+        "over16_7ms": 2
+      },
+      "idle": {
+        "frames": 269,
+        "meanMs": 12.28,
+        "p50Ms": 8.3,
+        "p95Ms": 9.3,
+        "p99Ms": 16.8,
+        "maxMs": 1007.5,
+        "over16_7ms": 4
+      },
+      "drawn": 76,
+      "finestM": 5,
+      "pending": 0
+    },
+    "regional": {
+      "transition": {
+        "frames": 2,
+        "meanMs": 1010.45,
+        "p50Ms": 1012.5,
+        "p95Ms": 1012.5,
+        "p99Ms": 1012.5,
+        "maxMs": 1012.5,
+        "over16_7ms": 2
+      },
+      "idle": {
+        "frames": 268,
+        "meanMs": 11.19,
+        "p50Ms": 8.4,
+        "p95Ms": 25.2,
+        "p99Ms": 34.3,
+        "maxMs": 92.6,
+        "over16_7ms": 36
+      },
+      "drawn": 70,
+      "finestM": 5,
+      "pending": 0
+    },
+    "overhead": {
+      "transition": {
+        "frames": 58,
+        "meanMs": 25.73,
+        "p50Ms": 8.4,
+        "p95Ms": 9.3,
+        "p99Ms": 1009.2,
+        "maxMs": 1009.2,
+        "over16_7ms": 1
+      },
+      "idle": {
+        "frames": 53,
+        "meanMs": 39.94,
+        "p50Ms": 24.6,
+        "p95Ms": 26,
+        "p99Ms": 1044,
+        "maxMs": 1044,
+        "over16_7ms": 39
+      },
+      "drawn": 4,
+      "finestM": 40,
+      "pending": 0
+    },
+    "mast": {
+      "transition": {
+        "frames": 2,
+        "meanMs": 1012.8,
+        "p50Ms": 1016.4,
+        "p95Ms": 1016.4,
+        "p99Ms": 1016.4,
+        "maxMs": 1016.4,
+        "over16_7ms": 2
+      },
+      "idle": {
+        "frames": 255,
+        "meanMs": 8.43,
+        "p50Ms": 8.3,
+        "p95Ms": 9.2,
+        "p99Ms": 9.4,
+        "maxMs": 25,
+        "over16_7ms": 1
+      },
+      "drawn": 88,
+      "finestM": 5,
+      "pending": 0
+    },
+    "approach_again": {
+      "transition": {
+        "frames": 60,
+        "meanMs": 25.13,
+        "p50Ms": 8.3,
+        "p95Ms": 9.3,
+        "p99Ms": 1008.3,
+        "maxMs": 1008.3,
+        "over16_7ms": 2
+      },
+      "idle": {
+        "frames": 354,
+        "meanMs": 8.47,
+        "p50Ms": 8.3,
+        "p95Ms": 9.3,
+        "p99Ms": 15.8,
+        "maxMs": 25.7,
+        "over16_7ms": 2
+      },
+      "drawn": 76,
+      "finestM": 5,
+      "pending": 0
+    }
+  },
+  "orbitDrag": {
+    "frames": 24,
+    "meanMs": 185.26,
+    "p50Ms": 8.3,
+    "p95Ms": 1017.6,
+    "p99Ms": 1184.2,
+    "maxMs": 1184.2,
+    "over16_7ms": 6,
+    "drawn": 73,
+    "finestM": 5,
+    "pending": 0
+  },
+  "orbitDragFast": {
+    "frames": 7,
+    "meanMs": 729.17,
+    "p50Ms": 1012.5,
+    "p95Ms": 1033.7,
+    "p99Ms": 1033.7,
+    "maxMs": 1033.7,
+    "over16_7ms": 5,
+    "drawn": 82,
+    "finestM": 5,
+    "pending": 0
+  },
+  "timeSteps": {
+    "p95Ms": null,
+    "maxMs": 171.1
+  },
+  "longTasksMs": [
+    328,
+    56,
+    294,
+    335,
+    164,
+    74,
+    399,
+    61,
+    145,
+    612,
+    680,
+    170,
+    245,
+    52,
+    129,
+    71,
+    106,
+    60,
+    196,
+    133,
+    256,
+    69,
+    109,
+    81,
+    195,
+    96,
+    210,
+    84,
+    68,
+    97,
+    54,
+    283
+  ],
+  "worstP95Ms": 1033.7,
+  "jsHeapMB": 182,
+  "caveat": "NOT a valid frame-time measurement for the pass/fail budget. tabs_context reported the Browser pane HIDDEN (this session was not open in any window), so the page ran as a background page: a later probe in the same tab got 0 requestAnimationFrame callbacks in 3 s, and the ~1 s intervals here are throttling, not frame cost. The synthetic orbit drag used dispatched PointerEvents (pointer capture fails for them). Only the steady idle windows at 120 Hz (approach / mast: p95 9.2-9.3 ms, 76-88 tiles drawn, 5 m finest) are usable. The pass/fail numbers are in mac-chrome-lod-headless-uncapped-2026-11-16.json (see docs/PERFORMANCE_REPORT.md, 5D Phase 9.4).",
+  "script": "web/scripts/perf_lod_pane.js (evaluated in the pane via its JavaScript tool)"
+}

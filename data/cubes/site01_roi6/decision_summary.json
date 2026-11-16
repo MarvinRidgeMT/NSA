@@ -1,0 +1,72 @@
+{
+ "schema": "polaris-decision-summary-v1",
+ "site_id": "site01_roi6",
+ "label": "SOURCE-BASED · UNVALIDATED",
+ "rows": [
+  {
+   "axis": "T",
+   "question": "how sure?",
+   "label": "SOURCE-BASED · UNVALIDATED",
+   "source": "scenario cube site01_roi6-centre-mast-schedule-v1",
+   "value": "100.00 % (range 100.00–100.00 %)",
+   "answer": "Sun at 1 m, 2026-11-14 window: nominal map, range over 21 maps."
+  },
+  {
+   "axis": "M",
+   "question": "do the data products agree?",
+   "label": "SOURCE-BASED · UNVALIDATED",
+   "source": "scenario cube site01_roi6-products-v1",
+   "value": "100.00–100.00 %",
+   "answer": "Sun, 1 m, demo window across 5 NASA terrain products."
+  },
+  {
+   "axis": "D",
+   "question": "what fixes it?",
+   "label": "SOURCE-BASED · UNVALIDATED",
+   "source": "scenario cube site01_roi6-centre-mast-schedule-v1",
+   "value": "1 m",
+   "answer": "lowest mast passing the team requirement on all 20 maps for the 2026-11-14 window."
+  },
+  {
+   "axis": "S",
+   "question": "when?",
+   "label": "SOURCE-BASED · UNVALIDATED",
+   "source": "scenario cube site01_roi6-centre-mast-schedule-v1",
+   "value": "39.9 % of starts",
+   "answer": "hourly starts over 12 months passing the team requirement on all 20 maps at 1 m."
+  },
+  {
+   "axis": "R",
+   "question": "against which requirement?",
+   "label": "SOURCE-BASED · UNVALIDATED",
+   "source": "scenario cube site01_roi6-centre-mast-schedule-v1",
+   "value": "team 20/20, strict 20/20, loose 20/20",
+   "answer": "1 m, 2026-11-14 window (team = Sun ≥ 70 %, Sun+Earth ≥ 40 %, gap ≤ 120 h)."
+  },
+  {
+   "axis": "link",
+   "question": "who can we talk to?",
+   "label": "SOURCE-BASED · UNVALIDATED · ENGINEERING ASSUMPTION",
+   "source": "scenario cube site01_roi6-link-v1",
+   "value": "DTE 52.1 % · +1 relay 91.6 % · +2 relays 98.1 %",
+   "answer": "12 months, 1 m, nominal map, LCRNS reference constellation (not an operational schedule)."
+  },
+  {
+   "axis": "energy",
+   "question": "does the battery survive?",
+   "label": "ENGINEERING ASSUMPTION",
+   "source": "scenario cube site01_roi6-energy-v1",
+   "value": "1 m: 50.2 kWh · 5 m: 21.6 kWh",
+   "answer": "battery needed so charge stays above reserve for every daily start on all 20 maps (vsat array; 150.0 W base load, assumptions in science/energy/assumptions.yaml)."
+  },
+  {
+   "axis": "safety",
+   "question": "safe and lit?",
+   "label": "SOURCE-BASED · UNVALIDATED · ENGINEERING ASSUMPTION thresholds",
+   "source": "scenario cube site01_roi6-terrain-safety-v1",
+   "value": "39 of 81 cells",
+   "answer": "landing slope < 10° and team visibility on all 20 maps (2026-11-14 window)."
+  }
+ ],
+ "note": "k of N maps is not a probability; scenario counts are never combined across axes."
+}

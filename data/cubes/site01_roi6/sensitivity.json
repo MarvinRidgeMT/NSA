@@ -1,0 +1,4062 @@
+{
+ "schema": "scenario-cube-v1",
+ "cube_id": "site01_roi6-sensitivity-v1",
+ "site_id": "site01_roi6",
+ "title": "What matters: sensitivity indices + emulator re-check",
+ "label": "SOURCE-BASED · UNVALIDATED",
+ "generated_utc": "2026-11-16T06:54:18Z",
+ "description": "Exact full-factorial variance shares of Sun %, Sun+Earth % and longest Sun gap over the committed cubes; top-level cells are the position emulator candidates re-checked with the full solver.",
+ "fixed": {
+  "axes__centre": "T,D_mast,S",
+  "title__centre": "Centre: terrain map x mast height x hourly start (12 months)",
+  "axes__position": "T,D_pos,S",
+  "title__position": "Position grid: terrain map x position x daily start (12 months), mast 1 m",
+  "axes__centre_demo": "T,D_mast",
+  "title__centre_demo": "Centre at the demo start 2026-11-14 00:00 UTC: terrain map x mast height",
+  "axes__position_demo": "T,D_pos",
+  "title__position_demo": "Position grid at the demo start 2026-11-14 00:00 UTC: terrain map x position, mast 1 m",
+  "sources": "centre,position,centre_demo,position_demo",
+  "metrics": "sun_pct,sun_earth_pct,sun_gap_h",
+  "metric_labels": "Sun %,Sun+Earth %,Longest Sun gap",
+  "energy_margin": "decomposed: min_soc_pct,hours_below_reserve,battery_needed_kwh,unserved_kwh,mean_power_w",
+  "axes__energy": "T,D_array,D_mast,S",
+  "title__energy": "Energy margin: map x array x mast x daily start (ENGINEERING ASSUMPTION)",
+  "metrics__energy": "min_soc_pct,hours_below_reserve,battery_needed_kwh,unserved_kwh,mean_power_w",
+  "M_axis": "not decomposed: the M cube (products.json) holds one cell per product, no factorial with T, D or S",
+  "mast_m_emulator": 1.0,
+  "map_emulator": "nominal"
+ },
+ "dims": [
+  {
+   "name": "D_cand",
+   "kind": "design",
+   "values": [
+    "-12.5,0",
+    "-25,-12.5",
+    "-37.5,0",
+    "-12.5,-25",
+    "12.5,0",
+    "0,12.5",
+    "0,-12.5",
+    "25,-12.5",
+    "-62.5,-50",
+    "-62.5,75",
+    "-37.5,-75",
+    "-25,37.5",
+    "-12.5,-100",
+    "25,-62.5",
+    "62.5,25",
+    "87.5,100"
+   ],
+   "units": "grid m (dx,dy)",
+   "label": "Emulator candidate position (off the 81-cell grid), polar-stereographic grid metres",
+   "value_labels": [
+    "-12.5,0 (top)",
+    "-25,-12.5 (top)",
+    "-37.5,0 (top)",
+    "-12.5,-25 (top)",
+    "12.5,0 (top)",
+    "0,12.5 (top)",
+    "0,-12.5 (top)",
+    "25,-12.5 (top)",
+    "-62.5,-50 (random)",
+    "-62.5,75 (random)",
+    "-37.5,-75 (random)",
+    "-25,37.5 (random)",
+    "-12.5,-100 (random)",
+    "25,-62.5 (random)",
+    "62.5,25 (random)",
+    "87.5,100 (random)"
+   ],
+   "note": "8 emulator top picks (>= 15 m apart) + 8 random lattice points (seed 20261116); 12.5 m candidate lattice inside +-100 m, grid cells excluded",
+   "nominal_index": 0
+  }
+ ],
+ "metrics": {
+  "emulated_sun_12mo": {
+   "units": "%",
+   "label": "Emulated 12-month mean Sun % (nominal map, 1 m)",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    86.0194,
+    85.8491,
+    85.3821,
+    84.1652,
+    84.0979,
+    83.1047,
+    82.8566,
+    82.6174,
+    48.4117,
+    27.9264,
+    50.5505,
+    52.7995,
+    53.3662,
+    58.1148,
+    68.0052,
+    51.9555
+   ],
+   "provenance": "science/cube/emulator (coarse surrogate + GP correction); SURROGATE, search only"
+  },
+  "full_sun_12mo": {
+   "units": "%",
+   "label": "Full-solver 12-month mean Sun % (nominal map, 1 m)",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    86.1912,
+    86.0769,
+    85.5078,
+    84.3014,
+    83.9827,
+    83.4006,
+    82.9936,
+    82.8217,
+    48.2277,
+    27.8632,
+    50.5837,
+    52.8368,
+    53.0582,
+    58.3094,
+    67.9501,
+    52.0358
+   ],
+   "provenance": "full solver: science.cube.compute --points + build_cube.series (720 bins, 1 m step, 280 km)"
+  },
+  "coarse_sun_12mo": {
+   "units": "%",
+   "label": "Coarse surrogate alone, 12-month mean Sun %",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    86.1799,
+    86.145,
+    85.7137,
+    84.4043,
+    84.1887,
+    83.446,
+    82.9474,
+    82.7755,
+    48.6671,
+    27.9313,
+    50.7094,
+    52.9284,
+    53.9678,
+    58.4845,
+    68.2176,
+    52.1047
+   ],
+   "provenance": "science/cube/emulator.coarse_skyline (step17 settings)"
+  },
+  "emulated_sun_earth_12mo": {
+   "units": "%",
+   "label": "Emulated 12-month mean Sun+Earth %",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    45.8392,
+    45.8052,
+    45.2936,
+    45.6917,
+    44.8833,
+    43.1978,
+    44.7593,
+    44.4853,
+    17.8196,
+    17.9485,
+    17.5553,
+    30.0619,
+    18.61,
+    23.8637,
+    36.0834,
+    28.9001
+   ],
+   "provenance": "science/cube/emulator (coarse surrogate + GP correction); SURROGATE, search only"
+  },
+  "full_sun_earth_12mo": {
+   "units": "%",
+   "label": "Full-solver 12-month mean Sun+Earth %",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    45.9081,
+    45.8619,
+    45.3398,
+    45.7825,
+    44.8606,
+    43.4815,
+    44.7593,
+    44.5761,
+    17.4847,
+    17.9306,
+    17.5836,
+    30.0846,
+    18.5776,
+    24.0478,
+    36.0031,
+    28.8993
+   ],
+   "provenance": "full solver: science.cube.compute --points + build_cube.series (720 bins, 1 m step, 280 km)"
+  },
+  "full_sun_12mo_worst_map": {
+   "units": "%",
+   "label": "Full solver: worst of 21 maps, 12-month mean Sun %",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    72.6427,
+    62.2975,
+    78.9504,
+    77.838,
+    64.4371,
+    65.6516,
+    73.3748,
+    80.0109,
+    29.2074,
+    27.2713,
+    45.857,
+    45.326,
+    48.0761,
+    38.6608,
+    45.0925,
+    49.7957
+   ],
+   "provenance": "full solver: science.cube.compute --points + build_cube.series (720 bins, 1 m step, 280 km)"
+  },
+  "full_sun_12mo_best_map": {
+   "units": "%",
+   "label": "Full solver: best of 21 maps, 12-month mean Sun %",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    86.6347,
+    86.0769,
+    86.2253,
+    84.8486,
+    85.6099,
+    86.0899,
+    84.3695,
+    83.6868,
+    55.2423,
+    28.3585,
+    54.811,
+    55.3858,
+    57.0009,
+    68.7398,
+    71.4209,
+    55.5553
+   ],
+   "provenance": "full solver: science.cube.compute --points + build_cube.series (720 bins, 1 m step, 280 km)"
+  },
+  "cell_sun_mae": {
+   "units": "pct pts",
+   "label": "Emulator error per window (mean abs over 366 daily starts), Sun",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    0.24,
+    0.2813,
+    0.3089,
+    0.3875,
+    0.2448,
+    0.3202,
+    0.2343,
+    0.253,
+    0.2651,
+    0.1184,
+    0.1403,
+    0.1443,
+    0.9016,
+    0.3421,
+    0.3194,
+    0.1921
+   ],
+   "provenance": "full solver: science.cube.compute --points + build_cube.series (720 bins, 1 m step, 280 km) vs science/cube/emulator (coarse surrogate + GP correction); SURROGATE, search only"
+  },
+  "is_top_pick": {
+   "units": "",
+   "label": "Emulator top pick (1) or random check (0)",
+   "dtype": "int32",
+   "decimals": 0,
+   "values": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "provenance": "science/cube/emulator.propose"
+  }
+ },
+ "missing": {
+  "encoding": "sparse-flat-index",
+  "by_metric": {
+   "emulated_sun_12mo": [],
+   "full_sun_12mo": [],
+   "coarse_sun_12mo": [],
+   "emulated_sun_earth_12mo": [],
+   "full_sun_earth_12mo": [],
+   "full_sun_12mo_worst_map": [],
+   "full_sun_12mo_best_map": [],
+   "cell_sun_mae": [],
+   "is_top_pick": []
+  },
+  "reasons": {}
+ },
+ "derived": {
+  "emulator_check": {
+   "dims": [],
+   "metrics": {
+    "spearman_objective": {
+     "units": "rho",
+     "label": "Spearman rho, 12-month Sun %, emulator vs full solver (D_cand)",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      1.0
+     ]
+    },
+    "mae_objective": {
+     "units": "pct pts",
+     "label": "Mean abs error, 12-month Sun %",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      0.148115
+     ]
+    },
+    "max_abs_objective": {
+     "units": "pct pts",
+     "label": "Max abs error, 12-month Sun %",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      0.308086
+     ]
+    },
+    "spearman_objective_coarse_only": {
+     "units": "rho",
+     "label": "Spearman rho, coarse surrogate alone",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      1.0
+     ]
+    },
+    "mae_objective_coarse_only": {
+     "units": "pct pts",
+     "label": "Mean abs error, coarse surrogate alone",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      0.179886
+     ]
+    },
+    "spearman_objective_sun_earth": {
+     "units": "rho",
+     "label": "Spearman rho, 12-month Sun+Earth %",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      0.997059
+     ]
+    },
+    "spearman_cell_sun_pct": {
+     "units": "rho",
+     "label": "Spearman rho per window (candidate x daily start), Sun %",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      0.999648
+     ]
+    },
+    "mae_cell_sun_pct": {
+     "units": "pct pts",
+     "label": "Mean abs error per window, Sun %",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      0.293341
+     ]
+    },
+    "max_abs_cell_sun_pct": {
+     "units": "pct pts",
+     "label": "Max abs error per window, Sun %",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      7.418398
+     ]
+    },
+    "spearman_cell_sun_earth_pct": {
+     "units": "rho",
+     "label": "Spearman rho per window, Sun+Earth %",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      0.999795
+     ]
+    },
+    "mae_cell_sun_earth_pct": {
+     "units": "pct pts",
+     "label": "Mean abs error per window, Sun+Earth %",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      0.173755
+     ]
+    },
+    "mae_cell_sun_gap_h": {
+     "units": "h",
+     "label": "Mean abs error per window, longest Sun gap",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      0.54457
+     ]
+    },
+    "loo_spearman_objective": {
+     "units": "rho",
+     "label": "LOO on the grid: emulator",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/emulator.loo_report (closed-form leave-one-out on the 81 grid cells)",
+     "values": [
+      0.999729
+     ]
+    },
+    "loo_mae_objective": {
+     "units": "pct pts",
+     "label": "LOO on the grid: emulator mean abs error",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/emulator.loo_report (closed-form leave-one-out on the 81 grid cells)",
+     "values": [
+      0.126037
+     ]
+    },
+    "loo_spearman_gp_only": {
+     "units": "rho",
+     "label": "LOO on the grid: GP on full margins alone (no coarse term)",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/emulator.loo_report (closed-form leave-one-out on the 81 grid cells)",
+     "values": [
+      0.956798
+     ]
+    },
+    "grid_best_sun_12mo": {
+     "units": "%",
+     "label": "Best 81-grid cell [-25, 0], 12-month Sun % (full solver)",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "position cube, nominal map",
+     "values": [
+      86.419062
+     ]
+    },
+    "best_checked_sun_12mo": {
+     "units": "%",
+     "label": "Best re-checked candidate (-12.5,0), full solver",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      86.191241
+     ]
+    },
+    "best_checked_worst_map_sun_12mo": {
+     "units": "%",
+     "label": "Best re-checked candidate: worst of 21 maps",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      72.642733
+     ]
+    },
+    "gp_length_m": {
+     "units": "m",
+     "label": "GP correction length scale (LOO-selected)",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/emulator.select_hyper",
+     "values": [
+      50.0
+     ]
+    },
+    "gp_nugget": {
+     "units": "ratio",
+     "label": "GP correction nugget / kernel amplitude (LOO-selected)",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/emulator.select_hyper",
+     "values": [
+      3.0
+     ]
+    },
+    "target_rho": {
+     "units": "rho",
+     "label": "Target Spearman rho",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "docs/5D_UPGRADES_STATUS.md Phase 7",
+     "values": [
+      0.99
+     ]
+    },
+    "passes_target": {
+     "units": "",
+     "label": "Re-check rho >= target",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/emulator.recheck (full solver vs emulator at the D_cand positions)",
+     "values": [
+      true
+     ]
+    }
+   },
+   "method": "Emulator = coarse surrogate skyline (step17 settings: 180 bins, 5 m step to 3 km, 80 m beyond) + Gaussian-process correction of the full-minus-coarse hourly margins over position (Matern 5/2, 81-cell training grid, LOO-selected). Window metrics from emulated hourly flags with the cube window helper. Candidates ranked by emulated 12-month Sun % on a 12.5 m lattice; the top picks and random lattice points re-checked with the full solver on all 21 maps.",
+   "caveat": "SURROGATE for search only: rank and error from the re-check, nominal map, mast 1 m; it is not a solver and its numbers are not results. Re-checked values are full-solver geometry, SOURCE-BASED · UNVALIDATED."
+  },
+  "sobol__centre__sun_pct": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "%^2",
+     "label": "Sun %: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      279.084962
+     ]
+    },
+    "sd": {
+     "units": "%",
+     "label": "Sun %: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      16.705836
+     ]
+    },
+    "mean": {
+     "units": "%",
+     "label": "Sun %: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      88.37505
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Sun %: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      2.475083
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      0.013445
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      0.252226
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      0.106521
+     ]
+    },
+    "first_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun %: first-order share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      0.864451
+     ]
+    },
+    "total_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun %: total share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      3.303785
+     ]
+    },
+    "shapley_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun %: Shapley share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      2.057803
+     ]
+    },
+    "first_pct__S": {
+     "units": "% of variance",
+     "label": "Sun %: first-order share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      96.64702
+     ]
+    },
+    "total_pct__S": {
+     "units": "% of variance",
+     "label": "Sun %: total share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      99.076962
+     ]
+    },
+    "shapley_pct__S": {
+     "units": "% of variance",
+     "label": "Sun %: Shapley share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      97.835676
+     ]
+    },
+    "interaction_pct__T_x_D_mast": {
+     "units": "% of variance",
+     "label": "Sun %: interaction T×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      0.045141
+     ]
+    },
+    "interaction_pct__T_x_S": {
+     "units": "% of variance",
+     "label": "Sun %: interaction T×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      0.035749
+     ]
+    },
+    "interaction_pct__D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Sun %: interaction D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      2.236303
+     ]
+    },
+    "interaction_pct__T_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Sun %: interaction T×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct",
+     "values": [
+      0.15789
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Centre: terrain map x mast height x hourly start (12 months) (centre_mast_schedule.json.gz); axes T, D_mast, S.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__centre__sun_earth_pct": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "%^2",
+     "label": "Sun+Earth %: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      736.041844
+     ]
+    },
+    "sd": {
+     "units": "%",
+     "label": "Sun+Earth %: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      27.130091
+     ]
+    },
+    "mean": {
+     "units": "%",
+     "label": "Sun+Earth %: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      47.343395
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.625159
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.002059
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.056256
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.022734
+     ]
+    },
+    "first_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: first-order share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.134753
+     ]
+    },
+    "total_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: total share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.751391
+     ]
+    },
+    "shapley_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: Shapley share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.436648
+     ]
+    },
+    "first_pct__S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: first-order share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      99.238029
+     ]
+    },
+    "total_pct__S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: total share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      99.856053
+     ]
+    },
+    "shapley_pct__S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: Shapley share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      99.540617
+     ]
+    },
+    "interaction_pct__T_x_D_mast": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: interaction T×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.007135
+     ]
+    },
+    "interaction_pct__T_x_S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: interaction T×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.008522
+     ]
+    },
+    "interaction_pct__D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: interaction D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.570962
+     ]
+    },
+    "interaction_pct__T_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: interaction T×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.038541
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Centre: terrain map x mast height x hourly start (12 months) (centre_mast_schedule.json.gz); axes T, D_mast, S.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__centre__sun_gap_h": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "h^2",
+     "label": "Longest Sun gap: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      1411.56303
+     ]
+    },
+    "sd": {
+     "units": "h",
+     "label": "Longest Sun gap: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      37.570774
+     ]
+    },
+    "mean": {
+     "units": "h",
+     "label": "Longest Sun gap: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      25.769135
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      4.850781
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      0.019805
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      0.419192
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      0.173113
+     ]
+    },
+    "first_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: first-order share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      1.335495
+     ]
+    },
+    "total_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: total share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      6.120093
+     ]
+    },
+    "shapley_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: Shapley share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      3.681409
+     ]
+    },
+    "first_pct__S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: first-order share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      93.793919
+     ]
+    },
+    "total_pct__S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: total share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      98.589807
+     ]
+    },
+    "shapley_pct__S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: Shapley share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      96.145478
+     ]
+    },
+    "interaction_pct__T_x_D_mast": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: interaction T×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      0.054894
+     ]
+    },
+    "interaction_pct__T_x_S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: interaction T×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      0.066183
+     ]
+    },
+    "interaction_pct__D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: interaction D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      4.451394
+     ]
+    },
+    "interaction_pct__T_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: interaction T×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h",
+     "values": [
+      0.278311
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Centre: terrain map x mast height x hourly start (12 months) (centre_mast_schedule.json.gz); axes T, D_mast, S.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__position__sun_pct": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "%^2",
+     "label": "Sun %: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      1154.698804
+     ]
+    },
+    "sd": {
+     "units": "%",
+     "label": "Sun %: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      33.980859
+     ]
+    },
+    "mean": {
+     "units": "%",
+     "label": "Sun %: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      51.848149
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Sun %: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      38.621846
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      0.033045
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      2.947173
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      1.238544
+     ]
+    },
+    "first_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun %: first-order share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      23.974822
+     ]
+    },
+    "total_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun %: total share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      62.571873
+     ]
+    },
+    "shapley_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun %: Shapley share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      43.021782
+     ]
+    },
+    "first_pct__S": {
+     "units": "% of variance",
+     "label": "Sun %: first-order share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      37.370287
+     ]
+    },
+    "total_pct__S": {
+     "units": "% of variance",
+     "label": "Sun %: total share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      74.612192
+     ]
+    },
+    "shapley_pct__S": {
+     "units": "% of variance",
+     "label": "Sun %: Shapley share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      55.739674
+     ]
+    },
+    "interaction_pct__T_x_D_pos": {
+     "units": "% of variance",
+     "label": "Sun %: interaction T×D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      1.379941
+     ]
+    },
+    "interaction_pct__T_x_S": {
+     "units": "% of variance",
+     "label": "Sun %: interaction T×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      0.024795
+     ]
+    },
+    "interaction_pct__D_pos_x_S": {
+     "units": "% of variance",
+     "label": "Sun %: interaction D_pos×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      35.707718
+     ]
+    },
+    "interaction_pct__T_x_D_pos_x_S": {
+     "units": "% of variance",
+     "label": "Sun %: interaction T×D_pos×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct",
+     "values": [
+      1.509392
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Position grid: terrain map x position x daily start (12 months), mast 1 m (position_schedule.json.gz); axes T, D_pos, S.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__position__sun_earth_pct": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "%^2",
+     "label": "Sun+Earth %: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      705.585477
+     ]
+    },
+    "sd": {
+     "units": "%",
+     "label": "Sun+Earth %: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      26.562859
+     ]
+    },
+    "mean": {
+     "units": "%",
+     "label": "Sun+Earth %: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      25.773042
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      32.07864
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.027153
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      2.674302
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      1.101185
+     ]
+    },
+    "first_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: first-order share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      15.053369
+     ]
+    },
+    "total_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: total share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      47.103974
+     ]
+    },
+    "shapley_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: Shapley share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      30.829129
+     ]
+    },
+    "first_pct__S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: first-order share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      52.840838
+     ]
+    },
+    "total_pct__S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: total share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      83.797618
+     ]
+    },
+    "shapley_pct__S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: Shapley share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      68.069686
+     ]
+    },
+    "interaction_pct__T_x_D_pos": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: interaction T×D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      1.121859
+     ]
+    },
+    "interaction_pct__T_x_S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: interaction T×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      0.028035
+     ]
+    },
+    "interaction_pct__D_pos_x_S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: interaction D_pos×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      29.431491
+     ]
+    },
+    "interaction_pct__T_x_D_pos_x_S": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: interaction T×D_pos×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct",
+     "values": [
+      1.497255
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Position grid: terrain map x position x daily start (12 months), mast 1 m (position_schedule.json.gz); axes T, D_pos, S.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__position__sun_gap_h": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "h^2",
+     "label": "Longest Sun gap: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      12430.178746
+     ]
+    },
+    "sd": {
+     "units": "h",
+     "label": "Longest Sun gap: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      111.490711
+     ]
+    },
+    "mean": {
+     "units": "h",
+     "label": "Longest Sun gap: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      146.071894
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      48.01746
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      0.031325
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      3.702679
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      1.508182
+     ]
+    },
+    "first_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: first-order share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      26.093752
+     ]
+    },
+    "total_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: total share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      74.074439
+     ]
+    },
+    "shapley_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: Shapley share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      49.725276
+     ]
+    },
+    "first_pct__S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: first-order share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      25.857463
+     ]
+    },
+    "total_pct__S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: total share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      72.393259
+     ]
+    },
+    "shapley_pct__S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: Shapley share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      48.766542
+     ]
+    },
+    "interaction_pct__T_x_D_pos": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: interaction T×D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      1.481664
+     ]
+    },
+    "interaction_pct__T_x_S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: interaction T×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      0.036774
+     ]
+    },
+    "interaction_pct__D_pos_x_S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: interaction D_pos×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      44.346106
+     ]
+    },
+    "interaction_pct__T_x_D_pos_x_S": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: interaction T×D_pos×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h",
+     "values": [
+      2.152916
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Position grid: terrain map x position x daily start (12 months), mast 1 m (position_schedule.json.gz); axes T, D_pos, S.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__centre_demo__sun_pct": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "%^2",
+     "label": "Sun %: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      0.0
+     ]
+    },
+    "sd": {
+     "units": "%",
+     "label": "Sun %: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      0.0
+     ]
+    },
+    "mean": {
+     "units": "%",
+     "label": "Sun %: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      100.0
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Sun %: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      true
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "first_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun %: first-order share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "total_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun %: total share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "shapley_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun %: Shapley share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      null
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Centre at the demo start 2026-11-14 00:00 UTC: terrain map x mast height (centre_mast_schedule.json.gz); axes T, D_mast.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__centre_demo__sun_earth_pct": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "%^2",
+     "label": "Sun+Earth %: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      0.0
+     ]
+    },
+    "sd": {
+     "units": "%",
+     "label": "Sun+Earth %: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      0.0
+     ]
+    },
+    "mean": {
+     "units": "%",
+     "label": "Sun+Earth %: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      81.602374
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      true
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "first_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: first-order share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "total_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: total share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "shapley_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: Shapley share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      null
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Centre at the demo start 2026-11-14 00:00 UTC: terrain map x mast height (centre_mast_schedule.json.gz); axes T, D_mast.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__centre_demo__sun_gap_h": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "h^2",
+     "label": "Longest Sun gap: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      0.0
+     ]
+    },
+    "sd": {
+     "units": "h",
+     "label": "Longest Sun gap: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      0.0
+     ]
+    },
+    "mean": {
+     "units": "h",
+     "label": "Longest Sun gap: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      0.0
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      true
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "first_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: first-order share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "total_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: total share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      null
+     ]
+    },
+    "shapley_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: Shapley share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/centre_mast_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      null
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Centre at the demo start 2026-11-14 00:00 UTC: terrain map x mast height (centre_mast_schedule.json.gz); axes T, D_mast.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__position_demo__sun_pct": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "%^2",
+     "label": "Sun %: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      639.343415
+     ]
+    },
+    "sd": {
+     "units": "%",
+     "label": "Sun %: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      25.285241
+     ]
+    },
+    "mean": {
+     "units": "%",
+     "label": "Sun %: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      76.954384
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Sun %: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      6.383163
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      0.129072
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      6.512235
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Sun %: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      3.320653
+     ]
+    },
+    "first_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun %: first-order share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      93.487765
+     ]
+    },
+    "total_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun %: total share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      99.870928
+     ]
+    },
+    "shapley_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun %: Shapley share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      96.679347
+     ]
+    },
+    "interaction_pct__T_x_D_pos": {
+     "units": "% of variance",
+     "label": "Sun %: interaction T×D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_pct at S index 0",
+     "values": [
+      6.383163
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Position grid at the demo start 2026-11-14 00:00 UTC: terrain map x position, mast 1 m (position_schedule.json.gz); axes T, D_pos.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__position_demo__sun_earth_pct": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "%^2",
+     "label": "Sun+Earth %: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      706.269218
+     ]
+    },
+    "sd": {
+     "units": "%",
+     "label": "Sun+Earth %: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      26.575726
+     ]
+    },
+    "mean": {
+     "units": "%",
+     "label": "Sun+Earth %: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      58.528148
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      5.987057
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      0.146364
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      6.133421
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      3.139893
+     ]
+    },
+    "first_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: first-order share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      93.866579
+     ]
+    },
+    "total_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: total share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      99.853636
+     ]
+    },
+    "shapley_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: Shapley share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      96.860107
+     ]
+    },
+    "interaction_pct__T_x_D_pos": {
+     "units": "% of variance",
+     "label": "Sun+Earth %: interaction T×D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_earth_pct at S index 0",
+     "values": [
+      5.987057
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Position grid at the demo start 2026-11-14 00:00 UTC: terrain map x position, mast 1 m (position_schedule.json.gz); axes T, D_pos.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__position_demo__sun_gap_h": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "h^2",
+     "label": "Longest Sun gap: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      7195.773809
+     ]
+    },
+    "sd": {
+     "units": "h",
+     "label": "Longest Sun gap: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      84.827907
+     ]
+    },
+    "mean": {
+     "units": "h",
+     "label": "Longest Sun gap: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      76.784832
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      6.436264
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      0.118243
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      6.554507
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      3.336375
+     ]
+    },
+    "first_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: first-order share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      93.445493
+     ]
+    },
+    "total_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: total share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      99.881757
+     ]
+    },
+    "shapley_pct__D_pos": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: Shapley share of D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      96.663625
+     ]
+    },
+    "interaction_pct__T_x_D_pos": {
+     "units": "% of variance",
+     "label": "Longest Sun gap: interaction T×D_pos",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/position_schedule.json.gz metric sun_gap_h at S index 0",
+     "values": [
+      6.436264
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Position grid at the demo start 2026-11-14 00:00 UTC: terrain map x position, mast 1 m (position_schedule.json.gz); axes T, D_pos.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__energy__min_soc_pct": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "%^2",
+     "label": "Minimum state of charge with a 10 kWh battery: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      2060.724377
+     ]
+    },
+    "sd": {
+     "units": "%",
+     "label": "Minimum state of charge with a 10 kWh battery: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      45.395202
+     ]
+    },
+    "mean": {
+     "units": "%",
+     "label": "Minimum state of charge with a 10 kWh battery: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      37.886628
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      22.194024
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.00067
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.030796
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.010644
+     ]
+    },
+    "first_pct__D_array": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: first-order share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      51.4156
+     ]
+    },
+    "total_pct__D_array": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: total share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      72.905655
+     ]
+    },
+    "shapley_pct__D_array": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: Shapley share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      62.047894
+     ]
+    },
+    "first_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: first-order share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.087536
+     ]
+    },
+    "total_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: total share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      1.527047
+     ]
+    },
+    "shapley_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: Shapley share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.693237
+     ]
+    },
+    "first_pct__S": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: first-order share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      26.302171
+     ]
+    },
+    "total_pct__S": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: total share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      48.423482
+     ]
+    },
+    "shapley_pct__S": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: Shapley share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      37.248226
+     ]
+    },
+    "interaction_pct__T_x_D_array": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.00054
+     ]
+    },
+    "interaction_pct__T_x_D_mast": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.000332
+     ]
+    },
+    "interaction_pct__T_x_S": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.003845
+     ]
+    },
+    "interaction_pct__D_array_x_D_mast": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction D_array×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.071611
+     ]
+    },
+    "interaction_pct__D_array_x_S": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction D_array×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      20.746623
+     ]
+    },
+    "interaction_pct__D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.688359
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_D_mast": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_array×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.000229
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_S": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_array×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.003504
+     ]
+    },
+    "interaction_pct__T_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.011432
+     ]
+    },
+    "interaction_pct__D_array_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction D_array×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.657303
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Minimum state of charge with a 10 kWh battery: interaction T×D_array×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric min_soc_pct",
+     "values": [
+      0.010244
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Energy margin: map x array x mast x daily start (ENGINEERING ASSUMPTION) (energy.json.gz); axes T, D_array, D_mast, S.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__energy__hours_below_reserve": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "h^2",
+     "label": "Hours below the 20 % reserve (10 kWh battery): variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      10609.807384
+     ]
+    },
+    "sd": {
+     "units": "h",
+     "label": "Hours below the 20 % reserve (10 kWh battery): standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      103.003919
+     ]
+    },
+    "mean": {
+     "units": "h",
+     "label": "Hours below the 20 % reserve (10 kWh battery): mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      83.337503
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      22.834003
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.000658
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.031279
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.011227
+     ]
+    },
+    "first_pct__D_array": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): first-order share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      52.660635
+     ]
+    },
+    "total_pct__D_array": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): total share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      75.344962
+     ]
+    },
+    "shapley_pct__D_array": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): Shapley share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      63.981597
+     ]
+    },
+    "first_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): first-order share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.031025
+     ]
+    },
+    "total_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): total share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.320833
+     ]
+    },
+    "shapley_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): Shapley share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.152615
+     ]
+    },
+    "first_pct__S": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): first-order share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      24.473678
+     ]
+    },
+    "total_pct__S": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): total share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      47.282323
+     ]
+    },
+    "shapley_pct__S": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): Shapley share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      35.854561
+     ]
+    },
+    "interaction_pct__T_x_D_array": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.000308
+     ]
+    },
+    "interaction_pct__T_x_D_mast": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.002705
+     ]
+    },
+    "interaction_pct__T_x_S": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.0029
+     ]
+    },
+    "interaction_pct__D_array_x_D_mast": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_array×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.021332
+     ]
+    },
+    "interaction_pct__D_array_x_S": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_array×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      22.53922
+     ]
+    },
+    "interaction_pct__D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.129627
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_D_mast": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_array×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.001014
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_S": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_array×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.001768
+     ]
+    },
+    "interaction_pct__T_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.014444
+     ]
+    },
+    "interaction_pct__D_array_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction D_array×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.113204
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Hours below the 20 % reserve (10 kWh battery): interaction T×D_array×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric hours_below_reserve",
+     "values": [
+      0.007482
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Energy margin: map x array x mast x daily start (ENGINEERING ASSUMPTION) (energy.json.gz); axes T, D_array, D_mast, S.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__energy__battery_needed_kwh": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "kWh^2",
+     "label": "Battery capacity needed to stay at or above the reserve: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      609.596086
+     ]
+    },
+    "sd": {
+     "units": "kWh",
+     "label": "Battery capacity needed to stay at or above the reserve: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      24.69
+     ]
+    },
+    "mean": {
+     "units": "kWh",
+     "label": "Battery capacity needed to stay at or above the reserve: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      23.13874
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      20.751037
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.000678
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.023137
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.00843
+     ]
+    },
+    "first_pct__D_array": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: first-order share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      55.823609
+     ]
+    },
+    "total_pct__D_array": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: total share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      76.409947
+     ]
+    },
+    "shapley_pct__D_array": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: Shapley share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      66.098214
+     ]
+    },
+    "first_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: first-order share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.046104
+     ]
+    },
+    "total_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: total share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.33884
+     ]
+    },
+    "shapley_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: Shapley share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.172581
+     ]
+    },
+    "first_pct__S": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: first-order share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      23.378573
+     ]
+    },
+    "total_pct__S": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: total share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      44.102992
+     ]
+    },
+    "shapley_pct__S": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: Shapley share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      33.720776
+     ]
+    },
+    "interaction_pct__T_x_D_array": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.000319
+     ]
+    },
+    "interaction_pct__T_x_D_mast": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.001836
+     ]
+    },
+    "interaction_pct__T_x_S": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.002455
+     ]
+    },
+    "interaction_pct__D_array_x_D_mast": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction D_array×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.023641
+     ]
+    },
+    "interaction_pct__D_array_x_S": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction D_array×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      20.454014
+     ]
+    },
+    "interaction_pct__D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.150929
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_D_mast": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_array×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.000822
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_S": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_array×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.001514
+     ]
+    },
+    "interaction_pct__T_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.009478
+     ]
+    },
+    "interaction_pct__D_array_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction D_array×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.099994
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Battery capacity needed to stay at or above the reserve: interaction T×D_array×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric battery_needed_kwh",
+     "values": [
+      0.006036
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Energy margin: map x array x mast x daily start (ENGINEERING ASSUMPTION) (energy.json.gz); axes T, D_array, D_mast, S.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__energy__unserved_kwh": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "kWh^2",
+     "label": "Load not served with a 10 kWh battery: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      249.390604
+     ]
+    },
+    "sd": {
+     "units": "kWh",
+     "label": "Load not served with a 10 kWh battery: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      15.792106
+     ]
+    },
+    "mean": {
+     "units": "kWh",
+     "label": "Load not served with a 10 kWh battery: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      11.684538
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      25.53905
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.000588
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.029552
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.010442
+     ]
+    },
+    "first_pct__D_array": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: first-order share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      47.879109
+     ]
+    },
+    "total_pct__D_array": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: total share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      73.251703
+     ]
+    },
+    "shapley_pct__D_array": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: Shapley share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      60.546524
+     ]
+    },
+    "first_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: first-order share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.031798
+     ]
+    },
+    "total_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: total share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.316572
+     ]
+    },
+    "shapley_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: Shapley share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.153397
+     ]
+    },
+    "first_pct__S": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: first-order share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      26.549456
+     ]
+    },
+    "total_pct__S": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: total share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      52.071589
+     ]
+    },
+    "shapley_pct__S": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: Shapley share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      39.289637
+     ]
+    },
+    "interaction_pct__T_x_D_array": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.000234
+     ]
+    },
+    "interaction_pct__T_x_D_mast": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.002198
+     ]
+    },
+    "interaction_pct__T_x_S": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: interaction T×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.002839
+     ]
+    },
+    "interaction_pct__D_array_x_D_mast": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: interaction D_array×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.013505
+     ]
+    },
+    "interaction_pct__D_array_x_S": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: interaction D_array×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      25.249636
+     ]
+    },
+    "interaction_pct__D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: interaction D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.148418
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_D_mast": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_array×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.000979
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_S": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_array×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.001567
+     ]
+    },
+    "interaction_pct__T_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.013
+     ]
+    },
+    "interaction_pct__D_array_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: interaction D_array×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.098526
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Load not served with a 10 kWh battery: interaction T×D_array×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric unserved_kwh",
+     "values": [
+      0.008147
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Energy margin: map x array x mast x daily start (ENGINEERING ASSUMPTION) (energy.json.gz); axes T, D_array, D_mast, S.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  },
+  "sobol__energy__mean_power_w": {
+   "dims": [],
+   "metrics": {
+    "variance": {
+     "units": "W^2",
+     "label": "Mean array power over the window: variance over the grid",
+     "dtype": "float64",
+     "decimals": 4,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      74833.790813
+     ]
+    },
+    "sd": {
+     "units": "W",
+     "label": "Mean array power over the window: standard deviation over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      273.557655
+     ]
+    },
+    "mean": {
+     "units": "W",
+     "label": "Mean array power over the window: mean over the grid",
+     "dtype": "float64",
+     "decimals": 2,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      448.778936
+     ]
+    },
+    "interaction_pct": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: share in interactions",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      13.829268
+     ]
+    },
+    "closure": {
+     "units": "ratio",
+     "label": "sum of ANOVA terms / variance (1 = exact)",
+     "dtype": "float64",
+     "decimals": 6,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      1.0
+     ]
+    },
+    "no_spread": {
+     "units": "",
+     "label": "every cell equal: shares undefined (null)",
+     "dtype": "bool",
+     "decimals": 0,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      false
+     ]
+    },
+    "first_pct__T": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: first-order share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.000872
+     ]
+    },
+    "total_pct__T": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: total share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.024419
+     ]
+    },
+    "shapley_pct__T": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: Shapley share of T",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.009254
+     ]
+    },
+    "first_pct__D_array": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: first-order share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      66.822773
+     ]
+    },
+    "total_pct__D_array": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: total share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      80.509454
+     ]
+    },
+    "shapley_pct__D_array": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: Shapley share of D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      73.645416
+     ]
+    },
+    "first_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: first-order share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.052452
+     ]
+    },
+    "total_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: total share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.353682
+     ]
+    },
+    "shapley_pct__D_mast": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: Shapley share of D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.181005
+     ]
+    },
+    "first_pct__S": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: first-order share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      19.294636
+     ]
+    },
+    "total_pct__S": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: total share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      33.078146
+     ]
+    },
+    "shapley_pct__S": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: Shapley share of S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      26.164325
+     ]
+    },
+    "interaction_pct__T_x_D_array": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: interaction T×D_array",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.000533
+     ]
+    },
+    "interaction_pct__T_x_D_mast": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: interaction T×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.003038
+     ]
+    },
+    "interaction_pct__T_x_S": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: interaction T×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.002207
+     ]
+    },
+    "interaction_pct__D_array_x_D_mast": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: interaction D_array×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.040731
+     ]
+    },
+    "interaction_pct__D_array_x_S": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: interaction D_array×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      13.523813
+     ]
+    },
+    "interaction_pct__D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: interaction D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.127672
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_D_mast": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: interaction T×D_array×D_mast",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.001455
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_S": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: interaction T×D_array×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.001485
+     ]
+    },
+    "interaction_pct__T_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: interaction T×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.009669
+     ]
+    },
+    "interaction_pct__D_array_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: interaction D_array×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.113505
+     ]
+    },
+    "interaction_pct__T_x_D_array_x_D_mast_x_S": {
+     "units": "% of variance",
+     "label": "Mean array power over the window: interaction T×D_array×D_mast×S",
+     "dtype": "float64",
+     "decimals": 1,
+     "provenance": "science/cube/sensitivity.indices on data/cubes/<site>/energy.json.gz metric mean_power_w",
+     "values": [
+      0.005161
+     ]
+    }
+   },
+   "method": "Exact functional ANOVA (Sobol / Hoeffding) on the full factorial grid of the cube, equal weight per axis level: V_u from Moebius inclusion-exclusion of marginal means; first-order S_i = V_i/V, total ST_i = sum over u containing i of V_u/V, Shapley Sh_i = sum over u containing i of V_u/(|u| V). science/cube/sensitivity.py. Source: Energy margin: map x array x mast x daily start (ENGINEERING ASSUMPTION) (energy.json.gz); axes T, D_array, D_mast, S.",
+   "caveat": "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes."
+  }
+ },
+ "provenance": {
+  "inputs": [
+   {
+    "path": "data/cubes/site01_roi6/centre_mast_schedule.json.gz",
+    "sha256": "b585f11e6946f47a9ecb90d0dec34b25ba16361a2b55d218e8d533c130033f9e",
+    "note": "committed scenario cube (decomposed) [hash refreshed: main 8dde4f1 added derived.certainty* to the bundles; metrics, samples, site and margin_series identical (checked)]"
+   },
+   {
+    "path": "data/cubes/site01_roi6/position_schedule.json.gz",
+    "sha256": "a638f458da6ad3c986586793931d9535d2e9850a98baa77cec8f3764c8441b51",
+    "note": "committed scenario cube (decomposed) [hash refreshed: main 8dde4f1 added derived.certainty* to the bundles; metrics, samples, site and margin_series identical (checked)]"
+   },
+   {
+    "path": "data/cubes/site01_roi6/energy.json.gz",
+    "sha256": "17b92394d0b5b373835992d8b4fab6567d69dd98c96e8e660d6d9f085b2bc32c",
+    "note": "energy cube (Phase 5) [hash refreshed: main 8dde4f1 added derived.certainty* to the bundles; metrics, samples, site and margin_series identical (checked)]"
+   },
+   {
+    "path": "data/cache/cube_horizons/site01_roi6_sun_year_20261114.txt",
+    "sha256": "54483ca7304bfb70bb5de7c6ac26fdd46bab36eccf2f0a6f7837b2f471d3869c",
+    "url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+    "note": "JPL Horizons sun hourly (git-ignored cache)"
+   },
+   {
+    "path": "data/cache/cube_horizons/site01_roi6_earth_year_20261114.txt",
+    "sha256": "8408d6c2f628b6d9e7ad5ba3e1ef00fab13b2d15801aadbec8b3153b016afbbc",
+    "url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+    "note": "JPL Horizons earth hourly (git-ignored cache)"
+   },
+   {
+    "path": "data/cache/cube_sky/site01_roi6_*.json",
+    "sha256": "c4208ae1871586d0c5db4d48adfabf498f9bf70a5cb3e567b7dbfc495d325843",
+    "note": "417 full-solver skylines used (81 grid nominal + candidates x 21 maps; combined name+bytes hash)"
+   },
+   {
+    "path": "data/cache/cube_emulator/coarse/site01_roi6_*.json",
+    "sha256": "c468606b35fde6eb54d9b4102ec08c903d9c244a35b5a68e6d01f1a5cd66b67b",
+    "note": "97 coarse surrogate skylines used (combined hash)"
+   },
+   {
+    "path": "data/cache/cube_emulator/site01_roi6_proposal.json",
+    "sha256": "dff53c6ceaafd5d4f91cc11aa1a882721384d91adfe13915fb1dbfc533b8b831",
+    "note": "emulator proposal (candidates, hyperparameters, LOO)"
+   }
+  ],
+  "command": "python -m science.cube.build_sensitivity site04_roi3 site01_roi6",
+  "code_commit": "0e9a7b1d393929209a45180481248fe4c6bb0900",
+  "solver": "indices: exact ANOVA on stored cube values; re-check: science/skyline.compute_skyline (float64), 720 bins, 1 m step, 280 km"
+ },
+ "limitations": [
+  "Share of spread within this scenario set: every axis level is weighted equally and the 20 terrain clones are samples (deterministic PGDA 78 error realizations), so the indices describe this grid, not the population of possible terrains. Not a probability; not a ranking of physical importance outside the ranges on the axes.",
+  "k of N maps is not a probability; the clones are deterministic alternates (PGDA 78 error realizations).",
+  "D_mast and D_pos are never varied together in the committed cubes: each source has its own decomposition, and shares are comparable only within one source.",
+  "S weights every start equally over 12 months; the S share is mostly the seasonal and monthly Sun/Earth geometry.",
+  "Emulator: SURROGATE for search only, nominal map, mast 1 m; every candidate value shown is re-checked with the full solver.",
+  "Local geometric visibility only: not power, not a DSN link."
+ ]
+}

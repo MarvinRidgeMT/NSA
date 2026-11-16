@@ -1,0 +1,109 @@
+{
+ "schema": "scenario-cube-v1",
+ "cube_id": "site01_roi6-products-v1",
+ "site_id": "site01_roi6",
+ "title": "Terrain data product (M axis)",
+ "label": "SOURCE-BASED \u00b7 UNVALIDATED",
+ "generated_utc": "2026-11-16T05:05:23Z",
+ "description": "Same 1 m mast, centre position and ephemeris on different NASA terrain products.",
+ "fixed": {
+  "mast_m": 1.0,
+  "position": "bundle site",
+  "T": "nominal",
+  "window": "2026-11-14 + 14 d (12 months for year_sun_pct)"
+ },
+ "dims": [
+  {
+   "name": "M",
+   "kind": "uncertainty_model",
+   "values": [
+    "PGDA 78 5 m + PGDA 90 80 m (POLARIS)",
+    "PGDA 90 20 m + 80 m",
+    "PGDA 90 40 m + 80 m",
+    "PGDA 90 80 m only",
+    "GSFC SfS (Bertone et al. 2026) + PGDA 90 80 m"
+   ],
+   "units": "",
+   "label": "Terrain data product",
+   "nominal_index": 0
+  }
+ ],
+ "metrics": {
+  "sun_pct": {
+   "units": "%",
+   "label": "Sun centre visible (demo window)",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    100.0,
+    100.0,
+    100.0,
+    100.0,
+    100.0
+   ],
+   "provenance": "research/long_features lens/sfs results"
+  },
+  "sun_earth_pct": {
+   "units": "%",
+   "label": "Sun and Earth centre visible (demo window)",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    81.6,
+    81.6,
+    81.6,
+    81.6,
+    81.6
+   ],
+   "provenance": "research/long_features lens/sfs results"
+  },
+  "year_sun_pct": {
+   "units": "%",
+   "label": "Sun centre visible (12 months hourly)",
+   "dtype": "float64",
+   "decimals": 2,
+   "values": [
+    85.1,
+    85.97,
+    86.04,
+    82.23,
+    85.25
+   ],
+   "provenance": "research/long_features lens/sfs results"
+  }
+ },
+ "missing": {
+  "encoding": "sparse-flat-index",
+  "by_metric": {
+   "sun_pct": [],
+   "sun_earth_pct": [],
+   "year_sun_pct": []
+  },
+  "reasons": {}
+ },
+ "provenance": {
+  "inputs": [
+   {
+    "path": "research/long_features/results/lens_Site01_ROI6.json",
+    "sha256": "5cfd05e4a5979f3a3d3e9800390ee0c2ef17983a47aca978dce11467075c9588",
+    "note": "M axis: four NASA terrain products"
+   },
+   {
+    "path": "research/long_features/results/sfs_result.json",
+    "sha256": "1a3f169e092f94f21259b134c9b33a24afd2292c2adcd49cfb553058f420a8ba",
+    "note": "M axis: SfS product"
+   },
+   {
+    "path": "research/long_features/results/sfs_meta.json",
+    "sha256": "d2891c799ccdd73af54fe90a6aa5899e5349388c5ff6453bbfa43d7551e5d69e",
+    "note": "SfS tile coverage 100%"
+   }
+  ],
+  "command": "python -m science.cube.build_cube",
+  "code_commit": "bdf525c84862b46ebf8fd712c21019e9aa422c51-dirty",
+  "solver": "research/long_features (polaris_batch), copied not recomputed"
+ },
+ "limitations": [
+  "Values copied from the research handoff; the research solver samples differently from the repo solver (fractions of a percent)."
+ ]
+}

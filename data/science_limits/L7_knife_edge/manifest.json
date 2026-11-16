@@ -1,0 +1,24 @@
+{
+ "item": "L7_knife_edge",
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "date_utc": "2026-11-16T02:57:55Z",
+ "command": "python l7_knife_edge.py",
+ "module": "/Users/anishmeruva/Documents/ChatGPT/NSA-science-limits/science/limits/l7_knife_edge.py",
+ "code_commit": "c4c225ac443a24df26e3b26e8e233c47b22dc3c6",
+ "inputs": [
+  {
+   "path": "data/bundles/site04_roi3_2026-11-14_14d_mast1m.json",
+   "sha256": "061d7c0376069cc47034b22b130aaea23acca07a4bc286d9f9f1ea0866ad4deb",
+   "note": "[hash refreshed: main 8dde4f1 added derived.certainty* to the bundle; metrics, samples, site and margin_series identical (checked)]"
+  },
+  {
+   "path": "data/bundles/site01_roi6_2026-11-14_14d_mast1m.json",
+   "sha256": "3aff6b65ee1b4df9e8a2c599d377304365b65be54ac5b16050fa34b8513045c6",
+   "note": "[hash refreshed: main 8dde4f1 added derived.certainty* to the bundle; metrics, samples, site and margin_series identical (checked)]"
+  }
+ ],
+ "outputs": {
+  "result.json": "572d56740de78bbb594f88e624946224df0afd345d52687056e6c2491286375a",
+  "RESULT.md": "976679dcdc0a780b383587cbab6ebc253250a0849fde4e25bad5f96a7ca5c6c9"
+ }
+}

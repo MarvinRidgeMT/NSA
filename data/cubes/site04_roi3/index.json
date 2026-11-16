@@ -1,0 +1,231 @@
+{
+ "schema": "scenario-cube-index-v1",
+ "site_id": "site04_roi3",
+ "label": "SOURCE-BASED \u00b7 UNVALIDATED",
+ "cubes": [
+  {
+   "file": "centre_mast_schedule.json.gz",
+   "cube_id": "site04_roi3-centre-mast-schedule-v1",
+   "title": "Centre position: terrain map x mast height x start",
+   "bytes": 435632,
+   "uncompressed_bytes": 37887183,
+   "sha256": "f87690e3be1de43092ec983f51e42aac2cd52327ec8b9ce7d97925f59ea22a4d",
+   "dims": [
+    "T",
+    "D_mast",
+    "S"
+   ]
+  },
+  {
+   "file": "position_schedule.json.gz",
+   "cube_id": "site04_roi3-position-schedule-v1",
+   "title": "Position grid: terrain map x position x daily start",
+   "bytes": 1041500,
+   "uncompressed_bytes": 12262366,
+   "sha256": "c8ab8480890d89962a769c576b092360ee8bd56dbdd43d09b6fb7db78a81e910",
+   "dims": [
+    "T",
+    "D_pos",
+    "S"
+   ]
+  },
+  {
+   "file": "products.json",
+   "cube_id": "site04_roi3-products-v1",
+   "title": "Terrain data product (M axis)",
+   "bytes": 2568,
+   "uncompressed_bytes": 2568,
+   "sha256": "6dfc269f4033f30180729dc6cf146fe67c612d018a256aa1ef431873f7246f43",
+   "dims": [
+    "M"
+   ]
+  },
+  {
+   "file": "terrain_safety.json",
+   "cube_id": "site04_roi3-terrain-safety-v1",
+   "title": "Terrain safety: slope per map and position, safe-and-lit",
+   "bytes": 105646,
+   "uncompressed_bytes": 102720,
+   "sha256": "542500adb49537180179e71033d544ed2cb8ccdc7f93f3c30561c47c3bbc9b20",
+   "dims": [
+    "T",
+    "D_pos"
+   ]
+  },
+  {
+   "file": "visibility_rule.json.gz",
+   "cube_id": "site04_roi3-visibility-rule-v1",
+   "title": "Visibility rule: map x rule x mast x daily start",
+   "bytes": 309609,
+   "uncompressed_bytes": 7957798,
+   "sha256": "57045ea5cc9ea1b1e9f048f7e221d4c3e00bcc7f6304dd2d6380ec2ee2e5ca6b",
+   "dims": [
+    "T",
+    "R_vis",
+    "D_mast",
+    "S"
+   ]
+  },
+  {
+   "file": "disc_fraction_hourly.json.gz",
+   "cube_id": "site04_roi3-disc-fraction-hourly-v1",
+   "title": "Hourly visible disc fraction: map x mast x hour",
+   "bytes": 643729,
+   "uncompressed_bytes": 15602950,
+   "sha256": "ce7854223f238733270d1aeb29897d635620de30170d61def6428b330fc7a439",
+   "dims": [
+    "T",
+    "D_mast",
+    "H"
+   ]
+  },
+  {
+   "file": "link.json.gz",
+   "cube_id": "site04_roi3-link-v1",
+   "title": "Link targets: map x mast x target x margin x daily start",
+   "bytes": 1168317,
+   "uncompressed_bytes": 14956053,
+   "sha256": "384e95c45d2f942408e2532fe7d78e4b9ebace4c0b7a023d31aac787228baa92",
+   "dims": [
+    "T",
+    "D_mast",
+    "target",
+    "R_margin",
+    "S"
+   ]
+  },
+  {
+   "file": "launch_calendar.json.gz",
+   "cube_id": "site04_roi3-launch-calendar-v1",
+   "title": "Launch-window calendar: start date x arrival slip",
+   "bytes": 10094,
+   "uncompressed_bytes": 2107894,
+   "sha256": "3d38f13d4afff6583de7930ce1d0dc75e31a92dd59e1a88524ca4245cc3a2ab4",
+   "dims": [
+    "D_mast",
+    "R",
+    "S_day",
+    "S_slip"
+   ]
+  },
+  {
+   "file": "asset_layout.json",
+   "cube_id": "site04_roi3-asset-layout-v1",
+   "title": "Multi-asset layout: power, link, joint",
+   "bytes": 7395,
+   "uncompressed_bytes": 7395,
+   "sha256": "c4da71658b67ff52e3a9765914f85aabc71466e829ef3eacfd9cf6c589778f42",
+   "dims": [
+    "T",
+    "D_layout",
+    "S_window"
+   ]
+  },
+  {
+   "file": "footprint.json",
+   "cube_id": "site04_roi3-footprint-v1",
+   "title": "Lander footprint: centre and corners of a 9 m pad",
+   "bytes": 7559,
+   "uncompressed_bytes": 7559,
+   "sha256": "0ac88456ffc4af8279f03aec24eaf657696bd03602250405611d31a2df19907f",
+   "dims": [
+    "T",
+    "D_pad",
+    "S_window"
+   ]
+  },
+  {
+   "file": "asset_heights.json",
+   "cube_id": "site04_roi3-asset-heights-v1",
+   "title": "Per-asset heights at the site",
+   "bytes": 7052,
+   "uncompressed_bytes": 7052,
+   "sha256": "1f3c3870ac36018a157b2c1cdb8272338363420f21c2f5e73bb4baebdeb47003",
+   "dims": [
+    "T",
+    "D_height",
+    "S_window"
+   ]
+  },
+  {
+   "file": "energy.json.gz",
+   "cube_id": "site04_roi3-energy-v1",
+   "title": "Energy margin: map x array x mast x daily start (ENGINEERING ASSUMPTION)",
+   "label": "ENGINEERING ASSUMPTION",
+   "bytes": 323726,
+   "uncompressed_bytes": 3184403,
+   "sha256": "302d7f75f33353d42aa63c681bf744bc5257c7206dac68cc21b329b171907034",
+   "dims": [
+    "T",
+    "D_array",
+    "D_mast",
+    "S"
+   ]
+  },
+  {
+   "file": "dispersion.json",
+   "cube_id": "site04_roi3-dispersion-v1",
+   "title": "Landing dispersion x terrain",
+   "bytes": 4180,
+   "uncompressed_bytes": 4180,
+   "sha256": "25d72692976fea36561d358ccfa5d8df969db905e58e3c69517327dd610577ff",
+   "dims": [
+    "R_slope",
+    "D_dispersion",
+    "k"
+   ]
+  },
+  {
+   "file": "sensitivity.json",
+   "cube_id": "site04_roi3-sensitivity-v1",
+   "title": "What matters: sensitivity indices + emulator re-check",
+   "bytes": 145157,
+   "uncompressed_bytes": 145250,
+   "sha256": "faefa397108314de0606481f05d476ca8032f842f8d33897c410b05f4554a310",
+   "dims": [
+    "D_cand"
+   ]
+  }
+ ],
+ "baseline": {
+  "bundle": "site04_roi3_2026-11-14_14d_mast1m",
+  "sun_pct": {
+   "cube": 94.362,
+   "bundle": 94.362
+  },
+  "sun_earth_pct": {
+   "cube": 72.107,
+   "bundle": 72.107
+  },
+  "earth_pct": {
+   "cube": 77.745,
+   "bundle": 77.745
+  },
+  "sun_gap_h": {
+   "cube": 19,
+   "bundle_bisected_h": 19.4434
+  }
+ },
+ "barker_check": {
+  "5m": {
+   "median_std_deg": 1.261,
+   "p95_std_deg": 1.845,
+   "ratio_to_barker_1p5deg": 0.84,
+   "within_factor_3_of_barker": true
+  },
+  "25m": {
+   "median_std_deg": 0.464,
+   "p95_std_deg": 0.816,
+   "ratio_to_barker_1p5deg": 0.309,
+   "within_factor_3_of_barker": false
+  },
+  "100m": {
+   "median_std_deg": 0.078,
+   "p95_std_deg": 0.135,
+   "ratio_to_barker_1p5deg": 0.052,
+   "within_factor_3_of_barker": false
+  },
+  "barker_reference": "Barker et al. 2021 (PGDA 78): typical slope RMS uncertainty 1.5-2.5 deg",
+  "block": "per-pixel std over clones 1-20 in the +-150 m block around the site"
+ }
+}

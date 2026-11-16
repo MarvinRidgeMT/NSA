@@ -42,3 +42,41 @@ Status of all numbers: **SOURCE-BASED · UNVALIDATED** (no independent validatio
 | When (EST) | Who | Change |
 |---|---|---|
 | 2026-11-14 20:52 | Claude (Penumbra Apex session) | Created. |
+
+## Scenario cube slicer (5D upgrades Phase 1–2, 16 Nov 2026, branch feature/5d-upgrades)
+Component `web/src/components/CubeSlicer.tsx`; every value is a slice of `data/cubes/<site>/*` (built by `science/cube/`).
+The panel and card carry `data-source="scenario cube <cube_id>"` and `data-label="SOURCE-BASED · UNVALIDATED"`.
+
+| Claim on screen | Source | Check |
+|---|---|---|
+| "{metric} · this cell" (e.g. 72.11 % at nominal, 1 m, 2026-11-14) | cube metric × declared scale (count/337) | equals bundle hourly-sample metric (test_cube round trip; Playwright cube-slicer) |
+| "T · range over 21 maps" | `derived.band_over_T` min/max | brute-force min/max over T (test_cube) |
+| "R · clone maps passing: k of 20 maps" | `derived.k_of_N` | recount from cube metrics (test_cube); wording never says probability |
+| "D · regret if chosen on nominal" (pct pts) | `derived.regret` | brute-force argmax/max (test_cube) |
+| "D · verdict depends on map: x % of starts" | `derived.decision_changes` | 0 < k < 20, team preset |
+| Strip caption "solid = selected map · band = range over T · hatch = missing" | visual grammar | — |
+| Requirement presets (team 70/40/120 h; strict 80/50/72 h; loose 60/30/168 h) | team requirement + research all3 gap limit; strict/loose are sensitivity presets | labelled as presets, not mission requirements |
+| Products table, "not in source" | `products.json` missing mask with reason | Site04 SfS cell missing (tile coverage 25.8 %) |
+| Terrain-safety values (slope °, safe-and-lit k) | `terrain_safety.json`; thresholds 10° / 8° / 20° are ENGINEERING ASSUMPTION | test_slope synthetic planes ±0.1° |
+
+## Energy trade view (5D upgrades Phase 5, 16 Nov 2026, branch feature/5d-phase5-energy)
+Component `web/src/components/EnergyTrade.tsx`; every value is a cell of `data/cubes/<site>/energy.json.gz` (built by `science/energy/`).
+Panel `data-label="ENGINEERING ASSUMPTION · inputs SOURCE-BASED · UNVALIDATED"`, badge shows the cube label `ENGINEERING ASSUMPTION`.
+
+| Claim on screen | Source | Check |
+|---|---|---|
+| Battery needed (kWh), demo start / every start, nominal / worst of 20 | `derived.trade` | equals parent-cube cells (test_energy, vitest energyCube) |
+| "k of 20 maps where X kWh holds every start", "% of starts hold on all 20" | `derived.trade.k_ok_all`, `share_starts_ok_all20` | recount from hours_below_reserve; wording never says probability |
+| Assumptions line (area, η, azimuth, battery, efficiencies, reserve, initial SoC, load) | cube `fixed`, copied from `science/energy/assumptions.yaml` | test_energy checks fixed = YAML |
+## "What matters" bar (5D upgrades Phase 7, 16 Nov 2026)
+Component `web/src/components/WhatMatters.tsx`; every value is read from `data/cubes/<site>/sensitivity.json`.
+The panel carries `data-source="scenario cube <cube_id> derived sobol__<source>__<metric>"` and `data-label="SOURCE-BASED · UNVALIDATED"`.
+
+| Claim on screen | Source | Check |
+|---|---|---|
+| Bar and "Shapley / First-order / Total" shares (% of variance) per sub-axis | `derived.sobol__*` (exact ANOVA on the cube) | `test_sensitivity.py` recomputes every stored share from the committed cubes; synthetic additive shares within 2 % |
+| "Largest share … of the spread (SD …)" | same block | — |
+| "No spread … shares are undefined" | `no_spread` = true, shares null | test (Site01 centre at the demo start) |
+| "Energy margin: not in bundle" | `fixed.energy_margin` | file `energy.json.gz` absent on this branch |
+| Details: caveat "share of spread within this scenario set" | block `caveat` | wording test |
+| Details: emulator ρ, errors, best re-checked vs best grid cell (%) | `derived.emulator_check` (full-solver re-check) | `test_emulator_recheck_passes`, `test_emulator_recheck_reproduces_from_cache`; emulator labelled SURROGATE, search only |

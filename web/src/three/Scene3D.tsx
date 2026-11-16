@@ -22,6 +22,10 @@ import { TerrainSurface } from './TerrainSurface';
 import { ExaggerationPicker } from '../components/SurfaceLayer';
 import { StableLine } from './StableLine';
 import GlobalMoon from './GlobalMoon';
+import { LodTerrain } from './LodTerrain';
+import { LodPanel } from './LodPanel';
+import { loadLodManifest, type LodManifest } from '../bundle/lodTiles';
+import { useLod } from '../store/lod';
 
 /**
  * Axes: bundle grid (x = grid east, y = grid north, z = up, metres) is drawn as
@@ -477,9 +481,11 @@ function HeadingProbe({ toward }: { toward: (az: number, d: number) => THREE.Vec
 interface SurfaceExtras {
   ctx: TerrainContext | null;
   albedo: { texture: THREE.Texture; layer: VisualLayer } | null;
+  /** 5D Phase 9.4: near-field LOD tiles to draw instead of the crop/context surface (display only), or null */
+  lod?: LodManifest | null;
 }
 
-function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
+function Scene({ v, ctx, albedo, lod = null }: { v: View } & SurfaceExtras) {
   const layer = useSurface((s) => s.layer);
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
   const obs = observerFor(v);
@@ -570,7 +576,7 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
   const earthHidden = v.earth.visible === false;
   const S = halfExtent * 1.05;
   // with the regional context drawn the far plane must reach its corners (~23 km); display only
-  const farPlane = ctx ? 90000 : halfExtent * 48; // the Overhead map view sits ~39 half-extents away (long lens)
+  const farPlane = ctx || lod ? 90000 : halfExtent * 48; // the Overhead map view sits ~39 half-extents away (long lens)
   useEffect(() => {
     if (camera.far !== farPlane) {
       camera.far = farPlane;
@@ -624,7 +630,9 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
         <span className="tag3d hidden-body" data-testid="earth-hidden-marker" data-hidden={earthHidden}>Earth direction · hidden by terrain (bundle)</span>
       </Html>
       <group scale={[1, k, 1]}>
-      {ctx ? (
+      {lod ? (
+        <LodTerrain manifest={lod} obs={obs} />
+      ) : ctx ? (
         <TerrainSurface v={v} dem={dem} obs={obs} local={g} ctx={ctx} layer={layer} albedo={albedo} />
       ) : (
         <mesh geometry={g} receiveShadow castShadow>
@@ -753,11 +761,26 @@ function DemScene({ v, active }: { v: View; active: boolean }) {
     return () => useSurface.getState().setSceneFacts({ contextLoaded: false, albedoCoverage: 0 });
   }, [ctx, albedo, pick]);
 
+  // 5D Phase 9.4: near-field LOD tiles for this dataset when they were built (display only; opt-in toggle, or ?lod=1)
+  const [lod, setLod] = useState<LodManifest | null>(null);
+  const lodOn = useLod((s) => s.on);
+  useEffect(() => {
+    let live = true;
+    setLod(null);
+    loadLodManifest(siteId)
+      .then((m) => live && setLod(m))
+      .catch((e) => console.warn(`near-field LOD tiles not used: ${e instanceof Error ? e.message : e}`));
+    return () => {
+      live = false;
+    };
+  }, [siteId]);
+  const lodDrawn = lod && lodOn ? lod : null;
+
   // the global Moon is an overlay: the terrain canvas stays mounted underneath (paused), so nothing is torn down mid-frame
   const globe = useSurface((s) => s.globe);
 
   return (
-    <div className="scene3d" data-testid="scene3d" data-globe={globe ? 'on' : 'off'} data-context={ctx ? 'loaded' : 'none'} data-albedo={albedo ? albedo.layer.id : 'none'} ref={wrap}>
+    <div className="scene3d" data-testid="scene3d" data-globe={globe ? 'on' : 'off'} data-context={ctx ? 'loaded' : 'none'} data-albedo={albedo ? albedo.layer.id : 'none'} data-lod={lodDrawn ? 'on' : lod ? 'available' : 'none'} ref={wrap}>
       <Canvas
         shadows
         dpr={[1, 2]}
@@ -765,7 +788,7 @@ function DemScene({ v, active }: { v: View; active: boolean }) {
         gl={{ antialias: true, logarithmicDepthBuffer: true, toneMapping: THREE.AgXToneMapping, toneMappingExposure: 1.2 }}
         frameloop={active && !globe ? 'always' : 'never'}
       >
-        <Scene v={v} ctx={ctx} albedo={albedo} />
+        <Scene v={v} ctx={ctx} albedo={albedo} lod={lodDrawn} />
       </Canvas>
       {/* display-only vertical exaggeration, overlaid on the stage (out of the layout flow) */}
       {ctx && !globe && <ExaggerationPicker />}
@@ -781,6 +804,7 @@ function DemScene({ v, active }: { v: View; active: boolean }) {
       )}
       <RidgeCaption v={v} cropHalfM={half} selectedOnly />
       <LightTag v={v} />
+      {lod && <LodPanel manifest={lod} />}
       <details className="scene-note">
         <summary>About this view</summary>
         DEM {dem.n}×{dem.n} @ {dem.spacing} m (display decimated to ≤{MAX_AXIS}²), 1:1 vertical. Observer{' '}
