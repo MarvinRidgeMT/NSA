@@ -1032,3 +1032,11 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .cube-card dt { font-size: 11px; color: var(--ash); }
 .cube-card dd { margin: 2px 0 0; font-family: 'JetBrains Mono', monospace; }
 .cube-missing-cell { background: repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.08) 4px 6px); color: var(--ash); }
+
+/* 5D Phase 9.4: near-field LOD toggle + "display only" statement (Scene3D LodPanel) */
+.lod-panel { position: absolute; z-index: 6; left: 20px; top: 172px; max-width: min(560px, calc(100% - 40px)); font: 400 11px/1.5 var(--f-mono); color: var(--ash); text-shadow: 0 0 8px #000; }
+.lod-panel .detail-toggle { padding: 1px 7px; min-height: 22px; font: 500 10px var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; background: var(--scrim); color: var(--bone); border: 1px solid var(--line); cursor: pointer; }
+.lod-panel .detail-toggle[aria-pressed='true'] { background: var(--bone); color: var(--basalt); }
+.lod-panel .detail-toggle:focus-visible { outline: 2px solid var(--bone); outline-offset: 2px; }
+.lod-panel .lod-label strong { color: var(--bone); font-weight: 500; text-transform: uppercase; }
+@media (max-width: 760px) { .lod-panel { top: 8px; left: auto; right: 8px; max-width: calc(100% - 16px); font-size: 10px; } }
