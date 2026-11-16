@@ -1,13 +1,13 @@
 {
   "schema": "POLARIS-X-scene-manifest-v2",
-  "generatedUTC": "2026-11-15T22:11:04Z",
+  "generatedUTC": "2026-11-16T02:35:54Z",
   "bundle": {
     "file": "polaris-x5d-roi-2026-11-14-v2.json",
-    "sha256": "5b93dd66c3177d6098531f1261d565b3089101bd58f4d9a38d8ffb617b9cf51f",
-    "bytes": 5296508,
+    "sha256": "65a562cbec3318f60f092494f93063fe855fca690e1e4bc960edc8ec31fe301b",
+    "bytes": 7109198,
     "format": "POLARIS-X5D-v2",
     "schemaVersion": "2.1.0",
-    "generatedUTC": "2026-11-14T18:14:21Z"
+    "generatedUTC": "2026-11-16T02:29:18Z"
   },
   "status": "SOURCE-BASED UNVALIDATED",
   "demo": false,
@@ -103,6 +103,72 @@
   },
   "sunLamp": "SUN lamp +Z aimed toward the bundle JPL Sun direction (lamp shines along -Z); keyframed per sample with CONSTANT interpolation; energy 0 when el <= -0.27 deg",
   "rays": "blocked rays end at bundle firstHitM (horizontal) when derived outputs exist; otherwise drawn to the DEM coverage edge and marked not evaluated",
+  "sky": {
+    "shellRadiusM": 20000.0,
+    "chartRadiusM": 800.0,
+    "chartElevationExaggeration": 5.0,
+    "objects": [],
+    "bodies": {
+      "sunAngularRadiusDeg": 0.2666,
+      "earthAngularRadiusDeg": 0.9497,
+      "source": "nominal display radii (bundle carries no per-sample radii); directions from bundle JPL az/el"
+    },
+    "chartSkylines": [
+      {
+        "id": "baseline",
+        "label": "ROI point \u00b7 1 m mast",
+        "family": "baseline",
+        "selected": true
+      },
+      {
+        "id": "mast10",
+        "label": "ROI point \u00b7 10 m mast",
+        "family": "mast-height",
+        "selected": false
+      },
+      {
+        "id": "clone003",
+        "label": "Terrain clone 3 (lowest of 20)",
+        "family": "dem-clone",
+        "selected": false
+      },
+      {
+        "id": "clone007",
+        "label": "Terrain clone 7 (middle of 20)",
+        "family": "dem-clone",
+        "selected": false
+      },
+      {
+        "id": "clone019",
+        "label": "Terrain clone 19 (highest of 20)",
+        "family": "dem-clone",
+        "selected": false
+      }
+    ],
+    "summary": {
+      "sun": {
+        "samples": 337,
+        "clear": 318,
+        "blocked": 19,
+        "notEvaluated": 0,
+        "elevationRangeDeg": [
+          1.3125,
+          1.6058
+        ]
+      },
+      "earth": {
+        "samples": 337,
+        "clear": 262,
+        "blocked": 75,
+        "notEvaluated": 0,
+        "elevationRangeDeg": [
+          -4.8479,
+          6.0572
+        ]
+      }
+    },
+    "rule": "Sun/Earth bodies and paths are placed ONLY from bundle JPL az/el samples; path colour = bundle visible flag; skylines = bundle skyline bins. Shell: true directions and angular sizes, distance not to scale. Chart: elevation exaggerated (overview only). Bodies keyframed per sample, CONSTANT interpolation. Not exported to the GLB."
+  },
   "frameToUtc": {
     "first": {
       "frame": 1,
@@ -148,7 +214,7 @@
         "earth": -4.16694
       },
       "png": "POLARIS_X_site04_roi3_bundlev2_start_frame001.png",
-      "pngSha256": "4be2bf336fc6142695516d0fb10baa2162ad206f7e9583fc74b8a1ce2f50c53f"
+      "pngSha256": "4103be7ebff79ba7d3977d76a7923f15665feb072c12ddff9c60b364b38b9d72"
     },
     {
       "label": "mid",
@@ -181,7 +247,7 @@
         "earth": 5.10205
       },
       "png": "POLARIS_X_site04_roi3_bundlev2_mid_frame169.png",
-      "pngSha256": "f1e58a3f0f6a3cc8ca9a528ada4cb07044f61b9050c2fcc0fb5b99150a2bcb85"
+      "pngSha256": "8f90430f33b5e0a57c7058cbb873d8583d2af02c1b599782665daa83f5e7841f"
     },
     {
       "label": "transition",
@@ -224,7 +290,7 @@
         "note": "change happens between these two hourly samples; not refined"
       },
       "png": "POLARIS_X_site04_roi3_bundlev2_transition_frame312.png",
-      "pngSha256": "1fca8ee3a071edd22c7f3d64c7b0557dce86f8e18538c2a406bdacd58d353f5c"
+      "pngSha256": "6ee53d8c070925a0a642ad27aad3145e677ffbb2dad683499289fe6d88f4bcde"
     },
     {
       "label": "end",
@@ -257,16 +323,49 @@
         "earth": 3.46651
       },
       "png": "POLARIS_X_site04_roi3_bundlev2_end_frame337.png",
-      "pngSha256": "2f8e78f55ca19132d75f5de93c9b174254f7634b69b79affcc9964a732a30ebc"
+      "pngSha256": "1556567c005b0e2032e5777a91fa99bfc6f7732895b88b38edd09564dfc3da4b"
     },
     {
       "label": "hero_low",
       "frame": 1,
       "sampleIndex": 0,
       "utc": "2026-11-14T00:00:00.000Z",
-      "camera": "low cross-lit (presentation)",
+      "camera": "low, Sun side, 40 deg off the Sun azimuth, +1 stop exposure (presentation)",
       "png": "POLARIS_X_site04_roi3_bundlev2_hero_low_frame001.png",
-      "pngSha256": "da22d19f8b9133b6500706f576153c4390de8b63c9cf88f1e0d93986f20c33ae"
+      "pngSha256": "84d978e2877df46d45bb9ecd63f856a988d8d792e77c24cbb638e1fd50273f16"
+    },
+    {
+      "label": "eye_sun_start",
+      "frame": 1,
+      "sampleIndex": 0,
+      "utc": "2026-11-14T00:00:00.000Z",
+      "target": "sun",
+      "camera": "mast eye, 50 mm, aimed at the bundle sun az, el + 2 deg; true angles, no exaggeration",
+      "state": "clear",
+      "png": "POLARIS_X_site04_roi3_bundlev2_eye_sun_start_frame001.png",
+      "pngSha256": "6b61694b6500afe5031db0a14520ddfe95bf7afeae025c42b1505f1c58e72770"
+    },
+    {
+      "label": "eye_sun_transition",
+      "frame": 312,
+      "sampleIndex": 311,
+      "utc": "2026-11-26T23:00:00.000Z",
+      "target": "sun",
+      "camera": "mast eye, 50 mm, aimed at the bundle sun az, el + 2 deg; true angles, no exaggeration",
+      "state": "blocked",
+      "png": "POLARIS_X_site04_roi3_bundlev2_eye_sun_transition_frame312.png",
+      "pngSha256": "dc3df67f6fa24558742a8b060e7665eda5c081145491fa34262dc137bcc139a1"
+    },
+    {
+      "label": "eye_earth_frame169",
+      "frame": 169,
+      "sampleIndex": 168,
+      "utc": "2026-11-21T00:00:00.000Z",
+      "target": "earth",
+      "camera": "mast eye, 50 mm, aimed at the bundle earth az, el + 2 deg; true angles, no exaggeration",
+      "state": "clear",
+      "png": "POLARIS_X_site04_roi3_bundlev2_eye_earth_frame169_frame169.png",
+      "pngSha256": "c9bf5d5ed88b583e8dbcc094b467ba8083c3212366ff220b9b651befe32923bf"
     }
   ],
   "glbReimport": {
@@ -410,11 +509,11 @@
   "assets": {
     "blend": {
       "file": "POLARIS_X_site04_roi3_bundlev2.blend",
-      "sha256": "60ed8c25ef0a1f6609f32e2478277db6b358b4b82b87281c2925b384e06ad9c8"
+      "sha256": "066fb4b298ca14d8458233199957fb146f1a15a56e79cd2beca72678a3d9bee1"
     },
     "glb": {
       "file": "POLARIS_X_site04_roi3_bundlev2.glb",
-      "sha256": "14c7b125096a8e57eb144655505ff91fd5dde16983451a966c775060f083b0c5"
+      "sha256": "c1b7461f6a208d9f300fae25b5aa61cee1e76997292ea8cef12ab230c91e1042"
     }
   },
   "limitations": [
