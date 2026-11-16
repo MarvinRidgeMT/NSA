@@ -1,6 +1,6 @@
 {
  "schema": "polaris-blender-showcase-v1",
- "generatedUTC": "2026-11-16T01:42:31Z",
+ "generatedUTC": "2026-11-16T01:47:48Z",
  "status": "SOURCE-BASED UNVALIDATED",
  "site": "site04_roi3",
  "bundle": {
@@ -9,7 +9,7 @@
  },
  "blenderVersion": "5.3.0",
  "device": "METAL",
- "samples": 256,
+ "samples": 128,
  "resolution": "1920x1080",
  "renders": [
   {
@@ -24,7 +24,7 @@
    },
    "exposureStops": 0.0,
    "png": "POLARIS_X_site04_roi3_bundlev2_showcase_aerial.png",
-   "pngSha256": "6b07d094a417ec3010f13384da1efe69594684f9c3f190551c1b110ad7c8f17e",
+   "pngSha256": "d1727bb19cdb7f39f315a01e98505565404b16f6271b081932aa4b9b42c33150",
    "rays": {
     "sun": {
      "state": "clear",
@@ -48,7 +48,7 @@
    },
    "exposureStops": 0.7,
    "png": "POLARIS_X_site04_roi3_bundlev2_showcase_ground.png",
-   "pngSha256": "36ccd35552e138e4de5b9d4025c3548388281d504dea184b4c2d6a857dbf62fd",
+   "pngSha256": "e26446b6feb437952cbffbc83933ddbd1ad57b5e403a31947bb3b3b257f0fdf0",
    "rays": {
     "sun": {
      "state": "clear",
@@ -72,7 +72,7 @@
    },
    "exposureStops": 1.0,
    "png": "POLARIS_X_site04_roi3_bundlev2_showcase_low_sun.png",
-   "pngSha256": "bf530fdbe96e334af81d03277d03278f8c798bc1fd032520377c4ab31abf0c35",
+   "pngSha256": "150838ca29e37d19e0a47359756f0962e6d04625eb5f8e003ccb18f4e3a1e420",
    "rays": {
     "sun": {
      "state": "clear",
@@ -96,7 +96,7 @@
    },
    "exposureStops": 0.6,
    "png": "POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast1m.png",
-   "pngSha256": "32891ebc5e39017284003ab0edf3480ed69f014517e8a711eb4c2c7b674c654c",
+   "pngSha256": "a0fc0082cc7851cf001a3e7b29021812523233b123d235839f33b89186d69879",
    "scenario": "baseline",
    "mastM": 1.0,
    "sunRay": {
@@ -117,7 +117,7 @@
    },
    "exposureStops": 0.6,
    "png": "POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast10m.png",
-   "pngSha256": "8a7e175032d67b324afe4572fe3669d26ac3ffea6b17012bdf75b3abd9f44ffe",
+   "pngSha256": "1ef19da57231db4fb44a9c8f90bd1160067d108972095637b1909eb32c68425c",
    "scenario": "mast10",
    "mastM": 10.0,
    "sunRay": {
@@ -144,8 +144,8 @@
  "showcaseBlend": "POLARIS_X_site04_roi3_bundlev2_showcase.blend",
  "webGlb": {
   "file": "POLARIS_X_site04_roi3_bundlev2_web.glb",
-  "bytes": 929116,
-  "sha256": "ea5808ce881f1ee1ba9d3cf6be61f9b3edf938148f268555aefce2cd39232c81",
+  "bytes": 929180,
+  "sha256": "ba82116ff636769453427ceac0aed3ae0fa6d11dd712cb9ffd4febe8266ce28a",
   "draco": true
  },
  "syntheticDetail": {

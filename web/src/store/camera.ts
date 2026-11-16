@@ -20,13 +20,16 @@ export const CAMERA_VIEWS: { id: CameraViewId; label: string; dem: boolean; pano
 interface CameraState {
   view: CameraViewId;
   nonce: number;
-  request: (v: CameraViewId) => void;
+  /** optional cinematic entry for this request: cut to `from` first, then ease to `view` over `ms` (guided demo opening) */
+  entry: { from: CameraViewId; ms: number } | null;
+  request: (v: CameraViewId, entry?: { from: CameraViewId; ms: number }) => void;
 }
 
 export const useCamera = create<CameraState>((set, get) => ({
   view: 'approach',
   nonce: 0,
-  request: (view) => set({ view, nonce: get().nonce + 1 }),
+  entry: null,
+  request: (view, entry) => set({ view, nonce: get().nonce + 1, entry: entry ?? null }),
 }));
 
 export const reducedMotion = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;

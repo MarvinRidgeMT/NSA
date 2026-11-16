@@ -302,6 +302,15 @@ def main():
             rock_note = f'failed: {e}'
             print(f'[POLARIS] boulder field skipped: {e}')
 
+    # airless sky: camera rays see black (some older hero files carried a grey world colour)
+    if scene.world is None:
+        scene.world = bpy.data.worlds.new('POLARIS black sky')
+    scene.world.use_nodes = True
+    for n in scene.world.node_tree.nodes:
+        if n.type == 'BACKGROUND':
+            n.inputs['Color'].default_value = (0, 0, 0, 1)
+            n.inputs['Strength'].default_value = 0.0
+
     dev = use_gpu(scene)
     scene.render.engine = 'CYCLES'
     scene.cycles.samples = cfg.samples
@@ -327,12 +336,13 @@ def main():
     aer.location = perp * (half * 1.6) - sd * (half * 0.35) + Vector((0, 0, half * 0.55))
     look_at(aer, (0, 0, 0))
     views.append(('aerial', aer, k0, 0.0))
-    # ground level: a 1.7 m eye 40 m from the mast, looking past it along the Sun's azimuth (Sun to the side of view)
-    gx, gy = (-sd * 40 + perp * 18).x, (-sd * 40 + perp * 18).y
+    # ground level: a 1.7 m eye on the Sun side of the mast, Sun behind the viewer's shoulder, looking past
+    # the mast down-Sun so lit slopes and the long shadows are in view (looking into the Sun showed only backlit black)
+    gp = sd * 45 - perp * 20
     gnd = new_cam('Camera | showcase ground 1.7 m', coll, 24)
-    gnd.location = Vector((gx, gy, ground_z(gx, gy) + 1.7))
-    tgt_pt = sd * 400
-    look_at(gnd, (tgt_pt.x, tgt_pt.y, ground_z(tgt_pt.x, tgt_pt.y) + 8))
+    gnd.location = Vector((gp.x, gp.y, ground_z(gp.x, gp.y) + 1.7))
+    tgt_pt = -sd * 300 + perp * 40
+    look_at(gnd, (tgt_pt.x, tgt_pt.y, ground_z(tgt_pt.x, tgt_pt.y) + 2))
     views.append(('ground', gnd, k0, 0.7))
     low = bpy.data.objects.get('Camera | low cross-lit hero')
     if low:
@@ -372,7 +382,7 @@ def main():
             hdir = Vector(bv.grid_direction(d, st['sun']['az'], 0.0)).normalized()
             hp = Vector((-hdir.y, hdir.x, 0)).normalized()
             cam = new_cam('Camera | showcase obstruction', coll, 30)
-            cx, cy = (hp * 26 - hdir * 9).x, (hp * 26 - hdir * 9).y
+            cx, cy = (hp * 28 + hdir * 6).x, (hp * 28 + hdir * 6).y
             cam.location = Vector((cx, cy, ground_z(cx, cy) + 3.2))
             fx, fy = (hdir * 10).x, (hdir * 10).y
             look_at(cam, (fx, fy, ground_z(fx, fy) + 1.5))
@@ -381,6 +391,7 @@ def main():
                     r.animation_data_clear()
             m0 = float(obs['mast'])
             edge = d['dem'].get('validCoverageRadiusM') or half
+            head.scale = (0.4, 0.4, 0.4)  # smaller eye marker so the 1 m mast stays visible
             for label, sc, stt, hit in (('obstruction_mast1m', base, st1, hit1), ('obstruction_mast10m', tall, st10, hit10)):
                 mh = float(sc['observer']['mastM'])
                 mast.scale = (1.0, 1.0, mh / m0)

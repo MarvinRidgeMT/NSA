@@ -902,3 +902,81 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 @media (pointer: coarse) { .stage-title .layer-chip .detail-toggle { min-height: 32px; } }
 /* room for the relief toggle on the surface chip so the chips stay on one line above the light line (top 146 px) */
 @media (min-width: 1100px) { .stage-title { max-width: min(700px, calc(100vw - 420px)); } }
+
+/* ===== 14islands creative pass (Penumbra session, 15 Nov 2026 21:20 EST). See docs/14ISLANDS_DESIGN_AUDIT.md for the
+   observation -> adaptation -> implementation -> test record of every rule below. Display only: no rule changes a value. ===== */
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);   /* long, soft landing for reveals and camera-led UI */
+  --dur-reveal: 900ms;
+  --dur-panel: 520ms;
+  --glass: rgba(6, 6, 5, 0.82);                     /* >= 5.4:1 for --ash text even over the brightest terrain (checked) */
+  --glass-blur: blur(18px) saturate(1.12);
+}
+
+/* (1) the terrain is the centrepiece: panels become frosted glass over it instead of opaque cards (Blobmixer / 14islands home:
+   one object owns the frame, the interface sits lightly on top). Same geometry, so every layout test still applies. */
+.stage .instrument, .stage .temporal, .stage .views > .btn, .stage .display-cluster {
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+.stage .instrument, .stage .temporal { border-color: rgba(236, 231, 221, 0.10); box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42); }
+/* cinematic depth: a soft lens vignette over the canvas only (labels stay above it) */
+.stage .scene3d::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(130% 95% at 48% 42%, transparent 58%, rgba(0, 0, 0, 0.5) 100%); }
+.stage .sight-tag { z-index: 2; }
+
+/* (2) staged typographic reveal on load and on every site change (14islands home: the headline lines arrive in sequence);
+   the title block is keyed by site in App.tsx so it replays when the site changes */
+@keyframes px-line-in { from { opacity: 0; transform: translateY(16px); clip-path: inset(0 0 100% 0); } to { opacity: 1; transform: none; clip-path: inset(0 0 -20% 0); } }
+@keyframes px-fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes px-panel-in { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+.stage-title > .lab { animation: px-fade-up var(--dur-reveal) var(--ease-out-expo) both; }
+.stage-title h1 { animation: px-line-in var(--dur-reveal) var(--ease-out-expo) 60ms both; }
+.stage-title .coords { animation: px-fade-up var(--dur-reveal) var(--ease-out-expo) 140ms both; }
+.stage-title .stage-meta { animation: px-fade-up var(--dur-reveal) var(--ease-out-expo) 220ms both; }
+.stage .instrument { animation: px-panel-in var(--dur-reveal) var(--ease-out-expo) 160ms both; }
+.stage .heading-tape { animation: px-fade-up var(--dur-reveal) var(--ease-out-expo) 300ms both; }
+@media (min-width: 721px) { .stage-title h1 { font-size: 50px; letter-spacing: -0.015em; } }
+
+/* (3) Focus: the panels step aside and the terrain fills the stage (key F / the Focus button on the heading tape) */
+.stage .instrument, .stage .temporal, .stage .stage-meta, .stage .stage-title .coords, .stage .scene-note, .stage .ridge-caption,
+.stage .light-tag, .stage .display-cluster, .stage .stage-warn {
+  transition: opacity var(--dur-panel) var(--ease-out-expo), transform var(--dur-panel) var(--ease-out-expo), visibility 0s linear 0s;
+}
+.stage.is-focus .instrument { opacity: 0; transform: translateX(24px); visibility: hidden; transition-delay: 0s, 0s, var(--dur-panel); }
+.stage.is-focus .temporal { opacity: 0; transform: translateY(24px); visibility: hidden; transition-delay: 0s, 0s, var(--dur-panel); }
+.stage.is-focus .stage-meta, .stage.is-focus .stage-title .coords, .stage.is-focus .scene-note, .stage.is-focus .ridge-caption,
+.stage.is-focus .light-tag, .stage.is-focus .display-cluster, .stage.is-focus .stage-warn { opacity: 0; visibility: hidden; transition-delay: 0s, 0s, var(--dur-panel); }
+
+/* (4) heading tape: where the camera looks, and the bundle Sun / Earth azimuths, as an instrument strip (top centre of the sky) */
+.heading-tape { position: absolute; z-index: 19; top: 18px; left: calc(50% - 40px); width: 340px; pointer-events: none; font: 500 10px var(--f-mono); color: var(--ash); }
+.heading-tape .ht-window { position: relative; height: 26px; overflow: hidden; border-bottom: 1px solid var(--line-strong);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+.heading-tape .ht-strip { position: absolute; left: 50%; top: 0; bottom: 0; will-change: transform; }
+.heading-tape .ht-tick { position: absolute; bottom: 0; width: 1px; height: 5px; background: var(--line-strong); }
+.heading-tape .ht-tick.major { height: 9px; background: var(--ash); }
+.heading-tape .ht-tick b { position: absolute; bottom: 11px; left: 0; transform: translateX(-50%); font-weight: 500; color: var(--ash); letter-spacing: 0.04em; }
+.heading-tape .ht-centre { position: absolute; left: 50%; bottom: 0; width: 1px; height: 26px; background: var(--bone); }
+.heading-tape .ht-mark { position: absolute; left: 50%; bottom: -1px; width: 0; height: 0; will-change: transform; }
+.heading-tape .ht-mark i { position: absolute; left: -5px; bottom: 0; width: 10px; height: 10px; border-radius: 50%; }
+.heading-tape .ht-mark.sun i { background: var(--solar); box-shadow: 0 0 10px rgba(232, 165, 60, 0.7); }
+.heading-tape .ht-mark.earth i { border: 1.5px dashed var(--earth); }
+.heading-tape .ht-mark[data-off] i { opacity: 0.45; }
+.heading-tape .ht-mark[data-off=''] i { opacity: 1; }
+.heading-tape .ht-read { display: flex; gap: 14px; align-items: center; justify-content: center; margin-top: 7px; letter-spacing: 0.04em; }
+.heading-tape .ht-read .sun { color: var(--solar); } .heading-tape .ht-read .earth { color: var(--earth); }
+.heading-tape .ht-focus { pointer-events: auto; font: 500 10px var(--f-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--bone);
+  background: var(--glass); border: 1px solid var(--line-strong); border-radius: 2px; padding: 3px 8px; cursor: pointer; }
+.heading-tape .ht-focus[aria-pressed='true'] { background: var(--bone); color: var(--basalt); }
+.heading-tape .ht-focus:focus-visible { outline: 2px solid var(--bone); outline-offset: 2px; }
+@media (max-width: 1359px) { .heading-tape { display: none; } }
+
+/* (5) the picked mast: outline grows in 3D, the extra height is named */
+.ghost-mast em { font-style: normal; color: var(--solar); }
+.ghost-mast.side { display: inline-block; transform: translate(14px, -50%); white-space: nowrap; }
+
+/* (6) camera rail: one instrument strip, pressed view lifts */
+.stage .views > .btn { transition: background-color var(--dur-base) var(--ease-standard), color var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard); }
+.stage .views > .btn[aria-pressed='true'] { background: var(--bone); color: var(--basalt); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); }
+.stage .views > .btn:hover:not([aria-pressed='true']) { background: rgba(30, 30, 28, 0.9); }

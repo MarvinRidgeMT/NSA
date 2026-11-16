@@ -923,3 +923,54 @@ file's two previous sections were cloud-clock readings; the Mac clock (EST) read
 Release status: **SOURCE_BASED_UNVALIDATED**.
 
 **15 Nov 20:35 EST (Penumbra):** final Mac validation green; release ZIP `236c57cc…6ae` verified (extract + launch). SOURCE-BASED · UNVALIDATED. Recovery point before the 14islands creative pass: `tmp/web_before_14islands_2035.tgz` and the RC ZIP copy.
+
+### Blender showcase, gallery, checkpoint push — 15 Nov 2026 20:20–21:30 EST (session A)
+Release status unchanged: **SOURCE_BASED_UNVALIDATED**. No science value, bundle, sidecar or solver input changed.
+
+- **Checkpoint pushed (Anish, Terminal, ~20:40):** `b-experience` = `2445253` = `origin/b-experience`, no force. `tmp/checkpoint_push.command`
+  (stops if origin moved; excludes the rebuilt `app/dist/polaris-file.js`, 121 MB, and the 81 MB SVS 8K GLB; size check in a while-read loop after an
+  xargs "too long" failure on the first try).
+- **`blender/showcase.py` + `showcase_render.command`:** opens the built hero `.blend`; regolith v2 (albedo ~0.13, roughness 1, synthetic albedo noise and
+  craterlet bump); synthetic boulder field (Geometry Nodes, Poisson, ≥2.5 m apart, denser on slopes, ≤0.9 m tall, 150 m kept clear around the observer,
+  labelled VISUAL); Cycles on METAL; aerial, ground (1.7 m eye) and low-Sun renders at the bundle start sample; 1 m vs 10 m obstruction pair at the bundle
+  transition hour (mast height and ray end from the bundle `baseline`/`mast10` ray states; no 1.75 m series exists, so it is not drawn); Draco web GLB
+  (no boulders); manifest with hashes.
+  - v1 on the Mac (Blender 5.3.0, METAL, 256 spp, 1920×1080): Site01 3 renders, 14,515 boulders, GLB 926,044 B; Site04 5 renders, 43,592 boulders,
+    GLB 929,116 B. Site01 has no Sun transition in the window, so no obstruction pair.
+  - Review: aerial and low-Sun good; ground views looked into the Sun (backlit black); Site04 sky grey (old hero file's world colour); obstruction views
+    backlit with an oversized eye marker. **v2** fixes all three (ground camera on the Sun side looking down-Sun; world forced black; obstruction camera
+    moved, eye marker ×0.4).
+- **Gallery:** `tools/showcase/build_gallery.py` → `web/public/showcase/` (WebP q88 + `index.html` + `gallery.json`); every caption gives the bundle UTC,
+  Sun az/el, bundle ray states and "boulders and micro-relief are synthetic". Linked from Evidence → Raw data ("Blender renders (presentation)").
+  A Header link was tried and reverted (it pushed the data selectors under 150 px at 1440, failing `final-apex` P6 in the cloud).
+- **Site01 +1.97 m:** analysed, nothing changed. See `docs/validation/SITE01_SFS_OFFSET.md`: a local ~2 m, ~100 m wide rise in SfS at the site point
+  (crop bias +0.24 m, no tilt; a 10 m shift lowers the inner rms 0.96 → 0.73 m). Display-only consequence noted.
+- **Verified:** Mac VM `tsc` clean. **Pending:** v2 renders, Mac `npm run build && npx playwright test`, second commit + push.
+
+## 15 Nov 2026 20:40–22:10 EST — 14islands creative pass (Penumbra session)
+Record: `docs/14ISLANDS_DESIGN_AUDIT.md` (observation → adaptation → implementation → screenshot → test).
+Screenshots: `web/docs/screenshots/penumbra/14islands/{before,after}/`.
+Recovery point: `tmp/web_before_14islands_2035.tgz` and the RC ZIP copy `dist/POLARIS-X5D-SourceBuild-Mac-RC-20261115-2012.zip`.
+
+**Changed**
+- `web/src/styles.css`: creative-pass block.
+- `App.tsx`: heading tape, Focus mode, site-keyed title.
+- `store/camera.ts`: cinematic entry `request(view, { from, ms })`.
+- `store/ui.ts`: `focus`.
+- `three/CameraRig.tsx`: lens (`fov`) with a dolly zoom.
+- `three/Scene3D.tsx`: Overhead map lens; lens-aware markers; `GhostMast` grows; `HeadingProbe`.
+- `components/Guide.tsx`: arrival from Regional; scene 3 in the ridge profile.
+- `tests/e2e/guided-demo.spec.ts`: scene 3 view `ridge` (was `mast`), plus a ghost-mast check.
+
+**New**
+- `store/heading.ts`
+- `components/HeadingTape.tsx`
+
+**Unchanged**
+- Science, bundles, sidecars, `TerrainSurface.tsx`, `Header.tsx`, `siteDefaults.ts`.
+
+**Checks**
+- Cloud: `tsc` clean; Vitest 98 + 1 skip (the Site01 bundle is not in the cloud). The cloud Playwright subset was too slow under software GL to finish and is not counted.
+- Mac VM: `tsc` clean on the combined tree, including session A's later `TerrainSurface.tsx` / `Header.tsx` edits.
+- Mac browser run: pending.
+

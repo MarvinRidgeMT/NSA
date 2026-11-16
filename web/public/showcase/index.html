@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><title>POLARIS X · Blender showcase</title>
+<style>
+:root { --bg:#050505; --fg:#e9e4da; --ash:#9a958c; --line:#2a2826; }
+body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.5 system-ui, sans-serif; padding:24px max(16px, env(safe-area-inset-left)); }
+header { max-width:1200px; margin:0 auto 24px; } h1 { font-weight:400; font-size:30px; margin:0 0 6px; }
+p { color:var(--ash); max-width:72ch; margin:6px 0; } a { color:var(--fg); }
+.badge { display:inline-block; border:1px solid var(--line); padding:2px 8px; font:500 11px ui-monospace, monospace; letter-spacing:.08em; }
+main { max-width:1200px; margin:0 auto; display:grid; gap:28px; }
+figure { margin:0; } img { width:100%; height:auto; display:block; background:#000; }
+figcaption { margin-top:8px; font-size:14px; } figcaption span { color:var(--ash); font:12px ui-monospace, monospace; }
+</style></head><body>
+<header><h1>POLARIS X · Blender showcase</h1>
+<p><span class="badge">SOURCE-BASED · UNVALIDATED</span></p>
+<p>Offline Cycles renders of the two hero sites, built from the same bundle the viewer reads. Terrain is NASA PGDA 78 (5 m LOLA) with the
+NASA GSFC shape-from-shading relief as display surface where it exists, NASA PGDA 90 (80 m) around it. Sun direction, rays and
+visible/blocked states come from the bundle (JPL Horizons). <b>Boulders, regolith albedo variation and sub-5 m relief are synthetic</b>
+presentation; no synthetic boulder lies within 150 m of the landing point. Renders are pictures, not measurements.</p>
+<p><a href="../">Open the interactive viewer</a></p></header>
+<main>
+<figure>
+  <img src="POLARIS_X_site01_roi6_bundlev2_showcase_aerial.webp" alt="Connecting Ridge (Site01 ROI6): Aerial view across the Sun azimuth" loading="lazy" width="1920" height="1080">
+  <figcaption><b>Connecting Ridge (Site01 ROI6)</b> · Aerial view across the Sun azimuth<br>
+  <span>2026-11-14T00:00:00.000Z · Sun az 264.0°, el +1.50° · sun: clear, earth: blocked (first hit 167 m)</span></figcaption>
+</figure>
+<figure>
+  <img src="POLARIS_X_site01_roi6_bundlev2_showcase_ground.webp" alt="Connecting Ridge (Site01 ROI6): Ground level, 1.7 m eye height, about 50 m from the mast on the Sun side, looking down-Sun" loading="lazy" width="1920" height="1080">
+  <figcaption><b>Connecting Ridge (Site01 ROI6)</b> · Ground level, 1.7 m eye height, about 50 m from the mast on the Sun side, looking down-Sun<br>
+  <span>2026-11-14T00:00:00.000Z · Sun az 264.0°, el +1.50° · sun: clear, earth: blocked (first hit 167 m)</span></figcaption>
+</figure>
+<figure>
+  <img src="POLARIS_X_site01_roi6_bundlev2_showcase_low_sun.webp" alt="Connecting Ridge (Site01 ROI6): Low camera on the Sun side, grazing light" loading="lazy" width="1920" height="1080">
+  <figcaption><b>Connecting Ridge (Site01 ROI6)</b> · Low camera on the Sun side, grazing light<br>
+  <span>2026-11-14T00:00:00.000Z · Sun az 264.0°, el +1.50° · sun: clear, earth: blocked (first hit 167 m)</span></figcaption>
+</figure>
+<figure>
+  <img src="POLARIS_X_site04_roi3_bundlev2_showcase_aerial.webp" alt="Shackleton Rim (Site04 ROI3): Aerial view across the Sun azimuth" loading="lazy" width="1920" height="1080">
+  <figcaption><b>Shackleton Rim (Site04 ROI3)</b> · Aerial view across the Sun azimuth<br>
+  <span>2026-11-14T00:00:00.000Z · Sun az 282.9°, el +1.61° · sun: clear, earth: blocked (first hit 10 m)</span></figcaption>
+</figure>
+<figure>
+  <img src="POLARIS_X_site04_roi3_bundlev2_showcase_ground.webp" alt="Shackleton Rim (Site04 ROI3): Ground level, 1.7 m eye height, about 50 m from the mast on the Sun side, looking down-Sun" loading="lazy" width="1920" height="1080">
+  <figcaption><b>Shackleton Rim (Site04 ROI3)</b> · Ground level, 1.7 m eye height, about 50 m from the mast on the Sun side, looking down-Sun<br>
+  <span>2026-11-14T00:00:00.000Z · Sun az 282.9°, el +1.61° · sun: clear, earth: blocked (first hit 10 m)</span></figcaption>
+</figure>
+<figure>
+  <img src="POLARIS_X_site04_roi3_bundlev2_showcase_low_sun.webp" alt="Shackleton Rim (Site04 ROI3): Low camera on the Sun side, grazing light" loading="lazy" width="1920" height="1080">
+  <figcaption><b>Shackleton Rim (Site04 ROI3)</b> · Low camera on the Sun side, grazing light<br>
+  <span>2026-11-14T00:00:00.000Z · Sun az 282.9°, el +1.61° · sun: clear, earth: blocked (first hit 10 m)</span></figcaption>
+</figure>
+<figure>
+  <img src="POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast1m.webp" alt="Shackleton Rim (Site04 ROI3): Sun transition hour, 1 m mast: the bundle ray ends at the first terrain hit" loading="lazy" width="1920" height="1080">
+  <figcaption><b>Shackleton Rim (Site04 ROI3)</b> · Sun transition hour, 1 m mast: the bundle ray ends at the first terrain hit<br>
+  <span>2026-11-26T23:00:00.000Z · Sun az 125.5°, el +1.37° · Sun at 1 m mast: blocked (first hit 16 m), bundle margin -0.04°</span></figcaption>
+</figure>
+<figure>
+  <img src="POLARIS_X_site04_roi3_bundlev2_showcase_obstruction_mast10m.webp" alt="Shackleton Rim (Site04 ROI3): Same hour, 10 m mast: the bundle ray clears the terrain" loading="lazy" width="1920" height="1080">
+  <figcaption><b>Shackleton Rim (Site04 ROI3)</b> · Same hour, 10 m mast: the bundle ray clears the terrain<br>
+  <span>2026-11-26T23:00:00.000Z · Sun az 125.5°, el +1.37° · Sun at 10 m mast: clear, bundle margin +3.75°</span></figcaption>
+</figure>
+</main></body></html>

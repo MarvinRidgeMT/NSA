@@ -1,6 +1,6 @@
 {
  "schema": "polaris-blender-showcase-v1",
- "generatedUTC": "2026-11-16T01:41:54Z",
+ "generatedUTC": "2026-11-16T01:47:13Z",
  "status": "SOURCE-BASED UNVALIDATED",
  "site": "site01_roi6",
  "bundle": {
@@ -9,7 +9,7 @@
  },
  "blenderVersion": "5.3.0",
  "device": "METAL",
- "samples": 256,
+ "samples": 128,
  "resolution": "1920x1080",
  "renders": [
   {
@@ -24,7 +24,7 @@
    },
    "exposureStops": 0.0,
    "png": "POLARIS_X_site01_roi6_bundlev2_showcase_aerial.png",
-   "pngSha256": "5d53eaf8cc4442c6753637d97341b42d2f338797aee53c004fae59ca7ceed8cc",
+   "pngSha256": "f1abaa0cbb0478bb678489971adb8cdba7463e66f6f317441e0ff7c40be6a4bc",
    "rays": {
     "sun": {
      "state": "clear",
@@ -48,7 +48,7 @@
    },
    "exposureStops": 0.7,
    "png": "POLARIS_X_site01_roi6_bundlev2_showcase_ground.png",
-   "pngSha256": "a038e125897f837deb320227986936fc8ebe688e758fba3e606d34eca23f79e9",
+   "pngSha256": "80fe7cc75302d367b3b83bd2137812ee4e68a106fd9b4045f2c40ee16db01ebb",
    "rays": {
     "sun": {
      "state": "clear",
@@ -72,7 +72,7 @@
    },
    "exposureStops": 1.0,
    "png": "POLARIS_X_site01_roi6_bundlev2_showcase_low_sun.png",
-   "pngSha256": "f42a078c61605532940cd5a16275cb15bd57710d3fb75da325bc8c3f77245377",
+   "pngSha256": "c59e956141b451d2244f1408babde76a698527b4e2554517d060e57cbb56ac83",
    "rays": {
     "sun": {
      "state": "clear",
