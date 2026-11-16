@@ -48,5 +48,5 @@ Asserted by `science/tests/test_solver_reconciliation.py` (|bundle − batch| wi
 - `data/batch/2026-11-14/certainty_height/clone_sweep_summary.csv` 9c641206c8392f7bad15c2b65a4e7c2dd6211b946ba9df747239270a0e626112
 - `data/batch/2026-11-14/certainty_height/coverage_gauge.json` 2b694deb51de8f979bbfdd33ca88195fca85885cc09c92f6555419db29d954b1
 - `web/public/certainty/sidecar.json` 73792233b0c052f6afd42dd06c6ee4dd054034c55c103e29540f6db49eee2472
-- `data/bundles/site01_roi6_2026-11-14_14d_mast1m.json` ec2e9f24ca80412d5f286bbb9315b5b045becbe764243842e52a9c7f9547e552
-- `data/bundles/site04_roi3_2026-11-14_14d_mast1m.json` ac745d993c36e0066e61a57a01b5e9ab10f76ea41f4494233c044efccbefee1f
+- `data/bundles/site01_roi6_2026-11-14_14d_mast1m.json` 3aff6b65ee1b4df9e8a2c599d377304365b65be54ac5b16050fa34b8513045c6
+- `data/bundles/site04_roi3_2026-11-14_14d_mast1m.json` 061d7c0376069cc47034b22b130aaea23acca07a4bc286d9f9f1ea0866ad4deb
