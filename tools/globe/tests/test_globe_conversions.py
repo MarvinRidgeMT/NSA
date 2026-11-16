@@ -241,3 +241,14 @@ def test_vrt_mosaic_is_seamless(tmp_path):
     lon = np.array([44.6, 45.0, 45.4]); lat = np.full(3, 10.0)
     h, _, _ = rd.sample(lat, lon, rd.native_px_m())
     assert np.isfinite(h).all() and np.allclose(h, lon * 10.0, atol=1e-3)
+
+
+def test_edge_trim(tmp_path):
+    left, top, px = 0.0, 2000.0, 10.0
+    X, Y = grid_centres(left, top, px, 200, 200)
+    f = write_raster(tmp_path / 't.tif', plane(X, Y), left, top, px, SP)
+    rd = PP.ProductReader(PP.ProductSpec('t', 7, f, 10.0, edge_trim_px=40))
+    assert rd.valid_rect() == (400.0, 400.0, 1600.0, 1600.0)
+    lat, lon = S.ZONES['sp'].inverse(np.array([200.0, 1000.0, 1700.0]), np.array([1000.0, 1000.0, 1000.0]))
+    h, _, _ = rd.sample(lat, lon, 10.0)
+    assert np.isnan(h[0]) and np.isfinite(h[1]) and np.isnan(h[2])

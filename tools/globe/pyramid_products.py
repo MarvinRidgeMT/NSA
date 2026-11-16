@@ -116,6 +116,7 @@ class ProductSpec:
     sha256: str = ''
     notes: str = ''
     coreg: dict = field(default_factory=dict)   # {'dx','dy' (product CRS units), 'dz' (m), 'applied': bool, ...}
+    edge_trim_px: int = 0           # native pixels at the grid edge treated as no data (gridding boundary effects)
 
     @property
     def abspath(self):
@@ -312,6 +313,9 @@ class ProductReader:
             G = np.concatenate([G[:, :nwb], G[:, :1]], axis=1)          # wrap column for bilinear
             filled = np.concatenate([filled[:, :nwb], filled[:, :1]], axis=1)
         hb, fb = bilinear_nan(G, rb, cb, filled)
+        t = self.spec.edge_trim_px
+        if t and not self.global_lon:
+            hb = np.where((c >= t) & (c <= self.w - t) & (r >= t) & (r <= self.h - t), hb, np.nan)
         if cg.get('applied'):
             hb = hb - cg.get('dz', 0.0)
         H = hb
@@ -334,10 +338,17 @@ class ProductReader:
         return block_mean(G, k) if k > 1 else G
 
     # -- footprint
+    def valid_rect(self):
+        """(left, bottom, right, top) of the usable grid in its own units, after the edge trim."""
+        t = self.spec.edge_trim_px
+        return (self.left + t * self.px_x, self.top - (self.h - t) * self.px_y,
+                self.left + (self.w - t) * self.px_x, self.top - t * self.px_y)
+
     def footprint_latlon(self, n=200):
-        """Boundary of the valid grid as lat/lon points (grid edges; nodata inside the rectangle is not traced)."""
-        xs = np.linspace(self.left, self.left + self.w * self.px_x, n)
-        ys = np.linspace(self.top, self.top - self.h * self.px_y, n)
+        """Boundary of the valid grid as lat/lon points (grid edges after the edge trim; inner nodata not traced)."""
+        l, b, r, t = self.valid_rect()
+        xs = np.linspace(l, r, n)
+        ys = np.linspace(t, b, n)
         X = np.concatenate([xs, np.full(n, xs[-1]), xs[::-1], np.full(n, xs[0])])
         Y = np.concatenate([np.full(n, ys[0]), ys, np.full(n, ys[-1]), ys[::-1]])
         return self.grid_to_latlon(X, Y)
@@ -586,6 +597,13 @@ def _f(v):
     return float(str(v).split()[0])
 
 
+# Measured 16 Nov (S3): next to the square edge of the LOLA polar LDEMs the gridded surface departs from the
+# neighbouring product (p99 |diff| by distance from the edge, 80N 20 m vs 75N 30 m: 52 m at 10 m, 25 m at 150 m, 6 m
+# at 400 m, 1.7 m at 800 m = interior level; 75N 30 m: back to interior by 800-1200 m; 5 m and 10 m grids by ~150 m).
+# A gridding boundary effect, scaling with the posting: the outer 40 native pixels are treated as no data.
+LOLA_POLAR_EDGE_TRIM_PX = 40
+
+
 def lola_pds_spec(entry, source_id_polar=7, source_id_global=8, id_sep='_'):
     """LOLA GDR LDEM *_FLOAT.IMG (PDS3 label next to it). Checks the label before accepting: PC_REAL km heights
     relative to 1737.4 km (DN * 1, the label's OFFSET 1737.4 is the radius of the reference sphere and is NOT added:
@@ -627,6 +645,7 @@ def lola_pds_spec(entry, source_id_polar=7, source_id_global=8, id_sep='_'):
     pid = L.get('PRODUCT_ID', img.stem).lower()
     return ProductSpec(f"{entry['product_id']}{id_sep}{pid}", source_id_polar if polar else source_id_global, str(lbl), native,
                        units='km', datum='height', scale=1.0, offset=0.0, frame='ME',
+                       edge_trim_px=LOLA_POLAR_EDGE_TRIM_PX if polar else 0,
                        version=f"{L.get('PRODUCT_ID')} {L.get('PRODUCT_VERSION_ID', '')} ({entry.get('product_version', '')})",
                        url=entry.get('url', ''), sha256=entry.get('sha256', ''),
                        notes=f"{L.get('MAP_PROJECTION_TYPE')}, {L.get('MINIMUM_LATITUDE')}..{L.get('MAXIMUM_LATITUDE')} deg, "

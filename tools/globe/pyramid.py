@@ -68,7 +68,8 @@ def product_zone_bbox(spec, zone):
     lat, lon = rd.footprint_latlon(400)
     poles = set()
     if rd.kind in ('sp', 'np'):
-        inside = (rd.left <= 0.0 <= rd.left + rd.w * rd.px_x) and (rd.top - rd.h * rd.px_y <= 0.0 <= rd.top)
+        vl, vb, vr, vt = rd.valid_rect()
+        inside = (vl <= 0.0 <= vr) and (vb <= 0.0 <= vt)
         if inside:
             poles.add(-90.0 if rd.kind == 'sp' else 90.0)
     elif rd.kind in ('lonlat', 'eqc') and rd.global_lon:
@@ -100,7 +101,7 @@ def product_zone_bbox(spec, zone):
         rho = 2 * S.R * math.tan(math.radians(90 - abs(edge)) / 2)
         return (-rho, -rho, rho, rho)
     if rd.kind == zone:
-        b = (rd.left, rd.top - rd.h * rd.px_y, rd.left + rd.w * rd.px_x, rd.top)
+        b = rd.valid_rect()
     else:
         m = Z.in_zone(lat) if np.any(Z.in_zone(lat)) else np.ones(lat.shape, bool)
         x, y = Z.forward(lat[m], lon[m])
