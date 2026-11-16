@@ -222,7 +222,13 @@ def solve(lat, lon, mast_m=1.0, start='2026-11-14 00:00', days=14, step_h=1, mem
 
 def _coverage(stack, lat, lon):
     """Contract coverage() plus a 'products' list (the legacy adapter provides it; the pyramid gives one merged source)."""
-    cov = dict(stack.coverage(lat, lon))
+    import numpy as _np
+
+    def _scalar(v):                                     # S3's coverage is vectorised: 0-d/1-element arrays -> Python
+        if isinstance(v, _np.ndarray):
+            v = v.reshape(-1)[0] if v.size == 1 else v.tolist()
+        return v.item() if isinstance(v, _np.generic) else v
+    cov = {k: _scalar(v) for k, v in dict(stack.coverage(lat, lon)).items()}
     if 'products' not in cov:
         ok = cov.get('source_id') is not None and cov.get('native_res_m') and cov.get('quality', 0) > 0
         cov['products'] = [{'id': f'pyramid:{cov["source_id"]}', 'res_m': cov['native_res_m']}] if ok else []
@@ -368,7 +374,10 @@ def assemble(lat, lon, mast_m, h, x0, y0, near, far, sky, rs, re_, met, srcs, st
     sky_out['label'] = LABEL
     sky_out['curvature_limit'] = curv
     layers = []
-    far_layers = getattr(far, 'layers', [far])
+    # S4's multi-product far field keeps a LIST of DEMs in .layers; S3's ZoneDEM uses .layers for a DICT of per-pixel
+    # bands (source_id, native_res_m, quality, filled), so only a list/tuple means sub-DEMs.
+    _fl = getattr(far, 'layers', None)
+    far_layers = list(_fl) if isinstance(_fl, (list, tuple)) else [far]
     for role, d in [('near', near)] + [('far' if i == 0 else 'far-fill', l) for i, l in enumerate(far_layers)]:
         eq = d.meta.get('zone') == 'eq' and hasattr(d, 'ppd')
         layers.append({'role': role, 'name': d.name, 'step_m': d.step, 'bounds_grid_m': list(d.bounds),
@@ -383,7 +392,7 @@ def assemble(lat, lon, mast_m, h, x0, y0, near, far, sky, rs, re_, met, srcs, st
                      cache=s.get('cache'), params_key=s.get('params_key')) for b, s in zip(('sun', 'earth'), srcs)]
     sources = [{'id': 'jpl-horizons', 'description': 'JPL Horizons API, observer tables, CENTER=coord@301, QUANTITIES=4,13,20, '
                                                      'APPARENT=AIRLESS', 'url': H.API}]
-    for d in [near] + list(getattr(far, 'layers', [far])):
+    for d in [near] + far_layers:
         sources.append({'id': d.meta.get('product_id'), 'description': d.name, 'url': d.meta.get('source_url'),
                         'sha256': d.meta.get('file_sha256'), 'citation': d.meta.get('citation')})
     vs = B.validation_status({'id': 'site-coordinate-source', 'status': 'not-run',

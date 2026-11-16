@@ -355,8 +355,18 @@ def _read(path, x, y, half_m, name):
     return demmod.ArrayDEM(d.Z, d.x_left, d.y_top, d.step, name, dict(d.meta))
 
 
-def get_stack(prefer_pyramid=True):
-    """S3's TerrainStack if available (and it has an index), else the legacy adapter."""
+def get_stack(prefer_pyramid=None):
+    """Legacy per-product adapter by default; S3's merged TerrainStack only when asked (prefer_pyramid=True or
+    POLARIS_ANYSITE_STACK=pyramid).
+
+    Integration note (16 Nov 2026, coordinator): with the merged pyramid as the default, the any-site path lost the
+    per-product PGDA 78 clones and product-disagreement members (the pyramid exposes one merged source), its near field
+    changed (12.5 km window vs the 5 m tile's 6.317 km inscribed radius, so Site04 RoI 3 no longer equals the committed
+    bundle), and eq-zone 'local-stere' windows are not yet understood by SPView. Until that integration is done the
+    adapter stays the default; tests/test_anysite.py::PyramidAgreement compares the two paths explicitly."""
+    import os
+    if prefer_pyramid is None:
+        prefer_pyramid = os.environ.get('POLARIS_ANYSITE_STACK', '').lower() == 'pyramid'
     if prefer_pyramid:
         try:
             from ..terrain.stack import TerrainStack  # noqa: F401  (S3, may not exist yet)
