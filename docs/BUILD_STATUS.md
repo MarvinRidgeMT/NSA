@@ -1224,3 +1224,17 @@ Labels: geometry SOURCE-BASED · UNVALIDATED; error-model members "assumed error
 - **Not done:** pyramid-agreement test (waits for S3 tiles); bisection-refined events (any-site metrics are hourly); PGDA 90
   ERR layer and an error model for LOLA polar LDEMs (Chandrayaan-3 has no assumed members); Artemis III coordinates; SLDEM2015
   (S2) for a low-latitude second product; the precompute ran while S2 was still downloading — rerun after S2 finishes.
+### v2 S5 — Phase 4 (§5) Blender v2 pipeline + proof tests — Claude, 16 Nov 2026 ~02:30–04:00 EST, branch claude/v2-s5-blender-9fbc79
+- Plan `docs/v2/PHASE_4_BLENDER_PLAN.md`; results and limits `docs/v2/PHASE_4_BLENDER_RESULTS.md`; downloads (URL, SHA-256) `blender/v2/data_sources.json`.
+- `blender/v2/build_scene.py --world moon --lat … --lon … --utc … --camera …` (wrapper `blender/v2/build.command`): every number from the solver bundle via
+  `blender/v2/spec.py` (exact Horizons sample, no interpolation); terrain = the solver's own PGDA 78 5 m + PGDA 90 80 m (±290 km) in local ENU with curvature,
+  view-dependent tiles; Sun disc lamp with the Horizons angular diameter and 1361/r² W m⁻²; Earth sphere at true angular size lit by the Sun (phase);
+  earthshine lamp (MODEL); SVS 4851 star map (cached, not committed); Hapke 2012 regolith as Cycles Math nodes with LROC WAC 643 nm PDS map parameters;
+  LROC NAC/WAC, ShadowCam, Kaguya TC (optics partly unverified), EVA eye, lander camera; ISO 12232 exposure; ILLUSTRATIVE assets from science/cube LAYOUTS.
+- Proof: `Blender -b --python-exit-code 1 -P blender/tests/run_all.py` 11/11 (Hapke nodes = Python to 1.3e-6; two scenes rebuilt from committed inputs match
+  stored 14/25 KB references bit-identically; negative control fails as it must; manifest/.blend provenance; drawn terrain vs solver skyline median 0.0014°,
+  p95 0.021° at site01_roi6; LMC/SMC 0.16°/0.69° from prediction; web/public glTF provenance with the NASA SVS globe whitelisted as third-party, SHA pinned).
+- Bugs found by these checks and fixed: half-pixel shift of the solver DEM cache (edges vs centres), 180° RA error in the star map, black backlit facets.
+- Tests: `python3 -m unittest discover -s blender -p 'test_*.py'` 102 OK; `python -m pytest science/tests -q` 194 passed, 2 skipped; `cd web && npx vitest run`
+  141/141 (needs the git-ignored DEMO fixture from `web/scripts/make_decision_fixture.py` + `npm run sync-bundles` in a fresh worktree; without it 5 fail).
+- Not done: S3 pyramid end to end (adapter written), global cube-sphere mesh, 3D Tiles, WAC/NAC albedo, Mercury/Mars, replacing the SVS globe.

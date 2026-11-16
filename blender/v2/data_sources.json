@@ -1,0 +1,61 @@
+{
+  "schema": "polaris-blender-v2-data-sources-v1",
+  "note": "Files the v2 Blender pipeline downloads or reads. Nothing here is committed: downloads live under data/cache/v2/blender/ (git-ignored). Re-fetch with the URL and check the SHA-256.",
+  "downloads": [
+    {
+      "id": "lroc-wac-hapke-643nm",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/WAC_HAPKEPARAMMAP/WAC_HAPKEPARAMMAP_643NM.IMG",
+      "local_path": "data/cache/v2/blender/lroc_wac_hapkeparammap/WAC_HAPKEPARAMMAP_643NM.IMG",
+      "sha256": "28b17aa716d4c2428561bb7615b70de578c06f04d8a7a288a623753a0ab68d0f",
+      "bytes": 1820160,
+      "retrieved_utc": "2026-11-16T07:29:39Z",
+      "product": "NASA PDS LRO-L-LROC-5-RDR-V1.0, volume LROLRC_2001, WAC_HAPKEPARAMMAP_643NM v1.1 (created 2020-07-24): 9-band Hapke parameter map, 1 deg x 1 deg, 70N-70S",
+      "citation": "Sato, H., Robinson, M. S., Hapke, B., Denevi, B. W., Boyd, A. K. (2014) Resolved Hapke parameter maps of the Moon. J. Geophys. Res. Planets 119, 1775-1805, doi:10.1002/2013JE004580",
+      "licence": "NASA PDS public data",
+      "decode_note": "PDS3 attached label is 4 x 1440-byte records; the image starts at byte 5760 (the PDS4 .xml gives 1440, which does not fit the file size). 9 bands x 140 lines x 360 samples, float32 LSB, band-sequential.",
+      "used_as": "medians compiled into blender/v2/hapke.py PARAMS_643NM (recomputed by blender/tests/test_hapke.py when cached)"
+    },
+    {
+      "id": "lroc-wac-hapke-643nm-label",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/WAC_HAPKEPARAMMAP/WAC_HAPKEPARAMMAP_643NM.xml",
+      "local_path": "data/cache/v2/blender/lroc_wac_hapkeparammap/WAC_HAPKEPARAMMAP_643NM.xml",
+      "sha256": "2900f5c0fa1bdb555cfc952e1aeda89eeb7718dd6f34dc8b221aa62f046d2597",
+      "bytes": 15356,
+      "retrieved_utc": "2026-11-16T07:29:39Z"
+    },
+    {
+      "id": "lroc-wac-hapke-readme",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/WAC_HAPKEPARAMMAP/WAC_HAPKEPARAMMAP_README.TXT",
+      "local_path": "data/cache/v2/blender/lroc_wac_hapkeparammap/WAC_HAPKEPARAMMAP_README.TXT",
+      "sha256": "362cf2e9f0f8efee7d30b7cbb0d43ef9463b6e783334ba8be28e1133f0825b6e",
+      "bytes": 3481,
+      "retrieved_utc": "2026-11-16T07:29:39Z",
+      "used_as": "fixed parameters: Bc0 = 0.0, hc = 1.0, theta = 23.657 deg, phi (filling factor) 'fixed at 1.0' (stored as 0.0 in the image; porosity factor K = 1)"
+    },
+    {
+      "id": "svs4851-starmap-4k",
+      "url": "https://svs.gsfc.nasa.gov/vis/a000000/a004800/a004851/starmap_2020_4k.exr",
+      "page": "https://svs.gsfc.nasa.gov/4851/",
+      "local_path": "data/cache/v2/blender/svs4851/starmap_2020_4k.exr",
+      "sha256": "69b841cd048c2ef35543eb1c5819b322530e78aa4b0cab97ec1de3ef56a4ddcd",
+      "bytes": 35997085,
+      "retrieved_utc": "2026-11-16T07:47:00Z",
+      "product": "NASA SVS 4851 Deep Star Maps 2020, 4096 x 2048 plate carree, ICRF/J2000, half-float linear EXR (Hipparcos-2, Tycho-2, Gaia DR2)",
+      "credit": "NASA/Goddard Space Flight Center Scientific Visualization Studio. Gaia DR2: ESA/Gaia/DPAC",
+      "note": "Smallest full star map on the page that is in equatorial coordinates. Display-scaled: bright stars clip at 1.0 and the page gives no flux units, so brightness in the scene is VISUAL. Layout: RA 0 at the centre increasing to the left (verified by blender/tests/star_check.py)."
+    }
+  ],
+  "read_from_cache_not_downloaded_here": [
+    {"path": "data/cache/<site>_p78_p78.npy (+ .json)", "what": "solver's PGDA 78 5 m tile (science/sites.py near_dem), x_left/y_top are pixel edges"},
+    {"path": "data/cache/<site>_ldem80_290km.npy (+ .json)", "what": "solver's PGDA 90 LDEM_80S 80 m window, +-290 km"}
+  ],
+  "committed_inputs": [
+    {"path": "data/bundles/*.json", "what": "solver bundles polaris-science-results-v1 (Horizons Sun/Earth samples, skyline, states)"},
+    {"path": "app/data/polaris-source-site01-2026-11-14-v2.json", "what": "80 m +-16 km crop used by the reproducibility test (--terrain committed)"}
+  ],
+  "instrument_sources": [
+    {"camera": "lroc_nac, lroc_wac", "url": "https://naif.jpl.nasa.gov/pub/naif/LRO/kernels/ik/lro_lroc_v20.ti", "also": "https://lroc.im-ldi.com/about/specs"},
+    {"camera": "shadowcam", "url": "https://doi.org/10.5140/JASS.2023.40.4.149", "also": "https://shadowcam.im-ldi.com/about"},
+    {"camera": "kaguya_tc", "url": "https://stac.astrogeology.usgs.gov/docs/data/moon/kaguyatc", "note": "focal length 72.45 mm and pitch 7 um NOT verified tonight (flagged 'unverified' in the preset)"}
+  ]
+}
