@@ -412,8 +412,9 @@ class PyramidField:
     of each zone ({'sp': 4, 'np': 4, 'eq': 3}), coarser levels filling gaps. A dense +-290 km window is 7250^2 px and
     cannot cross the eq/polar switch; this samples exactly what the rays need.
 
-    Z (compute_skyline / curvature use only nanmax(Z), the beyond-range reference height) = the maximum over the far-level
-    tiles intersecting the window square (a tile-granular upper bound of the far-level heights in that square)."""
+    Z (compute_skyline / curvature use only nanmax(Z), the beyond-range reference height) = the maximum over the
+    far-level tiles the rays read (a tile-granular upper bound of the far-level heights within the ray disc; the per-product
+    path used the max of its +-290 km square window)."""
 
     CHUNK = 1_000_000
 
@@ -457,17 +458,23 @@ class PyramidField:
 
     @property
     def Z(self):
+        """compute_skyline and curvature.record read only nanmax(Z) (beyond-range reference height), after sampling the
+        rays. Z = the maximum height of the far-level tiles the 720 rays read (fixed at first access); if accessed before
+        any sampling, of the tiles covering the window square."""
         if self._zmax is None:
-            from ..terrain.stack import oblique_stereo_inverse
-            # tile cover of the window square: probe points every ~1/4 tile of the coarsest far level
-            span = min(ZONE.pixel_m(L) * ZONE.tile_px for ZONE, L in
-                       ((self.pyr.zones[z], l) for z, l in self.levels.items()))
-            n = int(math.ceil(2 * self.half / (span / 4))) + 1
-            g = np.linspace(-self.half, self.half, n)
-            X, Y = np.meshgrid(g, g)
-            la, lo = oblique_stereo_inverse(X, Y, self.lat0, self.lon0)
-            cover = set()
-            self.pyr.sample_height(la, lo, max_level=self.levels, touched=cover)
+            cover = set(self.touched)
+            if not cover:
+                from ..terrain.stack import oblique_stereo_inverse
+                span = min(ZONE.pixel_m(L) * ZONE.tile_px for ZONE, L in
+                           ((self.pyr.zones[z], l) for z, l in self.levels.items()))
+                n = int(math.ceil(2 * self.half / (span / 4))) + 1
+                g = np.linspace(-self.half, self.half, n)
+                X, Y = np.meshgrid(g, g)
+                la, lo = oblique_stereo_inverse(X, Y, self.lat0, self.lon0)
+                self.pyr.sample_height(la, lo, max_level=self.levels, touched=cover)
+                self.meta['zmax_from'] = 'tiles covering the window square'
+            else:
+                self.meta['zmax_from'] = 'tiles read by the rays'
             vals = [self.pyr.tile_max_height(*t) for t in cover]
             vals = [v for v in vals if math.isfinite(v)]
             self._zmax = np.array([max(vals) if vals else np.nan])

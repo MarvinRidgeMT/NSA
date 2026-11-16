@@ -449,16 +449,7 @@ class TerrainStack:
                 a = c - c0; b = r - r0
                 k = i.size
                 rr = np.concatenate([r0, r0, r0 + 1, r0 + 1]); cc = np.concatenate([c0, c0 + 1, c0, c0 + 1])
-                g = self._gather(z, L, rr, cc)[0]
-                if touched is not None:
-                    T = Z.tile_px
-                    npx, npy = Z.n_pixels(L)
-                    cw = cc % npx if Z.kind == 'eq' else cc
-                    ok = (rr >= 0) & (rr < npy) & (cw >= 0) & (cw < npx)
-                    keys = np.unique((rr[ok] // T) * (npx // T) + cw[ok] // T)
-                    have = self._tiles.get((z, L), ())
-                    touched.update((z, L, int(q % (npx // T)), int(q // (npx // T))) for q in keys
-                                   if (int(q % (npx // T)), int(q // (npx // T))) in have)
+                g = self._gather_height(z, L, rr, cc, touched)
                 g00, g01, g10, g11 = g[:k], g[k:2 * k], g[2 * k:3 * k], g[3 * k:]
                 h = ((1 - a) * (1 - b) * g00 + a * (1 - b) * g01 + (1 - a) * b * g10 + a * b * g11)
                 ok = np.isfinite(h)
@@ -466,6 +457,43 @@ class TerrainStack:
                     continue
                 out[m[i[ok]]] = h[ok]
                 todo[i[ok]] = False
+        return out
+
+    def _gather_height(self, zone, level, rows, cols, touched=None):
+        """Height band at global pixels (rows, cols) of a level; NaN where no tile or outside. Same values as
+        `_gather(...)[0]`, without sorting: tiles are found through a dense per-level lookup table (a level has at most
+        a few 10^4 tiles), the needed tiles are stacked once, and every pixel is one fancy index."""
+        Z = ZONES[zone]
+        T = Z.tile_px
+        npx, npy = Z.n_pixels(level)
+        ntx, nty = npx // T, npy // T
+        rows = np.asarray(rows, dtype=np.int64); cols = np.asarray(cols, dtype=np.int64)
+        if Z.kind == 'eq':
+            cols = cols % npx
+        out = np.full(rows.shape, np.nan, dtype=np.float32)
+        ok = (rows >= 0) & (rows < npy) & (cols >= 0) & (cols < npx)
+        have = self._tiles.get((zone, level))
+        if not have or not ok.any():
+            return out
+        r = rows[ok]; c = cols[ok]
+        key = (r // T) * ntx + (c // T)
+        flag = np.zeros(ntx * nty, bool)
+        flag[key] = True
+        need = [int(q) for q in np.flatnonzero(flag) if (int(q) % ntx, int(q) // ntx) in have]
+        if not need:
+            return out
+        lut = np.full(ntx * nty, -1, dtype=np.int64)
+        lut[need] = np.arange(len(need))
+        stack = np.empty((len(need), T, T), dtype=np.float32)
+        for i, q in enumerate(need):
+            stack[i] = self._load(zone, level, q % ntx, q // ntx)[0]
+            if touched is not None:
+                touched.add((zone, level, q % ntx, q // ntx))
+        slot = lut[key]
+        m = slot >= 0
+        v = np.full(r.shape, np.nan, dtype=np.float32)
+        v[m] = stack[slot[m], r[m] - (key[m] // ntx) * T, c[m] - (key[m] % ntx) * T]
+        out[ok] = v
         return out
 
     def tile_max_height(self, zone, level, ix, iy):
