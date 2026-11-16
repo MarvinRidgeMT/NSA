@@ -354,5 +354,4 @@ def test_index_incremental(mini, monkeypatch):
     monkeypatch.setattr(PY, '_tile_entry', lambda a: calls.append(a) or real(a))
     idx = PY.write_index(root, workers=1)
     assert calls == []                                     # nothing re-hashed when no tile changed
-    assert [t['sha256'] for t in idx['tiles']] == sorted([t['sha256'] for t in idx['tiles']], key=lambda h: [x['sha256'] for x in idx['tiles']].index(h))
     assert {t['path'] for t in idx['tiles']} == {t['path'] for t in first['tiles']}
