@@ -1076,5 +1076,6 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .d6-xl { gap: 18px; }
 .d6-rob td { color: var(--selenite); }
 .d6-axes { margin: 8px 0; padding-left: 18px; line-height: 1.6; }
-.d6-inline { display: inline-flex; gap: 6px; align-items: center; }
+.d6-inline { display: flex; gap: 8px; align-items: center; margin: 4px 0 8px; }
+.d6-inline label { text-transform: none; letter-spacing: normal; }
 .mono { font-family: var(--f-mono); }

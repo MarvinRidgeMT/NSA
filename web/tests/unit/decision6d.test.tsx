@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { blockMetric, readDecision6D } from '../../src/bundle/scenarioCubeV2';
-import { Decision6D, fmtVal } from '../../src/components/Decision6D';
+import { Decision6D, fmtDelta, fmtVal } from '../../src/components/Decision6D';
 import type { View } from '../../src/store/view';
 
 const root = resolve(__dirname, '../../../data/cubes');
@@ -65,7 +65,7 @@ describe('Decision6D panel', () => {
       expect(screen.getByTestId('d6-robust').textContent).toContain(L.value_labels[rob]);
       expect(screen.getByTestId('d6-nominal').textContent).toContain(L.value_labels[nom]);
       const reg = blockMetric(d.cube, `q__${q.id}__summary`, 'max_regret_nominal_choice')![0] as number;
-      expect(screen.getByTestId('d6-regret').textContent).toContain(fmtVal(reg, q.units));
+      expect(screen.getByTestId('d6-regret').textContent).toContain(fmtDelta(reg, q.units));
       expect(screen.getByTestId('d6-kchange').textContent).toMatch(/of 21 maps \(a count, not a probability\)/);
     }
     expect(screen.getByTestId('d6-not-prob').textContent).toBe('k of N maps is not a probability.');
@@ -84,5 +84,7 @@ describe('Decision6D panel', () => {
     expect(fmtVal(12, 'h')).toBe('12 h');
     expect(fmtVal(null, '%')).toBe('—');
     expect(fmtVal(true, '%')).toBe('—');
+    expect(fmtDelta(3.1, '%')).toBe('3.10 pct points');
+    expect(fmtDelta(0.25, 'deg')).toBe('0.25°');
   });
 });

@@ -41,12 +41,12 @@ export function Decision6DPareto({ d }: { d: Decision6D }) {
       </div>
       <p className="small">
         81 positions of the ±100 m square (1 m mast). A position is on the front when no other position is at least as good on all four axes
-        and better on one.{' '}
-        <label className="d6-inline">
-          <input type="checkbox" checked={robust} onChange={(e) => setRobust(e.target.checked)} data-testid="d6-pareto-robust" /> use the
-          worst of the 21 maps on each axis
-        </label>
+        and better on one.
       </p>
+      <div className="d6-inline small">
+        <input id="d6-pareto-robust" type="checkbox" checked={robust} onChange={(e) => setRobust(e.target.checked)} data-testid="d6-pareto-robust" />
+        <label htmlFor="d6-pareto-robust">Use the worst of the 21 maps on each axis</label>
+      </div>
       <ul className="small d6-axes" data-testid="d6-pareto-axes">
         {AXES.map((a) => (
           <li key={a.key} data-label={tag(a.key)}>

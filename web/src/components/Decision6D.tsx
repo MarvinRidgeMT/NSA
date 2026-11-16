@@ -35,6 +35,11 @@ export function fmtVal(v: number | boolean | null | undefined, units: string, di
   return units ? `${s} ${units}` : s;
 }
 
+/** A difference of two values in `units` (regret, gain): percentages become percentage points. */
+export function fmtDelta(v: number | boolean | null | undefined, units: string, digits = 2): string {
+  return fmtVal(v, units === '%' ? 'pct points' : units, digits);
+}
+
 function useDecision6D(siteId: string) {
   const [d, setD] = useState<D6 | null | undefined>(undefined);
   useEffect(() => {
@@ -202,14 +207,14 @@ function QuestionView({ d, q, qi }: { d: D6; q: Decision6DQuestion; qi: number }
         <div data-trace={tr(B('summary'), 'max_regret_nominal_choice')}>
           <dt>Regret of choosing on the nominal map</dt>
           <dd data-testid="d6-regret" data-value={s1('max_regret_nominal_choice') ?? ''}>
-            max {fmtVal(s1('max_regret_nominal_choice'), u)} · mean {fmtVal(s1('mean_regret_nominal_choice'), u)}{' '}
+            max {fmtDelta(s1('max_regret_nominal_choice'), u)} · mean {fmtDelta(s1('mean_regret_nominal_choice'), u)}{' '}
             <span className="muted">(unweighted over the {nX} maps)</span>
           </dd>
         </div>
         <div data-trace={tr('Q', 'minimax_regret_choice_index', qi)}>
           <dt>Minimax-regret choice</dt>
           <dd data-testid="d6-mmr">
-            {ll[mmr]} · max regret {fmtVal(s1('minimax_regret'), u)}
+            {ll[mmr]} · max regret {fmtDelta(s1('minimax_regret'), u)}
           </dd>
         </div>
         <div data-trace={tr('Q', 'k_members_choice_changes', qi)}>
@@ -255,8 +260,8 @@ function QuestionView({ d, q, qi }: { d: D6; q: Decision6DQuestion; qi: number }
                 <td>
                   {voiK[i]} of {voiN[i]}
                 </td>
-                <td>{fmtVal(voiMax[i], u)}</td>
-                <td>{fmtVal(voiMean[i], u)}</td>
+                <td>{fmtDelta(voiMax[i], u)}</td>
+                <td>{fmtDelta(voiMean[i], u)}</td>
               </tr>
             ))}
           </tbody>
@@ -293,8 +298,8 @@ function QuestionView({ d, q, qi }: { d: D6; q: Decision6DQuestion; qi: number }
                 <td>{fmtVal(nomv[i], u)}</td>
                 <td data-testid={`d6-worst-${i}`}>{fmtVal(worst[i], u)}</td>
                 <td>{fmtVal(best[i], u)}</td>
-                <td>{fmtVal(maxr[i], u)}</td>
-                <td>{fmtVal(meanr[i], u)}</td>
+                <td>{fmtDelta(maxr[i], u)}</td>
+                <td>{fmtDelta(meanr[i], u)}</td>
                 {kmeet && (
                   <td>
                     {kmeet[i]} of {nX}
