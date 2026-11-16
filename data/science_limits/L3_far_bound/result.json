@@ -1,0 +1,233 @@
+{
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "item": "L3_far_bound",
+ "H_global_max_m": 10800.0,
+ "sites": {
+  "site04_roi3": {
+   "observer_radius_m": 1739138.506,
+   "far_dem_max_height_m": 7026.3310546875,
+   "bundle_beyond_range_max_possible_elev_deg": -3.5400545660228264,
+   "sun": {
+    "threshold_elev_deg": -2.6941,
+    "crossed_bins": 337,
+    "rows": [
+     {
+      "d_km": 280,
+      "H_needed_m": 11194.0,
+      "elev_of_far_dem_max_deg": -3.5401,
+      "elev_of_global_max_deg": -2.774
+     },
+     {
+      "d_km": 300,
+      "H_needed_m": 13620.7,
+      "elev_of_far_dem_max_deg": -3.9419,
+      "elev_of_global_max_deg": -3.2271
+     },
+     {
+      "d_km": 400,
+      "H_needed_m": 29384.5,
+      "elev_of_far_dem_max_deg": -5.8434,
+      "elev_of_global_max_deg": -5.3082
+     },
+     {
+      "d_km": 600,
+      "H_needed_m": 80093.2,
+      "elev_of_far_dem_max_deg": -9.3947,
+      "elev_of_global_max_deg": -9.0398
+     },
+     {
+      "d_km": 800,
+      "H_needed_m": 159651.4,
+      "elev_of_far_dem_max_deg": -12.8201,
+      "elev_of_global_max_deg": -12.556
+     },
+     {
+      "d_km": 1000,
+      "H_needed_m": 274341.5,
+      "elev_of_far_dem_max_deg": -16.1951,
+      "elev_of_global_max_deg": -15.986
+     },
+     {
+      "d_km": 1500,
+      "H_needed_m": 799073.6,
+      "elev_of_far_dem_max_deg": -24.5446,
+      "elev_of_global_max_deg": -24.4102
+     }
+    ],
+    "max_elev_of_global_max_beyond_280km_deg": -2.774,
+    "margin_deg": 0.0799,
+    "coarse_test_can_matter": false,
+    "hours_affected_by_bound": 0,
+    "min_per_hour_slack_deg": 3.8173,
+    "ignored_terrain_can_matter": false
+   },
+   "earth": {
+    "threshold_elev_deg": -2.0075,
+    "crossed_bins": 23,
+    "rows": [
+     {
+      "d_km": 280,
+      "H_needed_m": 14587.0,
+      "elev_of_far_dem_max_deg": -3.5401,
+      "elev_of_global_max_deg": -2.774
+     },
+     {
+      "d_km": 300,
+      "H_needed_m": 17264.4,
+      "elev_of_far_dem_max_deg": -3.9419,
+      "elev_of_global_max_deg": -3.2271
+     },
+     {
+      "d_km": 400,
+      "H_needed_m": 34315.0,
+      "elev_of_far_dem_max_deg": -5.8434,
+      "elev_of_global_max_deg": -5.3082
+     },
+     {
+      "d_km": 600,
+      "H_needed_m": 87844.5,
+      "elev_of_far_dem_max_deg": -9.3947,
+      "elev_of_global_max_deg": -9.0398
+     },
+     {
+      "d_km": 800,
+      "H_needed_m": 170754.0,
+      "elev_of_far_dem_max_deg": -12.8201,
+      "elev_of_global_max_deg": -12.556
+     },
+     {
+      "d_km": 1000,
+      "H_needed_m": 289662.5,
+      "elev_of_far_dem_max_deg": -16.1951,
+      "elev_of_global_max_deg": -15.986
+     },
+     {
+      "d_km": 1500,
+      "H_needed_m": 833279.8,
+      "elev_of_far_dem_max_deg": -24.5446,
+      "elev_of_global_max_deg": -24.4102
+     }
+    ],
+    "max_elev_of_global_max_beyond_280km_deg": -2.774,
+    "margin_deg": 0.7665,
+    "coarse_test_can_matter": false,
+    "hours_affected_by_bound": 0,
+    "min_per_hour_slack_deg": 1.784,
+    "ignored_terrain_can_matter": false
+   }
+  },
+  "site01_roi6": {
+   "observer_radius_m": 1739349.29,
+   "far_dem_max_height_m": 7026.3310546875,
+   "bundle_beyond_range_max_possible_elev_deg": -3.583032969289721,
+   "sun": {
+    "threshold_elev_deg": -2.8782,
+    "crossed_bins": 337,
+    "rows": [
+     {
+      "d_km": 280,
+      "H_needed_m": 10497.7,
+      "elev_of_far_dem_max_deg": -3.583,
+      "elev_of_global_max_deg": -2.8169
+     },
+     {
+      "d_km": 300,
+      "H_needed_m": 12857.8,
+      "elev_of_far_dem_max_deg": -3.982,
+      "elev_of_global_max_deg": -3.2672
+     },
+     {
+      "d_km": 400,
+      "H_needed_m": 28280.4,
+      "elev_of_far_dem_max_deg": -5.8735,
+      "elev_of_global_max_deg": -5.3382
+     },
+     {
+      "d_km": 600,
+      "H_needed_m": 78244.8,
+      "elev_of_far_dem_max_deg": -9.4146,
+      "elev_of_global_max_deg": -9.0597
+     },
+     {
+      "d_km": 800,
+      "H_needed_m": 156924.3,
+      "elev_of_far_dem_max_deg": -12.8349,
+      "elev_of_global_max_deg": -12.5708
+     },
+     {
+      "d_km": 1000,
+      "H_needed_m": 270513.7,
+      "elev_of_far_dem_max_deg": -16.2069,
+      "elev_of_global_max_deg": -15.9977
+     },
+     {
+      "d_km": 1500,
+      "H_needed_m": 790357.0,
+      "elev_of_far_dem_max_deg": -24.5522,
+      "elev_of_global_max_deg": -24.4178
+     }
+    ],
+    "max_elev_of_global_max_beyond_280km_deg": -2.8169,
+    "margin_deg": -0.0613,
+    "coarse_test_can_matter": true,
+    "hours_affected_by_bound": 0,
+    "min_per_hour_slack_deg": 3.5627,
+    "ignored_terrain_can_matter": false
+   },
+   "earth": {
+    "threshold_elev_deg": -3.2354,
+    "crossed_bins": 23,
+    "rows": [
+     {
+      "d_km": 280,
+      "H_needed_m": 8737.6,
+      "elev_of_far_dem_max_deg": -3.583,
+      "elev_of_global_max_deg": -2.8169
+     },
+     {
+      "d_km": 300,
+      "H_needed_m": 10968.2,
+      "elev_of_far_dem_max_deg": -3.982,
+      "elev_of_global_max_deg": -3.2672
+     },
+     {
+      "d_km": 400,
+      "H_needed_m": 25727.2,
+      "elev_of_far_dem_max_deg": -5.8735,
+      "elev_of_global_max_deg": -5.3382
+     },
+     {
+      "d_km": 600,
+      "H_needed_m": 74243.0,
+      "elev_of_far_dem_max_deg": -9.4146,
+      "elev_of_global_max_deg": -9.0597
+     },
+     {
+      "d_km": 800,
+      "H_needed_m": 151210.8,
+      "elev_of_far_dem_max_deg": -12.8349,
+      "elev_of_global_max_deg": -12.5708
+     },
+     {
+      "d_km": 1000,
+      "H_needed_m": 262657.6,
+      "elev_of_far_dem_max_deg": -16.2069,
+      "elev_of_global_max_deg": -15.9977
+     },
+     {
+      "d_km": 1500,
+      "H_needed_m": 773023.6,
+      "elev_of_far_dem_max_deg": -24.5522,
+      "elev_of_global_max_deg": -24.4178
+     }
+    ],
+    "max_elev_of_global_max_beyond_280km_deg": -2.8169,
+    "margin_deg": -0.4184,
+    "coarse_test_can_matter": true,
+    "hours_affected_by_bound": 0,
+    "min_per_hour_slack_deg": 0.823,
+    "ignored_terrain_can_matter": false
+   }
+  }
+ }
+}

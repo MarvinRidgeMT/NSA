@@ -127,3 +127,16 @@ def test_l8_calibration_reproduces_rq2_and_varies_by_site():
     over = [s[k]['year']['B_toterr_rho_emp']['over_prediction_exp_over_obs'] for k in ('Site04_ROI3', 'Site01_ROI6')]
     under = [s[k]['year']['B_toterr_rho_emp']['over_prediction_exp_over_obs'] for k in ('Site07_ROI1', 'Site11_ROI4')]
     assert min(over) > 1.2 and max(under) < 0.8   # no single calibration factor
+
+
+# ------------------------------------------------------------------ L3 analytic
+def test_l3_far_bound_geometry_and_result():
+    from science.limits.l3_far_bound import e_of, h_needed, R
+    r0 = R + 1738.5
+    for d in (280e3, 600e3):
+        for e in (-3.0, -1.0):
+            assert e_of(r0, d, h_needed(r0, d, e)) == pytest.approx(e, abs=1e-9)
+    r = _res('L3_far_bound'); _manifest_ok('L3_far_bound')
+    for s in r['sites'].values():
+        for body in ('sun', 'earth'):
+            assert s[body]['hours_affected_by_bound'] == 0 and s[body]['min_per_hour_slack_deg'] > 0
