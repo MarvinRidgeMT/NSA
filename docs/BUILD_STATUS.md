@@ -1344,3 +1344,19 @@ Branch `claude/v2-r1-pyramid-solver-e4bb91` (contains 72e3430). Plan + as built:
   `LegacyStack` never matches SLDEM2015 tiles (assumes a global grid; follow-up, legacy mode only).
 - Tests: `pytest science/anysite science/tests` 458 passed, 2 skipped (LOD tiles not built in this worktree).
 - Not done: SLDEM2015 in the per-product adapter; an error model for LOLA polar LDEMs; height-only tile layout (faster far reads).
+### v2 R6 — worlds abstraction + Mercury (§3.1, §3.2) — Claude, 16 Nov 2026 ~11:45–12:35 EST
+Branch `claude/v2-r6-worlds-064d79` (contains 72e3430). Plan `docs/v2/PHASE_6_WORLDS_PLAN.md`; results `docs/v2/PHASE_6_WORLDS_RESULTS.md`.
+- **Code:** `science/worlds/` (`World`, registry, generic sphere geometry + polar stereographic, layered skyline, Moon wrapper),
+  `science/worlds/mercury/` (catalogue + fetcher wrapper on `tools/globe/fetch.py`, PDS3/GDAL readers with explicit datums,
+  Horizons coord@199 / geocentric SEP / sub-solar, physics, end-to-end site). No Moon file edited; `science/anysite/**` untouched.
+- **Tests:** `pytest science` 492 passed, 2 skipped (baseline 451 + 41 new). Moon regression through the world API unchanged
+  (94.36 / 72.11 / 19 h; clones 87.54–97.33). Generic skyline = Moon skyline code with Moon parameters.
+- **Data:** 9.02 GB, 49 files, all public/no login, SHA-256 in `$POLARIS_DATA/v2/manifest.jsonl` (log `v2/logs/fetch_mercury_r6.log`).
+  Free disk after: 279.8 GB.
+- **Mercury results:** physics checks pass against Horizons (Sun size, 3:2 resonance, 175.94 d solar day, conjunctions).
+  Prokofiev rim bundle `data/worlds/mercury/mercury_prokofiev_rim_2026-11-14_176d_mast1m.json`: Sun 54.61 % (year 1) / 41.42 %
+  (solar day), Earth and DTE 0 % at 1 m (Earth first visible at a 50 m mast). Product-member spread Sun 17.1–41.8 %.
+- **Found:** PGDA 85 `.cub` truncated at the source (ZIP layers used); MLA v2 heights on 2 440 km vs projection 2 439.4 km;
+  Horizons Mercury is west-positive (east longitude entered negative); first-360°-azimuth is not the solar day (equation of centre).
+- **Not done:** any-site `world=` hook in `science/anysite` (R1's; described in results §6); MLA prime-meridian tie; illumination
+  comparison; world-aware schema; south-polar site; Mercury Blender/render twins; Mars. Nothing pushed.
