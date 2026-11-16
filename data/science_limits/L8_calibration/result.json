@@ -1,0 +1,130 @@
+{
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "item": "L8_calibration",
+ "sites": {
+  "Site04_ROI3": {
+   "nov14d": {
+    "observed_flip_clone_hours": 243,
+    "B_toterr_rho0": {
+     "expected_flip_clone_hours": 387.2,
+     "calibration_factor_obs_over_exp": 0.628,
+     "over_prediction_exp_over_obs": 1.593
+    },
+    "B_toterr_rho_emp": {
+     "expected_flip_clone_hours": 379.3,
+     "calibration_factor_obs_over_exp": 0.641,
+     "over_prediction_exp_over_obs": 1.561
+    },
+    "note": ""
+   },
+   "year": {
+    "observed_flip_clone_hours": 7261,
+    "B_toterr_rho0": {
+     "expected_flip_clone_hours": 10511.5,
+     "calibration_factor_obs_over_exp": 0.691,
+     "over_prediction_exp_over_obs": 1.448
+    },
+    "B_toterr_rho_emp": {
+     "expected_flip_clone_hours": 10240.7,
+     "calibration_factor_obs_over_exp": 0.709,
+     "over_prediction_exp_over_obs": 1.41
+    },
+    "note": ""
+   },
+   "sigma_ratio_clone_std_over_toterr_median": 0.634
+  },
+  "Site01_ROI6": {
+   "nov14d": {
+    "observed_flip_clone_hours": 0,
+    "B_toterr_rho0": {
+     "expected_flip_clone_hours": 0.0,
+     "calibration_factor_obs_over_exp": null,
+     "over_prediction_exp_over_obs": null
+    },
+    "B_toterr_rho_emp": {
+     "expected_flip_clone_hours": 0.0,
+     "calibration_factor_obs_over_exp": null,
+     "over_prediction_exp_over_obs": null
+    },
+    "note": "no flips in either"
+   },
+   "year": {
+    "observed_flip_clone_hours": 1701,
+    "B_toterr_rho0": {
+     "expected_flip_clone_hours": 2912.2,
+     "calibration_factor_obs_over_exp": 0.584,
+     "over_prediction_exp_over_obs": 1.712
+    },
+    "B_toterr_rho_emp": {
+     "expected_flip_clone_hours": 2880.0,
+     "calibration_factor_obs_over_exp": 0.591,
+     "over_prediction_exp_over_obs": 1.693
+    },
+    "note": ""
+   },
+   "sigma_ratio_clone_std_over_toterr_median": 0.774
+  },
+  "Site07_ROI1": {
+   "nov14d": {
+    "observed_flip_clone_hours": 50,
+    "B_toterr_rho0": {
+     "expected_flip_clone_hours": 0.2,
+     "calibration_factor_obs_over_exp": null,
+     "over_prediction_exp_over_obs": 0.004
+    },
+    "B_toterr_rho_emp": {
+     "expected_flip_clone_hours": 0.2,
+     "calibration_factor_obs_over_exp": null,
+     "over_prediction_exp_over_obs": 0.004
+    },
+    "note": "toterr predicts ~0 flips, clones show 50"
+   },
+   "year": {
+    "observed_flip_clone_hours": 5228,
+    "B_toterr_rho0": {
+     "expected_flip_clone_hours": 2851.4,
+     "calibration_factor_obs_over_exp": 1.833,
+     "over_prediction_exp_over_obs": 0.545
+    },
+    "B_toterr_rho_emp": {
+     "expected_flip_clone_hours": 2901.5,
+     "calibration_factor_obs_over_exp": 1.802,
+     "over_prediction_exp_over_obs": 0.555
+    },
+    "note": ""
+   },
+   "sigma_ratio_clone_std_over_toterr_median": 0.771
+  },
+  "Site11_ROI4": {
+   "nov14d": {
+    "observed_flip_clone_hours": 0,
+    "B_toterr_rho0": {
+     "expected_flip_clone_hours": 0.0,
+     "calibration_factor_obs_over_exp": null,
+     "over_prediction_exp_over_obs": null
+    },
+    "B_toterr_rho_emp": {
+     "expected_flip_clone_hours": 0.0,
+     "calibration_factor_obs_over_exp": null,
+     "over_prediction_exp_over_obs": null
+    },
+    "note": "no flips in either"
+   },
+   "year": {
+    "observed_flip_clone_hours": 2227,
+    "B_toterr_rho0": {
+     "expected_flip_clone_hours": 1490.2,
+     "calibration_factor_obs_over_exp": 1.494,
+     "over_prediction_exp_over_obs": 0.669
+    },
+    "B_toterr_rho_emp": {
+     "expected_flip_clone_hours": 1555.7,
+     "calibration_factor_obs_over_exp": 1.432,
+     "over_prediction_exp_over_obs": 0.699
+    },
+    "note": ""
+   },
+   "sigma_ratio_clone_std_over_toterr_median": 0.732
+  }
+ }
+}

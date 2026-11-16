@@ -1,0 +1,18 @@
+{
+ "item": "L8_calibration",
+ "label": "PILOT \u00b7 SOURCE-BASED \u00b7 UNVALIDATED",
+ "date_utc": "2026-11-16T03:05:28Z",
+ "command": "python l8_calibration.py",
+ "module": "/Users/anishmeruva/Documents/ChatGPT/NSA-science-limits/science/limits/l8_calibration.py",
+ "code_commit": "e8b7b4bade1df8d0609245b5b16247504af0f3f1",
+ "inputs": [
+  {
+   "path": "research/long_features/results/rq2_report.json",
+   "sha256": "90fd681e1fb7e6dee7cbfcedaba15ea8334a88e13ee597ac269fbb113f3feb4f"
+  }
+ ],
+ "outputs": {
+  "result.json": "761b85269636889f284a0ae86720bd990e32757755a0595b6921c16fc5887317",
+  "RESULT.md": "8dac2303ef63ed11090ae9de604d7d9e16ab1450c5db17a56d6718171ddc1300"
+ }
+}

@@ -117,3 +117,13 @@ def test_l7_uniform_shift_monotone_and_critical_delta():
 def test_l7_jacobian_matches_small_angle():
     c = _res('L7_knife_edge')['sites']['site04_roi3']['controlling_cell']
     assert c['dE_dh_deg_per_m'] == pytest.approx(math.degrees(1.0 / c['distance_m']), rel=0.05)
+
+
+# ------------------------------------------------------------------ L8 calibration
+def test_l8_calibration_reproduces_rq2_and_varies_by_site():
+    r = _res('L8_calibration'); _manifest_ok('L8_calibration')
+    s = r['sites']
+    assert s['Site04_ROI3']['year']['B_toterr_rho_emp']['over_prediction_exp_over_obs'] == pytest.approx(10240.7 / 7261, abs=1e-3)
+    over = [s[k]['year']['B_toterr_rho_emp']['over_prediction_exp_over_obs'] for k in ('Site04_ROI3', 'Site01_ROI6')]
+    under = [s[k]['year']['B_toterr_rho_emp']['over_prediction_exp_over_obs'] for k in ('Site07_ROI1', 'Site11_ROI4')]
+    assert min(over) > 1.2 and max(under) < 0.8   # no single calibration factor
