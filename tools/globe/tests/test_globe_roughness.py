@@ -125,3 +125,33 @@ def test_roughness_check_against_real_5m():
         # known open item (reported, not hidden): the added component is 1.2-2x the PGDA 78 residual; fail loudly if
         # a change makes it much worse
         assert s['sub_resolution_mean_ratio_residual'] < 2.5, s['sub_resolution_mean_ratio_residual']
+
+
+def test_median_abs_slope_and_deviogram_hurst():
+    a = 0.05
+    X, Y = np.meshgrid(np.arange(600) * 5.0, np.arange(600) * 5.0)
+    Z = a * (X + Y)
+    for b in (57.0, 225.0, 560.0):
+        assert RG.median_abs_slope_deg(Z, 5.0, b) == pytest.approx(math.degrees(math.atan(a)), abs=1e-9)
+    assert RG.deviogram_hurst(Z, 5.0) == pytest.approx(1.0, abs=1e-9)        # a plane is self-affine with H = 1
+
+
+def _pgda70():
+    try:
+        return RG.PGDA70()
+    except FileNotFoundError:
+        return None
+
+
+@pytest.mark.skipif(_pgda70() is None, reason='PGDA 70 not on disk')
+def test_pgda70_decoding():
+    p = _pgda70()
+    lat = np.array([0.0, 30.0, -89.5, 5.4]); lon = np.array([10.0, -15.0, -150.0, -158.6])
+    H = p.hurst(lat, lon)
+    assert np.all((H > 0.0) & (H <= 1.0))                          # label: 0..1 mapped to -20000..20000
+    for b in RG.PGDA70_BASELINES:
+        m = p.median_abs_slope_deg(lat, lon, b)
+        assert np.all((m > 0.0) & (m < 45.0))
+    # slopes decrease with baseline on average (self-affine, H < 1)
+    m57 = p.median_abs_slope_deg(lat, lon, 57.0); m560 = p.median_abs_slope_deg(lat, lon, 560.0)
+    assert np.mean(m57) > np.mean(m560)

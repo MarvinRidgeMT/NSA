@@ -119,7 +119,7 @@ def tiles_for_bbox(zone, level, bbox):
     return [(ix, iy) for iy in range(iy0, iy1 + 1) for ix in range(ix0, ix1 + 1)]
 
 
-def plan(zone, specs, max_level=S.MAX_LEVEL, bbox=None):
+def plan(zone, specs, max_level=S.MAX_LEVEL, bbox=None, min_level=0):
     """{level: {(ix, iy): [product_id, ...]}} — a tile is planned at a level only if a product fine enough for that
     level overlaps it; every overlapping product (fine or coarse partner) is listed for the tile."""
     Z = S.ZONES[zone]
@@ -129,7 +129,7 @@ def plan(zone, specs, max_level=S.MAX_LEVEL, bbox=None):
         if bb is not None:
             boxes[sp.product_id] = bb
     out = {}
-    for L in range(0, max_level + 1):
+    for L in range(min_level, max_level + 1):
         lvl = {}
         for sp in specs:
             if sp.product_id not in boxes:
@@ -323,7 +323,7 @@ def _build_batch(args):
 
 
 def build(zones=('sp',), max_level=S.MAX_LEVEL, workers=None, root=None, specs=None, bbox=None, log=print,
-          atomic=False):
+          atomic=False, min_level=0):
     """Build tiles for `zones` (all levels <= max_level) and rewrite index.json. atomic=True builds the WHOLE pyramid
     into <root>.staging and swaps it in at the end, so readers never see a half-built pyramid (zones not listed are
     not carried over: pass every zone)."""
@@ -336,7 +336,7 @@ def build(zones=('sp',), max_level=S.MAX_LEVEL, workers=None, root=None, specs=N
         stage.mkdir(parents=True)
         if (root / 'coreg.json').exists():
             shutil.copy2(root / 'coreg.json', stage / 'coreg.json')
-        n = build(zones, max_level, workers, stage, specs, bbox, log, atomic=False)
+        n = build(zones, max_level, workers, stage, specs, bbox, log, atomic=False, min_level=min_level)
         old = root.with_name(root.name + '.old')
         if old.exists():
             shutil.rmtree(old)
@@ -354,7 +354,7 @@ def build(zones=('sp',), max_level=S.MAX_LEVEL, workers=None, root=None, specs=N
     sj = [s.to_json() for s in specs]
     jobs = []
     for zone in zones:
-        pl = plan(zone, specs, max_level=max_level, bbox=bbox)
+        pl = plan(zone, specs, max_level=max_level, bbox=bbox, min_level=min_level)
         for L, tiles in sorted(pl.items()):
             items = sorted(tiles.items())
             log(f'{zone} L{L} ({S.ZONES[zone].pixel_m(L):g} m): {len(items)} tiles planned')
@@ -450,6 +450,7 @@ def main(argv=None):
     b = sub.add_parser('build')
     b.add_argument('--zones', default='sp')
     b.add_argument('--max-level', type=int, default=S.MAX_LEVEL)
+    b.add_argument('--min-level', type=int, default=0)
     b.add_argument('--workers', type=int, default=None)
     b.add_argument('--root', default=None)
     b.add_argument('--bbox', default=None, help='zone-grid bbox left,bottom,right,top')
@@ -469,7 +470,7 @@ def main(argv=None):
         return 0
     if a.cmd == 'build':
         build(zones=tuple(a.zones.split(',')), max_level=a.max_level, workers=a.workers, root=a.root,
-              bbox=_parse_bbox(a.bbox), atomic=a.atomic)
+              bbox=_parse_bbox(a.bbox), atomic=a.atomic, min_level=a.min_level)
         return 0
     if a.cmd == 'index':
         write_index(Path(a.root) if a.root else pyramid_root())

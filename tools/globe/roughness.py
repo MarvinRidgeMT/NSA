@@ -274,6 +274,54 @@ def write_visual_tile(stack, zone, level, ix, iy, base_level, root=None, real_le
     return path
 
 
+# ------------------------------------------------------------------------------------------ PGDA 70 (LOLA roughness maps)
+PGDA70_BASELINES = (57.0, 225.0, 560.0)
+
+
+class PGDA70:
+    """LOLA PGDA 70 maps (Rosenburg et al. 2011): Hurst exponent HE_8 (8 ppd; H = DN * 2.5e-5 + 0.5, fitted over 57 m
+    to the deviogram breakover, <= 2.7 km) and median absolute along-track slope MAS_{57,225,560}M_16 (16 ppd; degrees =
+    DN * 0.0015 + 45). Scales/offsets are read from the PDS labels by GDAL; both grids are lon 0..360 simple cylindrical."""
+
+    def __init__(self, img_dir=None):
+        d = Path(img_dir) if img_dir else PP.polaris_data() / 'v2' / 'products' / 'pgda70_roughness' / 'IMG'
+        if not (d / 'HE_8.LBL').exists():
+            raise FileNotFoundError(f'PGDA 70 not on disk at {d}')
+        mk = lambda n, res: PP.ProductReader(PP.ProductSpec(f'pgda70_{n}', 0, str(d / f'{n}.LBL'), res))
+        self.he = mk('HE_8', PP.R * math.radians(1 / 8))
+        self.mas = {b: mk(f'MAS_{int(b)}M_16', PP.R * math.radians(1 / 16)) for b in PGDA70_BASELINES}
+
+    def _at(self, rd, lat, lon):
+        lat = np.atleast_1d(np.asarray(lat, float)); lon = np.atleast_1d(np.asarray(lon, float))
+        return rd.sample(lat, lon, rd.native_px_m())[0]
+
+    def hurst(self, lat, lon):
+        return self._at(self.he, lat, lon)
+
+    def median_abs_slope_deg(self, lat, lon, baseline):
+        return self._at(self.mas[baseline], lat, lon)
+
+
+def median_abs_slope_deg(Z, px, baseline):
+    """Median |dz/D| (deg) along both grid axes at baseline D (linear interpolation between pixel multiples)."""
+    lo, hi = math.floor(baseline / px), math.ceil(baseline / px)
+    vals = []
+    for lag in sorted({max(1, lo), max(1, hi)}):
+        a = Z[:, lag:] - Z[:, :-lag]; b = Z[lag:, :] - Z[:-lag, :]
+        d = np.abs(np.concatenate([a[np.isfinite(a)], b[np.isfinite(b)]])) / (lag * px)
+        vals.append((lag * px, math.degrees(math.atan(float(np.median(d))))))
+    if len(vals) == 1:
+        return vals[0][1]
+    (b0, v0), (b1, v1) = vals
+    return v0 + (v1 - v0) * (baseline - b0) / (b1 - b0)
+
+
+def deviogram_hurst(Z, px, b_min=57.0, b_max=2700.0):
+    lags = [l for l in (12, 16, 24, 32, 48, 64, 96, 128, 192, 256, 384, 512) if b_min <= l * px <= b_max]
+    nus = [rms_dev(Z, l) for l in lags]
+    return float(np.polyfit(np.log(np.array(lags) * px), np.log(nus), 1)[0])
+
+
 # ------------------------------------------------------------------------------------------ roughness check
 def check_site(stack, spec, half_m=4000.0, base_level=4):
     """Displayed RMS slope vs the real 5 m PGDA 78 surface at one site, with VISUAL built from the 80 m level only."""
@@ -287,6 +335,7 @@ def check_site(stack, spec, half_m=4000.0, base_level=4):
         X, Y = np.meshgrid(xs, ys)
         lat, lon = rd.grid_to_latlon(X, Y)
         real, _, _ = rd.sample(lat, lon, q)
+        rd_centre_latlon = rd.grid_to_latlon(cx, cy)
     finally:
         rd.close()
     vis, base, noise, diag = visual_grid(stack, 'sp', x_left, y_top, q, n, n, base_level,
@@ -302,10 +351,28 @@ def check_site(stack, spec, half_m=4000.0, base_level=4):
                      'ratio_bilinear': round(pb_[bl] / pr[bl], 3),
                      'residual_real_deg': round(rr_[bl], 3), 'residual_visual_deg': round(rn_[bl], 3),
                      'ratio_residual': round(rn_[bl] / rr_[bl], 3) if rr_[bl] > 0 else None})
+    pg = None
+    try:
+        p70 = PGDA70()
+        clat, clon = rd_centre_latlon
+        pg = {'hurst_pgda70': float(p70.hurst(clat, clon)[0]),
+              'hurst_real_5m': deviogram_hurst(real, q), 'hurst_visual': deviogram_hurst(vis, q),
+              'hurst_bilinear_80m': deviogram_hurst(base, q), 'mas': []}
+        for bl in PGDA70_BASELINES:
+            ref = float(p70.median_abs_slope_deg(clat, clon, bl)[0])
+            pg['mas'].append({'baseline_m': bl, 'pgda70_deg': round(ref, 3),
+                              'real_5m_deg': round(median_abs_slope_deg(real, q, bl), 3),
+                              'visual_deg': round(median_abs_slope_deg(vis, q, bl), 3),
+                              'bilinear_80m_deg': round(median_abs_slope_deg(base, q, bl), 3)})
+        for m in pg['mas']:
+            m['ratio_visual'] = round(m['visual_deg'] / m['pgda70_deg'], 3)
+            m['ratio_real_5m'] = round(m['real_5m_deg'] / m['pgda70_deg'], 3)
+    except FileNotFoundError:
+        pass
     sub = [r for r in rows if r['baseline_m'] < 2 * diag['base_pixel_m']]
     ok = all(RATIO_BAND[0] <= r['ratio_visual'] <= RATIO_BAND[1] for r in rows)
     return {'product': spec.product_id, 'centre_grid_m': [cx, cy], 'half_m': half_m, 'rows': rows,
-            'pass': ok, 'ratio_band': list(RATIO_BAND),
+            'pass': ok, 'ratio_band': list(RATIO_BAND), 'pgda70': pg,
             'sub_resolution_mean_ratio_visual': round(float(np.mean([r['ratio_visual'] for r in sub])), 3) if sub else None,
             'sub_resolution_mean_ratio_bilinear': round(float(np.mean([r['ratio_bilinear'] for r in sub])), 3) if sub else None,
             'sub_resolution_mean_ratio_residual': round(float(np.mean([r['ratio_residual'] for r in sub])), 3) if sub else None,
@@ -321,14 +388,22 @@ def run_check(write=True, log=print):
         res.append(r)
         log(f"{s.product_id}: pass={r['pass']} sub-res ratio visual {r['sub_resolution_mean_ratio_visual']} "
             f"vs bilinear {r['sub_resolution_mean_ratio_bilinear']}")
+        if r['pgda70']:
+            g = r['pgda70']
+            log(f"   PGDA70 H {g['hurst_pgda70']:.2f} | real5m {g['hurst_real_5m']:.2f} visual {g['hurst_visual']:.2f} "
+                f"bilinear {g['hurst_bilinear_80m']:.2f}")
+            for m in g['mas']:
+                log(f"   MAS {m['baseline_m']:4.0f} m  PGDA70 {m['pgda70_deg']:5.2f}  real5m {m['real_5m_deg']:5.2f}  "
+                    f"visual {m['visual_deg']:5.2f}  bilinear {m['bilinear_80m_deg']:5.2f}")
         for row in r['rows']:
             log(f"   {row['baseline_m']:7.0f} m  real {row['real_5m_deg']:6.2f}  visual {row['visual_deg']:6.2f}  "
                 f"bilinear {row['bilinear_80m_deg']:6.2f}  ratio {row['ratio_visual']:.2f}   residual real "
                 f"{row['residual_real_deg']:5.2f} added {row['residual_visual_deg']:5.2f} ratio {row['ratio_residual']}")
     out = {'created_utc': _dt.datetime.now(_dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
            'label': 'VISUAL roughness check (display layer QA; not science)',
-           'reference': 'PGDA 78 LOLA 5 m surface at each site (real); VISUAL built from the 80 m level only (PGDA 90), '
-                        'params self-fit; PGDA 70 comparison: not done (product not on disk)',
+           'reference': 'PGDA 78 LOLA 5 m surface at each site (real); VISUAL built from the 80 m level only, params '
+                        'self-fit; plus PGDA 70 (LOLA shot-based) median absolute slope at 57/225/560 m and Hurst exponent '
+                        'at the site centre (16 / 8 ppd maps, 0.25-deg windows: regional, not the 8 km box)',
            'baselines_m': list(BASELINES_M), 'ratio_band': list(RATIO_BAND), 'sites': res,
            'all_pass': all(r['pass'] for r in res)}
     if write:
