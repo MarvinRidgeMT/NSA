@@ -319,3 +319,26 @@ def test_atomic_build_swaps_in(tmp_path):
     assert (root / 'index.json').exists() and (root / 'coreg.json').exists() and not (root / 'stale.txt').exists()
     assert not (tmp_path / 'pyr.staging').exists() and not (tmp_path / 'pyr.old').exists()
     assert S.TerrainStack.open(root).levels('sp') == [0, 1, 2, 3, 4]
+
+
+BUNDLE_ROI3 = REPO / 'data' / 'bundles' / 'site04_roi3_2026-11-14_14d_mast1m.json'
+
+
+@pytest.mark.skipif(_real_stack() is None or not BUNDLE_ROI3.exists(), reason='real pyramid or ROI3 bundle missing')
+def test_real_skyline_from_pyramid_matches_committed_bundle():
+    """Site04 RoI 3 skyline computed from pyramid windows (5 m near, 80 m far) vs the committed hackathon bundle
+    (PGDA 78 near + PGDA 90 far): measured 16 Nov median 0.000 deg, p95 0.0045 deg, max 0.015 deg."""
+    import json
+    from science import sites, skyline
+    b = json.loads(BUNDLE_ROI3.read_text())['skyline']
+    s = sites.SITES['site04_roi3']
+    st = _real_stack()
+    near = st.window(s['lat'], s['lon'], 9000.0, 5.0)
+    far = st.window(s['lat'], s['lon'], 290000.0, 80.0)
+    assert near.proj == far.proj == 'sp' and near.meta['crs_wkt']
+    h0 = float(near.sample_latlon(s['lat'], s['lon']))
+    out = skyline.compute_skyline(s['lat'], s['lon'], h0, 1.0, near=near, far=far, bins=b['bins'],
+                                  max_range_m=b['max_range_m'], step_m=b['step_near_m'], far_step_m=b['step_far_m'])
+    d = np.array([abs(x - y) for x, y in zip(out['elevation_deg'], b['elevation_deg']) if x is not None and y is not None])
+    assert d.size == 720
+    assert np.median(d) <= 0.01 and np.percentile(d, 95) <= 0.05 and d.max() <= 0.1

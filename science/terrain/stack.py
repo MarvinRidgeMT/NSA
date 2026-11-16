@@ -412,6 +412,7 @@ class TerrainStack:
             lay = self._layers_at(lat, lon, [L])
             proj = 'local-stere'
             meta['crs_proj4'] = f'+proj=stere +lat_0={lat0} +lon_0={lon0} +k=1 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs'
+        meta['crs_wkt'] = _wkt(meta['crs_proj4'])
         H = lay['height'].astype(np.float64)
         filled = np.zeros(H.shape, bool)
         if fill_coarser and np.isnan(H).any():
@@ -437,6 +438,17 @@ class TerrainStack:
         q = self._query(lat, lon, levels=levels)
         return {'height': q['height'], 'source_id': q['source_id'], 'native_res_m': q['native_res_m'],
                 'quality': q['quality']}
+
+
+def _wkt(proj4):
+    try:
+        import warnings
+        from pyproj import CRS
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            return CRS.from_proj4(proj4).to_wkt()
+    except Exception:            # pyproj missing: proj4 string is still in meta
+        return None
 
 
 def _block_reduce(g, k):
