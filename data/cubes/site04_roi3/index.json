@@ -161,6 +161,19 @@
     "D_mast",
     "S"
    ]
+  },
+  {
+   "file": "dispersion.json",
+   "cube_id": "site04_roi3-dispersion-v1",
+   "title": "Landing dispersion x terrain",
+   "bytes": 4182,
+   "uncompressed_bytes": 4182,
+   "sha256": "a4feb7a43bd2e34668cd2cee3ae9501fe571a6f5c3801dce3ab447e7760e0558",
+   "dims": [
+    "R_slope",
+    "D_dispersion",
+    "k"
+   ]
   }
  ],
  "baseline": {

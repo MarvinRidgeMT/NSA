@@ -4,7 +4,7 @@
 
 "Share of sampled landing outcomes under an assumed dispersion" — NOT a probability of success.
 
-Field: 25 m grid, +-300 m around the site (625 cells), every cell evaluated on all 21 maps (nominal + 20 clones):
+Field: 25 m grid, +-HALF m around the site (env DISPERSION_HALF_M, default 200 = 289 cells), every cell evaluated on all 21 maps (nominal + 20 clones):
   visibility = team requirement for the 2026-11-14 14-day window (Sun >= 70 %, Sun+Earth >= 40 %, Sun gap <= 120 h),
                mast 1 m, skyline at the cell (science/cube/compute, ephemeris direction transfer);
   slope      = 100 m plane-fit landing slope at the cell centre < limit (science/cube/slope.py).
@@ -32,7 +32,8 @@ from .build_cube import LABEL, NOT_PROB, OUT, site_inputs
 from .build_visibility import add_to_index
 from ..limits.common import git_commit, sha256_file
 
-HALF, STEP = 300, 25
+import os as _os
+HALF, STEP = int(_os.environ.get('DISPERSION_HALF_M', '200')), 25   # field half-width; samples beyond are 'outside field'
 N_SAMPLES = 2000
 SEED = 20261116
 SIGMA99 = 100.0 / math.sqrt(2 * math.log(100.0))
@@ -144,9 +145,9 @@ def build(site):
             'derived': {'summary': {'dims': ['R_slope', 'D_dispersion'], 'metrics': {
                 'share_pass_all_20_pct': pct(share20, f'{SHARE_LABEL}: passing on all 20 maps'),
                 'share_pass_nominal_pct': pct(nom_share, f'{SHARE_LABEL}: passing on the nominal map'),
-                'share_outside_field_pct': pct(outside, 'samples beyond the +-300 m field (not counted as pass or fail)')},
+                'share_outside_field_pct': pct(outside, f'samples beyond the +-{HALF} m field (not counted as pass or fail)')},
                 'method': 'nearest 25 m cell; pass = team visibility AND 100 m slope < limit, per map', 'caveat': NOT_PROB}},
-            'provenance': {'inputs': [{'path': f'data/cache/cube_sky/{site}_*.json', 'sha256': _hash(site), 'note': '625-cell field skylines, 21 maps'}],
+            'provenance': {'inputs': [{'path': f'data/cache/cube_sky/{site}_*.json', 'sha256': _hash(site), 'note': f'{len(field_offsets())}-cell field skylines, 21 maps'}],
                            'command': 'python -m science.cube.build_dispersion ' + ' '.join(sys.argv[1:]), 'code_commit': git_commit(),
                            'solver': 'science/skyline (batched) + slope plane fit'},
             'limitations': [f'{SHARE_LABEL.capitalize()}; not a probability of success.',
