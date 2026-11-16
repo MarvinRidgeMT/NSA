@@ -754,7 +754,9 @@ def eq_box_tiles(level, lat0, lon0, half_km):
 
 def prebuild_plan():
     """The budgeted pre-built VISUAL set (R2 plan §2); everything else is built on demand by ensure_visual_tile."""
-    plan = [('sp', 6, polar_cap_tiles('sp', 6, 80.0))]
+    plan = [('sp', 6, polar_cap_tiles('sp', 6, 80.0)),          # 20 m over PGDA 90 80 m
+            ('sp', 7, polar_cap_tiles('sp', 7, 85.0)),          # 10 m near the south pole
+            ('np', 7, polar_cap_tiles('np', 7, 80.0, 85.0))]    # 10 m over the LOLA 20 m LDEM ring
     for name, la, lo in check_windows():
         if abs(la) < S.ZONE_SWITCH_ABS_LAT:
             plan.append(('eq', 6, eq_box_tiles(6, la, lo, 20.0)))

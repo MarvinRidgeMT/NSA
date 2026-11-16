@@ -2228,5 +2228,17 @@
   },
   "roughness_median_rms_slope_deg_1km": 4.7987193702695325,
   "earth_visibility_fraction": "not built (needs per-point horizon masks + libration-aware Earth positions)"
+ },
+ "visual_population": {
+  "created_utc": "2026-11-16",
+  "small_craters": "NOT ADDED",
+  "boulders": "NOT ADDED",
+  "reasons": [
+   "Citation rule (R2 task 3): a population may be added only from a size-frequency distribution whose paper, table and values were checked in this session. No paper text was opened and checked here (e.g. Neukum et al. 2001 production function coefficients, an equilibrium-density relation, NAC boulder counts, Diviner rock abundance of Bandfield et al. 2011 were not verified line by line), so none is used.",
+   "Double counting: the VISUAL amplitude is calibrated to LOLA LDRM_32_50, the 5-spot roughness measured on the real surface, which already contains the topographic variance of the small craters and boulders inside each 25 m shot pattern. Adding a crater field on top would push the displayed 5-spot roughness above LOLA (the hard test in tools/globe/tests/test_globe_roughness.py would catch it) unless the fractal noise were reduced by a published partition of roughness between craters and the background, which was not available.",
+   "Scale: the finest VISUAL post built is 5 m (roughness check) and the pre-built tiles are 10-20 m; most boulders (< 5 m) are below every VISUAL pixel, so a boulder population would not change the displayed surface.",
+   "Diviner rock abundance (Bandfield et al. 2011) is not on disk (S2 did not download it)."
+  ],
+  "what_would_enable_it": "download Diviner RA (PDS), read and cite the SFD tables (paper, table, coefficients), add craters as a share of the LDRM variance budget (noise reduced accordingly), keep the LOLA-spread test green."
  }
 }
