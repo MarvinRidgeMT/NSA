@@ -1043,3 +1043,11 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .dc-axis { display: grid; grid-template-columns: minmax(150px, 34%) 1fr; gap: 8px; font-size: 11.5px; border-top: 1px solid rgba(0,0,0,0.12); padding-top: 4px; }
 .dc-axis dt { margin: 0; } .dc-axis dd { margin: 0; } .dc-axis .v { font-weight: 600; }
 @media (max-width: 600px) { .dc-axis { grid-template-columns: 1fr; } .sl-cell { width: 24px; height: 24px; } }
+
+/* 5D Phase 9.4: near-field LOD toggle + "display only" statement (Scene3D LodPanel) */
+.lod-panel { position: absolute; z-index: 6; left: 20px; top: 172px; max-width: min(560px, calc(100% - 40px)); font: 400 11px/1.5 var(--f-mono); color: var(--ash); text-shadow: 0 0 8px #000; }
+.lod-panel .detail-toggle { padding: 1px 7px; min-height: 22px; font: 500 10px var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; background: var(--scrim); color: var(--bone); border: 1px solid var(--line); cursor: pointer; }
+.lod-panel .detail-toggle[aria-pressed='true'] { background: var(--bone); color: var(--basalt); }
+.lod-panel .detail-toggle:focus-visible { outline: 2px solid var(--bone); outline-offset: 2px; }
+.lod-panel .lod-label strong { color: var(--bone); font-weight: 500; text-transform: uppercase; }
+@media (max-width: 760px) { .lod-panel { top: 8px; left: auto; right: 8px; max-width: calc(100% - 16px); font-size: 10px; } }
