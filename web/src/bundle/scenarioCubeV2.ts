@@ -176,3 +176,84 @@ export async function loadCubeAny(siteId: string, file: string, f: typeof fetch 
   if (!r.ok) throw new CubeError(`cube ${file}: HTTP ${r.status}`);
   return readCubeAny(await parseMaybeGzip(await r.arrayBuffer()));
 }
+
+// ------------------------------------------------------------------------------------------------ decision6d (R5, §4)
+/**
+ * Reader for data/cubes/<site>/decision6d.json (science/decision/build.py): a scenario-cube-v2 with one context dim `Q`
+ * (decision question) and per-question derived blocks `q__<id>__{table,by_choice,by_member,voi,summary}`, plus
+ * `landing__<R>__*` and `pareto__positions`. Display only: every number is a stored cell (× declared scale at most).
+ * Robust choice, regret and VoI are computed in Python (science/decision/core.py), never here.
+ */
+export const DECISION6D_FILE = 'decision6d.json';
+
+export interface Decision6DQuestion {
+  id: string;
+  text: string;
+  kind: 'cube' | 'landing';
+  source_file: string;
+  source_sha256: string;
+  metric: string;
+  measure: string;
+  units: string;
+  sense: 'max' | 'min';
+  label: string;
+  x_axes: string[];
+  l_axes: string[];
+  fixed: Record<string, string>;
+  reduce: Record<string, string>;
+  threshold: number | null;
+  threshold_text: string | null;
+  ordered: boolean;
+  radius_km?: number;
+  candidates_block?: string;
+  screen_block?: string;
+}
+
+export interface Decision6D {
+  cube: RoledCube;
+  questions: Decision6DQuestion[];
+}
+
+/** Parse and check a decision6d cube object: v2, `Q` is a context axis, question metadata matches the Q values. */
+export function readDecision6D(raw: unknown): Decision6D {
+  const cube = readCubeAny(raw);
+  if (cube.source_schema !== 'scenario-cube-v2') throw new CubeError('decision6d must be a scenario-cube-v2 file');
+  const q = cube.dims[0];
+  if (cube.dims.length !== 1 || q.name !== 'Q' || q.role !== 'context') throw new CubeError('decision6d: expected one context dim Q');
+  let meta: Decision6DQuestion[];
+  try {
+    meta = JSON.parse(q.note ?? '[]') as Decision6DQuestion[];
+  } catch {
+    throw new CubeError('decision6d: Q.note is not JSON');
+  }
+  if (meta.length !== q.values.length || meta.some((m, i) => m.id !== q.values[i])) throw new CubeError('decision6d: question metadata does not match Q');
+  for (const m of meta)
+    for (const part of ['table', 'by_choice', 'by_member', 'voi', 'summary'])
+      if (!cube.derived?.[`q__${m.id}__${part}`]) throw new CubeError(`decision6d: block q__${m.id}__${part} missing`);
+  return { cube, questions: meta };
+}
+
+export async function loadDecision6D(siteId: string, f: typeof fetch = fetch): Promise<Decision6D | null> {
+  const r = await f(`${cubeBase(siteId)}${DECISION6D_FILE}`);
+  if (!r.ok || (r.headers.get('content-type') ?? '').includes('text/html')) return null;
+  return readDecision6D(await parseMaybeGzip(await r.arrayBuffer()));
+}
+
+/** Stored values of a derived block metric (× scale when declared), or null when the block/metric is absent. */
+export function blockMetric(cube: RoledCube, block: string, metric: string): (number | boolean | null)[] | null {
+  const m = cube.derived?.[block]?.metrics[metric];
+  if (!m) return null;
+  const s = m.scale ?? 1;
+  return m.values.map((v) => (typeof v === 'number' ? v * s : v));
+}
+
+/** Inline dim of a derived block (decision6d blocks carry their own roled dims). */
+export function blockDim(cube: RoledCube, block: string, i = 0): CubeDimV2 | null {
+  const d = cube.derived?.[block]?.dims[i];
+  return d && typeof d !== 'string' ? d : null;
+}
+
+/** Parent metric value for question index qi. */
+export function questionValue(cube: RoledCube, metric: string, qi: number): number | boolean | null {
+  return cube.metrics[metric]?.values[qi] ?? null;
+}

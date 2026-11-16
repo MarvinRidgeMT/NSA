@@ -33,6 +33,7 @@ import { EvidencePipeline, EvidenceRecord } from './components/EvidenceRecord';
 import { CoverageGauge } from './components/CoverageGauge';
 import { CertaintyHeight } from './components/CertaintyHeight';
 import { CubeSlicer } from './components/CubeSlicer';
+import { Decision6D } from './components/Decision6D';
 import { LaunchCalendar, SafeLitGrid } from './components/CubeViews';
 import { EnergyTrade } from './components/EnergyTrade';
 import { WhatMatters } from './components/WhatMatters';
@@ -663,6 +664,9 @@ export default function App() {
                 </div>
                 <Guard label="Scenario cube">
                   <CubeSlicer v={v} />
+                </Guard>
+                <Guard label="Decision 6D">
+                  <Decision6D v={v} />
                 </Guard>
                 <div className="grid cube-views">
                   <Guard label="Safe and lit">
