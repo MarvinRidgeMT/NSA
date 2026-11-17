@@ -1472,3 +1472,9 @@ Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/P
   gated by the geometry fit. PGDA 78, Hapke, registered: shadow IoU 0.946 median, edge 5.4 m; flat-sphere control IoU 0.000.
 - **Data (git-ignored, `data/cache/v2/`):** SPICE 5.2 GB, NAC line windows 9.3 GB, renders 1.7 GB. No held-out image fetched.
 - **Not done:** WAC/ShadowCam/TC; held-out run; stray-light model; along-Sun offset bias; viewer not in App.tsx. Nothing pushed.
+
+### POLARIS X v2 final integration (R4) — Claude (coordinator), 17 Nov 2026 ~03:15 EST, feature/v2-whole-moon
+- Merged R4 render-vs-real (dev split) as one squashed commit 453fb84 (`claude/v2-r4-render-vs-real-ab0c1a`, 13 commits). The 29 gallery JPEGs under `docs/validation/render_vs_real/` are crops of LROC NAC PDS images; the v2 rules forbid committing NASA imagery, so they were left out, git-ignored, and the report says how to rebuild them. R4's own branch still holds them (never pushed).
+- Pre-registration: all 9 SHA-256s in `docs/v2/PREREGISTRATION.md` (frozen protocol, catalogue files, amendments A1–A4) match the files.
+- Tests: pytest `science tools` 779 passed, 3 skipped; Blender run_all 14/14 (POLARIS_PYTHON); vitest 175/175; build OK; Playwright :4199 105 passed, 4 skipped, 2 failed = cold-launch (port-4173 artefact) and final-apex P6 sight label (passes alone 2/2). Screenshots the e2e run rewrote were restored.
+- Frozen refs: `submission-2026-11-15` c5dce9f, `submission-final` 8dde4f1, `submission/merged` 62cc7b1, `main` 8dde4f1, `codex/lab-integration` d24fae3 — unchanged. Nothing pushed.
