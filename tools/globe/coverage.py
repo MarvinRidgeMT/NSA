@@ -136,7 +136,7 @@ def zone_coverage(stack, zone, log=print):
     return frac, fsrc, claimed
 
 
-def run(root=None, write=True, log=print):
+def run(root=None, write=True, log=print, write_docs=True):
     root = Path(root) if root else PY.pyramid_root()
     stack = S.TerrainStack.open(root)
     per_class = np.zeros(len(CLASSES)); per_src = np.zeros(9); counted_area = {}
@@ -171,8 +171,9 @@ def run(root=None, write=True, log=print):
                      for p in stack.index.get('products', [])],
     }
     if write:
-        SUMMARY_JSON.write_text(json.dumps(summary, indent=1) + '\n')
-        SUMMARY_MD.write_text(markdown(summary))
+        if write_docs:
+            SUMMARY_JSON.write_text(json.dumps(summary, indent=1) + '\n')
+            SUMMARY_MD.write_text(markdown(summary))
         write_layers(maps)
     return summary
 
@@ -256,6 +257,55 @@ def write_layers(maps, out=OUT_WEB):
         'cell_rule': 'cell shows the class (or source) with the largest area if >= 50 % of the cell has terrain, else "no terrain"',
     }
     (out / 'legend.json').write_text(json.dumps(legend, indent=1))
+    write_web_tiles(lookup, cls_rgb, src_rgb, legend, out)
+
+
+WEB_TILE_PX = 256
+WEB_MAX_LEVEL = 3          # 256 px tiles: level 3 = 0.088 deg/px ~ 2.7 km, the coverage cell size (2.56 km / 1/8 deg)
+
+
+def write_web_tiles(lookup, cls_rgb, src_rgb, legend, out=OUT_WEB):
+    """Web-ready coverage layer (R2 plan §5): a 4096 x 2048 plate-carree PNG (Cesium SingleTileImageryProvider /
+    any equirectangular drape) and a geographic TMS tile pyramid (Cesium GeographicTilingScheme: level 0 = 2 x 1 tiles,
+    y = 0 north as in UrlTemplateImageryProvider's {y}; {reverseY} gives TMS), every pixel looked up at its own
+    lat/lon centre in the zone that owns it (polar classes are not re-gridded through an equirectangular image)."""
+    out = Path(out)
+    W, H = 4096, 2048
+    lat = 90 - (np.arange(H) + 0.5) * 180 / H; lon = -180 + (np.arange(W) + 0.5) * 360 / W
+    Lo, La = np.meshgrid(lon, lat)
+    res, src = lookup(La, Lo)
+    write_png(out / 'coverage_res_eqc_4096.png',
+              np.concatenate([cls_rgb[res], np.full(res.shape + (1,), 255, np.uint8)], axis=-1))
+    n = 0
+    for kind, table in (('res', cls_rgb), ('src', src_rgb)):
+        for z in range(WEB_MAX_LEVEL + 1):
+            nx, ny = 2 ** (z + 1), 2 ** z
+            d = 180.0 / ny
+            for ty in range(ny):
+                for tx in range(nx):
+                    w, nlat = -180 + tx * d, 90 - ty * d
+                    la = nlat - (np.arange(WEB_TILE_PX) + 0.5) * d / WEB_TILE_PX
+                    lo = w + (np.arange(WEB_TILE_PX) + 0.5) * d / WEB_TILE_PX
+                    LO, LA = np.meshgrid(lo, la)
+                    r, s_ = lookup(LA, LO)
+                    v = r if kind == 'res' else s_
+                    rgba = np.concatenate([table[v], np.full(v.shape + (1,), 255, np.uint8)], axis=-1)
+                    write_png(out / 'tiles' / kind / str(z) / str(tx) / f'{ty}.png', rgba)
+                    n += 1
+    man = {'schema': 'polaris-coverage-web-v1', 'label': legend['label'], 'layer': legend['layer'],
+           'single_image': {'file': 'coverage_res_eqc_4096.png', 'rectangle_deg': [-180, -90, 180, 90],
+                            'grid': 'plate carree 4096 x 2048, row 0 = 90 N, column 0 = 180 W',
+                            'cesium': "new SingleTileImageryProvider({url, rectangle: Rectangle.fromDegrees(-180,-90,180,90), "
+                                      "tileWidth: 4096, tileHeight: 2048})"},
+           'tiles': {'url_template': 'tiles/{layer}/{z}/{x}/{y}.png', 'layers': {'res': 'native-resolution class',
+                                                                                   'src': 'dominant source_id'},
+                     'scheme': 'geographic, level 0 = 2 x 1 tiles of 180 deg, y = 0 at the NORTH edge (XYZ order)',
+                     'tile_px': WEB_TILE_PX, 'max_level': WEB_MAX_LEVEL, 'n_png': n,
+                     'cesium': "new UrlTemplateImageryProvider({url: '<base>/tiles/res/{z}/{x}/{y}.png', tilingScheme: "
+                               "new GeographicTilingScheme({ellipsoid: Ellipsoid.MOON}), maximumLevel: 3})"},
+           'legend': 'legend.json', 'cell_rule': legend['cell_rule'],
+           'source_cells': 'coverage cells 2560 m (polar) / 1/8 deg (eq); finer pixels repeat their cell'}
+    (out / 'web_manifest.json').write_text(json.dumps(man, indent=1))
 
 
 def main(argv=None):

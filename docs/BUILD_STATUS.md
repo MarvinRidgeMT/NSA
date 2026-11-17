@@ -1397,3 +1397,18 @@ Branch `v2-r3-blender-moon` (from `feature/v2-whole-moon` 72e3430). Plan `docs/v
 - Not merged: R2 pyramid finishing (session hit the weekly usage limit, resets 23:00 EST), R4 render-vs-real (waiting on a request to the user).
 - Tests on the merged branch: pytest `science tools` 692 passed, 2 skipped; Blender `run_all.py` 14/14 with `POLARIS_PYTHON` set to the project venv (pyramid close-ups at site01_roi6 and Apollo 15, whole-Moon globe GLB); Blender unit tests OK; vitest 155/155; build OK; Playwright 99 passed, 2 skipped, 3 failed = cold-launch (port 4173) + two sight-label specs that pass alone (4/4) and also fail on the pre-5D baseline; traceability 548/0.
 - Submission refs unchanged. Nothing pushed.
+### v2 R2 — pyramid finishing: VISUAL amplitude, eq/polar VISUAL, visibility analytics, display formats (§2.3, §2.5, §2.2) — Claude, 16 Nov 2026 ~11:45–13:10 EST
+Branch `claude/v2-r2-pyramid-finish-191208` (contains 72e3430). Plan + as built: `docs/v2/PHASE_1_R2_PLAN.md`. `science/**` untouched.
+- **Code:** `tools/globe/roughness.py` (rewritten: LOLA LDRM_32-calibrated 3-D noise, 5-spot emulator, hard check, on-demand + budgeted
+  prebuild), `ephem.py` (Horizons sub-Earth/sub-solar series), `visibility.py` (horizon rays, Earth/Sun fractions, PGDA 69 compare),
+  `qmesh.py` (quantized-mesh-1.0 encoder/decoder, layer.json, manifest), `serve_terrain.py`, `coverage.py` (web tiles), tests
+  `test_globe_roughness.py` (rewritten), `test_globe_display_analytics.py` (new). The VISUAL guard tests are unchanged.
+- **Roughness (hard test passes):** added/real sub-80 m residual 0.85–1.19 at the PGDA 78 sites (S3: 1.2–1.9); displayed/real RMS
+  slope 0.975–1.003; LOLA 5-spot roughness inside LDRM_32 IQR at 4 sites + 17 fixed windows.
+- **Built (git-ignored):** VISUAL 15,005 tiles 8.15 GB; quantized-mesh 234,154 tiles 2.86 GB (`web/public/globe/terrain/`, now in
+  `.gitignore`); analytics 0.19 GB + PNGs; coverage web layer; PGDA 69 Sun/Earth maps 0.05 GB (SHA-256 = the pins in tools/pgda69).
+- **Analytics:** Earth ever visible from 56.3 % of the Moon's area (terrain-aware, any part of the disc, 2026–2044); polar Sun/Earth
+  maps agree with PGDA 69 to a median |Δ| of 0.002 / 0.0007 (r 0.977 / 0.985).
+- **Tests:** `pytest tools/globe science/tests` 495 passed, 2 skipped.
+- **Not done:** craters/boulders (no checked citations; would double-count LOLA roughness); 3D Tiles; a rendered Cesium frame check
+  (pane hidden; decode checked through Cesium's sampleTerrain); viewer wiring of terrain/coverage/analytics layers; query-any-point panel.
