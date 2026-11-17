@@ -141,7 +141,9 @@ test.describe('terrain context (display only)', () => {
     await expect(globe).toHaveAttribute('data-loaded', 'true', { timeout: 90_000 });
     const card = page.getByTestId('globe-card');
     await expect(card).toContainText('VISUAL CONTEXT, not numerical terrain');
-    await expect(card).toContainText('NASA SVS 14959');
+    // v2 T2: the Blender whole-Moon globe is primary; the SVS 14959 model only when that GLB is absent (globe-v2.spec.ts)
+    const blenderGlobe = existsSync(`${pub}/globe/globe_manifest.json`) && JSON.parse(readFileSync(`${pub}/globe/globe_manifest.json`, 'utf8')).globes.some((g: { kind: string }) => g.kind === 'blender');
+    await expect(card).toContainText(blenderGlobe ? 'blender/v2/globe.py' : 'NASA SVS 14959');
     await expect(card).toContainText('Shackleton Rim');
     expect(await page.getByTestId('instrument').innerText()).toBe(before); // the globe never changes a value
     await page.waitForTimeout(4000); // flight to the site

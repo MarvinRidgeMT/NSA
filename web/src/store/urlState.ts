@@ -1,10 +1,12 @@
 import { usePolaris } from './store';
 import { CAMERA_VIEWS, useCamera, type CameraViewId } from './camera';
 import { SURFACE_LAYERS, useSurface, type SurfaceLayerId } from './surface';
+import { isGlobeLayerChoice, useGlobe, type GlobeLayerChoice } from './globe';
 
 /**
  * Shareable view state in the URL (query string; the workspace stays in the hash):
- *   ?bundle=<file>&site=<siteId>&t=<UTC ISO>&sc=<scenarioId>&cam=<camera view>&layer=<surface layer>#sky
+ *   ?bundle=<file>&site=<siteId>&t=<UTC ISO>&sc=<scenarioId>&cam=<camera view>&layer=<surface layer>&globe=1&gl=<globe layer>#sky
+ * (`globe=1` = the whole-Moon globe overlay is open; `gl` = its display layer, only written while the globe is open)
  * Only state that already exists in the stores is written; nothing here computes a value. A time outside the bundle's
  * coverage is refused by the store exactly as when typed (no extrapolation); an unknown site, scenario, camera or layer is
  * ignored and reported in `urlNote`.
@@ -16,6 +18,8 @@ export interface UrlState {
   sc?: string;
   cam?: CameraViewId;
   layer?: SurfaceLayerId;
+  globe?: '1';
+  gl?: GlobeLayerChoice;
 }
 
 const CAMS = new Set<string>(CAMERA_VIEWS.map((c) => c.id));
@@ -38,12 +42,16 @@ export function parseUrlState(search: string): { state: UrlState; ignored: strin
   if (cam) (CAMS.has(cam) ? (state.cam = cam as CameraViewId) : ignored.push(`cam=${cam}`));
   const layer = p.get('layer');
   if (layer) (LAYERS.has(layer) ? (state.layer = layer as SurfaceLayerId) : ignored.push(`layer=${layer}`));
+  const globe = p.get('globe');
+  if (globe) (globe === '1' ? (state.globe = '1') : ignored.push(`globe=${globe}`));
+  const gl = p.get('gl');
+  if (gl) (isGlobeLayerChoice(gl) ? (state.gl = gl) : ignored.push(`gl=${gl}`));
   return { state, ignored };
 }
 
 export function serializeUrlState(s: UrlState): string {
   const p = new URLSearchParams();
-  for (const k of ['bundle', 'site', 't', 'sc', 'cam', 'layer'] as const) {
+  for (const k of ['bundle', 'site', 't', 'sc', 'cam', 'layer', 'globe', 'gl'] as const) {
     const v = s[k];
     if (v) p.set(k, v);
   }
@@ -63,6 +71,8 @@ export function currentUrlState(): UrlState | null {
     sc: st.scenarioId ?? undefined,
     cam: useCamera.getState().view,
     layer: useSurface.getState().layer,
+    globe: useSurface.getState().globe ? '1' : undefined,
+    gl: useSurface.getState().globe && useGlobe.getState().layer !== 'none' ? useGlobe.getState().layer : undefined,
   };
 }
 
@@ -85,6 +95,8 @@ export function applyUrlState(s: UrlState): string[] {
   if (s.t && !usePolaris.getState().setTime(Date.parse(s.t))) notes.push(`time ${s.t} is outside this bundle's samples (not extrapolated)`);
   if (s.cam) useCamera.getState().request(s.cam);
   if (s.layer) useSurface.getState().setLayer(s.layer);
+  if (s.gl) useGlobe.getState().setLayer(s.gl);
+  if (s.globe === '1') useSurface.getState().setGlobe(true);
   return notes;
 }
 
@@ -124,6 +136,9 @@ export function startUrlSync(): void {
   });
   useCamera.subscribe(write);
   useSurface.subscribe((s, p) => {
+    if (s.layer !== p.layer || s.globe !== p.globe) write();
+  });
+  useGlobe.subscribe((s, p) => {
     if (s.layer !== p.layer) write();
   });
   window.addEventListener('hashchange', write);

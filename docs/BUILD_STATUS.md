@@ -1438,3 +1438,20 @@ Plan `docs/v2/PHASE_7_T1_PLAN.md`; docs `docs/v2/API.md`, `docs/v2/GATES.md`. No
   Playwright traceability 2/2 and gate specs (a11y, mobile: fail as recorded) on :4221.
 - **Not done:** optional AI planner and live context panel; axe-core devDependency (needs the user's OK); Mercury any-site via the
   API (T3's `world=` hook); official OpenAPI meta-schema validation (validator not installed).
+### v2 round 3 · T2 — web integration of the v2 results (§2.2, §2.5, §5.1) — Claude, 16–17 Nov 2026
+Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/PHASE_7_T2_PLAN.md`. `science/**`, `tools/**` untouched.
+- **Globe:** `web/src/three/GlobalMoon.tsx` loads `web/public/globe/polaris_moon_globe.glb` (built here by `blender/v2/globe.py`,
+  git-ignored) with DRACOLoader, scale 1/1737.4, not re-centred; SVS 14959 only when the Blender GLB is absent or fails (card says which
+  and why). `web/scripts/sync-globe.mjs` (runs in `npm run sync-bundles`) writes the globe manifest from each GLB's glTF JSON, copies the
+  Draco decoder and `data/anysite/precompute_summary.json` (+ SHA-256). Lazy chunk: Scene3D 1,074 -> 1,026 kB.
+- **Layers:** `web/scripts/sync_v2_layers.py` stages the tools/globe PNGs + `web/public/layers/v2/manifest.json` (SHA-256, projection,
+  legend sampled from the tools' own ramps, QA numbers from PYRAMID_QA / COVERAGE_SUMMARY). Visibility PNGs re-rendered from the cached
+  npz (byte-identical to R2's); coverage + slope/roughness copied from the R2/S3 builds. Shader drape (eqc + polar stereographic),
+  unlit legend colours, opacity; polar mapping checked against pyproj (< 1 mm) and against the eqc product (3,993/4,000 points agree).
+- **Query any point:** click/type -> nearest precomputed row (great-circle, never interpolated; distance shown), metrics, member ranges,
+  provenance (window, products, Horizons hashes, file SHA-256), reproduce command; compute now through `solver-api/` (Vite dev/preview
+  proxy to `$POLARIS_SOLVER_API`, default 127.0.0.1:8766); "not running" message with the start command when nothing answers.
+- **Also:** deep link `globe=1&gl=<layer>`; tabbed globe panel (Site/Layers/Query), 390 px bottom sheet; SVS normalisation bug fixed.
+- **Tests:** vitest 173/173; Playwright :4222 103 passed, 2 skipped (cold-launch excluded; 16 load timeouts with 9 workers all pass
+  serially); traceability 541/0; globe-v2 7/7; Blender run_all 14/14.
+- **Not done:** Cesium quantized-mesh terrain in the viewer; T1 API (stub contract only); coverage/analytics not rebuilt from the pyramid here.
