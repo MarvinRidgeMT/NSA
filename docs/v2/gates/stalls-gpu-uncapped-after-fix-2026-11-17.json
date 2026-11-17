@@ -1,0 +1,472 @@
+{
+ "schema": "polaris-stall-trace-v1",
+ "measuredUTC": "2026-11-17T17:25:12.951Z",
+ "dist": "/private/tmp/claude-501/-Users-anishmeruva-Documents-ChatGPT-NSA/8a79d5a5-f0a8-4c7a-881b-e92113a5a746/scratchpad/dist-nomin",
+ "stallThresholdMs": 100,
+ "levels": {
+  "region": {
+   "idle": {
+    "stallsMs": [],
+    "stalls": []
+   },
+   "drag": {
+    "stallsMs": [
+     641.2,
+     730,
+     654.1,
+     681.8,
+     695.1,
+     685.3
+    ],
+    "mainThread": "93829:25288626",
+    "mainThreadName": "CrRendererMain",
+    "stalls": [
+     {
+      "stallMs": 641.2,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [
+       [
+        "CommandBufferHelper::WaitForAvailableEntries1",
+        9
+       ],
+       [
+        "CommandBufferProxyImpl::WaitForGetOffset",
+        9
+       ],
+       [
+        "FireAnimationFrame",
+        5.2
+       ],
+       [
+        "FunctionCall loop Scene3D-LjExHw8i.js",
+        5.2
+       ]
+      ],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        12.5
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        11
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        10.9
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 730,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        20.8
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        17.9
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        17.9
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 654.1,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        21.3
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        10
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        10
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 681.8,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        20.9
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        18.4
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        18.4
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 695.1,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        21
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        9.3
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        9.3
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 685.3,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [
+       [
+        "FireAnimationFrame",
+        4.6
+       ],
+       [
+        "FunctionCall loop Scene3D-LjExHw8i.js",
+        4.6
+       ],
+       [
+        "CommandBufferHelper::WaitForAvailableEntries1",
+        4.1
+       ],
+       [
+        "CommandBufferProxyImpl::WaitForGetOffset",
+        4.1
+       ]
+      ],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        22
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        19.3
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        19.3
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     }
+    ]
+   }
+  },
+  "fiveMetre": {
+   "idle": {
+    "stallsMs": [],
+    "stalls": []
+   },
+   "drag": {
+    "stallsMs": [
+     197.4,
+     145.7,
+     218.1,
+     125.5,
+     106.7,
+     254.7,
+     124.4,
+     197.5,
+     215.7,
+     183.5,
+     217.4,
+     198
+    ],
+    "mainThread": "93829:25288626",
+    "mainThreadName": "CrRendererMain",
+    "stalls": [
+     {
+      "stallMs": 197.4,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        5.2
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        3.4
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        3.4
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 145.7,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        5.1
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        3.3
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        3.2
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 218.1,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        7.1
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        5.3
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        5.3
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 125.5,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        5.4
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        3.8
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        3.7
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 106.7,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        4.9
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        3
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        3
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 254.7,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        4.9
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        3
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        3
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 124.4,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        8.9
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        5.3
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        5.2
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 197.5,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        9.1
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        5.5
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        5.5
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 215.7,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        9.6
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        6.2
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        6.2
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 183.5,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        8.7
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        5.2
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        5.2
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 217.4,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        8.6
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        5.3
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        5.2
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     },
+     {
+      "stallMs": 198,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [
+       [
+        "GPU Process/CrGpuMain: Scheduler::RunTask",
+        9.6
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled",
+        6.1
+       ],
+       [
+        "GPU Process/CrGpuMain: IOSurfaceImageBacking::WaitForCommandsToBeScheduled::Dawn",
+        6.1
+       ]
+      ],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     }
+    ]
+   }
+  }
+ },
+ "browser": "157.0.8103.79",
+ "loadAverage": [
+  6.25,
+  5.61,
+  5.07
+ ]
+}

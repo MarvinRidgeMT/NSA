@@ -1,0 +1,971 @@
+{
+ "schema": "polaris-stall-trace-v1",
+ "measuredUTC": "2026-11-17T17:04:16.369Z",
+ "dist": "/private/tmp/claude-501/-Users-anishmeruva-Documents-ChatGPT-NSA/8a79d5a5-f0a8-4c7a-881b-e92113a5a746/scratchpad/dist-nomin",
+ "stallThresholdMs": 100,
+ "levels": {
+  "region": {
+   "idle": {
+    "stallsMs": [],
+    "stalls": []
+   },
+   "drag": {
+    "stallsMs": [
+     127,
+     677.5,
+     460.9,
+     376.8,
+     618.8,
+     552.9,
+     512.3
+    ],
+    "mainThread": "90769:25243563",
+    "mainThreadName": "CrRendererMain",
+    "stalls": [
+     {
+      "stallMs": 127,
+      "cpuSamples": 848,
+      "mainThreadEventsMs": [
+       [
+        "FireAnimationFrame",
+        3.6
+       ],
+       [
+        "FunctionCall loop Scene3D-CFF5KnZ_.js",
+        3.6
+       ]
+      ],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        784
+       ],
+       [
+        "(program) :0",
+        34
+       ],
+       [
+        "uniform1f :0",
+        22
+       ],
+       [
+        "tick index-BiRD6IVa.js:17160",
+        2
+       ],
+       [
+        "copy Scene3D-CFF5KnZ_.js:5660",
+        1
+       ],
+       [
+        "disable Scene3D-CFF5KnZ_.js:37246",
+        1
+       ],
+       [
+        "(anonymous) :1",
+        1
+       ],
+       [
+        "getBoundingClientRect :0",
+        1
+       ],
+       [
+        "setComponents Scene3D-CFF5KnZ_.js:14642",
+        1
+       ],
+       [
+        "WebGLRenderer.renderBufferDirect Scene3D-CFF5KnZ_.js:42612",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        819
+       ],
+       [
+        "setValueV1f Scene3D-CFF5KnZ_.js:34371",
+        22
+       ],
+       [
+        "tick index-BiRD6IVa.js:17160",
+        2
+       ],
+       [
+        "copy Scene3D-CFF5KnZ_.js:5660",
+        1
+       ],
+       [
+        "disable Scene3D-CFF5KnZ_.js:37246",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:57469",
+        1
+       ],
+       [
+        "setComponents Scene3D-CFF5KnZ_.js:14642",
+        1
+       ],
+       [
+        "WebGLRenderer.renderBufferDirect Scene3D-CFF5KnZ_.js:42612",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 677.5,
+      "cpuSamples": 4391,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        4372
+       ],
+       [
+        "(program) :0",
+        15
+       ],
+       [
+        "multiplyMatrices Scene3D-CFF5KnZ_.js:6693",
+        1
+       ],
+       [
+        "getBoundingClientRect :0",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:52681",
+        1
+       ],
+       [
+        "setup Scene3D-CFF5KnZ_.js:32463",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        4387
+       ],
+       [
+        "multiplyMatrices Scene3D-CFF5KnZ_.js:6693",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:57469",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:52681",
+        1
+       ],
+       [
+        "setup Scene3D-CFF5KnZ_.js:32463",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 460.9,
+      "cpuSamples": 2995,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        2976
+       ],
+       [
+        "(program) :0",
+        14
+       ],
+       [
+        "getBoundingClientRect :0",
+        2
+       ],
+       [
+        "(anonymous) index-BiRD6IVa.js:10934",
+        1
+       ],
+       [
+        "batchedUpdates$1 index-BiRD6IVa.js:2251",
+        1
+       ],
+       [
+        "uniformMatrix4fv :0",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        2990
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:57469",
+        2
+       ],
+       [
+        "(anonymous) index-BiRD6IVa.js:10934",
+        1
+       ],
+       [
+        "batchedUpdates$1 index-BiRD6IVa.js:2251",
+        1
+       ],
+       [
+        "setValueM4 Scene3D-CFF5KnZ_.js:34457",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 376.8,
+      "cpuSamples": 2445,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        2425
+       ],
+       [
+        "(program) :0",
+        15
+       ],
+       [
+        "getBoundingClientRect :0",
+        2
+       ],
+       [
+        "handleEvent Scene3D-CFF5KnZ_.js:45193",
+        1
+       ],
+       [
+        "projectObject Scene3D-CFF5KnZ_.js:42891",
+        1
+       ],
+       [
+        "getParameters Scene3D-CFF5KnZ_.js:35712",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        2440
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:57469",
+        2
+       ],
+       [
+        "handleEvent Scene3D-CFF5KnZ_.js:45193",
+        1
+       ],
+       [
+        "projectObject Scene3D-CFF5KnZ_.js:42891",
+        1
+       ],
+       [
+        "getParameters Scene3D-CFF5KnZ_.js:35712",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 618.8,
+      "cpuSamples": 4005,
+      "mainThreadEventsMs": [
+       [
+        "FireAnimationFrame",
+        4.4
+       ],
+       [
+        "FunctionCall loop Scene3D-CFF5KnZ_.js",
+        4.4
+       ]
+      ],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(program) :0",
+        3982
+       ],
+       [
+        "uniformMatrix4fv :0",
+        17
+       ],
+       [
+        "renderObjects Scene3D-CFF5KnZ_.js:43025",
+        1
+       ],
+       [
+        "setProgram Scene3D-CFF5KnZ_.js:43146",
+        1
+       ],
+       [
+        "evaluate :305",
+        1
+       ],
+       [
+        "getBoundingClientRect :0",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:52681",
+        1
+       ],
+       [
+        "WebGLRenderer.renderBufferDirect Scene3D-CFF5KnZ_.js:42612",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        3983
+       ],
+       [
+        "setValueM4 Scene3D-CFF5KnZ_.js:34457",
+        17
+       ],
+       [
+        "renderObjects Scene3D-CFF5KnZ_.js:43025",
+        1
+       ],
+       [
+        "setProgram Scene3D-CFF5KnZ_.js:43146",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:57469",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:52681",
+        1
+       ],
+       [
+        "WebGLRenderer.renderBufferDirect Scene3D-CFF5KnZ_.js:42612",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 552.9,
+      "cpuSamples": 3582,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        3562
+       ],
+       [
+        "(program) :0",
+        16
+       ],
+       [
+        "getBoundingClientRect :0",
+        2
+       ],
+       [
+        "needsUpdate Scene3D-CFF5KnZ_.js:32533",
+        1
+       ],
+       [
+        "setMode Scene3D-CFF5KnZ_.js:34083",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        3578
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:57469",
+        2
+       ],
+       [
+        "needsUpdate Scene3D-CFF5KnZ_.js:32533",
+        1
+       ],
+       [
+        "setMode Scene3D-CFF5KnZ_.js:34083",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 512.3,
+      "cpuSamples": 3314,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        3297
+       ],
+       [
+        "(program) :0",
+        12
+       ],
+       [
+        "setupDragListeners :1",
+        1
+       ],
+       [
+        "findInstanceBlockingEvent index-BiRD6IVa.js:13783",
+        1
+       ],
+       [
+        "place index-BiRD6IVa.js:17153",
+        1
+       ],
+       [
+        "getBoundingClientRect :0",
+        1
+       ],
+       [
+        "setupView Scene3D-CFF5KnZ_.js:36618",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        3310
+       ],
+       [
+        "findInstanceBlockingEvent index-BiRD6IVa.js:13783",
+        1
+       ],
+       [
+        "place index-BiRD6IVa.js:17153",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:57469",
+        1
+       ],
+       [
+        "setupView Scene3D-CFF5KnZ_.js:36618",
+        1
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "fiveMetre": {
+   "idle": {
+    "stallsMs": [],
+    "stalls": []
+   },
+   "drag": {
+    "stallsMs": [
+     537.2,
+     210,
+     176.6,
+     162,
+     145,
+     107.6,
+     141.8,
+     142.3
+    ],
+    "mainThread": "90769:25243563",
+    "mainThreadName": "CrRendererMain",
+    "stalls": [
+     {
+      "stallMs": 537.2,
+      "cpuSamples": 3494,
+      "mainThreadEventsMs": [
+       [
+        "FireAnimationFrame",
+        541.5
+       ],
+       [
+        "FunctionCall loop Scene3D-CFF5KnZ_.js",
+        541.5
+       ]
+      ],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "getProgramInfoLog :0",
+        3460
+       ],
+       [
+        "(garbage collector) :0",
+        10
+       ],
+       [
+        "copyArray Scene3D-CFF5KnZ_.js:34355",
+        3
+       ],
+       [
+        "setTexture2D Scene3D-CFF5KnZ_.js:37991",
+        2
+       ],
+       [
+        "getBoundingClientRect :0",
+        2
+       ],
+       [
+        "getShaderInfoLog :0",
+        1
+       ],
+       [
+        "parseUniform Scene3D-CFF5KnZ_.js:34923",
+        1
+       ],
+       [
+        "setValueV1f Scene3D-CFF5KnZ_.js:34371",
+        1
+       ],
+       [
+        "refreshMaterialUniforms Scene3D-CFF5KnZ_.js:39657",
+        1
+       ],
+       [
+        "setValueV2f Scene3D-CFF5KnZ_.js:34377",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "onFirstUse Scene3D-CFF5KnZ_.js:35533",
+        3461
+       ],
+       [
+        "(no app frame)",
+        11
+       ],
+       [
+        "copyArray Scene3D-CFF5KnZ_.js:34355",
+        3
+       ],
+       [
+        "setTexture2D Scene3D-CFF5KnZ_.js:37991",
+        2
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:57469",
+        2
+       ],
+       [
+        "parseUniform Scene3D-CFF5KnZ_.js:34923",
+        1
+       ],
+       [
+        "setValueV1f Scene3D-CFF5KnZ_.js:34371",
+        1
+       ],
+       [
+        "refreshMaterialUniforms Scene3D-CFF5KnZ_.js:39657",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 210,
+      "cpuSamples": 1417,
+      "mainThreadEventsMs": [
+       [
+        "MajorGC",
+        2.1
+       ]
+      ],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        1116
+       ],
+       [
+        "(garbage collector) :0",
+        245
+       ],
+       [
+        "needsUpdate Scene3D-CFF5KnZ_.js:32533",
+        5
+       ],
+       [
+        "tick index-BiRD6IVa.js:17160",
+        4
+       ],
+       [
+        "updateMatrixWorld Scene3D-CFF5KnZ_.js:8366",
+        3
+       ],
+       [
+        "projectObject Scene3D-CFF5KnZ_.js:42891",
+        3
+       ],
+       [
+        "setup Scene3D-CFF5KnZ_.js:32463",
+        3
+       ],
+       [
+        "getProgramCacheKey Scene3D-CFF5KnZ_.js:35927",
+        2
+       ],
+       [
+        "sort Scene3D-CFF5KnZ_.js:36261",
+        2
+       ],
+       [
+        "arrayBuffer :0",
+        2
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        1363
+       ],
+       [
+        "tick index-BiRD6IVa.js:17160",
+        5
+       ],
+       [
+        "needsUpdate Scene3D-CFF5KnZ_.js:32533",
+        5
+       ],
+       [
+        "updateMatrixWorld Scene3D-CFF5KnZ_.js:8366",
+        3
+       ],
+       [
+        "projectObject Scene3D-CFF5KnZ_.js:42891",
+        3
+       ],
+       [
+        "setup Scene3D-CFF5KnZ_.js:32463",
+        3
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        3
+       ],
+       [
+        "getProgramCacheKey Scene3D-CFF5KnZ_.js:35927",
+        2
+       ]
+      ]
+     },
+     {
+      "stallMs": 176.6,
+      "cpuSamples": 1204,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        681
+       ],
+       [
+        "(garbage collector) :0",
+        276
+       ],
+       [
+        "uniformMatrix4fv :0",
+        43
+       ],
+       [
+        "drawElements :0",
+        34
+       ],
+       [
+        "drawElementsInstanced :0",
+        27
+       ],
+       [
+        "uniform3f :0",
+        26
+       ],
+       [
+        "uniformMatrix3fv :0",
+        13
+       ],
+       [
+        "tileMeshArrays lodWorker-C-s8j0Cx.js:3",
+        13
+       ],
+       [
+        "bindVertexArray :0",
+        10
+       ],
+       [
+        "uniform1f :0",
+        8
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        963
+       ],
+       [
+        "setValueM4 Scene3D-CFF5KnZ_.js:34457",
+        43
+       ],
+       [
+        "render Scene3D-CFF5KnZ_.js:34091",
+        34
+       ],
+       [
+        "renderInstances Scene3D-CFF5KnZ_.js:34095",
+        27
+       ],
+       [
+        "setValueV3f Scene3D-CFF5KnZ_.js:34391",
+        26
+       ],
+       [
+        "setValueM3 Scene3D-CFF5KnZ_.js:34443",
+        13
+       ],
+       [
+        "tileMeshArrays lodWorker-C-s8j0Cx.js:3",
+        13
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        10
+       ]
+      ]
+     },
+     {
+      "stallMs": 162,
+      "cpuSamples": 1110,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        710
+       ],
+       [
+        "(garbage collector) :0",
+        209
+       ],
+       [
+        "uniformMatrix4fv :0",
+        71
+       ],
+       [
+        "bindVertexArray :0",
+        45
+       ],
+       [
+        "drawArrays :0",
+        7
+       ],
+       [
+        "drawElements :0",
+        6
+       ],
+       [
+        "uniform1f :0",
+        4
+       ],
+       [
+        "updateMatrixWorld Scene3D-CFF5KnZ_.js:8366",
+        4
+       ],
+       [
+        "needsUpdate Scene3D-CFF5KnZ_.js:32533",
+        4
+       ],
+       [
+        "tick index-BiRD6IVa.js:17160",
+        3
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        921
+       ],
+       [
+        "setValueM4 Scene3D-CFF5KnZ_.js:34457",
+        71
+       ],
+       [
+        "bindVertexArrayObject Scene3D-CFF5KnZ_.js:32486",
+        45
+       ],
+       [
+        "render Scene3D-CFF5KnZ_.js:32790",
+        7
+       ],
+       [
+        "render Scene3D-CFF5KnZ_.js:34091",
+        6
+       ],
+       [
+        "setValueV1f Scene3D-CFF5KnZ_.js:34371",
+        4
+       ],
+       [
+        "tick index-BiRD6IVa.js:17160",
+        4
+       ],
+       [
+        "updateMatrixWorld Scene3D-CFF5KnZ_.js:8366",
+        4
+       ]
+      ]
+     },
+     {
+      "stallMs": 145,
+      "cpuSamples": 927,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        927
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        927
+       ]
+      ]
+     },
+     {
+      "stallMs": 107.6,
+      "cpuSamples": 688,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        688
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        688
+       ]
+      ]
+     },
+     {
+      "stallMs": 141.8,
+      "cpuSamples": 914,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        914
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        914
+       ]
+      ]
+     },
+     {
+      "stallMs": 142.3,
+      "cpuSamples": 1011,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        600
+       ],
+       [
+        "(garbage collector) :0",
+        314
+       ],
+       [
+        "tileMeshArrays lodWorker-C-s8j0Cx.js:3",
+        12
+       ],
+       [
+        "fetch :0",
+        6
+       ],
+       [
+        "needsUpdate Scene3D-CFF5KnZ_.js:32533",
+        6
+       ],
+       [
+        "tick index-BiRD6IVa.js:17160",
+        5
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:52681",
+        5
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:57469",
+        5
+       ],
+       [
+        "setup Scene3D-CFF5KnZ_.js:32463",
+        4
+       ],
+       [
+        "projectObject Scene3D-CFF5KnZ_.js:42891",
+        4
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        917
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        13
+       ],
+       [
+        "tileMeshArrays lodWorker-C-s8j0Cx.js:3",
+        12
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:57469",
+        7
+       ],
+       [
+        "needsUpdate Scene3D-CFF5KnZ_.js:32533",
+        6
+       ],
+       [
+        "tick index-BiRD6IVa.js:17160",
+        5
+       ],
+       [
+        "(anonymous) Scene3D-CFF5KnZ_.js:52681",
+        5
+       ],
+       [
+        "setup Scene3D-CFF5KnZ_.js:32463",
+        4
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "browser": "157.0.8103.79",
+ "loadAverage": [
+  6.41,
+  4.86,
+  3.89
+ ]
+}

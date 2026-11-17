@@ -8,6 +8,7 @@ import type { Dem } from '../bundle/types';
 import { usePolaris } from '../store/store';
 import type { View } from '../store/view';
 import HorizonDome from './HorizonDome';
+import { Precompile } from './Precompile';
 import { useRidgeFocus } from '../store/ridge';
 import { fmtRidgeDistance, type RidgeNow } from '../bundle/evidence';
 import { CameraRig, MAP_FOV, dollyFactor, type Framing } from './CameraRig';
@@ -588,6 +589,7 @@ function Scene({ v, ctx, albedo, lod = null }: { v: View } & SurfaceExtras) {
   return (
     <>
       <color attach="background" args={['#050505']} />
+      <Precompile deps={[v.dataset.siteId, v.series?.id, dem.n, ctx, albedo, lod, layer]} />
       <CameraRig frame={frame} frameKey={`${v.dataset.siteId}:${v.series?.id ?? ''}:${dem.n}`} />
       {/* airless low-Sun look: one hard key light from the bundle's Sun azimuth with cast shadows, almost no fill (visual only) */}
       {/* fill is a disclosed display choice (no air, so the real shadows are near black): a faint earthshine-like hemisphere */}

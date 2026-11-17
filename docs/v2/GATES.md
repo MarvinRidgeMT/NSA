@@ -122,4 +122,60 @@ of 5 views failing at 390 px. After: **0 serious/critical** over the 5 views and
 
 Still recorded, not gating: targets under 24 px (skip link 103×12, the Decision mast labels in the SVG, Evidence
 `ridge-row` buttons) and text under 11 px; axe's own `target-size` rule reports none serious. Not done: §6.6 frame stalls
-(needs a Performance trace), §6.7 `axe-core` as a devDependency (needs your OK to install).
+(traced and partly fixed in §9), §6.7 `axe-core` as a devDependency (needs your OK to install).
+
+## 9. Frame stalls (§6.6): traced and partly fixed (17 Nov 2026, coordinator)
+
+**Method.**
+- Tool: `web/scripts/gates/stall_trace.mjs`, run on an unminified build (`vite build --minify false`, so function names
+  stay readable) with the git-ignored 5 m LOD tiles copied in.
+- Paths and browser: the same as `perf_gates.mjs` (region: Explore 3D + context, camera "context"; 5 m: `?lod=1`, camera
+  "approach"; 4 s idle + 5 s orbit drag), in headed Chrome 157 on Metal (ANGLE).
+- Marking: every `requestAnimationFrame` interval over 100 ms is marked in a Chrome trace.
+- Recorded per stall:
+  - renderer main-thread events;
+  - V8 CPU-profile samples (main thread);
+  - with `--gpu`, the GPU process's events instead.
+- Shader log: a throwaway Playwright script wrapped WebGL `linkProgram`/`getProgramInfoLog` to log which shader programs
+  are linked during idle and drag (`shader-links-2026-11-17.json`).
+- Load: the machine was busy (load average 3–6 of 18 cores), so absolute stall lengths are inflated. What fills each stall
+  is what matters here.
+
+**Findings.**
+1. **Shader compiles on first use (fixed).**
+   - The longest 5 m stall (537 ms; 614 ms on a rerun) was ≥ 99 % `getProgramInfoLog`, inside three.js `onFirstUse`.
+   - The link log showed 4 programs linked mid-drag at 5 m and 2 in the region view: SpriteMaterial, LineMaterial and
+     MeshBasicMaterial. These belong to objects that start outside the camera view, and three.js compiles a material
+     only when it first draws it.
+   - Calling `renderer.compileAsync` alone stopped the links during the drag, but the first use still blocked for
+     0.4–1.0 s per program: ANGLE resolves the link when the program is first queried.
+   - **Fix:** `web/src/three/Precompile.tsx`, mounted in `Scene3D`. When the scene content changes it calls
+     `renderer.compile(scene, camera)`, which ignores the frustum. Then it triggers each program's first use, one per
+     frame, once the program reports ready. That cost now lands while the scene loads.
+   - **Result:** 0 program links or first-use queries during idle or drag in either view (`shader-links`, `after_fix`).
+     The 5 m worst frame dropped from 537–614 ms to 233 ms (uncapped).
+2. **5 m view, the remaining 106–233 ms stalls (uncapped):**
+   - The main thread is mostly idle, with some GC.
+   - The `fetch` samples in the first trace were the LOD worker's, not the main thread's: the first analysis matched
+     profile samples by process, and it now matches by thread. In `stalls-uncapped-before-fix`, sample attribution
+     therefore includes worker samples; the main-thread event sums are unaffected.
+3. **Region view, 0.5–0.8 s stalls during drag, uncapped only.**
+   - During the stall, both the page's main thread and the GPU process's CPU side are almost idle: ≤ 21 ms of GPU-process
+     tasks per stall (`stalls-gpu-uncapped-after-fix`).
+   - Reading: the frames wait on the GPU itself or on presentation backpressure. Uncapped rendering submits frames faster
+     than the shadowed context scene completes them.
+   - With vsync on (what a user sees), 4 runs found:
+     - **after the fix:** 0 stalls over 100 ms in either view, idle or drag (2 runs);
+     - **before the fix:** one run had region stalls of 217 ms (idle) and 142 ms (drag), and the other had none.
+   - The sample is small. The GPU-side cause in uncapped mode is not measured: WebGL timer queries are not available on
+     Chrome/Metal here.
+
+**Files** (`docs/v2/gates/`):
+- `stalls-uncapped-before-fix-2026-11-17.json`
+- `stalls-uncapped-after-fix-2026-11-17.json`
+- `stalls-gpu-uncapped-after-fix-2026-11-17.json`
+- `stalls-capped-before-fix-2026-11-17.json`
+- `stalls-capped-after-fix-2026-11-17.json`
+- `shader-links-2026-11-17.json`
+
+The p95 gate (§1) was not rerun.

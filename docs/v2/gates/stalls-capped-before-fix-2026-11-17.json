@@ -1,0 +1,62 @@
+{
+ "schema": "polaris-stall-trace-v1",
+ "measuredUTC": "2026-11-17T17:29:50.951Z",
+ "dist": "/private/tmp/claude-501/-Users-anishmeruva-Documents-ChatGPT-NSA/8a79d5a5-f0a8-4c7a-881b-e92113a5a746/scratchpad/dist-before",
+ "stallThresholdMs": 100,
+ "capped": true,
+ "gpuTrace": false,
+ "levels": {
+  "region": {
+   "idle": {
+    "stallsMs": [
+     216.6
+    ],
+    "mainThread": "94577:25299378",
+    "mainThreadName": "CrRendererMain",
+    "stalls": [
+     {
+      "stallMs": 216.6,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     }
+    ]
+   },
+   "drag": {
+    "stallsMs": [
+     142
+    ],
+    "mainThread": "94577:25299378",
+    "mainThreadName": "CrRendererMain",
+    "stalls": [
+     {
+      "stallMs": 142,
+      "cpuSamples": 0,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [],
+      "firstAppFrameSamples": []
+     }
+    ]
+   }
+  },
+  "fiveMetre": {
+   "idle": {
+    "stallsMs": [],
+    "stalls": []
+   },
+   "drag": {
+    "stallsMs": [],
+    "stalls": []
+   }
+  }
+ },
+ "browser": "157.0.8103.79",
+ "loadAverage": [
+  17.04,
+  9.91,
+  6.86
+ ]
+}

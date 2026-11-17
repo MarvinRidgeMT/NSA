@@ -1,0 +1,36 @@
+{
+ "schema": "polaris-stall-trace-v1",
+ "measuredUTC": "2026-11-17T17:31:11.150Z",
+ "dist": "/private/tmp/claude-501/-Users-anishmeruva-Documents-ChatGPT-NSA/8a79d5a5-f0a8-4c7a-881b-e92113a5a746/scratchpad/dist-nomin",
+ "stallThresholdMs": 100,
+ "capped": true,
+ "gpuTrace": false,
+ "levels": {
+  "region": {
+   "idle": {
+    "stallsMs": [],
+    "stalls": []
+   },
+   "drag": {
+    "stallsMs": [],
+    "stalls": []
+   }
+  },
+  "fiveMetre": {
+   "idle": {
+    "stallsMs": [],
+    "stalls": []
+   },
+   "drag": {
+    "stallsMs": [],
+    "stalls": []
+   }
+  }
+ },
+ "browser": "157.0.8103.79",
+ "loadAverage": [
+  18.76,
+  12.2,
+  8.01
+ ]
+}

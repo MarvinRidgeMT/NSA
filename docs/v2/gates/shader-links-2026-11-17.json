@@ -1,0 +1,77 @@
+{
+ "schema": "polaris-shader-link-log-v1",
+ "method": "Playwright init script wraps WebGL linkProgram/getProgramInfoLog (headed Chrome, Metal/ANGLE, vsync off); entries during the 4 s idle and 5 s orbit-drag phases only (same paths as stall_trace.mjs); getProgramInfoLog entries only when > 20 ms; script: scratch (not committed), see GATES.md \u00a79",
+ "runs": {
+  "before_fix": {
+   "fiveMetre": [
+    {
+     "t": 9604.6,
+     "phase": "drag",
+     "program": "SHADER_TYPE=SpriteMaterial SHADER_NAME USE_MAP MAP_UV USE_SIZEATTENUATION USE_LOGARITHMIC_DEPTH_BUFFER len=10195"
+    },
+    {
+     "t": 15051.8,
+     "phase": "drag",
+     "program": "SHADER_TYPE=LineMaterial SHADER_NAME USE_LOGARITHMIC_DEPTH_BUFFER len=9076"
+    },
+    {
+     "t": 15604.3,
+     "phase": "drag",
+     "program": "SHADER_TYPE=MeshBasicMaterial SHADER_NAME USE_LOGARITHMIC_DEPTH_BUFFER len=17597"
+    },
+    {
+     "t": 17794.5,
+     "phase": "drag",
+     "program": "SHADER_TYPE=MeshBasicMaterial SHADER_NAME USE_LOGARITHMIC_DEPTH_BUFFER len=17597"
+    }
+   ],
+   "region": [
+    {
+     "t": 23592,
+     "phase": "drag",
+     "program": "SHADER_TYPE=SpriteMaterial SHADER_NAME USE_MAP MAP_UV USE_SIZEATTENUATION USE_LOGARITHMIC_DEPTH_BUFFER len=10195"
+    },
+    {
+     "t": 24427,
+     "phase": "drag",
+     "program": "SHADER_TYPE=MeshBasicMaterial SHADER_NAME USE_LOGARITHMIC_DEPTH_BUFFER len=17597"
+    }
+   ]
+  },
+  "compile_only": {
+   "fiveMetre": [
+    {
+     "t": 9509.4,
+     "phase": "drag",
+     "program": "INFOLOG 662ms SHADER_TYPE=SpriteMaterial SHADER_NAME USE_MAP MAP_UV USE_SIZEATTENUATION USE_LOGARITHMIC_DEPTH_BUFFER len=10195"
+    },
+    {
+     "t": 16094.4,
+     "phase": "drag",
+     "program": "INFOLOG 704ms SHADER_TYPE=MeshBasicMaterial SHADER_NAME USE_LOGARITHMIC_DEPTH_BUFFER len=17597"
+    },
+    {
+     "t": 18666.5,
+     "phase": "drag",
+     "program": "INFOLOG 786ms SHADER_TYPE=MeshBasicMaterial SHADER_NAME USE_LOGARITHMIC_DEPTH_BUFFER len=17597"
+    }
+   ],
+   "region": [
+    {
+     "t": 24722.5,
+     "phase": "drag",
+     "program": "INFOLOG 1031ms SHADER_TYPE=SpriteMaterial SHADER_NAME USE_MAP MAP_UV USE_SIZEATTENUATION USE_LOGARITHMIC_DEPTH_BUFFER len=10195"
+    },
+    {
+     "t": 25793.5,
+     "phase": "drag",
+     "program": "INFOLOG 374ms SHADER_TYPE=MeshBasicMaterial SHADER_NAME USE_LOGARITHMIC_DEPTH_BUFFER len=17597"
+    }
+   ]
+  },
+  "after_fix": {
+   "fiveMetre": [],
+   "region": []
+  }
+ }
+}

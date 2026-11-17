@@ -1,0 +1,1310 @@
+{
+ "schema": "polaris-stall-trace-v1",
+ "measuredUTC": "2026-11-17T17:20:56.418Z",
+ "dist": "/private/tmp/claude-501/-Users-anishmeruva-Documents-ChatGPT-NSA/8a79d5a5-f0a8-4c7a-881b-e92113a5a746/scratchpad/dist-nomin",
+ "stallThresholdMs": 100,
+ "levels": {
+  "region": {
+   "idle": {
+    "stallsMs": [],
+    "stalls": []
+   },
+   "drag": {
+    "stallsMs": [
+     160.6,
+     747.4,
+     518.9,
+     643.3,
+     635.1,
+     667.4,
+     770.1
+    ],
+    "mainThread": "93239:25279810",
+    "mainThreadName": "CrRendererMain",
+    "stalls": [
+     {
+      "stallMs": 160.6,
+      "cpuSamples": 1048,
+      "mainThreadEventsMs": [
+       [
+        "FireAnimationFrame",
+        4.1
+       ],
+       [
+        "FunctionCall loop Scene3D-LjExHw8i.js",
+        4.1
+       ]
+      ],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        1003
+       ],
+       [
+        "(program) :0",
+        21
+       ],
+       [
+        "bindVertexArray :0",
+        19
+       ],
+       [
+        "multiplyMatrices Scene3D-LjExHw8i.js:6693",
+        1
+       ],
+       [
+        "getEventTarget index-DnnsmNMk.js:2191",
+        1
+       ],
+       [
+        "getBoundingClientRect :0",
+        1
+       ],
+       [
+        "invert Scene3D-LjExHw8i.js:6821",
+        1
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        1024
+       ],
+       [
+        "bindVertexArrayObject Scene3D-LjExHw8i.js:32486",
+        19
+       ],
+       [
+        "multiplyMatrices Scene3D-LjExHw8i.js:6693",
+        1
+       ],
+       [
+        "getEventTarget index-DnnsmNMk.js:2191",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:57508",
+        1
+       ],
+       [
+        "invert Scene3D-LjExHw8i.js:6821",
+        1
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 747.4,
+      "cpuSamples": 4841,
+      "mainThreadEventsMs": [
+       [
+        "FireAnimationFrame",
+        8.1
+       ],
+       [
+        "FunctionCall loop Scene3D-LjExHw8i.js",
+        8.1
+       ]
+      ],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        4766
+       ],
+       [
+        "(program) :0",
+        30
+       ],
+       [
+        "uniformMatrix4fv :0",
+        25
+       ],
+       [
+        "uniform3f :0",
+        13
+       ],
+       [
+        "setupView Scene3D-LjExHw8i.js:36618",
+        1
+       ],
+       [
+        "update2 Scene3D-LjExHw8i.js:31530",
+        1
+       ],
+       [
+        "evaluate :305",
+        1
+       ],
+       [
+        "setTimeout :0",
+        1
+       ],
+       [
+        "gridDirection index-DnnsmNMk.js:15150",
+        1
+       ],
+       [
+        "getBoundingClientRect :0",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        4798
+       ],
+       [
+        "setValueM4 Scene3D-LjExHw8i.js:34457",
+        25
+       ],
+       [
+        "setValueV3f Scene3D-LjExHw8i.js:34391",
+        13
+       ],
+       [
+        "setupView Scene3D-LjExHw8i.js:36618",
+        1
+       ],
+       [
+        "update2 Scene3D-LjExHw8i.js:31530",
+        1
+       ],
+       [
+        "gridDirection index-DnnsmNMk.js:15150",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:57508",
+        1
+       ],
+       [
+        "renderScene Scene3D-LjExHw8i.js:42949",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 518.9,
+      "cpuSamples": 3355,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        3333
+       ],
+       [
+        "(program) :0",
+        18
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        1
+       ],
+       [
+        "getBoundingClientRect :0",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:52681",
+        1
+       ],
+       [
+        "WebGLRenderer.renderBufferDirect Scene3D-LjExHw8i.js:42612",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        3351
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:57508",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:52681",
+        1
+       ],
+       [
+        "WebGLRenderer.renderBufferDirect Scene3D-LjExHw8i.js:42612",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 643.3,
+      "cpuSamples": 4136,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        4117
+       ],
+       [
+        "(program) :0",
+        14
+       ],
+       [
+        "extractEvents$1 index-DnnsmNMk.js:10701",
+        1
+       ],
+       [
+        "update Scene3D-LjExHw8i.js:52099",
+        1
+       ],
+       [
+        "getBoundingClientRect :0",
+        1
+       ],
+       [
+        "update2 Scene3D-LjExHw8i.js:31530",
+        1
+       ],
+       [
+        "WebGLRenderer.renderBufferDirect Scene3D-LjExHw8i.js:42612",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        4131
+       ],
+       [
+        "extractEvents$1 index-DnnsmNMk.js:10701",
+        1
+       ],
+       [
+        "update Scene3D-LjExHw8i.js:52099",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:57508",
+        1
+       ],
+       [
+        "update2 Scene3D-LjExHw8i.js:31530",
+        1
+       ],
+       [
+        "WebGLRenderer.renderBufferDirect Scene3D-LjExHw8i.js:42612",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 635.1,
+      "cpuSamples": 4093,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(program) :0",
+        4086
+       ],
+       [
+        "getBoundingClientRect :0",
+        2
+       ],
+       [
+        "(idle) :0",
+        1
+       ],
+       [
+        "(anonymous) :0",
+        1
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        1
+       ],
+       [
+        "updateMatrixWorld Scene3D-LjExHw8i.js:8366",
+        1
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        4088
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:57508",
+        2
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        1
+       ],
+       [
+        "updateMatrixWorld Scene3D-LjExHw8i.js:8366",
+        1
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 667.4,
+      "cpuSamples": 4326,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        4306
+       ],
+       [
+        "(program) :0",
+        14
+       ],
+       [
+        "setupDragListeners :1",
+        1
+       ],
+       [
+        "handleMouseMoveRotate Scene3D-LjExHw8i.js:53342",
+        1
+       ],
+       [
+        "updateWorldMatrix Scene3D-LjExHw8i.js:8392",
+        1
+       ],
+       [
+        "getBoundingClientRect :0",
+        1
+       ],
+       [
+        "clear :0",
+        1
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        4321
+       ],
+       [
+        "handleMouseMoveRotate Scene3D-LjExHw8i.js:53342",
+        1
+       ],
+       [
+        "updateWorldMatrix Scene3D-LjExHw8i.js:8392",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:57508",
+        1
+       ],
+       [
+        "WebGLRenderer.clear Scene3D-LjExHw8i.js:42499",
+        1
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 770.1,
+      "cpuSamples": 4988,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        4968
+       ],
+       [
+        "(program) :0",
+        14
+       ],
+       [
+        "getListener index-DnnsmNMk.js:2264",
+        1
+       ],
+       [
+        "(anonymous) :6",
+        1
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        1
+       ],
+       [
+        "getBoundingClientRect :0",
+        1
+       ],
+       [
+        "update Scene3D-LjExHw8i.js:52099",
+        1
+       ],
+       [
+        "WebGLRenderer.renderBufferDirect Scene3D-LjExHw8i.js:42612",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        4983
+       ],
+       [
+        "getListener index-DnnsmNMk.js:2264",
+        1
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:57508",
+        1
+       ],
+       [
+        "update Scene3D-LjExHw8i.js:52099",
+        1
+       ],
+       [
+        "WebGLRenderer.renderBufferDirect Scene3D-LjExHw8i.js:42612",
+        1
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "fiveMetre": {
+   "idle": {
+    "stallsMs": [],
+    "stalls": []
+   },
+   "drag": {
+    "stallsMs": [
+     173.7,
+     194.8,
+     158.7,
+     232.6,
+     232.4,
+     162.1,
+     106.1,
+     106,
+     213.7,
+     181.4,
+     126.3,
+     175.8
+    ],
+    "mainThread": "93239:25279810",
+    "mainThreadName": "CrRendererMain",
+    "stalls": [
+     {
+      "stallMs": 173.7,
+      "cpuSamples": 1124,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        1101
+       ],
+       [
+        "(program) :0",
+        15
+       ],
+       [
+        "dispatchEventForPluginEventSystem index-DnnsmNMk.js:10905",
+        1
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        1
+       ],
+       [
+        "drawSet Scene3D-LjExHw8i.js:57038",
+        1
+       ],
+       [
+        "getBoundingClientRect :0",
+        1
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:57508",
+        1
+       ],
+       [
+        "sort Scene3D-LjExHw8i.js:36261",
+        1
+       ],
+       [
+        "needsUpdate Scene3D-LjExHw8i.js:32533",
+        1
+       ],
+       [
+        "bindVertexArray :0",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        1116
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:57508",
+        2
+       ],
+       [
+        "dispatchEventForPluginEventSystem index-DnnsmNMk.js:10905",
+        1
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        1
+       ],
+       [
+        "drawSet Scene3D-LjExHw8i.js:57038",
+        1
+       ],
+       [
+        "sort Scene3D-LjExHw8i.js:36261",
+        1
+       ],
+       [
+        "needsUpdate Scene3D-LjExHw8i.js:32533",
+        1
+       ],
+       [
+        "bindVertexArrayObject Scene3D-LjExHw8i.js:32486",
+        1
+       ]
+      ]
+     },
+     {
+      "stallMs": 194.8,
+      "cpuSamples": 1283,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        599
+       ],
+       [
+        "fetch :0",
+        400
+       ],
+       [
+        "(program) :0",
+        158
+       ],
+       [
+        "drawElementsInstanced :0",
+        28
+       ],
+       [
+        "uniformMatrix4fv :0",
+        22
+       ],
+       [
+        "uniform3f :0",
+        19
+       ],
+       [
+        "uniform1f :0",
+        9
+       ],
+       [
+        "depthMask :0",
+        6
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        3
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        3
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        760
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        401
+       ],
+       [
+        "renderInstances Scene3D-LjExHw8i.js:34095",
+        28
+       ],
+       [
+        "setValueM4 Scene3D-LjExHw8i.js:34457",
+        23
+       ],
+       [
+        "setValueV3f Scene3D-LjExHw8i.js:34391",
+        19
+       ],
+       [
+        "setValueV1f Scene3D-LjExHw8i.js:34371",
+        9
+       ],
+       [
+        "setMask Scene3D-LjExHw8i.js:37043",
+        6
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        5
+       ]
+      ]
+     },
+     {
+      "stallMs": 158.7,
+      "cpuSamples": 1001,
+      "mainThreadEventsMs": [
+       [
+        "MajorGC",
+        2.2
+       ],
+       [
+        "V8.GC_MARK_COMPACTOR",
+        2
+       ]
+      ],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        646
+       ],
+       [
+        "fetch :0",
+        355
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        646
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        355
+       ]
+      ]
+     },
+     {
+      "stallMs": 232.6,
+      "cpuSamples": 1651,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        503
+       ],
+       [
+        "(program) :0",
+        494
+       ],
+       [
+        "fetch :0",
+        470
+       ],
+       [
+        "uniformMatrix4fv :0",
+        26
+       ],
+       [
+        "bindVertexArray :0",
+        25
+       ],
+       [
+        "drawElements :0",
+        13
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        12
+       ],
+       [
+        "needsUpdate Scene3D-LjExHw8i.js:32533",
+        11
+       ],
+       [
+        "clear :0",
+        8
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        7
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        1001
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        476
+       ],
+       [
+        "setValueM4 Scene3D-LjExHw8i.js:34457",
+        27
+       ],
+       [
+        "bindVertexArrayObject Scene3D-LjExHw8i.js:32486",
+        25
+       ],
+       [
+        "render Scene3D-LjExHw8i.js:34091",
+        13
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        12
+       ],
+       [
+        "needsUpdate Scene3D-LjExHw8i.js:32533",
+        11
+       ],
+       [
+        "WebGLRenderer.clear Scene3D-LjExHw8i.js:42499",
+        8
+       ]
+      ]
+     },
+     {
+      "stallMs": 232.4,
+      "cpuSamples": 1490,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        673
+       ],
+       [
+        "fetch :0",
+        500
+       ],
+       [
+        "(program) :0",
+        172
+       ],
+       [
+        "(garbage collector) :0",
+        28
+       ],
+       [
+        "uniform3f :0",
+        27
+       ],
+       [
+        "bindVertexArray :0",
+        26
+       ],
+       [
+        "uniformMatrix4fv :0",
+        16
+       ],
+       [
+        "drawElementsInstanced :0",
+        11
+       ],
+       [
+        "uniform1f :0",
+        10
+       ],
+       [
+        "multiplyMatrices Scene3D-LjExHw8i.js:6693",
+        2
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        874
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        500
+       ],
+       [
+        "setValueV3f Scene3D-LjExHw8i.js:34391",
+        27
+       ],
+       [
+        "bindVertexArrayObject Scene3D-LjExHw8i.js:32486",
+        26
+       ],
+       [
+        "setValueM4 Scene3D-LjExHw8i.js:34457",
+        16
+       ],
+       [
+        "renderInstances Scene3D-LjExHw8i.js:34095",
+        11
+       ],
+       [
+        "setValueV1f Scene3D-LjExHw8i.js:34371",
+        10
+       ],
+       [
+        "multiplyMatrices Scene3D-LjExHw8i.js:6693",
+        2
+       ]
+      ]
+     },
+     {
+      "stallMs": 162.1,
+      "cpuSamples": 1023,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        695
+       ],
+       [
+        "fetch :0",
+        328
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        695
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        328
+       ]
+      ]
+     },
+     {
+      "stallMs": 106.1,
+      "cpuSamples": 738,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "fetch :0",
+        238
+       ],
+       [
+        "(program) :0",
+        232
+       ],
+       [
+        "(idle) :0",
+        201
+       ],
+       [
+        "multiplyMatrices Scene3D-LjExHw8i.js:6693",
+        6
+       ],
+       [
+        "needsUpdate Scene3D-LjExHw8i.js:32533",
+        5
+       ],
+       [
+        "updateMatrixWorld Scene3D-LjExHw8i.js:8366",
+        5
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        5
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        5
+       ],
+       [
+        "getParameters Scene3D-LjExHw8i.js:35712",
+        3
+       ],
+       [
+        "getProgram Scene3D-LjExHw8i.js:43057",
+        3
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        433
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        239
+       ],
+       [
+        "multiplyMatrices Scene3D-LjExHw8i.js:6693",
+        6
+       ],
+       [
+        "needsUpdate Scene3D-LjExHw8i.js:32533",
+        5
+       ],
+       [
+        "updateMatrixWorld Scene3D-LjExHw8i.js:8366",
+        5
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        5
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        5
+       ],
+       [
+        "getParameters Scene3D-LjExHw8i.js:35712",
+        3
+       ]
+      ]
+     },
+     {
+      "stallMs": 106,
+      "cpuSamples": 713,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "fetch :0",
+        206
+       ],
+       [
+        "(idle) :0",
+        200
+       ],
+       [
+        "(program) :0",
+        172
+       ],
+       [
+        "bindVertexArray :0",
+        49
+       ],
+       [
+        "uniformMatrix4fv :0",
+        20
+       ],
+       [
+        "drawElements :0",
+        12
+       ],
+       [
+        "uniform3f :0",
+        11
+       ],
+       [
+        "projectObject Scene3D-LjExHw8i.js:42891",
+        5
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        4
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:57508",
+        3
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        372
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        206
+       ],
+       [
+        "bindVertexArrayObject Scene3D-LjExHw8i.js:32486",
+        49
+       ],
+       [
+        "setValueM4 Scene3D-LjExHw8i.js:34457",
+        20
+       ],
+       [
+        "render Scene3D-LjExHw8i.js:34091",
+        12
+       ],
+       [
+        "setValueV3f Scene3D-LjExHw8i.js:34391",
+        11
+       ],
+       [
+        "projectObject Scene3D-LjExHw8i.js:42891",
+        5
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        4
+       ]
+      ]
+     },
+     {
+      "stallMs": 213.7,
+      "cpuSamples": 1409,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "fetch :0",
+        494
+       ],
+       [
+        "(idle) :0",
+        418
+       ],
+       [
+        "(program) :0",
+        271
+       ],
+       [
+        "uniformMatrix4fv :0",
+        62
+       ],
+       [
+        "bindVertexArray :0",
+        24
+       ],
+       [
+        "drawElements :0",
+        23
+       ],
+       [
+        "clear :0",
+        14
+       ],
+       [
+        "uniform3f :0",
+        12
+       ],
+       [
+        "uniform1f :0",
+        12
+       ],
+       [
+        "drawElementsInstanced :0",
+        10
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        690
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        495
+       ],
+       [
+        "setValueM4 Scene3D-LjExHw8i.js:34457",
+        62
+       ],
+       [
+        "bindVertexArrayObject Scene3D-LjExHw8i.js:32486",
+        24
+       ],
+       [
+        "render Scene3D-LjExHw8i.js:34091",
+        23
+       ],
+       [
+        "WebGLRenderer.clear Scene3D-LjExHw8i.js:42499",
+        14
+       ],
+       [
+        "setValueV3f Scene3D-LjExHw8i.js:34391",
+        12
+       ],
+       [
+        "setValueV1f Scene3D-LjExHw8i.js:34371",
+        12
+       ]
+      ]
+     },
+     {
+      "stallMs": 181.4,
+      "cpuSamples": 1144,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        771
+       ],
+       [
+        "fetch :0",
+        372
+       ],
+       [
+        "evaluate :305",
+        1
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        772
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        372
+       ]
+      ]
+     },
+     {
+      "stallMs": 126.3,
+      "cpuSamples": 797,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(idle) :0",
+        497
+       ],
+       [
+        "fetch :0",
+        300
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        497
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        300
+       ]
+      ]
+     },
+     {
+      "stallMs": 175.8,
+      "cpuSamples": 1277,
+      "mainThreadEventsMs": [],
+      "gpuThreadEventsMs": [],
+      "selfSamples": [
+       [
+        "(program) :0",
+        479
+       ],
+       [
+        "(idle) :0",
+        375
+       ],
+       [
+        "fetch :0",
+        308
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        14
+       ],
+       [
+        "needsUpdate Scene3D-LjExHw8i.js:32533",
+        10
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        10
+       ],
+       [
+        "projectObject Scene3D-LjExHw8i.js:42891",
+        9
+       ],
+       [
+        "getParameters Scene3D-LjExHw8i.js:35712",
+        7
+       ],
+       [
+        "setValueM4 Scene3D-LjExHw8i.js:34457",
+        6
+       ],
+       [
+        "(anonymous) Scene3D-LjExHw8i.js:57508",
+        6
+       ]
+      ],
+      "firstAppFrameSamples": [
+       [
+        "(no app frame)",
+        855
+       ],
+       [
+        "self.onmessage lodWorker-C-s8j0Cx.js:108",
+        315
+       ],
+       [
+        "tick index-DnnsmNMk.js:17160",
+        16
+       ],
+       [
+        "needsUpdate Scene3D-LjExHw8i.js:32533",
+        10
+       ],
+       [
+        "setup Scene3D-LjExHw8i.js:32463",
+        10
+       ],
+       [
+        "projectObject Scene3D-LjExHw8i.js:42891",
+        9
+       ],
+       [
+        "getParameters Scene3D-LjExHw8i.js:35712",
+        7
+       ],
+       [
+        "setValueM4 Scene3D-LjExHw8i.js:34457",
+        6
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "browser": "157.0.8103.79",
+ "loadAverage": [
+  5.48,
+  5.15,
+  4.77
+ ]
+}
