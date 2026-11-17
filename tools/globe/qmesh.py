@@ -11,10 +11,10 @@ Frame: the 1,737,400 m sphere (Cesium `Ellipsoid.MOON`), MOON_ME, east-positive;
 metres above that sphere (as the pyramid). Tiling: Cesium GeographicTilingScheme / TMS (level 0 = 2 x 1 tiles of 180 deg,
 y = 0 at the south), 65 x 65 vertex grid per tile (vertex spacing 180 / 2^z / 64 deg).
 
-Levels [decision, budget]: global 0..GLOBAL_MAX (level 7 = 0.022 deg ~ 0.67 km vertex spacing), |lat| >= 80 deg to
+Levels [decision, budget]: global 0..GLOBAL_MAX (level 8 = 0.011 deg ~ 0.33 km vertex spacing), |lat| >= 80 deg to
 POLAR_MAX (level 9 ~ 0.17 km). Output git-ignored: web/public/globe/terrain/ with layer.json (Cesium) + manifest.json.
 
-    python -m tools.globe.qmesh build [--max-level 7] [--polar-max 9] [--workers 2]
+    python -m tools.globe.qmesh build [--max-level 8] [--polar-max 9] [--workers 2]
     python -m tools.globe.qmesh check     # decode a sample, edge agreement, manifest numbers
 """
 from __future__ import annotations
@@ -38,7 +38,7 @@ R = S.R
 REPO = Path(__file__).resolve().parents[2]
 OUT = REPO / 'web' / 'public' / 'globe' / 'terrain'
 N = 65                        # vertices per tile side
-GLOBAL_MAX = 7
+GLOBAL_MAX = 8
 POLAR_MAX = 9
 POLAR_LAT = 80.0
 LABEL = 'SOURCE-BASED · UNVALIDATED (display mesh of the science pyramid; real terrain only, no VISUAL relief)'

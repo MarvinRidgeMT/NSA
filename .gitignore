@@ -52,3 +52,6 @@ web/public/context/lod/
 web/public/globe/coverage/
 web/public/globe/qa/
 web/public/globe/analytics/
+
+# v2 R2 Cesium quantized-mesh display terrain (built from the NASA-derived pyramid by tools/globe/qmesh.py). Not committed.
+web/public/globe/terrain/

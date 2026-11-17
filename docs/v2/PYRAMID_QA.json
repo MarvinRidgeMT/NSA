@@ -2240,5 +2240,228 @@
    "Diviner rock abundance (Bandfield et al. 2011) is not on disk (S2 did not download it)."
   ],
   "what_would_enable_it": "download Diviner RA (PDS), read and cite the SFD tables (paper, table, coefficients), add craters as a share of the LDRM variance budget (noise reduced accordingly), keep the LOLA-spread test green."
+ },
+ "display_terrain_qmesh": {
+  "check": {
+   "tiles_checked": 138,
+   "max_abs_height_err_m": 0.2531,
+   "max_abs_east_west_edge_diff_m": 0.4419,
+   "total_tiles": 234154,
+   "total_gb": 2.857
+  },
+  "levels": {
+   "0": {
+    "tiles": 2,
+    "bytes": 34941,
+    "vertex_spacing_deg": 2.8125,
+    "extent": "global"
+   },
+   "1": {
+    "tiles": 8,
+    "bytes": 136957,
+    "vertex_spacing_deg": 1.40625,
+    "extent": "global"
+   },
+   "2": {
+    "tiles": 32,
+    "bytes": 526350,
+    "vertex_spacing_deg": 0.703125,
+    "extent": "global"
+   },
+   "3": {
+    "tiles": 128,
+    "bytes": 1992289,
+    "vertex_spacing_deg": 0.3515625,
+    "extent": "global"
+   },
+   "4": {
+    "tiles": 512,
+    "bytes": 7662803,
+    "vertex_spacing_deg": 0.17578125,
+    "extent": "global"
+   },
+   "5": {
+    "tiles": 2048,
+    "bytes": 29655923,
+    "vertex_spacing_deg": 0.087890625,
+    "extent": "global"
+   },
+   "6": {
+    "tiles": 8192,
+    "bytes": 113777078,
+    "vertex_spacing_deg": 0.0439453125,
+    "extent": "global"
+   },
+   "7": {
+    "tiles": 32768,
+    "bytes": 453200891,
+    "vertex_spacing_deg": 0.02197265625,
+    "extent": "global"
+   },
+   "8": {
+    "tiles": 131072,
+    "bytes": 1776113908,
+    "vertex_spacing_deg": 0.010986328125,
+    "extent": "global"
+   },
+   "9": {
+    "tiles": 59392,
+    "bytes": 474110559,
+    "vertex_spacing_deg": 0.0054931640625,
+    "extent": "|lat| >= 80.0 deg (tiles touching)"
+   }
+  },
+  "total_tiles": 234154,
+  "total_gb": 2.857,
+  "label": "SOURCE-BASED \u00b7 UNVALIDATED (display mesh of the science pyramid; real terrain only, no VISUAL relief)",
+  "cesium_check": "Cesium 1.123 in a browser: CesiumTerrainProvider(Ellipsoid.MOON) loaded levels 0-5 of a test build without errors, vertex normals on; sampleTerrain at 3 mesh vertices = pyramid within 0.2 m. Rendered frame not inspected (browser pane hidden).",
+  "serve": "python -m tools.globe.serve_terrain (Content-Encoding: gzip + CORS)"
+ },
+ "analytics_r2": {
+  "created_utc": "2026-11-17T04:02:49Z",
+  "label": "SOURCE-BASED \u00b7 UNVALIDATED (display-only analytics: terrain-horizon geometry, not link or power availability)",
+  "method": [
+   "Geometry: JPL Horizons sub-Earth and sub-solar points on the Moon (MOON_ME, 1737.4 km sphere) every 3 h over\n2026-01-01 .. 2044-08-01 (18.58 years, ~one 18.61-year nodal cycle), `tools.globe.ephem` (checked against Horizons coord@301 az/el:\nEarth < 0.001 deg, Sun < 1e-5 deg). Libration-aware by construction: the Earth's direction from each point follows the\nsub-Earth point (+-6.9 deg lat, +-8.1 deg lon) and the Earth-Moon distance (topocentric parallax included).",
+   "Visible = any part of the disc above the terrain horizon (el_centre + angular radius > horizon at that azimuth), the\nPGDA 69 definition (Mazarico et al. 2011: \"sunlit by any fraction of the solar disc\"); the disc-centre fraction is kept\ntoo. Observer on the DEM surface (0 m mast).",
+   "Horizon: rays along exact great circles (destination formula on the 1737.4 km sphere) with Earth-free curvature\n(el = atan2(r_t cos g - r_o, r_t sin g)), terrain from the science pyramid (never VISUAL):\n  * poles (1 km grids, polar stereographic): 80 m level to NEAR_M, 320 m level beyond, to 300 km;\n    Earth maps poleward of 80 deg, Sun maps poleward of 85 deg (360 deg horizons, 2 deg bins);\n  * global Earth map 0.125 deg: a 16 ppd (~1.9 km) mosaic of the pyramid's coarsest levels, rays to 300 km, only over\n    the azimuth range the Earth visits from that cell. Cells whose Earth elevation is always >= CAP_DEG are set visible\n    (horizons above CAP_DEG are not resolved at 1.9 km; checked on a sample) and cells whose Earth elevation is always\n    below -DIP_DEG are set 0 (no terrain can lower the horizon that far). Obstructions narrower than ~4 km are missed."
+  ],
+  "ephemeris_check": {
+   "earth": {
+    "n": 40,
+    "max_abs_del_deg": 0.000503357146321548,
+    "max_abs_daz_deg": 0.005996901240109764,
+    "site": [
+     -89.45,
+     -137.31,
+     1800.0
+    ]
+   },
+   "sun": {
+    "n": 40,
+    "max_abs_del_deg": 2.0623598817604005e-06,
+    "max_abs_daz_deg": 0.00019036693140606076,
+    "site": [
+     -89.45,
+     -137.31,
+     1800.0
+    ]
+   }
+  },
+  "pgda69_comparison_85_90S": {
+   "sun": {
+    "n_points": 72324,
+    "pgda69": "AVGVISIB_85S_060M_201608.TIF",
+    "definition_both": "any part of the disc",
+    "mine_minus_pgda69_cellmean": {
+     "median": 0.0016,
+     "median_abs": 0.0072,
+     "p90_abs": 0.0447,
+     "rms": 0.032
+    },
+    "mine_minus_pgda69_centre_pixel": {
+     "median_abs": 0.0022,
+     "p90_abs": 0.022
+    },
+    "pearson_r_cellmean": 0.9767,
+    "mean_mine": 0.2102,
+    "mean_pgda69": 0.2052,
+    "pct_points_never_visible_mine": 10.777,
+    "pct_points_never_visible_pgda69_centre": 11.245
+   },
+   "earth": {
+    "n_points": 72324,
+    "pgda69": "AVGVISIB_85S_060M_201608_EARTH.TIF",
+    "definition_both": "any part of the disc",
+    "mine_minus_pgda69_cellmean": {
+     "median": 0.0013,
+     "median_abs": 0.0056,
+     "p90_abs": 0.0598,
+     "rms": 0.0402
+    },
+    "mine_minus_pgda69_centre_pixel": {
+     "median_abs": 0.0007,
+     "p90_abs": 0.0162
+    },
+    "pearson_r_cellmean": 0.9845,
+    "mean_mine": 0.2564,
+    "mean_pgda69": 0.2508,
+    "pct_points_never_visible_mine": 26.17,
+    "pct_points_never_visible_pgda69_centre": 27.333
+   }
+  },
+  "sun_sp_1km": {
+   "n_points": 72324,
+   "median": 0.2154,
+   "pct_never": 10.777,
+   "pct_always": 0.0,
+   "max": 0.7777,
+   "kind": "sun",
+   "zone": "sp",
+   "cell_m": 1000.0,
+   "lat_min_abs": 85.0,
+   "n_dist": 456,
+   "time_stride": 2,
+   "label": "SOURCE-BASED \u00b7 UNVALIDATED (display-only analytics: terrain-horizon geometry, not link or power availability)"
+  },
+  "sun_np_1km": {
+   "n_points": 72324,
+   "median": 0.2193,
+   "pct_never": 8.687,
+   "pct_always": 0.0,
+   "max": 0.7817,
+   "kind": "sun",
+   "zone": "np",
+   "cell_m": 1000.0,
+   "lat_min_abs": 85.0,
+   "n_dist": 456,
+   "time_stride": 2,
+   "label": "SOURCE-BASED \u00b7 UNVALIDATED (display-only analytics: terrain-horizon geometry, not link or power availability)"
+  },
+  "earth_sp_1km": {
+   "n_points": 290364,
+   "median": 0.2274,
+   "pct_never": 33.009,
+   "pct_always": 0.0,
+   "max": 1.0,
+   "kind": "earth",
+   "zone": "sp",
+   "cell_m": 1000.0,
+   "lat_min_abs": 80.0,
+   "n_dist": 456,
+   "time_stride": 2,
+   "label": "SOURCE-BASED \u00b7 UNVALIDATED (display-only analytics: terrain-horizon geometry, not link or power availability)"
+  },
+  "earth_np_1km": {
+   "n_points": 290364,
+   "median": 0.3019,
+   "pct_never": 29.394,
+   "pct_always": 0.0,
+   "max": 1.0,
+   "kind": "earth",
+   "zone": "np",
+   "cell_m": 1000.0,
+   "lat_min_abs": 80.0,
+   "n_dist": 456,
+   "time_stride": 2,
+   "label": "SOURCE-BASED \u00b7 UNVALIDATED (display-only analytics: terrain-horizon geometry, not link or power availability)"
+  },
+  "earth_global_0.125deg": {
+   "area_pct_always_visible": 40.416,
+   "area_pct_never_visible": 43.665,
+   "area_pct_sometimes": 15.919,
+   "area_weighted_mean_fraction": 0.4828,
+   "cell_deg": 0.125,
+   "cap_deg": 40.0,
+   "dip_deg": 7.0,
+   "n_earth_bins": 3538,
+   "belt_cells": 2727796,
+   "computed_cells": 2727796,
+   "cap_check": {
+    "n": 4000,
+    "max_horizon_deg_toward_earth": 29.1867618560791,
+    "p999_deg": 22.722668912887638
+   },
+   "label": "SOURCE-BASED \u00b7 UNVALIDATED (display-only analytics: terrain-horizon geometry, not link or power availability)"
+  }
  }
 }

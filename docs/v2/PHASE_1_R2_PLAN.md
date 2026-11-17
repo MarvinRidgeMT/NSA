@@ -87,3 +87,26 @@ written down.
 `python -m pytest tools/globe science/tests -q` green; the VISUAL guard test kept; STATUS row "R2 · …";
 BUILD_STATUS appended; QA numbers in `PYRAMID_QA.json`; small commits on this branch only; rasters/meshes never
 committed; anything not built listed as not done.
+
+## 7. As built (16 Nov 2026 ~13:10 EST, appended; the sections above are the plan as written before coding)
+- **VISUAL amplitude (done).** `tools/globe/roughness.py` rewritten as planned: amplitude from LOLA LDRM_32_50 (smoothed over a
+  ±3 km box, shot-count weighted), H from PGDA 70 HE_8 (global median where missing — not the self-fit fallback), 3-D value
+  noise on a Moon-fixed lattice (one seamless field for eq and polar), fixed octave ladder 10 m · 2^k, octave weights below
+  2× native, g(H, 2·res) by Monte Carlo of the exact 5-spot estimator. Out of sample at the PGDA 78 sites (VISUAL from 80 m only):
+  added/real sub-80 m residual 0.85 / 0.97 / 1.19 / 0.94 (S3 model: 1.87 / 1.20 / 1.90 / 1.37); displayed/real RMS slope
+  0.975–1.003 at 15 m–2.56 km. Hard test `test_roughness_check_hard`: 4 sites + 17 fixed windows (15 landing sites, 2 north),
+  displayed 5-spot roughness inside LOLA's published IQR everywhere. 17 m itself is not a multiple of the 5 m post (15/20 m used).
+- **VISUAL tiles (done, budgeted).** 15,005 tiles, 8.15 GB: sp L6 (20 m) ≥ 80° S 2,884; sp L7 (10 m) ≥ 85° S 2,876;
+  np L7 (10 m) 80–85° N 8,664; eq L6 (~15 m) ±20 km around 13 eq landing sites 581. Everything else on demand
+  (`ensure_visual_tile`). S3's 100 old tiles (self-fit) deleted and rebuilt.
+- **Craters/boulders: not added** (no table values checked in-session; double counting against the LDRM calibration; boulders
+  sub-pixel). Reasons in `PYRAMID_QA.json` "visual_population".
+- **Analytics (done).** Horizons series 2026-01-01..2044-08-01 every 3 h = 18.58 years (11 days short of the 18.61-year
+  nodal cycle; plan said ≥ 18.6). Polar maps at 1 km: Sun ≥ 85°, Earth ≥ 80°, both poles (6-h samples, 2° Sun horizon bins,
+  32 Earth bins over the Earth's azimuth window). Global Earth 0.125° from a 16 ppd mosaic, 2.73 M belt cells computed;
+  40° cap checked (max horizon toward Earth in 4,000 sampled "always" cells 29.2°). PGDA 69 85–90° S (72,324 points):
+  Sun median |Δ| 0.002 vs PGDA 69 pixel (p90 0.022, r 0.977 vs 1 km cell mean), Earth 0.0007 (p90 0.016, r 0.985).
+- **Display formats (done).** Quantized-mesh: 234,154 tiles, 2.86 GB, global L0–8 (0.011° vertices) + |lat| ≥ 80° L9;
+  decode = pyramid within 0.25 m (16-bit quantisation), shared edges within 0.44 m. Cesium 1.123 loads it on Ellipsoid.MOON
+  (served with gzip headers by `tools/globe/serve_terrain.py`); no rendered frame inspected. Coverage web layer: plate carrée
+  4096 × 2048 PNG + 340 geographic tiles (levels 0–3, res and src) + `web_manifest.json`. 3D Tiles not built.

@@ -1325,3 +1325,19 @@ Contract implemented as written, two dated amendments appended to `docs/v2/TERRA
 - Merged S1 (5c6075c), S4 (740eede), S5 (fac463f), S2 (8f0e630), S6 (de2f860), S3 (92f0a6f); integration fix b4ca107 (any-site solver vs pyramid; adapter stays default, pyramid opt-in). Report: `docs/v2/SESSION_REPORT_2026-11-16.md`.
 - Tests on the merged branch: pytest 580 passed, 2 skipped; Blender run_all 11/11; vitest 147/147; build OK; Playwright 96 passed, 2 skipped, 2 known artefacts; traceability 541/0.
 - Submission refs unchanged (c5dce9f, 8dde4f1, 62cc7b1). Nothing pushed.
+
+### v2 R2 — pyramid finishing: VISUAL amplitude, eq/polar VISUAL, visibility analytics, display formats (§2.3, §2.5, §2.2) — Claude, 16 Nov 2026 ~11:45–13:10 EST
+Branch `claude/v2-r2-pyramid-finish-191208` (contains 72e3430). Plan + as built: `docs/v2/PHASE_1_R2_PLAN.md`. `science/**` untouched.
+- **Code:** `tools/globe/roughness.py` (rewritten: LOLA LDRM_32-calibrated 3-D noise, 5-spot emulator, hard check, on-demand + budgeted
+  prebuild), `ephem.py` (Horizons sub-Earth/sub-solar series), `visibility.py` (horizon rays, Earth/Sun fractions, PGDA 69 compare),
+  `qmesh.py` (quantized-mesh-1.0 encoder/decoder, layer.json, manifest), `serve_terrain.py`, `coverage.py` (web tiles), tests
+  `test_globe_roughness.py` (rewritten), `test_globe_display_analytics.py` (new). The VISUAL guard tests are unchanged.
+- **Roughness (hard test passes):** added/real sub-80 m residual 0.85–1.19 at the PGDA 78 sites (S3: 1.2–1.9); displayed/real RMS
+  slope 0.975–1.003; LOLA 5-spot roughness inside LDRM_32 IQR at 4 sites + 17 fixed windows.
+- **Built (git-ignored):** VISUAL 15,005 tiles 8.15 GB; quantized-mesh 234,154 tiles 2.86 GB (`web/public/globe/terrain/`, now in
+  `.gitignore`); analytics 0.19 GB + PNGs; coverage web layer; PGDA 69 Sun/Earth maps 0.05 GB (SHA-256 = the pins in tools/pgda69).
+- **Analytics:** Earth ever visible from 56.3 % of the Moon's area (terrain-aware, any part of the disc, 2026–2044); polar Sun/Earth
+  maps agree with PGDA 69 to a median |Δ| of 0.002 / 0.0007 (r 0.977 / 0.985).
+- **Tests:** `pytest tools/globe science/tests` 495 passed, 2 skipped.
+- **Not done:** craters/boulders (no checked citations; would double-count LOLA roughness); 3D Tiles; a rendered Cesium frame check
+  (pane hidden; decode checked through Cesium's sampleTerrain); viewer wiring of terrain/coverage/analytics layers; query-any-point panel.
