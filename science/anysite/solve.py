@@ -133,7 +133,15 @@ def _near_cut(near, lat, lon):
 
 def solve(lat, lon, mast_m=1.0, start='2026-11-14 00:00', days=14, step_h=1, member_kinds=('clones', 'assumed', 'products'),
           n_members=20, stack=None, use_cache=True, name=None, site_id=None, allow_network=True, out_dir=OUT_DIR,
-          command=None):
+          command=None, world=None):
+    """world: None or 'moon' -> the Moon solver below, unchanged. Any other world (name or World) -> the same method with
+    that world's sphere, relief bound, DEM stack and Horizons syntax (science.worlds.anysite.solve; member_kinds,
+    n_members and stack do not apply there: its members are the world's product members)."""
+    if world is not None and str(getattr(world, 'name', world)).lower() != 'moon':
+        from ..worlds.anysite import solve as world_solve
+        return world_solve(world, lat, lon, mast_m=mast_m, start=start, days=days, step_h=step_h,
+                           allow_network=allow_network, use_cache=use_cache, name=name, site_id=site_id, command=command,
+                           out_dir=None if out_dir is OUT_DIR else out_dir)
     t_start = time.time(); timing = {}
     lat = float(lat); lon = ((float(lon) + 180.0) % 360.0) - 180.0
     if not (-90.0 <= lat <= 90.0) or not math.isfinite(lon):
@@ -323,9 +331,14 @@ def _far_window(stack, lat, lon, half_m, far_es):
 
 
 def _footprint_reach(e, lat, lon):
-    """Inscribed distance from the site to the product footprint edge (grid metres; sp zone; eq global = inf)."""
+    """Inscribed distance from the site to the product footprint edge (grid metres; sp zone; eq global = inf; an eq
+    product spanning all longitudes but not both poles (SLDEM2015 mosaic, 60 S - 60 N): ground distance to its nearer
+    latitude edge)."""
     if e.get('zone') == 'eq' and e.get('width') and e.get('ppd') and abs(e['width'] / e['ppd'] - 360.0) < 1e-6:
-        return float('inf')
+        top, bot = float(e.get('lat_top', 90.0)), float(e.get('lat_bot', -90.0))
+        if top >= 90.0 and bot <= -90.0:
+            return float('inf')
+        return max(0.0, frames.R_MOON_M * math.radians(min(top - lat, lat - bot)))
     if not e.get('bounds') or e.get('zone', 'sp') != 'sp':
         return 0.0
     x, y = frames.stereo_forward(lat, lon); l, b, r, t = e['bounds']
@@ -573,8 +586,19 @@ def main(argv=None):
     ap.add_argument('--n-members', type=int, default=20)
     ap.add_argument('--name')
     ap.add_argument('--no-cache', action='store_true')
+    ap.add_argument('--world', default=None, help='moon (default, the Moon solver unchanged) | mercury | mars')
     a = ap.parse_args(argv)
     cmd = 'python -m science.anysite.solve ' + ' '.join(argv if argv is not None else sys.argv[1:])
+    if a.world and a.world.lower() != 'moon':
+        b = solve(a.lat, a.lon, a.mast, a.start, a.days, a.step_h, use_cache=not a.no_cache, name=a.name, command=cmd,
+                  world=a.world)
+        m = b['metrics']
+        print(json.dumps({'world': a.world, 'bundle_id': b['bundle_id'], 'sun_pct': m['sun_center_visible_pct'],
+                          'sun_earth_pct': m['sun_and_earth_center_visible_pct'],
+                          'longest_sun_gap_h': m['longest_sun_center_hidden_h'],
+                          'dte_pct': b['world']['comms'].get('dte_available_pct'), 'timing_s': b['world']['timing_s']},
+                         indent=1))
+        return
     b = solve(a.lat, a.lon, a.mast, a.start, a.days, a.step_h, tuple(k for k in a.members.split(',') if k), a.n_members,
               use_cache=not a.no_cache, name=a.name, command=cmd)
     m = b['metrics']; u = b['anysite']['uncertainty']['summary']

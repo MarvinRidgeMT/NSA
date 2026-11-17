@@ -12,6 +12,20 @@ from __future__ import annotations
 
 from ..base import ENGINEERING, CommsAsset, DemProduct, Orbit, RotationModel, World
 
+
+def _terrain(lat, lon, max_range_m, member=None):
+    from .terrain import provider
+    return provider(lat, lon, max_range_m, member)
+
+
+FRAME_TIE = {'dem_pck': 'mars_naif_pck/pck00010_msgr_v23.tpc', 'horizons_pck': 'mars_naif_pck/pck00011.tpc',
+             'dem_frame_source': 'MLA RDR SIS (messmla_2101/document/mla_rdrsis.txt): "The current release uses the file '
+                                 'pck00010_msgr_v21.tpc"; v2.1-v2.3 differ only in commentary (kernel version log), the '
+                                 'archived v2.3 is read.',
+             'horizons_model_evidence': 'science/worlds/tests/test_frame_tie.py (geocentric quantity 14 vs LT-corrected '
+                                        'vectors, 2026-11-14..2027-11-14, 5-day steps)',
+             'offset_deg': 0.0}
+
 R_MERCURY_M = 2_439_400.0          # IAU 2015 mean radius (Archinal et al. 2018); projection sphere of the MLA/USGS products
 SEP_X_BAND_DEG = 2.3
 SEP_KA_BAND_DEG = 1.0
@@ -30,9 +44,11 @@ MERCURY = World(
         281.0103, -0.0328, 61.4155, -0.0049, 329.5988, 6.1385108,
         'plus 88-day libration terms (amplitude 0.0107 deg, IAU) not evaluated by the pipeline',
         'Archinal et al. (2018) Celest. Mech. Dyn. Astron. 130:22 (IAU WGCCRE 2015), Table 2; W0 from Margot (2009)'),
-    body_fixed_frame=('Horizons: IAU_MERCURY (west-positive; converted to east-positive). MLA GDR / USGS DEM: planetocentric, '
-                      'east-positive body-fixed frame of the MESSENGER team; its W0 is not stated in the labels '
-                      '(an IAU 2009 W0 = 329.5469 would shift longitudes by 0.052 deg = ~160 m at 86 N): frame tie NOT RUN'),
+    body_fixed_frame=('Horizons: IAU_MERCURY (west-positive; converted to east-positive) = the IAU 2015 model (pck00011: '
+                      'W0 329.5988, Wdot 6.1385108 deg/d), identified by the T3 frame-tie test (Horizons quantity 14 '
+                      'reproduced to 1e-6 deg; the IAU 2009 model is off by 0.135 deg). MLA GDR: MESSENGER PCK '
+                      'pck00010_msgr_v21 (MLA RDR SIS), whose Mercury block (v2.0-2.3) has the same W0, Wdot and pole: '
+                      'MLA -> Horizons longitude offset 0 (science/worlds/frame_tie.py).'),
     spice_kernels='not loaded; Horizons evaluates IAU_MERCURY (DE441)',
     orbit=Orbit(0.38709927, 0.20563593, 87.9691,
                 'JPL "Keplerian elements for approximate positions of the major planets" (Standish), J2000 mean elements; '
@@ -62,4 +78,5 @@ MERCURY = World(
         'both_center_pct_ge_40': {'value': 40, 'unit': '% of hourly samples', 'source': 'Moon team requirement, copied',
                                   'label': ENGINEERING + ' (no Mercury mission requirement exists)'},
         'sep_outage_threshold_deg': {'value': SEP_X_BAND_DEG, 'unit': 'deg', 'source': SEP_SOURCE, 'label': ENGINEERING}},
+    terrain_provider=_terrain, frame_tie=FRAME_TIE,
 )

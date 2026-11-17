@@ -173,3 +173,22 @@ public, no login. SOURCE-BASED · UNVALIDATED inputs; datum conversions and thei
 Not downloaded: MDIS LOI 166 m (duplicate VISUAL use); a georeferenced global/south-polar radar-bright map (none public found;
 figures such as PIA16514 are not data and were not digitised). Comms threshold source: DSN Telecommunications Link Design
 Handbook 810-005, module 106 Rev. B (2010), §2.3.
+
+## Mars inputs and NAIF kernels (T3, added 17 Nov 2026)
+Downloaded by `python -m science.worlds.mars.fetch` (the S2 fetcher on the catalogue `science/worlds/mars/products.py`) into
+`$POLARIS_DATA/v2/products/mars_*/` (git-ignored): **0.533 GB, 28 files**, each with one line (URL, SHA-256, bytes, licence,
+acknowledgement, retrieval UTC) in `$POLARIS_DATA/v2/manifest.jsonl`. All public, no login. SOURCE-BASED · UNVALIDATED
+inputs; datum tests in `science/worlds/tests/test_mars.py`; findings in `docs/v2/PHASE_6_T3_RESULTS.md` §4.
+
+| product_id | Source and credit (use this wording) |
+|---|---|
+| `mars_mola_megdr_004`, `mars_mola_megdr_016`, `mars_mola_megdr_128_44n000` | Smith, D. E., Neumann, G., Arvidson, R. E., Guinness, E. A., Slavney, S. (2003), Mars Global Surveyor Laser Altimeter Mission Experiment Gridded Data Record, MGS-M-MOLA-5-MEGDR-L3-V1.0, NASA Planetary Data System (PDS Geosciences Node, mgsl_300x). Smith, D. E., et al. (2001), JGR 106(E10), 23689–23722. Radius files = radius − 3 396 000 m; IAU 2000 planetocentric coordinates |
+| `mars_ctx_jezero_sci_20m` | Mars 2020 Science Investigation CTX DEM mosaic (urn:nasa:pds:mars2020_ctx_basemap_2021), JPL/USGS Astrogeology; cite Mangold, N., et al. (2021), Science 374, 711–717, doi:10.1126/science.abl4051. CTX: NASA/JPL/MSSS. Heights are MOLA-areoid heights (tested; the XML prose names the 3 396 190 m sphere) |
+| `mars_ctx_jezero_trn_20m` | Fergason, R. L., et al. (2020), Mars 2020 Terrain Relative Navigation flight product generation, LPSC 51 #2020; USGS Astrogeology, doi:10.5066/P906QQT8. CTX: NASA/JPL/MSSS |
+| `mars_naif_pck` | NAIF generic PCKs pck00010.tpc and pck00011.tpc (JPL/NASA, public); MESSENGER pck00010_msgr_v23.tpc (PDS NAIF node, mess-e_v_h-spice-6-v1.0). Rotation models: Archinal et al. (2011, 2018), Celest. Mech. Dyn. Astron. 109:101 and 130:22; Seidelmann et al. (2002) for the IAU 2000 Mars model MOLA uses |
+| `mars_horizons`, `mercury_horizons` | JPL Horizons API (DE441) responses, cached by query SHA-256 with sidecars; SHA-256 of each response in the bundles |
+
+Site coordinates: USGS Gazetteer of Planetary Nomenclature, Jezero (feature 14300, MDIM 2.1), retrieved 2026-11-17. Ls:
+Allison & McEwen (2000), PSS 48, 215 (Mars24). Solar constant 1361 W/m² (Kopp & Lean 2011). Comms threshold: DSN 810-005
+module 106 Rev. B §2.3. Not downloaded: HiRISE 1 m TRN tiles (0.76 GB, landing ellipse only), the other 15 MOLA 128 ppd
+tiles (4.9 GB), HRSC DTMs, relay-orbiter ephemerides (not wired).

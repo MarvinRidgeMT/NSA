@@ -57,8 +57,19 @@ def _eq_lon0(wkt):
 def _eq_lon_left(e):
     """West edge of column 0, snapped to the product's exact 1/ppd grid (GDAL's bounds carry the rounded MAP_SCALE:
     -180.0005 deg instead of -180 for LOLA 128 ppd, a 0.06 px error if used directly)."""
+    if e.get('lon_left') is not None:                  # tile mosaic: from the labels' WESTERNMOST_LONGITUDE
+        return float(e['lon_left']) % 360.0
     raw = _eq_lon0(e['crs_wkt']) + math.degrees(e['bounds'][0] / frames.R_MOON_M)
     return (round(raw * e['ppd']) / e['ppd']) % 360.0
+
+
+def _lat_top(e):
+    """Latitude of the top edge of row 0: +90 for a global product, the label MAXIMUM_LATITUDE for a tile mosaic."""
+    return float(e.get('lat_top', 90.0))
+
+
+def _lat_bot(e):
+    return float(e.get('lat_bot', -90.0))
 
 
 def _is_global_eq(e):
@@ -69,24 +80,25 @@ EQ_MAX_PX = 60_000_000      # an equirectangular window above this is read from 
 
 
 class EqDEM:
-    """Window of a global simple-cylindrical product (pixel-registered, row 0 at +90). Sampled at south-polar-stereo
+    """Window of a global simple-cylindrical product (pixel-registered, row 0 at lat_top: +90 for a global grid, the top
+    of the mosaic for a tiled product such as SLDEM2015 60 S - 60 N). Sampled at south-polar-stereo
     (x, y) like every DEM here: (x, y) -> lat/lon (exact) -> fractional (row, col) -> bilinear. Longitude wraps across the
     0/360 seam; a window touching a pole spans all longitudes (rays over the pole stay inside). Within the half pixel next
     to +-90 deg (inside the footprint of the first/last row) the row index is clamped: the sample lies inside that row's
     pixels, nothing is extrapolated beyond the product."""
 
-    def __init__(self, Z, r0, c0, ppd, full_ring, n_rows_total, n_cols_total, lon_left, name, meta):
+    def __init__(self, Z, r0, c0, ppd, full_ring, n_rows_total, n_cols_total, lon_left, name, meta, lat_top=90.0):
         self.Z = Z; self.r0 = r0; self.c0 = c0; self.ppd = ppd; self.full_ring = full_ring
-        self.H = n_rows_total; self.W = n_cols_total; self.lon_left = lon_left
+        self.H = n_rows_total; self.W = n_cols_total; self.lon_left = lon_left; self.lat_top = float(lat_top)
         self.step = frames.R_MOON_M * math.radians(1.0 / ppd)
         self.name = name; self.meta = meta
-        lat_top = 90.0 - r0 / ppd; lat_bot = 90.0 - (r0 + Z.shape[0]) / ppd
+        lat_top = self.lat_top - r0 / ppd; lat_bot = self.lat_top - (r0 + Z.shape[0]) / ppd
         self.bounds = (lon_left + c0 / ppd, lat_bot, lon_left + (c0 + Z.shape[1]) / ppd, lat_top)   # degrees
 
     def sample(self, x, y):
         lat, lon = frames.stereo_inverse(x, y)
         lat = np.asarray(lat, float); lon = np.asarray(lon, float)
-        r = (90.0 - lat) * self.ppd - 0.5 - self.r0
+        r = (self.lat_top - lat) * self.ppd - 0.5 - self.r0
         nr, nc = self.Z.shape
         if self.r0 == 0:
             r = np.where((r < 0) & (r >= -0.5), 0.0, r)
@@ -112,24 +124,50 @@ class EqDEM:
     def digest(self):
         import hashlib
         h = hashlib.sha256()
-        h.update(json.dumps([self.r0, self.c0, self.ppd, self.full_ring, list(self.Z.shape)]).encode())
+        h.update(json.dumps([self.r0, self.c0, self.ppd, self.full_ring, list(self.Z.shape)]
+                            + ([self.lat_top] if self.lat_top != 90.0 else [])).encode())
         h.update(np.ascontiguousarray(self.Z, dtype=np.float32).tobytes())
         return h.hexdigest()
 
     def perturbed(self, field, name, meta):
         return EqDEM((self.Z.astype(np.float64) + field).astype(np.float32), self.r0, self.c0, self.ppd, self.full_ring,
-                     self.H, self.W, self.lon_left, name, meta)
+                     self.H, self.W, self.lon_left, name, meta, self.lat_top)
+
+
+def _read_block(e, ds, r0, r1, gc, n, out):
+    """Rows [r0, r1) x global columns [gc, gc + n) (no wrap) of an eq entry into `out`. A global product reads its own
+    file (`ds`); a tile mosaic reads every tile overlapping the block (pixels no tile holds stay NaN)."""
+    from rasterio.windows import Window
+    if not e.get('tiles'):
+        for rr in range(r0, r1, 2048):
+            k = min(2048, r1 - rr)
+            out[rr - r0:rr - r0 + k, :] = ds.read(1, window=Window(gc, rr, n, k))
+        return
+    import rasterio
+    out[:] = np.nan
+    for t in e['tiles']:
+        a0 = max(r0, t['r_off']); a1 = min(r1, t['r_off'] + t['height'])
+        b0 = max(gc, t['c_off']); b1 = min(gc + n, t['c_off'] + t['width'])
+        if a0 >= a1 or b0 >= b1:
+            continue
+        with rasterio.open(t['path']) as tds:
+            blk = tds.read(1, window=Window(b0 - t['c_off'], a0 - t['r_off'], b1 - b0, a1 - a0)).astype(np.float32)
+            nod = tds.nodata
+        if nod is not None and not math.isnan(nod):
+            blk[blk == nod] = np.nan
+        out[a0 - r0:a1 - r0, b0 - gc:b1 - gc] = blk
+        e.setdefault('_tiles_read', set()).add(t['id'])
 
 
 def _read_eq(e, lat0, lon0, half_m, name):
     import rasterio
-    from rasterio.windows import Window
     ppd = e['ppd'] or 1.0 / math.degrees(e['res_m'] / frames.R_MOON_M)
     H, W = e['height'], e['width']
     lon_left = _eq_lon_left(e)
+    top = _lat_top(e)
     dlat = math.degrees(half_m / frames.R_MOON_M)
     lat_hi = min(90.0, lat0 + dlat); lat_lo = max(-90.0, lat0 - dlat)
-    r0 = max(0, int(math.floor((90.0 - lat_hi) * ppd)) - 1); r1 = min(H, int(math.ceil((90.0 - lat_lo) * ppd)) + 2)
+    r0 = max(0, int(math.floor((top - lat_hi) * ppd)) - 1); r1 = min(H, int(math.ceil((top - lat_lo) * ppd)) + 2)
     cosm = math.cos(math.radians(max(abs(lat_lo), abs(lat_hi))))
     full = lat_hi >= 90.0 - 1e-9 or lat_lo <= -90.0 + 1e-9 or cosm < 1e-6 or \
         math.degrees(half_m / (frames.R_MOON_M * cosm)) >= 179.0
@@ -141,14 +179,13 @@ def _read_eq(e, lat0, lon0, half_m, name):
         nc = min(W, int(math.ceil(2 * dlon * ppd)) + 5)
     scale = e.get('unit_scale', 1.0)
     Z = np.empty((r1 - r0, nc), dtype=np.float32)
+    e.pop('_tiles_read', None)
     with rasterio.open(e['path']) as ds:
         nod = ds.nodata
         col = 0
         while col < nc:
             gc = (c0 + col) % W; n = min(nc - col, W - gc)
-            for rr in range(r0, r1, 2048):
-                k = min(2048, r1 - rr)
-                Z[rr - r0:rr - r0 + k, col:col + n] = ds.read(1, window=Window(gc, rr, n, k))
+            _read_block(e, ds, r0, r1, gc, n, Z[:, col:col + n])
             col += n
     bad = ~np.isfinite(Z)
     if nod is not None and not math.isnan(nod):
@@ -158,13 +195,17 @@ def _read_eq(e, lat0, lon0, half_m, name):
     Z[bad] = np.nan
     meta = {'source_path': e['path'], 'rows': [r0, r1], 'col_off': c0, 'n_cols': nc, 'full_ring': full, 'ppd': ppd,
             'unit_scale': scale, 'resampling': 'none', 'screened_px': int(bad.sum())}
-    return EqDEM(Z, r0, c0 % W if not full else 0, ppd, full, H, W, lon_left, name, meta)
+    if e.get('tiles'):
+        meta.update({'lat_top': top, 'tiles_read': sorted(e.pop('_tiles_read', set()))})
+    return EqDEM(Z, r0, c0 % W if not full else 0, ppd, full, H, W, lon_left, name, meta, top)
 
 
 def _eq_px(e, lat0, half_m):
     ppd = e['ppd'] or 1.0 / math.degrees(e['res_m'] / frames.R_MOON_M)
     dlat = math.degrees(half_m / frames.R_MOON_M)
     lat_hi = min(90.0, lat0 + dlat); lat_lo = max(-90.0, lat0 - dlat)
+    if e.get('tiles'):
+        lat_hi = min(lat_hi, _lat_top(e)); lat_lo = max(lat_lo, _lat_bot(e))
     cosm = math.cos(math.radians(max(abs(lat_lo), abs(lat_hi))))
     rows = (lat_hi - lat_lo) * ppd
     if lat_hi >= 90 - 1e-9 or lat_lo <= -90 + 1e-9 or cosm < 1e-6:
@@ -252,7 +293,7 @@ class LegacyStack:
             x, y = _to_zone(lat, lon, e)
             l, b, r, t = e['bounds']
             if _is_global_eq(e):
-                if not -90.0 <= lat <= 90.0:      # GDAL's rounded bounds miss x = -pi R (lon_0 - 180) by 4 m
+                if not _lat_bot(e) <= lat <= _lat_top(e):   # GDAL's rounded bounds miss x = -pi R (lon_0 - 180) by 4 m
                     continue
             elif not (l <= float(x) <= r and b <= float(y) <= t):
                 continue
@@ -291,12 +332,22 @@ class LegacyStack:
                 raise KeyError(f'{member} not cached for {e["id"]}')
             path = e['clones'][c]; name = name.replace('nominal', f'clone{c:04d}'); url = e['clone_url'].format(c)
         sha_path = path[:-4] + '.img' if str(path).endswith('.lbl') else path
-        common = {'source_url': url, 'file_sha256': P.file_sha256(sha_path), 'product_id': e['id'],
+        common = {'source_url': url, 'product_id': e['id'],
                   'product': e['product'], 'zone': e['zone'], 'native_res_m': e['res_m'], 'citation': e.get('citation')}
         if e['zone'] == 'eq' and e.get('ppd'):
             d = _read_eq_cached(e['id'], round(lat0, 7), round(lon0, 7), float(half_m), name)
+            if e.get('tiles'):        # mosaic: one SHA-256 per tile actually read (the mosaic has no single file)
+                by_id = {t['id']: t for t in e['tiles']}
+                tl = [{'id': i, 'img': by_id[i]['img'], 'url': by_id[i]['url'], 'file_sha256': P.file_sha256(by_id[i]['img'])}
+                      for i in d.meta.get('tiles_read', [])]
+                common['tiles'] = tl
+                common['file_sha256'] = __import__('hashlib').sha256(''.join(t['file_sha256'] for t in tl).encode()).hexdigest()
+                common['file_sha256_note'] = 'SHA-256 of the concatenated per-tile SHA-256s (tiles listed in meta.tiles)'
+            else:
+                common['file_sha256'] = P.file_sha256(sha_path)
             d.meta.update(common)
             return d
+        common['file_sha256'] = P.file_sha256(sha_path)
         x, y = _to_zone(lat0, lon0, e)
         d = _read(path, float(x), float(y), float(half_m), name)
         s = e.get('unit_scale', 1.0)
@@ -323,6 +374,22 @@ class LegacyStack:
         return max(ok, key=lambda e: (e['res_m'], -e['priority'])) if ok else min(cov, key=lambda e: e['res_m'])
 
     @staticmethod
+    def _tile_point(e, r, c):
+        import rasterio
+        if not (0 <= r < e['height'] and 0 <= c < e['width']):
+            return float('nan')
+        t = next((t for t in e['tiles'] if t['r_off'] <= r < t['r_off'] + t['height']
+                  and t['c_off'] <= c < t['c_off'] + t['width']), None)
+        if t is None:
+            return float('nan')
+        with rasterio.open(t['path']) as ds:
+            v = float(ds.read(1, window=((r - t['r_off'], r - t['r_off'] + 1), (c - t['c_off'], c - t['c_off'] + 1)))[0, 0])
+            if ds.nodata is not None and not math.isnan(ds.nodata) and v == ds.nodata:
+                return float('nan')
+        v *= e.get('unit_scale', 1.0)
+        return v if abs(v) <= 20000.0 else float('nan')
+
+    @staticmethod
     def _point(e, x, y):
         import rasterio
         with rasterio.open(e['path']) as ds:
@@ -331,7 +398,9 @@ class LegacyStack:
                 # drifts by up to ~0.06 px towards +-180 deg from the lon_0 of the CRS)
                 lat = math.degrees(y / frames.R_MOON_M); lon = math.degrees(x / frames.R_MOON_M) + _eq_lon0(e['crs_wkt'])
                 lon_left = _eq_lon_left(e)
-                r = int(math.floor((90.0 - lat) * e['ppd'])); c = int(math.floor(((lon - lon_left) % 360.0) * e['ppd']))
+                r = int(math.floor((_lat_top(e) - lat) * e['ppd'])); c = int(math.floor(((lon - lon_left) % 360.0) * e['ppd']))
+                if e.get('tiles'):
+                    return LegacyStack._tile_point(e, r, c)
             else:
                 r, c = ds.index(x, y)
             if not (0 <= r < ds.height and 0 <= c < ds.width):

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -101,6 +101,25 @@ class World:
     default_requirements: Dict[str, dict]
     available: bool = True
     availability_note: str = ''
+    terrain_provider: Optional[Callable] = field(default=None, repr=False, compare=False)
+    # frame tie DEM frame -> Horizons frame: {'dem_pck', 'horizons_pck' (product-relative paths), 'evidence', ...}
+    frame_tie: Optional[dict] = None
+    atmosphere_note: str = ''
+
+    def horizons_lon_offset_deg(self, jd_tdb) -> float:
+        """East-longitude offset to add to a DEM-frame longitude to get the Horizons-frame longitude at jd (W_dem - W_h,
+        science/worlds/frame_tie.py). 0 when no tie is declared (Moon: not used; its query is the existing one)."""
+        if not self.frame_tie:
+            return 0.0
+        import os
+        from . import frame_tie as FT
+        base = os.environ.get('POLARIS_DATA') or os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'cache')
+        pk = lambda rel: os.path.abspath(os.path.join(base, 'v2', 'products', rel))
+        a, b = pk(self.frame_tie['dem_pck']), pk(self.frame_tie['horizons_pck'])
+        if not (os.path.exists(a) and os.path.exists(b)):
+            raise FileNotFoundError(f'{self.name}: frame-tie kernels not cached ({a}, {b}); run python -m '
+                                    f'science.worlds.mars.fetch --products mars_naif_pck')
+        return FT.longitude_offset_deg(self.naif_id, a, b, jd_tdb)
 
     @property
     def sphere(self) -> Sphere:
@@ -183,5 +202,6 @@ class World:
             'dem_stack': [vars(p) for p in self.dem_stack],
             'comms': [vars(c) for c in self.comms],
             'default_requirements': self.default_requirements,
+            'frame_tie': self.frame_tie, 'atmosphere_note': self.atmosphere_note,
             'context_note': 'The world is a context selector, not a scenario axis.',
         }
