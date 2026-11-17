@@ -323,9 +323,14 @@ def _far_window(stack, lat, lon, half_m, far_es):
 
 
 def _footprint_reach(e, lat, lon):
-    """Inscribed distance from the site to the product footprint edge (grid metres; sp zone; eq global = inf)."""
+    """Inscribed distance from the site to the product footprint edge (grid metres; sp zone; eq global = inf; an eq
+    product spanning all longitudes but not both poles (SLDEM2015 mosaic, 60 S - 60 N): ground distance to its nearer
+    latitude edge)."""
     if e.get('zone') == 'eq' and e.get('width') and e.get('ppd') and abs(e['width'] / e['ppd'] - 360.0) < 1e-6:
-        return float('inf')
+        top, bot = float(e.get('lat_top', 90.0)), float(e.get('lat_bot', -90.0))
+        if top >= 90.0 and bot <= -90.0:
+            return float('inf')
+        return max(0.0, frames.R_MOON_M * math.radians(min(top - lat, lat - bot)))
     if not e.get('bounds') or e.get('zone', 'sp') != 'sp':
         return 0.0
     x, y = frames.stereo_forward(lat, lon); l, b, r, t = e['bounds']

@@ -177,9 +177,11 @@ def _manifest_url(local_suffix):
 
 def _pds_products():
     """PDS3 LOLA LDEM float images (.lbl + .img) from S2: heights in KILOMETRES above 1737.4 km (label UNIT / OFFSET),
-    converted to metres on read. Registered only when the .img is complete (size = lines x samples x 4)."""
+    converted to metres on read. Registered only when the .img is complete (size = lines x samples x 4). Simple-cylindrical
+    tiles of one product (same family, ppd and directory) are grouped into one mosaic entry (`_mosaic`)."""
     import re
     out = []
+    tiles = {}
     root = POLARIS_DATA / 'v2' / 'products'
     for lbl in sorted(glob.glob(str(root / '*' / '**' / '*.lbl'), recursive=True)):
         lbl = Path(lbl); pid = lbl.relative_to(root).parts[0]; fam = _family(pid)
@@ -207,10 +209,54 @@ def _pds_products():
             continue
         ppd = re.search(r'MAP_RESOLUTION\s*=\s*([\d.]+)', text)
         tag = lbl.stem.replace('_float', '')
-        out.append({'id': f'{fam}:{tag}', 'product': fam, 'zone': zone, 'res_m': info['res_m'],
-                    'priority': PRIORITY.index(fam), 'path': str(lbl), 'bounds': info['bounds'],
-                    'name': f'LOLA {tag.upper()} ({fam}, PDS), {info["res_m"]:.0f} m',
-                    'url': _manifest_url(img.name), 'clones': {}, 'crs_wkt': info['crs_wkt'], 'unit_scale': scale,
-                    'ppd': float(ppd.group(1)) if ppd else None, 'width': w, 'height': h,
-                    'citation': LOLA_PDS_CITATION})
+        e = {'id': f'{fam}:{tag}', 'product': fam, 'zone': zone, 'res_m': info['res_m'],
+             'priority': PRIORITY.index(fam), 'path': str(lbl), 'bounds': info['bounds'],
+             'name': f'LOLA {tag.upper()} ({fam}, PDS), {info["res_m"]:.0f} m',
+             'url': _manifest_url(img.name), 'clones': {}, 'crs_wkt': info['crs_wkt'], 'unit_scale': scale,
+             'ppd': float(ppd.group(1)) if ppd else None, 'width': w, 'height': h,
+             'citation': LOLA_PDS_CITATION}
+        if zone == 'eq' and e['ppd']:
+            lat_max, lon_west = _label_deg(text, 'MAXIMUM_LATITUDE'), _label_deg(text, 'WESTERNMOST_LONGITUDE')
+            if lat_max is not None and lon_west is not None and (w / e['ppd'] < 360.0 - 1e-6 or h / e['ppd'] < 180.0 - 1e-6):
+                e.update({'lat_top': lat_max, 'lon_west': lon_west % 360.0, 'img': str(img)})
+                tiles.setdefault((fam, e['ppd'], str(lbl.parent)), []).append(e)
+                continue
+        out.append(e)
+    out += [_mosaic(k, v) for k, v in sorted(tiles.items())]
     return out
+
+
+def _label_deg(text, key):
+    import re
+    m = re.search(rf'^\s*{key}\s*=\s*(-?[\d.]+)', text, re.M)
+    return float(m.group(1)) if m else None
+
+
+def _mosaic(key, tiles):
+    """One entry for the tiles of a simple-cylindrical product split into lat/lon tiles (SLDEM2015 512 ppd: 32 tiles of
+    30 x 45 deg, 60 S - 60 N). The mosaic is a virtual pixel-registered grid with row 0 at `lat_top` and column 0 at
+    `lon_left`; each tile keeps its own file and its (row, col) offset in that grid (from the label's MAXIMUM_LATITUDE and
+    WESTERNMOST_LONGITUDE, exact multiples of 1/ppd). Reads go to the tile(s) that hold the pixels; nothing is resampled
+    or filled. (Before T3 every tile was a separate 'eq' entry indexed as if row 0 were +90 deg, so no tile ever matched.)"""
+    fam, ppd, _ = key
+    lat_top = max(t['lat_top'] for t in tiles)
+    lat_bot = min(t['lat_top'] - t['height'] / ppd for t in tiles)
+    lon_left = min(t['lon_west'] for t in tiles)
+    span = {round(t['lon_west'] + t['width'] / ppd, 9) for t in tiles} | {round(t['lon_west'], 9) for t in tiles}
+    width = int(round((max(span) - lon_left) * ppd))
+    height = int(round((lat_top - lat_bot) * ppd))
+    import os
+    prefix = os.path.commonprefix([t['id'].split(':', 1)[1] for t in tiles]).rstrip('_')
+    tl = []
+    for t in sorted(tiles, key=lambda t: (-t['lat_top'], t['lon_west'])):
+        tl.append({'path': t['path'], 'img': t['img'], 'url': t['url'], 'r_off': int(round((lat_top - t['lat_top']) * ppd)),
+                   'c_off': int(round((t['lon_west'] - lon_left) * ppd)), 'height': t['height'], 'width': t['width'],
+                   'id': t['id']})
+    t0 = tiles[0]
+    import math
+    R = 1_737_400.0
+    return {'id': f'{fam}:{prefix}', 'product': fam, 'zone': 'eq', 'res_m': t0['res_m'], 'priority': t0['priority'],
+            'path': t0['path'], 'bounds': (-math.pi * R, math.radians(lat_bot) * R, math.pi * R, math.radians(lat_top) * R),
+            'name': f'{prefix.upper()} ({fam}, PDS, {len(tiles)} tiles), {t0["res_m"]:.0f} m', 'url': None, 'clones': {},
+            'crs_wkt': t0['crs_wkt'], 'unit_scale': t0['unit_scale'], 'ppd': ppd, 'width': width, 'height': height,
+            'lat_top': lat_top, 'lat_bot': lat_bot, 'lon_left': lon_left, 'tiles': tl, 'citation': t0['citation']}
