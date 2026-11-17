@@ -78,6 +78,7 @@ def emission_mat(name, rgb=(1, 1, 1), strength=1.0, image=None):
         nt.links.new(tx.outputs['Color'], em.inputs['Color'])
     else:
         em.inputs['Color'].default_value = (*rgb, 1.0)
+        m.diffuse_color = (*rgb, 1.0)                    # Solid / Workbench view colour
     nt.links.new(em.outputs['Emission'], out.inputs['Surface'])
     return m
 
@@ -98,6 +99,7 @@ def ortho_camera(sc, col, name, loc, scale, rot=(0, 0, 0)):
     cd = bpy.data.cameras.new(name)
     cd.type = 'ORTHO'
     cd.ortho_scale = scale
+    cd.clip_end = 1e6
     ob = bpy.data.objects.new(name, cd)
     ob.location = loc
     ob.rotation_euler = rot
@@ -259,6 +261,70 @@ def mars_scene(M):
     return sc
 
 
+def everything_scene():
+    """10 Everything at once: every section on one board as scaled collection instances (no copies), viewed in Solid
+    mode with texture colours (no lamps are added; the appended site lamps are not instanced)."""
+    sc = new_scene('10 Everything at once', 'board of all sections; scales differ per tile (each tile is labelled)')
+    ct, cc, cb = collection(sc, 'COL_Labels'), collection(sc, 'COL_Cameras'), collection(sc, 'COL_Board')
+    white = emission_mat('board text', (0.92, 0.92, 0.92))
+    TILE = 100.0
+
+    def pick(scene_prefix, keep):
+        src = next((x for x in bpy.data.scenes if x.name.startswith(scene_prefix)), None)
+        return src, ([o for o in src.objects if keep(o)] if src else [])
+
+    tiles = [
+        ('01', 'Whole Moon (globe.py)', lambda o: o.type == 'MESH' and o.name.startswith('MOON |'), 'fit'),
+        ('02', 'Site01 RoI6 near terrain, PGDA 78 5 m', lambda o: o.type == 'MESH' and ('near' in o.name or o.name.startswith('ASSET')), 'fit'),
+        ('03', 'Site04 RoI3 near terrain, PGDA 78 5 m', lambda o: o.type == 'MESH' and ('near' in o.name or o.name.startswith('ASSET')), 'fit'),
+        ('08', 'Mars Jezero rim: relay sky dome', lambda o: o.type in ('CURVE', 'FONT'), 'fit'),
+        ('06', 'Render vs real: LROC NAC held-out (A5)', lambda o: o.type in ('MESH', 'FONT'), 'fit'),
+        ('07', 'Render vs real: LROC WAC dev (A6)', lambda o: o.type in ('MESH', 'FONT'), 'fit'),
+        ('09', 'Render vs real: LROC WAC held-out (A7)', lambda o: o.type in ('MESH', 'FONT'), 'fit'),
+    ]
+    x = 0.0
+    heights = []
+    for i, (pref, title, keep, _mode) in enumerate(tiles):
+        src, objs = pick(pref, keep)
+        if not objs:
+            continue
+        col = bpy.data.collections.new(f'ALL_{pref}')
+        for o in objs:
+            col.objects.link(o)
+        pts = [o.matrix_world @ Vector(c) for o in objs for c in o.bound_box]
+        lo = Vector((min(p.x for p in pts), min(p.y for p in pts), min(p.z for p in pts)))
+        hi = Vector((max(p.x for p in pts), max(p.y for p in pts), max(p.z for p in pts)))
+        gallery = pref in ('06', '07', '09')
+        size = (hi.x - lo.x) if gallery else max(hi.x - lo.x, hi.y - lo.y)    # galleries fit their width
+        k = TILE / size if size > 0 else 1.0
+        ctr = (lo + hi) / 2
+        flip = pref == '01'                                          # globe: show the south pole, where the sites are
+        col.instance_offset = Vector((ctr.x, ctr.y, ctr.z)) if flip else Vector((ctr.x, hi.y, ctr.z))
+        em = bpy.data.objects.new(f'BOARD_{pref}', None)
+        em.instance_type = 'COLLECTION'
+        em.instance_collection = col
+        em.scale = (k, k, k)
+        if flip:
+            em.rotation_euler = (math.pi, 0.0, 0.0)
+        em.location = (x + TILE / 2, -TILE / 2 if flip else 0.0, 0.0)
+        cb.objects.link(em)
+        heights.append((hi.y - lo.y) * k)
+        sc_txt = f'1 : {1 / k:,.0f}' if k < 1 else f'x {k:,.1f}'
+        text(ct, f'{pref}  {title}' + (' (south pole up)' if flip else '') + f'\n(scale {sc_txt} of its scene units)',
+             (x, 14.0, 0), 3.2, white, f'TXT_board_{pref}')
+        x += TILE * 1.15
+    text(ct, 'POLARIS X v2 — everything at once (Solid view; each tile has its own scale; galleries are NASA crops, local only)',
+         (0, 30, 0), 4.5, white, 'TXT_board_title')
+    H = max(heights + [TILE]) + 40
+    ortho_camera(sc, cc, 'CAM_Board_Top', (x / 2, 30 - H / 2, 1e4), max(x, H) * 1.02)
+    sc.render.resolution_x = 3200 if x >= H else int(3200 * x / H)
+    sc.render.resolution_y = int(3200 * H / x) if x >= H else 3200
+    sc.render.engine = 'BLENDER_WORKBENCH'
+    sc.display.shading.light = 'STUDIO'
+    sc.display.shading.color_type = 'TEXTURE'
+    return sc
+
+
 def index_scene(sections):
     sc = new_scene('00 Index — POLARIS X v2 showcase', 'index')
     ct, cc = collection(sc, 'COL_Labels'), collection(sc, 'COL_Cameras')
@@ -308,12 +374,24 @@ def main():
         sections.append(('09 Render vs real — LROC WAC held-out (A7)', f"{len(g['wac_heldout'])} local thumbnails with their scores"))
     mars_scene(M['mars'])
     sections.append(('08 Mars — Jezero rim relay sky dome', 'skyline from the Mars bundle; MRO/TGO/MEX per-minute tracks (Horizons)'))
+    sections.append(('10 Everything at once', 'all sections on one board (opens here)'))
+    allsc = everything_scene()
     idx = index_scene(sections)
     if default.name != idx.name and not default.objects:
         bpy.data.scenes.remove(default)
     for sc in bpy.data.scenes:
-        if sc.get('polaris_label') is not None or sc.name.startswith(('00', '06', '07', '08', '09')):
+        if sc.get('polaris_label') is not None or sc.name.startswith(('00', '06', '07', '08', '09', '10')):
             bpy.context.window_manager.windows[0].scene = sc if bpy.context.window_manager.windows else sc
+    for wm in bpy.data.window_managers:                      # open on the board, in Solid view with texture colours
+        for win in wm.windows:
+            win.scene = allsc
+    for scr in bpy.data.screens:
+        for area in scr.areas:
+            if area.type == 'VIEW_3D':
+                sp = area.spaces[0]
+                sp.shading.type = 'SOLID'
+                sp.shading.color_type = 'TEXTURE'
+                sp.clip_end = 1e7
     txt = bpy.data.texts.new('README_POLARIS_v2_showcase')
     txt.write(__doc__ + '\n\nSections:\n' + '\n'.join(f'{n}: {s}' for n, s in sections))
     out = d / 'POLARIS_X_v2_showcase.blend'
@@ -323,10 +401,10 @@ def main():
         qa = d / 'qa'
         qa.mkdir(exist_ok=True)
         for sc in bpy.data.scenes:
-            if not sc.name.startswith(('00', '06', '07', '08', '09')) or sc.camera is None:
+            if not sc.name.startswith(('00', '06', '07', '08', '09', '10')) or sc.camera is None:
                 continue
             bpy.context.window.scene = sc if bpy.context.window else sc
-            for eng in ('BLENDER_EEVEE_NEXT', 'BLENDER_EEVEE'):
+            for eng in (() if sc.name.startswith('10') else ('BLENDER_EEVEE_NEXT', 'BLENDER_EEVEE')):
                 try:
                     sc.render.engine = eng
                     break
