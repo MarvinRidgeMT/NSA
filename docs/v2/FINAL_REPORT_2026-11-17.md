@@ -70,7 +70,7 @@ solver is `TERRAIN_STACK_CONTRACT.md`; it was changed only through dated amendme
    "Python quit unexpectedly": git provenance calls forked while PROJ was in use; they now use posix_spawn (`science/gitinfo.py`).
 2. ~~Fix the accessibility and 390 px mobile gate failures.~~ **Done 17 Nov:** axe 0 serious, 390 px 5/5 (`GATES.md` §8).
    Adding axe-core as a devDependency still needs your OK.
-3. Move the 10.3 MB Mars bundle JSON out of git, or compress it.
-4. Before the held-out render-vs-real run: register A5 (Otsu on near-total-shadow windows), then run it. Score WAC, ShadowCam and Kaguya TC. Wire `RealVsModel.tsx` into the app.
+3. ~~Move the 10.3 MB Mars bundle JSON out of git, or compress it.~~ **Done 17 Nov:** stored gzipped, 1.6 MB (content unchanged).
+4. Before the held-out render-vs-real run: register A5 (Otsu on near-total-shadow windows), then run it. Score WAC, ShadowCam and Kaguya TC. ~~Wire `RealVsModel.tsx` into the app.~~ **Done 17 Nov:** on the Evidence page; images rebuilt locally (not in git).
 5. Mars relays and sky model. Clone members for Mercury and Mars, so they can have a cube and Decision Card. Decision tools across the whole Moon.
 6. Rerun the Moon precompute: the legacy eq caches now include SLDEM2015.

@@ -44,6 +44,7 @@ import { applyRouteSite } from './store/siteDefaults';
 
 import { GlobeButton, SurfaceLayerChip, SurfaceLayerPicker } from './components/SurfaceLayer';
 import { useSurface } from './store/surface';
+import RealVsModel from './components/RealVsModel';
 const Scene3D = lazy(() => import('./three/Scene3D'));
 
 type Route = Workspace | 'story';
@@ -731,6 +732,14 @@ export default function App() {
                   <div className="col">
                     <Guard label="South Pole map">
                       <PolarMap v={v} />
+                    </Guard>
+                    <Guard label="Real vs model">
+                      <section className="panel" aria-labelledby="rvm-title" data-testid="rvm-panel">
+                        <div className="panel-head">
+                          <h2 id="rvm-title">Real vs model</h2>
+                        </div>
+                        <RealVsModel />
+                      </section>
                     </Guard>
                   </div>
                 </div>

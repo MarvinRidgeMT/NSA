@@ -1,6 +1,6 @@
 {
   "schema": "polaris-gates-mobile-v1",
-  "measuredUTC": "2026-11-17T12:44:55.757Z",
+  "measuredUTC": "2026-11-17T12:52:18.161Z",
   "viewport": [
     390,
     844
@@ -152,7 +152,7 @@
       "innerWidth": 390,
       "scrollWidth": 390,
       "horizontalScroll": false,
-      "nInteractive": 57,
+      "nInteractive": 58,
       "offscreenInteractive": [],
       "nOffscreen": 0,
       "targetsUnder24px": [
@@ -179,7 +179,7 @@
         "th",
         "span.of-record"
       ],
-      "nTextUnder11px": 23,
+      "nTextUnder11px": 24,
       "checks": {
         "noHorizontalScroll": true,
         "interactiveReachable": true,

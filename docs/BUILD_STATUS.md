@@ -1487,3 +1487,8 @@ Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/P
 ### POLARIS X v2 — accessibility and 390 px gates fixed — Claude (coordinator), 17 Nov 2026 ~08:10 EST, feature/v2-whole-moon
 - axe-core 4.14.0 (local copy via AXE_CORE_PATH): 8 serious → 0 over 5 views; 390 px mobile gate 2/5 → 5/5 views. Fixes and remaining recorded-only items: `docs/v2/GATES.md` §8. Markup/CSS only; no numbers changed.
 - Tests: vitest 176/176; tsc clean; build OK; Playwright :4199 106 passed, 4 skipped, 1 failed (cold-launch, port-4173 artefact). Nothing pushed.
+
+### POLARIS X v2 — Mars bundle gzipped; Real vs model viewer in the app — Claude (coordinator), 17 Nov 2026 ~08:50 EST
+- Mars: `data/worlds/mars/mars_jezero_rim_2026-11-14_687d_mast1m.json.gz` (1.6 MB) replaces the 10.3 MB JSON; decompressed bytes = the old file (sha256 3af2c04b…); builder writes gzip, test_mars reads it (63 passed in science/worlds). The old blob stays in branch history.
+- R4 viewer: `RealVsModel` is on the Evidence page. Without the git-ignored export it says the images are not in this build (cropped from LROC NAC, not committed) and how to rebuild them. Export fixes: protocol now "A1-A4" (was "A1-A3" although the scores were made under A4); each row records its orbit (181 GRGM900C, 7 FDF-only) and the viewer shows it and opens on a GRGM900C row. Checked with the export rebuilt from R4's cache (188 rows, 24 MB, git-ignored).
+- Tests: vitest 177/177; tsc clean; build OK; pytest tools/validation 19 passed; traceability 545/0; a11y + 390 px gates pass; Playwright :4199 105 passed, 4 skipped, 2 failed = cold-launch (port artefact) + P6 sight label (passes alone 2/2). Nothing pushed.

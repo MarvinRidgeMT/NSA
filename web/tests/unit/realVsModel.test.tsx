@@ -16,7 +16,7 @@ const index: RealVsModelIndex = {
       image: 'MB__site01_roi6.png', resultId: 'scores.jsonl:MB__site01_roi6' },
     { id: 'MA__site04_roi3', productId: 'MA', site: 'site04_roi3', product: 'pgda78_5m', photometry: 'hapke', iouShadow: 0.9,
       edgeMedianM: 5.04, ssim: null, wasserstein1: 0.2, regOffsetM: 10, sunElDeg: -0.3, startUtc: '2011-06-12T00:00:00Z',
-      image: 'MA__site04_roi3.png', resultId: 'scores.jsonl:MA__site04_roi3' },
+      image: 'MA__site04_roi3.png', resultId: 'scores.jsonl:MA__site04_roi3', orbit: 'grgm900c' },
   ],
 };
 
@@ -27,12 +27,20 @@ describe('RealVsModel', () => {
     expect(screen.getByTestId('rvm-iou').textContent).toBe('0.900');
     expect(screen.getByTestId('rvm-edge').textContent).toBe('5.0 m');
     expect(screen.getByTestId('rvm-ssim').textContent).toBe('—');
+    expect(screen.getByTestId('rvm-orbit').textContent).toMatch(/GRGM900C/);
     expect(screen.getByTestId('rvm-image').getAttribute('src')).toBe('./render_vs_real/MA__site04_roi3.png');
     const dl = screen.getByTestId('rvm-iou').closest('dl')!;
     expect(dl.getAttribute('data-result-id')).toBe('scores.jsonl:MA__site04_roi3');
     expect(dl.getAttribute('data-source')).toMatch(/scores\.jsonl$/);
     fireEvent.change(screen.getByTestId('rvm-select'), { target: { value: '1' } });
     expect(screen.getByTestId('rvm-iou').textContent).toBe('0.500');
+    expect(screen.getByTestId('rvm-orbit').textContent).toBe('not recorded');
+  });
+
+  it('opens on the first headline (non-FDF) row', () => {
+    const fdfFirst = { ...index, rows: [{ ...index.rows[1], id: 'M0__site01_roi6', productId: 'M0', orbit: 'fdf' }, index.rows[1]] };
+    render(<RealVsModelView index={fdfFirst} base="./" />);
+    expect(screen.getByTestId('rvm-orbit').textContent).toMatch(/GRGM900C/);
   });
 
   it('rejects an index without the dev/SOURCE-BASED label', () => {

@@ -548,9 +548,10 @@ def web_export():
                     'photometry': r['photometry'], 'iouShadow': num('iouShadow'), 'edgeMedianM': num('edgeMedianM'),
                     'ssim': num('ssim'), 'wasserstein1': num('wasserstein1'), 'regOffsetM': num('regOffsetM'),
                     'sunElDeg': G['sun_el_deg'], 'startUtc': G['label']['start_utc'], 'image': f'{key[0]}__{key[1]}.jpg',
-                    'resultId': f"scores.jsonl:{key[0]}__{key[1]}__pgda78_5m__hapke__registered"})
+                    'orbit': r.get('orbit'),
+                    'resultId': f"scores.jsonl:{key[0]}__{key[1]}__pgda78_5m__hapke__registered__{r.get('orbit')}"})
     idx = {'schema': 'polaris-render-vs-real-index-v1', 'label': LABEL,
-           'protocol': 'docs/v2/RENDER_VS_REAL_PROTOCOL.md (frozen) + amendments A1-A3',
+           'protocol': 'docs/v2/RENDER_VS_REAL_PROTOCOL.md (frozen) + amendments A1-A4',
            'credit': 'NASA/GSFC/Arizona State University', 'generatedUtc': dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
            'rows': out}
     (WEB / 'index.json').write_text(json.dumps(idx, indent=1))

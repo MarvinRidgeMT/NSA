@@ -1,6 +1,6 @@
 {
   "schema": "polaris-gates-a11y-v1",
-  "measuredUTC": "2026-11-17T12:44:19.530Z",
+  "measuredUTC": "2026-11-17T12:51:41.561Z",
   "engine": "axe-core (AXE_CORE_PATH)",
   "axeVersion": "4.14.0",
   "rule": "pass = 0 serious/critical violations across views",
@@ -28,7 +28,7 @@
     },
     "evidence": {
       "violations": [],
-      "passes": 36,
+      "passes": 37,
       "incomplete": 2
     }
   }

@@ -24,6 +24,12 @@ export type RealVsModelRow = {
   startUtc: string;
   image: string; // relative to the index file
   resultId: string;
+  orbit?: string | null; // 'grgm900c' (amendment A4, headline) or 'fdf' (NAIF lrorg; only before GRGM900C coverage)
+};
+
+const ORBIT: Record<string, string> = {
+  grgm900c: 'LOLA/LRO RS GRGM900C (amendment A4; headline rows)',
+  fdf: 'NAIF lrorg FDF (July 2009, before GRGM900C coverage; reported separately)',
 };
 
 export type RealVsModelIndex = {
@@ -49,15 +55,16 @@ export function validateIndex(x: unknown): RealVsModelIndex {
 const fmt = (v: number | null, d: number) => (v === null || !Number.isFinite(v) ? '—' : v.toFixed(d));
 
 export function RealVsModelView({ index, base }: { index: RealVsModelIndex; base: string }) {
-  const [sel, setSel] = useState(0);
   const rows = useMemo(() => [...index.rows].sort((a, b) => a.id.localeCompare(b.id)), [index]);
+  // open on a headline row (GRGM900C orbit), not one of the FDF-only rows that sort first
+  const [sel, setSel] = useState(() => Math.max(0, rows.findIndex((x) => x.orbit !== 'fdf')));
   const r = rows[Math.min(sel, rows.length - 1)];
   if (!r) return <p data-testid="rvm-empty">No scored rows.</p>;
   const src = 'tools/validation/render_vs_real/results/scores.jsonl';
   return (
     <section className="real-vs-model" data-testid="real-vs-model" data-label={index.label} data-classification="SOURCE-BASED">
       <header>
-        <h3>Real vs model</h3>
+        <h3>LROC NAC image vs POLARIS render twin</h3>
         <p className="label" data-testid="rvm-label">{index.label}</p>
         <label>
           Image{' '}
@@ -65,6 +72,7 @@ export function RealVsModelView({ index, base }: { index: RealVsModelIndex; base
             {rows.map((row, i) => (
               <option key={row.id} value={i}>
                 {row.productId} · {row.site}
+                {row.orbit === 'fdf' ? ' · FDF orbit' : ''}
               </option>
             ))}
           </select>
@@ -82,7 +90,9 @@ export function RealVsModelView({ index, base }: { index: RealVsModelIndex; base
           edges (yellow observed, cyan predicted). Render terrain {r.product}, photometry {r.photometry}, registered.
         </figcaption>
       </figure>
-      <dl data-result-id={r.resultId} data-source={src} data-label={index.label}>
+      <dl className="kv" data-result-id={r.resultId} data-source={src} data-label={index.label}>
+        <dt>Spacecraft orbit</dt>
+        <dd data-testid="rvm-orbit">{r.orbit ? ORBIT[r.orbit] ?? r.orbit : 'not recorded'}</dd>
         <dt>Start UTC</dt>
         <dd data-testid="rvm-utc">{r.startUtc}</dd>
         <dt>Sun elevation at site</dt>
@@ -111,7 +121,9 @@ export function RealVsModel({ indexUrl = './render_vs_real/index.json' }: { inde
   useEffect(() => {
     let live = true;
     fetch(indexUrl)
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+      .then((r) =>
+        r.ok && (r.headers.get('content-type') ?? '').includes('json') ? r.json() : Promise.reject(new Error(r.ok ? 'no index in this build' : `HTTP ${r.status}`)),
+      )
       .then((j) => live && setState({ index: validateIndex(j) }))
       .catch((e: Error) => live && setState({ error: e.message }));
     return () => {
@@ -120,9 +132,15 @@ export function RealVsModel({ indexUrl = './render_vs_real/index.json' }: { inde
   }, [indexUrl]);
   if (state.error)
     return (
-      <p data-testid="rvm-missing">
-        Real-vs-model data not built ({state.error}). Run python -m tools.validation.render_vs_real.report --web.
-      </p>
+      <div data-testid="rvm-missing">
+        <p>
+          The image comparisons are not in this build ({state.error}). They are cropped from NASA LROC NAC images, which this
+          project does not commit; rebuild them locally with <code>python -m tools.validation.render_vs_real.report --web</code>.
+        </p>
+        <p className="small">
+          Dev-split results (SOURCE-BASED · UNVALIDATED, not the held-out run): <code>docs/validation/RENDER_VS_REAL.md</code>.
+        </p>
+      </div>
     );
   if (!state.index) return <p data-testid="rvm-loading">Loading real-vs-model index…</p>;
   const base = indexUrl.slice(0, indexUrl.lastIndexOf('/') + 1);
