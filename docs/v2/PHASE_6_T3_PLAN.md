@@ -69,9 +69,10 @@ and Mars plug in through that interface.
 - **Comms.** Direct-to-Earth geometry (Earth above the terrain skyline) + the SEP < 2.3° outage rule (same DSN 810-005
   source as Mercury). Relay orbiters (MRO, MAVEN, TGO, Mars Express): **not available for this world** — no relay
   ephemerides wired.
-- **Site rule (fixed before the run).** Jezero crater (Gazetteer centre 18.38° N, 77.58° E, D 45 km?—value checked
-  against the Gazetteer before use): highest point of the CTX DEM inside the rim annulus 0.85–1.15 R with slope < 15° (CTX
-  20 m, slope over 3×3), ties → nearest the centre.
+- **Site rule (fixed before the run).** Jezero crater: highest point of the CTX DEM inside the rim annulus 0.85–1.15 R
+  with slope < 15° (CTX 20 m, slope over 3×3), ties → nearest the centre. Crater centre and diameter read from the USGS
+  Gazetteer before the run (feature 14300, MDIM 2.1): 18.41° N, 77.69° E, D 47.52 km (encyclopaedia values 18.38° N,
+  77.58° E, 45 km were not used).
 - **Bundle.** `data/worlds/mars/mars_jezero_rim_<start>_<days>d_mast1m.json`, `polaris-science-results-v1` core keys + a
   `world` block, with Decision Card / cube / sensitivity marked "not available for this world" with reasons (no clone
   members), product members CTX-science / CTX-TRN / MOLA 128 ppd, flat-horizon control, mast sweep, Ls seasons, tau sweep.
@@ -81,3 +82,8 @@ and Mars plug in through that interface.
 
 ## 5. Not planned here
 Web, exports/API (T1/T2); render-vs-real (R4); Mars Blender scene; ground imagery; relay ephemerides.
+
+## As built (17 Nov 2026)
+See `PHASE_6_T3_RESULTS.md`. Deviations from this plan: the areoid for the CTX conversion is the MOLA 16 ppd areoid
+product, not megr − megt at 128 ppd (mean-radius vs median-topography bins differ by up to 1.5 km); the sub-solar longitude
+check needs the Sun–planet light-time rotation (3.1° for Mars); HiRISE not downloaded (it does not cover the rim site).

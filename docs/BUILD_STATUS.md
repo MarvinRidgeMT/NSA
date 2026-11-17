@@ -1413,3 +1413,12 @@ Branch `claude/v2-r2-pyramid-finish-191208` (contains 72e3430). Plan + as built:
 - **Not done:** craters/boulders (no checked citations; would double-count LOLA roughness); 3D Tiles; a rendered Cesium frame check
   (pane hidden; decode checked through Cesium's sampleTerrain); viewer wiring of terrain/coverage/analytics layers; query-any-point panel.
 - Round 2, later: merged R2 pyramid finishing (e6046d4): VISUAL relief matches LOLA roughness (hard test), eq + polar VISUAL tiles, Earth/Sun visibility maps, Cesium terrain and coverage web layer (~11.4 GB derived, git-ignored). pytest `science tools` 700 passed, 3 skipped (the "Error in sys.excepthook" lines after the summary come from worker processes at interpreter shutdown; exit code 0); vitest green. R4 still running.
+
+### v2 T3 — solver/world follow-ups, then Mars (§3.3) — Claude, 16–17 Nov 2026 ~23:40–01:10 EST
+Branch `claude/v2-t3-mars-134ecc` (contains 13551d0). Plan + results: `docs/v2/PHASE_6_T3_PLAN.md`, `PHASE_6_T3_RESULTS.md`.
+- **SLDEM2015 per-product adapter** (`science/anysite/products.py`, `stack.py`, `solve.py`): tile mosaic entry, row origin at the label's MAXIMUM_LATITUDE; regression test against raw `.img` reads (fails on the old code).
+- **`world=` hook** (`science/anysite/solve.py`, `--world`): Moon unchanged; other worlds → `science/worlds/anysite.py` (generic solver, terrain providers, frame tie, SEP rule). New `science/worlds/{pck,frame_tie,grids,ephem,anysite}.py`.
+- **Mercury**: MLA→Horizons prime-meridian tie run (offset 0); south-polar site bundle `data/worlds/mercury/mercury_south_pole_high_2026-11-14_176d_mast1m.json`.
+- **Mars**: `science/worlds/mars/` (world, catalogue + fetch, MOLA/CTX readers, terrain, Ls seasons, tau energy, Jezero site); bundle `data/worlds/mars/mars_jezero_rim_2026-11-14_687d_mast1m.json`; 0.533 GB downloaded (28 files, SHA-256 in the manifest).
+- **Tests:** `python -m pytest science -q` 575 passed, 2 skipped (7 min 48 s). Web, exports/API and Blender untouched; nothing pushed.
+- **Not done:** Mars relays (no ephemerides), Mars sky model, HiRISE/HRSC members, clone members/cube/Decision Card for Mercury and Mars, world-aware results schema.
