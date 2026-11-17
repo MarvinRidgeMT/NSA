@@ -55,3 +55,10 @@ web/public/globe/analytics/
 
 # v2 R2 Cesium quantized-mesh display terrain (built from the NASA-derived pyramid by tools/globe/qmesh.py). Not committed.
 web/public/globe/terrain/
+
+# v2 T2 web integration (rebuilt by web/scripts/sync_v2_layers.py and web/scripts/sync-globe.mjs). Not committed:
+# layer manifest over NASA-derived PNGs, the copied any-site summary, the three.js Draco decoder copy, the globe manifest.
+web/public/layers/v2/
+web/public/anysite/
+web/public/draco/
+web/public/globe/globe_manifest.json

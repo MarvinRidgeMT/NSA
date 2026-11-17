@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "demo-fixture": "python3 scripts/make_demo_fixture.py",
-    "sync-bundles": "node scripts/sync-bundles.mjs",
+    "sync-bundles": "node scripts/sync-bundles.mjs && node scripts/sync-globe.mjs",
     "dev": "npm run sync-bundles && vite",
     "build": "npm run sync-bundles && tsc -p tsconfig.json && vite build",
     "preview": "vite preview",
