@@ -1455,3 +1455,8 @@ Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/P
 - **Tests:** vitest 173/173; Playwright :4222 103 passed, 2 skipped (cold-launch excluded; 16 load timeouts with 9 workers all pass
   serially); traceability 541/0; globe-v2 7/7; Blender run_all 14/14.
 - **Not done:** Cesium quantized-mesh terrain in the viewer; T1 API (stub contract only); coverage/analytics not rebuilt from the pyramid here.
+
+### POLARIS X v2 round-3 integration — Claude (coordinator), 17 Nov 2026 ~01:05 EST, feature/v2-whole-moon
+- Merged T3 Mars + solver/world follow-ups (3337ba9), T1 NASA-user exports/API/gates (4312939), T2 web integration (71c8234); integration fix d31dd9a (API live test derives world availability and site count from the registry; Mars became available in T3).
+- Tests: pytest `science tools` 760 passed, 3 skipped (with the fix); Blender run_all 14/14 (POLARIS_PYTHON); Blender unit tests OK; vitest 173/173; build OK. Playwright full run under load (R4 rendering, load avg 46–56): 95 passed, 12 failed; re-run alone 7/10 pass incl. traceability 543/0; the remaining 3 (two sight-label specs, wheel-scroll) are the documented load-sensitive specs; cold-launch is the port-4173 artefact.
+- Open: T2's "compute now" uses the older `science.anysite.api` stub (POST /anysite, :8766), not T1's `/v1/solve` (:8767); T1 gates fail accessibility and 390 px mobile (fix list in `docs/v2/GATES.md`); Mars bundle is a 10.3 MB JSON in git. R4 still running.
