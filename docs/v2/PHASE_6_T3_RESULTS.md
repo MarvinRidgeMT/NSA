@@ -108,7 +108,7 @@ manifest.
 - Allison & McEwen (2000) / Mars24 reproduces the published worked example (2000-01-06 → Ls 277.18758°).
 - Against Horizons' sub-solar latitude: **max 0.0052°** over 2 749 six-hourly epochs.
 
-**Jezero rim** (`site.py`; bundle `data/worlds/mars/mars_jezero_rim_2026-11-14_687d_mast1m.json`, 10.3 MB):
+**Jezero rim** (`site.py`; bundle `data/worlds/mars/mars_jezero_rim_2026-11-14_687d_mast1m.json.gz`, 10.3 MB JSON / 1.6 MB gzip since 17 Nov):
 - **Crater**: Gazetteer feature 14300 (MDIM 2.1) puts the centre at 18.41° N, 77.69° E, D 47.52 km.
 - **Site rule**: the highest CTX radius height in the 0.85–1.15 R annulus with slope < 15°. That gives
   **18.1758836° N, 78.1081993° E, −2 722.94 m**, slope 0.39°, 27.32 km from the centre.

@@ -1,6 +1,7 @@
 """Mars (T3, prompt §3.3): data conventions, seasons, energy labelling, and the Jezero rim bundle.
 Data-dependent tests skip when $POLARIS_DATA/v2/products/mars_* are not downloaded (python -m science.worlds.mars.fetch)."""
 import datetime as dt
+import gzip
 import json
 import os
 import unittest
@@ -13,7 +14,7 @@ from science.worlds.mars import seasons as SE
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 PROD = os.path.join(ROOT, 'data', 'cache', 'v2', 'products')
-BUNDLE = os.path.join(ROOT, 'data', 'worlds', 'mars', 'mars_jezero_rim_2026-11-14_687d_mast1m.json')
+BUNDLE = os.path.join(ROOT, 'data', 'worlds', 'mars', 'mars_jezero_rim_2026-11-14_687d_mast1m.json.gz')
 have = lambda *p: all(os.path.exists(os.path.join(PROD, x)) for x in p)
 
 
@@ -99,7 +100,7 @@ class MarsWorld(unittest.TestCase):
 class JezeroBundle(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.b = json.load(open(BUNDLE))
+        cls.b = json.loads(gzip.decompress(open(BUNDLE, 'rb').read()))
 
     def test_core(self):
         b = self.b

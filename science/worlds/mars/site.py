@@ -15,6 +15,7 @@ available) -> physics and data checks -> bundle in data/worlds/mars/.
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import math
 import sys
@@ -267,8 +268,10 @@ def build(allow_network=True, out_dir=OUT_DIR, command=None):
                          'CTX DEM heights are areoid heights (tested), converted with the MOLA 16 ppd areoid.',
                          'The site is a rule-selected rim high point, not a surveyed landing site.']
     out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
-    p = out_dir / f"{b['bundle_id']}.json"
-    p.write_text(json.dumps(b, separators=(',', ':'), allow_nan=False, default=_np))
+    # gzip (mtime 0, deterministic): the 687-day hourly bundle is 10.3 MB as JSON, 1.6 MB compressed
+    p = out_dir / f"{b['bundle_id']}.json.gz"
+    p.write_bytes(gzip.compress(json.dumps(b, separators=(',', ':'), allow_nan=False, default=_np).encode(),
+                                compresslevel=9, mtime=0))
     return b, p
 
 
