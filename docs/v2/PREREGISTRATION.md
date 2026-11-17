@@ -72,3 +72,31 @@ Radio Science GRGM900C SPKs where they cover the image (FDF `lrorg` otherwise, f
 | file | sha256 |
 |---|---|
 | `docs/v2/RENDER_VS_REAL_PROTOCOL_A4.md` | `762bdd608dd34a2df9bdbdcac9e0882eb9889dec332414a7adef5c29a926aeb8` |
+
+## Entry 6 — 17 Nov 2026, coordinating session (held-out run, LROC NAC)
+
+State at freezing: **no held-out image has been fetched, rendered, looked at or scored.** The dev pilot (A1–A4) is complete.
+Amendment A5 defines the single held-out run for LROC NAC: every held-out NAC row of the frozen catalogue, the dev pilot's
+frozen parameters, a reporting-only near-total-shadow stratum with a secondary count-matched mask (the headline Otsu rule is
+unchanged), and the §8 claim rule made precise. The code that the run executes is frozen here too;
+`tools/validation/render_vs_real/heldout.py` refuses to start if any row below (or above) differs, and a later change to any
+of these files needs a new amendment.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A5.md` | `a1469c09c5046bbb335ca380c7f4029f62f4845b407cc4a98ae8f36fa6c0faa6` |
+| `tools/validation/render_vs_real/common.py` | `5eb2fddf1f4fae5013f10dcb6db7d57e8239d31d9c3bd0303eaf6144387d1588` |
+| `tools/validation/render_vs_real/fetch.py` | `94ec5aa43b08c9ff27b75f10f320d60df48fd8a561da5d37a5fec08e9e6367fb` |
+| `tools/validation/render_vs_real/geometry.py` | `69e35fdb33fd9ec9f7ec19a531ae7a74ce2ae25cef8cee5786fcd91a02bbbfab` |
+| `tools/validation/render_vs_real/nac_camera.py` | `07e304c62d8803a11430ecea5a9136906eb9b5486730243a9f3b7969b5feb990` |
+| `tools/validation/render_vs_real/realimage.py` | `34cb5da3981044278c31a4279eb1469cd62d8c8912c9410864700acec272e2c8` |
+| `tools/validation/render_vs_real/score.py` | `e919b97d8d27219df00a09af73f6e3cfc92bd657e2a11527b95cb3fc3c764868` |
+| `tools/validation/render_vs_real/run.py` | `aaaf884a5f6c4e37f08c869ecce9810790246cc495f62c919324ca190f2af375` |
+| `tools/validation/render_vs_real/blender_twin.py` | `cb2e31d84e924e29da6095e85bea90c5611a7fc2d71fc9ff1f35bd018e27e957` |
+| `tools/validation/render_vs_real/terrain_products.py` | `e7e2454b698a5084ef113aa45e1fc0f60f0babcbc9bcc498fdea62e5a1097907` |
+| `tools/validation/render_vs_real/spice_kernels.py` | `9904790d5db3e13d0158108185a521ab27fa973864426ebc50f5ba7859d9feda` |
+| `tools/validation/render_vs_real/heldout.py` | `8a81e35f847b4189e95b4510a72706d4800106cf65dd0380a205d98b099792a5` |
+| `blender/v2/hapke.py` | `753687ea635973e7028c079849f536ed0c9c6ae4c633e86d34eff1eae2238d82` |
+| `blender/v2/hapke_nodes.py` | `fae1c7438470f1230d564d5e0396aaae7983a5091fc7f1a585be1c9d7d6df1e8` |
+| `blender/v2/terrain.py` | `00d2ada28dde6f1d19f9435e7b8eb348b85519a5fcae2ea303a2352a17028363` |
+| `tools/imagery/sites.py` | `9cb686b560fca36975c95ae36fec3bbad5f84ba173652a1ac018b15d420ce09e` |

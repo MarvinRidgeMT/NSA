@@ -122,3 +122,25 @@ def test_normalise_and_window():
     assert med == 5 and n[1, 1] == 1
     w = S.analysis_window(np.ones((20, 20), bool), np.zeros((20, 20), bool))
     assert w.sum() == 4 * 4
+
+
+def test_count_matched_shadow_keeps_the_predicted_lit_count_and_picks_the_brightest():
+    import numpy as np
+    from tools.validation.render_vs_real import score as S
+    rng = np.random.default_rng(0)
+    real = rng.random((20, 20))
+    win = np.zeros((20, 20), bool)
+    win[2:18, 2:18] = True
+    m = S.count_matched_shadow(real, win, 10)
+    assert (~m & win).sum() == 10 and not m[~win].any()
+    lit_vals = real[~m & win]
+    assert lit_vals.min() >= real[m & win].max()
+    assert S.count_matched_shadow(real, win, 0)[win].all()
+    assert not S.count_matched_shadow(real, win, 10 ** 6)[win].any()
+    # near-total shadow: 3 bright rim pixels inside dark noise -> found exactly
+    dark = 0.01 * rng.random((20, 20))
+    dark[5, 5:8] = 1.0
+    pred = np.ones((20, 20), bool)
+    pred[5, 5:8] = False
+    obs = S.count_matched_shadow(dark, win, int((~pred & win).sum()))
+    assert S.agreement(pred & win, obs, win)['iouLit'] == 1.0

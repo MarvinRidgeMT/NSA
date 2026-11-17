@@ -70,3 +70,6 @@ web/public/globe/globe_manifest.json
 web/public/render_vs_real/
 # R4 render-vs-real report gallery (JPEGs derived from LROC NAC PDS images; rebuilt locally by python -m tools.validation.render_vs_real.report). Not committed.
 docs/validation/render_vs_real/*.jpg
+
+# A5 held-out gallery: crops of LROC NAC images (NASA), built locally, never committed
+docs/validation/render_vs_real_heldout/

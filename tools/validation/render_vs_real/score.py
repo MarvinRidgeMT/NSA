@@ -72,6 +72,21 @@ def observed_shadow(real_norm, window, saturated):
                     'weakBimodality': bool(tot > 0 and sb < 0.5 * tot)}
 
 
+def count_matched_shadow(real_norm, window, n_lit):
+    """A5.5 secondary observed mask (sensitivity only, never headline): the `n_lit` brightest window pixels are lit, the
+    rest shadow. `n_lit` is the number of predicted-lit window pixels, so the mask has the predicted lit fraction and the
+    comparison tests only *where* the lit pixels are. Ties broken by a stable sort on the pixel index (deterministic)."""
+    shadow = np.zeros(real_norm.shape, bool)
+    idx = np.flatnonzero(window)
+    shadow.flat[idx] = True
+    n_lit = int(max(0, min(n_lit, idx.size)))
+    if n_lit:
+        v = np.nan_to_num(real_norm.flat[idx], nan=-np.inf)
+        order = np.argsort(-v, kind='stable')
+        shadow.flat[idx[order[:n_lit]]] = False
+    return shadow
+
+
 # ------------------------------------------------------------------------------------------------ §4.1 agreement
 def agreement(pred_shadow, obs_shadow, window):
     P, O = pred_shadow[window], obs_shadow[window]

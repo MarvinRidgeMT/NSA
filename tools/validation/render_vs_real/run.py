@@ -22,7 +22,7 @@ import warnings
 import numpy as np
 
 from . import fetch, realimage, score as S
-from .common import RENDER_DIR, RESULTS, ROOT, WORK, assert_dev, check_frozen, read_catalogue
+from .common import GEOM_DIR, RENDER_DIR, RESULTS, ROOT, assert_dev, check_frozen, read_catalogue
 from .nac_camera import enu_basis, eval_states, me_to_latlon, parse_label, stereo_xy
 
 BLENDER = '/Applications/Blender.app/Contents/MacOS/Blender'
@@ -104,6 +104,8 @@ def metrics(G, real_iof, special, sat, rend_iof, pred_shadow, in_sq, gsd, pos, o
         flags['renderMedianZero'] = True
     obs, oinfo = S.observed_shadow(real_n, window, sat)
     ag = S.agreement(pred_shadow & window, obs, window)
+    cm = S.agreement(pred_shadow & window, S.count_matched_shadow(real_n, window, int((~pred_shadow & window).sum())), window)
+    ag = {**ag, 'cmIouShadow': cm['iouShadow'], 'cmIouLit': cm['iouLit']}      # A5.5 secondary (sensitivity only)
     ed = S.edge_errors(pred_shadow & window, obs, window, gsd, pos=pos, sun_h=np.asarray(G['sunEnu']))
     lo, hi = np.percentile(real_n[ns], [0.5, 99.5])
     ss, nss = S.ssim_masked(real_n, rend_n, ns, L=float(hi - lo))
@@ -225,7 +227,7 @@ def main(argv=None):
         geo = [r for r in geo if r['product_id'] in a.only.split(',')]
     assert_dev([r['product_id'] for r in geo], rows)
     done = done_keys()
-    todo = [WORK / 'geometry' / f"{r['product_id']}__{r['site']}.json" for r in geo if (r['product_id'], r['site']) not in done]
+    todo = [GEOM_DIR / f"{r['product_id']}__{r['site']}.json" for r in geo if (r['product_id'], r['site']) not in done]
     if a.limit:
         todo = todo[:a.limit]
     print(f'{len(todo)} rows to do', flush=True)

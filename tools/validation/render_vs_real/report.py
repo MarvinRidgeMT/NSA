@@ -16,7 +16,7 @@ import math
 
 import numpy as np
 
-from .common import RENDER_DIR, RESULTS, ROOT, assert_dev, read_catalogue
+from .common import GEOM_DIR, RENDER_DIR, RESULTS, ROOT, assert_dev, read_catalogue
 
 DOC = ROOT / 'docs' / 'validation' / 'RENDER_VS_REAL.md'
 GAL = ROOT / 'docs' / 'validation' / 'render_vs_real'
@@ -102,8 +102,7 @@ def thumb(key, rec, width=200, out_dir=None, max_height=700):
     ren = ndimage.shift(ren, (dy, dx), order=1, cval=np.nan)
     lit = ndimage.shift(rz['lit'].astype(float), (dy, dx), order=1) >= 0.5
     ok = np.isfinite(iof) & ~real['special']
-    from .common import WORK
-    G = json.loads((WORK / 'geometry' / f'{key[0]}__{key[1]}.json').read_text())
+    G = json.loads((GEOM_DIR / f'{key[0]}__{key[1]}.json').read_text())
     E = 1361.0 / (G['sunDistM'] / 149_597_870_700.0) ** 2
     lr = np.log10(np.maximum(iof, 1e-5))                      # absolute I/F, one shared stretch for real and render
     lm = np.log10(np.maximum(math.pi * ren / E, 1e-5))
@@ -147,14 +146,13 @@ def thumb(key, rec, width=200, out_dir=None, max_height=700):
 # ------------------------------------------------------------------------------------------------ hero point
 def hero(scores):
     """Site04 RoI 3 hero point = the site centre: is it inside the scored window, and what do real and render say there?"""
-    from .common import WORK
     out = []
     for r in scored(scores, 'pgda78_5m', 'hapke', True):
         if r['site'] != 'site04_roi3':
             continue
         key = (r['product_id'], r['site'])
         d = RENDER_DIR / f'{key[0]}__{key[1]}'
-        G = json.loads((WORK / 'geometry' / f'{key[0]}__{key[1]}.json').read_text())
+        G = json.loads((GEOM_DIR / f'{key[0]}__{key[1]}.json').read_text())
         try:
             rz = np.load(d / 'pgda78_5m.reduced.npz')
             real = np.load(d / 'real_binned.npz')
@@ -529,7 +527,7 @@ WEB = ROOT / 'web' / 'public' / 'render_vs_real'
 def web_export():
     """web/public/render_vs_real/{index.json, <id>.png} for the in-app viewer (git-ignored; rebuild with --web)."""
     import datetime as dt
-    from .common import WORK, LABEL
+    from .common import LABEL
     scores, _geo, _sel = load()
     out = []
     for r in scored(scores):
@@ -539,7 +537,7 @@ def web_export():
         except Exception as e:
             print('thumb failed', key, e)
             continue
-        G = json.loads((WORK / 'geometry' / f'{key[0]}__{key[1]}.json').read_text())
+        G = json.loads((GEOM_DIR / f'{key[0]}__{key[1]}.json').read_text())
 
         def num(k):
             v = r.get(k)

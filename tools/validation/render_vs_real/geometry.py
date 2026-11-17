@@ -18,14 +18,13 @@ import numpy as np
 from tools.imagery.sites import SITES
 
 from . import fetch, spice_kernels as sk, terrain_products as tp
-from .common import RESULTS, WORK, assert_dev, check_frozen
+from .common import GEOM_DIR, RESULTS, SPLIT, WORK, assert_dev, check_frozen
 from .nac_camera import (SOURCES, NacCamera, enu_basis, fit_states, me_to_latlon, osl_source, parse_label, sphere_hit,
                          stereo_xy, utc, window_lines)
 
-GEOM_DIR = WORK / 'geometry'
 FIRST_PASS = {}
-_fp = WORK / 'geometry_fdf' / 'geometry_fdf.csv'
-if _fp.exists():
+_fp = WORK / 'geometry_fdf' / 'geometry_fdf.csv'                     # A4.3 dev first pass; none for held-out (A5)
+if SPLIT == 'dev' and _fp.exists():
     FIRST_PASS = {(r['product_id'], r['site']): r for r in csv.DictReader(open(_fp)) if r['status'] == 'ok'}
 TARGET_GSD_M = 5.0          # A1: bin to the 5 m terrain posting
 HALF_M = 5000.0             # protocol: 10 km x 10 km square
