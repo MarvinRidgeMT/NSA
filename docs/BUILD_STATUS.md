@@ -1391,3 +1391,9 @@ Branch `v2-r3-blender-moon` (from `feature/v2-whole-moon` 72e3430). Plan `docs/v
 - **Bug found by a render:** lat/lon of km-scaled globe vertices (every vertex a pole) — fixed + regression test.
 - **Tests:** Blender run_all 14/14 (55.8 s); blender unittest 124 OK; pytest science/tests 405 passed, 2 skipped; vitest 144 passed, 3 skipped.
 - **Not done:** web app still loads the SVS globe (swap is the web owner's); pyramid solver bundle for eq sites (R1); NAC albedo; 3D Tiles.
+
+### POLARIS X v2 round-2 integration — Claude (coordinator), 16 Nov 2026, feature/v2-whole-moon
+- Merged R1 pyramid as solver terrain (db197f7), R6 worlds + Mercury (9293e91), R5 6D decision tools (8f3ed87), R3 Blender whole Moon (35f1690); integration fix 039dbc7 (Moon world regression on the per-product path).
+- Not merged: R2 pyramid finishing (session hit the weekly usage limit, resets 23:00 EST), R4 render-vs-real (waiting on a request to the user).
+- Tests on the merged branch: pytest `science tools` 692 passed, 2 skipped; Blender `run_all.py` 14/14 with `POLARIS_PYTHON` set to the project venv (pyramid close-ups at site01_roi6 and Apollo 15, whole-Moon globe GLB); Blender unit tests OK; vitest 155/155; build OK; Playwright 99 passed, 2 skipped, 3 failed = cold-launch (port 4173) + two sight-label specs that pass alone (4/4) and also fail on the pre-5D baseline; traceability 548/0.
+- Submission refs unchanged. Nothing pushed.
