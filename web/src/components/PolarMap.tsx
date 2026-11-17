@@ -191,7 +191,7 @@ export function PolarMap({ v }: { v: View | null }) {
           <svg
             viewBox={`0 0 ${SIZE} ${SIZE}`}
             className="polar-overlay"
-            role="img"
+            role="group"
             aria-label={`${layer === 'sun' ? 'Average Sun' : 'Average Earth'} visibility map, ${area === 'overview' ? 'whole south polar region' : area}, with landing-region outlines.`}
             onMouseMove={onMove}
             onMouseLeave={() => setHover(null)}

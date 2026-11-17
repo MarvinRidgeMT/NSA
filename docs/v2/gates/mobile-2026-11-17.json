@@ -1,6 +1,6 @@
 {
   "schema": "polaris-gates-mobile-v1",
-  "measuredUTC": "2026-11-17T05:08:25.935Z",
+  "measuredUTC": "2026-11-17T12:44:55.757Z",
   "viewport": [
     390,
     844
@@ -14,10 +14,8 @@
       "scrollWidth": 390,
       "horizontalScroll": false,
       "nInteractive": 11,
-      "offscreenInteractive": [
-        "button.btn"
-      ],
-      "nOffscreen": 1,
+      "offscreenInteractive": [],
+      "nOffscreen": 0,
       "targetsUnder24px": [
         "a 103x12"
       ],
@@ -28,7 +26,7 @@
       "nTextUnder11px": 1,
       "checks": {
         "noHorizontalScroll": true,
-        "interactiveReachable": false,
+        "interactiveReachable": true,
         "noSqueezedHeadings": true,
         "targets24px": false,
         "text11px": false
@@ -39,12 +37,12 @@
       "innerWidth": 390,
       "scrollWidth": 390,
       "horizontalScroll": false,
-      "nInteractive": 44,
+      "nInteractive": 46,
       "offscreenInteractive": [],
       "nOffscreen": 0,
       "targetsUnder24px": [
         "a 103x12",
-        "button[data-testid=lod-toggle].detail-toggle 193x22"
+        "select[data-testid=vertical-exaggeration] 96x22"
       ],
       "nTargetsUnder24px": 2,
       "textUnder11px": [
@@ -52,7 +50,6 @@
         "span[data-testid=earth-hidden-marker].tag3d",
         "span.k",
         "div[data-testid=light-tag].light-tag",
-        "button[data-testid=lod-toggle].detail-toggle",
         "span.val",
         "span.rc-kicker",
         "span.rc-badge",
@@ -62,7 +59,7 @@
         "h2",
         "summary"
       ],
-      "nTextUnder11px": 24,
+      "nTextUnder11px": 23,
       "checks": {
         "noHorizontalScroll": true,
         "interactiveReachable": true,
@@ -76,17 +73,15 @@
       "innerWidth": 390,
       "scrollWidth": 390,
       "horizontalScroll": false,
-      "nInteractive": 48,
+      "nInteractive": 50,
       "offscreenInteractive": [],
       "nOffscreen": 0,
       "targetsUnder24px": [
-        "a 103x12",
-        "button[data-testid=lod-toggle].detail-toggle 193x22"
+        "a 103x12"
       ],
-      "nTargetsUnder24px": 2,
+      "nTargetsUnder24px": 1,
       "textUnder11px": [
         "span.sr-only",
-        "button[data-testid=lod-toggle].detail-toggle",
         "span.val",
         "span.rc-kicker",
         "span.rc-badge",
@@ -96,7 +91,7 @@
         "h2",
         "summary"
       ],
-      "nTextUnder11px": 20,
+      "nTextUnder11px": 19,
       "checks": {
         "noHorizontalScroll": true,
         "interactiveReachable": true,
@@ -106,9 +101,7 @@
       }
     },
     "decision": {
-      "squeezedHeadings": [
-        "h1 104px wide: Does this ground keep the light?"
-      ],
+      "squeezedHeadings": [],
       "innerWidth": 390,
       "scrollWidth": 390,
       "horizontalScroll": false,
@@ -149,15 +142,13 @@
       "checks": {
         "noHorizontalScroll": true,
         "interactiveReachable": true,
-        "noSqueezedHeadings": false,
+        "noSqueezedHeadings": true,
         "targets24px": false,
         "text11px": false
       }
     },
     "evidence": {
-      "squeezedHeadings": [
-        "h1 156px wide: Receipts, not reassurance"
-      ],
+      "squeezedHeadings": [],
       "innerWidth": 390,
       "scrollWidth": 390,
       "horizontalScroll": false,
@@ -192,7 +183,7 @@
       "checks": {
         "noHorizontalScroll": true,
         "interactiveReachable": true,
-        "noSqueezedHeadings": false,
+        "noSqueezedHeadings": true,
         "targets24px": false,
         "text11px": false
       }

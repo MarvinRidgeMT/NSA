@@ -26,7 +26,7 @@ solver is `TERRAIN_STACK_CONTRACT.md`; it was changed only through dated amendme
 | §5 Blender | done, partial in places | Whole-Moon globe: a 2.0 MB Draco GLB that passes the glTF provenance proof. Pyramid close-ups anywhere. WAC albedo, shadow-free. Hapke shading. Blender run_all 14/14. |
 | §6.1, 6.3 imagery, protocol | done (orbital metadata only) | Catalogue of 7,298 images. Protocol pre-registered. |
 | §6.2, 6.4–6.5 render vs real | partial: LROC NAC dev-split pilot | See §3. |
-| §7 NASA-user features, gates | partial | Exports, solver API (OpenAPI, 14 routes) and gates exist. The accessibility and 390 px gates fail; the fix list is in `GATES.md`. AI planner not built. |
+| §7 NASA-user features, gates | partial | Exports, solver API (OpenAPI, 14 routes) and gates exist. All gates pass after the 17 Nov fixes (accessibility and 390 px: `GATES.md` §8). AI planner not built. |
 
 ## 3. Render vs real (R4), dev split only, not the held-out headline
 - **Rows scored:** 181 NAC image × site rows on the LOLA/LRO RS GRGM900C orbit (amendment A4), plus 7 rows with only the FDF orbit.
@@ -68,7 +68,8 @@ solver is `TERRAIN_STACK_CONTRACT.md`; it was changed only through dated amendme
 ## 6. Open items, in suggested order
 1. ~~Point T2's "compute now" at T1's `/v1/solve` (:8767).~~ **Done 17 Nov** (see `BUILD_STATUS.md`). The same pass fixed
    "Python quit unexpectedly": git provenance calls forked while PROJ was in use; they now use posix_spawn (`science/gitinfo.py`).
-2. Fix the accessibility and 390 px mobile gate failures (`GATES.md` §6). axe-core needs an install.
+2. ~~Fix the accessibility and 390 px mobile gate failures.~~ **Done 17 Nov:** axe 0 serious, 390 px 5/5 (`GATES.md` §8).
+   Adding axe-core as a devDependency still needs your OK.
 3. Move the 10.3 MB Mars bundle JSON out of git, or compress it.
 4. Before the held-out render-vs-real run: register A5 (Otsu on near-total-shadow windows), then run it. Score WAC, ShadowCam and Kaguya TC. Wire `RealVsModel.tsx` into the app.
 5. Mars relays and sky model. Clone members for Mercury and Mars, so they can have a cube and Decision Card. Decision tools across the whole Moon.

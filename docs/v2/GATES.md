@@ -16,8 +16,8 @@ Google Chrome 157.0.8103.79 (ANGLE Metal), viewport 1512 × 982 @2x.
 | Traceability, rendered numbers | 0 failed | **PASS** | `traceability.spec.ts` on :4221: 544 scanned, 0 failed, 13 bundles (453 SOURCE-BASED) |
 | Traceability, every new number | 0 failed | **PASS** | `label_audit.py`: 2,256 exported numbers (2 sites, global grid, Mercury, any-site Site04) read back from their sources; 0 failed |
 | Label audit | 0 violations | **PASS** | 41 API results + site list + tool spec + OpenAPI labelled; wording scan 0 hits in T1 text, Decision Card PDFs, decision summaries and `web/src` |
-| Accessibility | 0 serious/critical | **FAIL** | axe-core 4.14.0: **9** serious rule hits over 5 views (lite scan: 0 serious, 1 moderate — the lite scan misses them) |
-| Mobile layout 390 px | no horizontal scroll, controls reachable, no squeezed headings | **FAIL** (3 of 5 views) | Explore and Explore+globe pass; Story, Decision, Evidence fail (below) |
+| Accessibility | 0 serious/critical | **FAIL → PASS after fixes (§8)** | axe-core 4.14.0: **9** serious rule hits over 5 views (lite scan: 0 serious, 1 moderate — the lite scan misses them) |
+| Mobile layout 390 px | no horizontal scroll, controls reachable, no squeezed headings | **FAIL (3 of 5 views) → PASS 5/5 after fixes (§8)** | Explore and Explore+globe pass; Story, Decision, Evidence fail (below) |
 
 ## 1. Frame time (`web/scripts/gates/perf_gates.mjs`)
 
@@ -102,3 +102,24 @@ POLARIS_PLAYWRIGHT_PORT=4221 npx playwright test -c scripts/gates/playwright.gat
 POLARIS_PLAYWRIGHT_PORT=4221 npx playwright test tests/e2e/traceability.spec.ts
 cd .. && .venv/bin/python web/scripts/gates/label_audit.py
 ```
+
+## 8. Re-measured after the fixes (17 Nov 2026, coordinator) — accessibility PASS, mobile 390 px PASS
+Same gate file and command (§7), axe-core 4.14.0 via `AXE_CORE_PATH` (a local copy; nothing installed), vite preview :4221.
+Before the fixes, on the current branch: 8 serious axe hits (the `lod-toggle` target-size hit of §4 was already gone) and 3
+of 5 views failing at 390 px. After: **0 serious/critical** over the 5 views and **5/5 views pass** at 390 px
+(`a11y-axe-2026-11-17.json`, `mobile-2026-11-17.json`, screenshots `mobile-390-{story,decision,evidence}.png` rewritten).
+
+| Failure (§4–§6) | Fix |
+|---|---|
+| `nested-interactive` `.heading-tape` | `role="img"` + label moved from the whole tape to its visual window; the Focus button sits outside it (`HeadingTape.tsx`) |
+| `nested-interactive` `.polar-overlay`, Decision 760×230 SVG | `role="group"` (they contain focusable pins / mast labels), label kept (`PolarMap.tsx`, `CertaintyHeight.tsx`) |
+| `label-content-name-mismatch` `og-*` | no `aria-label`; the name is the visible text plus a screen-reader-only detail (`ScenarioTable.tsx`) |
+| `color-contrast` `.og-pos` | fill computed as an exact sRGB blend, text black or white by WCAG ratio (≥ 4.58:1 for any fill); `.og-pos` inherits it |
+| `definition-list` `.three-heights` | the note moved out of the `<dl>`; both wrapped in the `three-heights` test region |
+| `scrollable-region-focusable` Pareto table | `tabIndex=0`, `role="region"`, label |
+| Story hero buttons clipped (390 px) | `.story .cta` wraps ≤ 760 px |
+| Decision / Evidence h1 squeezed (390 px) | `.page-head` stacks ≤ 760 px (h1 full width) |
+
+Still recorded, not gating: targets under 24 px (skip link 103×12, the Decision mast labels in the SVG, Evidence
+`ridge-row` buttons) and text under 11 px; axe's own `target-size` rule reports none serious. Not done: §6.6 frame stalls
+(needs a Performance trace), §6.7 `axe-core` as a devDependency (needs your OK to install).

@@ -108,23 +108,25 @@ export function DecisionHero({ v }: { v: View }) {
             </div>
           )}
       </div>
-      <dl className="three-heights" data-testid="three-heights" aria-label="Three different heights">
-        <div>
-          <dt>Meets the team requirements on all {n ?? '—'}</dt>
-          <dd>{feasible !== null ? `${feasible} m` : 'none sampled'}</dd>
-        </div>
-        <div>
-          <dt>Sun 100 % on all {n ?? '—'} (Certainty Height)</dt>
-          <dd>{cert !== null ? `${cert} m` : 'none sampled'}</dd>
-        </div>
-        <div>
-          <dt>Agreement height (Sun spread ≤ 1 pt)</dt>
-          <dd>{agree !== null ? `${agree} m` : 'none sampled'}</dd>
-        </div>
+      <div data-testid="three-heights">
+        <dl className="three-heights" aria-label="Three different heights">
+          <div>
+            <dt>Meets the team requirements on all {n ?? '—'}</dt>
+            <dd>{feasible !== null ? `${feasible} m` : 'none sampled'}</dd>
+          </div>
+          <div>
+            <dt>Sun 100 % on all {n ?? '—'} (Certainty Height)</dt>
+            <dd>{cert !== null ? `${cert} m` : 'none sampled'}</dd>
+          </div>
+          <div>
+            <dt>Agreement height (Sun spread ≤ 1 pt)</dt>
+            <dd>{agree !== null ? `${agree} m` : 'none sampled'}</dd>
+          </div>
+        </dl>
         <p className="th-note">
           Three different questions{cert !== null && agree === cert ? '; here the last two fall on the same sampled height' : ''}. Agreement across tested realizations is not a probability.
         </p>
-      </dl>
+      </div>
       <p className="hc-scale">
         Bars: min–max across {n ?? '—'} evaluated alternate NASA terrain realizations, tick = nominal DEM, line = team requirement. Batch sweep, 14–28 Nov 2026,
         hourly; sampled heights only.

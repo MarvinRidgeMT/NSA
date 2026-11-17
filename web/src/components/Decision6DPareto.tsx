@@ -61,7 +61,7 @@ export function Decision6DPareto({ d }: { d: Decision6D }) {
       <p className="small" data-testid="d6-pareto-count" data-value={idx.length}>
         {idx.length} of {labels.length} positions are on the {robust ? 'worst-case' : 'nominal-map'} front.
       </p>
-      <div className="table-scroll">
+      <div className="table-scroll" tabIndex={0} role="region" aria-label="Pareto front table (scrolls sideways)">
         <table className="constraints flip-table" data-testid="d6-pareto-table">
           <thead>
             <tr>

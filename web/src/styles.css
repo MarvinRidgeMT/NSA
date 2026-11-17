@@ -319,7 +319,7 @@ footer { color: var(--ash); font-size: 12px; text-align: left; padding: 24px 64p
 .og-cell.centre { outline: 1px dashed var(--line-hover); outline-offset: -4px; }
 .og-cell.sel { border-color: var(--bone); }
 .og-val { font-weight: 600; font-size: 15px; }
-.og-pos { font-size: 10px; color: var(--ash); }
+.og-pos { font-size: 10px; color: inherit; } /* the cell picks black/white by contrast (ScenarioTable textOn) */
 
 /* ---------- workspace tabs inside pages (legacy role=tablist kept for keyboard tests) ---------- */
 .workspaces { display: none; }
@@ -579,6 +579,8 @@ tr.is-selected td, tr.is-selected th { background: var(--raised); }
   .controls label { flex-basis: 100%; }
   .page, .inspect, .ws-page, .top-clock { padding-left: 16px; padding-right: 16px; }
   .page-head h1 { font-size: 40px; }
+  .page-head { flex-direction: column; align-items: flex-start; gap: 14px; } /* 390 px gate: the h1 gets the full width */
+  .story .cta { flex-wrap: wrap; } /* 390 px gate: the third hero button wrapped, not clipped */
   .stage-title { left: 16px; top: 16px; } .stage-title h1 { font-size: 30px; }
   .stage .scene3d { height: 46vh; }
   .instrument { margin-left: 16px; margin-right: 16px; }
@@ -851,7 +853,7 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .three-heights > div { display: flex; flex-direction: column-reverse; gap: 4px; }
 .three-heights dt { font: 500 11px/1.35 var(--f-sans); color: var(--ash); }
 .three-heights dd { margin: 0; font: 500 18px/1 var(--f-mono); color: var(--bone); font-variant-numeric: tabular-nums; }
-.three-heights .th-note { grid-column: 1 / -1; margin: 8px 0 0; font-size: 11px; color: var(--ash); }
+.th-note { margin: 8px 0 0; font-size: 11px; color: var(--ash); } /* after the <dl>: a dl may only hold dt/dd groups (axe definition-list) */
 .dcard .nums.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .dcard .nums.three .v { font-size: 17px; }
 @media (max-width: 720px) { .three-heights, .dcard .nums.three { grid-template-columns: 1fr; gap: 10px; } }

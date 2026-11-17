@@ -69,7 +69,7 @@ export function CertaintyHeight({ v }: { v: View }) {
             {side ? 'from the batch sweep sidecar (not this bundle)' : 'from bundle derived.certaintyCurve'} · {curve.realizations.length} realizations tested{curve.rayStepM ? ` · ray step ${curve.rayStepM} m` : ''} · {curve.points.length} sampled heights (no values between them)
           </span>
         </div>
-        <svg viewBox={`0 0 ${W} ${H}`} className="chart" role="img" aria-label="Sun-centre visibility percent against mast height: nominal value with min–max range over the evaluated terrain realizations, at the sampled heights only">
+        <svg viewBox={`0 0 ${W} ${H}`} className="chart" role="group" aria-label="Sun-centre visibility percent against mast height: nominal value with min–max range over the evaluated terrain realizations, at the sampled heights only">
           {yTicks.map((t) => (
             <g key={t}>
               <line x1={M.l} x2={W - M.r} y1={y(t)} y2={y(t)} className="grid" />

@@ -32,6 +32,25 @@ const ALIAS: Record<string, string> = {
 };
 
 /** family of a scenario; ROI exports use kind ids (baseline, mast_height, dem_clone, position_offset) */
+/** Cell fill: straight sRGB blend from basalt (#1a1f27) to amber (#f2b84b) by Sun share. Display only. */
+export function cellColour(t: number): string {
+  const a = [0x1a, 0x1f, 0x27];
+  const b = [0xf2, 0xb8, 0x4b];
+  const k = Math.max(0, Math.min(1, t));
+  return `#${a.map((v, i) => Math.round(v + (b[i] - v) * k).toString(16).padStart(2, '0')).join('')}`;
+}
+
+const lum = (hex: string) => {
+  const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+};
+
+/** Black or white, whichever contrasts more with the fill (WCAG 2 ratio; >= 4.58:1 for any fill). */
+export function textOn(bg: string): string {
+  const l = lum(bg);
+  return (l + 0.05) / 0.05 >= 1.05 / (l + 0.05) ? '#000000' : '#ffffff';
+}
+
 export function familyOf(s: Scenario): string {
   return s.family ?? s.kind.replace(/_/g, '-');
 }
@@ -56,19 +75,20 @@ function OffsetGrid({ scs, base, sel, onPick }: { scs: Scenario[]; base?: Scenar
             const s = cell(e, n);
             const val = s ? metric(s, 'sun_center_visible_pct')?.value : undefined;
             const t = val === undefined ? 0 : val / 100;
+            const bg = cellColour(t);
             return (
               <button
                 key={`${e},${n}`}
                 type="button"
                 className={`og-cell ${sel === s?.id ? 'sel' : ''} ${e === 0 && n === 0 ? 'centre' : ''}`}
-                style={{ background: `color-mix(in oklab, #1a1f27, #f2b84b ${Math.round(t * 100)}%)`, color: t > 0.55 ? '#120d04' : '#e8eef6' }}
+                style={{ background: bg, color: textOn(bg) }}
                 onClick={() => s && onPick(s.id)}
                 disabled={!s}
-                aria-label={`${e} m east, ${n} m north: Sun ${val?.toFixed(1)} %`}
                 data-testid={`og-${e}_${n}`}
               >
-                <span className="og-val">{val === undefined ? '—' : `${val.toFixed(0)}%`}</span>
+                <span className="og-val">{val === undefined ? '—' : `${val.toFixed(0)}%`}</span>{' '}
                 <span className="og-pos">{e === 0 && n === 0 ? 'site' : `${e > 0 ? '+' : ''}${e}E ${n > 0 ? '+' : ''}${n}N`}</span>
+                <span className="sr-only">{`, ${e} m east, ${n} m north: Sun ${val === undefined ? 'no value' : `${val.toFixed(1)} %`}`}</span>
               </button>
             );
           }),

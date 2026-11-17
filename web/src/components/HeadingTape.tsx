@@ -62,8 +62,8 @@ export function HeadingTape({ v }: { v: View }) {
     ticks.push({ a, label: m % 90 === 0 ? ['N', 'E', 'S', 'W'][m / 90] : m % 30 === 0 ? String(m) : undefined });
   }
   return (
-    <div className="heading-tape" data-testid="heading-tape" aria-label={`Camera heading tape. Sun azimuth ${v.sun.az.toFixed(1)}°, Earth azimuth ${v.earth.az.toFixed(1)}° (bundle, local north = 0°)`} role="img">
-      <div className="ht-window">
+    <div className="heading-tape" data-testid="heading-tape">
+      <div className="ht-window" role="img" aria-label={`Camera heading tape. Sun azimuth ${v.sun.az.toFixed(1)}°, Earth azimuth ${v.earth.az.toFixed(1)}° (bundle, local north = 0°)`}>
         <div className="ht-strip" ref={strip}>
           {ticks.map((t) => (
             <span key={t.a} className={`ht-tick${t.label ? ' major' : ''}`} style={{ left: `${(t.a * W) / SPAN}px` }}>

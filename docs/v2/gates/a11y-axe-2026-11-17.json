@@ -1,129 +1,34 @@
 {
   "schema": "polaris-gates-a11y-v1",
-  "measuredUTC": "2026-11-17T05:09:12.254Z",
+  "measuredUTC": "2026-11-17T12:44:19.530Z",
   "engine": "axe-core (AXE_CORE_PATH)",
   "axeVersion": "4.14.0",
   "rule": "pass = 0 serious/critical violations across views",
-  "seriousOrCritical": 9,
+  "seriousOrCritical": 0,
   "views": {
     "story": {
       "violations": [],
-      "passes": 28,
+      "passes": 29,
       "incomplete": 1
     },
     "explore": {
-      "violations": [
-        {
-          "rule": "nested-interactive",
-          "impact": "serious",
-          "help": "Interactive controls must not be nested",
-          "n": 1,
-          "nodes": [
-            ".heading-tape"
-          ]
-        },
-        {
-          "rule": "target-size",
-          "impact": "serious",
-          "help": "All touch targets must be 24px large, or leave sufficient space",
-          "n": 1,
-          "nodes": [
-            "button[data-testid=\"lod-toggle\"]"
-          ]
-        }
-      ],
+      "violations": [],
       "passes": 37,
       "incomplete": 3
     },
     "explore+globe": {
-      "violations": [
-        {
-          "rule": "nested-interactive",
-          "impact": "serious",
-          "help": "Interactive controls must not be nested",
-          "n": 1,
-          "nodes": [
-            ".heading-tape"
-          ]
-        }
-      ],
+      "violations": [],
       "passes": 37,
       "incomplete": 3
     },
     "decision": {
-      "violations": [
-        {
-          "rule": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "n": 4,
-          "nodes": [
-            "button[data-testid=\"og-0_100\"] > .og-pos",
-            "button[data-testid=\"og--100_0\"] > .og-pos",
-            "button[data-testid=\"og-0_0\"] > .og-pos",
-            "button[data-testid=\"og-0_-100\"] > .og-pos"
-          ]
-        },
-        {
-          "rule": "definition-list",
-          "impact": "serious",
-          "help": "<dl> elements must only directly contain properly-ordered <dt> and <dd> groups, <script>, <template> or <div> elements",
-          "n": 1,
-          "nodes": [
-            ".three-heights"
-          ]
-        },
-        {
-          "rule": "label-content-name-mismatch",
-          "impact": "serious",
-          "help": "Elements must have their visible text as part of their accessible name",
-          "n": 9,
-          "nodes": [
-            "button[data-testid=\"og--100_100\"]",
-            "button[data-testid=\"og-0_100\"]",
-            "button[data-testid=\"og-100_100\"]",
-            "button[data-testid=\"og--100_0\"]",
-            "button[data-testid=\"og-0_0\"]",
-            "button[data-testid=\"og-100_0\"]",
-            "button[data-testid=\"og--100_-100\"]",
-            "button[data-testid=\"og-0_-100\"]"
-          ]
-        },
-        {
-          "rule": "nested-interactive",
-          "impact": "serious",
-          "help": "Interactive controls must not be nested",
-          "n": 1,
-          "nodes": [
-            "svg[viewBox=\"0 0 760 230\"]"
-          ]
-        },
-        {
-          "rule": "scrollable-region-focusable",
-          "impact": "serious",
-          "help": "Scrollable region must have keyboard access",
-          "n": 1,
-          "nodes": [
-            ".decision6d-pareto > .table-scroll"
-          ]
-        }
-      ],
+      "violations": [],
       "passes": 39,
       "incomplete": 3
     },
     "evidence": {
-      "violations": [
-        {
-          "rule": "nested-interactive",
-          "impact": "serious",
-          "help": "Interactive controls must not be nested",
-          "n": 1,
-          "nodes": [
-            ".polar-overlay"
-          ]
-        }
-      ],
-      "passes": 37,
+      "violations": [],
+      "passes": 36,
       "incomplete": 2
     }
   }

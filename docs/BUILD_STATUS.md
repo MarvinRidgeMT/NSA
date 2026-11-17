@@ -1483,3 +1483,7 @@ Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/P
 - ed50099: the viewer's "compute now" calls T1's solver API (`POST /v1/solve`, :8767) through the Vite proxy; SolveResult gains `terrain`. Live check viewer → proxy → API → solver at −89.25°, −120°: panel values equal the written bundle.
 - 92a664e: "Python quit unexpectedly" dialogs (4 at 06:59–07:00) were git subprocess children forked by the threaded API server while a solve held PROJ/SQLite; PROJ's atfork handler crashed them and the commit came back `unknown`. Git now runs via posix_spawn (`science/gitinfo.py`). Stress test: 11 crashes / 11 unknown before, 0 / 0 after. No cached bundle had `unknown`.
 - Tests: pytest `science tools` 785 passed, 3 skipped (new: test_gitinfo 3, test_web_fixture 3); vitest 176/176; tsc clean; build OK; Playwright globe-v2 5 passed, 2 skipped (layers not built in this worktree). Nothing pushed; frozen refs unchanged.
+
+### POLARIS X v2 — accessibility and 390 px gates fixed — Claude (coordinator), 17 Nov 2026 ~08:10 EST, feature/v2-whole-moon
+- axe-core 4.14.0 (local copy via AXE_CORE_PATH): 8 serious → 0 over 5 views; 390 px mobile gate 2/5 → 5/5 views. Fixes and remaining recorded-only items: `docs/v2/GATES.md` §8. Markup/CSS only; no numbers changed.
+- Tests: vitest 176/176; tsc clean; build OK; Playwright :4199 106 passed, 4 skipped, 1 failed (cold-launch, port-4173 artefact). Nothing pushed.
