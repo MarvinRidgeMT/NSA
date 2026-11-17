@@ -1,0 +1,2788 @@
+{
+ "rule": [
+  "Rule (fixed before any WAC image is scored; never uses image content or scores):",
+  "  1. rows with split = dev, instrument LROC_WAC, passing the protocol \u00a72 metadata gates;",
+  "  2. keep the images for which every SPICE kernel the camera model needs (spice_kernels.kernels_for over the image's",
+  "     start/stop) is already in the local kernel cache, i.e. was downloaded for the NAC pilots before this rule was written;",
+  "  3. take all of them. This is cluster sampling by download cost (as A1.1): the CK files dominate the bytes.",
+  "The list is written to results_wac/selection.json; the strata of the sample are reported against the eligible population."
+ ],
+ "instrument": "LROC_WAC",
+ "eligibleRows": 925,
+ "eligibleImages": 296,
+ "gatedByMetadata": {
+  "overlap_frac < 0.25 and site centre not covered": 66
+ },
+ "notSelectedRowsByReason": {
+  "1 kernel(s) not cached": 264,
+  "3 kernel(s) not cached": 39,
+  "2 kernel(s) not cached": 150,
+  "5 kernel(s) not cached": 8
+ },
+ "nImages": 141,
+ "nRows": 464,
+ "catalogueSha256": "4b941d61f1ecb06155a2b0ffcc7f9a5f9ea1dc5b41ef6918ff1f69f424515e01",
+ "images": [
+  {
+   "product_id": "M109971544CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-10-12T07:28:01.399Z",
+   "utc_start": "2009-10-12T07:24:36.399000Z",
+   "utc_stop": "2009-10-12T07:31:26.399000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009285/WAC/M109971544CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009285/WAC/M109971544CC.xml",
+   "data_file_kbytes": 180121,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NW|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110053015CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-10-13T06:05:51.452Z",
+   "utc_start": "2009-10-13T06:02:27.093000Z",
+   "utc_stop": "2009-10-13T06:09:15.811000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009286/WAC/M110053015CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009286/WAC/M110053015CC.xml",
+   "data_file_kbytes": 198133,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110093749CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-10-13T17:24:45.852Z",
+   "utc_start": "2009-10-13T17:21:21.446000Z",
+   "utc_stop": "2009-10-13T17:28:10.258000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009286/WAC/M110093749CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009286/WAC/M110093749CC.xml",
+   "data_file_kbytes": 185393,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110243098CC",
+   "sites": [
+    "site04_roi3",
+    "site07_roi1",
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-10-15T10:53:55.077Z",
+   "utc_start": "2009-10-15T10:50:30.186000Z",
+   "utc_stop": "2009-10-15T10:57:19.968000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009288/WAC/M110243098CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009288/WAC/M110243098CC.xml",
+   "data_file_kbytes": 185832,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110277031CC",
+   "sites": [
+    "site04_roi3",
+    "site07_roi1",
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-10-15T20:19:27.959Z",
+   "utc_start": "2009-10-15T20:16:03.959000Z",
+   "utc_stop": "2009-10-15T20:22:51.959000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009288/WAC/M110277031CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009288/WAC/M110277031CC.xml",
+   "data_file_kbytes": 168700,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110317752CC",
+   "sites": [
+    "site04_roi3",
+    "site07_roi1",
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-10-16T07:38:10.335Z",
+   "utc_start": "2009-10-16T07:34:44.523000Z",
+   "utc_stop": "2009-10-16T07:41:36.148000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009289/WAC/M110317752CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009289/WAC/M110317752CC.xml",
+   "data_file_kbytes": 156399,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M1103497106CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-09-28T18:46:58.622Z",
+   "utc_start": "2012-09-28T18:43:58.935000Z",
+   "utc_stop": "2012-09-28T18:49:58.310000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1013/DATA/ESM/2012272/WAC/M1103497106CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1013/DATA/ESM/2012272/WAC/M1103497106CC.xml",
+   "data_file_kbytes": 193001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|S|el[0.5,1.5)|em>=30|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|S|el[0.5,1.5)|em>=30|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|W|el[0.5,1.5)|em>=30|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110358476CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-10-16T18:56:55.494Z",
+   "utc_start": "2009-10-16T18:53:28.525000Z",
+   "utc_stop": "2009-10-16T19:00:22.463000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009289/WAC/M110358476CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009289/WAC/M110358476CC.xml",
+   "data_file_kbytes": 157278,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110406009CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-10-17T08:08:57.943Z",
+   "utc_start": "2009-10-17T08:05:41.068000Z",
+   "utc_stop": "2009-10-17T08:12:14.818000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009290/WAC/M110406009CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009290/WAC/M110406009CC.xml",
+   "data_file_kbytes": 138388,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110453496CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-10-17T21:20:47.347Z",
+   "utc_start": "2009-10-17T21:17:08.582000Z",
+   "utc_stop": "2009-10-17T21:24:26.113000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009290/WAC/M110453496CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009290/WAC/M110453496CC.xml",
+   "data_file_kbytes": 157717,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110575656CC",
+   "sites": [
+    "site04_roi3",
+    "site07_roi1",
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-10-19T07:16:56.815Z",
+   "utc_start": "2009-10-19T07:13:08.300000Z",
+   "utc_stop": "2009-10-19T07:20:45.331000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009292/WAC/M110575656CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009292/WAC/M110575656CC.xml",
+   "data_file_kbytes": 142781,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110745385CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-10-21T06:25:25.345Z",
+   "utc_start": "2009-10-21T06:21:57.548000Z",
+   "utc_stop": "2009-10-21T06:28:53.142000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009294/WAC/M110745385CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009294/WAC/M110745385CC.xml",
+   "data_file_kbytes": 149810,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110786126CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-10-21T17:44:22.891Z",
+   "utc_start": "2009-10-21T17:40:58.751000Z",
+   "utc_stop": "2009-10-21T17:47:47.032000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009294/WAC/M110786126CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009294/WAC/M110786126CC.xml",
+   "data_file_kbytes": 147174,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110813242CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-10-22T01:16:39.183Z",
+   "utc_start": "2009-10-22T01:12:54.933000Z",
+   "utc_stop": "2009-10-22T01:20:23.433000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009295/WAC/M110813242CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009295/WAC/M110813242CC.xml",
+   "data_file_kbytes": 161671,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110853980CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-10-22T12:35:36.843Z",
+   "utc_start": "2009-10-22T12:31:52.406000Z",
+   "utc_stop": "2009-10-22T12:39:21.281000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009295/WAC/M110853980CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009295/WAC/M110853980CC.xml",
+   "data_file_kbytes": 166064,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110894717CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-10-22T23:54:35.387Z",
+   "utc_start": "2009-10-22T23:50:49.309000Z",
+   "utc_stop": "2009-10-22T23:58:21.465000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009295/WAC/M110894717CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009295/WAC/M110894717CC.xml",
+   "data_file_kbytes": 162989,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M110935526CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-10-23T11:14:07.275Z",
+   "utc_start": "2009-10-23T11:10:58.291000Z",
+   "utc_stop": "2009-10-23T11:17:16.259000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009296/WAC/M110935526CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009296/WAC/M110935526CC.xml",
+   "data_file_kbytes": 129602,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M111091787CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-10-25T06:38:33.384Z",
+   "utc_start": "2009-10-25T06:35:19.212000Z",
+   "utc_stop": "2009-10-25T06:41:47.556000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009298/WAC/M111091787CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009298/WAC/M111091787CC.xml",
+   "data_file_kbytes": 126967,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NW|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M111947183CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-11-04T04:15:04.450Z",
+   "utc_start": "2009-11-04T04:11:55.981000Z",
+   "utc_stop": "2009-11-04T04:18:12.919000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009308/WAC/M111947183CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009308/WAC/M111947183CC.xml",
+   "data_file_kbytes": 143221,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M112028663CC",
+   "sites": [
+    "site04_roi3",
+    "site07_roi1",
+    "site11_roi4",
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-11-05T02:53:05.259Z",
+   "utc_start": "2009-11-05T02:49:56.962000Z",
+   "utc_stop": "2009-11-05T02:56:13.556000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009309/WAC/M112028663CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009309/WAC/M112028663CC.xml",
+   "data_file_kbytes": 135753,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M112069405CC",
+   "sites": [
+    "site04_roi3",
+    "site07_roi1",
+    "site11_roi4",
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-11-05T14:12:06.777Z",
+   "utc_start": "2009-11-05T14:08:57.965000Z",
+   "utc_stop": "2009-11-05T14:15:15.590000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009309/WAC/M112069405CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009309/WAC/M112069405CC.xml",
+   "data_file_kbytes": 139706,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M112150889CC",
+   "sites": [
+    "site04_roi3",
+    "site11_roi4",
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-11-06T12:50:09.206Z",
+   "utc_start": "2009-11-06T12:47:01.331000Z",
+   "utc_stop": "2009-11-06T12:53:17.081000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009310/WAC/M112150889CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009310/WAC/M112150889CC.xml",
+   "data_file_kbytes": 146735,
+   "strata": {
+    "site04_roi3": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site11_roi4": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M112279963CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-11-08T00:41:23.655Z",
+   "utc_start": "2009-11-08T00:38:16.030000Z",
+   "utc_stop": "2009-11-08T00:44:31.280000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009312/WAC/M112279963CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009312/WAC/M112279963CC.xml",
+   "data_file_kbytes": 138828,
+   "strata": {
+    "site04_roi3": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M112442995CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-11-09T21:58:34.410Z",
+   "utc_start": "2009-11-09T21:55:27.410000Z",
+   "utc_stop": "2009-11-09T22:01:41.410000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009313/WAC/M112442995CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009313/WAC/M112442995CC.xml",
+   "data_file_kbytes": 154642,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NW|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M112483753CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-11-10T09:17:52.823Z",
+   "utc_start": "2009-11-10T09:14:45.792000Z",
+   "utc_stop": "2009-11-10T09:20:59.855000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009314/WAC/M112483753CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009314/WAC/M112483753CC.xml",
+   "data_file_kbytes": 150249,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M112524507CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-11-10T20:37:07.116Z",
+   "utc_start": "2009-11-10T20:34:00.116000Z",
+   "utc_stop": "2009-11-10T20:40:14.116000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009314/WAC/M112524507CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009314/WAC/M112524507CC.xml",
+   "data_file_kbytes": 154642,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115354944CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-12-13T14:51:07.422Z",
+   "utc_start": "2009-12-13T14:47:56.484000Z",
+   "utc_stop": "2009-12-13T14:54:18.360000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009347/WAC/M115354944CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009347/WAC/M115354944CC.xml",
+   "data_file_kbytes": 114227,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115395658CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-12-14T02:09:41.226Z",
+   "utc_start": "2009-12-14T02:06:30.757000Z",
+   "utc_stop": "2009-12-14T02:12:51.695000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009348/WAC/M115395658CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009348/WAC/M115395658CC.xml",
+   "data_file_kbytes": 116424,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115436369CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-12-14T13:28:12.071Z",
+   "utc_start": "2009-12-14T13:25:01.930000Z",
+   "utc_stop": "2009-12-14T13:31:22.212000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009348/WAC/M115436369CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009348/WAC/M115436369CC.xml",
+   "data_file_kbytes": 124331,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115517809CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-12-15T12:05:30.323Z",
+   "utc_start": "2009-12-15T12:02:21.339000Z",
+   "utc_stop": "2009-12-15T12:08:39.308000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009349/WAC/M115517809CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009349/WAC/M115517809CC.xml",
+   "data_file_kbytes": 129602,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115558532CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-12-15T23:24:13.566Z",
+   "utc_start": "2009-12-15T23:21:04.582000Z",
+   "utc_stop": "2009-12-15T23:27:22.551000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009349/WAC/M115558532CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009349/WAC/M115558532CC.xml",
+   "data_file_kbytes": 129602,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115599257CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-12-16T10:42:59.319Z",
+   "utc_start": "2009-12-16T10:39:49.694000Z",
+   "utc_stop": "2009-12-16T10:46:08.944000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009350/WAC/M115599257CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009350/WAC/M115599257CC.xml",
+   "data_file_kbytes": 130042,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115639980CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-12-16T22:01:42.604Z",
+   "utc_start": "2009-12-16T21:58:32.948000Z",
+   "utc_stop": "2009-12-16T22:04:52.261000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009350/WAC/M115639980CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009350/WAC/M115639980CC.xml",
+   "data_file_kbytes": 126967,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115680705CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-12-17T09:20:27.748Z",
+   "utc_start": "2009-12-17T09:17:17.311000Z",
+   "utc_stop": "2009-12-17T09:23:38.186000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009351/WAC/M115680705CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009351/WAC/M115680705CC.xml",
+   "data_file_kbytes": 121695,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115721503CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-12-17T20:40:27.351Z",
+   "utc_start": "2009-12-17T20:37:15.226000Z",
+   "utc_stop": "2009-12-17T20:43:39.476000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009351/WAC/M115721503CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009351/WAC/M115721503CC.xml",
+   "data_file_kbytes": 101927,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res>=100m",
+    "site01_roi6": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res>=100m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res>=100m"
+   }
+  },
+  {
+   "product_id": "M115762205CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-12-18T07:58:56.603Z",
+   "utc_start": "2009-12-18T07:55:37.228000Z",
+   "utc_stop": "2009-12-18T08:02:15.978000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009352/WAC/M115762205CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009352/WAC/M115762205CC.xml",
+   "data_file_kbytes": 127406,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115802923CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-12-18T19:17:35.266Z",
+   "utc_start": "2009-12-18T19:14:15.719000Z",
+   "utc_stop": "2009-12-18T19:20:54.813000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009352/WAC/M115802923CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009352/WAC/M115802923CC.xml",
+   "data_file_kbytes": 130481,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115843656CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-12-19T06:36:28.567Z",
+   "utc_start": "2009-12-19T06:33:08.692000Z",
+   "utc_stop": "2009-12-19T06:39:48.442000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009353/WAC/M115843656CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009353/WAC/M115843656CC.xml",
+   "data_file_kbytes": 137070,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M115965811CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-12-20T16:32:23.755Z",
+   "utc_start": "2009-12-20T16:29:03.271000Z",
+   "utc_stop": "2009-12-20T16:35:44.239000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009354/WAC/M115965811CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009354/WAC/M115965811CC.xml",
+   "data_file_kbytes": 119938,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M116006531CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-12-21T03:51:03.636Z",
+   "utc_start": "2009-12-21T03:47:43.246000Z",
+   "utc_stop": "2009-12-21T03:54:24.027000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009355/WAC/M116006531CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009355/WAC/M116006531CC.xml",
+   "data_file_kbytes": 125209,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M116128676CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-12-22T13:46:48.788Z",
+   "utc_start": "2009-12-22T13:43:28.257000Z",
+   "utc_stop": "2009-12-22T13:50:09.320000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009356/WAC/M116128676CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009356/WAC/M116128676CC.xml",
+   "data_file_kbytes": 122574,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M132442439CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-06-29T09:23:01.331Z",
+   "utc_start": "2010-06-29T09:19:31.300000Z",
+   "utc_stop": "2010-06-29T09:26:31.362000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010180/WAC/M132442439CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010180/WAC/M132442439CC.xml",
+   "data_file_kbytes": 120001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M132456018CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-06-29T13:09:11.035Z",
+   "utc_start": "2010-06-29T13:05:50.551000Z",
+   "utc_stop": "2010-06-29T13:12:31.520000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010180/WAC/M132456018CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010180/WAC/M132456018CC.xml",
+   "data_file_kbytes": 114001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M132469597CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-06-29T16:55:19.681Z",
+   "utc_start": "2010-06-29T16:52:09.212000Z",
+   "utc_stop": "2010-06-29T16:58:30.150000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010180/WAC/M132469597CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010180/WAC/M132469597CC.xml",
+   "data_file_kbytes": 111001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M138976283CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-13T00:20:17.051Z",
+   "utc_start": "2010-09-13T00:16:55.957000Z",
+   "utc_stop": "2010-09-13T00:23:38.145000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010256/WAC/M138976283CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010256/WAC/M138976283CC.xml",
+   "data_file_kbytes": 120001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139016975CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-13T11:38:27.799Z",
+   "utc_start": "2010-09-13T11:35:07.581000Z",
+   "utc_stop": "2010-09-13T11:41:48.018000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010256/WAC/M139016975CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010256/WAC/M139016975CC.xml",
+   "data_file_kbytes": 125001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139057669CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-13T22:56:41.459Z",
+   "utc_start": "2010-09-13T22:53:21.584000Z",
+   "utc_stop": "2010-09-13T23:00:01.334000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010256/WAC/M139057669CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010256/WAC/M139057669CC.xml",
+   "data_file_kbytes": 131001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139098370CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-14T10:15:01.962Z",
+   "utc_start": "2010-09-14T10:11:42.587000Z",
+   "utc_stop": "2010-09-14T10:18:21.337000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010257/WAC/M139098370CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010257/WAC/M139098370CC.xml",
+   "data_file_kbytes": 134001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139139072CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-14T21:33:23.856Z",
+   "utc_start": "2010-09-14T21:30:04.590000Z",
+   "utc_stop": "2010-09-14T21:36:43.122000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010257/WAC/M139139072CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010257/WAC/M139139072CC.xml",
+   "data_file_kbytes": 137001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139220478CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-15T20:10:09.971Z",
+   "utc_start": "2010-09-15T20:06:50.596000Z",
+   "utc_stop": "2010-09-15T20:13:29.346000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010258/WAC/M139220478CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010258/WAC/M139220478CC.xml",
+   "data_file_kbytes": 134001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139383393CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-09-17T17:25:25.226Z",
+   "utc_start": "2010-09-17T17:22:05.070000Z",
+   "utc_stop": "2010-09-17T17:28:45.383000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010260/WAC/M139383393CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010260/WAC/M139383393CC.xml",
+   "data_file_kbytes": 128001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139424125CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-09-18T04:44:17.618Z",
+   "utc_start": "2010-09-18T04:40:57.743000Z",
+   "utc_stop": "2010-09-18T04:47:37.493000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010261/WAC/M139424125CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010261/WAC/M139424125CC.xml",
+   "data_file_kbytes": 131001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139464849CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-09-18T16:03:02.003Z",
+   "utc_start": "2010-09-18T15:59:41.612000Z",
+   "utc_stop": "2010-09-18T16:06:22.394000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010261/WAC/M139464849CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010261/WAC/M139464849CC.xml",
+   "data_file_kbytes": 119001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139505565CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-09-19T03:21:39.078Z",
+   "utc_start": "2010-09-19T03:18:17.859000Z",
+   "utc_stop": "2010-09-19T03:25:00.297000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010262/WAC/M139505565CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010262/WAC/M139505565CC.xml",
+   "data_file_kbytes": 115001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139546284CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-09-19T14:40:17.869Z",
+   "utc_start": "2010-09-19T14:36:56.619000Z",
+   "utc_stop": "2010-09-19T14:43:39.119000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010262/WAC/M139546284CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010262/WAC/M139546284CC.xml",
+   "data_file_kbytes": 117001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139777007CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-22T06:45:38.869Z",
+   "utc_start": "2010-09-22T06:42:19.635000Z",
+   "utc_stop": "2010-09-22T06:48:58.104000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/WAC/M139777007CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/WAC/M139777007CC.xml",
+   "data_file_kbytes": 130001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139817713CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-22T18:04:04.544Z",
+   "utc_start": "2010-09-22T18:00:45.638000Z",
+   "utc_stop": "2010-09-22T18:07:23.451000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/WAC/M139817713CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/WAC/M139817713CC.xml",
+   "data_file_kbytes": 140001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139831273CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-22T21:50:03.951Z",
+   "utc_start": "2010-09-22T21:46:45.639000Z",
+   "utc_stop": "2010-09-22T21:53:22.264000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/WAC/M139831273CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/WAC/M139831273CC.xml",
+   "data_file_kbytes": 140001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139871983CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-09-23T09:08:34.253Z",
+   "utc_start": "2010-09-23T09:05:15.941000Z",
+   "utc_stop": "2010-09-23T09:11:52.566000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/WAC/M139871983CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/WAC/M139871983CC.xml",
+   "data_file_kbytes": 140001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139899136CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-09-23T16:41:06.956Z",
+   "utc_start": "2010-09-23T16:37:48.644000Z",
+   "utc_stop": "2010-09-23T16:44:25.269000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/WAC/M139899136CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/WAC/M139899136CC.xml",
+   "data_file_kbytes": 140001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139912700CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-09-23T20:27:10.942Z",
+   "utc_start": "2010-09-23T20:23:52.645000Z",
+   "utc_stop": "2010-09-23T20:30:29.239000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/WAC/M139912700CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/WAC/M139912700CC.xml",
+   "data_file_kbytes": 144001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[5,15)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[5,15)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139953417CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-24T07:45:47.945Z",
+   "utc_start": "2010-09-24T07:42:29.648000Z",
+   "utc_stop": "2010-09-24T07:49:06.242000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010267/WAC/M139953417CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010267/WAC/M139953417CC.xml",
+   "data_file_kbytes": 144001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[5,15)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[5,15)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el[1.5,2.5)|em[5,15)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M139994130CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-24T19:04:19.526Z",
+   "utc_start": "2010-09-24T19:01:02.651000Z",
+   "utc_stop": "2010-09-24T19:07:36.401000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010267/WAC/M139994130CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010267/WAC/M139994130CC.xml",
+   "data_file_kbytes": 151001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140034839CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-25T06:22:48.622Z",
+   "utc_start": "2010-09-25T06:19:31.653000Z",
+   "utc_stop": "2010-09-25T06:26:05.591000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010268/WAC/M140034839CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010268/WAC/M140034839CC.xml",
+   "data_file_kbytes": 160001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140116250CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-26T04:59:39.066Z",
+   "utc_start": "2010-09-26T04:56:22.660000Z",
+   "utc_stop": "2010-09-26T05:02:55.472000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010269/WAC/M140116250CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010269/WAC/M140116250CC.xml",
+   "data_file_kbytes": 176001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140156959CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-26T16:18:08.411Z",
+   "utc_start": "2010-09-26T16:14:51.755000Z",
+   "utc_stop": "2010-09-26T16:21:25.067000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010269/WAC/M140156959CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010269/WAC/M140156959CC.xml",
+   "data_file_kbytes": 170001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140197668CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-27T03:36:37.889Z",
+   "utc_start": "2010-09-27T03:33:20.920000Z",
+   "utc_stop": "2010-09-27T03:39:54.858000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010270/WAC/M140197668CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010270/WAC/M140197668CC.xml",
+   "data_file_kbytes": 160001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140279096CC",
+   "sites": [
+    "site04_roi3",
+    "site07_roi1",
+    "site11_roi4",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-09-28T02:13:46.771Z",
+   "utc_start": "2010-09-28T02:10:28.771000Z",
+   "utc_stop": "2010-09-28T02:17:04.771000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010271/WAC/M140279096CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010271/WAC/M140279096CC.xml",
+   "data_file_kbytes": 147001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140319815CC",
+   "sites": [
+    "site11_roi4",
+    "site07_roi1",
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-28T13:32:25.971Z",
+   "utc_start": "2010-09-28T13:29:07.674000Z",
+   "utc_stop": "2010-09-28T13:35:44.268000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010271/WAC/M140319815CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010271/WAC/M140319815CC.xml",
+   "data_file_kbytes": 144001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site04_roi3": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140401262CC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-09-29T12:09:52.897Z",
+   "utc_start": "2010-09-29T12:06:34.897000Z",
+   "utc_stop": "2010-09-29T12:13:10.897000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010272/WAC/M140401262CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010272/WAC/M140401262CC.xml",
+   "data_file_kbytes": 147001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140645600CC",
+   "sites": [
+    "site11_roi4",
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-02T08:02:09.042Z",
+   "utc_start": "2010-10-02T07:58:52.073000Z",
+   "utc_stop": "2010-10-02T08:05:26.011000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010275/WAC/M140645600CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010275/WAC/M140645600CC.xml",
+   "data_file_kbytes": 160001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site04_roi3": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140686320CC",
+   "sites": [
+    "site11_roi4",
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-10-02T19:20:49.283Z",
+   "utc_start": "2010-10-02T19:17:32.877000Z",
+   "utc_stop": "2010-10-02T19:24:05.689000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010275/WAC/M140686320CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010275/WAC/M140686320CC.xml",
+   "data_file_kbytes": 176001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site04_roi3": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140727036CC",
+   "sites": [
+    "site11_roi4",
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-03T06:39:25.145Z",
+   "utc_start": "2010-10-03T06:36:08.739000Z",
+   "utc_stop": "2010-10-03T06:42:41.552000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010276/WAC/M140727036CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010276/WAC/M140727036CC.xml",
+   "data_file_kbytes": 176001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site04_roi3": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140767754CC",
+   "sites": [
+    "site01_roi6",
+    "site11_roi4",
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-03T17:58:03.705Z",
+   "utc_start": "2010-10-03T17:54:46.705000Z",
+   "utc_stop": "2010-10-03T18:01:20.705000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010276/WAC/M140767754CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010276/WAC/M140767754CC.xml",
+   "data_file_kbytes": 165001,
+   "strata": {
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site04_roi3": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140849190CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-10-04T16:35:19.682Z",
+   "utc_start": "2010-10-04T16:32:03.026000Z",
+   "utc_stop": "2010-10-04T16:38:36.338000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010277/WAC/M140849190CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010277/WAC/M140849190CC.xml",
+   "data_file_kbytes": 170001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M140930611CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-10-05T15:12:21.343Z",
+   "utc_start": "2010-10-05T15:09:03.718000Z",
+   "utc_stop": "2010-10-05T15:15:38.968000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010278/WAC/M140930611CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010278/WAC/M140930611CC.xml",
+   "data_file_kbytes": 156001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141012017CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-06T13:49:08.380Z",
+   "utc_start": "2010-10-06T13:45:49.724000Z",
+   "utc_stop": "2010-10-06T13:52:27.036000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010279/WAC/M141012017CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010279/WAC/M141012017CC.xml",
+   "data_file_kbytes": 137001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141052730CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-07T01:07:41.632Z",
+   "utc_start": "2010-10-07T01:04:22.726000Z",
+   "utc_stop": "2010-10-07T01:11:00.539000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010280/WAC/M141052730CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010280/WAC/M141052730CC.xml",
+   "data_file_kbytes": 140001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141093447CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-07T12:26:19.244Z",
+   "utc_start": "2010-10-07T12:22:59.979000Z",
+   "utc_stop": "2010-10-07T12:29:38.510000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010280/WAC/M141093447CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010280/WAC/M141093447CC.xml",
+   "data_file_kbytes": 137001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141174877CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-08T11:03:29.610Z",
+   "utc_start": "2010-10-08T11:00:09.735000Z",
+   "utc_stop": "2010-10-08T11:06:49.485000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010281/WAC/M141174877CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010281/WAC/M141174877CC.xml",
+   "data_file_kbytes": 131001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141215584CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-08T22:21:57.488Z",
+   "utc_start": "2010-10-08T22:18:36.738000Z",
+   "utc_stop": "2010-10-08T22:25:18.238000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010281/WAC/M141215584CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010281/WAC/M141215584CC.xml",
+   "data_file_kbytes": 122001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141256287CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-09T09:40:20.834Z",
+   "utc_start": "2010-10-09T09:36:59.741000Z",
+   "utc_stop": "2010-10-09T09:43:41.928000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010282/WAC/M141256287CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010282/WAC/M141256287CC.xml",
+   "data_file_kbytes": 120001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141344496CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-10T10:10:29.840Z",
+   "utc_start": "2010-10-10T10:07:08.747000Z",
+   "utc_stop": "2010-10-10T10:13:50.934000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010283/WAC/M141344496CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010283/WAC/M141344496CC.xml",
+   "data_file_kbytes": 120001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141378411CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-10T19:35:43.968Z",
+   "utc_start": "2010-10-10T19:32:23.749000Z",
+   "utc_stop": "2010-10-10T19:39:04.187000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010283/WAC/M141378411CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010283/WAC/M141378411CC.xml",
+   "data_file_kbytes": 125001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141419123CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-11T06:54:15.627Z",
+   "utc_start": "2010-10-11T06:50:55.752000Z",
+   "utc_stop": "2010-10-11T06:57:35.502000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010284/WAC/M141419123CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010284/WAC/M141419123CC.xml",
+   "data_file_kbytes": 131001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141500561CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-12T05:31:33.134Z",
+   "utc_start": "2010-10-12T05:28:13.759000Z",
+   "utc_stop": "2010-10-12T05:34:52.509000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010285/WAC/M141500561CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010285/WAC/M141500561CC.xml",
+   "data_file_kbytes": 134001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141541282CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-12T16:50:14.224Z",
+   "utc_start": "2010-10-12T16:46:54.849000Z",
+   "utc_stop": "2010-10-12T16:53:33.599000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010285/WAC/M141541282CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010285/WAC/M141541282CC.xml",
+   "data_file_kbytes": 134001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141663447CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-14T02:46:19.925Z",
+   "utc_start": "2010-10-14T02:42:59.769000Z",
+   "utc_stop": "2010-10-14T02:49:40.082000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010287/WAC/M141663447CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010287/WAC/M141663447CC.xml",
+   "data_file_kbytes": 128001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141744969CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-15T01:25:01.932Z",
+   "utc_start": "2010-10-15T01:21:41.776000Z",
+   "utc_stop": "2010-10-15T01:28:22.088000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010288/WAC/M141744969CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010288/WAC/M141744969CC.xml",
+   "data_file_kbytes": 128001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NW|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141785686CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-15T12:43:38.653Z",
+   "utc_start": "2010-10-15T12:40:18.778000Z",
+   "utc_stop": "2010-10-15T12:46:58.528000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010288/WAC/M141785686CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010288/WAC/M141785686CC.xml",
+   "data_file_kbytes": 131001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141826401CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-16T00:02:14.316Z",
+   "utc_start": "2010-10-15T23:58:53.926000Z",
+   "utc_stop": "2010-10-16T00:05:34.707000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010288/WAC/M141826401CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010288/WAC/M141826401CC.xml",
+   "data_file_kbytes": 119001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141867075CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-16T11:20:09.002Z",
+   "utc_start": "2010-10-16T11:16:47.784000Z",
+   "utc_stop": "2010-10-16T11:23:30.221000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010289/WAC/M141867075CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010289/WAC/M141867075CC.xml",
+   "data_file_kbytes": 115001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141907777CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-16T22:38:31.088Z",
+   "utc_start": "2010-10-16T22:35:09.838000Z",
+   "utc_stop": "2010-10-16T22:41:52.338000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010289/WAC/M141907777CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010289/WAC/M141907777CC.xml",
+   "data_file_kbytes": 117001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M141989182CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-17T21:15:15.062Z",
+   "utc_start": "2010-10-17T21:11:54.843000Z",
+   "utc_stop": "2010-10-17T21:18:35.281000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010290/WAC/M141989182CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010290/WAC/M141989182CC.xml",
+   "data_file_kbytes": 125001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142029883CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-18T08:33:36.185Z",
+   "utc_start": "2010-10-18T08:30:15.795000Z",
+   "utc_stop": "2010-10-18T08:36:56.576000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010291/WAC/M142029883CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010291/WAC/M142029883CC.xml",
+   "data_file_kbytes": 119001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142070579CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-18T19:51:52.189Z",
+   "utc_start": "2010-10-18T19:48:31.798000Z",
+   "utc_stop": "2010-10-18T19:55:12.580000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010291/WAC/M142070579CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010291/WAC/M142070579CC.xml",
+   "data_file_kbytes": 119001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142111269CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-19T07:10:02.002Z",
+   "utc_start": "2010-10-19T07:06:41.846000Z",
+   "utc_stop": "2010-10-19T07:13:22.158000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010292/WAC/M142111269CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010292/WAC/M142111269CC.xml",
+   "data_file_kbytes": 128001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142151958CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-19T18:28:09.479Z",
+   "utc_start": "2010-10-19T18:24:50.823000Z",
+   "utc_stop": "2010-10-19T18:31:28.136000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010292/WAC/M142151958CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010292/WAC/M142151958CC.xml",
+   "data_file_kbytes": 137001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142192646CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-10-20T05:46:17.103Z",
+   "utc_start": "2010-10-20T05:42:58.807000Z",
+   "utc_stop": "2010-10-20T05:49:35.400000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010293/WAC/M142192646CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010293/WAC/M142192646CC.xml",
+   "data_file_kbytes": 144001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142314743CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-21T15:41:14.112Z",
+   "utc_start": "2010-10-21T15:37:55.815000Z",
+   "utc_stop": "2010-10-21T15:44:32.409000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010294/WAC/M142314743CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010294/WAC/M142314743CC.xml",
+   "data_file_kbytes": 144001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142355440CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-10-22T02:59:30.240Z",
+   "utc_start": "2010-10-22T02:56:12.818000Z",
+   "utc_stop": "2010-10-22T03:02:47.662000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010295/WAC/M142355440CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010295/WAC/M142355440CC.xml",
+   "data_file_kbytes": 151001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142396132CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-22T14:17:41.821Z",
+   "utc_start": "2010-10-22T14:14:24.821000Z",
+   "utc_stop": "2010-10-22T14:20:58.821000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010295/WAC/M142396132CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010295/WAC/M142396132CC.xml",
+   "data_file_kbytes": 165001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142436821CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-23T01:35:50.230Z",
+   "utc_start": "2010-10-23T01:32:33.824000Z",
+   "utc_stop": "2010-10-23T01:39:06.637000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010296/WAC/M142436821CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010296/WAC/M142436821CC.xml",
+   "data_file_kbytes": 176001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142477509CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-23T12:53:58.410Z",
+   "utc_start": "2010-10-23T12:50:42.004000Z",
+   "utc_stop": "2010-10-23T12:57:14.817000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010296/WAC/M142477509CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010296/WAC/M142477509CC.xml",
+   "data_file_kbytes": 176001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142518203CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-24T00:12:12.486Z",
+   "utc_start": "2010-10-24T00:08:55.830000Z",
+   "utc_stop": "2010-10-24T00:15:29.142000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010297/WAC/M142518203CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010297/WAC/M142518203CC.xml",
+   "data_file_kbytes": 170001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142599591CC",
+   "sites": [
+    "site04_roi3",
+    "site07_roi1",
+    "site11_roi4",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-10-24T22:48:41.042Z",
+   "utc_start": "2010-10-24T22:45:23.073000Z",
+   "utc_stop": "2010-10-24T22:51:59.011000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010297/WAC/M142599591CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010297/WAC/M142599591CC.xml",
+   "data_file_kbytes": 152001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142640291CC",
+   "sites": [
+    "site07_roi1",
+    "site04_roi3",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-25T10:07:01.839Z",
+   "utc_start": "2010-10-25T10:03:43.839000Z",
+   "utc_stop": "2010-10-25T10:10:19.839000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010298/WAC/M142640291CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010298/WAC/M142640291CC.xml",
+   "data_file_kbytes": 147001,
+   "strata": {
+    "site07_roi1": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142680996CC",
+   "sites": [
+    "site11_roi4",
+    "site07_roi1",
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-25T21:25:26.842Z",
+   "utc_start": "2010-10-25T21:22:08.842000Z",
+   "utc_stop": "2010-10-25T21:28:44.842000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010298/WAC/M142680996CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010298/WAC/M142680996CC.xml",
+   "data_file_kbytes": 147001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|NE|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site04_roi3": "LROC_WAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142721701CC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-26T08:43:51.845Z",
+   "utc_start": "2010-10-26T08:40:33.845000Z",
+   "utc_stop": "2010-10-26T08:47:09.845000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010299/WAC/M142721701CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010299/WAC/M142721701CC.xml",
+   "data_file_kbytes": 147001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|NE|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M142762408CC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-26T20:02:18.847Z",
+   "utc_start": "2010-10-26T19:59:00.847000Z",
+   "utc_stop": "2010-10-26T20:05:36.847000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010299/WAC/M142762408CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010299/WAC/M142762408CC.xml",
+   "data_file_kbytes": 147001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143006648CC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-29T15:52:57.520Z",
+   "utc_start": "2010-10-29T15:49:40.864000Z",
+   "utc_stop": "2010-10-29T15:56:14.177000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010302/WAC/M143006648CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010302/WAC/M143006648CC.xml",
+   "data_file_kbytes": 170001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143047353CC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-30T03:11:21.429Z",
+   "utc_start": "2010-10-30T03:08:05.867000Z",
+   "utc_stop": "2010-10-30T03:14:36.992000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010303/WAC/M143047353CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010303/WAC/M143047353CC.xml",
+   "data_file_kbytes": 187001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143088053CC",
+   "sites": [
+    "site11_roi4",
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-30T14:29:42.137Z",
+   "utc_start": "2010-10-30T14:26:25.965000Z",
+   "utc_stop": "2010-10-30T14:32:58.309000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010303/WAC/M143088053CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010303/WAC/M143088053CC.xml",
+   "data_file_kbytes": 195001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site04_roi3": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143128756CC",
+   "sites": [
+    "site11_roi4",
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-31T01:48:05.445Z",
+   "utc_start": "2010-10-31T01:44:49.008000Z",
+   "utc_stop": "2010-10-31T01:51:21.883000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010304/WAC/M143128756CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010304/WAC/M143128756CC.xml",
+   "data_file_kbytes": 188001,
+   "strata": {
+    "site11_roi4": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site04_roi3": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143210160CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-11-01T00:24:49.051Z",
+   "utc_start": "2010-11-01T00:21:32.879000Z",
+   "utc_stop": "2010-11-01T00:28:05.223000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010305/WAC/M143210160CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010305/WAC/M143210160CC.xml",
+   "data_file_kbytes": 195001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143250856CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-11-01T11:43:05.475Z",
+   "utc_start": "2010-11-01T11:39:48.881000Z",
+   "utc_stop": "2010-11-01T11:46:22.069000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010305/WAC/M143250856CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010305/WAC/M143250856CC.xml",
+   "data_file_kbytes": 195001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143311889CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-11-02T04:40:19.465Z",
+   "utc_start": "2010-11-02T04:37:01.965000Z",
+   "utc_stop": "2010-11-02T04:43:36.965000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010306/WAC/M143311889CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010306/WAC/M143311889CC.xml",
+   "data_file_kbytes": 165001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143352576CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-11-02T15:58:27.448Z",
+   "utc_start": "2010-11-02T15:55:08.886000Z",
+   "utc_stop": "2010-11-02T16:01:46.011000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010306/WAC/M143352576CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010306/WAC/M143352576CC.xml",
+   "data_file_kbytes": 148001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143393269CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-11-03T03:16:40.451Z",
+   "utc_start": "2010-11-03T03:13:21.889000Z",
+   "utc_stop": "2010-11-03T03:19:59.014000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010307/WAC/M143393269CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010307/WAC/M143393269CC.xml",
+   "data_file_kbytes": 148001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143433969CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-11-03T14:35:00.453Z",
+   "utc_start": "2010-11-03T14:31:41.891000Z",
+   "utc_stop": "2010-11-03T14:38:19.016000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010307/WAC/M143433969CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010307/WAC/M143433969CC.xml",
+   "data_file_kbytes": 148001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143474670CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-11-04T01:53:21.456Z",
+   "utc_start": "2010-11-04T01:50:02.894000Z",
+   "utc_stop": "2010-11-04T01:56:40.019000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010308/WAC/M143474670CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010308/WAC/M143474670CC.xml",
+   "data_file_kbytes": 148001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143637438CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-11-05T23:06:10.968Z",
+   "utc_start": "2010-11-05T23:02:50.906000Z",
+   "utc_stop": "2010-11-05T23:09:31.031000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010309/WAC/M143637438CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010309/WAC/M143637438CC.xml",
+   "data_file_kbytes": 122001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143678129CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-11-06T10:24:21.783Z",
+   "utc_start": "2010-11-06T10:21:01.908000Z",
+   "utc_stop": "2010-11-06T10:27:41.658000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010310/WAC/M143678129CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010310/WAC/M143678129CC.xml",
+   "data_file_kbytes": 131001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143718824CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-11-06T21:42:36.812Z",
+   "utc_start": "2010-11-06T21:39:16.062000Z",
+   "utc_stop": "2010-11-06T21:45:57.562000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010310/WAC/M143718824CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010310/WAC/M143718824CC.xml",
+   "data_file_kbytes": 122001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143840919CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-11-08T07:37:30.795Z",
+   "utc_start": "2010-11-08T07:34:11.920000Z",
+   "utc_stop": "2010-11-08T07:40:49.670000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010312/WAC/M143840919CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010312/WAC/M143840919CC.xml",
+   "data_file_kbytes": 144001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143881624CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-11-08T18:55:56.189Z",
+   "utc_start": "2010-11-08T18:52:36.924000Z",
+   "utc_stop": "2010-11-08T18:59:15.455000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010312/WAC/M143881624CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010312/WAC/M143881624CC.xml",
+   "data_file_kbytes": 137001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143922329CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-11-09T06:14:21.193Z",
+   "utc_start": "2010-11-09T06:11:01.927000Z",
+   "utc_stop": "2010-11-09T06:17:40.459000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010313/WAC/M143922329CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010313/WAC/M143922329CC.xml",
+   "data_file_kbytes": 137001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M143963032CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-11-09T17:32:44.804Z",
+   "utc_start": "2010-11-09T17:29:24.929000Z",
+   "utc_stop": "2010-11-09T17:36:04.679000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010313/WAC/M143963032CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010313/WAC/M143963032CC.xml",
+   "data_file_kbytes": 131001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M144003738CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-11-10T04:51:11.089Z",
+   "utc_start": "2010-11-10T04:47:50.933000Z",
+   "utc_stop": "2010-11-10T04:54:31.245000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010314/WAC/M144003738CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010314/WAC/M144003738CC.xml",
+   "data_file_kbytes": 128001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M145917401CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-12-02T08:25:33.223Z",
+   "utc_start": "2010-12-02T08:22:13.067000Z",
+   "utc_stop": "2010-12-02T08:28:53.380000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010336/WAC/M145917401CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010336/WAC/M145917401CC.xml",
+   "data_file_kbytes": 128001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M145958103CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-12-02T19:43:55.132Z",
+   "utc_start": "2010-12-02T19:40:35.070000Z",
+   "utc_stop": "2010-12-02T19:47:15.195000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010336/WAC/M145958103CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010336/WAC/M145958103CC.xml",
+   "data_file_kbytes": 122001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M146039516CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-12-03T18:20:48.232Z",
+   "utc_start": "2010-12-03T18:17:28.076000Z",
+   "utc_stop": "2010-12-03T18:24:08.388000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010337/WAC/M146039516CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010337/WAC/M146039516CC.xml",
+   "data_file_kbytes": 128001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|E|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M171517760CC",
+   "sites": [
+    "site01_roi6",
+    "site11_roi4",
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-09-24T15:37:57.323Z",
+   "utc_start": "2011-09-24T15:34:52.698000Z",
+   "utc_stop": "2011-09-24T15:41:01.948000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011267/WAC/M171517760CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011267/WAC/M171517760CC.xml",
+   "data_file_kbytes": 177001,
+   "strata": {
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M171599197CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-09-25T14:15:15.329Z",
+   "utc_start": "2011-09-25T14:12:09.704000Z",
+   "utc_stop": "2011-09-25T14:18:20.954000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011268/WAC/M171599197CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011268/WAC/M171599197CC.xml",
+   "data_file_kbytes": 151001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M171639910CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-09-26T01:33:49.693Z",
+   "utc_start": "2011-09-26T01:30:42.943000Z",
+   "utc_stop": "2011-09-26T01:36:56.443000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011269/WAC/M171639910CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011269/WAC/M171639910CC.xml",
+   "data_file_kbytes": 139001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M171680628CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-09-26T12:52:27.443Z",
+   "utc_start": "2011-09-26T12:49:20.709000Z",
+   "utc_stop": "2011-09-26T12:55:34.178000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011269/WAC/M171680628CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011269/WAC/M171680628CC.xml",
+   "data_file_kbytes": 135001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M171762083CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-09-27T11:30:02.446Z",
+   "utc_start": "2011-09-27T11:26:55.712000Z",
+   "utc_stop": "2011-09-27T11:33:09.181000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011270/WAC/M171762083CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011270/WAC/M171762083CC.xml",
+   "data_file_kbytes": 135001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M171884258CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4",
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-09-28T21:26:19.783Z",
+   "utc_start": "2011-09-28T21:23:10.721000Z",
+   "utc_stop": "2011-09-28T21:29:28.846000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011271/WAC/M171884258CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011271/WAC/M171884258CC.xml",
+   "data_file_kbytes": 115001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M171924972CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4",
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-09-29T08:44:53.520Z",
+   "utc_start": "2011-09-29T08:41:44.723000Z",
+   "utc_stop": "2011-09-29T08:48:02.317000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011272/WAC/M171924972CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011272/WAC/M171924972CC.xml",
+   "data_file_kbytes": 118001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M171965693CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site07_roi1",
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-09-29T20:03:34.101Z",
+   "utc_start": "2011-09-29T20:00:25.726000Z",
+   "utc_stop": "2011-09-29T20:06:42.477000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011272/WAC/M171965693CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011272/WAC/M171965693CC.xml",
+   "data_file_kbytes": 115001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site07_roi1": "LROC_WAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M172006419CC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6",
+    "site11_roi4",
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-09-30T07:22:20.166Z",
+   "utc_start": "2011-09-30T07:19:11.729000Z",
+   "utc_stop": "2011-09-30T07:25:28.604000Z",
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011273/WAC/M172006419CC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011273/WAC/M172006419CC.xml",
+   "data_file_kbytes": 112001,
+   "strata": {
+    "site04_roi3": "LROC_WAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site01_roi6": "LROC_WAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[20,100)m",
+    "site11_roi4": "LROC_WAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[20,100)m",
+    "site07_roi1": "LROC_WAC|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  }
+ ]
+}

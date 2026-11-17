@@ -100,3 +100,14 @@ of these files needs a new amendment.
 | `blender/v2/hapke_nodes.py` | `fae1c7438470f1230d564d5e0396aaae7983a5091fc7f1a585be1c9d7d6df1e8` |
 | `blender/v2/terrain.py` | `00d2ada28dde6f1d19f9435e7b8eb348b85519a5fcae2ea303a2352a17028363` |
 | `tools/imagery/sites.py` | `9cb686b560fca36975c95ae36fec3bbad5f84ba173652a1ac018b15d420ce09e` |
+
+## Entry 7 — 17 Nov 2026, coordinating session (dev pilot, LROC WAC)
+
+State at freezing: **no LROC WAC row has been scored on any split; no held-out WAC image has been fetched.** One dev image
+(3 rows) was rendered and displayed as the pipeline test, without metrics (A6, state at writing). Amendment A6 fixes the WAC
+643 nm camera model, the native-pixel grid with the framelet rule, the dev selection and the reporting for the WAC dev pilot.
+The WAC code is not frozen here; A7 freezes it before the WAC held-out run.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A6.md` | `26a48bab464f81e7b579a2fefa1867028c64094ea0354060cf97cade478f401a` |
