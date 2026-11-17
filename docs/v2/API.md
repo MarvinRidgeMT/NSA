@@ -74,11 +74,13 @@ kinds the precompute requested) → world bundles → `compute: true` (`science.
 which also caches bundles by site hash in `data/cache/anysite/bundles/`). `cache.source` in the response says which.
 
 **Worlds.** Moon: any point. Mercury: precomputed world bundles only (the exact Prokofiev rim point and window); any other
-point → 422 (the any-site `world=` hook is session T3's). Mars → 501 with the registry's availability note.
+point → 422 (the any-site `world=` hook is session T3's). Mars: the same, for the precomputed Jezero rim bundle (one Mars
+year; gzipped JSON); any other Mars point → 422. Relay-orbiter geometry for that site is a separate file
+(`docs/v2/MARS_RELAYS.md`), not part of the solve response. A world the registry marks unavailable → 501.
 
 **Errors.** 400 invalid request (schema), 404 unknown hash / not precomputed (`compute: true` to run) / no cubes,
 405 wrong method, 422 world or point not available (incl. "Horizons not cached and `allow_network` false"), 500 solver
-error, 501 Mars. Body: `{"error", "status", "detail"}`.
+error, 501 world not available in the registry. Body: `{"error", "status", "detail"}`.
 
 **Solve result** (`SolveResult`) also carries `terrain` (`near_product`, `far_product`, `n_truncated_bins` of the
 any-site bundle; null for world bundles), added 17 Nov 2026 for the viewer.

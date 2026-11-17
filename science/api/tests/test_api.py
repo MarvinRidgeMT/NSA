@@ -24,6 +24,7 @@ from science.exports import card, common as C, timeseries
 ROOT = C.ROOT
 BUNDLE = ROOT / 'data' / 'bundles' / 'site04_roi3_2026-11-14_14d_mast1m.json'
 MERCURY = ROOT / 'data' / 'worlds' / 'mercury' / 'mercury_prokofiev_rim_2026-11-14_176d_mast1m.json'
+MARS = ROOT / 'data' / 'worlds' / 'mars' / 'mars_jezero_rim_2026-11-14_687d_mast1m.json.gz'
 HASH = '0123456789abcdef'
 
 
@@ -173,7 +174,7 @@ class Live(unittest.TestCase):
     def test_sites_and_site(self):
         s = self.check('GET', '/v1/sites', '/v1/sites')
         self.assertEqual(s['n_total'], len(self.svc.precompute['sites']) + len(self.svc.world_bundle_index))  # fixture Moon site + every committed world bundle
-        self.assertEqual({x['world'] for x in s['sites']}, {'moon', 'mercury'})
+        self.assertEqual({x['world'] for x in s['sites']}, {'moon', 'mercury', 'mars'})
         s = self.check('GET', '/v1/sites?world=moon&lat_max=-80', '/v1/sites')
         self.assertEqual([x['site_hash'] for x in s['sites']], [HASH])
         self.check('GET', '/v1/sites?limit=0', '/v1/sites', status=400)
@@ -222,7 +223,13 @@ class Live(unittest.TestCase):
         self.assertEqual(r['metrics']['sun_center_visible_pct_hourly_samples']['value'],
                          C.read_json(MERCURY)['metrics']['sun_center_visible_pct_hourly_samples'])
         self.check('POST', '/v1/solve', '/v1/solve', {'world': 'mercury', 'lat': 0, 'lon': 0}, status=422)
-        self.check('POST', '/v1/solve', '/v1/solve', {'world': 'mars', 'lat': 0, 'lon': 0}, status=501)
+        self.check('POST', '/v1/solve', '/v1/solve', {'world': 'mars', 'lat': 0, 'lon': 0}, status=422)
+        j = C.read_json(MARS)
+        r = self.check('POST', '/v1/solve', '/v1/solve', {'world': 'mars', 'lat': j['site']['lat_deg'],
+                                                          'lon': j['site']['lon_deg_east']})
+        self.assertEqual((r['world'], r['cache']['source']), ('mars', 'world-bundle'))
+        self.assertEqual(r['metrics']['sun_center_visible_pct_hourly_samples']['value'],
+                         j['metrics']['sun_center_visible_pct_hourly_samples'])
         self.check('POST', '/v1/solve', '/v1/solve', {'lat': 95, 'lon': 0}, status=400)
         self.check('POST', '/v1/solve', '/v1/solve', {'lat': 0, 'lon': 0, 'bogus': 1}, status=400)
         self.check('POST', '/v1/solve', '/v1/solve', b'{not json', status=400)
@@ -264,7 +271,7 @@ class BatchAndCache(unittest.TestCase):
         p = self.tmp / 'q.json'; p.write_text(json.dumps({'requests': [{'world': 'mars', 'lat': 0, 'lon': 0}]}))
         out = subprocess.run([__import__('sys').executable, '-m', 'science.api.server', '--batch', str(p)], cwd=ROOT,
                              capture_output=True, text=True, check=True).stdout
-        self.assertEqual(json.loads(out)['results'][0]['status'], 501)
+        self.assertEqual(json.loads(out)['results'][0]['status'], 422)      # Mars: only the precomputed Jezero point
 
     def test_cache_by_site_hash(self):
         svc = fixture_service(self.tmp)

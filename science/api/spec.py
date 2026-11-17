@@ -35,7 +35,7 @@ SCHEMAS = {
         'properties': {
             'world': {'type': 'string', 'enum': WORLDS, 'default': 'moon',
                       'description': 'Context selector (not a scenario axis). Mercury: precomputed Prokofiev rim only; '
-                                     'Mars: not available.'},
+                                     'Mars: precomputed Jezero rim only.'},
             'lat': {'type': 'number', 'minimum': -90, 'maximum': 90, 'description': 'planetocentric latitude, deg'},
             'lon': {'type': 'number', 'minimum': -360, 'maximum': 360, 'description': 'east longitude, deg'},
             'mast_m': {'type': 'number', 'minimum': 0, 'maximum': 1000, 'default': 1.0,
@@ -125,7 +125,7 @@ def _resp(desc, schema=None, ctype='application/json'):
 
 def _err(*codes):
     text = {400: 'invalid request', 404: 'not found / not precomputed', 422: 'not available for this world/point',
-            500: 'solver error', 501: 'world not available'}
+            500: 'solver error', 501: 'world not available (registry)'}
     return {str(c): _resp(text[c], _ref('Error')) for c in codes}
 
 
@@ -188,7 +188,7 @@ OPENAPI = {
     'openapi': '3.1.0',
     'info': {'title': 'POLARIS X solver API', 'version': API_VERSION,
              'description': ('Local any-site visibility solver and precomputed results for the Moon (any point), Mercury '
-                             '(precomputed Prokofiev rim) and Mars (not available). Binds to 127.0.0.1 only; no keys, no '
+                             '(precomputed Prokofiev rim) and Mars (precomputed Jezero rim). Binds to 127.0.0.1 only; no keys, no '
                              'paid services. Every number is ' + LABEL + ': local geometric visibility from NASA DEMs and '
                              'JPL Horizons, not certified illumination, power or DSN link availability. k of N maps is '
                              'not a probability. Docs: docs/v2/API.md.')},

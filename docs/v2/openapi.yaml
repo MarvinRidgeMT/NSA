@@ -3,7 +3,7 @@ openapi: "3.1.0"
 info:
   title: POLARIS X solver API
   version: "1.0.0"
-  description: "Local any-site visibility solver and precomputed results for the Moon (any point), Mercury (precomputed Prokofiev rim) and Mars (not available). Binds to 127.0.0.1 only; no keys, no paid services. Every number is SOURCE-BASED · UNVALIDATED: local geometric visibility from NASA DEMs and JPL Horizons, not certified illumination, power or DSN link availability. k of N maps is not a probability. Docs: docs/v2/API.md."
+  description: "Local any-site visibility solver and precomputed results for the Moon (any point), Mercury (precomputed Prokofiev rim) and Mars (precomputed Jezero rim). Binds to 127.0.0.1 only; no keys, no paid services. Every number is SOURCE-BASED · UNVALIDATED: local geometric visibility from NASA DEMs and JPL Horizons, not certified illumination, power or DSN link availability. k of N maps is not a probability. Docs: docs/v2/API.md."
 servers:
   - url: "http://127.0.0.1:8767"
     description: python -m science.api.server
@@ -228,7 +228,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/Error"
         "501":
-          description: world not available
+          description: world not available (registry)
           content:
             application/json:
               schema:
@@ -369,7 +369,7 @@ components:
             - mercury
             - mars
           default: moon
-          description: "Context selector (not a scenario axis). Mercury: precomputed Prokofiev rim only; Mars: not available."
+          description: "Context selector (not a scenario axis). Mercury: precomputed Prokofiev rim only; Mars: precomputed Jezero rim only."
         lat:
           type: number
           minimum: -90

@@ -4,7 +4,7 @@ Cache by site hash: a solve request is normalised (`request_key`) and mapped to 
 (the solver's own cache key, which includes the window, members and terrain products). Lookup order:
   1. request index  data/cache/api/request_index.json (requests answered before)
   2. precompute     data/anysite/precompute_summary.json (1,251 Moon points; mast 1 m, 2026-11-14 + 14 d, hourly)
-  3. world bundles  data/worlds/<world>/*.json (Mercury Prokofiev rim)
+  3. world bundles  data/worlds/<world>/*.json[.gz] (Mercury Prokofiev rim; Mars Jezero rim)
   4. compute=true   science.worlds.moon.solve (= science.anysite.solve.solve, unchanged); result added to the index.
 Nothing here changes a number: responses copy bundle values and carry their JSON path + read/recompute commands.
 """
@@ -25,7 +25,7 @@ from . import spec as S
 DEFAULT_CACHE = C.ROOT / 'data' / 'cache' / 'api'
 BUNDLE_CACHE = C.ROOT / 'data' / 'cache' / 'anysite' / 'bundles'
 PRECOMPUTE = C.ROOT / 'data' / 'anysite' / 'precompute_summary.json'
-WORLD_BUNDLES = {'mercury': C.ROOT / 'data' / 'worlds' / 'mercury'}
+WORLD_BUNDLES = {'mercury': C.ROOT / 'data' / 'worlds' / 'mercury', 'mars': C.ROOT / 'data' / 'worlds' / 'mars'}
 CUBES = C.ROOT / 'data' / 'cubes'
 DEFAULT_DAYS = 14
 METRIC_UNITS = {'sun_center_visible_pct_hourly_samples': '% of hourly samples',
@@ -94,7 +94,8 @@ class Service:
         if self._worldb is None:
             out = {}
             for w, d in self.world_bundles.items():
-                for p in sorted(Path(d).glob('*.json')) if Path(d).exists() else []:
+                ps = sorted([*Path(d).glob('*.json'), *Path(d).glob('*.json.gz')]) if Path(d).exists() else []
+                for p in ps:
                     b = C.read_json(p)
                     if b.get('schema') != 'polaris-science-results-v1':
                         continue
@@ -141,7 +142,8 @@ class Service:
         s = get_world(name).summary()
         s['api_support'] = {'moon': 'any point (cache lookup; compute=true runs the any-site solver)',
                             'mercury': 'precomputed world bundles only (any-site world= hook is session T3\'s)',
-                            'mars': 'not available'}[name]
+                            'mars': 'precomputed world bundles only (Jezero rim, one Mars year); relay-orbiter geometry '
+                                    'in data/worlds/mars/mars_jezero_rim_relays_2026-11-14_16d.json'}[name]
         return s
 
     def sites(self, world=None, group=None, lat_min=None, lat_max=None, limit=100, offset=0):
@@ -249,9 +251,11 @@ class Service:
 
     def solve(self, req):
         r = self.normalise(req)
-        if r['world'] == 'mars':
+        if r['world'] != 'moon':
             from ..worlds import get_world
-            raise ApiError(501, 'Mars is not available', detail=get_world('mars').availability_note)
+            w = get_world(r['world'])
+            if not w.available:
+                raise ApiError(501, f"{r['world']} is not available", detail=w.availability_note)
         if r['world'] != 'moon':
             return 200, self._solve_world_bundle(r)
         key = request_key(r)

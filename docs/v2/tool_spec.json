@@ -23,7 +23,7 @@
        "mars"
       ],
       "default": "moon",
-      "description": "Context selector (not a scenario axis). Mercury: precomputed Prokofiev rim only; Mars: not available."
+      "description": "Context selector (not a scenario axis). Mercury: precomputed Prokofiev rim only; Mars: precomputed Jezero rim only."
      },
      "lat": {
       "type": "number",
@@ -135,7 +135,7 @@
           "mars"
          ],
          "default": "moon",
-         "description": "Context selector (not a scenario axis). Mercury: precomputed Prokofiev rim only; Mars: not available."
+         "description": "Context selector (not a scenario axis). Mercury: precomputed Prokofiev rim only; Mars: precomputed Jezero rim only."
         },
         "lat": {
          "type": "number",
