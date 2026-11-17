@@ -220,6 +220,14 @@ def main(argv=None):
         iou = [r['iouShadow'] for r in x]
         w(f"| {name} | {len(x)} | {fmt(q(iou, 50))} ({fmt(q(iou, 25))}–{fmt(q(iou, 75))}) | {fmt(q([r['iouLit'] for r in x], 50))} | "
           f"{fmt(q([r.get('cmIouShadow') for r in x], 50))} | {fmt(q([r.get('cmIouLit') for r in x], 50))} |")
+    thr = [r.get('otsuThresholdLog10') for r in rr]
+    w(f"\n**Where the fixed Otsu rule puts the threshold on WAC:** median log10 I/F threshold {fmt(q(thr, 50), 2)} (IQR "
+      f"{fmt(q(thr, 25), 2)} to {fmt(q(thr, 75), 2)}); rows with the threshold within 0.1 of the -5 floor of "
+      f"v = log10(max(I/F, 1e-5)): {sum(1 for t in thr if isinstance(t, float) and t <= -4.9)} of {len(rr)}. Observed shadow "
+      f"fraction median {fmt(q([r['obsShadowFrac'] for r in rr], 50))} against predicted {fmt(q([r['predShadowFrac'] for r in rr], 50))}. "
+      'Shadowed WAC CDR pixels carry calibration noise and scattered light around I/F ~ 4e-4 with a negative tail, so the '
+      'rule separates the pixels at or below the floor from everything else; the count-matched mask (A5.5) does not depend '
+      'on that threshold.\n')
     w(f"\nWeak-bimodality rows: {sum(bool(r.get('weakBimodality')) for r in rr)}; render median zero (A1.4 fallback): "
       f"{sum(bool(r.get('renderMedianZero')) for r in rr)} of {len(rr)}.\n")
     # 7 registration
