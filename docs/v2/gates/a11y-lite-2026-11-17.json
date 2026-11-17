@@ -1,0 +1,33 @@
+{
+  "schema": "polaris-gates-a11y-v1",
+  "measuredUTC": "2026-11-17T05:06:34.981Z",
+  "engine": "lite scan (axe-core not in web/node_modules)",
+  "axeVersion": null,
+  "rule": "pass = 0 serious/critical violations across views",
+  "seriousOrCritical": 0,
+  "views": {
+    "story": {
+      "violations": []
+    },
+    "explore": {
+      "violations": []
+    },
+    "explore+globe": {
+      "violations": []
+    },
+    "decision": {
+      "violations": []
+    },
+    "evidence": {
+      "violations": [
+        {
+          "rule": "canvas-no-text-alternative",
+          "impact": "moderate",
+          "nodes": [
+            "canvas"
+          ]
+        }
+      ]
+    }
+  }
+}

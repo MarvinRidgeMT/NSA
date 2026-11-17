@@ -1,0 +1,60 @@
+{
+ "schema": "polaris-gates-labels-v1",
+ "measuredUTC": "2026-11-17T05:12:17+00:00",
+ "pass": true,
+ "exports_rebuilt": [
+  {
+   "cmd": "site site04_roi3",
+   "rc": 0,
+   "out": "data/exports/site04_roi3: 10 files, 39 numbers -> data/exports/site04_roi3/provenance.json, data/exports/site04_roi3/site04_roi3_provenance.zip"
+  },
+  {
+   "cmd": "site site01_roi6",
+   "rc": 0,
+   "out": "data/exports/site01_roi6: 10 files, 39 numbers -> data/exports/site01_roi6/provenance.json, data/exports/site01_roi6/site01_roi6_provenance.zip"
+  },
+  {
+   "cmd": "grid",
+   "rc": 0,
+   "out": "data/exports/moon_grid: 3 files, 2160 numbers -> data/exports/moon_grid/provenance.json, data/exports/moon_grid/moon_grid_provenance.zip"
+  },
+  {
+   "cmd": "bundle data/worlds/mercury/mercury_prokofiev_rim_2026-11-14_176d_mast1m.json",
+   "rc": 0,
+   "out": "data/exports/bundles/mercury_prokofiev_rim_2026-11-14_176d_mast1m: 3 files, 9 numbers -> data/exports/bundles/mercury_prokofiev_rim_2026-11-14_176d_mast1m/provenance.json, data/exports/bundles/mercury_prokofiev_rim_2026-11-14_176d_mast1m/mercury_prokofiev_rim_2026-11-14_176d_mast1m_provenance.zip"
+  },
+  {
+   "cmd": "anysite --lat -89.78012 --lon -156.32023",
+   "rc": 0,
+   "out": "data/exports/anysite/96362e41d3c3ede2: 3 files, 9 numbers -> data/exports/anysite/96362e41d3c3ede2/provenance.json, data/exports/anysite/96362e41d3c3ede2/96362e41d3c3ede2_provenance.zip"
+  }
+ ],
+ "traceability_new_numbers": {
+  "files": [
+   "data/exports/anysite/96362e41d3c3ede2/numbers.json",
+   "data/exports/bundles/mercury_prokofiev_rim_2026-11-14_176d_mast1m/numbers.json",
+   "data/exports/moon_grid/numbers.json",
+   "data/exports/site01_roi6/numbers.json",
+   "data/exports/site04_roi3/numbers.json"
+  ],
+  "numbers_scanned": 2256,
+  "failed": []
+ },
+ "api_labels": {
+  "results_checked": 41,
+  "failed": []
+ },
+ "wording": {
+  "t1_violations": [],
+  "web_src_violations": []
+ },
+ "rules": [
+  "retired wording (SCIENCE_LABEL_AUDIT.md)",
+  "k of N maps / scenario counts called a probability",
+  "probability language",
+  "unqualified \"validated\"",
+  "unqualified \"certified\"",
+  "NASA accuracy claim",
+  "retired wording (SCIENCE_LABEL_AUDIT.md)"
+ ]
+}

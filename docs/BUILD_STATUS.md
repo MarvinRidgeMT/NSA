@@ -1422,3 +1422,19 @@ Branch `claude/v2-t3-mars-134ecc` (contains 13551d0). Plan + results: `docs/v2/P
 - **Mars**: `science/worlds/mars/` (world, catalogue + fetch, MOLA/CTX readers, terrain, Ls seasons, tau energy, Jezero site); bundle `data/worlds/mars/mars_jezero_rim_2026-11-14_687d_mast1m.json`; 0.533 GB downloaded (28 files, SHA-256 in the manifest).
 - **Tests:** `python -m pytest science -q` 575 passed, 2 skipped (7 min 48 s). Web, exports/API and Blender untouched; nothing pushed.
 - **Not done:** Mars relays (no ephemerides), Mars sky model, HiRISE/HRSC members, clone members/cube/Decision Card for Mercury and Mars, world-aware results schema.
+### v2 T1 — round 3, §7 NASA-user features + gates (backend) — Claude, 16–17 Nov 2026, branch `claude/v2-t1-nasa-features-ceef5e`
+Plan `docs/v2/PHASE_7_T1_PLAN.md`; docs `docs/v2/API.md`, `docs/v2/GATES.md`. No UI, worlds or any-site code changed.
+- **Exports** `science/exports/`: CSV/JSON time series of any results bundle (Moon committed, any-site cache, Mercury), GeoTIFF
+  terrain-safety masks (IAU_2015:30135) and global 10° precompute map (IAU_2015:30100) under git-ignored `data/exports/`,
+  Decision Card PDF from the precomputed `decision_summary.json` (stdlib PDF writer; no PDF library installed), provenance.json +
+  deterministic ZIP, `numbers.json` with read/recompute commands per number.
+- **Solver API** `science/api/`: OpenAPI 3.1 (`docs/v2/openapi.yaml`, generated; `--check`), stdlib server on 127.0.0.1, batch,
+  cache by site hash, worlds (Moon any point, Mercury precomputed bundle, Mars 501), AI tool spec (`docs/v2/tool_spec.json`);
+  no planner, no key. Compute path checked once live: (-89.5, 12.345) → 200 in ~10 s, then request-index hit.
+- **Gates** `web/scripts/gates/`: perf PASS (uncapped p95 globe 2.7, region 4.3, 5 m 3.8 ms; capped 7.8 / 14.7 / 7.7 ms; single-frame
+  stalls to 1.8 s), cold start 3.1 s PASS, traceability 544/0 (UI) + 2,256/0 (exports) PASS, label audit PASS, accessibility FAIL
+  (axe 4.14.0 via AXE_CORE_PATH: 9 serious), mobile 390 px FAIL in 3 of 5 views. Failures listed for T2 in GATES.md §6.
+- **Tests:** pytest `science tools` 735 passed, 1 skipped (incl. exports 16, api 17); `npm run build` OK; vitest 157/157;
+  Playwright traceability 2/2 and gate specs (a11y, mobile: fail as recorded) on :4221.
+- **Not done:** optional AI planner and live context panel; axe-core devDependency (needs the user's OK); Mercury any-site via the
+  API (T3's `world=` hook); official OpenAPI meta-schema validation (validator not installed).

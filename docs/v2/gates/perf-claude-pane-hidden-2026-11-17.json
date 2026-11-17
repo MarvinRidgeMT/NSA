@@ -1,0 +1,8 @@
+{
+ "schema": "polaris-gates-perf-pane-v1",
+ "measuredUTC": "2026-11-17",
+ "where": "Claude desktop app browser pane (built-in browser), vite preview of web/dist on :4221, /#sky",
+ "pane": "hidden (tabs_context reported 'The Browser pane is currently hidden')",
+ "result": {"wallMs": 6002, "frames": 0, "p50Ms": null, "p95Ms": null, "visibilityState": "visible", "globeLoaded": false},
+ "reading": "No requestAnimationFrame callback ran in 6 s although document.visibilityState was 'visible': the hidden pane does not paint, so no frame time can be measured there. A first 45 s script (wait for the globe button, measure, open the globe) did not finish for the same reason. The gate numbers come from headed Chrome (perf-headed-*.json), visible and focused."
+}
