@@ -36,6 +36,9 @@ data/visual/**/*.rows
 # NASA SVS globe GLB, LROC NAC crops). Not committed: NASA rasters stay out of git.
 web/public/context/**/*.bin
 data/visual/terrain_context/**/*.bin
+# (web/public/globe: only NASA_SVS_moon_small.glb, 13.8 MB, is force-tracked so a clean clone draws the globe. The 8k model
+# NASA_SVS_Moon_NASA_LRO_8k_Topo_Small.glb is 81.5 MB, over the 50 MB kept in git, and moon_lite.glb is rebuilt by
+# web/scripts/make_globe_lite.mjs; both stay local.)
 web/public/globe/*.glb
 app/assets/nasa/*.glb
 web/public/visual/site01_center_2km_1m_8bit.png

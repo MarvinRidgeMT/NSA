@@ -126,7 +126,8 @@ test('glass panel over full white: rendered ash text keeps 4.5:1', async ({ page
 });
 
 test('axe: Simple page has no serious or critical issues', async ({ page }) => {
-  await page.goto('/');
+  // S4 (17 Nov): a bare "/" now opens on the south-pole globe; ?view=terrain opens the terrain view these tests are about.
+  await page.goto('/?view=terrain');
   await expect(page.getByTestId('simple-mode')).toBeVisible();
   await expect(page.getByTestId('plain-answer')).toBeVisible({ timeout: 30_000 });
   expect(await axeSeriousOrCritical(page)).toEqual([]);

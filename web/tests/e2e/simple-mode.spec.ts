@@ -21,7 +21,8 @@ const range = (r: Row) => (r.min === r.max ? `${r.min.toFixed(1)} %` : `${r.min.
 const short = (x: number) => `${Math.round(x * 10) / 10}`.replace(/\.0$/, '');
 
 async function openSimple(page: Page) {
-  await page.goto('/');
+  // S4 (17 Nov): a bare "/" now opens on the south-pole globe; ?view=terrain opens the terrain view these tests are about.
+  await page.goto('/?view=terrain');
   await expect(page.getByTestId('simple-mode')).toBeVisible();
   await expect(page.getByTestId('plain-answer')).toBeVisible({ timeout: 30_000 });
 }

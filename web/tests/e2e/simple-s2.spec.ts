@@ -20,7 +20,8 @@ const row = (m: number, metric: string) => site.certainty_curve.find((r) => r.ma
 const range = (r: Row) => (r.min === r.max ? `${r.min.toFixed(1)} %` : `${r.min.toFixed(1)}–${r.max.toFixed(1)} %`);
 
 async function openSimple(page: Page, q = '') {
-  await page.goto(`/${q}`);
+  // S4 (17 Nov): a bare "/" now opens on the south-pole globe; ?view=terrain opens the terrain view these tests are about.
+  await page.goto(`/${q ? `${q}&view=terrain` : '?view=terrain'}`);
   await expect(page.getByTestId('simple-mode')).toBeVisible();
   await expect(page.getByTestId('plain-answer')).toBeVisible({ timeout: 30_000 });
 }

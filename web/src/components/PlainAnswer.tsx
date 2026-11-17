@@ -4,6 +4,9 @@ import { useMastReading } from './MastInstrument';
 
 const pct = (x: number) => `${Math.round(x * 10) / 10}`.replace(/\.0$/, '');
 
+/** The one-word verdict for a Sun-in-sight row (shared with the Simple-mode globe pins so both always say the same). */
+export const verdictWord = (min: number, all100: boolean) => (all100 ? 'Yes' : min >= 70 ? 'Mostly' : 'Not reliably');
+
 /**
  * Plain-English answer at the top of the Explore instrument (readability pass, 15 Nov). Every number is copied from the
  * certainty sidecar row the Certainty Height instrument shows (same mast height, same realizations) or from the bundle's
@@ -15,7 +18,7 @@ export function PlainAnswer({ v }: { v: View }) {
   if (!r?.s) return null;
   const { h, s, all100, cert } = r;
   const sunRange = s.min === s.max ? `${pct(s.min)} %` : `${pct(s.min)}–${pct(s.max)} %`;
-  const verdict = all100 ? 'Yes' : s.min >= 70 ? 'Mostly' : 'Not reliably';
+  const verdict = verdictWord(s.min, all100);
   const now = (key: 'sun' | 'earth') => {
     const t = v[key];
     if (t.visible === undefined) return 'not in this bundle';

@@ -1,0 +1,478 @@
+{
+  "date": "2026-11-17T13:58:55.386Z",
+  "note": "firstMoonFrameMs = performance.now() at the first frame that shows the Moon (navigation start = 0), server on localhost, cold cache per context",
+  "desktop_1440x900_2x": [
+    {
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+      "asset": "NASA_SVS_Moon_NASA_LRO_8k_Topo_Small.glb",
+      "jsHeapMB": 324.4,
+      "post": true,
+      "canvasPx": [
+        2880,
+        1552
+      ],
+      "firstMoonFrameMs": 709,
+      "betterModelShownMs": 1154,
+      "terrainUnmountedAfterReturn": true,
+      "idle": {
+        "frames": 600,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 10,
+        "p99Ms": 10.2,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "cpuSubmitMsPerFrameUncapped": 0.051,
+      "flyIn": {
+        "frames": 144,
+        "meanMs": 8.34,
+        "p50Ms": 8.3,
+        "p95Ms": 10,
+        "p99Ms": 10.2,
+        "maxMs": 10.3,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "flyOut": {
+        "frames": 144,
+        "meanMs": 8.34,
+        "p50Ms": 8.3,
+        "p95Ms": 10.3,
+        "p99Ms": 10.4,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "memOnGlobe": {
+        "rendererMB": 775,
+        "gpuProcessMB": 360
+      },
+      "memAfterFlights": {
+        "rendererMB": 936,
+        "gpuProcessMB": 431
+      }
+    },
+    {
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+      "asset": "NASA_SVS_Moon_NASA_LRO_8k_Topo_Small.glb",
+      "jsHeapMB": 321.1,
+      "post": true,
+      "canvasPx": [
+        2880,
+        1552
+      ],
+      "firstMoonFrameMs": 671,
+      "betterModelShownMs": 1099,
+      "terrainUnmountedAfterReturn": true,
+      "idle": {
+        "frames": 600,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 9.8,
+        "p99Ms": 10.2,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "cpuSubmitMsPerFrameUncapped": 0.047,
+      "flyIn": {
+        "frames": 144,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 10.1,
+        "p99Ms": 10.3,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "flyOut": {
+        "frames": 144,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 9.7,
+        "p99Ms": 10,
+        "maxMs": 10.2,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "memOnGlobe": {
+        "rendererMB": 763,
+        "gpuProcessMB": 397
+      },
+      "memAfterFlights": {
+        "rendererMB": 913,
+        "gpuProcessMB": 438
+      }
+    },
+    {
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+      "asset": "NASA_SVS_Moon_NASA_LRO_8k_Topo_Small.glb",
+      "jsHeapMB": 322.5,
+      "post": true,
+      "canvasPx": [
+        2880,
+        1552
+      ],
+      "firstMoonFrameMs": 694,
+      "betterModelShownMs": 1131,
+      "terrainUnmountedAfterReturn": true,
+      "idle": {
+        "frames": 600,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 9.9,
+        "p99Ms": 10.3,
+        "maxMs": 10.3,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "cpuSubmitMsPerFrameUncapped": 0.051,
+      "flyIn": {
+        "frames": 143,
+        "meanMs": 8.34,
+        "p50Ms": 8.3,
+        "p95Ms": 10.1,
+        "p99Ms": 10.3,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "flyOut": {
+        "frames": 144,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 9.8,
+        "p99Ms": 10.2,
+        "maxMs": 10.3,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "memOnGlobe": {
+        "rendererMB": 795,
+        "gpuProcessMB": 403
+      },
+      "memAfterFlights": {
+        "rendererMB": 958,
+        "gpuProcessMB": 440
+      }
+    }
+  ],
+  "desktop_1440x900_2x_compact_model": [
+    {
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+      "asset": "NASA_SVS_moon_small.glb",
+      "jsHeapMB": 209.8,
+      "post": true,
+      "canvasPx": [
+        2880,
+        1552
+      ],
+      "firstMoonFrameMs": 678,
+      "betterModelShownMs": null,
+      "terrainUnmountedAfterReturn": true,
+      "idle": {
+        "frames": 600,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 10,
+        "p99Ms": 10.3,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "cpuSubmitMsPerFrameUncapped": 0.043,
+      "flyIn": {
+        "frames": 144,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 10,
+        "p99Ms": 10.3,
+        "maxMs": 10.3,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "flyOut": {
+        "frames": 144,
+        "meanMs": 8.34,
+        "p50Ms": 8.3,
+        "p95Ms": 10.3,
+        "p99Ms": 10.4,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "memOnGlobe": {
+        "rendererMB": 357,
+        "gpuProcessMB": 246
+      },
+      "memAfterFlights": {
+        "rendererMB": 668,
+        "gpuProcessMB": 306
+      }
+    },
+    {
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+      "asset": "NASA_SVS_moon_small.glb",
+      "jsHeapMB": 250.6,
+      "post": true,
+      "canvasPx": [
+        2880,
+        1552
+      ],
+      "firstMoonFrameMs": 458,
+      "betterModelShownMs": null,
+      "terrainUnmountedAfterReturn": true,
+      "idle": {
+        "frames": 600,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 9.8,
+        "p99Ms": 10.3,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "cpuSubmitMsPerFrameUncapped": 0.055,
+      "flyIn": {
+        "frames": 144,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 10.1,
+        "p99Ms": 10.3,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "flyOut": {
+        "frames": 144,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 9.8,
+        "p99Ms": 10.2,
+        "maxMs": 10.3,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "memOnGlobe": {
+        "rendererMB": 336,
+        "gpuProcessMB": 248
+      },
+      "memAfterFlights": {
+        "rendererMB": 690,
+        "gpuProcessMB": 307
+      }
+    },
+    {
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+      "asset": "NASA_SVS_moon_small.glb",
+      "jsHeapMB": 233.7,
+      "post": true,
+      "canvasPx": [
+        2880,
+        1552
+      ],
+      "firstMoonFrameMs": 463,
+      "betterModelShownMs": null,
+      "terrainUnmountedAfterReturn": true,
+      "idle": {
+        "frames": 600,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 10,
+        "p99Ms": 10.3,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "cpuSubmitMsPerFrameUncapped": 0.045,
+      "flyIn": {
+        "frames": 143,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 10,
+        "p99Ms": 10.2,
+        "maxMs": 10.3,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "flyOut": {
+        "frames": 144,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 10.3,
+        "p99Ms": 10.3,
+        "maxMs": 10.3,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "memOnGlobe": {
+        "rendererMB": 353,
+        "gpuProcessMB": 248
+      },
+      "memAfterFlights": {
+        "rendererMB": 675,
+        "gpuProcessMB": 308
+      }
+    }
+  ],
+  "phone_390x844_3x_touch_cpu4x": [
+    {
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+      "asset": "moon_lite.glb",
+      "jsHeapMB": 231.4,
+      "post": false,
+      "canvasPx": [
+        780,
+        704
+      ],
+      "firstMoonFrameMs": 715,
+      "betterModelShownMs": null,
+      "terrainUnmountedAfterReturn": true,
+      "idle": {
+        "frames": 600,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 10,
+        "p99Ms": 10.3,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "cpuSubmitMsPerFrameUncapped": 0.022,
+      "flyIn": {
+        "frames": 144,
+        "meanMs": 8.34,
+        "p50Ms": 8.3,
+        "p95Ms": 10,
+        "p99Ms": 10.3,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "flyOut": {
+        "frames": 144,
+        "meanMs": 8.34,
+        "p50Ms": 8.2,
+        "p95Ms": 9.9,
+        "p99Ms": 10.3,
+        "maxMs": 10.3,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "memOnGlobe": {
+        "rendererMB": 248,
+        "gpuProcessMB": 201
+      },
+      "memAfterFlights": {
+        "rendererMB": 586,
+        "gpuProcessMB": 262
+      }
+    },
+    {
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+      "asset": "moon_lite.glb",
+      "jsHeapMB": 231.5,
+      "post": false,
+      "canvasPx": [
+        780,
+        704
+      ],
+      "firstMoonFrameMs": 724,
+      "betterModelShownMs": null,
+      "terrainUnmountedAfterReturn": true,
+      "idle": {
+        "frames": 600,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 10,
+        "p99Ms": 10.3,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "cpuSubmitMsPerFrameUncapped": 0.025,
+      "flyIn": {
+        "frames": 144,
+        "meanMs": 8.34,
+        "p50Ms": 8.3,
+        "p95Ms": 9.9,
+        "p99Ms": 10.2,
+        "maxMs": 10.3,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "flyOut": {
+        "frames": 144,
+        "meanMs": 8.33,
+        "p50Ms": 8.3,
+        "p95Ms": 10,
+        "p99Ms": 10.4,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "memOnGlobe": {
+        "rendererMB": 250,
+        "gpuProcessMB": 261
+      },
+      "memAfterFlights": {
+        "rendererMB": 587,
+        "gpuProcessMB": 263
+      }
+    },
+    {
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+      "asset": "moon_lite.glb",
+      "jsHeapMB": 231.3,
+      "post": false,
+      "canvasPx": [
+        780,
+        704
+      ],
+      "firstMoonFrameMs": 718,
+      "betterModelShownMs": null,
+      "terrainUnmountedAfterReturn": true,
+      "idle": {
+        "frames": 600,
+        "meanMs": 8.34,
+        "p50Ms": 8.3,
+        "p95Ms": 10.1,
+        "p99Ms": 10.3,
+        "maxMs": 10.3,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "cpuSubmitMsPerFrameUncapped": 0.024,
+      "flyIn": {
+        "frames": 144,
+        "meanMs": 8.34,
+        "p50Ms": 8.3,
+        "p95Ms": 10.1,
+        "p99Ms": 10.3,
+        "maxMs": 10.4,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "flyOut": {
+        "frames": 144,
+        "meanMs": 8.34,
+        "p50Ms": 8.3,
+        "p95Ms": 9.9,
+        "p99Ms": 10.2,
+        "maxMs": 10.3,
+        "over20ms": 0,
+        "longTasksMs": []
+      },
+      "memOnGlobe": {
+        "rendererMB": 249,
+        "gpuProcessMB": 262
+      },
+      "memAfterFlights": {
+        "rendererMB": 593,
+        "gpuProcessMB": 263
+      }
+    }
+  ]
+}

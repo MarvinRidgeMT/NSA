@@ -1,24 +1,44 @@
-import { Component, lazy, Suspense, useEffect, useId, useLayoutEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react';
+import { Component, lazy, Suspense, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react';
 import { usePolaris } from './store/store';
 import { useUi } from './store/ui';
-import { useView, type View } from './store/view';
-import { useCamera } from './store/camera';
+import { fmtUtc, useView, type View } from './store/view';
+import { reducedMotion, useCamera } from './store/camera';
 import { startUrlSync } from './store/urlState';
 import { markSiteChosen } from './store/siteDefaults';
 import { coldLaunch, loadCertaintySidecar } from './App';
-import { PlainAnswer } from './components/PlainAnswer';
-import { fmtPctRange, useChooseMast, useMastReading } from './components/MastInstrument';
+import { PlainAnswer, verdictWord } from './components/PlainAnswer';
+import { fmtPctRange, mastScenarioId, useChooseMast, useMastReading } from './components/MastInstrument';
 import { TimeBar } from './components/TimeBar';
 import { switchMode } from './mode';
-import { pickQuality } from './simple/quality';
-import { IconArrow, IconChevronDown, IconChevronUp, IconClose, IconMenu, SoundControl } from './simple/parts';
+import { pickQuality, QUALITY_NOTE } from './simple/quality';
+import { GLOBE_8K, globePlan, moonDir, pinReading, skyDirFromSite } from './simple/globeMath';
+import type { GlobeSite } from './simple/Globe';
+import { IconArrow, IconBack, IconChevronDown, IconChevronUp, IconClose, IconMenu, SoundControl } from './simple/parts';
 const Scene3D = lazy(() => import('./three/Scene3D'));
+const Globe = lazy(() => import('./simple/Globe'));
 
 /**
  * Simple mode shell (S2, 17 Nov 2026): light chrome over a full-screen 3D scene. The scene fills the window; the top bar, the
  * answer panel, the numbers panel, the mission-clock slot and the credits strip are laid over it and leave the site clear.
  * Under 640 px the two panels become one bottom sheet. Every number shown is read from the bundle or the certainty sidecar.
+ *
+ * S4 (17 Nov 2026): a visitor first sees the Moon from over its south pole (simple/Globe.tsx) with the bundle's sites as pins.
+ * Picking one flies down to that site's terrain view, which is the S2 shell above; "Back to the Moon" returns. A link that
+ * names a site (?site=) or asks for the terrain (?view=terrain) opens the terrain view directly.
  */
+
+/** Where the visitor is: on the globe, flying in, at a site's terrain, or flying back out. */
+type Place = 'globe' | 'in' | 'site' | 'out';
+/**
+ * The Moon models are NASA assets kept out of git (.gitignore, docs/DATA_PROVENANCE.md). A build made without one, such as a
+ * fresh checkout before the model is fetched, has no globe to draw: Simple mode then opens on the terrain view as it did in S2
+ * and offers no "Back to the Moon".
+ */
+const HAS_GLOBE = __GLOBE_FILES__.length > 0;
+function opensOnTerrain(search: string): boolean {
+  const p = new URLSearchParams(search);
+  return p.has('site') || p.get('view') === 'terrain';
+}
 
 /** Evidence and Decision live in Expert mode for now (S9 and S10 bring them in as panels over the scene). */
 const EVIDENCE_HREF = '?mode=expert#evidence';
@@ -273,6 +293,18 @@ export default function SimpleApp() {
   const [banner, setBanner] = useState(() => !bannerDismissed());
   const [menu, setMenu] = useState(false); // phones: the "more" menu in the top row
   const [sheet, setSheet] = useState(false); // phones: the answer sheet, collapsed to its verdict or open
+  // S4: the globe comes first, unless the link asks for a site's terrain or there is no WebGL to draw a globe with
+  const [place, setPlace] = useState<Place>(() => (gl && HAS_GLOBE && !opensOnTerrain(location.search) ? 'globe' : 'site'));
+  const [globeOn, setGlobeOn] = useState(place === 'globe'); // mounted from its first showing on (paused while at a site)
+  const [stageOn, setStageOn] = useState(place === 'site'); // the terrain scene: mounted while at a site and during the flight back
+  const [target, setTarget] = useState(0);
+  const [cover, setCover] = useState(false);
+  const [visited, setVisited] = useState(-1);
+  const backBtn = useRef<HTMLButtonElement>(null);
+  const byKeyboard = useRef(false);
+  const loaded = usePolaris((s) => s.loaded);
+  const datasetIdx = usePolaris((s) => s.datasetIdx);
+  const mastPick = useUi((s) => s.mastPick);
   const shellRef = useRef<HTMLDivElement>(null);
   const menuBtn = useRef<HTMLButtonElement>(null);
   const handle = useRef<HTMLButtonElement>(null);
@@ -290,6 +322,142 @@ export default function SimpleApp() {
     // fetch the post-effects chunk while the bundle loads, so the first frames already use it
     if (quality.tier !== 'low') void import('./simple/SimplePost');
   }, [quality]);
+
+  // ---- S4 globe: everything it shows is read here from the bundle and the certainty sidecar ----
+  const curSeriesMast = v?.series?.observer?.mastM ?? null;
+  const pins = useMemo(() => {
+    const out: (GlobeSite & { n: number | null })[] = [];
+    for (const [i, d] of (loaded?.bundle.datasets ?? []).entries()) {
+      const seriesMast = i === datasetIdx ? curSeriesMast : (d.derived?.scenarios.find((x) => x.samples)?.observer?.mastM ?? null);
+      const r = pinReading(sidecar?.sites?.[d.siteId], mastPick, seriesMast);
+      const sun = r?.sun;
+      const line = !sidecar
+        ? 'No answer yet: the certainty sidecar has not loaded'
+        : !r
+          ? 'No answer: the certainty sidecar has no rows for this site'
+          : !sun
+            ? `No answer at a ${r.mastM} m mast: this site was not sampled at that height`
+            : `${verdictWord(sun.min, r.all100)}. Sun in sight ${fmtPctRange(sun)} at a ${r.mastM} m mast`;
+      const spread = r?.spreadPts ?? null;
+      out.push({
+        idx: i,
+        id: d.siteId,
+        name: d.site.name,
+        dir: moonDir(d.site.latitudePlanetocentricDeg, d.site.longitudeEastDeg),
+        line,
+        spreadPts: spread,
+        spreadText: sun && spread !== null ? (spread === 0 ? `all ${sun.n_clones} terrain variants agree` : `${sun.n_clones} terrain variants differ by ${spread.toFixed(1)} points`) : '',
+        n: sun?.n_clones ?? null,
+      });
+    }
+    return out;
+  }, [loaded, datasetIdx, curSeriesMast, sidecar, mastPick]);
+  const variants = pins.find((p) => p.n !== null)?.n ?? null;
+  const legend = `how much the ${variants ?? ''} terrain variants disagree (Sun in sight, max − min) at the mast height picked in the top bar. A still amber pin means they all agree; a grey pin has no sidecar answer at that height.`.replace('the  terrain', 'the terrain');
+  const site = v?.dataset.site;
+  const sunAz = v?.sun.az;
+  const sunEl = v?.sun.el;
+  const earthAz = v?.earth.az;
+  const earthEl = v?.earth.el;
+  const lat = site?.latitudePlanetocentricDeg;
+  const lon = site?.longitudeEastDeg;
+  const sunDir = useMemo(() => (lat !== undefined && lon !== undefined && sunAz !== undefined && sunEl !== undefined ? skyDirFromSite(lat, lon, sunAz, sunEl) : null), [lat, lon, sunAz, sunEl]);
+  const earthDir = useMemo(() => (lat !== undefined && lon !== undefined && earthAz !== undefined && earthEl !== undefined ? skyDirFromSite(lat, lon, earthAz, earthEl) : null), [lat, lon, earthAz, earthEl]);
+  // which Moon model this device draws first and which it brings in after (globeMath.globePlan); ?globe=compact keeps the
+  // compact one, for measurements. `moonFile` is the one on screen now.
+  const moonPlan = useMemo(() => globePlan(__GLOBE_FILES__, quality.tier === 'low', new URLSearchParams(location.search).get('globe')), [quality]);
+  const [moonFile, setMoonFile] = useState(moonPlan.first);
+  const about = v
+    ? (moonFile === GLOBE_8K
+        ? `Moon: NASA SVS / LRO model with relief in its mesh and its LROC albedo image. VISUAL: display only, never sampled by a calculation; the relief is drawn taller than the real Moon's and its shading is not a shadow calculation. `
+        : `Moon: NASA SVS / LRO compact model (SVS 14959) with its LROC albedo image. VISUAL: display only, never sampled by a calculation; the source notes artifacts near the poles of this model. `) +
+      `It is turned to true lunar axes, south pole toward you. ` +
+      `Light: the Sun direction in the bundle at ${fmtUtc(v.utcMs)} (azimuth ${v.sun.az.toFixed(1)}°, elevation ${v.sun.el.toFixed(2)}° at ${v.dataset.site.name}). Brightness and the faint earthshine are display choices, and this shading never decides visible or blocked. ` +
+      `Pins: each line ends at the site's bundle latitude and longitude; the pins stand apart from it so they can be read and pressed. The slow drift is a display motion. ` +
+      `Quality: ${QUALITY_NOTE[quality.tier].replace('bloom, flare and grain off; the Sun keeps a plain glow', 'lighter Moon image, camera effects off').replace('camera effects on', 'film grain on, a camera effect')}. The Sun itself is outside this view, so there is no glow or flare here.`
+    : '';
+
+  const pickSite = (i: number) => {
+    const st = usePolaris.getState();
+    const lb = st.loaded;
+    if (!lb || place !== 'globe') return;
+    markSiteChosen();
+    if (i !== st.datasetIdx) {
+      st.setSite(i);
+      // keep the mast picked on the globe when this site was sampled there (and its bundle series, when it has one)
+      const pick = useUi.getState().mastPick;
+      if (pick !== null) {
+        const ds = lb.bundle.datasets[i];
+        if (!sidecar?.sites?.[ds.siteId]?.sampled_masts_m.includes(pick)) useUi.getState().set({ mastPick: null });
+        else {
+          const id = mastScenarioId(ds.derived?.scenarios, pick);
+          if (id) usePolaris.getState().setScenario(id);
+        }
+      }
+    }
+    useCamera.getState().request('approach');
+    byKeyboard.current = !!document.activeElement?.matches(':focus-visible');
+    setTarget(i);
+    setVisited(i);
+    setCover(true);
+    if (reducedMotion()) {
+      setStageOn(true);
+      setPlace('site');
+    } else setPlace('in');
+  };
+  const backToMoon = () => {
+    byKeyboard.current = !!document.activeElement?.matches(':focus-visible');
+    setTarget(usePolaris.getState().datasetIdx);
+    setVisited(usePolaris.getState().datasetIdx);
+    // no flight when the globe has not been drawn yet (the page was opened on a site) or motion is reduced
+    setPlace(globeOn && !reducedMotion() ? 'out' : 'globe');
+    setGlobeOn(true);
+    setMenu(false);
+  };
+  // keyboard users keep their place: on arrival the way back has focus, and on return the pin they left from
+  const prevPlace = useRef(place);
+  useEffect(() => {
+    const was = prevPlace.current;
+    prevPlace.current = place;
+    if (was === place || !byKeyboard.current) return;
+    if (place === 'site') focusBack.current = true; // the button mounts with the terrain scene, one render later
+    else if (place === 'globe') shellRef.current?.querySelector<HTMLElement>(`[data-testid="globe-pin-${pins[target]?.id}"] button`)?.focus();
+  }, [place]); // eslint-disable-line react-hooks/exhaustive-deps
+  const focusBack = useRef(false);
+  useEffect(() => {
+    if (place === 'site' && stageOn && focusBack.current) {
+      focusBack.current = false;
+      backBtn.current?.focus();
+    }
+  }, [place, stageOn]);
+  // fetch the terrain scene's code while the visitor looks at the globe, so the fly-in does not wait for it
+  useEffect(() => {
+    if (place !== 'globe') return;
+    const t = window.setTimeout(() => void import('./three/Scene3D'), 1500);
+    return () => window.clearTimeout(t);
+  }, [place]);
+  const onSite = place === 'site';
+  // The terrain scene is built on arrival, not during the dive (building it takes the main thread for a few hundred
+  // milliseconds, which would stutter the flight). Until its canvas has drawn, the globe layer stays up as plain black.
+  // Back on the globe the terrain scene is unmounted again, so its WebGL context, terrain and images are not kept in memory
+  // behind the Moon; the next fly-in rebuilds it under the same black cover.
+  useEffect(() => {
+    if (place === 'site') setStageOn(true);
+    else if (place === 'globe') setStageOn(false);
+  }, [place]);
+  useEffect(() => {
+    if (!onSite || !cover) return;
+    let raf = 0;
+    let seen = 0;
+    const t0 = performance.now();
+    const tick = () => {
+      if (shellRef.current?.querySelector('.simple-stage canvas')) seen++;
+      if (seen >= 3 || performance.now() - t0 > 4000) setCover(false);
+      else raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [onSite, cover]);
 
   // the clock slot's height, and how much of the phone sheet shows when collapsed (down to the end of the verdict)
   useShellVar(bottom, '--s-clock-h', (el) => el.offsetHeight);
@@ -341,7 +509,10 @@ export default function SimpleApp() {
       if (sheet) {
         setSheet(false);
         handle.current?.focus();
+        return;
       }
+      // S4: with nothing left to close, Esc at a site goes back to the Moon (same as the button)
+      if (backBtn.current) backBtn.current.click();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -397,14 +568,14 @@ export default function SimpleApp() {
   const siteMissing = !!v && sidecar !== null && !reading;
 
   return (
-    <div className="simple s-shell" data-testid="simple-mode" data-banner={banner ? 'on' : 'off'} data-sheet={sheet ? 'open' : 'closed'} data-ready={v ? 'true' : 'false'} ref={shellRef}>
+    <div className="simple s-shell" data-testid="simple-mode" data-banner={banner ? 'on' : 'off'} data-sheet={sheet ? 'open' : 'closed'} data-ready={v ? 'true' : 'false'} data-place={place} ref={shellRef}>
       <a className="skip" href="#simple-main">
         Skip to content
       </a>
 
       <header className="s-chrome">
         <span className="s-brand">POLARIS X</span>
-        <SiteSelect />
+        {onSite && <SiteSelect />}
         {v && <MastStepper v={v} />}
         <span className="s-spacer" />
         <button
@@ -474,8 +645,34 @@ export default function SimpleApp() {
             )}
           </div>
         )}
-        {v && (
+        {gl && globeOn && (
+          <Guard>
+            <Suspense fallback={null}>
+              <Globe
+                file={moonPlan.first}
+                upgrade={moonPlan.then}
+                onModel={setMoonFile}
+                sites={pins}
+                sunDir={sunDir}
+                earthDir={earthDir}
+                tier={quality.tier}
+                phase={place === 'globe' ? 'idle' : place === 'site' ? 'hidden' : place}
+                target={target}
+                cover={cover}
+                visited={visited}
+                legend={legend}
+                about={about}
+                onPick={pickSite}
+                onArrive={() => setPlace((p) => (p === 'in' ? 'site' : p))}
+                onBack={() => setPlace((p) => (p === 'out' ? 'globe' : p))}
+              />
+            </Suspense>
+          </Guard>
+        )}
+        {!onSite && <Credits />}
+        {v && stageOn && (
           <>
+            {onSite && (
             <div
               className="s-dock"
               id={dockId}
@@ -535,12 +732,20 @@ export default function SimpleApp() {
               </section>
               <Credits />
             </div>
+            )}
 
             <section className="stage simple-stage" aria-label="3D view of the site (Approach camera)">
+              {/* the way back to the globe: over the scene, top centre, between the two panels */}
+              {onSite && gl && HAS_GLOBE && (
+                <button type="button" className="s-btn s-btn--sm s-back" data-testid="simple-back-moon" ref={backBtn} onClick={backToMoon}>
+                  <IconBack />
+                  Back to the Moon
+                </button>
+              )}
               {gl ? (
                 <Guard>
                   <Suspense fallback={<p className="note">Loading 3D…</p>}>
-                    <Scene3D v={v} active post={quality.tier} />
+                    <Scene3D v={v} active={onSite} post={quality.tier} />
                   </Suspense>
                 </Guard>
               ) : (
@@ -551,11 +756,13 @@ export default function SimpleApp() {
             </section>
 
             {/* Mission clock slot. S5 rebuilds the clock; until then the existing TimeBar works here unchanged. */}
-            <div className="s-bottom" data-slot="mission-clock" ref={setBottom}>
-              <div className="s-clock">
-                <TimeBar v={v} />
+            {onSite && (
+              <div className="s-bottom" data-slot="mission-clock" ref={setBottom}>
+                <div className="s-clock">
+                  <TimeBar v={v} />
+                </div>
               </div>
-            </div>
+            )}
           </>
         )}
       </main>

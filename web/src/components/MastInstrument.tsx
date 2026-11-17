@@ -16,6 +16,9 @@ const mastOf = (sc: Scenario): number | undefined => {
 };
 const mastOnly = (sc: Scenario) => Object.keys(sc.parameters ?? {}).every((k) => /mast/i.test(k));
 
+/** The bundle scenario that changes only the mast, at height `m`, in a dataset (undefined when the bundle has no such series). */
+export const mastScenarioId = (scenarios: Scenario[] | undefined, m: number): string | undefined => (scenarios ?? []).find((x) => mastOf(x) === m && mastOnly(x))?.id;
+
 /** The Certainty Height reading at the picked (or bundle) mast height: sidecar rows only, nothing interpolated. */
 export function useMastReading(v: View) {
   const side = usePolaris((s) => s.certaintySidecar);

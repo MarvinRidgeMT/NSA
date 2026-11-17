@@ -8,7 +8,8 @@ import { test, expect, type Page } from '@playwright/test';
 test.use({ storageState: { cookies: [], origins: [] } });
 
 async function openSimple(page: Page, q = '') {
-  await page.goto(`/?mode=simple${q}`);
+  // S4 (17 Nov): a bare "/" now opens on the south-pole globe; ?view=terrain opens the terrain view these tests are about.
+  await page.goto(`/?mode=simple&view=terrain${q}`);
   await expect(page.getByTestId('simple-mode')).toBeVisible();
   await expect(page.locator('[data-testid=scene3d][data-context=loaded]')).toBeVisible({ timeout: 45_000 });
 }

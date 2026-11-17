@@ -1799,3 +1799,108 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
   .simple .s-credits > * + *::before { content: none; }
   .simple .s-tip--wrap { right: auto; left: 0; transform-origin: 0 100%; }
 }
+
+
+/* ==========================================================================================================
+   SIMPLE MODE · S4 GLOBE (17 Nov) — the landing view: the Moon from over its south pole, sites as pins.
+   Layers inside the shell: terrain scene 0 · globe 1 · its card and note 10 · top bar 20.
+   ========================================================================================================== */
+.simple .s-globe { position: absolute; inset: 0; z-index: 1; overflow: hidden; background: var(--c-base); }
+.simple .s-globe[data-phase='hidden'] { visibility: hidden; opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease-enter), visibility 0s 0.4s; }
+.simple .s-globe[data-phase='hidden'][data-cover] { visibility: visible; opacity: 1; transition: none; }
+.simple .s-globe[data-phase='hidden'] > :not(.s-globe-view) { display: none; }
+.simple .s-globe[data-phase='in'] .s-globe-canvas, .simple .s-globe[data-phase='out'] .s-globe-canvas, .simple .s-globe[data-phase='hidden'] .s-globe-canvas { transition: none; }
+.simple .s-globe[data-phase='in'] > :not(.s-globe-view), .simple .s-globe[data-phase='out'] > :not(.s-globe-view) { opacity: 0; transition: opacity var(--dur-press) var(--ease-standard-curve); }
+.simple .s-globe[data-phase='in'], .simple .s-globe[data-phase='out'] { pointer-events: none; }
+/* the Moon's own box: clear of the top bar and credits. On wide windows the Moon stands right of the card: the camera shifts
+   it (Globe.tsx), so the picture still fills the window during the flight. */
+.simple .s-globe-view { position: absolute; inset: calc(var(--s-top-h) + var(--s-banner-h)) 0 var(--s-credits-h) 0; }
+.simple .s-globe-canvas { position: absolute; inset: 0; opacity: 0; transition: opacity 0.9s var(--ease-enter); }
+.simple .s-globe[data-shown='true'] .s-globe-canvas { opacity: 1; }
+.simple .s-globe-status { position: absolute; z-index: 5; left: 50%; top: calc(50% + 56px); transform: translate(-50%, -50%); width: max-content; max-width: calc(100% - 32px); margin: 0; }
+
+/* pins: each stands off its site; the hairline ends on the site's bundle coordinates */
+.simple .s-globe-pins { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity var(--dur-press) var(--ease-standard-curve); }
+.simple .s-globe[data-shown='true'] .s-globe-pins[data-live='true'] { opacity: 1; transition: opacity 0.4s var(--ease-enter) 0.35s; }
+.simple .s-globe-pin { position: absolute; left: 0; top: 0; pointer-events: auto; will-change: transform; }
+.simple .s-globe-pin[data-nodata] .s-pin { color: var(--c-ash); }
+.simple .s-globe-leaders { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 2px rgba(0, 0, 0, 0.6)); }
+.simple .s-globe-leaders line { stroke: rgba(236, 231, 221, 0.85); stroke-width: 1; transition: stroke var(--dur-press) var(--ease-standard-curve); }
+.simple .s-globe-leaders circle { fill: var(--c-bone); stroke: var(--c-base); stroke-width: 1; }
+.simple .s-globe-leaders g[data-hot] line { stroke: var(--c-amber); }
+.simple .s-globe-leaders g[data-hot] circle { fill: var(--c-amber); }
+.simple .s-globe-label { position: absolute; z-index: 3; left: 0; top: 0; pointer-events: none; will-change: transform; }
+.simple .s-globe-label .s-hoverlabel { max-width: min(640px, calc(100vw - 16px)); }
+
+/* card: what this is, the sites and their one-line answers, what the shimmer means */
+.simple .s-globe-card {
+  position: absolute; z-index: 10; left: var(--s-pad); top: var(--s-panels-top); width: var(--s-left-w);
+  max-height: calc(100% - var(--s-panels-top) - var(--s-credits-h) - var(--s-pad)); overflow-y: auto;
+  display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3);
+}
+.simple .s-globe-card h1 { margin: 0; font: 400 var(--text-3xl) / 1.1 var(--f-serif); letter-spacing: -0.01em; color: var(--c-bone); text-wrap: balance; }
+.simple .s-globe-lede { margin: 0; font: 400 var(--text-md) / var(--text-md-lh) var(--f-sans); color: var(--c-ash); text-wrap: pretty; }
+.simple .s-globe-sites { align-self: stretch; margin: var(--space-1) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--c-hairline); }
+.simple .s-globe-sites li {
+  display: grid; grid-template-columns: 8px minmax(0, 1fr); column-gap: var(--space-3); row-gap: 2px; align-items: baseline;
+  margin: 0 calc(var(--space-2) * -1); padding: 10px var(--space-2); border-bottom: 1px solid var(--c-hairline); cursor: pointer;
+  transition: background-color var(--dur-press) var(--ease-standard-curve);
+}
+.simple .s-globe-sites li > i { grid-row: 1 / span 3; align-self: start; width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; background: var(--c-amber); }
+.simple .s-globe-sites li[data-nodata] > i { background: var(--c-ash); }
+.simple .s-globe-sites li > span { grid-column: 2; }
+.simple .s-globe-sites li[data-hot] { background: rgba(236, 231, 221, 0.08); }
+.simple .s-globe-sites li:active { background: rgba(236, 231, 221, 0.12); }
+.simple .s-globe-site-name { font: 500 var(--text-md) / 1.35 var(--f-sans); color: var(--c-bone); }
+.simple .s-globe-site-line { font: 400 var(--text-base) / 1.4 var(--f-sans); color: var(--c-bone); }
+.simple .s-globe-site-spread { font: 400 var(--text-sm) / 1.4 var(--f-mono); font-variant-numeric: tabular-nums; color: var(--c-ash); }
+.simple .s-globe-site-spread:empty { display: none; }
+.simple .s-globe-legend { display: grid; grid-template-columns: 12px minmax(0, 1fr); column-gap: var(--space-2); margin: 0; font: 400 var(--text-base) / 1.45 var(--f-sans); color: var(--c-ash); }
+.simple .s-globe-legend-mark { width: 10px; height: 10px; margin-top: 4px; border-radius: 50%; border: 1px solid var(--c-amber); box-shadow: inset 0 0 0 2px var(--c-raised), inset 0 0 0 5px var(--c-amber); }
+
+/* About this view: same place and manner as the terrain scene's note */
+.simple .s-globe-about {
+  position: absolute; z-index: 10; right: var(--s-pad); bottom: calc(var(--s-credits-h) + 10px); width: max-content; max-width: min(420px, calc(100% - 32px));
+  max-height: min(60%, 420px); overflow-y: auto; margin: 0; padding: 0 var(--space-3);
+  border: 1px solid var(--c-hairline); border-radius: var(--radius-subtle); background: rgba(20, 20, 19, 0.72);
+  font: 400 var(--text-base) / 1.5 var(--f-sans); color: var(--c-ash);
+}
+.simple .s-globe-card, .simple .s-globe-about { transition: opacity 0.3s var(--ease-enter); }
+.simple .s-globe-about[open] { width: min(420px, calc(100% - 32px)); padding-bottom: var(--space-3); background: rgba(20, 20, 19, 0.94); color: var(--c-bone); }
+.simple .s-globe-about summary { display: flex; align-items: center; min-height: 28px; list-style: none; font: 500 var(--text-base) / 1 var(--f-sans); color: var(--c-bone); cursor: pointer; }
+.simple .s-globe-about summary::-webkit-details-marker { display: none; }
+.simple .s-globe-about p { margin: var(--space-1) 0 0; }
+.simple.s-shell:not([data-place='site']) .s-main > .s-credits { position: absolute; z-index: 11; left: 0; right: 0; bottom: 0; }
+
+/* the terrain view's way back: over the scene, top centre, between the answer and the numbers */
+.simple .simple-stage .s-back {
+  position: absolute; z-index: 9; top: var(--s-panels-top); left: 0; right: 0; width: max-content; margin-inline: auto;
+  background: var(--c-scrim); -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur));
+}
+
+@media (max-width: 1100px) { .simple .s-globe-card { width: 320px; } }
+@media (max-width: 639px) {
+  /* phones: the Moon takes the upper part of the window (below the mast stepper), the card the rest */
+  .simple .s-globe-view { top: calc(var(--s-top-h) + var(--s-banner-h) + 56px); bottom: 320px; }
+  .simple .s-globe-card {
+    left: 0; right: 0; top: auto; bottom: 0; width: auto; height: 320px; max-height: none; gap: var(--space-2);
+    padding: var(--space-3) var(--space-4) 64px; border-width: 1px 0 0;
+  }
+  .simple .s-globe-card h1 { font-size: var(--text-2xl); }
+  .simple .s-globe-lede { display: none; }
+  .simple .s-globe-sites { margin-top: 0; }
+  .simple .s-globe-sites li { padding: 8px var(--space-2); }
+  .simple .s-globe-about { right: 12px; bottom: 330px; }
+  .simple .s-globe-about[open] { bottom: 12px; z-index: 12; max-height: 70%; }
+  .simple.s-shell:not([data-place='site']) .s-menu-btn { margin-left: auto; }
+  .simple.s-shell:not([data-place='site']) .s-main > .s-credits {
+    margin: 0; padding: var(--space-2) var(--space-4) calc(var(--space-2) + env(safe-area-inset-bottom));
+    background: rgb(30, 30, 28); border-top: 1px solid var(--c-hairline);
+  }
+  .simple .s-globe-label .s-hoverlabel { flex-wrap: wrap; white-space: normal; row-gap: 2px; }
+  /* phones: on the row under the top bar, left of the mast stepper */
+  .simple .simple-stage .s-back { top: calc(var(--s-top-h) + var(--s-banner-h) + 8px); left: var(--s-pad); right: auto; margin: 0; min-height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .simple .s-globe, .simple .s-globe[data-phase='hidden'], .simple .s-globe-canvas, .simple .s-globe-pins, .simple .s-globe[data-shown='true'] .s-globe-pins[data-live='true'], .simple .s-globe-card, .simple .s-globe-about { transition: none; }
+}
