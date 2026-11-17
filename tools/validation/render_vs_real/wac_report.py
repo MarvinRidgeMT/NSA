@@ -155,6 +155,14 @@ def main(argv=None):
             w(f"| {s} | {c['n']} | {fmt(c['medianIouShadow'])} | {fmt(c['medianEdgeM'], 1)} ({c['nEdge']}) | {fmt(c['edgeLimitM'], 1)} | "
               f"{beat(c['fracBeatsControlIou'], c['nPairs'])} / {beat(c['fracBeatsControlEdge'], c['nPairs'])} | {verdict} |")
         w('')
+    if WAC_SPLIT != 'dev':
+        crs = {p: H.claim_rule(scores_all, native, sites=SITES, product=p) for p in ('pgda78_5m', 'lola_ldem875s_5m', 'pgda90_80m')}
+        fail12 = all(not c['conditions']['iou'] and not c['conditions']['edge'] for cr in crs.values() for c in cr.values() if c['n'])
+        cm = q([r.get('cmIouShadow') for r in rr], 50)
+        w('**Check of the A7.4 prediction (written before the run):** (a) the claim fails conditions 1 and 2 at every site for '
+          f"every product — **{'confirmed' if fail12 else 'NOT confirmed'}**; (b) count-matched shadow IoU median ≥ 0.9 — "
+          f"**{'confirmed' if cm >= 0.9 else 'NOT confirmed'}** ({fmt(cm)}). The claim is therefore not met for LROC WAC at any "
+          'site under the registered rule; the count-matched mask is a sensitivity result and is not a claim.\n')
     # 3 distributions
     w('## 3. Score distributions — PGDA 78 5 m, Hapke, registered (headline)\n')
     w(table_dist(rr))
@@ -178,16 +186,19 @@ def main(argv=None):
         w(f"| {b} | {len(x)} | {fmt(q([r['iouShadow'] for r in x], 50))} | {fmt(q([r['iouLit'] for r in x], 50))} | "
           f"{fmt(q([r['edgeMedianM'] for r in x], 50), 1)} | {fmt(q([r['obsShadowFrac'] for r in x], 50))} |")
     # 4 NAC next to WAC
-    w('\n## 4. WAC next to the NAC dev pilot (PGDA 78, Hapke, registered, GRGM900C; different images and pixel sizes)\n')
+    w('\n## 4. Next to the NAC dev pilot' + (' and the WAC dev pilot' if WAC_SPLIT != 'dev' else '') +
+      ' (PGDA 78, Hapke, registered, GRGM900C; labelled; different images)\n')
     nd = hl(nac_dev)
-    w('| metric | NAC dev n | NAC dev median | WAC n | WAC median |')
-    w('|---|---|---|---|---|')
-    for k, name, d in METRICS + [('edgeMedianPx', 'edge median px', 2), ('gsdMedianM', 'pixel m', 1)]:
-        a_ = [r.get(k) for r in nd]
-        b_ = [r.get(k) for r in rr]
-        na = sum(1 for v in a_ if isinstance(v, (int, float)) and math.isfinite(v))
-        nb = sum(1 for v in b_ if isinstance(v, (int, float)) and math.isfinite(v))
-        w(f'| {name} | {na} | {fmt(q(a_, 50), d)} | {nb} | {fmt(q(b_, 50), d)} |')
+    cols = [('NAC dev', nd)] + ([('WAC dev', hl(_load(HERE / 'results_wac')[0]))] if WAC_SPLIT != 'dev' else []) + \
+        [('WAC ' + ('dev' if WAC_SPLIT == 'dev' else 'held-out'), rr)]
+    w('| metric | ' + ' | '.join(f'{c} n | {c} median' for c, _ in cols) + ' |')
+    w('|---|' + '---|---|' * len(cols))
+    for k, name, d in METRICS + [('edgeMedianPx', 'edge median px', 2), ('gsdMedianM', 'pixel m', 1), ('cmIouShadow', 'count-matched shadow IoU', 3)]:
+        cells = []
+        for _c, recs in cols:
+            v = [r.get(k) for r in recs]
+            cells.append(f"{sum(1 for x in v if isinstance(x, (int, float)) and math.isfinite(x))} | {fmt(q(v, 50), d)}")
+        w(f"| {name} | {' | '.join(cells)} |")
     # 5 products
     w('\n## 5. Terrain products (paired on the same rows; Hapke, registered, GRGM900C)\n')
     w('| product | n | shadow IoU median | edge median m | edge unmatched | SSIM | W1 |')

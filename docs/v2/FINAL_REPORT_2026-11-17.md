@@ -25,7 +25,7 @@ solver is `TERRAIN_STACK_CONTRACT.md`; it was changed only through dated amendme
 | §4 decision tools | partial | Robust choice, regret, value of information, landing search and Pareto, all for the two precomputed sites only. Not run across the whole Moon. |
 | §5 Blender | done, partial in places | Whole-Moon globe: a 2.0 MB Draco GLB that passes the glTF provenance proof. Pyramid close-ups anywhere. WAC albedo, shadow-free. Hapke shading. Blender run_all 14/14. |
 | §6.1, 6.3 imagery, protocol | done (orbital metadata only) | Catalogue of 7,298 images. Protocol pre-registered. |
-| §6.2, 6.4–6.5 render vs real | partial: LROC NAC dev pilot and held-out run done; WAC, ShadowCam, Kaguya TC not scored | See §3 and §3a. |
+| §6.2, 6.4–6.5 render vs real | partial: LROC NAC and LROC WAC (643 nm) dev pilots and held-out runs done; ShadowCam and Kaguya TC not scored | See §3, §3a and §3b. |
 | §7 NASA-user features, gates | partial | Exports, solver API (OpenAPI, 14 routes) and gates exist. All gates pass after the 17 Nov fixes (accessibility and 390 px: `GATES.md` §8). Single long frames traced; the shader-compile stalls are fixed (`GATES.md` §9). AI planner not built. |
 
 ## 3. Render vs real (R4), dev split only, not the held-out headline
@@ -73,6 +73,27 @@ Report: `docs/validation/RENDER_VS_REAL_HELDOUT.md`. SOURCE-BASED · UNVALIDATED
   below the flat horizon (the control predicts all shadow) against 82 of 181 on dev.
 - **Gallery:** the thumbnails are crops of NASA LROC NAC images; built locally, not committed.
 
+## 3b. Render vs real, LROC WAC 643 nm (Amendments A6, A7, 17 Nov 2026)
+Reports: `docs/validation/RENDER_VS_REAL_WAC_DEV.md` and `RENDER_VS_REAL_WAC_HELDOUT.md`. SOURCE-BASED · UNVALIDATED.
+- **New camera model:** ISIS LroWideAngleCamera (push-frame, 14-line framelets) re-implemented with the NAIF IK. It is
+  scored on the native ~83 m pixel. A framelet rule keeps every neighbourhood operation inside one exposure (A6.4).
+- **Bug caught on the pipeline-test image, before A6:** the OSL camera formed ephemeris time in 32-bit floats. It was fixed
+  and a regression test added; after the fix the Blender rays match the Python model to 0.001 pixel.
+- **Dev pilot (A6):** 464 rows scored, 0 failed.
+- **Held-out run (A7, registered before any held-out image):** 388 rows; 385 scored, 3 gated (no pixel reaches the site),
+  0 failed. 383 rows are on the GRGM900C orbit.
+- **§8 claim: not met at any site, for any product.**
+  - Median Otsu shadow IoU per site: 0.16–0.26 (needs ≥ 0.80).
+  - Median edge error: 1.0–1.9 km (limit ~165 m).
+  - This failure was predicted in A7 before the run.
+- **Why:** shadowed WAC CDR pixels carry calibration noise and scattered light around I/F ≈ 4 × 10⁻⁴ with a negative tail.
+  The registered Otsu rule on log₁₀(max(I/F, 10⁻⁵)) then puts its threshold at the floor (253 of 383 held-out rows). The
+  rule is never tuned (protocol §5), so it was not changed.
+- **What the render gets right** (sensitivity measures, not a claim):
+  - Count-matched shadow IoU median 0.963 (prediction ≥ 0.9, confirmed).
+  - Registration offset median 0.25 pixel (24 m).
+- **Products:** at WAC scale the 5 m and 80 m terrain products give nearly identical masks, so WAC cannot tell them apart.
+
 ## 4. Tests on the final branch (17 Nov ~03:00 EST)
 - pytest `science tools`: 779 passed, 3 skipped.
 - Blender `run_all.py`: 14/14, with `POLARIS_PYTHON` set to the project venv.
@@ -101,7 +122,7 @@ Report: `docs/validation/RENDER_VS_REAL_HELDOUT.md`. SOURCE-BASED · UNVALIDATED
 2. ~~Fix the accessibility and 390 px mobile gate failures.~~ **Done 17 Nov:** axe 0 serious, 390 px 5/5 (`GATES.md` §8).
    Adding axe-core as a devDependency still needs your OK.
 3. ~~Move the 10.3 MB Mars bundle JSON out of git, or compress it.~~ **Done 17 Nov:** stored gzipped, 1.6 MB (content unchanged).
-4. ~~Before the held-out render-vs-real run: register A5 (Otsu on near-total-shadow windows), then run it.~~ **Done 17 Nov** (§3a). Score WAC, ShadowCam and Kaguya TC (each needs its own amendment and held-out run). ~~Wire `RealVsModel.tsx` into the app.~~ **Done 17 Nov:** on the Evidence page; images rebuilt locally (not in git).
+4. ~~Before the held-out render-vs-real run: register A5 (Otsu on near-total-shadow windows), then run it.~~ **Done 17 Nov** (§3a). ~~Score WAC~~ **(done 17 Nov, A6/A7, §3b: claim not met under the registered threshold rule)**. Score ShadowCam and Kaguya TC (each needs its own camera model, amendment and held-out run; ShadowCam first needs a catalogue version with real footprints). ~~Wire `RealVsModel.tsx` into the app.~~ **Done 17 Nov:** on the Evidence page; images rebuilt locally (not in git).
 5. ~~Mars relays~~ **(geometry done 17 Nov, `MARS_RELAYS.md`; MAVEN has no trajectory for the window)** and the Mars sky model. Clone members for Mercury and Mars, so they can have a cube and Decision Card. Decision tools across the whole Moon.
 6. Rerun the Moon precompute: the legacy eq caches now include SLDEM2015.
 
@@ -110,3 +131,6 @@ Report: `docs/validation/RENDER_VS_REAL_HELDOUT.md`. SOURCE-BASED · UNVALIDATED
 - 2138ca9: Mars relay-orbiter geometry at the Jezero rim (`docs/v2/MARS_RELAYS.md`).
 - 665e94a: the solver API serves the precomputed Mars bundle instead of 501.
 - 0cc3b2f: frame stalls traced; scene shaders compile before interaction (`GATES.md` §9).
+- 63d3c01, 6985db3, f002ba7: LROC WAC camera model and A6; WAC dev pilot; A7 registered and the WAC code frozen. Then the
+  WAC held-out run (§3b).
+- 169626a: the Blender showcase, one .blend with a scene per section (`docs/v2/SHOWCASE.md`).

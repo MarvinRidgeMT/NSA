@@ -100,9 +100,9 @@ Same, **unregistered**:
 | el[0.5,1.5) | 208 | 0.154 | 0.445 | 1420.0 | 0.099 |
 | el[1.5,2.5) | 162 | 0.155 | 0.428 | 1408.0 | 0.103 |
 
-## 4. WAC next to the NAC dev pilot (PGDA 78, Hapke, registered, GRGM900C; different images and pixel sizes)
+## 4. Next to the NAC dev pilot (PGDA 78, Hapke, registered, GRGM900C; labelled; different images)
 
-| metric | NAC dev n | NAC dev median | WAC n | WAC median |
+| metric | NAC dev n | NAC dev median | WAC dev n | WAC dev median |
 |---|---|---|---|---|
 | shadow IoU | 181 | 0.946 | 457 | 0.170 |
 | lit IoU | 181 | 0.888 | 457 | 0.432 |
@@ -117,6 +117,7 @@ Same, **unregistered**:
 | JSD bits | 181 | 0.618 | 457 | 0.335 |
 | edge median px | 167 | 1.41 | 447 | 17.72 |
 | pixel m | 181 | 3.9 | 457 | 83.9 |
+| count-matched shadow IoU | 0 | — | 457 | 0.961 |
 
 ## 5. Terrain products (paired on the same rows; Hapke, registered, GRGM900C)
 

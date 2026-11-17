@@ -24,6 +24,7 @@ Blender -b --python-exit-code 1 -P blender/v2/showcase_v2.py -- --qa
 | 04, 05 LROC NAC / WAC views | the same builder with the orbital camera presets | `build_scene.py` | as above |
 | 06 Render vs real — LROC NAC held-out (A5) | the 26 local gallery thumbnails (real, render, log difference, edges) with each row's shadow IoU and edge error | `report_heldout.py --gallery` | scores SOURCE-BASED · UNVALIDATED; thumbnails are NASA crops, never committed |
 | 07 Render vs real — LROC WAC dev (A6) | WAC thumbnails (real, render, real with predicted shadow) with scores | `wac_report.py --gallery` | as above, dev only |
+| 09 Render vs real — LROC WAC held-out (A7) | held-out WAC thumbnails with scores; the claim is not met (the Otsu threshold sits at the log floor) | `POLARIS_WAC_SPLIT=heldout wac_report.py --gallery` | as above, held-out |
 | 08 Mars — Jezero rim relay sky dome | the bundle's terrain skyline (orange) and MRO, TGO and Mars Express per-minute tracks over the first 24 h; bright = above the skyline, dim = hidden | `showcase_prep.py` (cached Horizons) | relay geometry SOURCE-BASED · UNVALIDATED (geometry only); dome layout VISUAL |
 
 - **Cameras:** each site scene keeps the builder's camera. `CAM_Overview_Oblique_<nn>` is added as a navigation view, 45°

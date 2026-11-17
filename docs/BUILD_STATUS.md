@@ -1500,3 +1500,10 @@ Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/P
 - Near-total-shadow stratum (24 rows): Otsu IoU median 0.492, count-matched 1.000. Report wording fixed after the run (formatter only, not registered code): the registration search is ± R px per image axis, not ± 60 m on the ground; a descriptive NCC < 0.05 split (17 rows, all in the stratum) is labelled post hoc.
 - 2138ca9 Mars relay geometry (`docs/v2/MARS_RELAYS.md`); 665e94a API serves the Mars bundle; 0cc3b2f shader precompile (`GATES.md` §9).
 - Tests: pytest `science tools` 795 passed, 3 skipped; vitest 177/177; tsc clean. Playwright not rerun. Frozen refs unchanged. Nothing pushed.
+
+### POLARIS X v2 — LROC WAC render vs real (A6, A7) and the Blender showcase — Claude (coordinator), 17 Nov 2026 ~19:00 EST
+- 63d3c01 A6 + WAC pipeline (camera model = ISIS LroWideAngleCamera with NAIF IK v20; framelet-aware scoring; the frozen NAC modules are imported, not edited). Pipeline test found an OSL float32 time bug (fixed, regression test).
+- 6985db3 WAC dev pilot: 464 rows scored, 0 failed. f002ba7 A7 registered with the WAC code frozen (Entry 8); prediction written before the run.
+- Held-out run 22:44–23:43 UTC at f002ba7: 388 eligible rows; 385 scored, 3 gated, 0 failed. §8 claim not met at any site for any product (Otsu IoU 0.16–0.26, edge 1.0–1.9 km); the A7 prediction is confirmed on both counts (count-matched IoU 0.963). Results in results_wac_heldout/ (ids and numbers only); thumbnails git-ignored.
+- SPICE kernels for the held-out image times (21 files, ~4.7 GB) were fetched from catalogue times before A7; recorded in A7 and the kernel manifest.
+- 169626a Blender showcase (blender/v2/showcase_prep.py, showcase_v2.py): one .blend, 10 scenes; uses the blender-skills scene-assembly / camera / rendering / QA conventions, not its lighting recipes or its blender-mcp server.

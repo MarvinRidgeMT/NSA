@@ -63,7 +63,9 @@ def galleries():
     for key, gal, scores in (('nac_heldout', 'docs/validation/render_vs_real_heldout',
                               'tools/validation/render_vs_real/results_heldout/scores.jsonl'),
                              ('wac_dev', 'docs/validation/render_vs_real_wac',
-                              'tools/validation/render_vs_real/results_wac/scores.jsonl')):
+                              'tools/validation/render_vs_real/results_wac/scores.jsonl'),
+                             ('wac_heldout', 'docs/validation/render_vs_real_wac_heldout',
+                              'tools/validation/render_vs_real/results_wac_heldout/scores.jsonl')):
         g = ROOT / gal
         sp = ROOT / scores
         if not g.exists() or not sp.exists():

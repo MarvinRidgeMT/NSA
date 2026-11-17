@@ -302,13 +302,17 @@ def main():
         gallery_scene('07 Render vs real — LROC WAC dev pilot (A6)', g['wac_dev'], LABELS['gallery'],
                       'thumbnails: real | render | real with predicted shadow in blue (wac_report.py --gallery)')
         sections.append(('07 Render vs real — LROC WAC dev pilot (A6)', f"{len(g['wac_dev'])} local thumbnails with their scores"))
+    if g.get('wac_heldout'):
+        gallery_scene('09 Render vs real — LROC WAC held-out (A7)', g['wac_heldout'], LABELS['gallery'],
+                      'thumbnails: real | render | real with predicted shadow in blue; claim not met (Otsu threshold at the floor)')
+        sections.append(('09 Render vs real — LROC WAC held-out (A7)', f"{len(g['wac_heldout'])} local thumbnails with their scores"))
     mars_scene(M['mars'])
     sections.append(('08 Mars — Jezero rim relay sky dome', 'skyline from the Mars bundle; MRO/TGO/MEX per-minute tracks (Horizons)'))
     idx = index_scene(sections)
     if default.name != idx.name and not default.objects:
         bpy.data.scenes.remove(default)
     for sc in bpy.data.scenes:
-        if sc.get('polaris_label') is not None or sc.name.startswith(('00', '06', '07', '08')):
+        if sc.get('polaris_label') is not None or sc.name.startswith(('00', '06', '07', '08', '09')):
             bpy.context.window_manager.windows[0].scene = sc if bpy.context.window_manager.windows else sc
     txt = bpy.data.texts.new('README_POLARIS_v2_showcase')
     txt.write(__doc__ + '\n\nSections:\n' + '\n'.join(f'{n}: {s}' for n, s in sections))
@@ -319,7 +323,7 @@ def main():
         qa = d / 'qa'
         qa.mkdir(exist_ok=True)
         for sc in bpy.data.scenes:
-            if not sc.name.startswith(('00', '06', '07', '08')) or sc.camera is None:
+            if not sc.name.startswith(('00', '06', '07', '08', '09')) or sc.camera is None:
                 continue
             bpy.context.window.scene = sc if bpy.context.window else sc
             for eng in ('BLENDER_EEVEE_NEXT', 'BLENDER_EEVEE'):
