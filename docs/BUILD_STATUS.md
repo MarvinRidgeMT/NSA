@@ -1412,3 +1412,4 @@ Branch `claude/v2-r2-pyramid-finish-191208` (contains 72e3430). Plan + as built:
 - **Tests:** `pytest tools/globe science/tests` 495 passed, 2 skipped.
 - **Not done:** craters/boulders (no checked citations; would double-count LOLA roughness); 3D Tiles; a rendered Cesium frame check
   (pane hidden; decode checked through Cesium's sampleTerrain); viewer wiring of terrain/coverage/analytics layers; query-any-point panel.
+- Round 2, later: merged R2 pyramid finishing (e6046d4): VISUAL relief matches LOLA roughness (hard test), eq + polar VISUAL tiles, Earth/Sun visibility maps, Cesium terrain and coverage web layer (~11.4 GB derived, git-ignored). pytest `science tools` 700 passed, 3 skipped (the "Error in sys.excepthook" lines after the summary come from worker processes at interpreter shutdown; exit code 0); vitest green. R4 still running.
