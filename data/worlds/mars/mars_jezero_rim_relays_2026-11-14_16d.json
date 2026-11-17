@@ -1,0 +1,1578 @@
+{
+ "schema": "polaris-relay-geometry-v1",
+ "label": "SOURCE-BASED \u00b7 UNVALIDATED (geometry only; not relay availability)",
+ "site": {
+  "bundle": "data/worlds/mars/mars_jezero_rim_2026-11-14_687d_mast1m.json.gz",
+  "bundle_id": "mars_jezero_rim_2026-11-14_687d_mast1m",
+  "lat_deg": 18.1758836,
+  "lon_deg_east": 78.10819930000002,
+  "observer_height_m": -2721.943,
+  "horizons_longitude_offset_deg": -0.00351853109896183
+ },
+ "window_utc": {
+  "start": "2026-11-14 00:00",
+  "stop": "2026-11-30 00:00",
+  "step": "1 m",
+  "rule": "fixed before any query; inside every ephemeris used; no extrapolation"
+ },
+ "definition": "Orbiter centre above the stored terrain skyline (linear in azimuth) at a 1-minute sample; flat control: above 0 deg. Apparent airless az/el from Horizons, rotated to the sphere normal.",
+ "not_modelled": "relay scheduling and orbiter operations, UHF link budget and antenna patterns, minimum-elevation masks, atmosphere; pass edges are good to +-1 min; post-reconstruction trajectories are planning predictions.",
+ "orbiters": [
+  {
+   "id": "relay-mro",
+   "naif_id": "-74",
+   "name": "Mars Reconnaissance Orbiter",
+   "status": "computed",
+   "n_samples": 23041,
+   "independent_check": {
+    "status": "pass",
+    "criterion": "max |el diff| < 0.5 deg and the wrong-sign hypothesis off by > 5 deg (median)",
+    "residual_note": "Not explained to the last 0.1-0.3 deg; candidate: different light-time/aberration treatment of the two routes. At the orbiters' angular rates this moves pass edges by well under the 1-min sampling.",
+    "method": "orbiter-centred Horizons route (CENTER 500@orbiter, sub-observer point + range, IAU_MARS west-positive, planetodetic) -> body-fixed position -> elevation from the site on the sphere normal; compared with the site-topocentric Horizons az/el at the same hourly times",
+    "n": 385,
+    "max_abs_el_diff_deg": 0.0827,
+    "max_abs_az_diff_deg_above_horizon_below_80": 0.1363,
+    "wrong_longitude_sign_median_abs_el_diff_deg": 21.94,
+    "source": {
+     "path": "data/cache/v2/products/mars_horizons/054540a591fba306a6e2.txt",
+     "sha256": "f64dbabd60de2461c7fc5c564980c95c76e19c3d66c1d0742bda47105106622b",
+     "retrieved_utc": "2026-11-17T16:54:34.143Z"
+    }
+   },
+   "n_unknown_skyline": 0,
+   "terrain": {
+    "visible_pct_minute_samples": 2.122,
+    "visible_min_per_day": 30.56,
+    "n_passes": 50,
+    "n_passes_complete": 50,
+    "passes_per_day": 3.125,
+    "pass_duration_min": {
+     "median": 11.0,
+     "min": 2.0,
+     "max": 14.0
+    },
+    "longest_gap_min": 728.0,
+    "passes": [
+     {
+      "start_unix": 1794647040.0,
+      "end_unix": 1794647820.0,
+      "duration_min": 14.0,
+      "max_el_deg": 56.231,
+      "min_range_km": 329.6,
+      "max_range_km": 1439.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794691560.0,
+      "end_unix": 1794692280.0,
+      "duration_min": 13.0,
+      "max_el_deg": 42.347,
+      "min_range_km": 395.9,
+      "max_range_km": 1418.7,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794734580.0,
+      "end_unix": 1794735300.0,
+      "duration_min": 13.0,
+      "max_el_deg": 63.345,
+      "min_range_km": 308.2,
+      "max_range_km": 1363.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794779040.0,
+      "end_unix": 1794779820.0,
+      "duration_min": 14.0,
+      "max_el_deg": 76.116,
+      "min_range_km": 286.8,
+      "max_range_km": 1465.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794822120.0,
+      "end_unix": 1794822360.0,
+      "duration_min": 5.0,
+      "max_el_deg": 18.762,
+      "min_range_km": 694.3,
+      "max_range_km": 1350.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794822480.0,
+      "end_unix": 1794822780.0,
+      "duration_min": 6.0,
+      "max_el_deg": 29.398,
+      "min_range_km": 513.4,
+      "max_range_km": 1033.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794828900.0,
+      "end_unix": 1794829380.0,
+      "duration_min": 9.0,
+      "max_el_deg": 4.182,
+      "min_range_km": 1182.4,
+      "max_range_km": 1442.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794866640.0,
+      "end_unix": 1794867300.0,
+      "duration_min": 12.0,
+      "max_el_deg": 37.811,
+      "min_range_km": 428.8,
+      "max_range_km": 1364.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794873420.0,
+      "end_unix": 1794873780.0,
+      "duration_min": 7.0,
+      "max_el_deg": 1.862,
+      "min_range_km": 1298.3,
+      "max_range_km": 1426.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794909660.0,
+      "end_unix": 1794909780.0,
+      "duration_min": 3.0,
+      "max_el_deg": 6.028,
+      "min_range_km": 1108.5,
+      "max_range_km": 1409.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794910080.0,
+      "end_unix": 1794910200.0,
+      "duration_min": 3.0,
+      "max_el_deg": 14.309,
+      "min_range_km": 792.7,
+      "max_range_km": 958.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794916380.0,
+      "end_unix": 1794916980.0,
+      "duration_min": 11.0,
+      "max_el_deg": 10.935,
+      "min_range_km": 903.4,
+      "max_range_km": 1355.6,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794954240.0,
+      "end_unix": 1794954420.0,
+      "duration_min": 4.0,
+      "max_el_deg": 19.481,
+      "min_range_km": 673.0,
+      "max_range_km": 922.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794954540.0,
+      "end_unix": 1794954840.0,
+      "duration_min": 6.0,
+      "max_el_deg": 16.037,
+      "min_range_km": 758.9,
+      "max_range_km": 1490.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794960840.0,
+      "end_unix": 1794961440.0,
+      "duration_min": 11.0,
+      "max_el_deg": 7.867,
+      "min_range_km": 1015.8,
+      "max_range_km": 1463.7,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795003860.0,
+      "end_unix": 1795004580.0,
+      "duration_min": 13.0,
+      "max_el_deg": 21.578,
+      "min_range_km": 630.5,
+      "max_range_km": 1337.8,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795042200.0,
+      "end_unix": 1795042260.0,
+      "duration_min": 2.0,
+      "max_el_deg": 3.607,
+      "min_range_km": 1225.0,
+      "max_range_km": 1356.8,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795048320.0,
+      "end_unix": 1795048980.0,
+      "duration_min": 12.0,
+      "max_el_deg": 16.836,
+      "min_range_km": 730.5,
+      "max_range_km": 1362.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795091340.0,
+      "end_unix": 1795092120.0,
+      "duration_min": 14.0,
+      "max_el_deg": 43.057,
+      "min_range_km": 390.7,
+      "max_range_km": 1377.8,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795135800.0,
+      "end_unix": 1795136520.0,
+      "duration_min": 13.0,
+      "max_el_deg": 32.967,
+      "min_range_km": 473.2,
+      "max_range_km": 1327.1,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795178820.0,
+      "end_unix": 1795179600.0,
+      "duration_min": 14.0,
+      "max_el_deg": 73.902,
+      "min_range_km": 289.4,
+      "max_range_km": 1472.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795223340.0,
+      "end_unix": 1795224060.0,
+      "duration_min": 13.0,
+      "max_el_deg": 70.842,
+      "min_range_km": 292.9,
+      "max_range_km": 1355.6,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795266360.0,
+      "end_unix": 1795267080.0,
+      "duration_min": 13.0,
+      "max_el_deg": 37.502,
+      "min_range_km": 431.2,
+      "max_range_km": 1432.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795273200.0,
+      "end_unix": 1795273620.0,
+      "duration_min": 8.0,
+      "max_el_deg": 2.42,
+      "min_range_km": 1270.2,
+      "max_range_km": 1463.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795310880.0,
+      "end_unix": 1795311600.0,
+      "duration_min": 13.0,
+      "max_el_deg": 49.595,
+      "min_range_km": 356.7,
+      "max_range_km": 1432.7,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795317780.0,
+      "end_unix": 1795317960.0,
+      "duration_min": 4.0,
+      "max_el_deg": 0.223,
+      "min_range_km": 1391.7,
+      "max_range_km": 1418.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795353900.0,
+      "end_unix": 1795354080.0,
+      "duration_min": 4.0,
+      "max_el_deg": 8.877,
+      "min_range_km": 988.6,
+      "max_range_km": 1460.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795354260.0,
+      "end_unix": 1795354500.0,
+      "duration_min": 5.0,
+      "max_el_deg": 18.545,
+      "min_range_km": 689.8,
+      "max_range_km": 949.1,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795360620.0,
+      "end_unix": 1795361220.0,
+      "duration_min": 11.0,
+      "max_el_deg": 8.449,
+      "min_range_km": 992.3,
+      "max_range_km": 1482.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795398480.0,
+      "end_unix": 1795399080.0,
+      "duration_min": 11.0,
+      "max_el_deg": 23.955,
+      "min_range_km": 591.4,
+      "max_range_km": 1366.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795405140.0,
+      "end_unix": 1795405680.0,
+      "duration_min": 10.0,
+      "max_el_deg": 5.812,
+      "min_range_km": 1101.5,
+      "max_range_km": 1450.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795448100.0,
+      "end_unix": 1795448820.0,
+      "duration_min": 13.0,
+      "max_el_deg": 17.309,
+      "min_range_km": 721.0,
+      "max_range_km": 1463.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795486380.0,
+      "end_unix": 1795486560.0,
+      "duration_min": 4.0,
+      "max_el_deg": 8.873,
+      "min_range_km": 986.9,
+      "max_range_km": 1373.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795492560.0,
+      "end_unix": 1795493280.0,
+      "duration_min": 13.0,
+      "max_el_deg": 13.504,
+      "min_range_km": 820.8,
+      "max_range_km": 1475.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795535640.0,
+      "end_unix": 1795536360.0,
+      "duration_min": 13.0,
+      "max_el_deg": 34.343,
+      "min_range_km": 459.4,
+      "max_range_km": 1311.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795580100.0,
+      "end_unix": 1795580820.0,
+      "duration_min": 13.0,
+      "max_el_deg": 26.618,
+      "min_range_km": 547.5,
+      "max_range_km": 1432.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795623120.0,
+      "end_unix": 1795623900.0,
+      "duration_min": 14.0,
+      "max_el_deg": 75.888,
+      "min_range_km": 286.1,
+      "max_range_km": 1386.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795667580.0,
+      "end_unix": 1795668360.0,
+      "duration_min": 14.0,
+      "max_el_deg": 56.416,
+      "min_range_km": 328.9,
+      "max_range_km": 1450.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795710660.0,
+      "end_unix": 1795711380.0,
+      "duration_min": 13.0,
+      "max_el_deg": 45.403,
+      "min_range_km": 377.4,
+      "max_range_km": 1326.8,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795717560.0,
+      "end_unix": 1795717800.0,
+      "duration_min": 5.0,
+      "max_el_deg": 0.873,
+      "min_range_km": 1357.4,
+      "max_range_km": 1422.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795755120.0,
+      "end_unix": 1795755840.0,
+      "duration_min": 13.0,
+      "max_el_deg": 59.508,
+      "min_range_km": 318.2,
+      "max_range_km": 1329.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795798200.0,
+      "end_unix": 1795798380.0,
+      "duration_min": 4.0,
+      "max_el_deg": 12.493,
+      "min_range_km": 861.3,
+      "max_range_km": 1339.1,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795798560.0,
+      "end_unix": 1795798800.0,
+      "duration_min": 5.0,
+      "max_el_deg": 23.094,
+      "min_range_km": 603.6,
+      "max_range_km": 967.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795804920.0,
+      "end_unix": 1795805460.0,
+      "duration_min": 10.0,
+      "max_el_deg": 6.443,
+      "min_range_km": 1077.0,
+      "max_range_km": 1461.6,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795842780.0,
+      "end_unix": 1795843380.0,
+      "duration_min": 11.0,
+      "max_el_deg": 29.566,
+      "min_range_km": 510.6,
+      "max_range_km": 1434.8,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795849440.0,
+      "end_unix": 1795849920.0,
+      "duration_min": 9.0,
+      "max_el_deg": 3.894,
+      "min_range_km": 1193.4,
+      "max_range_km": 1458.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795892400.0,
+      "end_unix": 1795893120.0,
+      "duration_min": 13.0,
+      "max_el_deg": 14.245,
+      "min_range_km": 799.5,
+      "max_range_km": 1428.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795930620.0,
+      "end_unix": 1795930860.0,
+      "duration_min": 5.0,
+      "max_el_deg": 12.119,
+      "min_range_km": 871.2,
+      "max_range_km": 1413.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795936860.0,
+      "end_unix": 1795937520.0,
+      "duration_min": 12.0,
+      "max_el_deg": 10.763,
+      "min_range_km": 905.5,
+      "max_range_km": 1445.7,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795979880.0,
+      "end_unix": 1795980660.0,
+      "duration_min": 14.0,
+      "max_el_deg": 27.481,
+      "min_range_km": 535.9,
+      "max_range_km": 1421.3,
+      "truncated_by_window": false
+     }
+    ]
+   },
+   "flat_horizon_control": {
+    "visible_pct_minute_samples": 2.582,
+    "visible_min_per_day": 37.19,
+    "n_passes": 54,
+    "n_passes_complete": 54,
+    "passes_per_day": 3.375,
+    "pass_duration_min": {
+     "median": 12.0,
+     "min": 2.0,
+     "max": 14.0
+    },
+    "longest_gap_min": 727.0
+   },
+   "minutes_hidden_by_terrain_while_above_flat_horizon": 133,
+   "max_el_deg": 76.116,
+   "horizons_trajectory_notes": {
+    "lines": [
+     "  Location of predicted MRO minimum risk from comet particles",
+     " SPACECRAFT TRAJECTORY:",
+     "  Trajectory starts after Centaur launch stage separation (cruise phase).",
+     "  Trajectory after 2026-Nov-01 is a planning PREDICTION.",
+     "  Trajectory files (from MRO Nav., JPL)      Start (TDB)         End (TDB)",
+     "  misc reconstruction (mro_psp1-80)       2006-Sep-12 06:40  2026-Oct-01 01:01",
+     "  mro_psp_rec                             2026-Oct-01 01:01  2026-Oct-25 22:49",
+     "  mro_psp                                 2026-Oct-25 22:49  2026-Nov-30 12:48"
+    ],
+    "source": {
+     "path": "data/cache/v2/products/mars_horizons/5c62cc1f772f24541be8.txt",
+     "sha256": "019ab66a245575a1fc2c24001e700b55fc696f5934ba0494afd3362a37c8024e",
+     "retrieved_utc": "2026-11-17T16:56:49.086Z"
+    }
+   },
+   "trajectory_reading": {
+    "evidence": "after 2026-Nov-01 is a planning PREDICTION",
+    "reading": "JPL MRO Nav planning prediction for the whole window (reconstruction ends 2026-11-01)."
+   },
+   "source": {
+    "path": "data/cache/v2/products/mars_horizons/f00976aa158356f43e45.txt",
+    "sha256": "a19bbd253eba223c13e30cbf09bebe78711d734e96a1bba452d0ca4c7b53e641",
+    "retrieved_utc": "2026-11-17T16:53:32.725Z"
+   }
+  },
+  {
+   "id": "relay-tgo",
+   "naif_id": "-143",
+   "name": "ExoMars Trace Gas Orbiter",
+   "status": "computed",
+   "n_samples": 23041,
+   "independent_check": {
+    "status": "pass",
+    "criterion": "max |el diff| < 0.5 deg and the wrong-sign hypothesis off by > 5 deg (median)",
+    "residual_note": "Not explained to the last 0.1-0.3 deg; candidate: different light-time/aberration treatment of the two routes. At the orbiters' angular rates this moves pass edges by well under the 1-min sampling.",
+    "method": "orbiter-centred Horizons route (CENTER 500@orbiter, sub-observer point + range, IAU_MARS west-positive, planetodetic) -> body-fixed position -> elevation from the site on the sphere normal; compared with the site-topocentric Horizons az/el at the same hourly times",
+    "n": 385,
+    "max_abs_el_diff_deg": 0.0727,
+    "max_abs_az_diff_deg_above_horizon_below_80": 0.1416,
+    "wrong_longitude_sign_median_abs_el_diff_deg": 25.74,
+    "source": {
+     "path": "data/cache/v2/products/mars_horizons/94f7dd7aa2d92a312246.txt",
+     "sha256": "00a3e3324b4b6999ac83cd2cffa30270f619ab07960f9aef3db5f91c50d04f2b",
+     "retrieved_utc": "2026-11-17T16:54:34.976Z"
+    }
+   },
+   "n_unknown_skyline": 0,
+   "terrain": {
+    "visible_pct_minute_samples": 3.147,
+    "visible_min_per_day": 45.31,
+    "n_passes": 61,
+    "n_passes_complete": 61,
+    "passes_per_day": 3.812,
+    "pass_duration_min": {
+     "median": 14.0,
+     "min": 1.0,
+     "max": 18.0
+    },
+    "longest_gap_min": 762.0,
+    "passes": [
+     {
+      "start_unix": 1794646560.0,
+      "end_unix": 1794647460.0,
+      "duration_min": 16.0,
+      "max_el_deg": 50.142,
+      "min_range_km": 505.5,
+      "max_range_km": 1637.7,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794653940.0,
+      "end_unix": 1794654480.0,
+      "duration_min": 10.0,
+      "max_el_deg": 4.341,
+      "min_range_km": 1456.6,
+      "max_range_km": 1672.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794693300.0,
+      "end_unix": 1794694320.0,
+      "duration_min": 18.0,
+      "max_el_deg": 60.101,
+      "min_range_km": 454.3,
+      "max_range_km": 1782.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794700740.0,
+      "end_unix": 1794701280.0,
+      "duration_min": 10.0,
+      "max_el_deg": 3.659,
+      "min_range_km": 1502.1,
+      "max_range_km": 1745.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794731460.0,
+      "end_unix": 1794731700.0,
+      "duration_min": 5.0,
+      "max_el_deg": 9.145,
+      "min_range_km": 1254.6,
+      "max_range_km": 1713.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794738600.0,
+      "end_unix": 1794739500.0,
+      "duration_min": 16.0,
+      "max_el_deg": 26.227,
+      "min_range_km": 763.6,
+      "max_range_km": 1676.7,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794778380.0,
+      "end_unix": 1794778560.0,
+      "duration_min": 4.0,
+      "max_el_deg": 14.087,
+      "min_range_km": 1055.5,
+      "max_range_km": 1280.7,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794785340.0,
+      "end_unix": 1794786300.0,
+      "duration_min": 17.0,
+      "max_el_deg": 22.625,
+      "min_range_km": 839.0,
+      "max_range_km": 1752.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794823440.0,
+      "end_unix": 1794824340.0,
+      "duration_min": 16.0,
+      "max_el_deg": 73.098,
+      "min_range_km": 417.4,
+      "max_range_km": 1597.6,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794830880.0,
+      "end_unix": 1794831240.0,
+      "duration_min": 7.0,
+      "max_el_deg": 0.837,
+      "min_range_km": 1645.2,
+      "max_range_km": 1746.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794870180.0,
+      "end_unix": 1794871200.0,
+      "duration_min": 18.0,
+      "max_el_deg": 77.821,
+      "min_range_km": 409.4,
+      "max_range_km": 1792.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794877740.0,
+      "end_unix": 1794878040.0,
+      "duration_min": 6.0,
+      "max_el_deg": 0.443,
+      "min_range_km": 1680.1,
+      "max_range_km": 1756.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794908280.0,
+      "end_unix": 1794908640.0,
+      "duration_min": 7.0,
+      "max_el_deg": 15.781,
+      "min_range_km": 1018.2,
+      "max_range_km": 1766.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794908820.0,
+      "end_unix": 1794908940.0,
+      "duration_min": 3.0,
+      "max_el_deg": 18.507,
+      "min_range_km": 934.8,
+      "max_range_km": 1049.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794915480.0,
+      "end_unix": 1794916380.0,
+      "duration_min": 16.0,
+      "max_el_deg": 18.159,
+      "min_range_km": 939.7,
+      "max_range_km": 1729.8,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794955200.0,
+      "end_unix": 1794955560.0,
+      "duration_min": 7.0,
+      "max_el_deg": 21.571,
+      "min_range_km": 856.7,
+      "max_range_km": 1245.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794955740.0,
+      "end_unix": 1794955920.0,
+      "duration_min": 4.0,
+      "max_el_deg": 11.715,
+      "min_range_km": 1150.3,
+      "max_range_km": 1574.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794962220.0,
+      "end_unix": 1794963120.0,
+      "duration_min": 16.0,
+      "max_el_deg": 15.828,
+      "min_range_km": 1012.4,
+      "max_range_km": 1698.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795000260.0,
+      "end_unix": 1795001220.0,
+      "duration_min": 17.0,
+      "max_el_deg": 74.087,
+      "min_range_km": 415.0,
+      "max_range_km": 1756.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795047000.0,
+      "end_unix": 1795048020.0,
+      "duration_min": 18.0,
+      "max_el_deg": 60.663,
+      "min_range_km": 451.7,
+      "max_range_km": 1640.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795085160.0,
+      "end_unix": 1795086000.0,
+      "duration_min": 15.0,
+      "max_el_deg": 26.815,
+      "min_range_km": 757.8,
+      "max_range_km": 1692.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795092420.0,
+      "end_unix": 1795093200.0,
+      "duration_min": 14.0,
+      "max_el_deg": 12.122,
+      "min_range_km": 1124.6,
+      "max_range_km": 1663.1,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795131960.0,
+      "end_unix": 1795132440.0,
+      "duration_min": 9.0,
+      "max_el_deg": 30.905,
+      "min_range_km": 688.7,
+      "max_range_km": 1420.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795132560.0,
+      "end_unix": 1795132860.0,
+      "duration_min": 6.0,
+      "max_el_deg": 19.076,
+      "min_range_km": 923.9,
+      "max_range_km": 1687.1,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795139160.0,
+      "end_unix": 1795139940.0,
+      "duration_min": 14.0,
+      "max_el_deg": 10.618,
+      "min_range_km": 1189.6,
+      "max_range_km": 1671.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795170180.0,
+      "end_unix": 1795170180.0,
+      "duration_min": 1.0,
+      "max_el_deg": 0.896,
+      "min_range_km": 1664.2,
+      "max_range_km": 1664.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795177140.0,
+      "end_unix": 1795178100.0,
+      "duration_min": 17.0,
+      "max_el_deg": 50.704,
+      "min_range_km": 500.1,
+      "max_range_km": 1754.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795223880.0,
+      "end_unix": 1795224900.0,
+      "duration_min": 18.0,
+      "max_el_deg": 42.291,
+      "min_range_km": 561.5,
+      "max_range_km": 1685.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795262040.0,
+      "end_unix": 1795262880.0,
+      "duration_min": 15.0,
+      "max_el_deg": 38.346,
+      "min_range_km": 600.7,
+      "max_range_km": 1625.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795269360.0,
+      "end_unix": 1795270020.0,
+      "duration_min": 12.0,
+      "max_el_deg": 7.423,
+      "min_range_km": 1312.5,
+      "max_range_km": 1657.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795308840.0,
+      "end_unix": 1795309740.0,
+      "duration_min": 16.0,
+      "max_el_deg": 44.219,
+      "min_range_km": 545.0,
+      "max_range_km": 1667.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795316100.0,
+      "end_unix": 1795316820.0,
+      "duration_min": 13.0,
+      "max_el_deg": 6.401,
+      "min_range_km": 1368.0,
+      "max_range_km": 1779.1,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795346940.0,
+      "end_unix": 1795347120.0,
+      "duration_min": 4.0,
+      "max_el_deg": 5.291,
+      "min_range_km": 1428.7,
+      "max_range_km": 1754.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795354020.0,
+      "end_unix": 1795354980.0,
+      "duration_min": 17.0,
+      "max_el_deg": 34.588,
+      "min_range_km": 639.6,
+      "max_range_km": 1765.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795400760.0,
+      "end_unix": 1795401780.0,
+      "duration_min": 18.0,
+      "max_el_deg": 29.638,
+      "min_range_km": 709.3,
+      "max_range_km": 1748.8,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795438860.0,
+      "end_unix": 1795439760.0,
+      "duration_min": 16.0,
+      "max_el_deg": 56.145,
+      "min_range_km": 472.3,
+      "max_range_km": 1742.1,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795446300.0,
+      "end_unix": 1795446780.0,
+      "duration_min": 9.0,
+      "max_el_deg": 3.497,
+      "min_range_km": 1499.6,
+      "max_range_km": 1677.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795485660.0,
+      "end_unix": 1795486620.0,
+      "duration_min": 17.0,
+      "max_el_deg": 65.365,
+      "min_range_km": 435.1,
+      "max_range_km": 1666.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795493100.0,
+      "end_unix": 1795493580.0,
+      "duration_min": 9.0,
+      "max_el_deg": 2.846,
+      "min_range_km": 1545.9,
+      "max_range_km": 1724.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795523760.0,
+      "end_unix": 1795524060.0,
+      "duration_min": 6.0,
+      "max_el_deg": 10.756,
+      "min_range_km": 1190.2,
+      "max_range_km": 1783.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795530960.0,
+      "end_unix": 1795531860.0,
+      "duration_min": 16.0,
+      "max_el_deg": 23.921,
+      "min_range_km": 806.5,
+      "max_range_km": 1634.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795570680.0,
+      "end_unix": 1795570920.0,
+      "duration_min": 5.0,
+      "max_el_deg": 15.872,
+      "min_range_km": 1001.4,
+      "max_range_km": 1318.1,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795577640.0,
+      "end_unix": 1795578600.0,
+      "duration_min": 17.0,
+      "max_el_deg": 20.919,
+      "min_range_km": 875.7,
+      "max_range_km": 1735.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795615740.0,
+      "end_unix": 1795616700.0,
+      "duration_min": 17.0,
+      "max_el_deg": 82.275,
+      "min_range_km": 404.0,
+      "max_range_km": 1709.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795623300.0,
+      "end_unix": 1795623540.0,
+      "duration_min": 5.0,
+      "max_el_deg": 0.049,
+      "min_range_km": 1690.1,
+      "max_range_km": 1732.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795662540.0,
+      "end_unix": 1795663500.0,
+      "duration_min": 17.0,
+      "max_el_deg": 81.667,
+      "min_range_km": 404.2,
+      "max_range_km": 1679.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795670160.0,
+      "end_unix": 1795670280.0,
+      "duration_min": 3.0,
+      "max_el_deg": -0.259,
+      "min_range_km": 1722.7,
+      "max_range_km": 1735.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795700640.0,
+      "end_unix": 1795701000.0,
+      "duration_min": 7.0,
+      "max_el_deg": 17.918,
+      "min_range_km": 956.7,
+      "max_range_km": 1697.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795701120.0,
+      "end_unix": 1795701360.0,
+      "duration_min": 5.0,
+      "max_el_deg": 20.572,
+      "min_range_km": 885.0,
+      "max_range_km": 1152.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795707840.0,
+      "end_unix": 1795708680.0,
+      "duration_min": 15.0,
+      "max_el_deg": 16.508,
+      "min_range_km": 986.8,
+      "max_range_km": 1696.1,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795747500.0,
+      "end_unix": 1795747920.0,
+      "duration_min": 8.0,
+      "max_el_deg": 23.313,
+      "min_range_km": 819.8,
+      "max_range_km": 1305.7,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795748100.0,
+      "end_unix": 1795748280.0,
+      "duration_min": 4.0,
+      "max_el_deg": 11.236,
+      "min_range_km": 1168.9,
+      "max_range_km": 1611.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795754580.0,
+      "end_unix": 1795755480.0,
+      "duration_min": 16.0,
+      "max_el_deg": 14.528,
+      "min_range_km": 1050.8,
+      "max_range_km": 1756.6,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795792620.0,
+      "end_unix": 1795793580.0,
+      "duration_min": 17.0,
+      "max_el_deg": 68.121,
+      "min_range_km": 427.7,
+      "max_range_km": 1697.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795839360.0,
+      "end_unix": 1795840380.0,
+      "duration_min": 18.0,
+      "max_el_deg": 57.321,
+      "min_range_km": 466.2,
+      "max_range_km": 1706.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795877520.0,
+      "end_unix": 1795878360.0,
+      "duration_min": 15.0,
+      "max_el_deg": 29.228,
+      "min_range_km": 717.0,
+      "max_range_km": 1622.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795884780.0,
+      "end_unix": 1795885560.0,
+      "duration_min": 14.0,
+      "max_el_deg": 10.964,
+      "min_range_km": 1168.5,
+      "max_range_km": 1694.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795924320.0,
+      "end_unix": 1795925220.0,
+      "duration_min": 16.0,
+      "max_el_deg": 33.614,
+      "min_range_km": 650.9,
+      "max_range_km": 1736.0,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795931520.0,
+      "end_unix": 1795932300.0,
+      "duration_min": 14.0,
+      "max_el_deg": 9.558,
+      "min_range_km": 1229.4,
+      "max_range_km": 1727.1,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795962480.0,
+      "end_unix": 1795962540.0,
+      "duration_min": 2.0,
+      "max_el_deg": 2.011,
+      "min_range_km": 1600.6,
+      "max_range_km": 1696.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795969500.0,
+      "end_unix": 1795970460.0,
+      "duration_min": 17.0,
+      "max_el_deg": 45.764,
+      "min_range_km": 532.5,
+      "max_range_km": 1699.1,
+      "truncated_by_window": false
+     }
+    ]
+   },
+   "flat_horizon_control": {
+    "visible_pct_minute_samples": 3.741,
+    "visible_min_per_day": 53.87,
+    "n_passes": 61,
+    "n_passes_complete": 61,
+    "passes_per_day": 3.812,
+    "pass_duration_min": {
+     "median": 15.0,
+     "min": 1.0,
+     "max": 18.0
+    },
+    "longest_gap_min": 650.0
+   },
+   "minutes_hidden_by_terrain_while_above_flat_horizon": 172,
+   "max_el_deg": 82.275,
+   "horizons_trajectory_notes": {
+    "lines": [
+     " TRAJECTORY",
+     "  From ESA (data-fit through 2025-Jun-21, short-term predicts, then",
+     "  reference trajectory after 2025-Oct-21):",
+     "  long-term predicts:",
+     " flp_011_01_20250203_20390104_v01      2025-Jun-21 16:14  2039-Jan-04 06:29"
+    ],
+    "source": {
+     "path": "data/cache/v2/products/mars_horizons/9eb5c3097a129d69d97e.txt",
+     "sha256": "591a6df5b88de29d4ed1e90924e4c26279df6a55b025640c3028c5bcd5a10531",
+     "retrieved_utc": "2026-11-17T16:56:49.661Z"
+    }
+   },
+   "trajectory_reading": {
+    "evidence": "data-fit through 2025-Jun-21",
+    "reading": "ESA long-term reference trajectory; the last data fit is 2025-06-21, ~17 months before the window. Pass times may be off by more than the 1-min sampling (not quantified): treat pass counts and durations as indicative only."
+   },
+   "source": {
+    "path": "data/cache/v2/products/mars_horizons/bf473c25d66c1384ef99.txt",
+    "sha256": "7050018f288869ddc770b4e2adac73c786dee07bd89f23fa32ee10db00030bcb",
+    "retrieved_utc": "2026-11-17T16:53:35.324Z"
+   }
+  },
+  {
+   "id": "relay-mex",
+   "naif_id": "-41",
+   "name": "Mars Express",
+   "status": "computed",
+   "n_samples": 23041,
+   "independent_check": {
+    "status": "pass",
+    "criterion": "max |el diff| < 0.5 deg and the wrong-sign hypothesis off by > 5 deg (median)",
+    "residual_note": "Not explained to the last 0.1-0.3 deg; candidate: different light-time/aberration treatment of the two routes. At the orbiters' angular rates this moves pass edges by well under the 1-min sampling.",
+    "method": "orbiter-centred Horizons route (CENTER 500@orbiter, sub-observer point + range, IAU_MARS west-positive, planetodetic) -> body-fixed position -> elevation from the site on the sphere normal; compared with the site-topocentric Horizons az/el at the same hourly times",
+    "n": 385,
+    "max_abs_el_diff_deg": 0.269,
+    "max_abs_az_diff_deg_above_horizon_below_80": 0.2927,
+    "wrong_longitude_sign_median_abs_el_diff_deg": 28.32,
+    "source": {
+     "path": "data/cache/v2/products/mars_horizons/1fbf6501ab5a7e14321a.txt",
+     "sha256": "87342d887682555d1a97fdb1470553e5c5eb27a2574d68cc840dc01c753d48bf",
+     "retrieved_utc": "2026-11-17T16:54:35.887Z"
+    }
+   },
+   "n_unknown_skyline": 0,
+   "terrain": {
+    "visible_pct_minute_samples": 11.74,
+    "visible_min_per_day": 169.06,
+    "n_passes": 34,
+    "n_passes_complete": 33,
+    "passes_per_day": 2.125,
+    "pass_duration_min": {
+     "median": 65.0,
+     "min": 2.0,
+     "max": 186.0
+    },
+    "longest_gap_min": 1185.0,
+    "passes": [
+     {
+      "start_unix": 1794633240.0,
+      "end_unix": 1794635520.0,
+      "duration_min": 39.0,
+      "max_el_deg": 42.565,
+      "min_range_km": 1140.5,
+      "max_range_km": 5792.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794664020.0,
+      "end_unix": 1794670320.0,
+      "duration_min": 106.0,
+      "max_el_deg": 16.468,
+      "min_range_km": 5934.8,
+      "max_range_km": 12413.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794687540.0,
+      "end_unix": 1794691380.0,
+      "duration_min": 65.0,
+      "max_el_deg": 10.865,
+      "min_range_km": 3845.5,
+      "max_range_km": 9748.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794762540.0,
+      "end_unix": 1794772080.0,
+      "duration_min": 160.0,
+      "max_el_deg": 85.767,
+      "min_range_km": 2498.4,
+      "max_range_km": 13087.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794809340.0,
+      "end_unix": 1794811500.0,
+      "duration_min": 37.0,
+      "max_el_deg": 57.629,
+      "min_range_km": 940.4,
+      "max_range_km": 5574.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794841200.0,
+      "end_unix": 1794845820.0,
+      "duration_min": 78.0,
+      "max_el_deg": 12.528,
+      "min_range_km": 7769.4,
+      "max_range_km": 12144.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794863400.0,
+      "end_unix": 1794868260.0,
+      "duration_min": 82.0,
+      "max_el_deg": 16.693,
+      "min_range_km": 3626.1,
+      "max_range_km": 10635.6,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794938580.0,
+      "end_unix": 1794948420.0,
+      "duration_min": 165.0,
+      "max_el_deg": 76.61,
+      "min_range_km": 2602.5,
+      "max_range_km": 13139.6,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1794985440.0,
+      "end_unix": 1794987540.0,
+      "duration_min": 36.0,
+      "max_el_deg": 78.368,
+      "min_range_km": 807.1,
+      "max_range_km": 5371.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795018140.0,
+      "end_unix": 1795019700.0,
+      "duration_min": 27.0,
+      "max_el_deg": 8.887,
+      "min_range_km": 9095.8,
+      "max_range_km": 10635.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795019820.0,
+      "end_unix": 1795020540.0,
+      "duration_min": 13.0,
+      "max_el_deg": 8.027,
+      "min_range_km": 10740.2,
+      "max_range_km": 11329.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795020960.0,
+      "end_unix": 1795021020.0,
+      "duration_min": 2.0,
+      "max_el_deg": 6.451,
+      "min_range_km": 11643.3,
+      "max_range_km": 11686.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795039320.0,
+      "end_unix": 1795045080.0,
+      "duration_min": 97.0,
+      "max_el_deg": 22.88,
+      "min_range_km": 3486.8,
+      "max_range_km": 11334.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795114620.0,
+      "end_unix": 1795124760.0,
+      "duration_min": 170.0,
+      "max_el_deg": 68.107,
+      "min_range_km": 2737.1,
+      "max_range_km": 13188.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795161600.0,
+      "end_unix": 1795163580.0,
+      "duration_min": 34.0,
+      "max_el_deg": 76.124,
+      "min_range_km": 791.9,
+      "max_range_km": 5018.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795215300.0,
+      "end_unix": 1795221960.0,
+      "duration_min": 112.0,
+      "max_el_deg": 29.405,
+      "min_range_km": 3354.2,
+      "max_range_km": 11993.6,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795290600.0,
+      "end_unix": 1795301040.0,
+      "duration_min": 175.0,
+      "max_el_deg": 60.324,
+      "min_range_km": 2902.8,
+      "max_range_km": 13201.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795337760.0,
+      "end_unix": 1795339560.0,
+      "duration_min": 31.0,
+      "max_el_deg": 54.987,
+      "min_range_km": 887.1,
+      "max_range_km": 4681.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795391280.0,
+      "end_unix": 1795398720.0,
+      "duration_min": 125.0,
+      "max_el_deg": 36.41,
+      "min_range_km": 3230.5,
+      "max_range_km": 12440.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795466640.0,
+      "end_unix": 1795477380.0,
+      "duration_min": 180.0,
+      "max_el_deg": 53.263,
+      "min_range_km": 3087.8,
+      "max_range_km": 13236.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795513920.0,
+      "end_unix": 1795515540.0,
+      "duration_min": 28.0,
+      "max_el_deg": 38.066,
+      "min_range_km": 1062.3,
+      "max_range_km": 4362.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795567260.0,
+      "end_unix": 1795575480.0,
+      "duration_min": 138.0,
+      "max_el_deg": 43.824,
+      "min_range_km": 3124.3,
+      "max_range_km": 12811.8,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795614780.0,
+      "end_unix": 1795615740.0,
+      "duration_min": 17.0,
+      "max_el_deg": 2.952,
+      "min_range_km": 2288.8,
+      "max_range_km": 4150.8,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795642680.0,
+      "end_unix": 1795653660.0,
+      "duration_min": 184.0,
+      "max_el_deg": 46.857,
+      "min_range_km": 3283.5,
+      "max_range_km": 13244.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795690200.0,
+      "end_unix": 1795691160.0,
+      "duration_min": 17.0,
+      "max_el_deg": 25.936,
+      "min_range_km": 1300.5,
+      "max_range_km": 3723.8,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795691340.0,
+      "end_unix": 1795691520.0,
+      "duration_min": 4.0,
+      "max_el_deg": 14.125,
+      "min_range_km": 1377.2,
+      "max_range_km": 1752.2,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795743240.0,
+      "end_unix": 1795752180.0,
+      "duration_min": 150.0,
+      "max_el_deg": 51.659,
+      "min_range_km": 3037.0,
+      "max_range_km": 13073.3,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795790640.0,
+      "end_unix": 1795791900.0,
+      "duration_min": 22.0,
+      "max_el_deg": 7.498,
+      "min_range_km": 1981.0,
+      "max_range_km": 4375.5,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795818780.0,
+      "end_unix": 1795829880.0,
+      "duration_min": 186.0,
+      "max_el_deg": 41.036,
+      "min_range_km": 3482.2,
+      "max_range_km": 13233.7,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795866420.0,
+      "end_unix": 1795867080.0,
+      "duration_min": 12.0,
+      "max_el_deg": 16.878,
+      "min_range_km": 1649.9,
+      "max_range_km": 3286.8,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795919220.0,
+      "end_unix": 1795928700.0,
+      "duration_min": 159.0,
+      "max_el_deg": 59.849,
+      "min_range_km": 2977.1,
+      "max_range_km": 13180.9,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795966560.0,
+      "end_unix": 1795968060.0,
+      "duration_min": 26.0,
+      "max_el_deg": 12.742,
+      "min_range_km": 1702.7,
+      "max_range_km": 4492.6,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795994880.0,
+      "end_unix": 1795995480.0,
+      "duration_min": 11.0,
+      "max_el_deg": 19.499,
+      "min_range_km": 3676.8,
+      "max_range_km": 3911.4,
+      "truncated_by_window": false
+     },
+     {
+      "start_unix": 1795995840.0,
+      "end_unix": 1795996800.0,
+      "duration_min": 17.0,
+      "max_el_deg": 34.859,
+      "min_range_km": 4251.6,
+      "max_range_km": 5461.9,
+      "truncated_by_window": true
+     }
+    ]
+   },
+   "flat_horizon_control": {
+    "visible_pct_minute_samples": 13.923,
+    "visible_min_per_day": 200.49,
+    "n_passes": 32,
+    "n_passes_complete": 31,
+    "passes_per_day": 2.0,
+    "pass_duration_min": {
+     "median": 108.0,
+     "min": 15.0,
+     "max": 195.0
+    },
+    "longest_gap_min": 1189.0
+   },
+   "minutes_hidden_by_terrain_while_above_flat_horizon": 541,
+   "max_el_deg": 85.767,
+   "horizons_trajectory_notes": {
+    "lines": [
+     " SPACECRAFT TRAJECTORY (from ESA):",
+     "  Reconstructed trajectory based on tracking data through 2026-Oct-21.",
+     "  The trajectory thereafter is a prediction.",
+     "   ORMM_031222180906-261101          2003-Dec-22 18:09    2026-Nov-19 11:40",
+     "   ORMF_______________01965          2026-Nov-19 11:40    2032-Dec-31 23:59"
+    ],
+    "source": {
+     "path": "data/cache/v2/products/mars_horizons/e127e052d2e836ac1d98.txt",
+     "sha256": "b9bb6366f1a9ae2dc77634447abd8fb607ca96f72d15ece3674697d5dc536285",
+     "retrieved_utc": "2026-11-17T16:56:50.229Z"
+    }
+   },
+   "trajectory_reading": {
+    "evidence": "tracking data through 2026-Oct-21",
+    "reading": "ESA prediction for the whole window (reconstruction through 2026-10-21, 24-40 days before)."
+   },
+   "source": {
+    "path": "data/cache/v2/products/mars_horizons/9a20908f5e107f39a662.txt",
+    "sha256": "db58c075d5cae0d87613733257dd4391259ebac62e6365e6119fe38c2532d793",
+    "retrieved_utc": "2026-11-17T16:53:38.199Z"
+   }
+  },
+  {
+   "id": "relay-maven",
+   "naif_id": "-202",
+   "name": "MAVEN",
+   "status": "not available",
+   "reason": "ValueError: Horizons returned no ephemeris: b'API VERSION: 1.2\\nAPI SOURCE: NASA/JPL Horizons API\\n\\n\\nNo ephemeris for target \"MAVEN (spacecraft)\" after A.D. 2026-MAR-01 00:58:50.8146 UT\\n'"
+  }
+ ],
+ "any_orbiter": {
+  "orbiters": [
+   "relay-mro",
+   "relay-tgo",
+   "relay-mex"
+  ],
+  "any_visible_pct_minute_samples": 16.605,
+  "longest_gap_with_no_orbiter_visible_min": 618.0
+ },
+ "generator": {
+  "command": "python -m science.worlds.mars.relays ",
+  "git_commit": "6177758fa1fc05b5856ab9c59d12c749e26cc778"
+ }
+}
