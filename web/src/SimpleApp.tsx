@@ -8,6 +8,7 @@ import { PlainAnswer } from './components/PlainAnswer';
 import { fmtPctRange, useChooseMast, useMastReading } from './components/MastInstrument';
 import { TimeBar } from './components/TimeBar';
 import { switchMode } from './mode';
+import { pickQuality } from './simple/quality';
 const Scene3D = lazy(() => import('./three/Scene3D'));
 
 /** Evidence page in Expert mode: where every Simple-mode number is traced to its source. */
@@ -136,13 +137,17 @@ export default function SimpleApp() {
   const sidecar = usePolaris((s) => s.certaintySidecar);
   const v = useView();
   const [gl] = useState(webglAvailable);
+  // render quality tier, picked once at start (display only; simple/quality.ts)
+  const [quality] = useState(() => pickQuality(location.search));
 
   useEffect(() => {
     startUrlSync();
     coldLaunch();
     loadCertaintySidecar();
     useCamera.getState().request('approach');
-  }, []);
+    // fetch the post-effects chunk while the bundle loads, so the first frames already use it
+    if (quality.tier !== 'low') void import('./simple/SimplePost');
+  }, [quality]);
 
   return (
     <div className="simple" data-testid="simple-mode">
@@ -186,7 +191,7 @@ export default function SimpleApp() {
                   {gl ? (
                     <Guard>
                       <Suspense fallback={<p className="note">Loading 3D…</p>}>
-                        <Scene3D v={v} active />
+                        <Scene3D v={v} active post={quality.tier} />
                       </Suspense>
                     </Guard>
                   ) : (

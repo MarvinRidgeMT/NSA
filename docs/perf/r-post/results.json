@@ -1,0 +1,883 @@
+{
+  "schema": "polaris-r-post-compare-v1",
+  "measuredUTC": "2026-11-17T05:12:02.346Z",
+  "sample": "2026-11-18T21:00:00Z",
+  "site": "site04_roi3",
+  "machine": "Apple M4 Pro",
+  "power": "Now drawing from 'AC Power' |  -InternalBattery-0 (id=35389539)\t16%; charging; 2:00 remaining present: true",
+  "lowPowerMode": false,
+  "build": "vite build + vite preview; current = 70779c7, new = working tree",
+  "note": "Display-only measurement. firstFrameMs = navigation start to terrain mounted + two presented frames. Long tasks from PerformanceObserver(\"longtask\") during each 10 s window.",
+  "perf": {
+    "viewport": {
+      "css": [
+        1512,
+        982
+      ],
+      "devicePixelRatio": 2
+    },
+    "runs": [
+      {
+        "id": "current",
+        "vsync": true,
+        "url": "http://127.0.0.1:4175/?mode=simple&site=site04_roi3&t=2026-11-18T21:00:00Z&cam=approach",
+        "firstFrameMs": 1349,
+        "stageCss": {
+          "w": 948,
+          "h": 609
+        },
+        "renderer": {
+          "device": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+          "canvas": [
+            1892,
+            1213
+          ],
+          "quality": null,
+          "post": false
+        },
+        "idle": {
+          "frames": 1200,
+          "fps": 120,
+          "meanMs": 8.333,
+          "p50Ms": 8.3,
+          "p95Ms": 9,
+          "p99Ms": 9.3,
+          "maxMs": 9.4,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "orbit": {
+          "frames": 1200,
+          "fps": 120,
+          "meanMs": 8.333,
+          "p50Ms": 8.3,
+          "p95Ms": 9.1,
+          "p99Ms": 9.3,
+          "maxMs": 9.4,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "jsHeapMB": 234,
+        "consoleErrors": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        ]
+      },
+      {
+        "id": "new-high",
+        "vsync": true,
+        "url": "http://127.0.0.1:4176/?mode=simple&site=site04_roi3&t=2026-11-18T21:00:00Z&cam=approach&quality=high",
+        "firstFrameMs": 1295,
+        "stageCss": {
+          "w": 948,
+          "h": 609
+        },
+        "renderer": {
+          "device": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+          "canvas": [
+            1892,
+            1213
+          ],
+          "quality": "high",
+          "post": true
+        },
+        "idle": {
+          "frames": 1199,
+          "fps": 120,
+          "meanMs": 8.333,
+          "p50Ms": 8.3,
+          "p95Ms": 9.1,
+          "p99Ms": 9.3,
+          "maxMs": 9.4,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "orbit": {
+          "frames": 1200,
+          "fps": 120,
+          "meanMs": 8.333,
+          "p50Ms": 8.3,
+          "p95Ms": 9,
+          "p99Ms": 9.3,
+          "maxMs": 9.4,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "jsHeapMB": 235,
+        "consoleErrors": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        ]
+      },
+      {
+        "id": "new-medium",
+        "vsync": true,
+        "url": "http://127.0.0.1:4176/?mode=simple&site=site04_roi3&t=2026-11-18T21:00:00Z&cam=approach&quality=medium",
+        "firstFrameMs": 1312,
+        "stageCss": {
+          "w": 948,
+          "h": 609
+        },
+        "renderer": {
+          "device": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+          "canvas": [
+            1419,
+            910
+          ],
+          "quality": "medium",
+          "post": true
+        },
+        "idle": {
+          "frames": 1200,
+          "fps": 120,
+          "meanMs": 8.333,
+          "p50Ms": 8.3,
+          "p95Ms": 9.2,
+          "p99Ms": 9.3,
+          "maxMs": 9.4,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "orbit": {
+          "frames": 1200,
+          "fps": 120,
+          "meanMs": 8.333,
+          "p50Ms": 8.3,
+          "p95Ms": 8.9,
+          "p99Ms": 9.3,
+          "maxMs": 9.4,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "jsHeapMB": 192,
+        "consoleErrors": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        ]
+      },
+      {
+        "id": "new-low",
+        "vsync": true,
+        "url": "http://127.0.0.1:4176/?mode=simple&site=site04_roi3&t=2026-11-18T21:00:00Z&cam=approach&quality=low",
+        "firstFrameMs": 1289,
+        "stageCss": {
+          "w": 948,
+          "h": 609
+        },
+        "renderer": {
+          "device": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+          "canvas": [
+            1892,
+            1213
+          ],
+          "quality": "low",
+          "post": false
+        },
+        "idle": {
+          "frames": 1200,
+          "fps": 120,
+          "meanMs": 8.333,
+          "p50Ms": 8.3,
+          "p95Ms": 9,
+          "p99Ms": 9.3,
+          "maxMs": 9.4,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "orbit": {
+          "frames": 1200,
+          "fps": 120,
+          "meanMs": 8.334,
+          "p50Ms": 8.3,
+          "p95Ms": 9,
+          "p99Ms": 9.3,
+          "maxMs": 9.4,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "jsHeapMB": 234,
+        "consoleErrors": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        ]
+      },
+      {
+        "id": "current",
+        "vsync": false,
+        "url": "http://127.0.0.1:4175/?mode=simple&site=site04_roi3&t=2026-11-18T21:00:00Z&cam=approach",
+        "firstFrameMs": 1359,
+        "stageCss": {
+          "w": 948,
+          "h": 609
+        },
+        "renderer": {
+          "device": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+          "canvas": [
+            1892,
+            1213
+          ],
+          "quality": null,
+          "post": false
+        },
+        "idle": {
+          "frames": 3287,
+          "fps": 328.6,
+          "meanMs": 3.043,
+          "p50Ms": 3.3,
+          "p95Ms": 5.1,
+          "p99Ms": 5.9,
+          "maxMs": 7.4,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "orbit": {
+          "frames": 2637,
+          "fps": 263.6,
+          "meanMs": 3.794,
+          "p50Ms": 3.3,
+          "p95Ms": 6.9,
+          "p99Ms": 8.4,
+          "maxMs": 1253.9,
+          "over33ms": 2,
+          "longTasksMs": [
+            1256
+          ]
+        },
+        "jsHeapMB": 196,
+        "consoleErrors": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        ]
+      },
+      {
+        "id": "new-high",
+        "vsync": false,
+        "url": "http://127.0.0.1:4176/?mode=simple&site=site04_roi3&t=2026-11-18T21:00:00Z&cam=approach&quality=high",
+        "firstFrameMs": 1447,
+        "stageCss": {
+          "w": 948,
+          "h": 609
+        },
+        "renderer": {
+          "device": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+          "canvas": [
+            1892,
+            1213
+          ],
+          "quality": "high",
+          "post": true
+        },
+        "idle": {
+          "frames": 2766,
+          "fps": 276.6,
+          "meanMs": 3.616,
+          "p50Ms": 3.9,
+          "p95Ms": 5.1,
+          "p99Ms": 5.9,
+          "maxMs": 7.1,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "orbit": {
+          "frames": 2522,
+          "fps": 252.1,
+          "meanMs": 3.967,
+          "p50Ms": 3.9,
+          "p95Ms": 6.3,
+          "p99Ms": 7.8,
+          "maxMs": 10.6,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "jsHeapMB": 188,
+        "consoleErrors": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        ]
+      },
+      {
+        "id": "new-medium",
+        "vsync": false,
+        "url": "http://127.0.0.1:4176/?mode=simple&site=site04_roi3&t=2026-11-18T21:00:00Z&cam=approach&quality=medium",
+        "firstFrameMs": 1340,
+        "stageCss": {
+          "w": 948,
+          "h": 609
+        },
+        "renderer": {
+          "device": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+          "canvas": [
+            1419,
+            910
+          ],
+          "quality": "medium",
+          "post": true
+        },
+        "idle": {
+          "frames": 3276,
+          "fps": 327.5,
+          "meanMs": 3.053,
+          "p50Ms": 3,
+          "p95Ms": 4.8,
+          "p99Ms": 5.1,
+          "maxMs": 8.4,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "orbit": {
+          "frames": 3038,
+          "fps": 303.7,
+          "meanMs": 3.293,
+          "p50Ms": 3.3,
+          "p95Ms": 5.1,
+          "p99Ms": 7,
+          "maxMs": 15.6,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "jsHeapMB": 210,
+        "consoleErrors": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        ]
+      },
+      {
+        "id": "new-low",
+        "vsync": false,
+        "url": "http://127.0.0.1:4176/?mode=simple&site=site04_roi3&t=2026-11-18T21:00:00Z&cam=approach&quality=low",
+        "firstFrameMs": 1396,
+        "stageCss": {
+          "w": 948,
+          "h": 609
+        },
+        "renderer": {
+          "device": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)",
+          "canvas": [
+            1892,
+            1213
+          ],
+          "quality": "low",
+          "post": false
+        },
+        "idle": {
+          "frames": 2973,
+          "fps": 297.2,
+          "meanMs": 3.364,
+          "p50Ms": 3.6,
+          "p95Ms": 5.9,
+          "p99Ms": 6.4,
+          "maxMs": 7.6,
+          "over33ms": 0,
+          "longTasksMs": []
+        },
+        "orbit": {
+          "frames": 2464,
+          "fps": 246.2,
+          "meanMs": 4.061,
+          "p50Ms": 3.5,
+          "p95Ms": 7.6,
+          "p99Ms": 9.3,
+          "maxMs": 1339,
+          "over33ms": 1,
+          "longTasksMs": [
+            1338
+          ]
+        },
+        "jsHeapMB": 192,
+        "consoleErrors": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        ]
+      }
+    ],
+    "firstFrame": {
+      "current": {
+        "runsMs": [
+          1429,
+          1310,
+          1256,
+          1302,
+          1266
+        ],
+        "medianMs": 1302,
+        "minMs": 1256,
+        "maxMs": 1429
+      },
+      "new-high": {
+        "runsMs": [
+          1265,
+          1280,
+          1258,
+          1248,
+          1294
+        ],
+        "medianMs": 1265,
+        "minMs": 1248,
+        "maxMs": 1294
+      }
+    }
+  },
+  "shots": [
+    {
+      "size": "1440x900",
+      "note": "desktop window, pixel ratio 2",
+      "cam": "approach",
+      "tier": "high",
+      "post": true,
+      "files": [
+        "../docs/perf/r-post/1440x900-approach-current.png",
+        "../docs/perf/r-post/1440x900-approach-new.png"
+      ],
+      "diff": {
+        "pixels": 2119728,
+        "meanLumaA": 57.54,
+        "meanLumaB": 57.607,
+        "meanSignedDiff": 0.0668,
+        "meanAbsDiff": 1.562,
+        "differingPixels": 1833783,
+        "differingOver2Levels": 544750,
+        "maxChannelDiff": 94
+      }
+    },
+    {
+      "size": "1440x900",
+      "note": "desktop window, pixel ratio 2",
+      "cam": "mast",
+      "tier": "high",
+      "post": true,
+      "files": [
+        "../docs/perf/r-post/1440x900-mast-current.png",
+        "../docs/perf/r-post/1440x900-mast-new.png"
+      ],
+      "diff": {
+        "pixels": 2119728,
+        "meanLumaA": 31.903,
+        "meanLumaB": 32.715,
+        "meanSignedDiff": 0.8122,
+        "meanAbsDiff": 1.865,
+        "differingPixels": 1660051,
+        "differingOver2Levels": 327095,
+        "maxChannelDiff": 148
+      }
+    },
+    {
+      "size": "390x844-window",
+      "note": "narrow desktop window on this Mac (tier picked from the device: high)",
+      "cam": "approach",
+      "tier": "high",
+      "post": true,
+      "files": [
+        "../docs/perf/r-post/390x844-window-approach-current.png",
+        "../docs/perf/r-post/390x844-window-approach-new.png"
+      ],
+      "diff": {
+        "pixels": 750368,
+        "meanLumaA": 54.536,
+        "meanLumaB": 54.591,
+        "meanSignedDiff": 0.0553,
+        "meanAbsDiff": 1.227,
+        "differingPixels": 481959,
+        "differingOver2Levels": 163742,
+        "maxChannelDiff": 94
+      }
+    },
+    {
+      "size": "390x844-window",
+      "note": "narrow desktop window on this Mac (tier picked from the device: high)",
+      "cam": "mast",
+      "tier": "high",
+      "post": true,
+      "files": [
+        "../docs/perf/r-post/390x844-window-mast-current.png",
+        "../docs/perf/r-post/390x844-window-mast-new.png"
+      ],
+      "diff": {
+        "pixels": 750368,
+        "meanLumaA": 31.421,
+        "meanLumaB": 32.573,
+        "meanSignedDiff": 1.1522,
+        "meanAbsDiff": 1.9587,
+        "differingPixels": 447637,
+        "differingOver2Levels": 151980,
+        "maxChannelDiff": 126
+      }
+    },
+    {
+      "size": "390x844-phone",
+      "note": "emulated phone (touch, 390 px screen): tier picked from the device",
+      "cam": "approach",
+      "tier": "low",
+      "post": false,
+      "files": [
+        "../docs/perf/r-post/390x844-phone-approach-current.png",
+        "../docs/perf/r-post/390x844-phone-approach-new.png"
+      ],
+      "diff": {
+        "pixels": 1688328,
+        "meanLumaA": 54.539,
+        "meanLumaB": 54.539,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    },
+    {
+      "size": "390x844-phone",
+      "note": "emulated phone (touch, 390 px screen): tier picked from the device",
+      "cam": "mast",
+      "tier": "low",
+      "post": false,
+      "files": [
+        "../docs/perf/r-post/390x844-phone-mast-current.png",
+        "../docs/perf/r-post/390x844-phone-mast-new.png"
+      ],
+      "diff": {
+        "pixels": 1688328,
+        "meanLumaA": 31.428,
+        "meanLumaB": 31.428,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    }
+  ],
+  "checks": {
+    "ground-approach": {
+      "what": "current vs new (high tier), canvas only, same sample and camera",
+      "withGrain": {
+        "size": [
+          1892,
+          1114
+        ],
+        "sameSize": true,
+        "ground": {
+          "pixels": 591974,
+          "meanLumaA": 43.694,
+          "meanLumaB": 43.754,
+          "meanSignedDiff": 0.0607,
+          "meanAbsDiff": 1.6461,
+          "differingPixels": 543887,
+          "differingOver2Levels": 169557,
+          "maxChannelDiff": 82
+        },
+        "sky": {
+          "pixels": 305016,
+          "meanLumaA": 47.901,
+          "meanLumaB": 47.911,
+          "meanSignedDiff": 0.0098,
+          "meanAbsDiff": 1.2179,
+          "differingPixels": 230290,
+          "differingOver2Levels": 39055,
+          "maxChannelDiff": 75
+        }
+      },
+      "grainOff": {
+        "size": [
+          1892,
+          1114
+        ],
+        "sameSize": true,
+        "ground": {
+          "pixels": 591974,
+          "meanLumaA": 43.694,
+          "meanLumaB": 43.756,
+          "meanSignedDiff": 0.0622,
+          "meanAbsDiff": 0.1655,
+          "differingPixels": 51781,
+          "differingOver2Levels": 3797,
+          "maxChannelDiff": 83
+        },
+        "sky": {
+          "pixels": 305016,
+          "meanLumaA": 47.901,
+          "meanLumaB": 47.908,
+          "meanSignedDiff": 0.0071,
+          "meanAbsDiff": 0.1724,
+          "differingPixels": 30499,
+          "differingOver2Levels": 4265,
+          "maxChannelDiff": 75
+        }
+      },
+      "lowTierVsCurrent": {
+        "size": [
+          1892,
+          1114
+        ],
+        "sameSize": true,
+        "all": {
+          "pixels": 2107688,
+          "meanLumaA": 57.651,
+          "meanLumaB": 57.651,
+          "meanSignedDiff": 0,
+          "meanAbsDiff": 0,
+          "differingPixels": 0,
+          "differingOver2Levels": 0,
+          "maxChannelDiff": 0
+        }
+      }
+    },
+    "ground-mast": {
+      "what": "current vs new (high tier), canvas only, same sample and camera",
+      "withGrain": {
+        "size": [
+          1892,
+          1114
+        ],
+        "sameSize": true,
+        "ground": {
+          "pixels": 437928,
+          "meanLumaA": 68.947,
+          "meanLumaB": 68.912,
+          "meanSignedDiff": -0.0351,
+          "meanAbsDiff": 1.592,
+          "differingPixels": 405786,
+          "differingOver2Levels": 138567,
+          "maxChannelDiff": 4
+        },
+        "sky": {
+          "pixels": 305016,
+          "meanLumaA": 5.442,
+          "meanLumaB": 5.444,
+          "meanSignedDiff": 0.0011,
+          "meanAbsDiff": 0.7792,
+          "differingPixels": 197074,
+          "differingOver2Levels": 0,
+          "maxChannelDiff": 2
+        }
+      },
+      "grainOff": {
+        "size": [
+          1892,
+          1114
+        ],
+        "sameSize": true,
+        "ground": {
+          "pixels": 437928,
+          "meanLumaA": 68.947,
+          "meanLumaB": 68.912,
+          "meanSignedDiff": -0.0347,
+          "meanAbsDiff": 0.0361,
+          "differingPixels": 45890,
+          "differingOver2Levels": 0,
+          "maxChannelDiff": 1
+        },
+        "sky": {
+          "pixels": 305016,
+          "meanLumaA": 5.442,
+          "meanLumaB": 5.442,
+          "meanSignedDiff": 0,
+          "meanAbsDiff": 0,
+          "differingPixels": 0,
+          "differingOver2Levels": 0,
+          "maxChannelDiff": 0
+        }
+      },
+      "lowTierVsCurrent": {
+        "size": [
+          1892,
+          1114
+        ],
+        "sameSize": true,
+        "all": {
+          "pixels": 2107688,
+          "meanLumaA": 31.867,
+          "meanLumaB": 31.867,
+          "meanSignedDiff": 0,
+          "meanAbsDiff": 0,
+          "differingPixels": 0,
+          "differingOver2Levels": 0,
+          "maxChannelDiff": 0
+        }
+      }
+    },
+    "blockedSample": "2026-11-27T02:00:00Z",
+    "bloom-sun-visible": {
+      "sample": "2026-11-18T21:00:00Z",
+      "pageSaysSunNow": "in view",
+      "onVsOff": {
+        "pixels": 2107688,
+        "meanLumaA": 31.867,
+        "meanLumaB": 32.681,
+        "meanSignedDiff": 0.8134,
+        "meanAbsDiff": 0.8135,
+        "differingPixels": 155903,
+        "differingOver2Levels": 91882,
+        "maxChannelDiff": 175
+      }
+    },
+    "bloom-sun-blocked": {
+      "sample": "2026-11-27T02:00:00Z",
+      "pageSaysSunNow": "blocked by ridge R3",
+      "onVsOff": {
+        "pixels": 2107688,
+        "meanLumaA": 16.663,
+        "meanLumaB": 16.663,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    }
+  },
+  "expert": [
+    {
+      "tab": "sky",
+      "viewport": "1440x900",
+      "files": [
+        "../docs/perf/r-post/expert-sky-current.png",
+        "../docs/perf/r-post/expert-sky-new.png"
+      ],
+      "diff": {
+        "pixels": 1296000,
+        "meanLumaA": 50.468,
+        "meanLumaB": 50.468,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    },
+    {
+      "tab": "decision",
+      "viewport": "1440x900",
+      "files": [
+        "../docs/perf/r-post/expert-decision-current.png",
+        "../docs/perf/r-post/expert-decision-new.png"
+      ],
+      "diff": {
+        "pixels": 1296000,
+        "meanLumaA": 55.668,
+        "meanLumaB": 55.668,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    },
+    {
+      "tab": "evidence",
+      "viewport": "1440x900",
+      "files": [
+        "../docs/perf/r-post/expert-evidence-current.png",
+        "../docs/perf/r-post/expert-evidence-new.png"
+      ],
+      "diff": {
+        "pixels": 1296000,
+        "meanLumaA": 27.131,
+        "meanLumaB": 27.131,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    },
+    {
+      "tab": "sky",
+      "viewport": "1024x768",
+      "files": [
+        "../docs/perf/r-post/expert-sky-1024x768-current.png",
+        "../docs/perf/r-post/expert-sky-1024x768-new.png"
+      ],
+      "diff": {
+        "pixels": 786432,
+        "meanLumaA": 48.287,
+        "meanLumaB": 48.287,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    },
+    {
+      "tab": "decision",
+      "viewport": "1024x768",
+      "files": [
+        "../docs/perf/r-post/expert-decision-1024x768-current.png",
+        "../docs/perf/r-post/expert-decision-1024x768-new.png"
+      ],
+      "diff": {
+        "pixels": 786432,
+        "meanLumaA": 18.676,
+        "meanLumaB": 18.676,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    },
+    {
+      "tab": "evidence",
+      "viewport": "1024x768",
+      "files": [
+        "../docs/perf/r-post/expert-evidence-1024x768-current.png",
+        "../docs/perf/r-post/expert-evidence-1024x768-new.png"
+      ],
+      "diff": {
+        "pixels": 786432,
+        "meanLumaA": 24.54,
+        "meanLumaB": 24.54,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    },
+    {
+      "tab": "sky",
+      "viewport": "390x844",
+      "files": [
+        "../docs/perf/r-post/expert-sky-390x844-current.png",
+        "../docs/perf/r-post/expert-sky-390x844-new.png"
+      ],
+      "diff": {
+        "pixels": 329160,
+        "meanLumaA": 37.416,
+        "meanLumaB": 37.416,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    },
+    {
+      "tab": "decision",
+      "viewport": "390x844",
+      "files": [
+        "../docs/perf/r-post/expert-decision-390x844-current.png",
+        "../docs/perf/r-post/expert-decision-390x844-new.png"
+      ],
+      "diff": {
+        "pixels": 329160,
+        "meanLumaA": 15.65,
+        "meanLumaB": 15.65,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    },
+    {
+      "tab": "evidence",
+      "viewport": "390x844",
+      "files": [
+        "../docs/perf/r-post/expert-evidence-390x844-current.png",
+        "../docs/perf/r-post/expert-evidence-390x844-new.png"
+      ],
+      "diff": {
+        "pixels": 329160,
+        "meanLumaA": 19.428,
+        "meanLumaB": 19.428,
+        "meanSignedDiff": 0,
+        "meanAbsDiff": 0,
+        "differingPixels": 0,
+        "differingOver2Levels": 0,
+        "maxChannelDiff": 0
+      }
+    }
+  ]
+}

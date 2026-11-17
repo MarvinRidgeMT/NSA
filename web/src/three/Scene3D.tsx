@@ -1,6 +1,6 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Html, OrbitControls } from '@react-three/drei';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useWheelGuard } from './wheelGuard';
 import * as THREE from 'three';
 import { gridDirection } from '../bundle/frame';
@@ -22,6 +22,11 @@ import { TerrainSurface } from './TerrainSurface';
 import { ExaggerationPicker } from '../components/SurfaceLayer';
 import { StableLine } from './StableLine';
 import GlobalMoon from './GlobalMoon';
+import { qualityNote, type QualityTier } from '../simple/quality';
+import { EARTH_HEX, EARTH_HIDDEN_OPACITY, EXPOSURE, postColors, SKY, SUN_HEX, SUN_HIDDEN_OPACITY } from '../simple/postColors';
+
+/** Section R: the Simple-mode post chain (bloom on the Sun, starburst, grain). Loaded only when Simple mode asks for it. */
+const SimplePost = lazy(() => import('../simple/SimplePost'));
 
 /**
  * Axes: bundle grid (x = grid east, y = grid north, z = up, metres) is drawn as
@@ -479,7 +484,10 @@ interface SurfaceExtras {
   albedo: { texture: THREE.Texture; layer: VisualLayer } | null;
 }
 
-function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
+function Scene({ v, ctx, albedo, post }: { v: View; post?: QualityTier } & SurfaceExtras) {
+  // Simple mode, high or medium tier: camera effects on (simple/SimplePost.tsx). Undefined in Expert mode: nothing below changes.
+  const fx = post === 'high' || post === 'medium' ? post : null;
+  const pc = fx ? postColors() : null;
   const layer = useSurface((s) => s.layer);
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
   const obs = observerFor(v);
@@ -580,7 +588,7 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
 
   return (
     <>
-      <color attach="background" args={['#050505']} />
+      <color attach="background" args={[pc ? pc.sky : SKY]} />
       <CameraRig frame={frame} frameKey={`${v.dataset.siteId}:${v.series?.id ?? ''}:${dem.n}`} />
       {/* airless low-Sun look: one hard key light from the bundle's Sun azimuth with cast shadows, almost no fill (visual only) */}
       {/* fill is a disclosed display choice (no air, so the real shadows are near black): a faint earthshine-like hemisphere */}
@@ -605,16 +613,17 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
       {/* Sun and Earth discs on their true bundle directions at their true angular sizes (Sun 0.53°, Earth ~1.9° from the Moon) */}
       <mesh position={sunDisc} renderOrder={sunHidden ? 2 : 0}>
         <sphereGeometry args={[skyDist * Math.tan((0.2665 * Math.PI) / 180), 32, 32]} />
-        <meshBasicMaterial color="#fff6e6" toneMapped={false} transparent={sunHidden} opacity={sunHidden ? 0.28 : 1} depthWrite={!sunHidden} />
+        <meshBasicMaterial color={pc ? (sunHidden ? pc.sunHidden : pc.sun) : SUN_HEX} toneMapped={false} transparent={sunHidden} opacity={sunHidden ? SUN_HIDDEN_OPACITY : 1} depthWrite={!sunHidden} />
       </mesh>
-      {!sunHidden && (
+      {/* without the post chain the glow is a sprite; with it the glow is bloom on the HDR disc */}
+      {!sunHidden && !fx && (
         <sprite position={sunDisc} scale={[skyDist * 0.05, skyDist * 0.05, 1]}>
           <spriteMaterial map={GLOW} color="#ffd9a0" transparent opacity={0.55} depthWrite={false} toneMapped={false} blending={THREE.AdditiveBlending} />
         </sprite>
       )}
       <mesh position={earthDisc} renderOrder={earthHidden ? 2 : 0}>
         <sphereGeometry args={[skyDist * Math.tan((0.95 * Math.PI) / 180), 32, 32]} />
-        <meshBasicMaterial color="#7FA8DA" toneMapped={false} transparent={earthHidden} opacity={earthHidden ? 0.3 : 1} depthWrite={!earthHidden} />
+        <meshBasicMaterial color={pc ? (earthHidden ? pc.earthHidden : pc.earth) : EARTH_HEX} toneMapped={false} transparent={earthHidden} opacity={earthHidden ? EARTH_HIDDEN_OPACITY : 1} depthWrite={!earthHidden} />
       </mesh>
       {/* always mounted (mounting/unmounting drei Html during a render warns); shown only when the bundle says blocked */}
       <Html position={sunDisc} center zIndexRange={[4, 0]} style={{ display: sunHidden && camView !== 'overhead' ? 'block' : 'none' }}>
@@ -682,16 +691,23 @@ function Scene({ v, ctx, albedo }: { v: View } & SurfaceExtras) {
         <span className="tag3d" data-testid="exaggeration-tag">vertical ×{k} · display only</span>
       </Html>
       <OrbitControls makeDefault target={[0, 0, 0]} maxPolarAngle={Math.PI * 0.495} enableDamping dampingFactor={0.08} minDistance={3} />
+      {fx && (
+        <Suspense fallback={null}>
+          <SimplePost tier={fx} sunPos={sunDisc} sunOn={!sunHidden} />
+        </Suspense>
+      )}
     </>
   );
 }
 
-export default function Scene3D({ v, active = true }: { v: View; active?: boolean }) {
+/** `post` is passed by Simple mode only (its quality tier); Expert mode leaves it undefined and draws exactly as before. */
+export default function Scene3D({ v, active = true, post }: { v: View; active?: boolean; post?: QualityTier }) {
   if (!v.dataset.dem) return <HorizonDome v={v} active={active} />;
-  return <DemScene v={v} active={active} />;
+  return <DemScene v={v} active={active} post={post} />;
 }
 
-function DemScene({ v, active }: { v: View; active: boolean }) {
+function DemScene({ v, active, post }: { v: View; active: boolean; post?: QualityTier }) {
+  const fx = post === 'high' || post === 'medium';
   const wrap = useRef<HTMLDivElement>(null);
   useWheelGuard(wrap);
   const dem = v.dataset.dem!;
@@ -757,15 +773,15 @@ function DemScene({ v, active }: { v: View; active: boolean }) {
   const globe = useSurface((s) => s.globe);
 
   return (
-    <div className="scene3d" data-testid="scene3d" data-globe={globe ? 'on' : 'off'} data-context={ctx ? 'loaded' : 'none'} data-albedo={albedo ? albedo.layer.id : 'none'} ref={wrap}>
+    <div className="scene3d" data-testid="scene3d" data-globe={globe ? 'on' : 'off'} data-context={ctx ? 'loaded' : 'none'} data-albedo={albedo ? albedo.layer.id : 'none'} {...(post ? { 'data-quality': post } : {})} ref={wrap}>
       <Canvas
         shadows
-        dpr={[1, 2]}
+        dpr={post === 'medium' ? [1, 1.5] : [1, 2]}
         camera={{ position: [half * 0.26, half * 0.12, half * 0.34], fov: 42, near: 0.3, far: half * 20 }}
-        gl={{ antialias: true, logarithmicDepthBuffer: true, toneMapping: THREE.AgXToneMapping, toneMappingExposure: 1.2 }}
+        gl={{ antialias: !fx, logarithmicDepthBuffer: true, toneMapping: THREE.AgXToneMapping, toneMappingExposure: EXPOSURE }}
         frameloop={active && !globe ? 'always' : 'never'}
       >
-        <Scene v={v} ctx={ctx} albedo={albedo} />
+        <Scene v={v} ctx={ctx} albedo={albedo} post={post} />
       </Canvas>
       {/* display-only vertical exaggeration, overlaid on the stage (out of the layout flow) */}
       {ctx && !globe && <ExaggerationPicker />}
@@ -791,6 +807,9 @@ function DemScene({ v, active }: { v: View; active: boolean }) {
         {ctx
           ? `${ctx.meta.mid ? ` Around the 5 m crop: ${ctx.meta.mid.n}² × ${ctx.meta.mid.spacingM} m block means of the PGDA 78 5 m tile (about ±4 km), then` : ' Around the 5 m crop:'} the ${ctx.meta.regional.product} crop (${ctx.meta.regional.n}² × ${ctx.meta.regional.spacingM} m), true scale, display context only. Shadows here come from horizon maps of these displayed crops plus the bundle skyline for terrain farther than ${(ctx.meta.displayReachM / 1000).toFixed(0)} km; they are a display model and never set a visible/blocked state.`
           : ''}
+        {post && (
+          <span data-testid="quality-note">{` ${qualityNote(post)}`}</span>
+        )}
       </details>
     </div>
   );
