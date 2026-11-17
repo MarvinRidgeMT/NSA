@@ -18,9 +18,10 @@ class MoonWorldDefinition(unittest.TestCase):
     def test_registry(self):
         self.assertEqual(WORLDS, ('moon', 'mercury', 'mars'))
         self.assertTrue(get_world('moon').available and get_world('mercury').available)
-        mars = get_world('mars')
-        self.assertFalse(mars.available)
-        self.assertIn('not started', mars.availability_note)
+        mars = get_world('mars')                       # T3: Mars available (§3.3); relays declared not wired
+        self.assertTrue(mars.available)
+        self.assertEqual((mars.atmosphere, mars.horizons_center, mars.radius_m), ('mars', 'coord@499', 3_396_000.0))
+        self.assertTrue(all(not c.wired for c in mars.comms if c.kind == 'relay'))
 
     def test_moon_world_wraps_existing_constants(self):
         m = get_world('moon')

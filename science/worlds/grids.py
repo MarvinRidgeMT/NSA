@@ -111,7 +111,8 @@ def read_simple_cyl(img, lbl, radius_m, lat_range=None, lon_center=None, lon_hal
     if lab.get('POSITIVE_LONGITUDE_DIRECTION') != 'EAST':
         raise ValueError(f'{lbl}: expected east-positive longitudes')
     st = lab.get('SAMPLE_TYPE', '')
-    dt = {('MSB_INTEGER', 16): '>i2', ('LSB_INTEGER', 16): '<i2', ('PC_REAL', 32): '<f4', ('IEEE_REAL', 32): '>f4'}[
+    dt = {('MSB_INTEGER', 16): '>i2', ('LSB_INTEGER', 16): '<i2', ('PC_REAL', 32): '<f4', ('IEEE_REAL', 32): '>f4',
+          ('UNSIGNED_INTEGER', 8): 'u1', ('MSB_UNSIGNED_INTEGER', 8): 'u1', ('LSB_UNSIGNED_INTEGER', 8): 'u1'}[
         (st, int(lab['SAMPLE_BITS']))]
     nl, ns, ppd = int(lab['LINES']), int(lab['LINE_SAMPLES']), lab['MAP_RESOLUTION']
     lat_top, lon_left = lab['MAXIMUM_LATITUDE'], lab['WESTERNMOST_LONGITUDE'] % 360.0
