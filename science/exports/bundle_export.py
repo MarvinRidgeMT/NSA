@@ -10,6 +10,7 @@ deterministic (sorted names, fixed 1980-01-01 timestamps) so the same inputs giv
 """
 from __future__ import annotations
 
+import os
 import shlex
 import sys
 import zipfile
@@ -39,8 +40,8 @@ def write_provenance(out_dir, name, inputs, outputs, command, numbers):
     outputs = list(outputs) + [np_]
     prov = {'schema': 'polaris-export-provenance-v1', 'label': C.LABEL, 'export_version': C.EXPORT_VERSION,
             'command': command, 'git': C.git_commit(),
-            'inputs': [_file_rec(p) for p in sorted({Path(p).resolve() for p in inputs})],
-            'outputs': [_file_rec(p) for p in sorted({Path(p).resolve() for p in outputs})],
+            'inputs': [_file_rec(p) for p in sorted({Path(os.path.abspath(p)) for p in inputs})],
+            'outputs': [_file_rec(p) for p in sorted({Path(os.path.abspath(p)) for p in outputs})],
             'n_numbers': len(numbers),
             'rules': ['exports read precomputed files only; no science is computed',
                       'NASA-derived rasters (GeoTIFF) are written under data/exports/ (git-ignored)',

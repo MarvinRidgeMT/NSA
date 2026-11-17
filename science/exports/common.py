@@ -9,6 +9,7 @@ from __future__ import annotations
 import gzip
 import hashlib
 import json
+import os
 import re
 import subprocess
 from pathlib import Path
@@ -25,11 +26,13 @@ PY = 'python'   # commands are written for the repository's venv python, run fro
 
 def rel(p) -> str:
     """Path relative to the repository root when inside it (exports and commands never carry home directories)."""
-    p = Path(p).resolve()
-    try:
-        return str(p.relative_to(ROOT))
-    except ValueError:
-        return str(p)
+    a = Path(os.path.abspath(p))               # no symlink resolution: data/cache may be a link to another checkout
+    for base in (ROOT, ROOT.resolve()):
+        try:
+            return str(a.relative_to(base))
+        except ValueError:
+            pass
+    return str(a)
 
 
 def sha256_file(p) -> str:

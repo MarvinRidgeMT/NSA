@@ -1,0 +1,359 @@
+{
+ "schema": "polaris-tool-spec-v1",
+ "api_version": "1.0.0",
+ "server": "http://127.0.0.1:8767 (python -m science.api.server)",
+ "note": "Tool definitions an AI planner COULD call. This repository contains no AI planner and no API key. Output written from these results must be labelled AI-GENERATED. Quote only numbers that appear in this turn's tool results, with their label; every result carries json_path/read commands. Visibility is geometric only (not power or DSN availability); k of N maps is not a probability; requirements are team requirements, not NASA standards.",
+ "tools": [
+  {
+   "name": "polaris_solve_site",
+   "description": "Visibility of the Sun and Earth centre from one surface point (hourly samples, terrain skyline from NASA DEMs, ephemerides from JPL Horizons). Returns percentages, longest Sun gap, uncertainty ranges over terrain maps, and the commands that reproduce each number. Quote only numbers that appear in this turn's tool results, with their label; every result carries json_path/read commands. Visibility is geometric only (not power or DSN availability); k of N maps is not a probability; requirements are team requirements, not NASA standards.",
+   "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "lat",
+     "lon"
+    ],
+    "properties": {
+     "world": {
+      "type": "string",
+      "enum": [
+       "moon",
+       "mercury",
+       "mars"
+      ],
+      "default": "moon",
+      "description": "Context selector (not a scenario axis). Mercury: precomputed Prokofiev rim only; Mars: not available."
+     },
+     "lat": {
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90,
+      "description": "planetocentric latitude, deg"
+     },
+     "lon": {
+      "type": "number",
+      "minimum": -360,
+      "maximum": 360,
+      "description": "east longitude, deg"
+     },
+     "mast_m": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1000,
+      "default": 1.0,
+      "description": "observer height above the local terrain, m"
+     },
+     "start": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}$",
+      "default": "2026-11-14 00:00",
+      "description": "UTC window start"
+     },
+     "days": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 400,
+      "description": "window length (Moon default 14)"
+     },
+     "step_h": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 24,
+      "default": 1
+     },
+     "members": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "enum": [
+        "clones",
+        "assumed",
+        "products"
+       ]
+      },
+      "uniqueItems": true,
+      "description": "uncertainty members. Omitted: use whatever member set was precomputed at this point; when computing, all three."
+     },
+     "n_members": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "default": 20
+     },
+     "compute": {
+      "type": "boolean",
+      "default": false,
+      "description": "false: cache/precompute lookup only (404 if absent). true: run the any-site solver (needs the local terrain pyramid; seconds to a minute)."
+     },
+     "allow_network": {
+      "type": "boolean",
+      "default": false,
+      "description": "allow JPL Horizons requests when computing (raw responses are cached)"
+     },
+     "full": {
+      "type": "boolean",
+      "default": false,
+      "description": "return the whole results bundle"
+     }
+    }
+   },
+   "x-polaris-route": {
+    "method": "POST",
+    "path": "/v1/solve",
+    "operationId": "solve",
+    "path_params": []
+   }
+  },
+  {
+   "name": "polaris_batch_solve",
+   "description": "Many polaris_solve_site requests at once; results in request order.",
+   "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "requests"
+    ],
+    "properties": {
+     "requests": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2000,
+      "items": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "lat",
+        "lon"
+       ],
+       "properties": {
+        "world": {
+         "type": "string",
+         "enum": [
+          "moon",
+          "mercury",
+          "mars"
+         ],
+         "default": "moon",
+         "description": "Context selector (not a scenario axis). Mercury: precomputed Prokofiev rim only; Mars: not available."
+        },
+        "lat": {
+         "type": "number",
+         "minimum": -90,
+         "maximum": 90,
+         "description": "planetocentric latitude, deg"
+        },
+        "lon": {
+         "type": "number",
+         "minimum": -360,
+         "maximum": 360,
+         "description": "east longitude, deg"
+        },
+        "mast_m": {
+         "type": "number",
+         "minimum": 0,
+         "maximum": 1000,
+         "default": 1.0,
+         "description": "observer height above the local terrain, m"
+        },
+        "start": {
+         "type": "string",
+         "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}$",
+         "default": "2026-11-14 00:00",
+         "description": "UTC window start"
+        },
+        "days": {
+         "type": "integer",
+         "minimum": 1,
+         "maximum": 400,
+         "description": "window length (Moon default 14)"
+        },
+        "step_h": {
+         "type": "integer",
+         "minimum": 1,
+         "maximum": 24,
+         "default": 1
+        },
+        "members": {
+         "type": "array",
+         "items": {
+          "type": "string",
+          "enum": [
+           "clones",
+           "assumed",
+           "products"
+          ]
+         },
+         "uniqueItems": true,
+         "description": "uncertainty members. Omitted: use whatever member set was precomputed at this point; when computing, all three."
+        },
+        "n_members": {
+         "type": "integer",
+         "minimum": 1,
+         "maximum": 100,
+         "default": 20
+        },
+        "compute": {
+         "type": "boolean",
+         "default": false,
+         "description": "false: cache/precompute lookup only (404 if absent). true: run the any-site solver (needs the local terrain pyramid; seconds to a minute)."
+        },
+        "allow_network": {
+         "type": "boolean",
+         "default": false,
+         "description": "allow JPL Horizons requests when computing (raw responses are cached)"
+        },
+        "full": {
+         "type": "boolean",
+         "default": false,
+         "description": "return the whole results bundle"
+        }
+       }
+      }
+     }
+    }
+   },
+   "x-polaris-route": {
+    "method": "POST",
+    "path": "/v1/batch",
+    "operationId": "batch",
+    "path_params": []
+   }
+  },
+  {
+   "name": "polaris_list_sites",
+   "description": "List precomputed sites (1,251 Moon points + Mercury Prokofiev rim) with headline metrics, filterable by world, group and latitude.",
+   "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+     "world": {
+      "type": "string",
+      "enum": [
+       "moon",
+       "mercury",
+       "mars"
+      ]
+     },
+     "group": {
+      "type": "string"
+     },
+     "lat_min": {
+      "type": "number"
+     },
+     "lat_max": {
+      "type": "number"
+     },
+     "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5000
+     },
+     "offset": {
+      "type": "integer",
+      "minimum": 0
+     }
+    }
+   },
+   "x-polaris-route": {
+    "method": "GET",
+    "path": "/v1/sites",
+    "operationId": "listSites",
+    "path_params": []
+   }
+  },
+  {
+   "name": "polaris_get_site",
+   "description": "Result of one precomputed site by site_hash.",
+   "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "site_hash"
+    ],
+    "properties": {
+     "site_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$"
+     },
+     "full": {
+      "type": "boolean"
+     }
+    }
+   },
+   "x-polaris-route": {
+    "method": "GET",
+    "path": "/v1/sites/{site_hash}",
+    "operationId": "getSite",
+    "path_params": [
+     "site_hash"
+    ]
+   }
+  },
+  {
+   "name": "polaris_get_timeseries",
+   "description": "Hourly Sun/Earth samples (az, el, skyline, margin, visible) of one site.",
+   "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "site_hash"
+    ],
+    "properties": {
+     "site_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$"
+     }
+    }
+   },
+   "x-polaris-route": {
+    "method": "GET",
+    "path": "/v1/sites/{site_hash}/timeseries.json",
+    "operationId": "getTimeSeriesJson",
+    "path_params": [
+     "site_hash"
+    ]
+   }
+  },
+  {
+   "name": "polaris_decision_summary",
+   "description": "Precomputed Decision Card rows (how sure, products, mast, when, requirement, link, energy, safety) for a site with scenario cubes (site04_roi3, site01_roi6).",
+   "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "site_id"
+    ],
+    "properties": {
+     "site_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+     }
+    }
+   },
+   "x-polaris-route": {
+    "method": "GET",
+    "path": "/v1/cubes/{site_id}/decision_summary",
+    "operationId": "getDecisionSummary",
+    "path_params": [
+     "site_id"
+    ]
+   }
+  },
+  {
+   "name": "polaris_list_worlds",
+   "description": "Worlds and what the API supports on each.",
+   "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+   },
+   "x-polaris-route": {
+    "method": "GET",
+    "path": "/v1/worlds",
+    "operationId": "listWorlds",
+    "path_params": []
+   }
+  }
+ ]
+}
