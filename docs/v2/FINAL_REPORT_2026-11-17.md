@@ -66,7 +66,8 @@ solver is `TERRAIN_STACK_CONTRACT.md`; it was changed only through dated amendme
 - No secrets and no paid services were used; no accounts were created.
 
 ## 6. Open items, in suggested order
-1. Point T2's "compute now" at T1's `/v1/solve` (:8767). It still calls the old `science.anysite.api` stub (:8766).
+1. ~~Point T2's "compute now" at T1's `/v1/solve` (:8767).~~ **Done 17 Nov** (see `BUILD_STATUS.md`). The same pass fixed
+   "Python quit unexpectedly": git provenance calls forked while PROJ was in use; they now use posix_spawn (`science/gitinfo.py`).
 2. Fix the accessibility and 390 px mobile gate failures (`GATES.md` §6). axe-core needs an install.
 3. Move the 10.3 MB Mars bundle JSON out of git, or compress it.
 4. Before the held-out render-vs-real run: register A5 (Otsu on near-total-shadow windows), then run it. Score WAC, ShadowCam and Kaguya TC. Wire `RealVsModel.tsx` into the app.

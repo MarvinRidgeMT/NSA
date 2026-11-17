@@ -1,0 +1,633 @@
+{
+ "_note": "Captured from python -m science.api.server POST /v1/solve (science.api.server.dispatch) for the request below; regenerate with the command in science/api/tests/test_web_fixture.py. Values are copied from the precomputed bundle; SOURCE-BASED · UNVALIDATED.",
+ "request": {
+  "world": "moon",
+  "lat": -89.47409,
+  "lon": -137.3813,
+  "mast_m": 1,
+  "start": "2026-11-14 00:00",
+  "days": 14,
+  "step_h": 1,
+  "members": [
+   "assumed",
+   "clones",
+   "products"
+  ],
+  "compute": true,
+  "allow_network": true
+ },
+ "status": 200,
+ "response": {
+  "world": "moon",
+  "site_hash": "064474cbd37f245e",
+  "label": "SOURCE-BASED · UNVALIDATED",
+  "disclaimer": "Local geometric visibility only: not certified illumination, power, or DSN link availability.",
+  "cache": {
+   "hit": true,
+   "source": "request-index"
+  },
+  "site": {
+   "id": "anysite_064474cbd37f245e",
+   "name": "Connecting Ridge, Site01 RoI 6",
+   "lat_deg": -89.47409,
+   "lon_deg_east": -137.3813,
+   "height_m": 1948.29,
+   "observer_mast_m": 1.0
+  },
+  "window": {
+   "scale": "UTC",
+   "start_utc": "2026-11-14T00:00:00.000Z",
+   "stop_utc": "2026-11-28T00:00:00.000Z",
+   "step_h": 1,
+   "n_samples": 337,
+   "no_extrapolation": "samples only at Horizons-evaluated times"
+  },
+  "members": [
+   "clones",
+   "products"
+  ],
+  "metrics": {
+   "sun_center_visible_pct_hourly_samples": {
+    "value": 100.0,
+    "unit": "% of hourly samples",
+    "label": "SOURCE-BASED · UNVALIDATED",
+    "json_path": "metrics.sun_center_visible_pct_hourly_samples",
+    "read": "python -m science.exports value data/cache/anysite/bundles/064474cbd37f245e.json 'metrics.sun_center_visible_pct_hourly_samples'",
+    "source_file": "data/cache/anysite/bundles/064474cbd37f245e.json"
+   },
+   "earth_center_visible_pct_hourly_samples": {
+    "value": 81.602,
+    "unit": "% of hourly samples",
+    "label": "SOURCE-BASED · UNVALIDATED",
+    "json_path": "metrics.earth_center_visible_pct_hourly_samples",
+    "read": "python -m science.exports value data/cache/anysite/bundles/064474cbd37f245e.json 'metrics.earth_center_visible_pct_hourly_samples'",
+    "source_file": "data/cache/anysite/bundles/064474cbd37f245e.json"
+   },
+   "sun_and_earth_center_visible_pct_hourly_samples": {
+    "value": 81.602,
+    "unit": "% of hourly samples",
+    "label": "SOURCE-BASED · UNVALIDATED",
+    "json_path": "metrics.sun_and_earth_center_visible_pct_hourly_samples",
+    "read": "python -m science.exports value data/cache/anysite/bundles/064474cbd37f245e.json 'metrics.sun_and_earth_center_visible_pct_hourly_samples'",
+    "source_file": "data/cache/anysite/bundles/064474cbd37f245e.json"
+   },
+   "longest_sun_center_hidden_h": {
+    "value": 0.0,
+    "unit": "h",
+    "label": "SOURCE-BASED · UNVALIDATED",
+    "json_path": "metrics.longest_sun_center_hidden_h",
+    "read": "python -m science.exports value data/cache/anysite/bundles/064474cbd37f245e.json 'metrics.longest_sun_center_hidden_h'",
+    "source_file": "data/cache/anysite/bundles/064474cbd37f245e.json"
+   },
+   "longest_earth_center_hidden_h": {
+    "value": 62.0,
+    "unit": "h",
+    "label": "SOURCE-BASED · UNVALIDATED",
+    "json_path": "metrics.longest_earth_center_hidden_h",
+    "read": "python -m science.exports value data/cache/anysite/bundles/064474cbd37f245e.json 'metrics.longest_earth_center_hidden_h'",
+    "source_file": "data/cache/anysite/bundles/064474cbd37f245e.json"
+   },
+   "min_sun_margin_deg": {
+    "value": 1.91136,
+    "unit": "deg",
+    "label": "SOURCE-BASED · UNVALIDATED",
+    "json_path": "metrics.min_sun_margin_deg",
+    "read": "python -m science.exports value data/cache/anysite/bundles/064474cbd37f245e.json 'metrics.min_sun_margin_deg'",
+    "source_file": "data/cache/anysite/bundles/064474cbd37f245e.json"
+   },
+   "min_earth_margin_deg": {
+    "value": -3.67148,
+    "unit": "deg",
+    "label": "SOURCE-BASED · UNVALIDATED",
+    "json_path": "metrics.min_earth_margin_deg",
+    "read": "python -m science.exports value data/cache/anysite/bundles/064474cbd37f245e.json 'metrics.min_earth_margin_deg'",
+    "source_file": "data/cache/anysite/bundles/064474cbd37f245e.json"
+   },
+   "n_samples": {
+    "value": 337,
+    "unit": "samples",
+    "label": "SOURCE-BASED · UNVALIDATED",
+    "json_path": "metrics.n_samples",
+    "read": "python -m science.exports value data/cache/anysite/bundles/064474cbd37f245e.json 'metrics.n_samples'",
+    "source_file": "data/cache/anysite/bundles/064474cbd37f245e.json"
+   },
+   "n_unknown_sun": {
+    "value": 0,
+    "unit": "samples",
+    "label": "SOURCE-BASED · UNVALIDATED",
+    "json_path": "metrics.n_unknown_sun",
+    "read": "python -m science.exports value data/cache/anysite/bundles/064474cbd37f245e.json 'metrics.n_unknown_sun'",
+    "source_file": "data/cache/anysite/bundles/064474cbd37f245e.json"
+   },
+   "n_unknown_earth": {
+    "value": 0,
+    "unit": "samples",
+    "label": "SOURCE-BASED · UNVALIDATED",
+    "json_path": "metrics.n_unknown_earth",
+    "read": "python -m science.exports value data/cache/anysite/bundles/064474cbd37f245e.json 'metrics.n_unknown_earth'",
+    "source_file": "data/cache/anysite/bundles/064474cbd37f245e.json"
+   }
+  },
+  "uncertainty": {
+   "label_note": "\"k of N maps is not a probability\": member ranges are spreads over alternatives, not calibrated probabilities.",
+   "members": [
+    {
+     "id": "clone01",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.162,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0001",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0001_err.tif",
+     "file_sha256": "242de9e3da624a276864cc4fa7c499e96981c95fd27583565e68e92434faf05b"
+    },
+    {
+     "id": "clone02",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.436,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0002",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0002_err.tif",
+     "file_sha256": "97b2c05633e308c72eddfc5a337089836d80b5edb7469321976973f7eeb7dcad"
+    },
+    {
+     "id": "clone03",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.283,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0003",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0003_err.tif",
+     "file_sha256": "2e79f90fcc6b28b06cc5524ac80601ace4ed2ea3b875e18deede92903b64f06c"
+    },
+    {
+     "id": "clone04",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1947.989,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0004",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0004_err.tif",
+     "file_sha256": "447667f3ab461e246196698c882fe154ecc4388621bf07f7b04b93150f68aaa0"
+    },
+    {
+     "id": "clone05",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.626,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0005",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0005_err.tif",
+     "file_sha256": "252306940146d35a362978aab45f81d2351ef5d097c791a291b68a970d9af51b"
+    },
+    {
+     "id": "clone06",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.494,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0006",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0006_err.tif",
+     "file_sha256": "5eb7ec40a17a6639826aec7b44e4713f77b9a547a90fa0450389cafcc67c3ec0"
+    },
+    {
+     "id": "clone07",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.523,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0007",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0007_err.tif",
+     "file_sha256": "d484e8cb8ee6e0489bd625ac6c17f540310fcd664b78993557411d3fc1f90046"
+    },
+    {
+     "id": "clone08",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.201,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0008",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0008_err.tif",
+     "file_sha256": "ef3c8c17151b4edef013aa51f404f682ce88deec4e9c5df5ffa5ef7d831e8543"
+    },
+    {
+     "id": "clone09",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.416,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0009",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0009_err.tif",
+     "file_sha256": "18e5edd9fee02bfe1995fea80546dcf90e91986c2ed6d05d4d17519c0a9c2309"
+    },
+    {
+     "id": "clone10",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.26,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0010",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0010_err.tif",
+     "file_sha256": "1b7f56fa87d6b98a520eeaf869d5b9a0a4df7092fa8b91e4f294c75ddecfb816"
+    },
+    {
+     "id": "clone11",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.231,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0011",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0011_err.tif",
+     "file_sha256": "a3ef788e076b604ff46ce9484fb854bacee9cd5ed36b486d850a5828f0a04843"
+    },
+    {
+     "id": "clone12",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.379,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0012",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0012_err.tif",
+     "file_sha256": "da0fc5c26820b91c7c5b05e43a432364cb60771fd611a71c22c0f803b63239e7"
+    },
+    {
+     "id": "clone13",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.32,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0013",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0013_err.tif",
+     "file_sha256": "1164bc9ae9f22dc152d1f24dd88f8fd06a2d028c3d2aeae6eb80e8367fbb9544"
+    },
+    {
+     "id": "clone14",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.633,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0014",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0014_err.tif",
+     "file_sha256": "8dcbca4caf7ae240b1e99528e677b0aa75b62a446dfe92150d0117b0f39d05f2"
+    },
+    {
+     "id": "clone15",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.081,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0015",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0015_err.tif",
+     "file_sha256": "c3973b5a6345aa84b94f9f8b49b4d727bd0972703e4d99de3d0c70c492913ad4"
+    },
+    {
+     "id": "clone16",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.358,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0016",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0016_err.tif",
+     "file_sha256": "eb4b540491536af43051942f6f44d52db4b603a19bdaeecc0de609645e86e943"
+    },
+    {
+     "id": "clone17",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.459,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0017",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0017_err.tif",
+     "file_sha256": "1c55d36933f156f6c305e1621fbf6471ba7a00e6bdd66eb2f91f3b43c0328b32"
+    },
+    {
+     "id": "clone18",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1947.848,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0018",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0018_err.tif",
+     "file_sha256": "b2fead63eace85f1dfa90d7da65d0fb084e321850126697cd824cd6263406b45"
+    },
+    {
+     "id": "clone19",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.307,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0019",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0019_err.tif",
+     "file_sha256": "47d201a05a8e9992452fb48ef3418c56aa4c6745f271d398e2310c3ec4bd5fff"
+    },
+    {
+     "id": "clone20",
+     "kind": "pgda78-clone",
+     "label": "PGDA 78 clone (published realization)",
+     "ground_m": 1948.2,
+     "n_truncated": 0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA Site01 5 m (PGDA product 78) clone0020",
+     "source_url": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Clones/Site01_final_adj_5mpp_0020_err.tif",
+     "file_sha256": "a93a9d516548b71d88ca0a218f1c9ecd2e7fb00843eff24628c46ea4d89237b9"
+    },
+    {
+     "id": "product:pgda90_80m",
+     "kind": "product",
+     "label": "product disagreement (M)",
+     "ground_m": 1946.446,
+     "n_truncated": 0,
+     "step_near_m": 16.0,
+     "near_cut_m": 25000.0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA LDEM_80S_80MPP_ADJ (PGDA product 90), 80 m",
+     "file_sha256": "82030dcbdd7c4bb0c7d858e9b4b293b9f2cda5a543ba31ec0f42784bd6beee5a"
+    },
+    {
+     "id": "product:lola_polar_ldem:ldem_875s_5m",
+     "kind": "product",
+     "label": "product disagreement (M)",
+     "ground_m": 1948.636,
+     "n_truncated": 0,
+     "step_near_m": 1.0,
+     "near_cut_m": 12500.0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA LDEM_875S_5M (lola_polar_ldem, PDS), 5 m",
+     "file_sha256": "2ef34341ada3b20a4be6e03fd8446ca3f40bac1b66de147d2c3baf724d092d10"
+    },
+    {
+     "id": "product:lola_global_ldem:ldem_128",
+     "kind": "product",
+     "label": "product disagreement (M)",
+     "ground_m": 1945.163,
+     "n_truncated": 0,
+     "step_near_m": 47.3802,
+     "near_cut_m": 25000.0,
+     "metrics": {
+      "sun_center_visible_pct_hourly_samples": 100.0,
+      "earth_center_visible_pct_hourly_samples": 81.602,
+      "sun_and_earth_center_visible_pct_hourly_samples": 81.602,
+      "longest_sun_center_hidden_h": 0.0,
+      "longest_earth_center_hidden_h": 62.0,
+      "n_unknown_sun": 0,
+      "n_unknown_earth": 0
+     },
+     "dem": "LOLA LDEM_128 (lola_global_ldem, PDS), 237 m",
+     "file_sha256": "ffb5f1df3c6f394fe66984f277ca757df7f06c625c34818cbb3023bbc6ec1422"
+    }
+   ],
+   "summary": {
+    "pgda78-clone": {
+     "sun_center_visible_pct_hourly_samples": {
+      "min": 100.0,
+      "max": 100.0,
+      "median": 100.0,
+      "n": 20
+     },
+     "sun_and_earth_center_visible_pct_hourly_samples": {
+      "min": 81.602,
+      "max": 81.602,
+      "median": 81.602,
+      "n": 20
+     },
+     "earth_center_visible_pct_hourly_samples": {
+      "min": 81.602,
+      "max": 81.602,
+      "median": 81.602,
+      "n": 20
+     },
+     "longest_sun_center_hidden_h": {
+      "min": 0.0,
+      "max": 0.0,
+      "median": 0.0,
+      "n": 20
+     },
+     "label": "PGDA 78 clones"
+    },
+    "products": {
+     "nominal_near_product": "pyramid:sp/L8",
+     "nominal_family": "pgda78",
+     "compared": [
+      "pgda90_80m",
+      "lola_polar_ldem:ldem_875s_5m",
+      "lola_global_ldem:ldem_128"
+     ],
+     "far_field": "nominal far field (pyramid:far) for every member"
+    }
+   }
+  },
+  "solver_version": "anysite-3",
+  "terrain": {
+   "near_product": "pyramid:sp/L8",
+   "far_product": "pyramid:far",
+   "n_truncated_bins": 0
+  },
+  "links": {
+   "self": "/v1/sites/064474cbd37f245e",
+   "timeseries_json": "/v1/sites/064474cbd37f245e/timeseries.json",
+   "timeseries_csv": "/v1/sites/064474cbd37f245e/timeseries.csv"
+  },
+  "reproduce": {
+   "recompute": "python -m science.anysite.precompute (site site01_roi6)",
+   "export": "python -m science.exports bundle data/cache/anysite/bundles/064474cbd37f245e.json"
+  },
+  "note": "k of N maps is not a probability",
+  "bundle_file": "data/cache/anysite/bundles/064474cbd37f245e.json"
+ }
+}

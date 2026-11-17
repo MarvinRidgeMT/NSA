@@ -99,3 +99,9 @@ projection, legend and rebuild command in `web/public/layers/manifest.json` (git
   numbers (site hash 581243a87926c7b4, Sun 51.929 %, gap 162 h).
 - Not done: Cesium quantized-mesh terrain (`web/public/globe/terrain/`) is not wired; T1's `science/api` is not on this branch (the panel
   uses the stub contract, documented in the shared notes); coverage and slope/roughness were copied from the R2/S3 builds, not rebuilt.
+
+## Update 17 Nov 2026 (coordinator, after round-3 integration)
+"Compute now" now uses T1's API (`python -m science.api.server --port 8767`): probe `GET v1/health`, request
+`POST v1/solve` (`web/src/globe/anysite.ts` `solveRequest` / `fromSolveResult`); the Vite proxy default moved from :8766 to
+:8767. The panel also shows the cache source, members and the recompute command. Tests: unit (captured real `/v1/solve`
+answer), e2e route mock with the same fixture, and a live run through the proxy (solver ~11 s at −89.3°, −130°).

@@ -1,9 +1,9 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 
-// v2 T2 "query any point -> compute now": the local solver API (science/anysite/api.py --serve 8766, or T1's science/api)
+// v2 T2 "query any point -> compute now": the local solver API (python -m science.api.server --port 8767, POST /v1/solve)
 // is reached through this same-origin proxy, so the viewer needs no CORS from it. Override with POLARIS_SOLVER_API.
-const solverTarget = process.env.POLARIS_SOLVER_API ?? 'http://127.0.0.1:8766';
+const solverTarget = process.env.POLARIS_SOLVER_API ?? 'http://127.0.0.1:8767';
 const solverProxy = { '/solver-api': { target: solverTarget, changeOrigin: true, rewrite: (p: string) => p.replace(/^\/solver-api/, '') || '/' } };
 
 export default defineConfig({

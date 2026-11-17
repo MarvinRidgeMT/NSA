@@ -212,26 +212,14 @@ test.describe('v2 whole-Moon globe, layers and query panel', () => {
 
   test('compute now through a running solver API (route mocked in this test) shows the answer with its label', async ({ page }) => {
     const errors: string[] = [];
-    // TEST MOCK of science/anysite/api.py: GET / -> spec, POST /anysite -> compact answer. Values are test data.
-    await page.route('**/solver-api/', (r) => r.fulfill({ json: { name: 'polaris_anysite', endpoint: 'POST /anysite' } }));
+    // Route mock of science/api/server.py: GET v1/health, POST v1/solve -> the captured real answer
+    // (web/tests/fixtures/v1-solve-result.site01_roi6.json, checked against the API by science/api/tests/test_web_fixture.py).
+    const solveFx = readJson(resolve(here, '../fixtures/v1-solve-result.site01_roi6.json'));
+    await page.route('**/solver-api/v1/health', (r) => r.fulfill({ json: { ok: true, version: '1.0.0', precomputed_sites: 1252 } }));
     let body: Record<string, unknown> | null = null;
-    await page.route('**/solver-api/anysite', (r) => {
+    await page.route('**/solver-api/v1/solve', (r) => {
       body = r.request().postDataJSON();
-      return r.fulfill({
-        json: {
-          site_hash: 'test0000mock0000',
-          bundle_path: 'data/cache/anysite/bundles/test0000mock0000.json',
-          cache_hit: false,
-          label: 'SOURCE-BASED UNVALIDATED',
-          ground_m: 1234.5,
-          sun_center_visible_pct_hourly_samples: 42.5,
-          sun_and_earth_center_visible_pct_hourly_samples: 12.25,
-          longest_sun_center_hidden_h: 77,
-          n_truncated_bins: 0,
-          near_product: 'pyramid:sp/L8',
-          far_product: 'pyramid:far',
-        },
-      });
+      return r.fulfill({ json: solveFx.response });
     });
     await page.setViewportSize({ width: 1440, height: 900 });
     await openGlobe(page, errors);
@@ -242,10 +230,13 @@ test.describe('v2 whole-Moon globe, layers and query panel', () => {
     await expect(page.getByTestId('query-solver')).toHaveAttribute('data-state', 'running');
     await page.getByTestId('query-compute').click();
     const out = page.getByTestId('query-computed');
-    await expect(out).toContainText('42.50 % of hourly samples');
-    await expect(out).toContainText('test0000mock0000.json');
-    await expect(out).toHaveAttribute('data-label', 'SOURCE-BASED UNVALIDATED');
-    expect(body).toMatchObject({ lat: -85.5, lon: 30, mast_m: 1, days: 14 });
+    const r = solveFx.response;
+    await expect(out).toContainText(`${r.metrics.sun_center_visible_pct_hourly_samples.value.toFixed(2)} % of hourly samples`);
+    await expect(out).toContainText(`${r.site_hash}.json`);
+    await expect(out).toContainText(r.terrain.near_product);
+    await expect(out).toHaveAttribute('data-label', r.label);
+    await expect(page.getByTestId('query-computed-command')).toHaveText(r.reproduce.recompute);
+    expect(body).toMatchObject({ world: 'moon', lat: -85.5, lon: 30, mast_m: 1, days: 14, step_h: 1, compute: true });
     expect(errors).toEqual([]);
   });
 

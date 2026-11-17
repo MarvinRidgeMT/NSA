@@ -80,6 +80,21 @@ point → 422 (the any-site `world=` hook is session T3's). Mars → 501 with th
 405 wrong method, 422 world or point not available (incl. "Horizons not cached and `allow_network` false"), 500 solver
 error, 501 Mars. Body: `{"error", "status", "detail"}`.
 
+**Solve result** (`SolveResult`) also carries `terrain` (`near_product`, `far_product`, `n_truncated_bins` of the
+any-site bundle; null for world bundles), added 17 Nov 2026 for the viewer.
+
+**Viewer ("query any point → compute now").** The web viewer talks to this server: `npm run dev` / `npm run preview`
+proxy `solver-api/` to `http://127.0.0.1:8767` (override with `POLARIS_SOLVER_API`); the panel probes `GET /v1/health`
+and sends `POST /v1/solve` with the precomputed rows' window and mast, `compute: true`, `allow_network: true`
+(`web/src/globe/anysite.ts`). The response is shown field by field, never recomputed. A captured real answer is the web
+test fixture `web/tests/fixtures/v1-solve-result.site01_roi6.json`; `science/api/tests/test_web_fixture.py` checks it
+against the schema and, when the bundle cache is present, against the live API. The older single-route stub
+`python -m science.anysite.api` (:8766) is no longer used by the viewer.
+
+**Git provenance without fork.** Health, exports and solver bundles record the git commit through `science/gitinfo.py`
+(posix_spawn). Forking from the threaded server while a solve held PROJ/SQLite crashed the child on macOS and the
+commit came back `unknown`; regression test `science/tests/test_gitinfo.py`.
+
 **Offline batch:** `python -m science.api.server --batch requests.json`.
 
 Example (measured 16 Nov 2026): `POST /v1/solve {"lat": -89.5, "lon": 12.345, "members": [], "compute": true,

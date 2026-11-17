@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { eqcPixel, greatCircleKm, latLonFromDir, polarPixel, polarStereo, raySphere } from '../../src/globe/geo';
-import { computeNow, memberRanges, membersFor, membersNotRun, nearestSite, probeSolver, reproduceCommand, validateSummary, type AnysiteRow } from '../../src/globe/anysite';
+import { computeNow, fromSolveResult, memberRanges, membersFor, membersNotRun, nearestSite, probeSolver, reproduceCommand, SOLVER_START, solveRequest, validateSummary, type AnysiteRow } from '../../src/globe/anysite';
+import solveFixture from '../fixtures/v1-solve-result.site01_roi6.json';
 import { layerTextures, validateLayerManifest } from '../../src/globe/layers';
 import { globeOrder, SVS_ENTRY, type GlobeEntry } from '../../src/globe/globeAsset';
 import { parseUrlState, serializeUrlState } from '../../src/store/urlState';
@@ -100,22 +101,60 @@ describe('nearest precomputed any-site row', () => {
 const res = (body: unknown, init: { status?: number; ct?: string } = {}) =>
   ({ ok: (init.status ?? 200) < 400, status: init.status ?? 200, headers: { get: () => init.ct ?? 'application/json' }, json: async () => body }) as unknown as Response;
 
-describe('solver API client', () => {
-  it('down when the proxy answers 500, when it is static hosting (HTML), or when the answer is not a spec', async () => {
+describe('solver API client (science/api POST /v1/solve)', () => {
+  it('down when the proxy answers 500, when it is static hosting (HTML), or when the answer is not the health response', async () => {
     expect((await probeSolver(vi.fn(async () => res('', { status: 500, ct: 'text/plain' })))).state).toBe('down');
     expect(await probeSolver(vi.fn(async () => res('<html>', { ct: 'text/html' })))).toMatchObject({ state: 'down', why: /static hosting/ });
     expect((await probeSolver(vi.fn(async () => res({ hello: 1 })))).state).toBe('down');
+    // the old stub's spec (science/anysite/api.py) is not the API compute now talks to
+    expect((await probeSolver(vi.fn(async () => res({ name: 'polaris_anysite', endpoint: 'POST /anysite' })))).state).toBe('down');
     expect((await probeSolver(vi.fn(async () => Promise.reject(new Error('ECONNREFUSED'))))).state).toBe('down');
   });
-  it('running when GET answers the solver spec', async () => {
-    expect(await probeSolver(vi.fn(async () => res({ name: 'polaris_anysite', endpoint: 'POST /anysite' })))).toEqual({ state: 'running', name: 'polaris_anysite', endpoint: 'POST /anysite' });
+  it('running when GET v1/health answers ok', async () => {
+    const f = vi.fn(async () => res({ ok: true, version: '1.0.0', precomputed_sites: 1252 }));
+    expect(await probeSolver(f)).toEqual({ state: 'running', name: 'POLARIS X solver API 1.0.0', endpoint: 'POST /v1/solve' });
+    expect((f.mock.calls[0] as unknown as [string])[0]).toBe('solver-api/v1/health');
+    expect(SOLVER_START).toBe('$POLARIS_PYTHON -m science.api.server --port 8767');
   });
-  it('compute now posts the precompute window and surfaces solver errors', async () => {
-    const f = vi.fn(async () => res({ error: 'ValueError: no height' }, { status: 400 }));
-    expect(await computeNow(-85, 30, [], f)).toEqual({ error: 'ValueError: no height' });
-    const call = (f.mock.calls[0] as unknown as [string, RequestInit])[1];
-    expect(JSON.parse(String(call.body))).toEqual({ lat: -85, lon: 30, mast_m: 1, start: '2026-11-14 00:00', days: 14, step_h: 1, members: [] });
+  it('compute now posts the captured /v1/solve request and shows the captured answer field by field', async () => {
+    const f = vi.fn(async () => res(solveFixture.response));
+    const lat = solveFixture.request.lat;
+    const lon = solveFixture.request.lon;
+    const ans = await computeNow(lat, lon, ['products', 'clones', 'assumed'], f);
+    const [url, init] = f.mock.calls[0] as unknown as [string, RequestInit];
+    expect(url).toBe('solver-api/v1/solve');
+    expect(JSON.parse(String(init.body))).toEqual(solveFixture.request);
+    const r = solveFixture.response;
+    expect(ans).toEqual({
+      site_hash: r.site_hash,
+      bundle_path: r.bundle_file,
+      cache_hit: r.cache.hit,
+      cache_source: r.cache.source,
+      label: r.label,
+      ground_m: r.site.height_m,
+      sun_center_visible_pct_hourly_samples: r.metrics.sun_center_visible_pct_hourly_samples.value,
+      sun_and_earth_center_visible_pct_hourly_samples: r.metrics.sun_and_earth_center_visible_pct_hourly_samples.value,
+      earth_center_visible_pct_hourly_samples: r.metrics.earth_center_visible_pct_hourly_samples.value,
+      longest_sun_center_hidden_h: r.metrics.longest_sun_center_hidden_h.value,
+      n_truncated_bins: r.terrain.n_truncated_bins,
+      near_product: r.terrain.near_product,
+      far_product: r.terrain.far_product,
+      members: r.members,
+      solver_version: r.solver_version,
+      recompute: r.reproduce.recompute,
+      disclaimer: r.disclaimer,
+    });
+    expect(solveRequest(lat, lon, [])).toMatchObject({ members: [], compute: true, world: 'moon' });
+  });
+  it('surfaces API errors with their detail, non-JSON answers and missing metrics as null', async () => {
+    const f = vi.fn(async () => res({ error: 'no terrain at this point: x', status: 422, detail: null }, { status: 422 }));
+    expect(await computeNow(-85, 30, [], f)).toEqual({ error: 'no terrain at this point: x' });
+    const g = vi.fn(async () => res({ error: 'not precomputed', status: 404, detail: '1251 points' }, { status: 404 }));
+    expect(await computeNow(-85, 30, [], g)).toEqual({ error: 'not precomputed (1251 points)' });
     expect((await computeNow(0, 0, [], vi.fn(async () => res('x', { status: 502, ct: 'text/plain' })))).error).toMatch(/did not answer JSON/);
+    const partial = fromSolveResult({ site_hash: 'a', label: 'L', cache: { hit: false, source: 'computed' }, site: {}, metrics: {} });
+    expect(partial.sun_center_visible_pct_hourly_samples).toBeNull();
+    expect(partial.near_product).toBeNull();
   });
 });
 

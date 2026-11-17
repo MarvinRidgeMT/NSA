@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  SOLVER_PORT,
   SOLVER_START,
   SUMMARY_URL,
   computeNow,
@@ -33,7 +34,7 @@ const getSummary = () => (summaryPromise ??= loadSummary().catch((e) => {
   throw e;
 }));
 
-const f = (v: number | undefined, d = 1) => (typeof v === 'number' && Number.isFinite(v) ? v.toFixed(d) : '—');
+const f = (v: number | null | undefined, d = 1) => (typeof v === 'number' && Number.isFinite(v) ? v.toFixed(d) : '—');
 const range = (m?: { min: number; max: number }) => (m ? (m.min === m.max ? `${f(m.min, 2)}` : `${f(m.min, 2)}–${f(m.max, 2)}`) : '—');
 
 async function copy(text: string, set: (s: string) => void) {
@@ -129,12 +130,12 @@ function SolverBlock({ lat, lon }: { lat: number; lon: number }) {
     setBusy(false);
   };
   return (
-    <div className="qp-solver" data-testid="query-solver" data-state={probe?.state ?? 'checking'} data-source="local solver API (science/anysite/api.py via the solver-api proxy)" data-label={LABEL}>
+    <div className="qp-solver" data-testid="query-solver" data-state={probe?.state ?? 'checking'} data-source="local solver API (science/api/server.py POST /v1/solve via the solver-api proxy)" data-label={LABEL}>
       <span className="lab">Compute now · local solver</span>
       {!probe && <p className="gl-note">Checking the local solver API…</p>}
       {probe?.state === 'down' && (
         <p className="gl-note" role="status" data-testid="query-solver-down">
-          Solver API not running ({probe.why}). Start it in the project venv with <code>{SOLVER_START}</code> and serve the viewer with <code>npm run dev</code> or <code>npm run preview</code> (they proxy <code>solver-api/</code> to 127.0.0.1:8766), then{' '}
+          Solver API not running ({probe.why}). Start it in the project venv with <code>{SOLVER_START}</code> and serve the viewer with <code>npm run dev</code> or <code>npm run preview</code> (they proxy <code>solver-api/</code> to 127.0.0.1:{SOLVER_PORT}), then{' '}
           <button type="button" className="linkish" onClick={check} data-testid="query-solver-retry">
             check again
           </button>
@@ -159,7 +160,7 @@ function SolverBlock({ lat, lon }: { lat: number; lon: number }) {
       )}
       {ans && !ans.error && (
         <div className="qp-result" data-testid="query-computed" data-source={`local solver API · bundle ${ans.bundle_path ?? '—'} · site hash ${ans.site_hash ?? '—'}`} data-label={ans.label ?? LABEL}>
-          <span className="chip">{ans.label ?? LABEL} · computed now{ans.cache_hit ? ' (solver cache hit)' : ''}</span>
+          <span className="chip">{ans.label ?? LABEL} · {ans.cache_hit ? `from the solver cache (${ans.cache_source ?? 'cache'})` : 'computed now'}</span>
           <dl className="qp-metrics">
             <dt>Sun centre visible</dt>
             <dd>{f(ans.sun_center_visible_pct_hourly_samples, 2)} % of hourly samples</dd>
@@ -171,8 +172,13 @@ function SolverBlock({ lat, lon }: { lat: number; lon: number }) {
             <dd>{f(ans.ground_m, 1)} m vs the 1,737.4 km sphere</dd>
           </dl>
           <p className="gl-note">
-            Near field {ans.near_product ?? '—'}, far field {ans.far_product ?? '—'}; truncated bins {ans.n_truncated_bins ?? '—'}. Full bundle: <code>{ans.bundle_path ?? '—'}</code>
+            Near field {ans.near_product ?? '—'}, far field {ans.far_product ?? '—'}; truncated bins {ans.n_truncated_bins ?? '—'}; members {ans.members?.length ? ans.members.join(', ') : 'none'}. Full bundle: <code>{ans.bundle_path ?? '—'}</code>
           </p>
+          {ans.recompute && (
+            <p className="gl-note">
+              Recompute: <code data-testid="query-computed-command">{ans.recompute}</code>
+            </p>
+          )}
         </div>
       )}
     </div>

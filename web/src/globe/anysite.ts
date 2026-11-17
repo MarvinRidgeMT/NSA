@@ -1,15 +1,18 @@
 /**
  * "Query any point" (V2 §2.5, T2): precomputed any-site rows and the local solver API. The browser computes no science:
  * it picks the nearest precomputed row (a table lookup by great-circle distance, never interpolated to the clicked point)
- * or forwards the point to the local solver API (science/anysite/api.py, or T1's science/api) and shows its answer.
+ * or forwards the point to the local solver API (science/api/server.py, POST /v1/solve) and shows its answer.
  */
 import { greatCircleKm } from './geo';
 
 export const SUMMARY_URL = 'anysite/precompute_summary.json';
 export const SUMMARY_META_URL = 'anysite/precompute_summary.meta.json';
-/** Vite dev/preview proxy prefix -> http://127.0.0.1:8766 (override with POLARIS_SOLVER_API); see vite.config.ts */
+/** Vite dev/preview proxy prefix -> http://127.0.0.1:8767 (override with POLARIS_SOLVER_API); see vite.config.ts */
 export const SOLVER_BASE = 'solver-api/';
-export const SOLVER_START = '$POLARIS_PYTHON -m science.anysite.api --serve 8766';
+export const SOLVER_PORT = 8767;
+export const SOLVER_START = `$POLARIS_PYTHON -m science.api.server --port ${SOLVER_PORT}`;
+/** Window and mast of the precomputed rows (science/anysite/precompute.py); compute now asks for the same. */
+export const SOLVE_WINDOW = { mast_m: 1, start: '2026-11-14 00:00', days: 14, step_h: 1 } as const;
 
 export interface MemberStat {
   min: number;
@@ -143,19 +146,20 @@ export async function loadSummary(fetcher: typeof fetch = fetch): Promise<{ summ
 }
 
 // ------------------------------------------------------------------------------------------------ solver API client
+// science/api/server.py (OpenAPI docs/v2/openapi.yaml). The browser only forwards the request and shows the answer.
 export type SolverProbe = { state: 'running'; name: string; endpoint: string } | { state: 'down'; why: string };
 
-/** GET solver-api/ : the stub answers its SPEC ({name, endpoint, …}). Anything else (proxy error, HTML, timeout) = down. */
+/** GET solver-api/v1/health : {ok: true, version}. Anything else (proxy error, HTML, timeout) = down. */
 export async function probeSolver(fetcher: typeof fetch = fetch, timeoutMs = 2500): Promise<SolverProbe> {
   const ac = new AbortController();
   const timer = setTimeout(() => ac.abort(), timeoutMs);
   try {
-    const r = await fetcher(SOLVER_BASE, { signal: ac.signal });
+    const r = await fetcher(`${SOLVER_BASE}v1/health`, { signal: ac.signal });
     if (!r.ok) return { state: 'down', why: `HTTP ${r.status} from the proxy (nothing answering on the solver port)` };
     if (!(r.headers.get('content-type') ?? '').includes('json')) return { state: 'down', why: 'no solver proxy in this server (static hosting)' };
-    const j = (await r.json()) as { name?: string; endpoint?: string };
-    if (!j || typeof j !== 'object' || !j.endpoint) return { state: 'down', why: 'the answer is not a POLARIS solver spec' };
-    return { state: 'running', name: j.name ?? 'solver', endpoint: j.endpoint };
+    const j = (await r.json()) as { ok?: boolean; version?: string };
+    if (!j || typeof j !== 'object' || j.ok !== true || typeof j.version !== 'string') return { state: 'down', why: 'the answer is not the POLARIS X solver API health response' };
+    return { state: 'running', name: `POLARIS X solver API ${j.version}`, endpoint: 'POST /v1/solve' };
   } catch (e) {
     return { state: 'down', why: ac.signal.aborted ? `no answer within ${timeoutMs / 1000} s` : e instanceof Error ? e.message : String(e) };
   } finally {
@@ -163,38 +167,93 @@ export async function probeSolver(fetcher: typeof fetch = fetch, timeoutMs = 250
   }
 }
 
-/** Compact answer of science/anysite/api.py (POST /anysite). Fields are optional so a newer API can add to it. */
+/** What the panel shows, flattened from the /v1/solve SolveResult. Every number is copied, never recomputed. */
 export interface SolverAnswer {
   site_hash?: string;
   bundle_path?: string;
   cache_hit?: boolean;
+  cache_source?: string;
   label?: string;
-  ground_m?: number;
-  sun_center_visible_pct_hourly_samples?: number;
-  sun_and_earth_center_visible_pct_hourly_samples?: number;
-  longest_sun_center_hidden_h?: number;
-  n_truncated_bins?: number;
-  near_product?: string;
-  far_product?: string;
-  timing_s?: Record<string, number>;
+  ground_m?: number | null;
+  sun_center_visible_pct_hourly_samples?: number | null;
+  sun_and_earth_center_visible_pct_hourly_samples?: number | null;
+  earth_center_visible_pct_hourly_samples?: number | null;
+  longest_sun_center_hidden_h?: number | null;
+  n_truncated_bins?: number | null;
+  near_product?: string | null;
+  far_product?: string | null;
+  members?: string[];
+  solver_version?: string | null;
+  recompute?: string | null;
+  disclaimer?: string;
   error?: string;
+}
+
+interface V1Number {
+  value: number | null;
+}
+/** The fields of science/api SolveResult the panel reads (schema: docs/v2/openapi.yaml#/components/schemas/SolveResult). */
+export interface V1SolveResult {
+  site_hash: string;
+  label: string;
+  disclaimer?: string;
+  cache: { hit: boolean; source: string };
+  site: { height_m?: number | null };
+  members?: string[];
+  metrics: Record<string, V1Number | undefined>;
+  solver_version?: string | null;
+  terrain?: { near_product?: string | null; far_product?: string | null; n_truncated_bins?: number | null } | null;
+  reproduce?: { recompute?: string | null };
+  bundle_file?: string;
+}
+
+const metric = (j: V1SolveResult, k: string) => j.metrics?.[k]?.value ?? null;
+
+export function fromSolveResult(j: V1SolveResult): SolverAnswer {
+  return {
+    site_hash: j.site_hash,
+    bundle_path: j.bundle_file,
+    cache_hit: j.cache?.hit,
+    cache_source: j.cache?.source,
+    label: j.label,
+    ground_m: j.site?.height_m ?? null,
+    sun_center_visible_pct_hourly_samples: metric(j, 'sun_center_visible_pct_hourly_samples'),
+    sun_and_earth_center_visible_pct_hourly_samples: metric(j, 'sun_and_earth_center_visible_pct_hourly_samples'),
+    earth_center_visible_pct_hourly_samples: metric(j, 'earth_center_visible_pct_hourly_samples'),
+    longest_sun_center_hidden_h: metric(j, 'longest_sun_center_hidden_h'),
+    n_truncated_bins: j.terrain?.n_truncated_bins ?? null,
+    near_product: j.terrain?.near_product ?? null,
+    far_product: j.terrain?.far_product ?? null,
+    members: j.members,
+    solver_version: j.solver_version ?? null,
+    recompute: j.reproduce?.recompute ?? null,
+    disclaimer: j.disclaimer,
+  };
+}
+
+/** The /v1/solve request body compute now sends (precomputed rows' window and mast; JPL Horizons allowed, as before). */
+export function solveRequest(lat: number, lon: number, members: string[] = []) {
+  return { world: 'moon', lat, lon, ...SOLVE_WINDOW, members: [...members].sort(), compute: true, allow_network: true };
 }
 
 export async function computeNow(lat: number, lon: number, members: string[] = [], fetcher: typeof fetch = fetch, timeoutMs = 180_000): Promise<SolverAnswer> {
   const ac = new AbortController();
   const timer = setTimeout(() => ac.abort(), timeoutMs);
   try {
-    const r = await fetcher(`${SOLVER_BASE}anysite`, {
+    const r = await fetcher(`${SOLVER_BASE}v1/solve`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lat, lon, mast_m: 1, start: '2026-11-14 00:00', days: 14, step_h: 1, members }),
+      body: JSON.stringify(solveRequest(lat, lon, members)),
       signal: ac.signal,
     });
     const ct = r.headers.get('content-type') ?? '';
     if (!ct.includes('json')) return { error: `HTTP ${r.status}: the solver API did not answer JSON` };
-    const j = (await r.json()) as SolverAnswer;
-    if (!r.ok && !j.error) return { error: `HTTP ${r.status}` };
-    return j;
+    const j = (await r.json()) as (V1SolveResult & { error?: undefined }) | { error?: string; detail?: string | null };
+    if (!r.ok || 'error' in j && j.error) {
+      const e = j as { error?: string; detail?: string | null };
+      return { error: e.error ? `${e.error}${e.detail ? ` (${e.detail})` : ''}` : `HTTP ${r.status}` };
+    }
+    return fromSolveResult(j as V1SolveResult);
   } catch (e) {
     return { error: ac.signal.aborted ? `no answer within ${timeoutMs / 1000} s` : e instanceof Error ? e.message : String(e) };
   } finally {

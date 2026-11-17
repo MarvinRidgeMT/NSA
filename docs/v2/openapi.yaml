@@ -514,6 +514,24 @@ components:
           type:
             - string
             - "null"
+        terrain:
+          type:
+            - object
+            - "null"
+          description: any-site terrain used (null for world bundles)
+          properties:
+            near_product:
+              type:
+                - string
+                - "null"
+            far_product:
+              type:
+                - string
+                - "null"
+            n_truncated_bins:
+              type:
+                - integer
+                - "null"
         links:
           type: object
           additionalProperties:
