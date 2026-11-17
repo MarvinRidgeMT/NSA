@@ -163,13 +163,16 @@ class Live(unittest.TestCase):
         self.assertTrue(h['ok'])
         w = self.check('GET', '/v1/worlds', '/v1/worlds')
         self.assertEqual([x['name'] for x in w['worlds']], ['moon', 'mercury', 'mars'])
-        self.assertFalse(next(x for x in w['worlds'] if x['name'] == 'mars')['available'])
+        # availability comes from the worlds registry (T3 made Mars available after this test was written)
+        from science.worlds import get_world
+        for x in w['worlds']:
+            self.assertEqual(x['available'], bool(get_world(x['name']).available), x['name'])
         self.check('GET', '/v1/worlds/mercury', '/v1/worlds/{world}')
         self.check('GET', '/v1/worlds/pluto', '/v1/worlds/{world}', status=404)
 
     def test_sites_and_site(self):
         s = self.check('GET', '/v1/sites', '/v1/sites')
-        self.assertEqual(s['n_total'], 2)                            # fixture Moon site + Mercury world bundle
+        self.assertEqual(s['n_total'], len(self.svc.precompute['sites']) + len(self.svc.world_bundle_index))  # fixture Moon site + every committed world bundle
         self.assertEqual({x['world'] for x in s['sites']}, {'moon', 'mercury'})
         s = self.check('GET', '/v1/sites?world=moon&lat_max=-80', '/v1/sites')
         self.assertEqual([x['site_hash'] for x in s['sites']], [HASH])
