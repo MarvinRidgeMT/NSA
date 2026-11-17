@@ -1478,3 +1478,8 @@ Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/P
 - Pre-registration: all 9 SHA-256s in `docs/v2/PREREGISTRATION.md` (frozen protocol, catalogue files, amendments A1–A4) match the files.
 - Tests: pytest `science tools` 779 passed, 3 skipped; Blender run_all 14/14 (POLARIS_PYTHON); vitest 175/175; build OK; Playwright :4199 105 passed, 4 skipped, 2 failed = cold-launch (port-4173 artefact) and final-apex P6 sight label (passes alone 2/2). Screenshots the e2e run rewrote were restored.
 - Frozen refs: `submission-2026-11-15` c5dce9f, `submission-final` 8dde4f1, `submission/merged` 62cc7b1, `main` 8dde4f1, `codex/lab-integration` d24fae3 — unchanged. Nothing pushed.
+
+### POLARIS X v2 follow-up — compute now → /v1/solve; fork-free git provenance — Claude (coordinator), 17 Nov 2026 ~07:20 EST
+- ed50099: the viewer's "compute now" calls T1's solver API (`POST /v1/solve`, :8767) through the Vite proxy; SolveResult gains `terrain`. Live check viewer → proxy → API → solver at −89.25°, −120°: panel values equal the written bundle.
+- 92a664e: "Python quit unexpectedly" dialogs (4 at 06:59–07:00) were git subprocess children forked by the threaded API server while a solve held PROJ/SQLite; PROJ's atfork handler crashed them and the commit came back `unknown`. Git now runs via posix_spawn (`science/gitinfo.py`). Stress test: 11 crashes / 11 unknown before, 0 / 0 after. No cached bundle had `unknown`.
+- Tests: pytest `science tools` 785 passed, 3 skipped (new: test_gitinfo 3, test_web_fixture 3); vitest 176/176; tsc clean; build OK; Playwright globe-v2 5 passed, 2 skipped (layers not built in this worktree). Nothing pushed; frozen refs unchanged.
