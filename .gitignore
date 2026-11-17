@@ -73,3 +73,5 @@ docs/validation/render_vs_real/*.jpg
 
 # A5 held-out gallery: crops of LROC NAC images (NASA), built locally, never committed
 docs/validation/render_vs_real_heldout/
+docs/validation/render_vs_real_wac/
+docs/validation/render_vs_real_wac_heldout/

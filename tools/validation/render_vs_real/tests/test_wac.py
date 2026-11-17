@@ -98,6 +98,16 @@ class Guard(unittest.TestCase):
         self.assertEqual(WC.WAC_RESULTS.name, 'results_wac')
         self.assertNotEqual(WC.WAC_WORK.name, 'render_vs_real')
 
+    def test_held_out_run_freezes_every_wac_module_it_executes(self):
+        from tools.validation.render_vs_real import wac_heldout
+        here = Path(wac_heldout.__file__).parent
+        mods = {f'tools/validation/render_vs_real/{p.name}' for p in here.glob('wac_*.py') if p.name != 'wac_report.py'}
+        self.assertEqual(mods - set(wac_heldout.FROZEN_CODE), set())
+        from tools.validation.render_vs_real.common import preregistered
+        if 'docs/v2/RENDER_VS_REAL_PROTOCOL_A7.md' not in {p for p, _ in preregistered()}:
+            with self.assertRaises(HeldOutError):
+                wac_heldout.verify()
+
 
 class StripScoring(unittest.TestCase):
     """A6.4: synthetic push-frame scene; neighbourhood operations never cross a framelet seam."""
