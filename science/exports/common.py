@@ -11,7 +11,6 @@ import hashlib
 import json
 import os
 import re
-import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -50,10 +49,8 @@ def read_json(p) -> Any:
 
 def git_commit() -> dict:
     try:
-        rev = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True, stderr=subprocess.DEVNULL).strip()
-        dirty = bool(subprocess.check_output(['git', 'status', '--porcelain', '--', 'science'], cwd=ROOT, text=True,
-                                             stderr=subprocess.DEVNULL).strip())
-        return {'commit': rev, 'science_dirty': dirty}
+        from .. import gitinfo       # posix_spawn, no fork (see science/gitinfo.py)
+        return {'commit': gitinfo.head(), 'science_dirty': gitinfo.porcelain_dirty('science')}
     except Exception:  # noqa: BLE001
         return {'commit': 'unknown', 'science_dirty': None}
 

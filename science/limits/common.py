@@ -9,7 +9,6 @@ from __future__ import annotations
 import datetime as _dt
 import hashlib
 import json
-import subprocess
 import sys
 from pathlib import Path
 
@@ -35,9 +34,8 @@ def sha256_file(p):
 
 def git_commit():
     try:
-        c = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
-        dirty = subprocess.call(['git', 'diff', '--quiet', 'HEAD', '--', 'science'], cwd=ROOT) != 0
-        return c + ('-dirty' if dirty else '')
+        from .. import gitinfo       # posix_spawn, no fork (see science/gitinfo.py)
+        return gitinfo.head() + ('-dirty' if gitinfo.diff_dirty('science') else '')
     except Exception:
         return 'unknown'
 

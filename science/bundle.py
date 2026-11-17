@@ -13,7 +13,6 @@ import datetime as dt
 import hashlib
 import json
 import math
-import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -31,9 +30,8 @@ BODIES = {'sun': '10', 'earth': '399'}
 
 def _git():
     try:
-        rev = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
-        dirty = bool(subprocess.check_output(['git', 'status', '--porcelain', '--', 'science'], cwd=ROOT, text=True).strip())
-        return rev + ('-dirty' if dirty else '')
+        from . import gitinfo        # posix_spawn, no fork (see science/gitinfo.py)
+        return gitinfo.head() + ('-dirty' if gitinfo.porcelain_dirty('science') else '')
     except Exception:
         return 'unknown'
 
