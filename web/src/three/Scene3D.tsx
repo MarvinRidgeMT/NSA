@@ -133,7 +133,7 @@ type SightLabel = { k: string; m: string; a: string; r: string; state: string };
 const sightText: Record<'sun' | 'earth', SightLabel | null> = { sun: null, earth: null };
 const sightAnchor: Record<string, THREE.Object3D | null> = { sun: null, earth: null };
 const sightEl: Record<string, HTMLDivElement | null> = { sun: null, earth: null };
-const flipCache = { t: -1e9, limit: Infinity, w: { sun: 0, earth: 0 } as Record<'sun' | 'earth', number> };
+const flipCache = { t: -1e9, limit: Infinity, min: 0, w: { sun: 0, earth: 0 } as Record<'sun' | 'earth', number> };
 
 function LabelAnchor({ id, position }: { id: 'sun' | 'earth'; position: THREE.Vector3 }) {
   const ref = useRef<THREE.Object3D>(null);
@@ -172,7 +172,10 @@ function SightLabelDriver() {
       const now = performance.now();
       if (now - flipCache.t > 250) {
         const host = el.parentElement?.getBoundingClientRect();
-        const ins = document.querySelector('[data-testid="instrument"]')?.getBoundingClientRect();
+        // Simple mode (S2) marks its overlay panels with data-sight-avoid; Expert mode has none, so its limits are unchanged.
+        const ins = document.querySelector('[data-testid="instrument"], [data-sight-avoid="right"]')?.getBoundingClientRect();
+        const lp = document.querySelector('[data-sight-avoid="left"]')?.getBoundingClientRect();
+        flipCache.min = host && lp && lp.width > 0 && lp.right < host.right ? lp.right - host.left : 0;
         let limit = size.width;
         if (host && ins && ins.width > 0 && ins.left > host.left && ins.top < host.top + size.height && ins.bottom > host.top) limit = Math.min(limit, ins.left - host.left);
         flipCache.limit = limit;
@@ -180,7 +183,8 @@ function SightLabelDriver() {
         flipCache.w.earth = sightEl.earth?.offsetWidth ?? 0;
         flipCache.t = now;
       }
-      const flip = sx + 8 + flipCache.w[id] > flipCache.limit - 4;
+      // flip left when the label would run under the right-hand panel, unless that would put it under the left-hand one
+      const flip = sx + 8 + flipCache.w[id] > flipCache.limit - 4 && !(flipCache.min > 0 && sx - 8 - flipCache.w[id] < flipCache.min + 4);
       if (el.classList.contains('flip') !== flip) el.classList.toggle('flip', flip);
       const k = el.querySelector('.k');
       const m = el.querySelector('.m');

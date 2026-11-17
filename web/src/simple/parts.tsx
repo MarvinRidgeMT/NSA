@@ -15,6 +15,9 @@ const svg = (size: number, children: ReactNode) => (
 export const IconClose = ({ size = 16 }: IconProps) => svg(size, <path d="M4 4l8 8M12 4l-8 8" />);
 export const IconBack = ({ size = 16 }: IconProps) => svg(size, <path d="M9.5 3.5L5 8l4.5 4.5M5 8h7" />);
 export const IconArrow = ({ size = 16 }: IconProps) => svg(size, <path d="M6.5 3.5L11 8l-4.5 4.5M11 8H4" />);
+export const IconChevronUp = ({ size = 16 }: IconProps) => svg(size, <path d="M3.5 10L8 5.5l4.5 4.5" />);
+export const IconChevronDown = ({ size = 16 }: IconProps) => svg(size, <path d="M3.5 6L8 10.5 12.5 6" />);
+export const IconMenu = ({ size = 16 }: IconProps) => svg(size, <path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" />);
 export const IconSoundOff = ({ size = 16 }: IconProps) =>
   svg(
     size,
