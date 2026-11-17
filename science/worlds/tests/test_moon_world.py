@@ -50,8 +50,13 @@ class MoonRegressionThroughWorldAPI(unittest.TestCase):
         moon = get_world('moon')
         from science.worlds import moon as moon_mod
         cls.world = moon
+        # The exact-identity regression runs on the per-product path, as R1's own test does
+        # (science/anysite/tests/test_anysite.py::Site04Roi3Reproduction): since round 2 the merged pyramid is the solver's
+        # default terrain and reproduces RoI 3 within a documented tolerance, not bit for bit.
+        from science.anysite.stack import LegacyStack
         cls.b = moon_mod.solve(*ROI3, mast_m=1.0, member_kinds=('clones',), n_members=20, use_cache=False,
-                               allow_network=False, out_dir=ROOT / 'data' / 'cache' / 'anysite' / 'test_bundles_worlds')
+                               allow_network=False, stack=LegacyStack(),
+                               out_dir=ROOT / 'data' / 'cache' / 'anysite' / 'test_bundles_worlds')
 
     def test_nominal(self):
         m = self.b['metrics']
