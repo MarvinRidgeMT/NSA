@@ -66,3 +66,7 @@ web/public/layers/v2/
 web/public/anysite/
 web/public/draco/
 web/public/globe/globe_manifest.json
+# R4 render-vs-real viewer data (LROC NAC thumbnails + index; rebuilt by python -m tools.validation.render_vs_real.report --web)
+web/public/render_vs_real/
+# R4 render-vs-real report gallery (JPEGs derived from LROC NAC PDS images; rebuilt locally by python -m tools.validation.render_vs_real.report). Not committed.
+docs/validation/render_vs_real/*.jpg

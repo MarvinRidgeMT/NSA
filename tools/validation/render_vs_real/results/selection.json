@@ -1,0 +1,3378 @@
+{
+ "rule": [
+  "Rule (fixed before any image is fetched; never uses image content or scores):",
+  "  1. rows with split = dev, instrument LROC_NAC, passing the protocol \u00a72 metadata gates;",
+  "  2. each image is assigned to the NAIF `lrosc` spacecraft-attitude CK window (\u224810 days) that contains its start time;",
+  "  3. whole windows are taken in descending order of (eligible images / CK megabytes), ties by SHA-256(seed:window), until the",
+  "     target image count is reached. This is cluster sampling under a download budget: the CK files dominate the bytes."
+ ],
+ "seed": "polaris-x-v2-r4-dev-sample-2026-11-16",
+ "target": 200,
+ "eligibleRows": 522,
+ "eligibleImages": 495,
+ "gatedByMetadata": {
+  "overlap_frac < 0.25 and site centre not covered": 1347
+ },
+ "imagesWithoutCk": [],
+ "ckWindowsChosen": [
+  {
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "images": 14,
+   "ckMB": 88.0
+  },
+  {
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "images": 15,
+   "ckMB": 118.0
+  },
+  {
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "images": 23,
+   "ckMB": 264.0
+  },
+  {
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "images": 22,
+   "ckMB": 290.0
+  },
+  {
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "images": 19,
+   "ckMB": 264.0
+  },
+  {
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "images": 19,
+   "ckMB": 290.0
+  },
+  {
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "images": 12,
+   "ckMB": 264.0
+  },
+  {
+   "ck": "lrosc_2010042_2010052_v01.bc",
+   "images": 10,
+   "ckMB": 261.0
+  },
+  {
+   "ck": "lrosc_2009182_2009192_v01.bc",
+   "images": 10,
+   "ckMB": 264.0
+  },
+  {
+   "ck": "lrosc_2010070_2010080_v01.bc",
+   "images": 10,
+   "ckMB": 264.0
+  },
+  {
+   "ck": "lrosc_2011032_2011042_v01.bc",
+   "images": 10,
+   "ckMB": 264.0
+  },
+  {
+   "ck": "lrosc_2009264_2009274_v01.bc",
+   "images": 9,
+   "ckMB": 264.0
+  },
+  {
+   "ck": "lrosc_2010345_2010355_v01.bc",
+   "images": 9,
+   "ckMB": 264.0
+  },
+  {
+   "ck": "lrosc_2011101_2011111_v01.bc",
+   "images": 8,
+   "ckMB": 264.0
+  },
+  {
+   "ck": "lrosc_2010284_2010294_v01.bc",
+   "images": 7,
+   "ckMB": 264.0
+  },
+  {
+   "ck": "lrosc_2010274_2010284_v01.bc",
+   "images": 7,
+   "ckMB": 264.0
+  }
+ ],
+ "nImages": 204,
+ "nRows": 209,
+ "images": [
+  {
+   "product_id": "M162478694LC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-06-12T00:44:32.314Z",
+   "utc_start": "2011-06-12T00:43:48.095000Z",
+   "utc_stop": "2011-06-12T00:45:16.534000Z",
+   "pixel_scale_m": 1.962,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162478694LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162478694LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162485477LC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-06-12T02:37:35.615Z",
+   "utc_start": "2011-06-12T02:36:51.396000Z",
+   "utc_stop": "2011-06-12T02:38:19.835000Z",
+   "pixel_scale_m": 1.964,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162485477LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162485477LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162492261LC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-06-12T04:30:39.015Z",
+   "utc_start": "2011-06-12T04:29:54.796000Z",
+   "utc_stop": "2011-06-12T04:31:23.235000Z",
+   "pixel_scale_m": 1.966,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162492261LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162492261LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162499044LC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-06-12T06:23:42.496Z",
+   "utc_start": "2011-06-12T06:22:58.277000Z",
+   "utc_stop": "2011-06-12T06:24:26.716000Z",
+   "pixel_scale_m": 1.967,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162499044LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162499044LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162505828LC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-06-12T08:16:46.426Z",
+   "utc_start": "2011-06-12T08:16:02.207000Z",
+   "utc_stop": "2011-06-12T08:17:30.646000Z",
+   "pixel_scale_m": 1.968,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162505828LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162505828LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162519395RC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-06-12T12:02:53.487Z",
+   "utc_start": "2011-06-12T12:02:09.268000Z",
+   "utc_stop": "2011-06-12T12:03:37.707000Z",
+   "pixel_scale_m": 1.965,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162519395RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162519395RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162526179RC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-06-12T13:55:57.417Z",
+   "utc_start": "2011-06-12T13:55:13.198000Z",
+   "utc_stop": "2011-06-12T13:56:41.637000Z",
+   "pixel_scale_m": 1.965,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162526179RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162526179RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162532963RC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-06-12T15:49:01.498Z",
+   "utc_start": "2011-06-12T15:48:17.279000Z",
+   "utc_stop": "2011-06-12T15:49:45.718000Z",
+   "pixel_scale_m": 1.963,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162532963RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162532963RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162539747RC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-06-12T17:42:05.758Z",
+   "utc_start": "2011-06-12T17:41:21.539000Z",
+   "utc_stop": "2011-06-12T17:42:49.978000Z",
+   "pixel_scale_m": 1.961,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162539747RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162539747RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162553316RC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-06-12T21:28:14.899Z",
+   "utc_start": "2011-06-12T21:27:30.680000Z",
+   "utc_stop": "2011-06-12T21:28:59.119000Z",
+   "pixel_scale_m": 1.958,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162553316RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162553316RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162560101RC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-06-12T23:21:19.420Z",
+   "utc_start": "2011-06-12T23:20:35.201000Z",
+   "utc_stop": "2011-06-12T23:22:03.640000Z",
+   "pixel_scale_m": 1.958,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162560101RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162560101RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162566885LC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-06-13T01:14:23.821Z",
+   "utc_start": "2011-06-13T01:13:39.602000Z",
+   "utc_stop": "2011-06-13T01:15:08.041000Z",
+   "pixel_scale_m": 1.958,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011164/NAC/M162566885LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011164/NAC/M162566885LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162566885RC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-06-13T01:14:23.821Z",
+   "utc_start": "2011-06-13T01:13:39.602000Z",
+   "utc_stop": "2011-06-13T01:15:08.041000Z",
+   "pixel_scale_m": 1.956,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011164/NAC/M162566885RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011164/NAC/M162566885RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162573669RC",
+   "ck": "lrosc_2011162_2011165_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-06-13T03:07:27.951Z",
+   "utc_start": "2011-06-13T03:06:43.732000Z",
+   "utc_stop": "2011-06-13T03:08:12.171000Z",
+   "pixel_scale_m": 1.954,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011164/NAC/M162573669RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011164/NAC/M162573669RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163109837LC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T08:03:35.924Z",
+   "utc_start": "2011-06-19T08:02:51.705000Z",
+   "utc_stop": "2011-06-19T08:04:20.144000Z",
+   "pixel_scale_m": 1.972,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163109837LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163109837LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163116624LC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T09:56:42.014Z",
+   "utc_start": "2011-06-19T09:55:57.795000Z",
+   "utc_stop": "2011-06-19T09:57:26.234000Z",
+   "pixel_scale_m": 1.97,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163116624LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163116624LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163130195LC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T13:42:53.865Z",
+   "utc_start": "2011-06-19T13:42:09.646000Z",
+   "utc_stop": "2011-06-19T13:43:38.085000Z",
+   "pixel_scale_m": 1.963,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163130195LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163130195LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163136981LC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T15:35:59.796Z",
+   "utc_start": "2011-06-19T15:35:15.577000Z",
+   "utc_stop": "2011-06-19T15:36:44.015000Z",
+   "pixel_scale_m": 1.961,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163136981LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163136981LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163143767LC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T17:29:05.786Z",
+   "utc_start": "2011-06-19T17:28:21.567000Z",
+   "utc_stop": "2011-06-19T17:29:50.006000Z",
+   "pixel_scale_m": 1.958,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163143767LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163143767LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163150553LC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T19:22:11.897Z",
+   "utc_start": "2011-06-19T19:21:27.678000Z",
+   "utc_stop": "2011-06-19T19:22:56.117000Z",
+   "pixel_scale_m": 1.954,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163150553LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163150553LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163150553RC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T19:22:11.897Z",
+   "utc_start": "2011-06-19T19:21:27.678000Z",
+   "utc_stop": "2011-06-19T19:22:56.117000Z",
+   "pixel_scale_m": 1.953,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163150553RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163150553RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163157340LC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T21:15:18.036Z",
+   "utc_start": "2011-06-19T21:14:33.817000Z",
+   "utc_stop": "2011-06-19T21:16:02.256000Z",
+   "pixel_scale_m": 1.952,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163157340LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163157340LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163164126LC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T23:08:24.437Z",
+   "utc_start": "2011-06-19T23:07:40.218000Z",
+   "utc_stop": "2011-06-19T23:09:08.657000Z",
+   "pixel_scale_m": 1.949,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163164126LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163164126LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163164126RC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T23:08:24.437Z",
+   "utc_start": "2011-06-19T23:07:40.218000Z",
+   "utc_stop": "2011-06-19T23:09:08.657000Z",
+   "pixel_scale_m": 1.947,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163164126RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163164126RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163170913LC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-20T01:01:31.697Z",
+   "utc_start": "2011-06-20T01:00:47.478000Z",
+   "utc_stop": "2011-06-20T01:02:15.917000Z",
+   "pixel_scale_m": 1.944,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011171/NAC/M163170913LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011171/NAC/M163170913LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163170913RC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-20T01:01:31.697Z",
+   "utc_start": "2011-06-20T01:00:47.478000Z",
+   "utc_stop": "2011-06-20T01:02:15.917000Z",
+   "pixel_scale_m": 1.942,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011171/NAC/M163170913RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011171/NAC/M163170913RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163177700RC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-20T02:54:38.448Z",
+   "utc_start": "2011-06-20T02:53:54.229000Z",
+   "utc_stop": "2011-06-20T02:55:22.668000Z",
+   "pixel_scale_m": 1.939,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011171/NAC/M163177700RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011171/NAC/M163177700RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163184487RC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-20T04:47:45.279Z",
+   "utc_start": "2011-06-20T04:47:01.060000Z",
+   "utc_stop": "2011-06-20T04:48:29.499000Z",
+   "pixel_scale_m": 1.936,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011171/NAC/M163184487RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011171/NAC/M163184487RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163191274RC",
+   "ck": "lrosc_2011166_2011172_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-20T06:40:52.029Z",
+   "utc_start": "2011-06-20T06:40:07.810000Z",
+   "utc_stop": "2011-06-20T06:41:36.249000Z",
+   "pixel_scale_m": 1.934,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011171/NAC/M163191274RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011171/NAC/M163191274RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139695762LC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-21T08:08:36.641Z",
+   "utc_start": "2010-09-21T08:08:15.028000Z",
+   "utc_stop": "2010-09-21T08:08:58.254000Z",
+   "pixel_scale_m": 1.274,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139695762LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139695762LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139709342LC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-09-21T11:54:57.093Z",
+   "utc_start": "2010-09-21T11:54:35.480000Z",
+   "utc_stop": "2010-09-21T11:55:18.706000Z",
+   "pixel_scale_m": 1.271,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139709342LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139709342LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m",
+    "site01_roi6": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139716114RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-21T13:47:49.443Z",
+   "utc_start": "2010-09-21T13:47:27.830000Z",
+   "utc_stop": "2010-09-21T13:48:11.056000Z",
+   "pixel_scale_m": 1.35,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139716114RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139716114RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139722912RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-21T15:41:07.293Z",
+   "utc_start": "2010-09-21T15:40:45.680000Z",
+   "utc_stop": "2010-09-21T15:41:28.907000Z",
+   "pixel_scale_m": 1.266,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139722912RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139722912RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139729686RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-21T17:34:01.211Z",
+   "utc_start": "2010-09-21T17:33:39.822000Z",
+   "utc_stop": "2010-09-21T17:34:22.601000Z",
+   "pixel_scale_m": 1.256,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139729686RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139729686RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139743255LC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-09-21T21:20:09.909Z",
+   "utc_start": "2010-09-21T21:19:48.744000Z",
+   "utc_stop": "2010-09-21T21:20:31.075000Z",
+   "pixel_scale_m": 1.243,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139743255LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139743255LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139743255RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-09-21T21:20:09.909Z",
+   "utc_start": "2010-09-21T21:19:48.744000Z",
+   "utc_stop": "2010-09-21T21:20:31.075000Z",
+   "pixel_scale_m": 1.241,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139743255RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139743255RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139763609LC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-09-22T02:59:22.591Z",
+   "utc_start": "2010-09-22T02:59:02.321000Z",
+   "utc_stop": "2010-09-22T02:59:42.861000Z",
+   "pixel_scale_m": 1.194,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/NAC/M139763609LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/NAC/M139763609LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139763609RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-09-22T02:59:22.591Z",
+   "utc_start": "2010-09-22T02:59:02.321000Z",
+   "utc_stop": "2010-09-22T02:59:42.861000Z",
+   "pixel_scale_m": 1.193,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/NAC/M139763609RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/NAC/M139763609RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139783961RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-09-22T08:38:33.312Z",
+   "utc_start": "2010-09-22T08:38:13.937000Z",
+   "utc_stop": "2010-09-22T08:38:52.687000Z",
+   "pixel_scale_m": 1.142,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/NAC/M139783961RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/NAC/M139783961RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139831449RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-22T21:50:00.454Z",
+   "utc_start": "2010-09-22T21:49:41.975000Z",
+   "utc_stop": "2010-09-22T21:50:18.934000Z",
+   "pixel_scale_m": 1.089,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/NAC/M139831449RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010265/NAC/M139831449RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139858589LC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-23T05:22:20.794Z",
+   "utc_start": "2010-09-23T05:22:02.538000Z",
+   "utc_stop": "2010-09-23T05:22:39.050000Z",
+   "pixel_scale_m": 1.082,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139858589LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139858589LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139858589RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-23T05:22:20.794Z",
+   "utc_start": "2010-09-23T05:22:02.538000Z",
+   "utc_stop": "2010-09-23T05:22:39.050000Z",
+   "pixel_scale_m": 1.08,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139858589RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139858589RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139865396RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-23T07:15:48.046Z",
+   "utc_start": "2010-09-23T07:15:29.567000Z",
+   "utc_stop": "2010-09-23T07:16:06.526000Z",
+   "pixel_scale_m": 1.089,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139865396RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139865396RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139878946RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-23T11:01:38.217Z",
+   "utc_start": "2010-09-23T11:01:19.738000Z",
+   "utc_stop": "2010-09-23T11:01:56.697000Z",
+   "pixel_scale_m": 1.159,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139878946RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139878946RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139885744RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-23T12:54:56.108Z",
+   "utc_start": "2010-09-23T12:54:37.629000Z",
+   "utc_stop": "2010-09-23T12:55:14.588000Z",
+   "pixel_scale_m": 1.088,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139885744RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139885744RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139892540RC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-23T14:48:11.316Z",
+   "utc_start": "2010-09-23T14:47:53.061000Z",
+   "utc_stop": "2010-09-23T14:48:29.572000Z",
+   "pixel_scale_m": 1.079,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139892540RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139892540RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139899304LC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-23T16:40:55.016Z",
+   "utc_start": "2010-09-23T16:40:36.761000Z",
+   "utc_stop": "2010-09-23T16:41:13.272000Z",
+   "pixel_scale_m": 1.078,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139899304LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139899304LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139973949LC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-24T13:25:00.134Z",
+   "utc_start": "2010-09-24T13:24:42.550000Z",
+   "utc_stop": "2010-09-24T13:25:17.719000Z",
+   "pixel_scale_m": 1.042,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010267/NAC/M139973949LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010267/NAC/M139973949LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139994306LC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-24T19:04:15.970Z",
+   "utc_start": "2010-09-24T19:03:58.834000Z",
+   "utc_stop": "2010-09-24T19:04:33.107000Z",
+   "pixel_scale_m": 1.013,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010267/NAC/M139994306LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010267/NAC/M139994306LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M140007876LC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-24T22:50:25.676Z",
+   "utc_start": "2010-09-24T22:50:08.988000Z",
+   "utc_stop": "2010-09-24T22:50:42.365000Z",
+   "pixel_scale_m": 0.992,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010267/NAC/M140007876LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010267/NAC/M140007876LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M140021445LC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-25T02:36:34.975Z",
+   "utc_start": "2010-09-25T02:36:18.510000Z",
+   "utc_stop": "2010-09-25T02:36:51.440000Z",
+   "pixel_scale_m": 0.975,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010268/NAC/M140021445LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010268/NAC/M140021445LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M140218222LC",
+   "ck": "lrosc_2010264_2010274_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-09-27T09:16:12.483Z",
+   "utc_start": "2010-09-27T09:15:55.571000Z",
+   "utc_stop": "2010-09-27T09:16:29.396000Z",
+   "pixel_scale_m": 1.003,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010270/NAC/M140218222LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010270/NAC/M140218222LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169251005LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T09:56:05.036Z",
+   "utc_start": "2011-08-29T09:55:38.499000Z",
+   "utc_stop": "2011-08-29T09:56:31.574000Z",
+   "pixel_scale_m": 1.357,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169251005LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169251005LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169257788LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T11:49:08.133Z",
+   "utc_start": "2011-08-29T11:48:41.596000Z",
+   "utc_stop": "2011-08-29T11:49:34.670000Z",
+   "pixel_scale_m": 1.36,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169257788LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169257788LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169271354LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T15:35:14.442Z",
+   "utc_start": "2011-08-29T15:34:47.905000Z",
+   "utc_stop": "2011-08-29T15:35:40.979000Z",
+   "pixel_scale_m": 1.375,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169271354LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169271354LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169271354RC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T15:35:14.442Z",
+   "utc_start": "2011-08-29T15:34:47.905000Z",
+   "utc_stop": "2011-08-29T15:35:40.979000Z",
+   "pixel_scale_m": 1.373,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169271354RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169271354RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169278138LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T17:28:17.753Z",
+   "utc_start": "2011-08-29T17:27:51.216000Z",
+   "utc_stop": "2011-08-29T17:28:44.291000Z",
+   "pixel_scale_m": 1.373,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169278138LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169278138LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169284921RC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T19:21:20.597Z",
+   "utc_start": "2011-08-29T19:20:54.060000Z",
+   "utc_stop": "2011-08-29T19:21:47.134000Z",
+   "pixel_scale_m": 1.373,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169284921RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169284921RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169291703LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T21:14:23.375Z",
+   "utc_start": "2011-08-29T21:13:56.838000Z",
+   "utc_stop": "2011-08-29T21:14:49.913000Z",
+   "pixel_scale_m": 1.379,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169291703LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169291703LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169291703RC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T21:14:23.375Z",
+   "utc_start": "2011-08-29T21:13:56.838000Z",
+   "utc_stop": "2011-08-29T21:14:49.913000Z",
+   "pixel_scale_m": 1.377,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169291703RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169291703RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169298486RC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T23:07:26.315Z",
+   "utc_start": "2011-08-29T23:06:59.778000Z",
+   "utc_stop": "2011-08-29T23:07:52.853000Z",
+   "pixel_scale_m": 1.379,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169298486RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169298486RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169305270LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-30T01:00:29.834Z",
+   "utc_start": "2011-08-30T01:00:03.297000Z",
+   "utc_stop": "2011-08-30T01:00:56.371000Z",
+   "pixel_scale_m": 1.385,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169305270LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169305270LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169305270RC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-30T01:00:29.834Z",
+   "utc_start": "2011-08-30T01:00:03.297000Z",
+   "utc_stop": "2011-08-30T01:00:56.371000Z",
+   "pixel_scale_m": 1.383,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169305270RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169305270RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169318838LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-30T04:46:37.718Z",
+   "utc_start": "2011-08-30T04:46:11.181000Z",
+   "utc_stop": "2011-08-30T04:47:04.256000Z",
+   "pixel_scale_m": 1.386,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169318838LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169318838LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169325622LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-30T06:39:42.333Z",
+   "utc_start": "2011-08-30T06:39:15.796000Z",
+   "utc_stop": "2011-08-30T06:40:08.871000Z",
+   "pixel_scale_m": 1.394,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169325622LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169325622LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169332407LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-30T08:32:46.906Z",
+   "utc_start": "2011-08-30T08:32:20.369000Z",
+   "utc_stop": "2011-08-30T08:33:13.444000Z",
+   "pixel_scale_m": 1.391,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169332407LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169332407LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169339192LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-30T10:25:51.692Z",
+   "utc_start": "2011-08-30T10:25:25.155000Z",
+   "utc_stop": "2011-08-30T10:26:18.229000Z",
+   "pixel_scale_m": 1.389,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169339192LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169339192LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169345976LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-30T12:18:56.433Z",
+   "utc_start": "2011-08-30T12:18:29.896000Z",
+   "utc_stop": "2011-08-30T12:19:22.971000Z",
+   "pixel_scale_m": 1.383,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169345976LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169345976LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169427400LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-31T10:55:59.821Z",
+   "utc_start": "2011-08-31T10:55:33.284000Z",
+   "utc_stop": "2011-08-31T10:56:26.359000Z",
+   "pixel_scale_m": 1.405,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169427400LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169427400LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169440970LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-31T14:42:09.848Z",
+   "utc_start": "2011-08-31T14:41:43.311000Z",
+   "utc_stop": "2011-08-31T14:42:36.386000Z",
+   "pixel_scale_m": 1.401,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169440970LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169440970LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169447754LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-31T16:35:14.259Z",
+   "utc_start": "2011-08-31T16:34:47.722000Z",
+   "utc_stop": "2011-08-31T16:35:40.797000Z",
+   "pixel_scale_m": 1.409,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169447754LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169447754LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169454537LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-31T18:28:16.938Z",
+   "utc_start": "2011-08-31T18:27:50.401000Z",
+   "utc_stop": "2011-08-31T18:28:43.475000Z",
+   "pixel_scale_m": 1.415,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169454537LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169454537LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169461320LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-31T20:21:19.811Z",
+   "utc_start": "2011-08-31T20:20:53.274000Z",
+   "utc_stop": "2011-08-31T20:21:46.349000Z",
+   "pixel_scale_m": 1.417,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169461320LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169461320LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169468103LC",
+   "ck": "lrosc_2011233_2011244_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-31T22:14:22.929Z",
+   "utc_start": "2011-08-31T22:13:56.392000Z",
+   "utc_stop": "2011-08-31T22:14:49.467000Z",
+   "pixel_scale_m": 1.425,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169468103LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169468103LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169474886LC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T00:07:25.805Z",
+   "utc_start": "2011-09-01T00:06:59.268000Z",
+   "utc_stop": "2011-09-01T00:07:52.342000Z",
+   "pixel_scale_m": 1.431,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169474886LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169474886LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169474886RC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T00:07:25.805Z",
+   "utc_start": "2011-09-01T00:06:59.268000Z",
+   "utc_stop": "2011-09-01T00:07:52.342000Z",
+   "pixel_scale_m": 1.429,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169474886RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169474886RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169481668LC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T02:00:27.851Z",
+   "utc_start": "2011-09-01T02:00:01.314000Z",
+   "utc_stop": "2011-09-01T02:00:54.389000Z",
+   "pixel_scale_m": 1.428,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169481668LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169481668LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169481668RC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T02:00:27.851Z",
+   "utc_start": "2011-09-01T02:00:01.314000Z",
+   "utc_stop": "2011-09-01T02:00:54.389000Z",
+   "pixel_scale_m": 1.426,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169481668RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169481668RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169488450LC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T03:53:29.781Z",
+   "utc_start": "2011-09-01T03:53:03.244000Z",
+   "utc_stop": "2011-09-01T03:53:56.318000Z",
+   "pixel_scale_m": 1.435,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169488450LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169488450LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169488450RC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T03:53:29.781Z",
+   "utc_start": "2011-09-01T03:53:03.244000Z",
+   "utc_stop": "2011-09-01T03:53:56.318000Z",
+   "pixel_scale_m": 1.433,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169488450RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169488450RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169495231LC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T05:46:31.531Z",
+   "utc_start": "2011-09-01T05:46:04.994000Z",
+   "utc_stop": "2011-09-01T05:46:58.069000Z",
+   "pixel_scale_m": 1.44,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169495231LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169495231LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169495231RC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T05:46:31.531Z",
+   "utc_start": "2011-09-01T05:46:04.994000Z",
+   "utc_stop": "2011-09-01T05:46:58.069000Z",
+   "pixel_scale_m": 1.438,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169495231RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169495231RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169502013RC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T07:39:33.085Z",
+   "utc_start": "2011-09-01T07:39:06.548000Z",
+   "utc_stop": "2011-09-01T07:39:59.623000Z",
+   "pixel_scale_m": 1.447,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169502013RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169502013RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169508794RC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T09:32:34.334Z",
+   "utc_start": "2011-09-01T09:32:07.797000Z",
+   "utc_stop": "2011-09-01T09:33:00.871000Z",
+   "pixel_scale_m": 1.449,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169508794RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169508794RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169515575LC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T11:25:35.584Z",
+   "utc_start": "2011-09-01T11:25:09.047000Z",
+   "utc_stop": "2011-09-01T11:26:02.122000Z",
+   "pixel_scale_m": 1.455,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169515575LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169515575LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169522357LC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T13:18:36.785Z",
+   "utc_start": "2011-09-01T13:18:10.248000Z",
+   "utc_stop": "2011-09-01T13:19:03.322000Z",
+   "pixel_scale_m": 1.455,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169522357LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169522357LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169522357RC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T13:18:36.785Z",
+   "utc_start": "2011-09-01T13:18:10.248000Z",
+   "utc_stop": "2011-09-01T13:19:03.322000Z",
+   "pixel_scale_m": 1.453,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169522357RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169522357RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169529138LC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T15:11:37.882Z",
+   "utc_start": "2011-09-01T15:11:11.345000Z",
+   "utc_stop": "2011-09-01T15:12:04.419000Z",
+   "pixel_scale_m": 1.462,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169529138LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169529138LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169529138RC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T15:11:37.882Z",
+   "utc_start": "2011-09-01T15:11:11.345000Z",
+   "utc_stop": "2011-09-01T15:12:04.419000Z",
+   "pixel_scale_m": 1.46,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169529138RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169529138RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169535919LC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T17:04:39.189Z",
+   "utc_start": "2011-09-01T17:04:12.652000Z",
+   "utc_stop": "2011-09-01T17:05:05.727000Z",
+   "pixel_scale_m": 1.468,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169535919LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169535919LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169542700RC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T18:57:40.137Z",
+   "utc_start": "2011-09-01T18:57:13.600000Z",
+   "utc_stop": "2011-09-01T18:58:06.674000Z",
+   "pixel_scale_m": 1.472,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169542700RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169542700RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169549481RC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T20:50:41.386Z",
+   "utc_start": "2011-09-01T20:50:14.849000Z",
+   "utc_stop": "2011-09-01T20:51:07.924000Z",
+   "pixel_scale_m": 1.465,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169549481RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169549481RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169556262RC",
+   "ck": "lrosc_2011244_2011254_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T22:43:42.384Z",
+   "utc_start": "2011-09-01T22:43:15.847000Z",
+   "utc_stop": "2011-09-01T22:44:08.922000Z",
+   "pixel_scale_m": 1.475,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169556262RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169556262RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118673590LC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-21T00:38:52.277Z",
+   "utc_start": "2010-01-21T00:38:43.422000Z",
+   "utc_stop": "2010-01-21T00:39:01.132000Z",
+   "pixel_scale_m": 0.531,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118673590LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118673590LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res<1m"
+   }
+  },
+  {
+   "product_id": "M118673590RC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-21T00:38:52.277Z",
+   "utc_start": "2010-01-21T00:38:43.422000Z",
+   "utc_stop": "2010-01-21T00:39:01.132000Z",
+   "pixel_scale_m": 0.53,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118673590RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118673590RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res<1m"
+   }
+  },
+  {
+   "product_id": "M118680379LC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-21T02:32:28.514Z",
+   "utc_start": "2010-01-21T02:31:53.248000Z",
+   "utc_stop": "2010-01-21T02:33:03.781000Z",
+   "pixel_scale_m": 1.6,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118680379LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118680379LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118680379RC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-21T02:32:28.514Z",
+   "utc_start": "2010-01-21T02:31:53.248000Z",
+   "utc_stop": "2010-01-21T02:33:03.781000Z",
+   "pixel_scale_m": 1.599,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118680379RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118680379RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118687162LC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-21T04:25:04.238Z",
+   "utc_start": "2010-01-21T04:24:55.383000Z",
+   "utc_stop": "2010-01-21T04:25:13.093000Z",
+   "pixel_scale_m": 0.531,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118687162LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118687162LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res<1m"
+   }
+  },
+  {
+   "product_id": "M118687162RC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-21T04:25:04.238Z",
+   "utc_start": "2010-01-21T04:24:55.383000Z",
+   "utc_stop": "2010-01-21T04:25:13.093000Z",
+   "pixel_scale_m": 0.531,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118687162RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118687162RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res<1m"
+   }
+  },
+  {
+   "product_id": "M118721097RC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-21T13:50:39.059Z",
+   "utc_start": "2010-01-21T13:50:30.204000Z",
+   "utc_stop": "2010-01-21T13:50:47.914000Z",
+   "pixel_scale_m": 0.53,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118721097RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118721097RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res<1m"
+   }
+  },
+  {
+   "product_id": "M118761805RC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-22T01:09:34.660Z",
+   "utc_start": "2010-01-22T01:08:59.394000Z",
+   "utc_stop": "2010-01-22T01:10:09.926000Z",
+   "pixel_scale_m": 1.574,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010022/NAC/M118761805RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010022/NAC/M118761805RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118782158LC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-22T06:48:47.311Z",
+   "utc_start": "2010-01-22T06:48:12.045000Z",
+   "utc_stop": "2010-01-22T06:49:22.578000Z",
+   "pixel_scale_m": 1.565,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010022/NAC/M118782158LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010022/NAC/M118782158LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118802509LC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-22T12:27:58.292Z",
+   "utc_start": "2010-01-22T12:27:23.026000Z",
+   "utc_stop": "2010-01-22T12:28:33.559000Z",
+   "pixel_scale_m": 1.55,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010022/NAC/M118802509LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010022/NAC/M118802509LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118843209LC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-22T23:46:18.495Z",
+   "utc_start": "2010-01-22T23:45:43.229000Z",
+   "utc_stop": "2010-01-22T23:46:53.762000Z",
+   "pixel_scale_m": 1.529,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010022/NAC/M118843209LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010022/NAC/M118843209LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118863560LC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-23T05:25:29.217Z",
+   "utc_start": "2010-01-23T05:24:53.951000Z",
+   "utc_stop": "2010-01-23T05:26:04.484000Z",
+   "pixel_scale_m": 1.527,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010023/NAC/M118863560LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010023/NAC/M118863560LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118883910RC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-23T11:04:39.997Z",
+   "utc_start": "2010-01-23T11:04:04.731000Z",
+   "utc_stop": "2010-01-23T11:05:15.264000Z",
+   "pixel_scale_m": 1.525,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010023/NAC/M118883910RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010023/NAC/M118883910RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118890695RC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-23T12:57:45.168Z",
+   "utc_start": "2010-01-23T12:57:09.902000Z",
+   "utc_stop": "2010-01-23T12:58:20.435000Z",
+   "pixel_scale_m": 1.526,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010023/NAC/M118890695RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010023/NAC/M118890695RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118978889RC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-01-24T13:27:38.354Z",
+   "utc_start": "2010-01-24T13:27:03.088000Z",
+   "utc_stop": "2010-01-24T13:28:13.621000Z",
+   "pixel_scale_m": 1.565,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010024/NAC/M118978889RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010024/NAC/M118978889RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M119019609RC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-01-25T00:46:18.488Z",
+   "utc_start": "2010-01-25T00:45:43.222000Z",
+   "utc_stop": "2010-01-25T00:46:53.754000Z",
+   "pixel_scale_m": 1.585,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010025/NAC/M119019609RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010025/NAC/M119019609RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M119026411RC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-01-25T02:39:40.488Z",
+   "utc_start": "2010-01-25T02:39:05.222000Z",
+   "utc_stop": "2010-01-25T02:40:15.755000Z",
+   "pixel_scale_m": 1.587,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010025/NAC/M119026411RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010025/NAC/M119026411RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M119582918RC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-31T13:14:47.562Z",
+   "utc_start": "2010-01-31T13:14:12.296000Z",
+   "utc_stop": "2010-01-31T13:15:22.829000Z",
+   "pixel_scale_m": 1.545,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010031/NAC/M119582918RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010031/NAC/M119582918RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M119596492LC",
+   "ck": "lrosc_2010021_2010032_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-31T17:01:01.383Z",
+   "utc_start": "2010-01-31T17:00:26.117000Z",
+   "utc_stop": "2010-01-31T17:01:36.650000Z",
+   "pixel_scale_m": 1.538,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010031/NAC/M119596492LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010031/NAC/M119596492LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167846520LC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T03:47:59.831Z",
+   "utc_start": "2011-08-13T03:47:33.294000Z",
+   "utc_stop": "2011-08-13T03:48:26.369000Z",
+   "pixel_scale_m": 1.438,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167846520LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167846520LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167853305LC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T05:41:04.981Z",
+   "utc_start": "2011-08-13T05:40:38.444000Z",
+   "utc_stop": "2011-08-13T05:41:31.519000Z",
+   "pixel_scale_m": 1.435,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167853305LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167853305LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167860090LC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T07:34:10.272Z",
+   "utc_start": "2011-08-13T07:33:43.735000Z",
+   "utc_stop": "2011-08-13T07:34:36.810000Z",
+   "pixel_scale_m": 1.433,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167860090LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167860090LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167866876LC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T09:27:15.803Z",
+   "utc_start": "2011-08-13T09:26:49.266000Z",
+   "utc_stop": "2011-08-13T09:27:42.340000Z",
+   "pixel_scale_m": 1.43,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167866876LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167866876LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167880447LC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T13:13:26.993Z",
+   "utc_start": "2011-08-13T13:13:00.456000Z",
+   "utc_stop": "2011-08-13T13:13:53.531000Z",
+   "pixel_scale_m": 1.423,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167880447LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167880447LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167887233LC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T15:06:32.934Z",
+   "utc_start": "2011-08-13T15:06:06.397000Z",
+   "utc_stop": "2011-08-13T15:06:59.471000Z",
+   "pixel_scale_m": 1.42,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167887233LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167887233LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167887233RC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T15:06:32.934Z",
+   "utc_start": "2011-08-13T15:06:06.397000Z",
+   "utc_stop": "2011-08-13T15:06:59.471000Z",
+   "pixel_scale_m": 1.418,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167887233RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167887233RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167894019LC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T16:59:38.844Z",
+   "utc_start": "2011-08-13T16:59:12.307000Z",
+   "utc_stop": "2011-08-13T17:00:05.382000Z",
+   "pixel_scale_m": 1.416,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167894019LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167894019LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167900805LC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T18:52:44.774Z",
+   "utc_start": "2011-08-13T18:52:18.237000Z",
+   "utc_stop": "2011-08-13T18:53:11.312000Z",
+   "pixel_scale_m": 1.415,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167900805LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167900805LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167900805RC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T18:52:44.774Z",
+   "utc_start": "2011-08-13T18:52:18.237000Z",
+   "utc_stop": "2011-08-13T18:53:11.312000Z",
+   "pixel_scale_m": 1.413,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167900805RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167900805RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167907590RC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T20:45:50.315Z",
+   "utc_start": "2011-08-13T20:45:23.778000Z",
+   "utc_stop": "2011-08-13T20:46:16.853000Z",
+   "pixel_scale_m": 1.412,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167907590RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167907590RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167914376RC",
+   "ck": "lrosc_2011223_2011233_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T22:38:55.926Z",
+   "utc_start": "2011-08-13T22:38:29.389000Z",
+   "utc_stop": "2011-08-13T22:39:22.463000Z",
+   "pixel_scale_m": 1.412,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167914376RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167914376RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121001222LC",
+   "ck": "lrosc_2010042_2010052_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-02-16T23:13:11.787Z",
+   "utc_start": "2010-02-16T23:12:36.521000Z",
+   "utc_stop": "2010-02-16T23:13:47.054000Z",
+   "pixel_scale_m": 1.612,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010047/NAC/M121001222LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010047/NAC/M121001222LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121014786LC",
+   "ck": "lrosc_2010042_2010052_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-02-17T02:59:16.108Z",
+   "utc_start": "2010-02-17T02:58:40.842000Z",
+   "utc_stop": "2010-02-17T02:59:51.375000Z",
+   "pixel_scale_m": 1.61,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121014786LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121014786LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121014786RC",
+   "ck": "lrosc_2010042_2010052_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-02-17T02:59:16.108Z",
+   "utc_start": "2010-02-17T02:58:40.842000Z",
+   "utc_stop": "2010-02-17T02:59:51.375000Z",
+   "pixel_scale_m": 1.609,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121014786RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121014786RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121028353LC",
+   "ck": "lrosc_2010042_2010052_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-02-17T06:45:22.380Z",
+   "utc_start": "2010-02-17T06:44:47.114000Z",
+   "utc_stop": "2010-02-17T06:45:57.647000Z",
+   "pixel_scale_m": 1.605,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121028353LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121028353LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121041922RC",
+   "ck": "lrosc_2010042_2010052_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-02-17T10:31:31.311Z",
+   "utc_start": "2010-02-17T10:30:56.045000Z",
+   "utc_stop": "2010-02-17T10:32:06.578000Z",
+   "pixel_scale_m": 1.601,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121041922RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121041922RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121055490LC",
+   "ck": "lrosc_2010042_2010052_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-02-17T14:17:40.222Z",
+   "utc_start": "2010-02-17T14:17:04.956000Z",
+   "utc_stop": "2010-02-17T14:18:15.489000Z",
+   "pixel_scale_m": 1.605,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121055490LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121055490LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121055490RC",
+   "ck": "lrosc_2010042_2010052_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-02-17T14:17:40.222Z",
+   "utc_start": "2010-02-17T14:17:04.956000Z",
+   "utc_stop": "2010-02-17T14:18:15.489000Z",
+   "pixel_scale_m": 1.603,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121055490RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121055490RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121177588LC",
+   "ck": "lrosc_2010042_2010052_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-02-19T00:12:37.531Z",
+   "utc_start": "2010-02-19T00:12:02.265000Z",
+   "utc_stop": "2010-02-19T00:13:12.798000Z",
+   "pixel_scale_m": 1.542,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010050/NAC/M121177588LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010050/NAC/M121177588LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121326803LC",
+   "ck": "lrosc_2010042_2010052_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-02-20T17:39:32.531Z",
+   "utc_start": "2010-02-20T17:38:57.265000Z",
+   "utc_stop": "2010-02-20T17:40:07.798000Z",
+   "pixel_scale_m": 1.558,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010051/NAC/M121326803LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010051/NAC/M121326803LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121340368RC",
+   "ck": "lrosc_2010042_2010052_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-02-20T21:25:37.962Z",
+   "utc_start": "2010-02-20T21:25:02.696000Z",
+   "utc_stop": "2010-02-20T21:26:13.229000Z",
+   "pixel_scale_m": 1.569,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010051/NAC/M121340368RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010051/NAC/M121340368RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M101336051RC",
+   "ck": "lrosc_2009182_2009192_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-07-04T08:39:59.629Z",
+   "utc_start": "2009-07-04T08:39:44.507000Z",
+   "utc_stop": "2009-07-04T08:40:14.752000Z",
+   "pixel_scale_m": 0.904,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009185/NAC/M101336051RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009185/NAC/M101336051RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res<1m"
+   }
+  },
+  {
+   "product_id": "M101393317LC",
+   "ck": "lrosc_2009182_2009192_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-07-05T00:34:24.926Z",
+   "utc_start": "2009-07-05T00:34:10.028000Z",
+   "utc_stop": "2009-07-05T00:34:39.825000Z",
+   "pixel_scale_m": 0.892,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101393317LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101393317LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res<1m"
+   }
+  },
+  {
+   "product_id": "M101393317RC",
+   "ck": "lrosc_2009182_2009192_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-07-05T00:34:24.926Z",
+   "utc_start": "2009-07-05T00:34:10.028000Z",
+   "utc_stop": "2009-07-05T00:34:39.825000Z",
+   "pixel_scale_m": 0.89,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101393317RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101393317RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res<1m"
+   }
+  },
+  {
+   "product_id": "M101400477LC",
+   "ck": "lrosc_2009182_2009192_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-07-05T02:33:44.766Z",
+   "utc_start": "2009-07-05T02:33:29.868000Z",
+   "utc_stop": "2009-07-05T02:33:59.665000Z",
+   "pixel_scale_m": 0.891,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101400477LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101400477LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res<1m"
+   }
+  },
+  {
+   "product_id": "M101421975LC",
+   "ck": "lrosc_2009182_2009192_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2009-07-05T08:32:03.376Z",
+   "utc_start": "2009-07-05T08:31:48.478000Z",
+   "utc_stop": "2009-07-05T08:32:18.275000Z",
+   "pixel_scale_m": 0.892,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101421975LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101421975LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M101421975RC",
+   "ck": "lrosc_2009182_2009192_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-07-05T08:32:03.376Z",
+   "utc_start": "2009-07-05T08:31:48.478000Z",
+   "utc_stop": "2009-07-05T08:32:18.275000Z",
+   "pixel_scale_m": 0.89,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101421975RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101421975RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res<1m"
+   }
+  },
+  {
+   "product_id": "M101436286RC",
+   "ck": "lrosc_2009182_2009192_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-07-05T12:30:34.036Z",
+   "utc_start": "2009-07-05T12:30:19.138000Z",
+   "utc_stop": "2009-07-05T12:30:48.935000Z",
+   "pixel_scale_m": 0.892,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101436286RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101436286RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res<1m"
+   }
+  },
+  {
+   "product_id": "M101443451RC",
+   "ck": "lrosc_2009182_2009192_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-07-05T14:29:58.736Z",
+   "utc_start": "2009-07-05T14:29:43.838000Z",
+   "utc_stop": "2009-07-05T14:30:13.635000Z",
+   "pixel_scale_m": 0.893,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101443451RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101443451RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res<1m"
+   }
+  },
+  {
+   "product_id": "M101450613RC",
+   "ck": "lrosc_2009182_2009192_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-07-05T16:29:14.054Z",
+   "utc_start": "2009-07-05T16:29:08.846000Z",
+   "utc_stop": "2009-07-05T16:29:19.262000Z",
+   "pixel_scale_m": 3.212,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101450613RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101450613RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M101457777LC",
+   "ck": "lrosc_2009182_2009192_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2009-07-05T18:28:45.109Z",
+   "utc_start": "2009-07-05T18:28:29.987000Z",
+   "utc_stop": "2009-07-05T18:29:00.231000Z",
+   "pixel_scale_m": 0.691,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101457777LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101457777LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M123104997RC",
+   "ck": "lrosc_2010070_2010080_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-03-13T07:36:07.394Z",
+   "utc_start": "2010-03-13T07:35:32.128000Z",
+   "utc_stop": "2010-03-13T07:36:42.660000Z",
+   "pixel_scale_m": 1.668,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010072/NAC/M123104997RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010072/NAC/M123104997RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M123118567RC",
+   "ck": "lrosc_2010070_2010080_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-03-13T11:22:16.544Z",
+   "utc_start": "2010-03-13T11:21:41.278000Z",
+   "utc_stop": "2010-03-13T11:22:51.811000Z",
+   "pixel_scale_m": 1.673,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010072/NAC/M123118567RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010072/NAC/M123118567RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M123132134RC",
+   "ck": "lrosc_2010070_2010080_v01.bc",
+   "sites": [
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-03-13T15:08:24.156Z",
+   "utc_start": "2010-03-13T15:07:48.890000Z",
+   "utc_stop": "2010-03-13T15:08:59.423000Z",
+   "pixel_scale_m": 1.681,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010072/NAC/M123132134RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010072/NAC/M123132134RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m",
+    "site04_roi3": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M123145703LC",
+   "ck": "lrosc_2010070_2010080_v01.bc",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-03-13T18:54:33.026Z",
+   "utc_start": "2010-03-13T18:53:57.760000Z",
+   "utc_stop": "2010-03-13T18:55:08.293000Z",
+   "pixel_scale_m": 1.688,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010072/NAC/M123145703LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010072/NAC/M123145703LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m",
+    "site01_roi6": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M123159272LC",
+   "ck": "lrosc_2010070_2010080_v01.bc",
+   "sites": [
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-03-13T22:40:42.107Z",
+   "utc_start": "2010-03-13T22:40:06.841000Z",
+   "utc_stop": "2010-03-13T22:41:17.374000Z",
+   "pixel_scale_m": 1.688,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010072/NAC/M123159272LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010072/NAC/M123159272LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m",
+    "site04_roi3": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M123566272RC",
+   "ck": "lrosc_2010070_2010080_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-03-18T15:44:01.876Z",
+   "utc_start": "2010-03-18T15:43:26.610000Z",
+   "utc_stop": "2010-03-18T15:44:37.143000Z",
+   "pixel_scale_m": 1.524,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010077/NAC/M123566272RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010077/NAC/M123566272RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M123661237LC",
+   "ck": "lrosc_2010070_2010080_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-03-19T18:06:47.093Z",
+   "utc_start": "2010-03-19T18:06:11.827000Z",
+   "utc_stop": "2010-03-19T18:07:22.360000Z",
+   "pixel_scale_m": 1.536,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010078/NAC/M123661237LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010078/NAC/M123661237LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M123674803LC",
+   "ck": "lrosc_2010070_2010080_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-03-19T21:52:53.434Z",
+   "utc_start": "2010-03-19T21:52:18.168000Z",
+   "utc_stop": "2010-03-19T21:53:28.701000Z",
+   "pixel_scale_m": 1.544,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010078/NAC/M123674803LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010078/NAC/M123674803LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M123729091LC",
+   "ck": "lrosc_2010070_2010080_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-03-20T12:57:41.467Z",
+   "utc_start": "2010-03-20T12:57:06.201000Z",
+   "utc_stop": "2010-03-20T12:58:16.734000Z",
+   "pixel_scale_m": 1.582,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010079/NAC/M123729091LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010079/NAC/M123729091LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M123742660RC",
+   "ck": "lrosc_2010070_2010080_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-03-20T16:43:50.248Z",
+   "utc_start": "2010-03-20T16:43:14.982000Z",
+   "utc_stop": "2010-03-20T16:44:25.515000Z",
+   "pixel_scale_m": 1.584,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010079/NAC/M123742660RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010079/NAC/M123742660RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151282936LC",
+   "ck": "lrosc_2011032_2011042_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-02-02T10:48:15.647Z",
+   "utc_start": "2011-02-02T10:47:49.110000Z",
+   "utc_stop": "2011-02-02T10:48:42.184000Z",
+   "pixel_scale_m": 1.436,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011033/NAC/M151282936LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011033/NAC/M151282936LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151282936RC",
+   "ck": "lrosc_2011032_2011042_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-02-02T10:48:15.647Z",
+   "utc_start": "2011-02-02T10:47:49.110000Z",
+   "utc_stop": "2011-02-02T10:48:42.184000Z",
+   "pixel_scale_m": 1.434,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011033/NAC/M151282936RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011033/NAC/M151282936RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151316814LC",
+   "ck": "lrosc_2011032_2011042_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-02-02T20:12:54.289Z",
+   "utc_start": "2011-02-02T20:12:27.752000Z",
+   "utc_stop": "2011-02-02T20:13:20.827000Z",
+   "pixel_scale_m": 1.44,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011033/NAC/M151316814LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011033/NAC/M151316814LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151337219LC",
+   "ck": "lrosc_2011032_2011042_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-02-03T01:52:59.231Z",
+   "utc_start": "2011-02-03T01:52:32.694000Z",
+   "utc_stop": "2011-02-03T01:53:25.768000Z",
+   "pixel_scale_m": 1.433,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011034/NAC/M151337219LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011034/NAC/M151337219LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151561070RC",
+   "ck": "lrosc_2011032_2011042_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-02-05T16:03:50.607Z",
+   "utc_start": "2011-02-05T16:03:24.070000Z",
+   "utc_stop": "2011-02-05T16:04:17.144000Z",
+   "pixel_scale_m": 1.373,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011036/NAC/M151561070RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011036/NAC/M151561070RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151567893RC",
+   "ck": "lrosc_2011032_2011042_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-02-05T17:57:33.497Z",
+   "utc_start": "2011-02-05T17:57:06.960000Z",
+   "utc_stop": "2011-02-05T17:58:00.035000Z",
+   "pixel_scale_m": 1.368,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011036/NAC/M151567893RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011036/NAC/M151567893RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151588243RC",
+   "ck": "lrosc_2011032_2011042_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-02-05T23:36:42.978Z",
+   "utc_start": "2011-02-05T23:36:16.441000Z",
+   "utc_stop": "2011-02-05T23:37:09.516000Z",
+   "pixel_scale_m": 1.349,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011036/NAC/M151588243RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011036/NAC/M151588243RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151608579RC",
+   "ck": "lrosc_2011032_2011042_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-02-06T05:15:38.990Z",
+   "utc_start": "2011-02-06T05:15:12.453000Z",
+   "utc_stop": "2011-02-06T05:16:05.528000Z",
+   "pixel_scale_m": 1.336,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011037/NAC/M151608579RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011037/NAC/M151608579RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151961355LC",
+   "ck": "lrosc_2011032_2011042_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-02-10T07:15:15.503Z",
+   "utc_start": "2011-02-10T07:14:48.966000Z",
+   "utc_stop": "2011-02-10T07:15:42.040000Z",
+   "pixel_scale_m": 1.265,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011041/NAC/M151961355LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011041/NAC/M151961355LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151981706RC",
+   "ck": "lrosc_2011032_2011042_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-02-10T12:54:25.634Z",
+   "utc_start": "2011-02-10T12:53:59.097000Z",
+   "utc_stop": "2011-02-10T12:54:52.172000Z",
+   "pixel_scale_m": 1.272,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011041/NAC/M151981706RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011041/NAC/M151981706RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M108544428LC",
+   "ck": "lrosc_2009264_2009274_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-09-25T18:59:57.274Z",
+   "utc_start": "2009-09-25T18:59:22.008000Z",
+   "utc_stop": "2009-09-25T19:00:32.541000Z",
+   "pixel_scale_m": 1.638,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009268/NAC/M108544428LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009268/NAC/M108544428LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M108544428RC",
+   "ck": "lrosc_2009264_2009274_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-09-25T18:59:57.274Z",
+   "utc_start": "2009-09-25T18:59:22.008000Z",
+   "utc_stop": "2009-09-25T19:00:32.541000Z",
+   "pixel_scale_m": 1.633,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009268/NAC/M108544428RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009268/NAC/M108544428RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M108565000RC",
+   "ck": "lrosc_2009264_2009274_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-09-26T00:42:48.835Z",
+   "utc_start": "2009-09-26T00:42:13.569000Z",
+   "utc_stop": "2009-09-26T00:43:24.102000Z",
+   "pixel_scale_m": 1.645,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108565000RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108565000RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M108585571RC",
+   "ck": "lrosc_2009264_2009274_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-09-26T06:25:40.647Z",
+   "utc_start": "2009-09-26T06:25:05.381000Z",
+   "utc_stop": "2009-09-26T06:26:15.914000Z",
+   "pixel_scale_m": 1.657,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108585571RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108585571RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M108599352LC",
+   "ck": "lrosc_2009264_2009274_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-09-26T10:15:21.168Z",
+   "utc_start": "2009-09-26T10:14:45.902000Z",
+   "utc_stop": "2009-09-26T10:15:56.435000Z",
+   "pixel_scale_m": 1.669,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108599352LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108599352LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M108599352RC",
+   "ck": "lrosc_2009264_2009274_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-09-26T10:15:21.168Z",
+   "utc_start": "2009-09-26T10:14:45.902000Z",
+   "utc_stop": "2009-09-26T10:15:56.435000Z",
+   "pixel_scale_m": 1.668,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108599352RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108599352RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M108606146RC",
+   "ck": "lrosc_2009264_2009274_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-09-26T12:08:35.538Z",
+   "utc_start": "2009-09-26T12:08:00.272000Z",
+   "utc_stop": "2009-09-26T12:09:10.805000Z",
+   "pixel_scale_m": 1.664,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108606146RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108606146RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M108626725RC",
+   "ck": "lrosc_2009264_2009274_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-09-26T17:51:33.840Z",
+   "utc_start": "2009-09-26T17:50:58.574000Z",
+   "utc_stop": "2009-09-26T17:52:09.107000Z",
+   "pixel_scale_m": 1.665,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108626725RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108626725RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M108946135RC",
+   "ck": "lrosc_2009264_2009274_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-09-30T10:35:04.563Z",
+   "utc_start": "2009-09-30T10:34:29.297000Z",
+   "utc_stop": "2009-09-30T10:35:39.830000Z",
+   "pixel_scale_m": 1.661,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009273/NAC/M108946135RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009273/NAC/M108946135RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M146813005RC",
+   "ck": "lrosc_2010345_2010355_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-12-12T17:09:19.027Z",
+   "utc_start": "2010-12-12T17:08:58.086000Z",
+   "utc_stop": "2010-12-12T17:09:39.969000Z",
+   "pixel_scale_m": 1.227,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010346/NAC/M146813005RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010346/NAC/M146813005RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M146833333LC",
+   "ck": "lrosc_2010345_2010355_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-12-12T22:48:06.698Z",
+   "utc_start": "2010-12-12T22:47:46.652000Z",
+   "utc_stop": "2010-12-12T22:48:26.745000Z",
+   "pixel_scale_m": 1.181,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010346/NAC/M146833333LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010346/NAC/M146833333LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M146833333RC",
+   "ck": "lrosc_2010345_2010355_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-12-12T22:48:06.698Z",
+   "utc_start": "2010-12-12T22:47:46.652000Z",
+   "utc_stop": "2010-12-12T22:48:26.745000Z",
+   "pixel_scale_m": 1.18,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010346/NAC/M146833333RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010346/NAC/M146833333RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M146846913LC",
+   "ck": "lrosc_2010345_2010355_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-12-13T02:34:25.824Z",
+   "utc_start": "2010-12-13T02:34:06.226000Z",
+   "utc_stop": "2010-12-13T02:34:45.423000Z",
+   "pixel_scale_m": 1.153,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010347/NAC/M146846913LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010347/NAC/M146846913LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M146894354LC",
+   "ck": "lrosc_2010345_2010355_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-12-13T15:45:04.930Z",
+   "utc_start": "2010-12-13T15:44:46.898000Z",
+   "utc_stop": "2010-12-13T15:45:22.962000Z",
+   "pixel_scale_m": 1.067,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010347/NAC/M146894354LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010347/NAC/M146894354LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M146907909LC",
+   "ck": "lrosc_2010345_2010355_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-12-13T19:31:00.591Z",
+   "utc_start": "2010-12-13T19:30:42.559000Z",
+   "utc_stop": "2010-12-13T19:31:18.623000Z",
+   "pixel_scale_m": 1.065,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010347/NAC/M146907909LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010347/NAC/M146907909LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M146935010RC",
+   "ck": "lrosc_2010345_2010355_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-12-14T03:02:40.551Z",
+   "utc_start": "2010-12-14T03:02:22.743000Z",
+   "utc_stop": "2010-12-14T03:02:58.359000Z",
+   "pixel_scale_m": 1.054,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010348/NAC/M146935010RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010348/NAC/M146935010RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M147267191LC",
+   "ck": "lrosc_2010345_2010355_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-12-17T23:18:59.957Z",
+   "utc_start": "2010-12-17T23:18:44.388000Z",
+   "utc_stop": "2010-12-17T23:19:15.527000Z",
+   "pixel_scale_m": 0.925,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2010351/NAC/M147267191LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2010351/NAC/M147267191LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res<1m"
+   }
+  },
+  {
+   "product_id": "M147280742RC",
+   "ck": "lrosc_2010345_2010355_v01.bc",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-12-18T03:04:51.524Z",
+   "utc_start": "2010-12-18T03:04:35.507000Z",
+   "utc_stop": "2010-12-18T03:05:07.542000Z",
+   "pixel_scale_m": 0.949,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2010352/NAC/M147280742RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2010352/NAC/M147280742RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res<1m"
+   }
+  },
+  {
+   "product_id": "M157186094LC",
+   "ck": "lrosc_2011101_2011111_v01.bc",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-04-11T18:34:14.265Z",
+   "utc_start": "2011-04-11T18:33:47.728000Z",
+   "utc_stop": "2011-04-11T18:34:40.803000Z",
+   "pixel_scale_m": 1.248,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011101/NAC/M157186094LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011101/NAC/M157186094LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M157213223RC",
+   "ck": "lrosc_2011101_2011111_v01.bc",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-04-12T02:06:22.987Z",
+   "utc_start": "2011-04-12T02:05:56.450000Z",
+   "utc_stop": "2011-04-12T02:06:49.524000Z",
+   "pixel_scale_m": 1.24,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011102/NAC/M157213223RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011102/NAC/M157213223RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M157470895LC",
+   "ck": "lrosc_2011101_2011111_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-04-15T01:40:54.725Z",
+   "utc_start": "2011-04-15T01:40:28.188000Z",
+   "utc_stop": "2011-04-15T01:41:21.263000Z",
+   "pixel_scale_m": 1.323,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011105/NAC/M157470895LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011105/NAC/M157470895LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M157491234LC",
+   "ck": "lrosc_2011101_2011111_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-04-15T07:19:53.616Z",
+   "utc_start": "2011-04-15T07:19:27.079000Z",
+   "utc_stop": "2011-04-15T07:20:20.154000Z",
+   "pixel_scale_m": 1.333,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011105/NAC/M157491234LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011105/NAC/M157491234LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M157830228LC",
+   "ck": "lrosc_2011101_2011111_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-04-19T05:29:48.101Z",
+   "utc_start": "2011-04-19T05:29:21.564000Z",
+   "utc_stop": "2011-04-19T05:30:14.639000Z",
+   "pixel_scale_m": 1.427,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011109/NAC/M157830228LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011109/NAC/M157830228LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M157843789RC",
+   "ck": "lrosc_2011101_2011111_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-04-19T09:15:49.402Z",
+   "utc_start": "2011-04-19T09:15:22.865000Z",
+   "utc_stop": "2011-04-19T09:16:15.940000Z",
+   "pixel_scale_m": 1.424,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011109/NAC/M157843789RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011109/NAC/M157843789RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M157864129RC",
+   "ck": "lrosc_2011101_2011111_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-04-19T14:54:49.003Z",
+   "utc_start": "2011-04-19T14:54:22.466000Z",
+   "utc_stop": "2011-04-19T14:55:15.541000Z",
+   "pixel_scale_m": 1.411,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011109/NAC/M157864129RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011109/NAC/M157864129RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M157884469RC",
+   "ck": "lrosc_2011101_2011111_v01.bc",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-04-19T20:33:48.885Z",
+   "utc_start": "2011-04-19T20:33:22.348000Z",
+   "utc_stop": "2011-04-19T20:34:15.422000Z",
+   "pixel_scale_m": 1.403,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011109/NAC/M157884469RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011109/NAC/M157884469RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M141405746LC",
+   "ck": "lrosc_2010284_2010294_v01.bc",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-10-11T03:08:19.391Z",
+   "utc_start": "2010-10-11T03:07:59.121000Z",
+   "utc_stop": "2010-10-11T03:08:39.661000Z",
+   "pixel_scale_m": 1.193,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010284/NAC/M141405746LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010284/NAC/M141405746LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M142084336RC",
+   "ck": "lrosc_2010284_2010294_v01.bc",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-10-18T23:38:10.964Z",
+   "utc_start": "2010-10-18T23:37:49.799000Z",
+   "utc_stop": "2010-10-18T23:38:32.130000Z",
+   "pixel_scale_m": 1.242,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010291/NAC/M142084336RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010291/NAC/M142084336RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m",
+    "site01_roi6": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M142104686LC",
+   "ck": "lrosc_2010284_2010294_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-19T05:17:19.730Z",
+   "utc_start": "2010-10-19T05:16:59.012000Z",
+   "utc_stop": "2010-10-19T05:17:40.448000Z",
+   "pixel_scale_m": 1.217,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010292/NAC/M142104686LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010292/NAC/M142104686LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M142111462LC",
+   "ck": "lrosc_2010284_2010294_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-19T07:10:15.458Z",
+   "utc_start": "2010-10-19T07:09:54.964000Z",
+   "utc_stop": "2010-10-19T07:10:35.952000Z",
+   "pixel_scale_m": 1.203,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010292/NAC/M142111462LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010292/NAC/M142111462LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M142226765LC",
+   "ck": "lrosc_2010284_2010294_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-20T15:11:56.277Z",
+   "utc_start": "2010-10-20T15:11:38.245000Z",
+   "utc_stop": "2010-10-20T15:12:14.309000Z",
+   "pixel_scale_m": 1.067,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010293/NAC/M142226765LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010293/NAC/M142226765LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M142240314RC",
+   "ck": "lrosc_2010284_2010294_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-20T18:57:45.218Z",
+   "utc_start": "2010-10-20T18:57:27.186000Z",
+   "utc_stop": "2010-10-20T18:58:03.250000Z",
+   "pixel_scale_m": 1.065,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010293/NAC/M142240314RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010293/NAC/M142240314RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M142253882RC",
+   "ck": "lrosc_2010284_2010294_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-20T22:43:52.957Z",
+   "utc_start": "2010-10-20T22:43:35.149000Z",
+   "utc_stop": "2010-10-20T22:44:10.765000Z",
+   "pixel_scale_m": 1.055,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010293/NAC/M142253882RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010293/NAC/M142253882RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M140883298RC",
+   "ck": "lrosc_2010274_2010284_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-05T02:00:47.122Z",
+   "utc_start": "2010-10-05T02:00:31.329000Z",
+   "utc_stop": "2010-10-05T02:01:02.916000Z",
+   "pixel_scale_m": 0.933,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010278/NAC/M140883298RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010278/NAC/M140883298RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M140890072RC",
+   "ck": "lrosc_2010274_2010284_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-05T03:53:41.413Z",
+   "utc_start": "2010-10-05T03:53:25.620000Z",
+   "utc_stop": "2010-10-05T03:53:57.207000Z",
+   "pixel_scale_m": 0.995,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010278/NAC/M140890072RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010278/NAC/M140890072RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M140903652LC",
+   "ck": "lrosc_2010274_2010284_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-05T07:40:00.946Z",
+   "utc_start": "2010-10-05T07:39:44.929000Z",
+   "utc_stop": "2010-10-05T07:40:16.964000Z",
+   "pixel_scale_m": 0.947,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010278/NAC/M140903652LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010278/NAC/M140903652LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M140917211LC",
+   "ck": "lrosc_2010274_2010284_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-05T11:25:59.562Z",
+   "utc_start": "2010-10-05T11:25:43.639000Z",
+   "utc_stop": "2010-10-05T11:26:15.485000Z",
+   "pixel_scale_m": 1.025,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010278/NAC/M140917211LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010278/NAC/M140917211LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M141046118LC",
+   "ck": "lrosc_2010274_2010284_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-06T23:14:30.533Z",
+   "utc_start": "2010-10-06T23:14:11.382000Z",
+   "utc_stop": "2010-10-06T23:14:49.684000Z",
+   "pixel_scale_m": 1.126,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010279/NAC/M141046118LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010279/NAC/M141046118LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M141059693LC",
+   "ck": "lrosc_2010274_2010284_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-07T03:00:45.144Z",
+   "utc_start": "2010-10-07T03:00:25.993000Z",
+   "utc_stop": "2010-10-07T03:01:04.295000Z",
+   "pixel_scale_m": 1.126,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010280/NAC/M141059693LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010280/NAC/M141059693LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M141073264RC",
+   "ck": "lrosc_2010274_2010284_v01.bc",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-07T06:46:56.998Z",
+   "utc_start": "2010-10-07T06:46:37.623000Z",
+   "utc_stop": "2010-10-07T06:47:16.373000Z",
+   "pixel_scale_m": 1.136,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010280/NAC/M141073264RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010280/NAC/M141073264RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  }
+ ],
+ "catalogueSha256": "4b941d61f1ecb06155a2b0ffcc7f9a5f9ea1dc5b41ef6918ff1f69f424515e01"
+}

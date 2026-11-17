@@ -31,3 +31,44 @@ Catalogue v1: 11,726 rows (image × site), 7,298 unique images, **2,124 held out
 
 `tools/imagery/catalogue.py` is frozen with the catalogue because it defines the split rule; a later change to it needs a new
 entry here (and must reproduce this catalogue's split byte-for-byte, or produce a new, separately hashed catalogue version).
+
+## Entry 2 — 16 Nov 2026, session R4 (dev-split pilot, LROC NAC)
+
+State at freezing: **no render-vs-real score has been computed.** One dev image (M162485477LC × site04_roi3) was rendered and
+viewed next to its real window to debug the camera; nothing was measured. Amendment A1 fixes implementation choices that
+protocol v1.0 leaves open (binning to the 5 m terrain grid, line cropping, registration implementation and the 50 m pointing
+value, renderer settings, terrain products and photometric models, the dev cluster sampling). Held-out images are untouched.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A1.md` | `017f86bd62030495f997b89fe352764882f44efead293a2b559c522c1bc7b00f` |
+
+## Entry 3 — 16 Nov 2026, session R4
+
+Still no render-vs-real score computed. Amendment A2: state-polynomial degree chosen per row (3–7) by the A1.2 geometric
+fit gate.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A2.md` | `5e96d41a4863ec598bcae710e110fea5b826610ba37260c4987733ea228bc50d` |
+
+## Entry 4 — 16 Nov 2026, session R4
+
+Disclosure: two dev rows had been scored under A1 (kept in `tools/validation/render_vs_real/results/scores_pre_A3.jsonl`) and
+a diagnostic registration (offsets/NCC only) run on ten dev rows before this entry. Amendment A3: registration input bug fix,
+search radius ±400 m, along/across-Sun offset reporting. No held-out image involved.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A3.md` | `db450977d9137919c8b6c040b9e0a3917a55081745f375f2a62deb45ea3480b5` |
+
+## Entry 5 — 16 Nov 2026 (~23:35 EST), session R4
+
+Disclosure: 19 dev rows had been scored under A1–A3 with the FDF orbit (kept in
+`tools/validation/render_vs_real/results/scores_A3_fdf_partial.jsonl`). Amendment A4: spacecraft position from the LOLA/LRO
+Radio Science GRGM900C SPKs where they cover the image (FDF `lrorg` otherwise, flagged), registration radius back to
+3 × the documented 20 m NAC geolocation for those rows. Held-out images untouched.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A4.md` | `762bdd608dd34a2df9bdbdcac9e0882eb9889dec332414a7adef5c29a926aeb8` |

@@ -1460,3 +1460,15 @@ Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/P
 - Merged T3 Mars + solver/world follow-ups (3337ba9), T1 NASA-user exports/API/gates (4312939), T2 web integration (71c8234); integration fix d31dd9a (API live test derives world availability and site count from the registry; Mars became available in T3).
 - Tests: pytest `science tools` 760 passed, 3 skipped (with the fix); Blender run_all 14/14 (POLARIS_PYTHON); Blender unit tests OK; vitest 173/173; build OK. Playwright full run under load (R4 rendering, load avg 46–56): 95 passed, 12 failed; re-run alone 7/10 pass incl. traceability 543/0; the remaining 3 (two sight-label specs, wheel-scroll) are the documented load-sensitive specs; cold-launch is the port-4173 artefact.
 - Open: T2's "compute now" uses the older `science.anysite.api` stub (POST /anysite, :8766), not T1's `/v1/solve` (:8767); T1 gates fail accessibility and 390 px mobile (fix list in `docs/v2/GATES.md`); Mars bundle is a 10.3 MB JSON in git. R4 still running.
+### POLARIS X v2 R4 — render twins vs real LROC NAC, dev split — Claude, 16–17 Nov 2026, claude/v2-r4-render-vs-real-ab0c1a
+- **Label:** SOURCE-BASED · UNVALIDATED · dev (training) split only. Not the held-out headline. Report `docs/validation/RENDER_VS_REAL.md`.
+- **Code:** `tools/validation/render_vs_real/` (select, spice_kernels, nac_camera = ISIS LroNarrowAngleCamera re-implemented
+  with NAIF SPICE, geometry, fetch [HTTP byte ranges, SHA-256 manifest], realimage, terrain_products, blender_twin [Cycles
+  OSL push-broom camera], score, run, report) + tests; `web/src/components/RealVsModel.tsx` (+ unit test, not wired in).
+- **Protocol:** frozen v1.0 unchanged (test); amendments A1–A4 each registered in `docs/v2/PREREGISTRATION.md` before the
+  scores they govern. A4 replaces the NAIF `lrorg` FDF orbit with the LOLA/LRO RS GRGM900C orbit: the registration offsets
+  measured under A3 (up to ~290 m) matched the FDF − GRGM900C difference with the opposite sign.
+- **Scored:** 181 image × site rows on GRGM900C (+ 7 FDF-only), 4 terrain products × 3 photometric models, 0 failures, 21 rows
+  gated by the geometry fit. PGDA 78, Hapke, registered: shadow IoU 0.946 median, edge 5.4 m; flat-sphere control IoU 0.000.
+- **Data (git-ignored, `data/cache/v2/`):** SPICE 5.2 GB, NAC line windows 9.3 GB, renders 1.7 GB. No held-out image fetched.
+- **Not done:** WAC/ShadowCam/TC; held-out run; stray-light model; along-Sun offset bias; viewer not in App.tsx. Nothing pushed.
