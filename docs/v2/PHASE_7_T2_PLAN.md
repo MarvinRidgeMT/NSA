@@ -87,3 +87,15 @@ projection, legend and rebuild command in `web/public/layers/manifest.json` (git
 
 `cd web && npm run build && npx vitest run` green; Playwright green on 4222 except `cold-launch.spec.ts`; traceability
 0 untraced; Blender `run_all.py` green; STATUS row "T2 · …"; BUILD_STATUS appended; nothing NASA-derived committed.
+
+## 5. As built (17 Nov 2026)
+
+- Built as planned, with one layout change: the tools are not a right-hand column (the stage's instrument panel and the top bar sit
+  there and took the clicks) but tabs Site / Layers / Query in the card's place, height-capped above the view row; a pick opens Query.
+- Found and fixed: the old SVS normalisation scaled by the bounding sphere of the bounding box (√3 too large), so that globe was drawn at
+  0.58 of the marker radius; both globes now sit on the reference radius 1 and the flight ends 3.6 R out.
+- Checks: polar drape formula = pyproj (< 1 mm, unit test); drape vs eqc product 3,993 / 4,000 random points agree (7 on class edges);
+  visibility PNGs re-rendered here are byte-identical to R2's; the real stub API through the proxy returns the precomputed row's own
+  numbers (site hash 581243a87926c7b4, Sun 51.929 %, gap 162 h).
+- Not done: Cesium quantized-mesh terrain (`web/public/globe/terrain/`) is not wired; T1's `science/api` is not on this branch (the panel
+  uses the stub contract, documented in the shared notes); coverage and slope/roughness were copied from the R2/S3 builds, not rebuilt.

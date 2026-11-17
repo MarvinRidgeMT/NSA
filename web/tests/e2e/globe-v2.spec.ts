@@ -147,6 +147,8 @@ test.describe('v2 whole-Moon globe, layers and query panel', () => {
     expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.tagName, pt)).toBe('CANVAS');
     await page.mouse.click(pt.x, pt.y);
     await expect(page.getByTestId('query-picked')).toContainText('globe click');
+    await expect(page.getByTestId('query-lat')).not.toHaveValue(''); // filled from the pick
+    await expect(page.getByTestId('query-lon')).not.toHaveValue('');
     const lat = Number(await page.getByTestId('query-lat').inputValue());
     const lon = Number(await page.getByTestId('query-lon').inputValue());
     expect(Number.isFinite(lat) && Number.isFinite(lon)).toBe(true);
