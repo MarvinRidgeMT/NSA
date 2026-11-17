@@ -1,6 +1,6 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Html, OrbitControls } from '@react-three/drei';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
 import { useWheelGuard } from './wheelGuard';
 import * as THREE from 'three';
 import { gridDirection } from '../bundle/frame';
@@ -21,7 +21,8 @@ import { albedoLayerFor } from '../components/SurfaceLayer';
 import { TerrainSurface } from './TerrainSurface';
 import { ExaggerationPicker } from '../components/SurfaceLayer';
 import { StableLine } from './StableLine';
-import GlobalMoon from './GlobalMoon';
+// the whole-Moon globe (Blender GLB, layers, query panel) is its own chunk, loaded when the globe is opened
+const GlobalMoon = lazy(() => import('./GlobalMoon'));
 import { LodTerrain } from './LodTerrain';
 import { LodPanel } from './LodPanel';
 import { loadLodManifest, type LodManifest } from '../bundle/lodTiles';
@@ -794,13 +795,15 @@ function DemScene({ v, active }: { v: View; active: boolean }) {
       {ctx && !globe && <ExaggerationPicker />}
       <SightLabels />
       {globe && (
-        <GlobalMoon
-          v={v}
-          onEnter={() => {
-            useSurface.getState().setGlobe(false);
-            useCamera.getState().request(ctx ? 'context' : 'regional'); // arrive on the regional framing, then the user picks Approach
-          }}
-        />
+        <Suspense fallback={<div className="globe-layer" data-testid="global-moon" data-loaded="false" />}>
+          <GlobalMoon
+            v={v}
+            onEnter={() => {
+              useSurface.getState().setGlobe(false);
+              useCamera.getState().request(ctx ? 'context' : 'regional'); // arrive on the regional framing, then the user picks Approach
+            }}
+          />
+        </Suspense>
       )}
       <RidgeCaption v={v} cropHalfM={half} selectedOnly />
       <LightTag v={v} />
