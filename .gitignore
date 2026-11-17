@@ -55,3 +55,6 @@ web/public/globe/analytics/
 
 # v2 R2 Cesium quantized-mesh display terrain (built from the NASA-derived pyramid by tools/globe/qmesh.py). Not committed.
 web/public/globe/terrain/
+
+# v2 T1 exports (GeoTIFF masks/maps are NASA-derived; PDF/CSV/JSON are rebuilt by python -m science.exports). Not committed.
+data/exports/
