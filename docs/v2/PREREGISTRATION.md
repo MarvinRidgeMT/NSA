@@ -111,3 +111,22 @@ The WAC code is not frozen here; A7 freezes it before the WAC held-out run.
 | file | sha256 |
 |---|---|
 | `docs/v2/RENDER_VS_REAL_PROTOCOL_A6.md` | `26a48bab464f81e7b579a2fefa1867028c64094ea0354060cf97cade478f401a` |
+
+## Entry 8 — 17 Nov 2026, coordinating session (held-out run, LROC WAC 643 nm)
+
+State at freezing: **no held-out WAC image or label has been fetched, rendered, looked at or scored.** The A6 dev pilot is
+complete (6985db3). Amendment A7 defines the single held-out run for LROC WAC: every eligible held-out WAC row, the A6
+parameters unchanged, the v1.0 Otsu rule unchanged, and a prediction written before the run. The WAC code that the run
+executes is frozen here; the NAC code it imports is frozen in Entry 6. `wac_heldout.py` refuses to start if any row differs.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A7.md` | `ca6ebc0790b109ca119e12fe89a8d531756fba75ac7d153aefa06ed207cb3464` |
+| `tools/validation/render_vs_real/wac_camera.py` | `db72cff89709eb427fd29508908520afb2be49846ff563a0ec8a3e142641d32f` |
+| `tools/validation/render_vs_real/wac_common.py` | `f54bfa9e84d6df907d26675f9811675dacba7d2ecc7810e1c4ad82e5cfa1f763` |
+| `tools/validation/render_vs_real/wac_io.py` | `04e675f109f176533b1ecd96f7992f7d4e9919e4953f18872ce04437bd003eda` |
+| `tools/validation/render_vs_real/wac_geometry.py` | `60422e986652ec6bdacc4bcf88e955fe8e9ac77f401886b07ee6f5160773ddb8` |
+| `tools/validation/render_vs_real/wac_run.py` | `b6eb91ffe96820a72f93f1dbbf5a6dc6725023a9ad3a528bdbafd4143d240600` |
+| `tools/validation/render_vs_real/wac_twin.py` | `00fce37f3ef3785f3239752ac120ead21de84219cccd0e3fac5b437a7984efa0` |
+| `tools/validation/render_vs_real/wac_select.py` | `550640c577ec60df773b54ef158fb5398127f8eb328076029b7aa6bc26440baa` |
+| `tools/validation/render_vs_real/wac_heldout.py` | `09a0ac581eae5494697a108f667548575763e963622eb59a279b1d64c18bb284` |

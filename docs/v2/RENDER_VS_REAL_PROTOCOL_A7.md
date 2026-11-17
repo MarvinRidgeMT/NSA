@@ -1,0 +1,75 @@
+# Render-vs-real protocol — Amendment A7 (the held-out run for LROC WAC 643 nm)
+
+Written 17 Nov 2026 by the coordinating session (Claude), after the A6 dev pilot and **before any held-out WAC image or
+label is fetched, rendered, displayed or scored**. Its SHA-256, and the SHA-256 of every WAC code file the run executes, are
+recorded in `docs/v2/PREREGISTRATION.md` (Entry 8) in the same commit. The NAC files the run imports are already frozen
+(Entry 6). `wac_heldout.py` refuses to start if any registered hash differs.
+
+**State at writing.**
+- **Dev pilot (A6):** complete, `docs/validation/RENDER_VS_REAL_WAC_DEV.md` (commit 6985db3). 464 rows scored and 0 failed;
+  457 are on the GRGM900C orbit.
+- **Held-out data so far:** only catalogue metadata (ids, times, sites, footprints, URLs). The SPICE kernels for the
+  held-out image times were downloaded beforehand from those catalogue times. They are spacecraft data, not image data:
+  21 files, about 4.7 GB, recorded in the kernel manifest.
+
+## A7.1 Scope
+- **Instrument:** LROC WAC COLOR-mode CDR, 643 nm band, as in A6.1.
+- **This is the single held-out run for WAC.** After it, nothing in the WAC pipeline may change without a new amendment
+  that reports both the original and the changed numbers.
+
+## A7.2 Rows
+- **Considered:** every `split = heldout`, `instrument = LROC_WAC` row of the frozen catalogue.
+- **Eligible:** the protocol §2 metadata gates leave 388 rows / 127 images (35 gated). No sampling.
+- **Gates:** then the A6.3 geometry gate and the §3.1 window minimum.
+- **Accounting:** every row is reported as scored, gated (with its reason) or failed (with its reason).
+
+## A7.3 Frozen parameters: everything as in A6, nothing changed after the dev pilot
+- **May change under §5, but none changed:**
+  - Photometry and render sampling are unchanged.
+  - Photometry cannot move a shadow mask. On dev, Hapke gave the best SSIM (0.586 against 0.40 for the alternatives), so it
+    stays the headline.
+- **Not allowed to change, and not changed:** the camera model, grid, framelet rule, window, registration radius,
+  metrics, and the v1.0 Otsu thresholding rule.
+- **Code:** the WAC files in Entry 8 plus the NAC files of Entry 6, run by
+  `python -m tools.validation.render_vs_real.wac_heldout all --workers 4 --threads 4`.
+  - Outputs: `results_wac_heldout/` (ids and numbers) and `$POLARIS_DATA/v2/render_vs_real/wac_heldout/` (git-ignored).
+  - Logging: start, stop and commit go to `results_wac_heldout/RUN_LOG.jsonl`.
+  - A crash may be resumed; rows already scored are not re-scored.
+
+## A7.4 What the dev pilot showed, and the prediction stated before the run
+- **The render places the shadows correctly.** On dev (PGDA 78, Hapke, registered, GRGM900C):
+  - Count-matched (A5.5) shadow IoU median: 0.961.
+  - Registration offset median: 0.25 pixel (24 m); NCC median 0.92.
+- **The fixed Otsu rule fails on most WAC windows.**
+  - Shadowed WAC CDR pixels carry calibration noise and scattered light around I/F ≈ 4 × 10⁻⁴, with a negative tail
+    (8 % of window pixels are below zero).
+  - On 244 of 457 rows the Otsu threshold of v = log₁₀(max(I/F, 10⁻⁵)) falls on the −5 floor. Only the pixels at or below
+    zero are then "shadow" (observed 9 % against predicted 68 %).
+  - Those rows score Otsu IoU 0.142. The other 213 rows score 0.820, with an edge error of 110 m (1.3 pixels).
+  - Overall Otsu IoU median: 0.170. The claim dry run fails conditions 1 and 2 at every site.
+- **The rule is not changed.** Protocol §5 lists the thresholding rule as never tuned, and A6.7 repeats it. A
+  WAC-specific rule chosen now, after seeing dev scores, would be exactly the tuning the protocol forbids.
+- **Prediction, written before the run:**
+  - Under the registered rule, the §8 claim will **fail conditions 1 and 2 at every site** for every terrain product.
+  - The count-matched shadow IoU (sensitivity only) will have a median ≥ 0.9.
+  - If either does not happen, the report says so.
+- **Products:** at 70–95 m pixels the 5 m and 80 m terrain products give nearly the same masks (dev paired IoU difference
+  ≤ 0.001). Product comparisons are reported, but they cannot separate products at WAC scale.
+
+## A7.5 The §8 claim (rule unchanged from A5.6)
+- **Unit:** per site and per product. Rows: registered, Hapke, GRGM900C.
+- **Conditions:**
+  1. Median shadow IoU ≥ 0.80.
+  2. Median edge error ≤ 2 × the median pixel. For WAC the analysis pixel is the native pixel, so there is no separate
+     native-pixel column.
+  3. The product beats the flat-sphere control on ≥ 80 % of pairs, for IoU and for edge error. An undefined edge error is
+     worse than any finite one; a pair where both are undefined is not a win.
+- **Wording:** a failed site is reported with its failed conditions and numbers. No sentence combines sites, products or
+  instruments.
+
+## A7.6 Reporting
+- **Report:** `docs/validation/RENDER_VS_REAL_WAC_HELDOUT.md` (generated by `wac_report.py`, formatting only), labelled
+  SOURCE-BASED · UNVALIDATED · held-out. Dev numbers are shown next to it.
+- **Secondary results (descriptive, never a claim):** the count-matched mask and the threshold-at-floor split are
+  reported.
+- **Thumbnails:** crops of NASA images, built locally and not committed.
