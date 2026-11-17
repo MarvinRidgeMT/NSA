@@ -1,0 +1,130 @@
+{
+  "schema": "polaris-gates-perf-v1",
+  "measuredUTC": "2026-11-17T05:14:28.527Z",
+  "gate": {
+    "p95FrameMs": 16,
+    "coldStartMs": 5000
+  },
+  "headless": false,
+  "uncapped": false,
+  "port": 4221,
+  "pageErrors": [],
+  "browser": "157.0.8103.79",
+  "coldStart": {
+    "firstGlobeFrameMs": 2142,
+    "globeButtonReadyMs": 1030,
+    "navigation": {
+      "domContentLoadedMs": 162,
+      "loadMs": 162
+    },
+    "method": "performance.now() from navigation start, fresh browser context (empty HTTP cache), globe opened by a click as soon as its button exists; the app starts in the terrain view, so the click is part of the path",
+    "pass": true
+  },
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+  "globe": {
+    "idle": {
+      "frames": 575,
+      "meanMs": 6.95,
+      "p50Ms": 6.9,
+      "p95Ms": 7.8,
+      "p99Ms": 7.8,
+      "maxMs": 7.9,
+      "over16ms": 0,
+      "visibility": "visible",
+      "focused": true
+    },
+    "orbitDrag": {
+      "frames": 720,
+      "meanMs": 6.95,
+      "p50Ms": 6.9,
+      "p95Ms": 7.7,
+      "p99Ms": 7.8,
+      "maxMs": 7.8,
+      "over16ms": 0,
+      "visibility": "visible",
+      "focused": true
+    },
+    "worstP95Ms": 7.8,
+    "pass": true
+  },
+  "region": {
+    "idle": {
+      "frames": 326,
+      "meanMs": 12.29,
+      "p50Ms": 13.8,
+      "p95Ms": 14.6,
+      "p99Ms": 20.7,
+      "maxMs": 21.2,
+      "over16ms": 4,
+      "visibility": "visible",
+      "focused": true
+    },
+    "orbitDrag": {
+      "frames": 403,
+      "meanMs": 12.41,
+      "p50Ms": 13.8,
+      "p95Ms": 14.6,
+      "p99Ms": 20.8,
+      "maxMs": 34.3,
+      "over16ms": 6,
+      "visibility": "visible",
+      "focused": true
+    },
+    "playback": {
+      "frames": 382,
+      "meanMs": 13.11,
+      "p50Ms": 13.9,
+      "p95Ms": 14.7,
+      "p99Ms": 20.9,
+      "maxMs": 28,
+      "over16ms": 11,
+      "visibility": "visible",
+      "focused": true
+    },
+    "worstP95Ms": 14.7,
+    "pass": true
+  },
+  "fiveMetre": {
+    "idle": {
+      "frames": 576,
+      "meanMs": 6.95,
+      "p50Ms": 6.9,
+      "p95Ms": 7.7,
+      "p99Ms": 7.8,
+      "maxMs": 7.9,
+      "over16ms": 0,
+      "visibility": "visible",
+      "focused": true
+    },
+    "orbitDrag": {
+      "frames": 720,
+      "meanMs": 6.95,
+      "p50Ms": 6.9,
+      "p95Ms": 7.7,
+      "p99Ms": 7.8,
+      "maxMs": 7.9,
+      "over16ms": 0,
+      "visibility": "visible",
+      "focused": true
+    },
+    "worstP95Ms": 7.7,
+    "pass": true,
+    "lodPanel": {
+      "testid": "lod-panel",
+      "source": "context/lod/site04_roi3/manifest.json · NASA PGDA product 78 LOLA 5 m tile (Barker et al. 2021), surface heights · https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_surf.tif (SHA-256 38ff70dbdf2f…)",
+      "label": "SOURCE-BASED · UNVALIDATED · DISPLAY ONLY",
+      "drawn": "79",
+      "finest": "5",
+      "pending": "0"
+    }
+  },
+  "jsHeapMB": 80,
+  "power": "Now drawing from 'AC Power' |  -InternalBattery-0 (id=23134307)\t50%; charging; 2:18 remaining present: true",
+  "lowPowerMode": false,
+  "pass": {
+    "globe": true,
+    "region": true,
+    "fiveMetre": true,
+    "coldStart": true
+  }
+}

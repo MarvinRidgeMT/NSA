@@ -213,8 +213,8 @@ def _inline(schema):
 
 
 GROUNDING = ('Quote only numbers that appear in this turn\'s tool results, with their label; every result carries '
-             'json_path/read commands. Visibility is geometric only (not power or DSN availability); k of N maps is not '
-             'a probability; requirements are team requirements, not NASA standards.')
+             'json_path/read commands. Visibility is geometric only (not power or DSN availability); '
+             'k of N maps is not a probability; requirements are team requirements, not NASA standards.')
 
 TOOLS = {
     'schema': 'polaris-tool-spec-v1',

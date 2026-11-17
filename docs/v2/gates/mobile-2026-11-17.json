@@ -1,0 +1,201 @@
+{
+  "schema": "polaris-gates-mobile-v1",
+  "measuredUTC": "2026-11-17T05:08:25.935Z",
+  "viewport": [
+    390,
+    844
+  ],
+  "deviceScaleFactor": 3,
+  "rule": "pass = no horizontal page scroll and every visible control inside the viewport (or inside a horizontally scrollable container, or brought into view by focus) and no h1/h2 squeezed below half the width onto 3+ lines, in every view; 24 px targets (WCAG 2.2 AA 2.5.8) and >= 11 px text are recorded",
+  "views": {
+    "story": {
+      "squeezedHeadings": [],
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "horizontalScroll": false,
+      "nInteractive": 11,
+      "offscreenInteractive": [
+        "button.btn"
+      ],
+      "nOffscreen": 1,
+      "targetsUnder24px": [
+        "a 103x12"
+      ],
+      "nTargetsUnder24px": 1,
+      "textUnder11px": [
+        "p.render-cap"
+      ],
+      "nTextUnder11px": 1,
+      "checks": {
+        "noHorizontalScroll": true,
+        "interactiveReachable": false,
+        "noSqueezedHeadings": true,
+        "targets24px": false,
+        "text11px": false
+      }
+    },
+    "explore": {
+      "squeezedHeadings": [],
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "horizontalScroll": false,
+      "nInteractive": 44,
+      "offscreenInteractive": [],
+      "nOffscreen": 0,
+      "targetsUnder24px": [
+        "a 103x12",
+        "button[data-testid=lod-toggle].detail-toggle 193x22"
+      ],
+      "nTargetsUnder24px": 2,
+      "textUnder11px": [
+        "span.sr-only",
+        "span[data-testid=earth-hidden-marker].tag3d",
+        "span.k",
+        "div[data-testid=light-tag].light-tag",
+        "button[data-testid=lod-toggle].detail-toggle",
+        "span.val",
+        "span.rc-kicker",
+        "span.rc-badge",
+        "dt",
+        "span.who",
+        "label",
+        "h2",
+        "summary"
+      ],
+      "nTextUnder11px": 24,
+      "checks": {
+        "noHorizontalScroll": true,
+        "interactiveReachable": true,
+        "noSqueezedHeadings": true,
+        "targets24px": false,
+        "text11px": false
+      }
+    },
+    "explore+globe": {
+      "squeezedHeadings": [],
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "horizontalScroll": false,
+      "nInteractive": 48,
+      "offscreenInteractive": [],
+      "nOffscreen": 0,
+      "targetsUnder24px": [
+        "a 103x12",
+        "button[data-testid=lod-toggle].detail-toggle 193x22"
+      ],
+      "nTargetsUnder24px": 2,
+      "textUnder11px": [
+        "span.sr-only",
+        "button[data-testid=lod-toggle].detail-toggle",
+        "span.val",
+        "span.rc-kicker",
+        "span.rc-badge",
+        "dt",
+        "span.who",
+        "label",
+        "h2",
+        "summary"
+      ],
+      "nTextUnder11px": 20,
+      "checks": {
+        "noHorizontalScroll": true,
+        "interactiveReachable": true,
+        "noSqueezedHeadings": true,
+        "targets24px": false,
+        "text11px": false
+      }
+    },
+    "decision": {
+      "squeezedHeadings": [
+        "h1 104px wide: Does this ground keep the light?"
+      ],
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "horizontalScroll": false,
+      "nInteractive": 50,
+      "offscreenInteractive": [],
+      "nOffscreen": 0,
+      "targetsUnder24px": [
+        "a 103x12",
+        "text[data-testid=cert-mast-1] 8x6",
+        "text[data-testid=cert-mast-10] 11x6",
+        "button.linkish 17x18",
+        "button.linkish 25x18",
+        "button.linkish 103x18",
+        "button.linkish 102x18",
+        "button.linkish 103x18",
+        "button.linkish 96x18",
+        "button.linkish 99x18",
+        "button.linkish 110x18",
+        "button.linkish 153x18",
+        "button.linkish 153x18",
+        "button.linkish 162x18"
+      ],
+      "nTargetsUnder24px": 14,
+      "textUnder11px": [
+        "span.sr-only",
+        "span[data-testid=decision-lab-pilot].src-tag",
+        "span.src-tag",
+        "b",
+        "span",
+        "small.st",
+        "div.src",
+        "span.st",
+        "label",
+        "th",
+        "span.og-pos"
+      ],
+      "nTextUnder11px": 80,
+      "checks": {
+        "noHorizontalScroll": true,
+        "interactiveReachable": true,
+        "noSqueezedHeadings": false,
+        "targets24px": false,
+        "text11px": false
+      }
+    },
+    "evidence": {
+      "squeezedHeadings": [
+        "h1 156px wide: Receipts, not reassurance"
+      ],
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "horizontalScroll": false,
+      "nInteractive": 57,
+      "offscreenInteractive": [],
+      "nOffscreen": 0,
+      "targetsUnder24px": [
+        "a 103x12",
+        "button[data-testid=ridge-row].linkish 12x18",
+        "button[data-testid=ridge-row].linkish 14x18",
+        "button[data-testid=ridge-row].linkish 14x18",
+        "button[data-testid=ridge-row].linkish 15x18",
+        "button[data-testid=ridge-row].linkish 14x18",
+        "button[data-testid=ridge-row].linkish 21x18",
+        "button[data-testid=ridge-row].linkish 22x18",
+        "button[data-testid=ridge-row].linkish 14x18",
+        "a[data-testid=evr-raw-bundle] 68x15",
+        "a 125x15",
+        "a[data-testid=evr-showcase] 156x15",
+        "g[data-testid=pin-Site04] 31x9",
+        "g[data-testid=pin-Site07] 31x17",
+        "g[data-testid=pin-Site11] 28x9"
+      ],
+      "nTargetsUnder24px": 34,
+      "textUnder11px": [
+        "span.sr-only",
+        "label",
+        "th",
+        "span.of-record"
+      ],
+      "nTextUnder11px": 23,
+      "checks": {
+        "noHorizontalScroll": true,
+        "interactiveReachable": true,
+        "noSqueezedHeadings": false,
+        "targets24px": false,
+        "text11px": false
+      }
+    }
+  }
+}
