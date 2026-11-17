@@ -107,11 +107,15 @@ def main(argv=None):
     w('Registered, Hapke, GRGM900C rows. Conditions: (1) median shadow IoU ≥ 0.80; (2) median edge error ≤ 2 × the median '
       'analysis pixel (binned GSD); (3) beats the flat-sphere control on ≥ 80 % of paired images for IoU **and** for edge '
       'error. The native-pixel column is reported, not the rule (A5.6 disclosure).\n')
+    margin = []
+
+    def beat(f, n):
+        return f'{round(f * n)}/{n} ({f:.1%})'
     for p in ('pgda78_5m', 'lola_ldem875s_5m', 'pgda90_80m'):
         cr = H.claim_rule(scores_all, native, sites=SITES, product=p)
         w(f'### {PNAME[p]}' + (' (headline)' if p == 'pgda78_5m' else '') + '\n')
-        w('| site | n | median IoU | median edge m (n) | limit m (2 × analysis px) | within 2 native px | beats control IoU / edge | '
-          'claim |')
+        w('| site | n | median IoU | median edge m (n) | limit m (2 × analysis px) | median native px m; within 2 native px | '
+          'beats control: IoU / edge (pairs) | claim |')
         w('|---|---|---|---|---|---|---|---|')
         for s in SITES:
             c = cr[s]
@@ -120,9 +124,14 @@ def main(argv=None):
                 continue
             verdict = '**met**' if c['claim'] else 'not met: ' + ', '.join(c['failed'])
             w(f"| {s} | {c['n']} | {fmt(c['medianIouShadow'])} | {fmt(c['medianEdgeM'], 1)} ({c['nEdge']}) | "
-              f"{fmt(c['edgeLimitM'], 1)} | {'yes' if c['edgeWithinNative2px'] else 'no'} | "
-              f"{c['fracBeatsControlIou']:.0%} / {c['fracBeatsControlEdge']:.0%} | {verdict} |")
+              f"{fmt(c['edgeLimitM'], 1)} | {fmt(c['medianNativePxM'], 2)}; {'yes' if c['edgeWithinNative2px'] else 'no'} | "
+              f"{beat(c['fracBeatsControlIou'], c['nPairs'])} / {beat(c['fracBeatsControlEdge'], c['nPairs'])} | {verdict} |")
+            if c['claim'] and min(c['fracBeatsControlIou'], c['fracBeatsControlEdge']) * c['nPairs'] - 1 < H.CLAIM_BEAT * c['nPairs']:
+                margin.append(f"{PNAME[p]} at {s}")
         w('')
+    if margin:
+        w('**One row from failing:** condition 3 would fail with one fewer winning pair for ' + '; '.join(margin) + '. '
+          'The claim is met as registered; the margin is stated so it is not read as comfortable.\n')
     w('Where the claim is met, the report may say "renders reproduce observed shadow placement at <site>/LROC NAC" for that '
       'product, and nothing broader: no number here is combined across sites, products or instruments, and none is a '
       'probability.\n')
@@ -204,10 +213,22 @@ def main(argv=None):
     al = [r.get('regOffsetAlongSunM') for r in rr]
     ac = [r.get('regOffsetAcrossSunM') for r in rr]
     w('## 7. Registration and orbit\n')
-    w(f"- Offset magnitude (m, GRGM900C rows, search ± 60 m): median {fmt(q(off, 50), 1)}, P90 {fmt(q(off, 90), 1)}, max "
+    w(f"- Offset magnitude (m, GRGM900C rows). The search is ± R pixels on each image axis, R = max(3, 60 m / median "
+      f"analysis pixel) (A4.2); on the ground that square reaches past 60 m on the diagonal and where pixels are not "
+      f"square, so offsets above 60 m are possible without hitting the bound: median {fmt(q(off, 50), 1)}, P90 {fmt(q(off, 90), 1)}, max "
       f"{fmt(max(off) if off else float('nan'), 1)}; at the search bound: {sum(r['regAtBound'] for r in rr)}; beyond 60 m: "
       f"{sum(r.get('offsetBeyondDocumented', False) for r in rr)}. For σ = 20 m per axis a Rayleigh law gives median "
       f"{20 * math.sqrt(2 * math.log(2)):.1f} m, P90 {20 * math.sqrt(2 * math.log(10)):.1f} m.")
+    low = [r for r in rr if r['regNcc'] < 0.05]
+    nts_low = sum((r['product_id'], r['site']) in nts for r in low)
+    big = [r for r in rr if r.get('offsetBeyondDocumented')]
+    rest = [r['regOffsetM'] for r in rr if r['regNcc'] >= 0.05]
+    w(f"- Descriptive split, chosen after seeing these results (not registered, changes nothing): {len(low)} rows have a "
+      f"registration NCC below 0.05, i.e. the edge images do not correlate and the offset carries no pointing information; "
+      f"{nts_low} of them are in the near-total-shadow stratum (§6), and {sum(r['regNcc'] < 0.05 for r in big)} of the "
+      f"{len(big)} offsets beyond 60 m are among them. The other {len(rest)} rows: median {fmt(q(rest, 50), 1)} m, P90 "
+      f"{fmt(q(rest, 90), 1)} m, max {fmt(max(rest) if rest else float('nan'), 1)} m. Dev: "
+      f"{sum(r['regNcc'] < 0.05 for r in dv)} of {len(dv)} rows below 0.05.")
     w(f"- Along the Sun azimuth (real − render): median {fmt(q(al, 50), 1)} m (P10 {fmt(q(al, 10), 1)}, P90 {fmt(q(al, 90), 1)}); "
       f"across: median {fmt(q(ac, 50), 1)} m. Per site along-Sun medians: " + '; '.join(
           f"{s} {fmt(q([r.get('regOffsetAlongSunM') for r in rr if r['site'] == s], 50), 1)} "

@@ -1,0 +1,5039 @@
+{
+ "rule": "A5.2: every held-out LROC NAC row of the frozen catalogue; protocol \u00a72 metadata gates; no sampling",
+ "catalogueSha256": "4b941d61f1ecb06155a2b0ffcc7f9a5f9ea1dc5b41ef6918ff1f69f424515e01",
+ "heldoutRows": 680,
+ "eligibleRows": 182,
+ "eligibleImages": 167,
+ "nImages": 167,
+ "nRows": 182,
+ "gatedByMetadata": [
+  {
+   "product_id": "M101436286LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M101443451LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M101443451LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M101450613LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M101472107LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M101493578LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M102331107LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M102331107RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M102452800LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M102467116LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M102495726LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M102638882LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M102753465LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M102782085LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M102782085RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M103025528LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M103039846RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M103039846RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M103046997LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M103075630LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M103075630RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M103082797LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M103805633LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M103855715LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M104056156RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M104056156RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M104585750LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M104743215RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M104900598LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M105129603LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M105824863LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M105839194LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M105867878RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M105875056RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M106040038RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M106040038RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M106212207RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M106219389LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M106219389RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M106262459LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M106484823LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M107252136LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M107395534LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M107409878RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M107431388LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M107757017LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M107757017LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M108524058LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M108524058RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M108647107LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M108647107RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1095131059LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1095159631RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M109591454RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M109605063LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1096360016RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1096388593RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1097410427LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1097424715RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1097539024RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1097653349LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1097774820LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1098646445LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1098675025RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1098717897LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1099803977LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1100339900RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M110114257RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1101175814LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1102154375RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1102204396RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1102240112LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1102454380LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1102454380RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1103347301RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1103418724LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1104511619LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1104511619RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1104554478LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M110507941RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M110521535RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1106976410LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1106997843LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1107026421LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1107083581LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1107083581RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M110820244RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1109284736RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1110539588LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1110560897RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1111619219LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1111633423RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1111668936LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1111683138RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1111725745LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1111725745RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1111747050RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1111768356RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1111810967RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1111825173RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1112883428RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1113955903RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1114005614LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1114048224RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1114076630RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1114090832LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1114126343LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1114140548LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1114140548RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1116321279RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1116335485RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1116356793RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1116363896RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1116406510RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1116442021LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1116463329RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1116484639LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1116498850RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1118679590LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1118693795RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1118700897LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1118715100LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1118722202RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1118729304RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1118779000LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1118835817RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1118850023LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1121058653LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1121065752LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1121079949LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1121087048RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1121150935LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1121158024LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1121172231LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1121179320RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M112191740LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M112212119RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1123475045LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M112884588RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M113285273RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M114594996RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M114601778RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M114846131RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M114886854RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M115456890LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M115456890LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M115477258RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M115945595RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M115986309RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M116047387LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M116373075RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M116943122LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M117832047RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M117906737RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M118761805LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M118883910LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M118883910LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M118890695LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M118890695LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M118938187LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M118938187LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M118992458RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M119006029LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M119006029LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M119006029RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M120166559LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M120180132LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M120180132RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M120234460LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M120315898LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121001222RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121041922LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121069057LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121096193LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121096193LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121177588RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121286109LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121286109LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121306458RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121306458RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121326803RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121353932LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121353932LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121367515RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121394651RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M121971540LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M122541629RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M122799644LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M122813216LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M123077857RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M123091428LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M123593404RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M124312829RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M124333199LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M124917074LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125365254LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125385618LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125467082RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125568907RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125663907RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125765713RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125765713RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125779288RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125820016LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125908238RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125982889LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125982889LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125982889RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125982889RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M125996462RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M126064328RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M126064328RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M126688662LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M128072898RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M128425779RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M128805823LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M129579295RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M129687865LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M129687865RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M130210462RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M130766782LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M131173927LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M131201070RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M132781883LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M132795452RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M133555325RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M133745320LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M133826737LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1348682369RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M139695762RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M139831449LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M139967188RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M139973949RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M140021445RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M140048583LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M140150376RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M140163947LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M140197843LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M140659353RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M141202194LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M141215750LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M141297171LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142294582RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142308148RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142321713RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142335279RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142409906LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142443785LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142450586LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142464150LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142504842RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142531971LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142545534RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M142593035LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M143278169LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M143807204LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M144689355RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M144770776LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M144797915LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M144886149RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M144892907LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M144899716LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M144920039LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M144926843LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M145374734RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M145395095LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M145395095RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1463720990LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M1463720990RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M146589256RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M146602814RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M146643533LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M146860458LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M146948558RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M147104514RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M147185841RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M147219735LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M147246872RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M147253633LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M147273993LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M147945159LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M147945159RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M148223091LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M148223091LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M148345105RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M148860546RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M148921620RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M148975966LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M148996269LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M149016636LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M149213406RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M150366876RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M150380468RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M150407581LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M150495799LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M151289671LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M151289671RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M151357531RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M151371103LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M151540723RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M151547547LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M151547547RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M151581418RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M151934170LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M151961355RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M152558367LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M152748314LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M152822925LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M152856903LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M152958668RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M153684763RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M156107682RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M156256947LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M156297643LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M156324724LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M156324724RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M157172529LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M157199659RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M157213223LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M157742151LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M157769266LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M157769266RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M157796382RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M157877739LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M159065293LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M160198702RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M162152986RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M162410867LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M162431219LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M162471918LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M162471918RC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M162512612LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M162519395LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M162519395LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M162526179LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M162539747LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M163055547LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M163069119LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M163089479RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M163096265RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M163184487LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M163198060LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M163204846RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M163211632RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M163218418RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M163720432RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M167839735RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M167846520RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M167853305RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M167866876RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M167921161RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M167934730RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M167941515RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169101754LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169108539RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169284921LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169373117LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169393473LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169400258LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169407044LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169420615LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169440970RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169454537RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169502013LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169508794LC",
+   "site": "site04_roi3",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169563039RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169583384LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169596947LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169596947RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169610511LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169617293LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169624075RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169630858LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169630858RC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M169664768LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M170682975RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M171972644RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M171979431RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M175011897RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M175025396LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M175416686LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M176179150RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M176563702LC",
+   "site": "site01_roi6",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M177374548RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M177645399LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M177780799RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M177841716RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M178555370LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M178555370RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M179027087RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M179148595RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M179263024RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M179949245LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M179984992LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M179984992RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M180013571RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M180099319LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M180907099RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M180914248LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M180921395LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M180935692RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M180949986LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M180957134LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M181271655LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M181278800RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M182093684LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M182093684RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M182143733RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M182172318LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M182350997RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M182386745LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M182443943LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M183287429RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M183308874RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M183723447RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M183737741RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M184445426RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M184502612LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M184531200LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M184531200RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M184631256LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M184674143RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M184695588LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M184767073RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M184781366RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M184824253LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M185653452RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M185917923RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M185932220LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M185932220RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M185946516LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M185996556RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M186010841RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M186811461RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M186825758RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M186925826RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M187955172RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M187962322RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M187969470RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M187983768RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M187990917RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M187998065LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M188012362RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M188026659RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M188255384RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M188283978RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M188319720RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M188434076RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M188448372RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189220411LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189349055LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189356219RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189363350LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189370516RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189377646RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189399105LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189413401RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189420533RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189434832RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189449126LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189456292LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189456292RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189470589RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189477719LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189484884LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M189492015RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M190592854RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M190621449RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M190635747RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M190742974RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M190771561RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M190778692LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M190778692RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M190792987RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M190800150RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M190807282LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M191536451RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M191650813LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M191693694RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M191765172RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M191779469RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M191793768LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M192958950LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M192958950RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M193037562LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M193123309RC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M193137598LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M193151866LC",
+   "site": "site11_roi4",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M193945010LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M194002164RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M194016442LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M194045014LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M194095044RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M194123624RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M194137909RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M194152200LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M194159328RC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  },
+  {
+   "product_id": "M194173618LC",
+   "site": "site07_roi1",
+   "reason": "overlap_frac < 0.25 and site centre not covered"
+  }
+ ],
+ "ckWindowsChosen": [],
+ "images": [
+  {
+   "product_id": "M101400477RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-07-05T02:33:44.766Z",
+   "utc_start": "2009-07-05T02:33:29.868000Z",
+   "utc_stop": "2009-07-05T02:33:59.665000Z",
+   "pixel_scale_m": 0.89,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101400477RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101400477RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res<1m"
+   }
+  },
+  {
+   "product_id": "M101472107LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2009-07-05T22:27:31.695Z",
+   "utc_start": "2009-07-05T22:27:25.450000Z",
+   "utc_stop": "2009-07-05T22:27:37.941000Z",
+   "pixel_scale_m": 5.45,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101472107LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009186/NAC/M101472107LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "M102395542RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-07-16T14:58:13.456Z",
+   "utc_start": "2009-07-16T14:57:55.648000Z",
+   "utc_stop": "2009-07-16T14:58:31.264000Z",
+   "pixel_scale_m": 0.889,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009197/NAC/M102395542RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009197/NAC/M102395542RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res<1m"
+   }
+  },
+  {
+   "product_id": "M102488591LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2009-07-17T16:49:01.876Z",
+   "utc_start": "2009-07-17T16:48:44.068000Z",
+   "utc_stop": "2009-07-17T16:49:19.684000Z",
+   "pixel_scale_m": 0.928,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009198/NAC/M102488591LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009198/NAC/M102488591LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M102488591RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2009-07-17T16:49:01.876Z",
+   "utc_start": "2009-07-17T16:48:44.068000Z",
+   "utc_stop": "2009-07-17T16:49:19.684000Z",
+   "pixel_scale_m": 0.927,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009198/NAC/M102488591RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009198/NAC/M102488591RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M102696180LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-07-20T02:28:40.532Z",
+   "utc_start": "2009-07-20T02:28:33.617000Z",
+   "utc_stop": "2009-07-20T02:28:47.447000Z",
+   "pixel_scale_m": 1.471,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009201/NAC/M102696180LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009201/NAC/M102696180LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M105925266RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-08-26T11:26:56.799Z",
+   "utc_start": "2009-08-26T11:26:38.991000Z",
+   "utc_stop": "2009-08-26T11:27:14.607000Z",
+   "pixel_scale_m": 1.031,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009238/NAC/M105925266RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009238/NAC/M105925266RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M106097420RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2009-08-28T11:16:23.773Z",
+   "utc_start": "2009-08-28T11:15:58.790000Z",
+   "utc_stop": "2009-08-28T11:16:48.756000Z",
+   "pixel_scale_m": 5.436,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009240/NAC/M106097420RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009240/NAC/M106097420RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "M107252136LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-09-10T20:01:50.911Z",
+   "utc_start": "2009-09-10T20:01:20.551000Z",
+   "utc_stop": "2009-09-10T20:02:21.272000Z",
+   "pixel_scale_m": 10.185,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009253/NAC/M107252136LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009253/NAC/M107252136LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "M107452898LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-09-13T03:48:11.533Z",
+   "utc_start": "2009-09-13T03:47:22.957000Z",
+   "utc_stop": "2009-09-13T03:49:00.110000Z",
+   "pixel_scale_m": 10.191,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009256/NAC/M107452898LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/COM/2009256/NAC/M107452898LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "M108565000LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2009-09-26T00:42:48.835Z",
+   "utc_start": "2009-09-26T00:42:13.569000Z",
+   "utc_stop": "2009-09-26T00:43:24.102000Z",
+   "pixel_scale_m": 1.647,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108565000LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009269/NAC/M108565000LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1097681931RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-07-23T11:24:29.494Z",
+   "utc_start": "2012-07-23T11:24:24.291000Z",
+   "utc_stop": "2012-07-23T11:24:34.698000Z",
+   "pixel_scale_m": 1.251,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1012/DATA/SCI/2012205/NAC/M1097681931RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1012/DATA/SCI/2012205/NAC/M1097681931RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1101032909LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-08-31T06:15:03.898Z",
+   "utc_start": "2012-08-31T06:14:26.512000Z",
+   "utc_stop": "2012-08-31T06:15:41.284000Z",
+   "pixel_scale_m": 20.394,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1012/DATA/SCI/2012244/NAC/M1101032909LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1012/DATA/SCI/2012244/NAC/M1101032909LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[20,100)m"
+   }
+  },
+  {
+   "product_id": "M1101132989RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-09-01T10:02:10.087Z",
+   "utc_start": "2012-09-01T10:02:02.282000Z",
+   "utc_stop": "2012-09-01T10:02:17.892000Z",
+   "pixel_scale_m": 1.224,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1012/DATA/SCI/2012245/NAC/M1101132989RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1012/DATA/SCI/2012245/NAC/M1101132989RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1103418724RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-09-27T20:58:04.209Z",
+   "utc_start": "2012-09-27T20:57:37.672000Z",
+   "utc_stop": "2012-09-27T20:58:30.746000Z",
+   "pixel_scale_m": 1.262,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1013/DATA/ESM/2012271/NAC/M1103418724RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1013/DATA/ESM/2012271/NAC/M1103418724RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M110507941RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-10-18T12:25:08.982Z",
+   "utc_start": "2009-10-18T12:24:35.099000Z",
+   "utc_stop": "2009-10-18T12:25:42.866000Z",
+   "pixel_scale_m": 2.406,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009291/NAC/M110507941RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009291/NAC/M110507941RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em>=30|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1112286804RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2013-01-08T12:19:23.866Z",
+   "utc_start": "2013-01-08T12:18:57.329000Z",
+   "utc_stop": "2013-01-08T12:19:50.404000Z",
+   "pixel_scale_m": 2.052,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013008/NAC/M1112286804RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013008/NAC/M1112286804RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el<-0.5|em>=30|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M111329575LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-10-28T00:39:03.957Z",
+   "utc_start": "2009-10-28T00:38:28.691000Z",
+   "utc_stop": "2009-10-28T00:39:39.224000Z",
+   "pixel_scale_m": 1.687,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009301/NAC/M111329575LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009301/NAC/M111329575LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1114041126LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2013-01-28T19:37:44.886Z",
+   "utc_start": "2013-01-28T19:37:39.163000Z",
+   "utc_stop": "2013-01-28T19:37:50.610000Z",
+   "pixel_scale_m": 1.213,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013028/NAC/M1114041126LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013028/NAC/M1114041126LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1114069529LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2013-01-29T03:31:18.532Z",
+   "utc_start": "2013-01-29T03:31:02.402000Z",
+   "utc_stop": "2013-01-29T03:31:34.663000Z",
+   "pixel_scale_m": 1.228,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013029/NAC/M1114069529LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013029/NAC/M1114069529LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1114076630LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2013-01-29T05:29:31.407Z",
+   "utc_start": "2013-01-29T05:29:23.082000Z",
+   "utc_stop": "2013-01-29T05:29:39.733000Z",
+   "pixel_scale_m": 1.23,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013029/NAC/M1114076630LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013029/NAC/M1114076630LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1114105036RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2013-01-29T13:22:54.802Z",
+   "utc_start": "2013-01-29T13:22:49.599000Z",
+   "utc_stop": "2013-01-29T13:23:00.006000Z",
+   "pixel_scale_m": 1.239,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013029/NAC/M1114105036RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013029/NAC/M1114105036RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1116385203RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2013-02-24T22:45:46.160Z",
+   "utc_start": "2013-02-24T22:45:36.274000Z",
+   "utc_stop": "2013-02-24T22:45:56.047000Z",
+   "pixel_scale_m": 1.203,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013055/NAC/M1116385203RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013055/NAC/M1116385203RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1116399408RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2013-02-25T02:42:39.038Z",
+   "utc_start": "2013-02-25T02:42:21.347000Z",
+   "utc_stop": "2013-02-25T02:42:56.730000Z",
+   "pixel_scale_m": 1.213,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013056/NAC/M1116399408RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013056/NAC/M1116399408RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1116427816LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2013-02-25T10:35:56.206Z",
+   "utc_start": "2013-02-25T10:35:49.962000Z",
+   "utc_stop": "2013-02-25T10:36:02.450000Z",
+   "pixel_scale_m": 1.229,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013056/NAC/M1116427816LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1014/DATA/ESM/2013056/NAC/M1116427816LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1118800318LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2013-03-24T21:37:46.549Z",
+   "utc_start": "2013-03-24T21:37:31.459000Z",
+   "utc_stop": "2013-03-24T21:38:01.639000Z",
+   "pixel_scale_m": 1.23,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1015/DATA/ESM/2013083/NAC/M1118800318LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1015/DATA/ESM/2013083/NAC/M1118800318LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1121129638LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2013-04-20T20:39:37.943Z",
+   "utc_start": "2013-04-20T20:39:31.179000Z",
+   "utc_stop": "2013-04-20T20:39:44.708000Z",
+   "pixel_scale_m": 1.212,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1015/DATA/ESM/2013110/NAC/M1121129638LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1015/DATA/ESM/2013110/NAC/M1121129638LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1121143836LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2013-04-21T00:36:13.257Z",
+   "utc_start": "2013-04-21T00:36:09.094000Z",
+   "utc_stop": "2013-04-21T00:36:17.420000Z",
+   "pixel_scale_m": 1.218,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1015/DATA/ESM/2013111/NAC/M1121143836LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1015/DATA/ESM/2013111/NAC/M1121143836LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M112185014RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-11-06T22:16:23.473Z",
+   "utc_start": "2009-11-06T22:15:48.207000Z",
+   "utc_stop": "2009-11-06T22:16:58.740000Z",
+   "pixel_scale_m": 1.577,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009310/NAC/M112185014RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009310/NAC/M112185014RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M112246155LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-11-07T15:15:24.598Z",
+   "utc_start": "2009-11-07T15:14:49.332000Z",
+   "utc_stop": "2009-11-07T15:15:59.865000Z",
+   "pixel_scale_m": 1.587,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009311/NAC/M112246155LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009311/NAC/M112246155LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M112504292LC",
+   "sites": [
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "obs_utc": "2009-11-10T14:57:22.734Z",
+   "utc_start": "2009-11-10T14:57:05.597000Z",
+   "utc_stop": "2009-11-10T14:57:39.871000Z",
+   "pixel_scale_m": 1.003,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009314/NAC/M112504292LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009314/NAC/M112504292LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m",
+    "site04_roi3": "LROC_NAC|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1140959045LC",
+   "sites": [
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "obs_utc": "2013-12-06T08:49:58.895Z",
+   "utc_start": "2013-12-06T08:49:38.082000Z",
+   "utc_stop": "2013-12-06T08:50:19.709000Z",
+   "pixel_scale_m": 2.628,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1017/DATA/ESM/2013340/NAC/M1140959045LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1017/DATA/ESM/2013340/NAC/M1140959045LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em>=30|ssl>=0.75|ridge|res[1,5)m",
+    "site04_roi3": "LROC_NAC|NW|el<-0.5|em>=30|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M115579083LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2009-12-16T05:04:12.713Z",
+   "utc_start": "2009-12-16T05:03:37.447000Z",
+   "utc_stop": "2009-12-16T05:04:47.980000Z",
+   "pixel_scale_m": 1.631,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009350/NAC/M115579083LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009350/NAC/M115579083LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M116943122RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2009-12-31T23:58:11.146Z",
+   "utc_start": "2009-12-31T23:57:35.880000Z",
+   "utc_stop": "2009-12-31T23:58:46.413000Z",
+   "pixel_scale_m": 1.568,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009365/NAC/M116943122RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1001/DATA/MAP/2009365/NAC/M116943122RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118408955RC",
+   "sites": [
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-01-17T23:08:44.544Z",
+   "utc_start": "2010-01-17T23:08:09.278000Z",
+   "utc_stop": "2010-01-17T23:09:19.811000Z",
+   "pixel_scale_m": 1.68,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010017/NAC/M118408955RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010017/NAC/M118408955RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m",
+    "site04_roi3": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M118727882RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-21T15:43:44.210Z",
+   "utc_start": "2010-01-21T15:43:35.355000Z",
+   "utc_stop": "2010-01-21T15:43:53.065000Z",
+   "pixel_scale_m": 0.528,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118727882RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010021/NAC/M118727882RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res<1m"
+   }
+  },
+  {
+   "product_id": "M118822859LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-01-22T18:07:08.264Z",
+   "utc_start": "2010-01-22T18:06:32.998000Z",
+   "utc_stop": "2010-01-22T18:07:43.530000Z",
+   "pixel_scale_m": 1.537,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010022/NAC/M118822859LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010022/NAC/M118822859LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SW|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M119012837LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-01-24T22:53:26.727Z",
+   "utc_start": "2010-01-24T22:52:51.461000Z",
+   "utc_stop": "2010-01-24T22:54:01.994000Z",
+   "pixel_scale_m": 1.585,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010024/NAC/M119012837LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010024/NAC/M119012837LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M119019609LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-01-25T00:46:18.488Z",
+   "utc_start": "2010-01-25T00:45:43.222000Z",
+   "utc_stop": "2010-01-25T00:46:53.754000Z",
+   "pixel_scale_m": 1.586,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010025/NAC/M119019609LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010025/NAC/M119019609LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M120207302LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-02-07T18:41:11.547Z",
+   "utc_start": "2010-02-07T18:40:36.281000Z",
+   "utc_stop": "2010-02-07T18:41:46.814000Z",
+   "pixel_scale_m": 1.642,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010038/NAC/M120207302LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010038/NAC/M120207302LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121041922LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-02-17T10:31:31.311Z",
+   "utc_start": "2010-02-17T10:30:56.045000Z",
+   "utc_stop": "2010-02-17T10:32:06.578000Z",
+   "pixel_scale_m": 1.603,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121041922LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010048/NAC/M121041922LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121116547RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-02-18T07:15:17.086Z",
+   "utc_start": "2010-02-18T07:14:41.820000Z",
+   "utc_stop": "2010-02-18T07:15:52.352000Z",
+   "pixel_scale_m": 1.58,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010049/NAC/M121116547RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010049/NAC/M121116547RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121367515LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-02-21T04:58:04.754Z",
+   "utc_start": "2010-02-21T04:57:29.488000Z",
+   "utc_stop": "2010-02-21T04:58:40.021000Z",
+   "pixel_scale_m": 1.587,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010052/NAC/M121367515LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010052/NAC/M121367515LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M121971540LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-02-28T04:45:09.621Z",
+   "utc_start": "2010-02-28T04:44:34.355000Z",
+   "utc_stop": "2010-02-28T04:45:44.888000Z",
+   "pixel_scale_m": 1.545,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010059/NAC/M121971540LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010059/NAC/M121971540LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M122779204RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-03-09T13:06:13.950Z",
+   "utc_start": "2010-03-09T13:05:38.684000Z",
+   "utc_stop": "2010-03-09T13:06:49.217000Z",
+   "pixel_scale_m": 1.681,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010068/NAC/M122779204RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010068/NAC/M122779204RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M122813216RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-03-09T22:33:05.932Z",
+   "utc_start": "2010-03-09T22:32:30.666000Z",
+   "utc_stop": "2010-03-09T22:33:41.199000Z",
+   "pixel_scale_m": 1.665,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010068/NAC/M122813216RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1002/DATA/MAP/2010068/NAC/M122813216RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M123688366RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-03-20T01:38:55.575Z",
+   "utc_start": "2010-03-20T01:38:20.309000Z",
+   "utc_stop": "2010-03-20T01:39:30.842000Z",
+   "pixel_scale_m": 1.553,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010079/NAC/M123688366RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010079/NAC/M123688366RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|W|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M124312829RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-03-27T07:06:39.078Z",
+   "utc_start": "2010-03-27T07:06:03.812000Z",
+   "utc_stop": "2010-03-27T07:07:14.345000Z",
+   "pixel_scale_m": 1.544,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010086/NAC/M124312829RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010086/NAC/M124312829RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M124333199LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-03-27T12:46:09.188Z",
+   "utc_start": "2010-03-27T12:45:33.922000Z",
+   "utc_stop": "2010-03-27T12:46:44.455000Z",
+   "pixel_scale_m": 1.542,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010086/NAC/M124333199LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010086/NAC/M124333199LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M125691050RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-04-12T05:57:00.165Z",
+   "utc_start": "2010-04-12T05:56:24.899000Z",
+   "utc_stop": "2010-04-12T05:57:35.432000Z",
+   "pixel_scale_m": 1.611,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010102/NAC/M125691050RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010102/NAC/M125691050RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M125718200LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-04-12T13:29:29.999Z",
+   "utc_start": "2010-04-12T13:28:54.733000Z",
+   "utc_stop": "2010-04-12T13:30:05.266000Z",
+   "pixel_scale_m": 1.613,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010102/NAC/M125718200LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010102/NAC/M125718200LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M125820016LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-04-13T17:46:26.036Z",
+   "utc_start": "2010-04-13T17:45:50.770000Z",
+   "utc_stop": "2010-04-13T17:47:01.303000Z",
+   "pixel_scale_m": 1.594,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010103/NAC/M125820016LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010103/NAC/M125820016LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M126091501RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-04-16T21:11:11.196Z",
+   "utc_start": "2010-04-16T21:10:35.930000Z",
+   "utc_stop": "2010-04-16T21:11:46.463000Z",
+   "pixel_scale_m": 1.588,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010106/NAC/M126091501RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010106/NAC/M126091501RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M126688662LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-04-23T19:03:52.360Z",
+   "utc_start": "2010-04-23T19:03:17.094000Z",
+   "utc_stop": "2010-04-23T19:04:27.627000Z",
+   "pixel_scale_m": 1.531,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010113/NAC/M126688662LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010113/NAC/M126688662LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M128086469LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-05-09T23:20:17.275Z",
+   "utc_start": "2010-05-09T23:20:03.144000Z",
+   "utc_stop": "2010-05-09T23:20:31.407000Z",
+   "pixel_scale_m": 1.093,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010129/NAC/M128086469LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010129/NAC/M128086469LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M129599646RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-05-27T11:39:53.799Z",
+   "utc_start": "2010-05-27T11:39:39.581000Z",
+   "utc_stop": "2010-05-27T11:40:08.017000Z",
+   "pixel_scale_m": 1.215,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010147/NAC/M129599646RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010147/NAC/M129599646RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M129674288RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-05-28T08:24:01.343Z",
+   "utc_start": "2010-05-28T08:23:41.521000Z",
+   "utc_stop": "2010-05-28T08:24:21.166000Z",
+   "pixel_scale_m": 1.167,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010148/NAC/M129674288RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010148/NAC/M129674288RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M130210462LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-06-03T13:20:16.985Z",
+   "utc_start": "2010-06-03T13:19:55.372000Z",
+   "utc_stop": "2010-06-03T13:20:38.598000Z",
+   "pixel_scale_m": 1.268,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010154/NAC/M130210462LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010154/NAC/M130210462LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M130237596LC",
+   "sites": [
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-06-03T20:52:30.719Z",
+   "utc_start": "2010-06-03T20:52:08.882000Z",
+   "utc_stop": "2010-06-03T20:52:52.556000Z",
+   "pixel_scale_m": 1.28,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010154/NAC/M130237596LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010154/NAC/M130237596LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|ridge|res[1,5)m",
+    "site04_roi3": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M130793914RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-06-10T07:24:24.445Z",
+   "utc_start": "2010-06-10T07:24:07.309000Z",
+   "utc_stop": "2010-06-10T07:24:41.582000Z",
+   "pixel_scale_m": 1.015,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010161/NAC/M130793914RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1003/DATA/MAP/2010161/NAC/M130793914RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1314890876RC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2019-06-11T11:13:54.105Z",
+   "utc_start": "2019-06-11T11:13:29.806000Z",
+   "utc_stop": "2019-06-11T11:14:18.404000Z",
+   "pixel_scale_m": 3.821,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1039C/DATA/ESM3/2019162/NAC/M1314890876RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1039C/DATA/ESM3/2019162/NAC/M1314890876RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[0.5,1.5)|em>=30|ssl[-0.75,0.75)|crater_rim|res[1,5)m",
+    "site01_roi6": "LROC_NAC|SW|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1315760677LC",
+   "sites": [
+    "site07_roi1",
+    "site04_roi3",
+    "site11_roi4"
+   ],
+   "obs_utc": "2019-06-21T12:50:41.777Z",
+   "utc_start": "2019-06-21T12:50:10.539000Z",
+   "utc_stop": "2019-06-21T12:51:13.015000Z",
+   "pixel_scale_m": 4.147,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1040A/DATA/ESM3/2019172/NAC/M1315760677LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1040A/DATA/ESM3/2019172/NAC/M1315760677LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em>=30|ssl[-0.75,0.75)|massif_peak|res[1,5)m",
+    "site04_roi3": "LROC_NAC|E|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|crater_rim|res[1,5)m",
+    "site11_roi4": "LROC_NAC|N|el[1.5,2.5)|em>=30|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M132605488LC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-07-01T06:37:22.744Z",
+   "utc_start": "2010-07-01T06:37:01.131000Z",
+   "utc_stop": "2010-07-01T06:37:44.357000Z",
+   "pixel_scale_m": 1.27,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010182/NAC/M132605488LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010182/NAC/M132605488LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m",
+    "site01_roi6": "LROC_NAC|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M133528182LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-07-11T22:55:32.296Z",
+   "utc_start": "2010-07-11T22:55:14.712000Z",
+   "utc_stop": "2010-07-11T22:55:49.881000Z",
+   "pixel_scale_m": 1.036,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010192/NAC/M133528182LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1004/DATA/MAP/2010192/NAC/M133528182LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1355348678RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2020-09-21T17:30:27.065Z",
+   "utc_start": "2020-09-21T17:30:11.495000Z",
+   "utc_stop": "2020-09-21T17:30:42.635000Z",
+   "pixel_scale_m": 1.477,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1045A/DATA/ESM4/2020265/NAC/M1355348678RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1045A/DATA/ESM4/2020265/NAC/M1355348678RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|N|el[-0.5,0.5)|em>=30|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139729686LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-09-21T17:34:01.211Z",
+   "utc_start": "2010-09-21T17:33:39.822000Z",
+   "utc_stop": "2010-09-21T17:34:22.601000Z",
+   "pixel_scale_m": 1.258,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139729686LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010264/NAC/M139729686LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M139872173RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-09-23T09:08:44.367Z",
+   "utc_start": "2010-09-23T09:08:25.888000Z",
+   "utc_stop": "2010-09-23T09:09:02.847000Z",
+   "pixel_scale_m": 1.089,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139872173RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010266/NAC/M139872173RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1404660528LC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2022-04-15T11:15:09.567Z",
+   "utc_start": "2022-04-15T11:14:22.438000Z",
+   "utc_stop": "2022-04-15T11:15:56.696000Z",
+   "pixel_scale_m": 4.674,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1051A/DATA/ESM4/2022105/NAC/M1404660528LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1051A/DATA/ESM4/2022105/NAC/M1404660528LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em>=30|ssl<-0.75|crater_rim|res[1,5)m",
+    "site01_roi6": "LROC_NAC|SE|el[-0.5,0.5)|em>=30|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1407524099RC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2022-05-18T14:40:49.702Z",
+   "utc_start": "2022-05-18T14:40:31.894000Z",
+   "utc_stop": "2022-05-18T14:41:07.510000Z",
+   "pixel_scale_m": 2.696,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1051C/DATA/ESM4/2022138/NAC/M1407524099RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1051C/DATA/ESM4/2022138/NAC/M1407524099RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|crater_rim|res[1,5)m",
+    "site01_roi6": "LROC_NAC|E|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M141032549LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-06T19:28:21.593Z",
+   "utc_start": "2010-10-06T19:28:02.442000Z",
+   "utc_stop": "2010-10-06T19:28:40.744000Z",
+   "pixel_scale_m": 1.127,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010279/NAC/M141032549LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010279/NAC/M141032549LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M141175055LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-08T11:03:28.605Z",
+   "utc_start": "2010-10-08T11:03:08.335000Z",
+   "utc_stop": "2010-10-08T11:03:48.875000Z",
+   "pixel_scale_m": 1.194,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010281/NAC/M141175055LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010281/NAC/M141175055LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M142213197LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-20T11:25:47.766Z",
+   "utc_start": "2010-10-20T11:25:29.735000Z",
+   "utc_stop": "2010-10-20T11:26:05.798000Z",
+   "pixel_scale_m": 1.066,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010293/NAC/M142213197LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010293/NAC/M142213197LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M142423461RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-10-22T21:50:09.094Z",
+   "utc_start": "2010-10-22T21:49:54.196000Z",
+   "utc_stop": "2010-10-22T21:50:23.993000Z",
+   "pixel_scale_m": 0.886,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010295/NAC/M142423461RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010295/NAC/M142423461RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M143278169LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-11-01T19:15:18.503Z",
+   "utc_start": "2010-11-01T19:15:02.486000Z",
+   "utc_stop": "2010-11-01T19:15:34.521000Z",
+   "pixel_scale_m": 0.947,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010305/NAC/M143278169LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010305/NAC/M143278169LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NE|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M143434157RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-11-03T14:35:09.468Z",
+   "utc_start": "2010-11-03T14:34:50.541000Z",
+   "utc_stop": "2010-11-03T14:35:28.395000Z",
+   "pixel_scale_m": 1.112,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010307/NAC/M143434157RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010307/NAC/M143434157RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M143508781RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-11-04T11:18:52.926Z",
+   "utc_start": "2010-11-04T11:18:33.775000Z",
+   "utc_stop": "2010-11-04T11:19:12.077000Z",
+   "pixel_scale_m": 1.128,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010308/NAC/M143508781RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010308/NAC/M143508781RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M143780066RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2010-11-07T14:40:19.372Z",
+   "utc_start": "2010-11-07T14:39:59.550000Z",
+   "utc_stop": "2010-11-07T14:40:39.195000Z",
+   "pixel_scale_m": 1.163,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010311/NAC/M143780066RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010311/NAC/M143780066RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1438615574RC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-05-13T11:12:07.364Z",
+   "utc_start": "2023-05-13T11:11:47.318000Z",
+   "utc_stop": "2023-05-13T11:12:27.411000Z",
+   "pixel_scale_m": 2.127,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1055B/DATA/ESM5/2023133/NAC/M1438615574RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1055B/DATA/ESM5/2023133/NAC/M1438615574RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NE|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|crater_rim|res[1,5)m",
+    "site01_roi6": "LROC_NAC|NE|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M146121156LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2010-12-04T16:58:29.342Z",
+   "utc_start": "2010-12-04T16:58:09.072000Z",
+   "utc_stop": "2010-12-04T16:58:49.612000Z",
+   "pixel_scale_m": 1.191,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010338/NAC/M146121156LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010338/NAC/M146121156LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M1463720990LC",
+   "sites": [
+    "site04_roi3",
+    "site11_roi4",
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-02-28T00:55:55.304Z",
+   "utc_start": "2024-02-28T00:55:23.395000Z",
+   "utc_stop": "2024-02-28T00:56:27.213000Z",
+   "pixel_scale_m": 3.149,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1058C/DATA/ESM5/2024059/NAC/M1463720990LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1058C/DATA/ESM5/2024059/NAC/M1463720990LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el[0.5,1.5)|em>=30|ssl<-0.75|crater_rim|res[1,5)m",
+    "site11_roi4": "LROC_NAC|NE|el[1.5,2.5)|em>=30|ssl<-0.75|crater_rim|res[1,5)m",
+    "site01_roi6": "LROC_NAC|E|el[0.5,1.5)|em>=30|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M146582475LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2010-12-10T01:07:10.947Z",
+   "utc_start": "2010-12-10T01:06:48.663000Z",
+   "utc_stop": "2010-12-10T01:07:33.232000Z",
+   "pixel_scale_m": 1.304,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010344/NAC/M146582475LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010344/NAC/M146582475LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|N|el[1.5,2.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M146860458LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-12-13T06:20:10.388Z",
+   "utc_start": "2010-12-13T06:19:51.461000Z",
+   "utc_stop": "2010-12-13T06:20:29.316000Z",
+   "pixel_scale_m": 1.118,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010347/NAC/M146860458LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010347/NAC/M146860458LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M146941806RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-12-14T04:55:57.454Z",
+   "utc_start": "2010-12-14T04:55:39.422000Z",
+   "utc_stop": "2010-12-14T04:56:15.486000Z",
+   "pixel_scale_m": 1.063,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010348/NAC/M146941806RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1005/DATA/SCI/2010348/NAC/M146941806RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M148006218RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-12-26T12:36:18.140Z",
+   "utc_start": "2010-12-26T12:35:51.603000Z",
+   "utc_stop": "2010-12-26T12:36:44.678000Z",
+   "pixel_scale_m": 1.277,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2010360/NAC/M148006218RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2010360/NAC/M148006218RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M148060420LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2010-12-27T03:39:40.024Z",
+   "utc_start": "2010-12-27T03:39:13.487000Z",
+   "utc_stop": "2010-12-27T03:40:06.562000Z",
+   "pixel_scale_m": 1.33,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2010361/NAC/M148060420LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2010361/NAC/M148060420LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M149213406RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-01-09T11:56:05.669Z",
+   "utc_start": "2011-01-09T11:55:39.132000Z",
+   "utc_stop": "2011-01-09T11:56:32.206000Z",
+   "pixel_scale_m": 1.361,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011009/NAC/M149213406RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011009/NAC/M149213406RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M150366876RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-01-22T20:20:35.676Z",
+   "utc_start": "2011-01-22T20:20:09.139000Z",
+   "utc_stop": "2011-01-22T20:21:02.214000Z",
+   "pixel_scale_m": 1.293,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011022/NAC/M150366876RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011022/NAC/M150366876RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M150380468RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-01-23T00:07:08.067Z",
+   "utc_start": "2011-01-23T00:06:41.530000Z",
+   "utc_stop": "2011-01-23T00:07:34.605000Z",
+   "pixel_scale_m": 1.305,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011023/NAC/M150380468RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011023/NAC/M150380468RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M150407581LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-01-23T07:39:01.400Z",
+   "utc_start": "2011-01-23T07:38:34.863000Z",
+   "utc_stop": "2011-01-23T07:39:27.937000Z",
+   "pixel_scale_m": 1.333,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011023/NAC/M150407581LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011023/NAC/M150407581LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151310078LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-02-02T18:20:38.589Z",
+   "utc_start": "2011-02-02T18:20:12.052000Z",
+   "utc_stop": "2011-02-02T18:21:05.127000Z",
+   "pixel_scale_m": 1.443,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011033/NAC/M151310078LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011033/NAC/M151310078LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151330386LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-02-02T23:59:06.520Z",
+   "utc_start": "2011-02-02T23:58:39.983000Z",
+   "utc_stop": "2011-02-02T23:59:33.058000Z",
+   "pixel_scale_m": 1.435,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011033/NAC/M151330386LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011033/NAC/M151330386LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151581418RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-02-05T21:42:58.058Z",
+   "utc_start": "2011-02-05T21:42:31.521000Z",
+   "utc_stop": "2011-02-05T21:43:24.595000Z",
+   "pixel_scale_m": 1.353,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011036/NAC/M151581418RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011036/NAC/M151581418RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M151974874RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-02-10T11:00:34.284Z",
+   "utc_start": "2011-02-10T11:00:07.747000Z",
+   "utc_stop": "2011-02-10T11:01:00.821000Z",
+   "pixel_scale_m": 1.265,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011041/NAC/M151974874RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011041/NAC/M151974874RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M152897611LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-02-21T03:19:30.637Z",
+   "utc_start": "2011-02-21T03:19:04.100000Z",
+   "utc_stop": "2011-02-21T03:19:57.175000Z",
+   "pixel_scale_m": 1.355,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011052/NAC/M152897611LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011052/NAC/M152897611LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M153956233RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-03-05T09:23:12.893Z",
+   "utc_start": "2011-03-05T09:22:46.356000Z",
+   "utc_stop": "2011-03-05T09:23:39.431000Z",
+   "pixel_scale_m": 1.34,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011064/NAC/M153956233RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1006/DATA/SCI/2011064/NAC/M153956233RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M156297643LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-04-01T11:46:43.181Z",
+   "utc_start": "2011-04-01T11:46:16.644000Z",
+   "utc_stop": "2011-04-01T11:47:09.719000Z",
+   "pixel_scale_m": 1.354,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011091/NAC/M156297643LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011091/NAC/M156297643LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M156317992LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-04-01T17:25:51.852Z",
+   "utc_start": "2011-04-01T17:25:25.315000Z",
+   "utc_stop": "2011-04-01T17:26:18.390000Z",
+   "pixel_scale_m": 1.339,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011091/NAC/M156317992LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011091/NAC/M156317992LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|N|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M157199659LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-04-11T22:20:19.066Z",
+   "utc_start": "2011-04-11T22:19:52.529000Z",
+   "utc_stop": "2011-04-11T22:20:45.604000Z",
+   "pixel_scale_m": 1.241,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011101/NAC/M157199659LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011101/NAC/M157199659LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M157884469LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-04-19T20:33:48.885Z",
+   "utc_start": "2011-04-19T20:33:22.348000Z",
+   "utc_stop": "2011-04-19T20:34:15.422000Z",
+   "pixel_scale_m": 1.405,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011109/NAC/M157884469LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011109/NAC/M157884469LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M157898074LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-04-20T00:20:33.855Z",
+   "utc_start": "2011-04-20T00:20:07.318000Z",
+   "utc_stop": "2011-04-20T00:21:00.393000Z",
+   "pixel_scale_m": 1.385,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011110/NAC/M157898074LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011110/NAC/M157898074LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162512612LC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-06-12T10:09:50.016Z",
+   "utc_start": "2011-06-12T10:09:05.797000Z",
+   "utc_stop": "2011-06-12T10:10:34.236000Z",
+   "pixel_scale_m": 1.969,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162512612LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162512612LC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162546532RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-06-12T19:35:10.239Z",
+   "utc_start": "2011-06-12T19:34:26.020000Z",
+   "utc_stop": "2011-06-12T19:35:54.458000Z",
+   "pixel_scale_m": 1.959,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162546532RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162546532RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M162560101LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-06-12T23:21:19.420Z",
+   "utc_start": "2011-06-12T23:20:35.201000Z",
+   "utc_stop": "2011-06-12T23:22:03.640000Z",
+   "pixel_scale_m": 1.96,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162560101LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1007/DATA/SCI/2011163/NAC/M162560101LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163123409LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T11:49:47.945Z",
+   "utc_start": "2011-06-19T11:49:03.726000Z",
+   "utc_stop": "2011-06-19T11:50:32.165000Z",
+   "pixel_scale_m": 1.967,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163123409LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163123409LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163136981RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T15:35:59.796Z",
+   "utc_start": "2011-06-19T15:35:15.577000Z",
+   "utc_stop": "2011-06-19T15:36:44.015000Z",
+   "pixel_scale_m": 1.959,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163136981RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163136981RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163143767RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T17:29:05.786Z",
+   "utc_start": "2011-06-19T17:28:21.567000Z",
+   "utc_stop": "2011-06-19T17:29:50.006000Z",
+   "pixel_scale_m": 1.956,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163143767RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163143767RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M163157340RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-06-19T21:15:18.036Z",
+   "utc_start": "2011-06-19T21:14:33.817000Z",
+   "utc_stop": "2011-06-19T21:16:02.256000Z",
+   "pixel_scale_m": 1.95,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163157340RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011170/NAC/M163157340RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167839735LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T01:54:54.710Z",
+   "utc_start": "2011-08-13T01:54:28.173000Z",
+   "utc_stop": "2011-08-13T01:55:21.248000Z",
+   "pixel_scale_m": 1.442,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167839735LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167839735LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167873661LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T11:20:21.263Z",
+   "utc_start": "2011-08-13T11:19:54.726000Z",
+   "utc_stop": "2011-08-13T11:20:47.801000Z",
+   "pixel_scale_m": 1.427,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167873661LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167873661LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M167894019RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-08-13T16:59:38.844Z",
+   "utc_start": "2011-08-13T16:59:12.307000Z",
+   "utc_stop": "2011-08-13T17:00:05.382000Z",
+   "pixel_scale_m": 1.414,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167894019RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011225/NAC/M167894019RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169081399RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-08-27T10:49:18.852Z",
+   "utc_start": "2011-08-27T10:48:52.315000Z",
+   "utc_stop": "2011-08-27T10:49:45.390000Z",
+   "pixel_scale_m": 1.327,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011239/NAC/M169081399RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011239/NAC/M169081399RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169264571LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T13:42:11.325Z",
+   "utc_start": "2011-08-29T13:41:44.788000Z",
+   "utc_stop": "2011-08-29T13:42:37.863000Z",
+   "pixel_scale_m": 1.368,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169264571LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169264571LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169278138RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T17:28:17.753Z",
+   "utc_start": "2011-08-29T17:27:51.216000Z",
+   "utc_stop": "2011-08-29T17:28:44.291000Z",
+   "pixel_scale_m": 1.371,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169278138RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169278138RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169284921LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T19:21:20.597Z",
+   "utc_start": "2011-08-29T19:20:54.060000Z",
+   "utc_stop": "2011-08-29T19:21:47.134000Z",
+   "pixel_scale_m": 1.375,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169284921LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169284921LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169298486LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-29T23:07:26.315Z",
+   "utc_start": "2011-08-29T23:06:59.778000Z",
+   "utc_stop": "2011-08-29T23:07:52.853000Z",
+   "pixel_scale_m": 1.381,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169298486LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011241/NAC/M169298486LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169312054LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-30T02:53:33.615Z",
+   "utc_start": "2011-08-30T02:53:07.078000Z",
+   "utc_stop": "2011-08-30T02:54:00.153000Z",
+   "pixel_scale_m": 1.386,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169312054LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169312054LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169352761LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-30T14:12:01.546Z",
+   "utc_start": "2011-08-30T14:11:35.009000Z",
+   "utc_stop": "2011-08-30T14:12:28.084000Z",
+   "pixel_scale_m": 1.388,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169352761LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011242/NAC/M169352761LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169434185LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-08-31T12:49:04.873Z",
+   "utc_start": "2011-08-31T12:48:38.336000Z",
+   "utc_stop": "2011-08-31T12:49:31.410000Z",
+   "pixel_scale_m": 1.396,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169434185LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011243/NAC/M169434185LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169502013LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T07:39:33.085Z",
+   "utc_start": "2011-09-01T07:39:06.548000Z",
+   "utc_stop": "2011-09-01T07:39:59.623000Z",
+   "pixel_scale_m": 1.449,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169502013LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169502013LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169508794LC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T09:32:34.334Z",
+   "utc_start": "2011-09-01T09:32:07.797000Z",
+   "utc_stop": "2011-09-01T09:33:00.871000Z",
+   "pixel_scale_m": 1.45,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169508794LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169508794LC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169515575RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T11:25:35.584Z",
+   "utc_start": "2011-09-01T11:25:09.047000Z",
+   "utc_stop": "2011-09-01T11:26:02.122000Z",
+   "pixel_scale_m": 1.453,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169515575RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169515575RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M169535919RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-09-01T17:04:39.189Z",
+   "utc_start": "2011-09-01T17:04:12.652000Z",
+   "utc_stop": "2011-09-01T17:05:05.727000Z",
+   "pixel_scale_m": 1.465,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169535919RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1008/DATA/SCI/2011244/NAC/M169535919RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M171986219LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-09-30T01:42:59.023Z",
+   "utc_start": "2011-09-30T01:42:32.486000Z",
+   "utc_stop": "2011-09-30T01:43:25.561000Z",
+   "pixel_scale_m": 1.433,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011273/NAC/M171986219LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011273/NAC/M171986219LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M171986219RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-09-30T01:42:59.023Z",
+   "utc_start": "2011-09-30T01:42:32.486000Z",
+   "utc_stop": "2011-09-30T01:43:25.561000Z",
+   "pixel_scale_m": 1.431,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011273/NAC/M171986219RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011273/NAC/M171986219RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M171999794RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-09-30T05:29:14.368Z",
+   "utc_start": "2011-09-30T05:28:47.831000Z",
+   "utc_stop": "2011-09-30T05:29:40.906000Z",
+   "pixel_scale_m": 1.427,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011273/NAC/M171999794RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011273/NAC/M171999794RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SW|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M176631156RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2011-11-22T19:58:35.723Z",
+   "utc_start": "2011-11-22T19:58:09.186000Z",
+   "utc_stop": "2011-11-22T19:59:02.260000Z",
+   "pixel_scale_m": 1.382,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011326/NAC/M176631156RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011326/NAC/M176631156RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M177774026LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-12-06T01:26:26.478Z",
+   "utc_start": "2011-12-06T01:25:59.941000Z",
+   "utc_stop": "2011-12-06T01:26:53.015000Z",
+   "pixel_scale_m": 1.232,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011340/NAC/M177774026LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011340/NAC/M177774026LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M178533922RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-12-14T20:31:11.285Z",
+   "utc_start": "2011-12-14T20:30:55.675000Z",
+   "utc_stop": "2011-12-14T20:31:26.895000Z",
+   "pixel_scale_m": 1.181,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011348/NAC/M178533922RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1009/DATA/SCI/2011348/NAC/M178533922RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M179227265LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-12-22T21:06:53.953Z",
+   "utc_start": "2011-12-22T21:06:38.863000Z",
+   "utc_stop": "2011-12-22T21:07:09.043000Z",
+   "pixel_scale_m": 1.676,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2011356/NAC/M179227265LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2011356/NAC/M179227265LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|W|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M179227265RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2011-12-22T21:06:53.953Z",
+   "utc_start": "2011-12-22T21:06:38.863000Z",
+   "utc_stop": "2011-12-22T21:07:09.043000Z",
+   "pixel_scale_m": 1.717,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2011356/NAC/M179227265RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2011356/NAC/M179227265RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|W|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M179284423LC",
+   "sites": [
+    "site07_roi1",
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "obs_utc": "2011-12-23T12:59:30.983Z",
+   "utc_start": "2011-12-23T12:59:15.861000Z",
+   "utc_stop": "2011-12-23T12:59:46.105000Z",
+   "pixel_scale_m": 1.322,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2011357/NAC/M179284423LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2011357/NAC/M179284423LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|E|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|massif_peak|res[1,5)m",
+    "site01_roi6": "LROC_NAC|NW|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|ridge|res[1,5)m",
+    "site04_roi3": "LROC_NAC|N|el[-0.5,0.5)|em>=30|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M180013571LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2011-12-31T23:32:01.041Z",
+   "utc_start": "2011-12-31T23:31:44.911000Z",
+   "utc_stop": "2011-12-31T23:32:17.172000Z",
+   "pixel_scale_m": 1.221,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2011365/NAC/M180013571LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2011365/NAC/M180013571LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M181328833LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-01-16T04:52:50.391Z",
+   "utc_start": "2012-01-16T04:52:46.749000Z",
+   "utc_stop": "2012-01-16T04:52:54.034000Z",
+   "pixel_scale_m": 1.315,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012016/NAC/M181328833LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012016/NAC/M181328833LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M181350273LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-01-16T10:50:10.702Z",
+   "utc_start": "2012-01-16T10:50:07.060000Z",
+   "utc_stop": "2012-01-16T10:50:14.345000Z",
+   "pixel_scale_m": 1.317,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012016/NAC/M181350273LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012016/NAC/M181350273LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M181364567RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-01-16T14:48:24.315Z",
+   "utc_start": "2012-01-16T14:48:20.153000Z",
+   "utc_stop": "2012-01-16T14:48:28.478000Z",
+   "pixel_scale_m": 1.317,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012016/NAC/M181364567RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012016/NAC/M181364567RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M182272378RC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2012-01-27T02:58:44.991Z",
+   "utc_start": "2012-01-27T02:58:30.764000Z",
+   "utc_stop": "2012-01-27T02:58:59.218000Z",
+   "pixel_scale_m": 0.995,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012027/NAC/M182272378RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012027/NAC/M182272378RC.xml",
+   "strata": {
+    "site04_roi3": "LROC_NAC|NW|el<-0.5|em>=30|ssl>=0.75|crater_rim|res<1m"
+   }
+  },
+  {
+   "product_id": "M182386745RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-01-28T10:44:48.699Z",
+   "utc_start": "2012-01-28T10:44:38.813000Z",
+   "utc_stop": "2012-01-28T10:44:58.586000Z",
+   "pixel_scale_m": 1.217,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012028/NAC/M182386745RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012028/NAC/M182386745RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M184295311LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-02-19T12:54:28.853Z",
+   "utc_start": "2012-02-19T12:54:04.778000Z",
+   "utc_stop": "2012-02-19T12:54:52.928000Z",
+   "pixel_scale_m": 1.618,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012050/NAC/M184295311LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012050/NAC/M184295311LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|W|el<-0.5|em>=30|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M184474020RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-02-21T14:32:43.331Z",
+   "utc_start": "2012-02-21T14:32:33.445000Z",
+   "utc_stop": "2012-02-21T14:32:53.218000Z",
+   "pixel_scale_m": 1.309,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012052/NAC/M184474020RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012052/NAC/M184474020RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M184724183RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-02-24T12:02:22.744Z",
+   "utc_start": "2012-02-24T12:01:56.207000Z",
+   "utc_stop": "2012-02-24T12:02:49.282000Z",
+   "pixel_scale_m": 1.221,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012055/NAC/M184724183RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012055/NAC/M184724183RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M184738479RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-02-24T16:00:39.541Z",
+   "utc_start": "2012-02-24T16:00:13.004000Z",
+   "utc_stop": "2012-02-24T16:01:06.078000Z",
+   "pixel_scale_m": 1.218,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012055/NAC/M184738479RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012055/NAC/M184738479RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M185374654RC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2012-03-03T00:43:20.299Z",
+   "utc_start": "2012-03-03T00:43:07.191000Z",
+   "utc_stop": "2012-03-03T00:43:33.407000Z",
+   "pixel_scale_m": 2.02,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012063/NAC/M185374654RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012063/NAC/M185374654RC.xml",
+   "strata": {
+    "site01_roi6": "LROC_NAC|S|el<-0.5|em>=30|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M185624859RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-03-05T22:13:20.904Z",
+   "utc_start": "2012-03-05T22:13:12.579000Z",
+   "utc_stop": "2012-03-05T22:13:29.230000Z",
+   "pixel_scale_m": 1.175,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012065/NAC/M185624859RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012065/NAC/M185624859RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M185639156LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-03-06T02:11:37.814Z",
+   "utc_start": "2012-03-06T02:11:29.489000Z",
+   "utc_stop": "2012-03-06T02:11:46.140000Z",
+   "pixel_scale_m": 1.174,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012066/NAC/M185639156LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012066/NAC/M185639156LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M186010841LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-03-10T09:26:41.153Z",
+   "utc_start": "2012-03-10T09:26:14.616000Z",
+   "utc_stop": "2012-03-10T09:27:07.691000Z",
+   "pixel_scale_m": 1.3,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012070/NAC/M186010841LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012070/NAC/M186010841LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M186039433LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-03-10T17:23:12.757Z",
+   "utc_start": "2012-03-10T17:22:46.220000Z",
+   "utc_stop": "2012-03-10T17:23:39.294000Z",
+   "pixel_scale_m": 1.314,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012070/NAC/M186039433LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012070/NAC/M186039433LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M186039433RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-03-10T17:23:12.757Z",
+   "utc_start": "2012-03-10T17:22:46.220000Z",
+   "utc_stop": "2012-03-10T17:23:39.294000Z",
+   "pixel_scale_m": 1.312,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012070/NAC/M186039433RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1010/DATA/SCI/2012070/NAC/M186039433RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M187990917LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-04-02T07:27:34.505Z",
+   "utc_start": "2012-04-02T07:27:30.343000Z",
+   "utc_stop": "2012-04-02T07:27:38.668000Z",
+   "pixel_scale_m": 1.174,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012093/NAC/M187990917LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012093/NAC/M187990917LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M187998065RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-04-02T09:26:43.063Z",
+   "utc_start": "2012-04-02T09:26:38.901000Z",
+   "utc_stop": "2012-04-02T09:26:47.226000Z",
+   "pixel_scale_m": 1.173,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012093/NAC/M187998065RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012093/NAC/M187998065RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M188362606RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-04-06T14:42:29.380Z",
+   "utc_start": "2012-04-06T14:42:20.014000Z",
+   "utc_stop": "2012-04-06T14:42:38.746000Z",
+   "pixel_scale_m": 1.295,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012097/NAC/M188362606RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012097/NAC/M188362606RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M188391196RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-04-06T22:38:59.214Z",
+   "utc_start": "2012-04-06T22:38:49.848000Z",
+   "utc_stop": "2012-04-06T22:39:08.580000Z",
+   "pixel_scale_m": 1.309,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012097/NAC/M188391196RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012097/NAC/M188391196RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|NE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M189206115RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-04-16T09:00:53.709Z",
+   "utc_start": "2012-04-16T09:00:49.026000Z",
+   "utc_stop": "2012-04-16T09:00:58.392000Z",
+   "pixel_scale_m": 1.306,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012107/NAC/M189206115RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012107/NAC/M189206115RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M189213253LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-04-16T10:59:56.654Z",
+   "utc_start": "2012-04-16T10:59:46.247000Z",
+   "utc_stop": "2012-04-16T11:00:07.061000Z",
+   "pixel_scale_m": 1.306,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012107/NAC/M189213253LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012107/NAC/M189213253LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M189220411RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-04-16T12:59:09.461Z",
+   "utc_start": "2012-04-16T12:59:04.778000Z",
+   "utc_stop": "2012-04-16T12:59:14.144000Z",
+   "pixel_scale_m": 1.303,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012107/NAC/M189220411RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012107/NAC/M189220411RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M189399105RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-04-18T14:37:44.708Z",
+   "utc_start": "2012-04-18T14:37:18.171000Z",
+   "utc_stop": "2012-04-18T14:38:11.246000Z",
+   "pixel_scale_m": 1.23,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012109/NAC/M189399105RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012109/NAC/M189399105RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M189420533LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-04-18T20:34:35.707Z",
+   "utc_start": "2012-04-18T20:34:26.341000Z",
+   "utc_stop": "2012-04-18T20:34:45.073000Z",
+   "pixel_scale_m": 1.224,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012109/NAC/M189420533LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012109/NAC/M189420533LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|E|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M190650048RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-05-03T02:06:30.404Z",
+   "utc_start": "2012-05-03T02:06:21.559000Z",
+   "utc_stop": "2012-05-03T02:06:39.250000Z",
+   "pixel_scale_m": 1.266,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012124/NAC/M190650048RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012124/NAC/M190650048RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|E|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M190678637RC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-05-03T10:02:59.664Z",
+   "utc_start": "2012-05-03T10:02:50.818000Z",
+   "utc_stop": "2012-05-03T10:03:08.510000Z",
+   "pixel_scale_m": 1.276,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012124/NAC/M190678637RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012124/NAC/M190678637RC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|E|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M190692932LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-05-03T14:01:14.475Z",
+   "utc_start": "2012-05-03T14:01:05.629000Z",
+   "utc_stop": "2012-05-03T14:01:23.321000Z",
+   "pixel_scale_m": 1.283,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012124/NAC/M190692932LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012124/NAC/M190692932LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|E|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M190750104LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-05-04T05:54:06.032Z",
+   "utc_start": "2012-05-04T05:53:57.186000Z",
+   "utc_stop": "2012-05-04T05:54:14.878000Z",
+   "pixel_scale_m": 1.309,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012125/NAC/M190750104LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012125/NAC/M190750104LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|E|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M191593634RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-05-14T00:13:00.637Z",
+   "utc_start": "2012-05-14T00:12:47.629000Z",
+   "utc_stop": "2012-05-14T00:13:13.646000Z",
+   "pixel_scale_m": 1.298,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012135/NAC/M191593634RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012135/NAC/M191593634RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M191765172LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-05-15T23:51:52.554Z",
+   "utc_start": "2012-05-15T23:51:45.790000Z",
+   "utc_stop": "2012-05-15T23:51:59.318000Z",
+   "pixel_scale_m": 1.226,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012136/NAC/M191765172LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012136/NAC/M191765172LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M192723067LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-05-27T01:56:53.908Z",
+   "utc_start": "2012-05-27T01:56:40.379000Z",
+   "utc_stop": "2012-05-27T01:57:07.437000Z",
+   "pixel_scale_m": 1.17,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012148/NAC/M192723067LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012148/NAC/M192723067LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M193066146LC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2012-05-31T01:14:52.162Z",
+   "utc_start": "2012-05-31T01:14:39.674000Z",
+   "utc_stop": "2012-05-31T01:15:04.650000Z",
+   "pixel_scale_m": 1.284,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012152/NAC/M193066146LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012152/NAC/M193066146LC.xml",
+   "strata": {
+    "site11_roi4": "LROC_NAC|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M193945010RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-06-10T05:22:39.586Z",
+   "utc_start": "2012-06-10T05:22:23.456000Z",
+   "utc_stop": "2012-06-10T05:22:55.717000Z",
+   "pixel_scale_m": 1.296,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012162/NAC/M193945010RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012162/NAC/M193945010RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M193973587RC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-06-10T13:18:57.025Z",
+   "utc_start": "2012-06-10T13:18:40.895000Z",
+   "utc_stop": "2012-06-10T13:19:13.156000Z",
+   "pixel_scale_m": 1.282,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012162/NAC/M193973587RC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012162/NAC/M193973587RC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|S|el<-0.5|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M194116464LC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2012-06-12T05:00:05.414Z",
+   "utc_start": "2012-06-12T04:59:57.609000Z",
+   "utc_stop": "2012-06-12T05:00:13.219000Z",
+   "pixel_scale_m": 1.223,
+   "data_file_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012164/NAC/M194116464LC.IMG",
+   "label_url": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-3-CDR-V1.0/LROLRC_1011/DATA/SCI/2012164/NAC/M194116464LC.xml",
+   "strata": {
+    "site07_roi1": "LROC_NAC|SE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  }
+ ]
+}
