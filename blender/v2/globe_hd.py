@@ -271,8 +271,12 @@ def sun_material(name):
     out = nt.nodes.new('ShaderNodeOutputMaterial')
     em = nt.nodes.new('ShaderNodeEmission')
     em.inputs['Color'].default_value = (1.0, 0.93, 0.85, 1)
-    lw = nt.nodes.new('ShaderNodeLayerWeight')
-    mu = _math(nt, 'SUBTRACT', 1.0, lw.outputs['Facing'])          # mu = cos(angle to the line of sight)
+    geo = nt.nodes.new('ShaderNodeNewGeometry')
+    dp = nt.nodes.new('ShaderNodeVectorMath')
+    dp.operation = 'DOT_PRODUCT'
+    nt.links.new(geo.outputs['Normal'], dp.inputs[0])
+    nt.links.new(geo.outputs['Incoming'], dp.inputs[1])
+    mu = _math(nt, 'ABSOLUTE', dp.outputs['Value'])                  # mu = cos(angle between the normal and the line of sight)
     ld = _math(nt, 'SUBTRACT', 1.0, _math(nt, 'MULTIPLY', 0.6, _math(nt, 'SUBTRACT', 1.0, mu)))
     nt.links.new(ld, em.inputs['Strength'])
     nt.links.new(em.outputs['Emission'], out.inputs['Surface'])
@@ -294,7 +298,7 @@ def sun_scene(a):
     ob.data.materials.append(sun_material('Sun photosphere | limb darkening | MODEL'))
     camera(coll, 'CAM_sun_disc', (0, -10 * 695_700.0, 0), (0, 0, 0), ortho=2.1 * 695_700.0, clip=1e8)
     sc.camera = [o for o in coll.objects if o.type == 'CAMERA'][0]
-    sc.view_settings.exposure = -0.5
+    sc.view_settings.exposure = 0.0
     sc.cycles.samples = 16
     if a.qa:
         sc.render.resolution_x = sc.render.resolution_y = 800
@@ -325,6 +329,7 @@ def system_scene(a):
         c.objects.unlink(sun)
     coll.objects.link(sun)
     sun.name = 'SUN | true radius and position (de421) | MODEL'
+    sun.visible_shadow = False          # the sphere sits on the lamp's shadow rays; it must not shadow the Earth and Moon
     sun.data.materials.append(sun_material('Sun photosphere (system) | MODEL'))
     rng = Vector(geo['sunPosKm']).length
     E = sun_lamp(coll, geo['sunPosKm'], rng, 'J2000')
@@ -332,11 +337,12 @@ def system_scene(a):
     m = Vector(geo['moonPosKm'])
     side = m.cross(Vector((0, 0, 1))).normalized()
     sdir = Vector(geo['sunPosKm']).normalized()
-    camera(coll, 'CAM_system_earth_moon_true_distance', m / 2 + (sdir * 0.7 + side * 0.7).normalized() * 900_000.0, m / 2,
-           lens=80.0, clip=5e8)
-    camera(coll, 'CAM_system_earth_from_near_moon', m + (sdir * 0.6 + side * 0.8).normalized() * 40_000.0, (0, 0, 0),
+    camera(coll, 'CAM_system_earth_moon_true_distance_sunward', m / 2 + (sdir * 0.95 + side * 0.3).normalized() * 1_000_000.0,
+           m / 2, lens=50.0, clip=5e8)
+    camera(coll, 'CAM_system_earth_dayside', (sdir * 0.9 + side * 0.44).normalized() * 70_000.0, (0, 0, 0), lens=35.0, clip=5e8)
+    camera(coll, 'CAM_system_earth_from_near_moon_night_side', m + (sdir * 0.6 + side * 0.8).normalized() * 40_000.0, (0, 0, 0),
            lens=200.0, clip=5e8)
-    sc.camera = [o for o in coll.objects if o.name == 'CAM_system_earth_moon_true_distance'][0]
+    sc.camera = [o for o in coll.objects if o.name == 'CAM_system_earth_dayside'][0]
     sc.cycles.samples = 16
     if a.qa:
         sc.render.resolution_x, sc.render.resolution_y = 1280, 720
