@@ -1,12 +1,12 @@
 import { addAfterEffect, Canvas, useFrame, useThree } from '@react-three/fiber';
-import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState, type MutableRefObject } from 'react';
+import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent as RKeyboardEvent, type MutableRefObject, type PointerEvent as RPointerEvent } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { easeCamera } from '../store/camera';
 import { EXPOSURE, postColors, SKY, SUN_HEX } from './postColors';
 import type { QualityTier } from './quality';
-import { DRIFT_DEG_PER_S, FLIGHT_MS, MODEL_HAS_RELIEF, MODEL_YAW_RAD, RELIEF_CAP_FROM_DEG, RELIEF_CAP_TO_DEG, RELIEF_SHADE, distanceForDisc, reliefNormals, layoutPins, type Pt, type Vec3 } from './globeMath';
-import { HonestyTag, HoverLabel, SitePin } from './parts';
+import { DRIFT_DEG_PER_S, FLIGHT_MS, GLOBE_NAV, MODEL_HAS_RELIEF, MODEL_YAW_RAD, RELIEF_CAP_FROM_DEG, RELIEF_CAP_TO_DEG, RELIEF_SHADE, distanceForDisc, radPerPixel, releaseVelocity, reliefNormals, layoutPins, texelsPerRadian, zoomFloor, type Pt, type Vec3 } from './globeMath';
+import { HonestyTag, HoverLabel, IconBack, SitePin } from './parts';
 import { arcAt, distAt, glareFor, glareOut, INTRO, openMs, peekDeg, peekStillDeg, smooth as smoothStep, sunClear, SUN_RADIUS_DEG, type Arc } from './introMath';
 import { newIntroLink, useMoonLoad, type IntroLink } from './introState';
 
@@ -53,6 +53,38 @@ const smooth = (a: number, b: number, x: number) => {
   const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
   return t * t * (3 - 2 * t);
 };
+
+/**
+ * S12: the visitor's own turn and zoom of the Moon, shared between the pointer and key handlers (which write what was asked)
+ * and the camera rig (which applies it each frame). Display only.
+ */
+interface GlobeNav {
+  /** turn applied to the pole-on view (the slow drift is folded in here too) */
+  q: THREE.Quaternion;
+  /** height above the surface as a fraction of the whole-Moon view's: 1 = whole Moon. `zoom` is asked for, `zoomNow` is drawn */
+  zoom: number;
+  zoomNow: number;
+  /** drag distance not yet applied, CSS px (applied whole on the next frame: the surface stays under the pointer) */
+  dx: number;
+  dy: number;
+  /** glide after release: the drag's speed at the moment of release, rad/s about the screen's vertical and horizontal axes */
+  vx: number;
+  vy: number;
+  /** keyboard turn still to do, radians about the screen's vertical and horizontal axes */
+  nx: number;
+  ny: number;
+  dragging: boolean;
+  /** the slow drift stays off until this time (performance.now) */
+  quietUntil: number;
+  /** "Back to south pole" in progress */
+  home: { t0: number; q0: THREE.Quaternion; axis: THREE.Vector3; angle: number; z0: number } | null;
+  goHome: boolean;
+  /** written by the rig: radians per CSS pixel at the view centre now, and the zoom floor of the model on screen */
+  radPerPx: number;
+  zoomMin: number;
+  moved: boolean;
+}
+const newNav = (): GlobeNav => ({ q: new THREE.Quaternion(), zoom: 1, zoomNow: 1, dx: 0, dy: 0, vx: 0, vy: 0, nx: 0, ny: 0, dragging: false, quietUntil: 0, home: null, goHome: false, radPerPx: 0, zoomMin: 1, moved: false });
 
 function useReducedMotion(): boolean {
   const [r, setR] = useState(() => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -101,7 +133,7 @@ const UPGRADE_FADE_MS = 600;
  * relief, which dips below the compact sphere in places, is not cut by it), 'over' faded in from transparent across
  * UPGRADE_FADE_MS, then `onFaded`.
  */
-function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, onFail, onFaded, onProgress }: { file: string; lite: boolean; show?: boolean; layer?: 'solo' | 'under' | 'over'; run?: boolean; onReady: () => void; onFail: (m: string) => void; onFaded?: () => void; onProgress?: (frac: number) => void }) {
+function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, onFail, onFaded, onProgress }: { file: string; lite: boolean; show?: boolean; layer?: 'solo' | 'under' | 'over'; run?: boolean; onReady: (texelsPerRad: number) => void; onFail: (m: string) => void; onFaded?: () => void; onProgress?: (frac: number) => void }) {
   const [model, setModel] = useState<THREE.Object3D | null>(null);
   const mats = useRef<THREE.Material[]>([]);
   // ms of fade done so far; -1 = not started, -2 = no fade (only advances while `run`, so it holds still during a flight)
@@ -144,6 +176,7 @@ function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, on
         const centre = relief ? new THREE.Vector3() : new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3());
         let sum = 0;
         let n = 0;
+        let tpr = 0; // image pixels per radian of surface (S12 zoom limit), measured from this model
         const p = new THREE.Vector3();
         m.traverse((o) => {
           const mesh = o as THREE.Mesh;
@@ -172,6 +205,13 @@ function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, on
           made.geo.push(mesh.geometry);
           const old = mesh.material as THREE.MeshStandardMaterial;
           const map = old.map;
+          const img = map?.image as { width?: number; height?: number } | undefined;
+          if (img?.width && img.height) {
+            // an equirectangular image has height / π pixels per radian of latitude; any other unwrap is measured from its texture coordinates
+            const uv = mesh.geometry.getAttribute('uv');
+            const here = relief ? img.height / Math.PI : uv ? texelsPerRadian(pos.array, uv.array, mesh.geometry.index?.array ?? null, img.width, img.height, mesh.worldToLocal(centre.clone()).toArray()) : 0;
+            tpr = tpr ? Math.min(tpr, here) : here;
+          }
           if (map) {
             map.colorSpace = THREE.SRGBColorSpace;
             map.anisotropy = Math.min(lite ? 4 : 8, maxAniso);
@@ -197,7 +237,7 @@ function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, on
         }
         mats.current = made.mat;
         setModel(m);
-        onReady();
+        onReady(tpr);
       },
       // the loader's own progress events (bytes received of bytes expected), for the opening sequence's progress line
       (ev) => live && ev.lengthComputable && ev.total > 0 && onProgress?.(ev.loaded / ev.total),
@@ -221,6 +261,10 @@ interface RigProps {
   target: number;
   still: boolean;
   hold: MutableRefObject<boolean>;
+  /** S12: the visitor's turn and zoom; `texelsPerRad` of the Moon model on screen sets how close the zoom may go */
+  nav: MutableRefObject<GlobeNav>;
+  texelsPerRad: number;
+  onMoved: (moved: boolean) => void;
   wrap: MutableRefObject<HTMLDivElement | null>;
   fade: MutableRefObject<HTMLDivElement | null>;
   place: MutableRefObject<((anchors: (Pt | null)[], w: number, h: number) => void) | null>;
@@ -240,14 +284,14 @@ interface RigProps {
 }
 
 /** Camera (pole-on view, slow drift, the dive to a site and back) and the per-frame screen positions of the sites. */
-function Rig({ sunDir, dirs, phase, target, still, hold, wrap, fade, place, ready, onArrive, onBack, loaded, modelIn, fx, link, lights, props, snap, onIntroSettle, onIntroEnd }: RigProps) {
+function Rig({ sunDir, dirs, phase, target, still, hold, nav, texelsPerRad, onMoved, wrap, fade, place, ready, onArrive, onBack, loaded, modelIn, fx, link, lights, props, snap, onIntroSettle, onIntroEnd }: RigProps) {
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
   const size = useThree((s) => s.size);
   const gl = useThree((s) => s.gl);
   const scene = useThree((s) => s.scene);
   const advance = useThree((s) => s.advance);
-  const st = useRef({ drift: 0, t0: 0, last: '' as GlobePhase | '', marked: false, i0: -1, loadedAt: -1, arc: null as Arc | null, psi0: 0, settled: false, done: false, snapAsked: false, fadeT0: -2 });
-  const tmp = useMemo(() => ({ dir: new THREE.Vector3(), up: new THREE.Vector3(), p: new THREE.Vector3(), q: new THREE.Quaternion() }), []);
+  const st = useRef({ t0: 0, last: '' as GlobePhase | '', marked: false, i0: -1, loadedAt: -1, arc: null as Arc | null, psi0: 0, settled: false, done: false, snapAsked: false, fadeT0: -2 });
+  const tmp = useMemo(() => ({ dir: new THREE.Vector3(), up: new THREE.Vector3(), p: new THREE.Vector3(), q: new THREE.Quaternion(), home: new THREE.Vector3(), right: new THREE.Vector3() }), []);
 
   // "up" on screen at the start: turned so the Sun stands to the upper left (display choice; the light itself is the bundle's)
   const up0 = useMemo(() => {
@@ -301,7 +345,7 @@ function Rig({ sunDir, dirs, phase, target, still, hold, wrap, fade, place, read
   );
 
   useEffect(() => {
-    (window as unknown as Record<string, unknown>).__polarisGlobe = { gl, scene, camera, advance };
+    (window as unknown as Record<string, unknown>).__polarisGlobe = { gl, scene, camera, advance, nav: nav.current };
     return () => {
       delete (window as unknown as Record<string, unknown>).__polarisGlobe;
     };
@@ -316,8 +360,85 @@ function Rig({ sunDir, dirs, phase, target, still, hold, wrap, fade, place, read
     }
     const fill = size.width < 640 ? 0.92 : 0.86;
     const D = distanceForDisc(FOV, size.width, size.height, fill);
-    if (phase === 'idle' && !still && !hold.current) s.drift += Math.min(dt, 0.1) * DRIFT_DEG_PER_S * (Math.PI / 180);
-    tmp.up.copy(up0).applyAxisAngle(SOUTH, s.drift);
+    // ---- S12: the visitor's own turn and zoom (display only). `N.q` turns the pole-on view; the slow drift is a turn about
+    // the Moon's own axis folded into it, so with no input this is the S4 view exactly. ----
+    const N = nav.current;
+    const altHome = D - 1;
+    N.zoomMin = zoomFloor(texelsPerRad, size.height, FOV, altHome);
+    N.zoom = Math.min(1, Math.max(N.zoomMin, N.zoom));
+    // a smaller window or a coarser model raises the floor: the picture follows at once, never left past the limit
+    N.zoomNow = Math.min(1, Math.max(N.zoomMin, N.zoomNow));
+    if (phase === 'idle') {
+      const step = Math.min(dt, 0.1);
+      if (N.goHome) {
+        // "Back to south pole": the shortest turn that brings the pole back under the camera, and the zoom back out
+        N.goHome = false;
+        tmp.home.copy(SOUTH).applyQuaternion(N.q);
+        const axis = new THREE.Vector3().crossVectors(tmp.home, SOUTH);
+        const angle = tmp.home.angleTo(SOUTH);
+        if (axis.lengthSq() < 1e-10) axis.copy(up0).applyQuaternion(N.q); // exactly opposite: any axis across the view
+        N.home = { t0: now, q0: N.q.clone(), axis: axis.normalize(), angle, z0: N.zoomNow };
+        N.dx = N.dy = N.vx = N.vy = N.nx = N.ny = 0;
+      }
+      if (N.home) {
+        const kh = still ? 1 : Math.min(1, (now - N.home.t0) / GLOBE_NAV.HOME_MS);
+        const eh = 1 - Math.pow(1 - kh, 3);
+        N.q.copy(tmp.q.setFromAxisAngle(N.home.axis, N.home.angle * eh)).multiply(N.home.q0);
+        N.zoom = N.zoomNow = Math.exp(Math.log(N.home.z0) * (1 - eh));
+        if (kh >= 1) N.home = null;
+      } else {
+        // the scale of a drag: the surface under the view centre moves with the pointer, one for one
+        N.radPerPx = radPerPixel(altHome * N.zoomNow, size.height, FOV);
+        let ax = -N.dx * N.radPerPx; // about the screen's vertical axis
+        let ay = -N.dy * N.radPerPx; // about its horizontal axis
+        N.dx = N.dy = 0;
+        if (!N.dragging && (N.vx !== 0 || N.vy !== 0)) {
+          // glide after release, dying away; none under reduced motion
+          if (still) N.vx = N.vy = 0;
+          else {
+            ax -= N.vx * step;
+            ay -= N.vy * step;
+            const keep = Math.exp((-step * 1000) / GLOBE_NAV.GLIDE_TAU_MS);
+            N.vx *= keep;
+            N.vy *= keep;
+            if (Math.hypot(N.vx, N.vy) < GLOBE_NAV.MIN_GLIDE_RAD_S) N.vx = N.vy = 0;
+          }
+        }
+        if (N.nx !== 0 || N.ny !== 0) {
+          // arrow keys: each press asks for a step, taken quickly (at once under reduced motion)
+          const f = still ? 1 : 1 - Math.exp(-step * 14);
+          const tx = Math.abs(N.nx) < 1e-4 ? N.nx : N.nx * f;
+          const ty = Math.abs(N.ny) < 1e-4 ? N.ny : N.ny * f;
+          ax += tx;
+          ay += ty;
+          N.nx -= tx;
+          N.ny -= ty;
+        }
+        if (ax !== 0 || ay !== 0) {
+          tmp.up.copy(up0).applyQuaternion(N.q);
+          tmp.home.copy(SOUTH).applyQuaternion(N.q);
+          tmp.right.crossVectors(tmp.up, tmp.home); // the camera looks along −home, so right = (−home) × up
+          N.q.premultiply(tmp.q.setFromAxisAngle(tmp.up, ax)).premultiply(tmp.q.setFromAxisAngle(tmp.right, ay));
+        }
+        // the slow drift: off while a pin is hovered, while dragging and for a few seconds after any input
+        const drifting = !still && !hold.current && !N.dragging && now >= N.quietUntil && N.vx === 0 && N.vy === 0;
+        if (drifting) N.q.premultiply(tmp.q.setFromAxisAngle(SOUTH, step * DRIFT_DEG_PER_S * RAD));
+        // (only when something turned: at rest the view is left exactly as it is, to the last bit)
+        if (drifting || ax !== 0 || ay !== 0) N.q.normalize();
+        // zoom eases toward what was asked, in log height (at once under reduced motion)
+        const fz = still ? 1 : 1 - Math.exp(-step * 12);
+        const lz = Math.log(N.zoomNow) + (Math.log(N.zoom) - Math.log(N.zoomNow)) * fz;
+        N.zoomNow = Math.abs(lz - Math.log(N.zoom)) < 1e-4 ? N.zoom : Math.exp(lz);
+      }
+      tmp.home.copy(SOUTH).applyQuaternion(N.q);
+      const moved = tmp.home.angleTo(SOUTH) > GLOBE_NAV.MOVED_DEG * RAD || N.zoom < 0.999;
+      if (moved !== N.moved) {
+        N.moved = moved;
+        onMoved(moved);
+      }
+    }
+    tmp.up.copy(up0).applyQuaternion(N.q);
+    tmp.home.copy(SOUTH).applyQuaternion(N.q);
 
     // 0 = the whole-Moon view, 1 = just above the site
     let e = 0;
@@ -327,9 +448,9 @@ function Rig({ sunDir, dirs, phase, target, still, hold, wrap, fade, place, read
       e = phase === 'in' ? easeCamera(k) : 1 - easeCamera(k);
     } else if (phase === 'hidden') e = 1;
     const site = dirs[target] ?? SOUTH;
-    tmp.dir.copy(SOUTH).lerp(site, e).normalize();
+    tmp.dir.copy(tmp.home).lerp(site, e).normalize();
     // height above the surface blends in log space, so the dive slows evenly as the ground comes up
-    const alt = Math.exp(Math.log(D - 1) * (1 - e) + Math.log(ALT_END) * e);
+    const alt = Math.exp(Math.log(altHome * N.zoomNow) * (1 - e) + Math.log(ALT_END) * e);
     camera.position.copy(tmp.dir).multiplyScalar(1 + alt);
     camera.up.copy(tmp.up);
     camera.lookAt(0, 0, 0);
@@ -534,12 +655,21 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
     }
   }, [up, phase, still]);
   const file = upgrade && up === 'shown' ? upgrade : first;
+
   useEffect(() => onModel?.(file), [file]); // eslint-disable-line react-hooks/exhaustive-deps
   const [why, setWhy] = useState('');
   const [hot, setHot] = useState(-1); // pin under the pointer or holding focus
   const wrap = useRef<HTMLDivElement | null>(null);
   const fade = useRef<HTMLDivElement | null>(null);
   const hold = useRef(false);
+  // S12: turning and zooming by hand
+  const nav = useRef<GlobeNav>(newNav());
+  const view = useRef<HTMLDivElement | null>(null);
+  const pad = useRef<HTMLDivElement | null>(null);
+  const homeBtn = useRef<HTMLButtonElement | null>(null);
+  const [moved, setMoved] = useState(false);
+  const [used, setUsed] = useState(false); // the visitor has turned or zoomed the Moon once: the hint has done its job
+  const [tpr, setTpr] = useState<Record<string, number>>({});
   const ownLink = useRef<IntroLink>(newIntroLink());
   const link = intro ?? ownLink;
   const lights = useRef<{ sun: THREE.DirectionalLight | null; earth: THREE.DirectionalLight | null }>({ sun: null, earth: null });
@@ -559,6 +689,157 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
   const hotRef = useRef(hot);
   hotRef.current = hot;
   hold.current = hot >= 0;
+  const liveRef = useRef(false);
+  liveRef.current = phase === 'idle';
+
+  // ---- S12 pointer: drag turns the Moon, two fingers or the wheel zoom it. A press that moved is never a click. ----
+  const touch = useRef<{ pts: Map<number, { x: number; y: number }>; start: { x: number; y: number } | null; slop: number; trail: { x: number; y: number; t: number }[]; pinch: number; noClick: boolean }>({ pts: new Map(), start: null, slop: 0, trail: [], pinch: 0, noClick: false });
+  const quiet = () => (nav.current.quietUntil = performance.now() + GLOBE_NAV.PAUSE_AFTER_MS);
+  const setDragging = (on: boolean) => {
+    nav.current.dragging = on;
+    if (on) {
+      wrap.current?.setAttribute('data-dragging', 'true');
+      setHot(-1);
+      setUsed(true);
+    } else wrap.current?.removeAttribute('data-dragging');
+  };
+  const capture = (id: number) => {
+    try {
+      view.current?.setPointerCapture(id);
+    } catch {
+      /* the pointer is already gone: the drag still ends on its pointerup or pointercancel */
+    }
+  };
+  const onDown = (e: RPointerEvent<HTMLDivElement>) => {
+    if (!liveRef.current || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    const T = touch.current;
+    const N = nav.current;
+    T.pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    // catching the Moon mid-glide or mid-return stops it there
+    N.vx = N.vy = 0;
+    N.home = null;
+    if (T.pts.size === 1) {
+      T.start = { x: e.clientX, y: e.clientY };
+      T.slop = e.pointerType === 'mouse' ? GLOBE_NAV.SLOP_MOUSE_PX : GLOBE_NAV.SLOP_TOUCH_PX;
+      T.trail = [{ x: e.clientX, y: e.clientY, t: e.timeStamp }];
+      T.noClick = false;
+    } else if (T.pts.size === 2) {
+      const [a, b] = [...T.pts.values()];
+      T.pinch = Math.hypot(a.x - b.x, a.y - b.y);
+      T.noClick = true;
+      if (!N.dragging) setDragging(true);
+      for (const id of T.pts.keys()) capture(id);
+    }
+  };
+  const onMove = (e: RPointerEvent<HTMLDivElement>) => {
+    const T = touch.current;
+    const N = nav.current;
+    const was = T.pts.get(e.pointerId);
+    if (!was) return;
+    const dx = e.clientX - was.x;
+    const dy = e.clientY - was.y;
+    if (!N.dragging) {
+      if (!T.start || Math.hypot(e.clientX - T.start.x, e.clientY - T.start.y) < T.slop) return;
+      // now it is a drag: from here the pointer belongs to the Moon, wherever it travels (over a pin, off the view)
+      T.noClick = true;
+      setDragging(true);
+      capture(e.pointerId);
+      // start from where the pointer is now, so the Moon does not jump by the slop
+      T.pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      return;
+    }
+    T.pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (T.pts.size >= 2) {
+      // two fingers: their spread zooms, their midpoint turns
+      const [a, b] = [...T.pts.values()];
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (T.pinch > 0 && d > 0) N.zoom = N.zoomNow = Math.min(1, Math.max(N.zoomMin, N.zoomNow * (T.pinch / d)));
+      T.pinch = d;
+      N.dx += dx / 2;
+      N.dy += dy / 2;
+      return;
+    }
+    N.dx += dx;
+    N.dy += dy;
+    // the events' own times, not the time they are handled: a slow frame must not turn a flick into a stop
+    T.trail.push({ x: e.clientX, y: e.clientY, t: e.timeStamp });
+    if (T.trail.length > 12) T.trail.shift();
+  };
+  const onUp = (e: RPointerEvent<HTMLDivElement>) => {
+    const T = touch.current;
+    const N = nav.current;
+    if (!T.pts.delete(e.pointerId)) return;
+    if (T.pts.size > 0) {
+      // one finger of a pinch lifted: the other carries on turning, with no fling from the pinch
+      T.trail = [];
+      return;
+    }
+    T.start = null;
+    if (!N.dragging) return;
+    setDragging(false);
+    quiet();
+    const v = releaseVelocity(T.trail, e.timeStamp);
+    const cap = GLOBE_NAV.MAX_GLIDE_RAD_S;
+    N.vx = Math.max(-cap, Math.min(cap, v.vx * N.radPerPx));
+    N.vy = Math.max(-cap, Math.min(cap, v.vy * N.radPerPx));
+    // the click that follows this release (on whatever lies under the pointer) is not a click
+    window.setTimeout(() => (T.noClick = false), 0);
+  };
+  // the system took the pointer away (a call, a system gesture): the drag ends where it is, with no fling and no click
+  const onCancel = (e: RPointerEvent<HTMLDivElement>) => {
+    const T = touch.current;
+    if (!T.pts.delete(e.pointerId)) return;
+    T.trail = [];
+    if (T.pts.size > 0) return;
+    T.start = null;
+    T.noClick = false;
+    if (!nav.current.dragging) return;
+    nav.current.vx = nav.current.vy = 0;
+    setDragging(false);
+    quiet();
+  };
+  // the wheel (and a trackpad pinch, which arrives as a wheel with ctrl held) zooms; never the page
+  useEffect(() => {
+    const el = view.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      if (!liveRef.current) return;
+      e.preventDefault();
+      const N = nav.current;
+      const px = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * el.clientHeight : e.deltaY;
+      N.home = null;
+      N.zoom = Math.min(1, Math.max(N.zoomMin, N.zoom * Math.exp(px * (e.ctrlKey ? 0.01 : 0.0016))));
+      quiet();
+      setUsed(true);
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, []);
+  const goHome = () => {
+    nav.current.goHome = true;
+    quiet();
+    // the button goes away once the view is back: a keyboard visitor's focus moves to the Moon itself
+    if (document.activeElement === homeBtn.current) pad.current?.focus();
+  };
+  const onKey = (e: RKeyboardEvent<HTMLDivElement>) => {
+    if (!liveRef.current || e.altKey || e.ctrlKey || e.metaKey) return;
+    const N = nav.current;
+    const step = GLOBE_NAV.KEY_STEP_DEG * RAD * Math.max(0.25, N.zoomNow);
+    // an arrow turns the Moon that way: the surface moves toward the arrow, as it does under a drag
+    if (e.key === 'ArrowLeft') N.nx += step;
+    else if (e.key === 'ArrowRight') N.nx -= step;
+    else if (e.key === 'ArrowUp') N.ny += step;
+    else if (e.key === 'ArrowDown') N.ny -= step;
+    else if (e.key === '+' || e.key === '=') N.zoom = Math.max(N.zoomMin, N.zoom / GLOBE_NAV.KEY_ZOOM);
+    else if (e.key === '-' || e.key === '_') N.zoom = Math.min(1, N.zoom * GLOBE_NAV.KEY_ZOOM);
+    else if (e.key === 'Home' || e.key === '0') goHome();
+    else return;
+    e.preventDefault();
+    N.home = e.key === 'Home' || e.key === '0' ? N.home : null;
+    N.vx = N.vy = 0;
+    quiet();
+    setUsed(true);
+  };
 
   const sun = useMemo(() => (sunDir ? new THREE.Vector3(...sunDir) : null), [sunDir]);
   const earth = useMemo(() => (earthDir ? new THREE.Vector3(...earthDir) : null), [earthDir]);
@@ -643,8 +924,23 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
   const shown = drawn && !playing;
 
   return (
-    <div className="s-globe" data-testid="simple-globe" data-phase={phase} data-cover={cover || undefined} data-state={state} data-shown={shown} data-asset={file} data-upgrade={upgrade && (up === 'wait' || up === 'loaded' || up === 'fading') ? upgrade : undefined} data-upgrade-state={upgrade ? up : undefined} data-still={still || undefined} ref={wrap}>
-      <div className="s-globe-view">
+    <div className="s-globe" data-testid="simple-globe" data-phase={phase} data-cover={cover || undefined} data-state={state} data-shown={shown} data-asset={file} data-upgrade={upgrade && (up === 'wait' || up === 'loaded' || up === 'fading') ? upgrade : undefined} data-upgrade-state={upgrade ? up : undefined} data-still={still || undefined} data-moved={moved || undefined} ref={wrap}>
+      <div
+        className="s-globe-view"
+        ref={view}
+        onPointerDown={onDown}
+        onPointerMove={onMove}
+        onPointerUp={onUp}
+        onPointerCancel={onCancel}
+        onKeyDown={onKey}
+        onClickCapture={(e) => {
+          // a drag that ends over a pin (or began on one) is not a press of that pin
+          if (touch.current.noClick) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }}
+      >
       <div className="s-globe-canvas" aria-hidden="true" ref={fade}>
         <Canvas
           dpr={tier === 'medium' ? [1, 1.5] : [1, 2]}
@@ -679,7 +975,10 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
               file={first}
               lite={lite}
               layer={up === 'fading' ? 'under' : 'solo'}
-              onReady={() => setState('ready')}
+              onReady={(t) => {
+                setTpr((m) => ({ ...m, [first]: t }));
+                setState('ready');
+              }}
               onProgress={(f) => useMoonLoad.setState({ frac: f })}
               onFail={(m) => {
                 setWhy(m);
@@ -694,7 +993,10 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
               show={up === 'fading' || up === 'shown'}
               layer={up === 'shown' ? 'solo' : 'over'}
               run={phase === 'idle'}
-              onReady={() => setUp('loaded')}
+              onReady={(t) => {
+                setTpr((m) => ({ ...m, [upgrade]: t }));
+                setUp('loaded');
+              }}
               onFail={() => setUp('failed')}
               onFaded={() => setUp('shown')}
             />
@@ -707,6 +1009,9 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
               target={target}
               still={still}
               hold={hold}
+              nav={nav}
+              texelsPerRad={tpr[file] ?? 0}
+              onMoved={setMoved}
               wrap={wrap}
               fade={fade}
               place={place}
@@ -747,6 +1052,16 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
         </p>
       )}
 
+      {/* S12: the Moon itself takes the keyboard. Its focus ring is drawn inside the view's edge. */}
+      <div
+        className="s-globe-pad"
+        ref={pad}
+        tabIndex={live ? 0 : -1}
+        role="application"
+        aria-label="The Moon. Arrow keys turn it, plus and minus zoom, Home goes back to the south pole. The site buttons follow."
+        data-testid="globe-pad"
+        inert={playing}
+      />
       {/* during the opening sequence the pins are unseen and do nothing: out of the tab order and the accessibility tree */}
         <div className="s-globe-pins" data-live={live} inert={playing}>
         <svg className="s-globe-leaders" aria-hidden="true" focusable="false">
@@ -766,7 +1081,7 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
             data-spread={s.spreadPts ?? ''}
             style={{ visibility: 'hidden' }}
             ref={(el) => void (pinEls.current[i] = el)}
-            onPointerEnter={(e) => e.pointerType === 'mouse' && setHot(i)}
+            onPointerEnter={(e) => e.pointerType === 'mouse' && !nav.current.dragging && setHot(i)}
             onPointerLeave={() => setHot((h) => (h === i ? -1 : h))}
             onFocus={() => setHot(i)}
             onBlur={() => setHot((h) => (h === i ? -1 : h))}
@@ -777,6 +1092,21 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
         <div ref={labelEl} className="s-globe-label" data-testid="globe-hover-label">
           <HoverLabel name={hotSite?.name ?? ''} hint={hotSite?.line} visible={hot >= 0 && live} style={{ position: 'static' }} />
         </div>
+      </div>
+      {/* S12: how to move the Moon, until the visitor has; then, once the view has moved, the way back to the sites */}
+      <div className="s-globe-nav" data-live={live} inert={playing}>
+        {moved ? (
+          <button type="button" className="s-btn s-btn--sm s-globe-home" data-testid="globe-home" ref={homeBtn} onClick={goHome}>
+            <IconBack />
+            Back to south pole
+          </button>
+        ) : (
+          !used && (
+            <p className="s-globe-hint" data-testid="globe-hint" aria-hidden="true">
+              Drag to turn · scroll to zoom
+            </p>
+          )
+        )}
       </div>
       </div>
 

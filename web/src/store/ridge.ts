@@ -3,6 +3,24 @@ import { ridgeBins, ridgeForTarget, ridgeIndexAtBin, type RidgeNow } from '../bu
 import type { Ridge } from '../bundle/types';
 import { usePolaris } from './store';
 import type { View } from './view';
+import { useUi } from './ui';
+import type { Dataset } from '../bundle/types';
+
+/**
+ * The scenario whose skyline a dataset's attribution describes: the one it names, else the scenario called `baseline`
+ * (bundle/types.ts: "default = baseline"). Undefined when it names none and the bundle has no `baseline` scenario: then
+ * it cannot be said which series the ridges belong to, and it is held to none.
+ */
+export function attributionScenarioId(ds: Dataset): string | undefined {
+  const d = ds.derived;
+  if (!d?.attribution) return undefined;
+  return d.attribution.scenarioId ?? d.scenarios.find((x) => x.id === 'baseline')?.id;
+}
+/** True when the attribution is known to describe the series on screen. */
+export function attributionApplies(ds: Dataset, seriesId: string | undefined): boolean {
+  const id = attributionScenarioId(ds);
+  return id !== undefined && id === seriesId;
+}
 
 export interface RidgeFocus {
   /** the ridge to highlight everywhere (chart, 3D, tables); null ridge = a single bin without attribution */
@@ -19,13 +37,15 @@ export interface RidgeFocus {
  */
 export function useRidgeFocus(v: View | null): { sun: RidgeNow | null; earth: RidgeNow | null; focus: RidgeFocus | null } {
   const selectedBin = usePolaris((s) => s.selectedBin);
+  const strict = useUi((s) => s.attributionStrict);
   return useMemo(() => {
     if (!v) return { sun: null, earth: null, focus: null };
     const att = v.dataset.derived?.attribution ?? null;
     const nBins = v.series?.skyline?.azimuthDeg.length ?? att?.perBin?.ridgeIdx.length ?? 0;
     const eph = v.dataset.ephemeris.samples;
     // attribution describes one scenario's skyline (default baseline); never show it under another scenario's series
-    const applies = !!att && (!att.scenarioId || att.scenarioId === v.series?.id);
+    // Simple mode (S12) reads an unnamed attribution as the baseline's; Expert keeps the rule it was submitted with
+    const applies = !!att && (strict ? attributionApplies(v.dataset, v.series?.id) : !att.scenarioId || att.scenarioId === v.series?.id);
     const now = (k: 'sun' | 'earth') => (applies && v.br.exact !== null ? ridgeForTarget(att, eph, v.series?.samples?.[k], k, v.nearest, nBins) : null);
     const sun = now('sun');
     const earth = now('earth');
@@ -41,7 +61,7 @@ export function useRidgeFocus(v: View | null): { sun: RidgeNow | null; earth: Ri
         }
     }
     return { sun, earth, focus };
-  }, [v, selectedBin]);
+  }, [v, selectedBin, strict]);
 }
 
 /** Split sorted bin indices into contiguous runs (for drawing spans). */

@@ -86,7 +86,7 @@ export const QUALITY_NOTE: Record<QualityTier, string> = {
 export function qualityNote(tier: QualityTier): string {
   const post = tier !== 'low';
   return (
-    `Quality: ${QUALITY_NOTE[tier]}, picked at start for this device. Sun glow and flare: camera effect, display only.` +
+    `Quality: ${QUALITY_NOTE[tier]}, picked at start for this device. Sun glow: camera effect, display only; lens flare and starburst are in the opening sequence only.` +
     (post ? ' Film grain: camera effect, display only. No haze or rays: the Moon has no air.' : '')
   );
 }

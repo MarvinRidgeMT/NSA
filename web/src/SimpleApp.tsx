@@ -11,12 +11,14 @@ import { fmtPctRange, mastScenarioId, useChooseMast, useMastReading } from './co
 import { TimeBar } from './components/TimeBar';
 import { switchMode } from './mode';
 import { pickQuality, QUALITY_NOTE } from './simple/quality';
-import { GLOBE_8K, globePlan, moonDir, pinReading, skyDirFromSite } from './simple/globeMath';
+import { GLOBE_8K, GLOBE_NAV, globePlan, moonDir, pinReading, skyDirFromSite } from './simple/globeMath';
 import type { GlobeSite } from './simple/Globe';
 import { Intro } from './simple/Intro';
 import { lightCaption } from './simple/introMath';
 import { newIntroLink, useMoonLoad } from './simple/introState';
 import { IconArrow, IconBack, IconChevronDown, IconChevronUp, IconClose, IconMenu, SoundControl } from './simple/parts';
+import { SceneCard, SceneObjectList, useObjectCard } from './simple/SceneCards';
+import { useSceneFocus } from './simple/sceneFocus';
 const Scene3D = lazy(() => import('./three/Scene3D'));
 const Globe = lazy(() => import('./simple/Globe'));
 
@@ -152,7 +154,7 @@ function SiteSelect() {
 }
 
 /** Up / down through the sidecar's sampled mast heights only; the current height is the large figure between the arrows. */
-function MastStepper({ v }: { v: View }) {
+function MastStepper({ v, hidden = false }: { v: View; hidden?: boolean }) {
   const r = useMastReading(v);
   const choose = useChooseMast(v);
   if (!r) return null;
@@ -161,7 +163,7 @@ function MastStepper({ v }: { v: View }) {
   const lower = i > 0 ? masts[i - 1] : null;
   const higher = i >= 0 && i < masts.length - 1 ? masts[i + 1] : null;
   return (
-    <div className="s-stepper" role="group" aria-label="Mast height, sampled heights only" data-testid="simple-mast-stepper">
+    <div className="s-stepper" role="group" aria-label="Mast height, sampled heights only" data-testid="simple-mast-stepper" hidden={hidden}>
       <span className="s-stepper-lab" aria-hidden="true">
         Mast
       </span>
@@ -191,6 +193,26 @@ function MastStepper({ v }: { v: View }) {
       </button>
     </div>
   );
+}
+
+/** True while the window is phone-sized (the answer lives in a bottom sheet there). */
+function usePhone(): boolean {
+  const [on, setOn] = useState(() => typeof matchMedia === 'function' && matchMedia(PHONE).matches);
+  useEffect(() => {
+    if (typeof matchMedia !== 'function') return;
+    const m = matchMedia(PHONE);
+    const f = () => setOn(m.matches);
+    m.addEventListener('change', f);
+    return () => m.removeEventListener('change', f);
+  }, []);
+  return on;
+}
+
+/** The S12 card for a ridge, the Sun or the Earth, and the keyboard list of everything clickable. Mounted at a site only. */
+function ScenePanel({ v, slot }: { v: View; slot: 'card' | 'list' }) {
+  const card = useObjectCard(v);
+  if (slot === 'card') return card ? <SceneCard card={card} /> : null;
+  return <SceneObjectList v={v} card={card} />;
 }
 
 /** Sampled mast heights from the certainty sidecar only; nothing between them is offered or implied. */
@@ -335,6 +357,16 @@ export default function SimpleApp() {
   const [statsEl, setStatsEl] = useState<HTMLElement | null>(null);
   const menuId = useId();
   const dockId = useId();
+  // S12: the object flown to, and whether the site's answer card is open. One mast control at a time: the card's heights
+  // while it is on screen, the top bar's stepper otherwise; both read and write the same state (store/ui mastPick).
+  const focus = useSceneFocus((s) => s.focus);
+  const siteCard = useSceneFocus((s) => s.siteCard);
+  const flying = useSceneFocus((s) => s.flying);
+  const phone = usePhone();
+  const objectOpen = focus !== null && focus !== 'site';
+  const siteShown = !objectOpen && (siteCard || focus === 'site');
+  const showAnswer = useRef<HTMLButtonElement>(null);
+  const cardClose = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     startUrlSync();
@@ -452,6 +484,7 @@ export default function SimpleApp() {
       `It is turned to true lunar axes, south pole toward you. ` +
       `Light: the Sun direction in the bundle at ${fmtUtc(v.utcMs)} (azimuth ${v.sun.az.toFixed(1)}°, elevation ${v.sun.el.toFixed(2)}° at ${v.dataset.site.name}). Brightness and the faint earthshine are display choices, and this shading never decides visible or blocked. ` +
       `Pins: each line ends at the site's bundle latitude and longitude; the pins stand apart from it so they can be read and pressed. The slow drift is a display motion. ` +
+      `You can turn the Moon by dragging and zoom with the wheel or a pinch; the zoom stops where one pixel of this Moon image would be drawn larger than ${GLOBE_NAV.MAX_TEXEL_CSS_PX} screen pixels, and "Back to south pole" returns to the sites. ` +
       `Quality: ${QUALITY_NOTE[quality.tier].replace('bloom, flare and grain off; the Sun keeps a plain glow', 'lighter Moon image, camera effects off').replace('camera effects on', 'film grain on, a camera effect')}. The Sun itself is outside this view, so there is no glow or flare here. ` +
       `Opening sequence: the same Moon and the same Sun direction, seen first from the night side; its glare, lens flare and colour fringing are camera effects, display only, and stop before this view.`
     : '';
@@ -546,10 +579,10 @@ export default function SimpleApp() {
     '--s-peek',
     (el) => {
       // the verdict, or in its place the note that says why there is no answer
-      const last = el.querySelector('.pa-verdict, .s-answer > .s-note') ?? el.querySelector('.s-question') ?? el.querySelector('.s-sheet-handle');
+      const last = el.querySelector('.pa-verdict, .s-answer > .s-note, .s-cardslot [data-fact="state"], .s-cardslot [data-fact="distance"]') ?? el.querySelector('.s-question') ?? el.querySelector('.s-sheet-handle');
       return last ? last.getBoundingClientRect().bottom - el.getBoundingClientRect().top + 14 : 0;
     },
-    '.s-answerpanel',
+    '.s-answerpanel, .s-cardslot',
   );
 
   // phones: a collapsed sheet keeps its scroll offset (overflow: hidden), so go back to the top or the verdict would be hidden
@@ -588,6 +621,11 @@ export default function SimpleApp() {
       if (sheet) {
         setSheet(false);
         handle.current?.focus();
+        return;
+      }
+      // S12: an object flown to comes before that: Esc returns the camera to where it was
+      if (useSceneFocus.getState().focus !== null) {
+        useSceneFocus.getState().back();
         return;
       }
       // S4: with nothing left to close, Esc at a site goes back to the Moon (same as the button)
@@ -647,7 +685,7 @@ export default function SimpleApp() {
   const siteMissing = !!v && sidecar !== null && !reading;
 
   return (
-    <div className="simple s-shell" data-testid="simple-mode" data-banner={banner ? 'on' : 'off'} data-sheet={sheet ? 'open' : 'closed'} data-ready={v ? 'true' : 'false'} data-place={place} data-intro={intro === 'off' ? undefined : intro} ref={shellRef}>
+    <div className="simple s-shell" data-testid="simple-mode" data-banner={banner ? 'on' : 'off'} data-sheet={sheet ? 'open' : 'closed'} data-ready={v ? 'true' : 'false'} data-place={place} data-intro={intro === 'off' ? undefined : intro} data-focus={onSite ? (focus ?? undefined) : undefined} data-fly={onSite ? (flying ?? undefined) : undefined} ref={shellRef}>
       <a className="skip" href="#simple-main">
         Skip to content
       </a>
@@ -655,7 +693,7 @@ export default function SimpleApp() {
       <header className="s-chrome">
         <span className="s-brand">POLARIS X</span>
         {onSite && <SiteSelect />}
-        {v && <MastStepper v={v} />}
+        {v && <MastStepper v={v} hidden={onSite && siteShown && (!phone || sheet)} />}
         <span className="s-spacer" />
         <button
           type="button"
@@ -790,10 +828,30 @@ export default function SimpleApp() {
               >
                 <i aria-hidden="true" />
               </button>
-              <section className="s-panel s-answerpanel" aria-labelledby="s-site-h" data-sight-avoid="left">
-                <h1 id="s-site-h" data-testid="simple-site">
-                  {v.dataset.site.name}
-                </h1>
+              <ScenePanel v={v} slot="card" />
+              {siteShown && (
+              <section className="s-panel s-answerpanel" aria-labelledby="s-site-h" data-sight-avoid="left" data-testid="site-card" data-flown={focus === 'site' || undefined}>
+                <div className="s-sitecard-head">
+                  <h1 id="s-site-h" data-testid="simple-site">
+                    {v.dataset.site.name}
+                  </h1>
+                  {/* closing the card clears the view; the mast stepper takes its place in the top bar */}
+                  <button
+                    type="button"
+                    className="s-btn s-btn--sm s-btn--icon s-btn--quiet s-sitecard-close"
+                    aria-label="Close the answer card"
+                    data-testid="site-card-close"
+                    ref={cardClose}
+                    onClick={(e) => {
+                      const keys = e.detail === 0 || e.currentTarget.matches(':focus-visible');
+                      useSceneFocus.getState().back();
+                      useSceneFocus.getState().setSiteCard(false);
+                      if (keys) requestAnimationFrame(() => showAnswer.current?.focus());
+                    }}
+                  >
+                    <IconClose />
+                  </button>
+                </div>
                 <p className="s-question">Does a lander here keep the Sun?</p>
                 <div className="s-answer" data-testid="simple-answer">
                   {sidecar === null ? (
@@ -807,7 +865,16 @@ export default function SimpleApp() {
                   )}
                 </div>
                 <MastPicker v={v} />
+                {focus === 'site' && (
+                  <div className="s-sitecard-foot">
+                    <button type="button" className="s-btn s-btn--sm" data-testid="site-card-back" onClick={() => useSceneFocus.getState().back()}>
+                      <IconBack />
+                      Back
+                    </button>
+                  </div>
+                )}
               </section>
+              )}
               <section className="s-panel s-statspanel" aria-label="Numbers at this mast height, and their limits" data-sight-avoid="right" ref={setStatsEl}>
                 <Stats v={v} />
                 <details className="s-limits" data-testid="simple-limits">
@@ -832,10 +899,27 @@ export default function SimpleApp() {
                   Back to the Moon
                 </button>
               )}
+              {/* S12: the answer card can be closed for a clear view; this brings it back */}
+              {onSite && !siteShown && !objectOpen && (
+                <button
+                  type="button"
+                  className="s-btn s-btn--sm s-show-answer"
+                  data-testid="simple-show-answer"
+                  ref={showAnswer}
+                  onClick={(e) => {
+                    const keys = e.detail === 0 || e.currentTarget.matches(':focus-visible');
+                    useSceneFocus.getState().setSiteCard(true);
+                    if (keys) requestAnimationFrame(() => cardClose.current?.focus());
+                  }}
+                >
+                  Show the answer
+                </button>
+              )}
+              {onSite && gl && <ScenePanel v={v} slot="list" />}
               {gl ? (
                 <Guard>
                   <Suspense fallback={<p className="note">Loading 3D…</p>}>
-                    <Scene3D v={v} active={onSite} post={quality.tier} />
+                    <Scene3D v={v} active={onSite} post={quality.tier} pick />
                   </Suspense>
                 </Guard>
               ) : (

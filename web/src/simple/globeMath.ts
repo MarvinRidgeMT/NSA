@@ -240,3 +240,88 @@ export function globePlan(present: readonly string[], lite: boolean, prefer?: st
   if (best === GLOBE_8K && present.includes(GLOBE_FULL)) return { first: GLOBE_FULL, then: GLOBE_8K };
   return { first: best, then: null };
 }
+
+/* ---------- S12: moving the Moon by hand (18 Nov 2026). Display only; nothing here feeds a number. ---------- */
+
+/** Feel of the hand controls. Times in ms, angles in degrees. */
+export const GLOBE_NAV = {
+  /** a press that moves less than this is still a click (mouse / touch) */
+  SLOP_MOUSE_PX: 4,
+  SLOP_TOUCH_PX: 8,
+  /** after release the turn dies away with this time constant; no glide below MIN_GLIDE or under reduced motion */
+  GLIDE_TAU_MS: 320,
+  MIN_GLIDE_RAD_S: 0.02,
+  MAX_GLIDE_RAD_S: 6,
+  /** the slow drift waits this long after the last drag, wheel or key */
+  PAUSE_AFTER_MS: 4000,
+  KEY_STEP_DEG: 6,
+  /** one press of + or − changes the height above the surface by this factor */
+  KEY_ZOOM: 1.3,
+  /** "Back to south pole" */
+  HOME_MS: 700,
+  /** the view counts as moved once it is this far off the pole-on view, or zoomed in at all */
+  MOVED_DEG: 0.5,
+  /**
+   * Zoom-in limit: one pixel of the Moon image is never drawn larger than this many CSS pixels at the centre of the view.
+   * Past that the picture is the image's own blur, not the Moon. Each model's image is measured when it loads, so the
+   * compact model stops sooner than the 8k one.
+   */
+  MAX_TEXEL_CSS_PX: 1.25,
+} as const;
+
+/** Camera height above the surface (Moon radii) at which one image pixel spans `maxTexelPx` CSS pixels at the view centre. */
+export function nearAltitude(texelsPerRad: number, viewH: number, fovDeg: number, maxTexelPx: number): number {
+  if (!(texelsPerRad > 0)) return Infinity;
+  return viewH / (2 * Math.tan((fovDeg * RAD) / 2) * maxTexelPx * texelsPerRad);
+}
+
+/** Lowest zoom (height above the surface as a fraction of the whole-Moon view's height) a model allows; 1 = no zoom at all. */
+export function zoomFloor(texelsPerRad: number, viewH: number, fovDeg: number, homeAlt: number): number {
+  return Math.min(1, Math.max(0.02, nearAltitude(texelsPerRad, viewH, fovDeg, GLOBE_NAV.MAX_TEXEL_CSS_PX) / homeAlt));
+}
+
+/** Turn (radians) that moves the surface under the view centre by one CSS pixel, at height `alt` above a unit sphere. */
+export function radPerPixel(alt: number, viewH: number, fovDeg: number): number {
+  return (2 * alt * Math.tan((fovDeg * RAD) / 2)) / viewH;
+}
+
+/**
+ * How finely a model's image covers its sphere: image pixels per radian of surface, the median over sampled triangles of
+ * sqrt(image area / solid angle). Read from the mesh's own texture coordinates, so it holds for any unwrap.
+ * `centre` is the sphere's centre in the positions' frame.
+ */
+export function texelsPerRadian(pos: ArrayLike<number>, uv: ArrayLike<number>, index: ArrayLike<number> | null, texW: number, texH: number, centre: Vec3 = [0, 0, 0], maxSamples = 4000): number {
+  const nTri = Math.floor((index ? index.length : pos.length / 3) / 3);
+  if (!nTri || !texW || !texH) return 0;
+  const step = Math.max(1, Math.floor(nTri / maxSamples));
+  const out: number[] = [];
+  for (let t = 0; t < nTri; t += step) {
+    const i = [0, 1, 2].map((k) => (index ? index[3 * t + k] : 3 * t + k));
+    const p = i.map((j) => [pos[3 * j] - centre[0], pos[3 * j + 1] - centre[1], pos[3 * j + 2] - centre[2]]);
+    const e1 = [p[1][0] - p[0][0], p[1][1] - p[0][1], p[1][2] - p[0][2]];
+    const e2 = [p[2][0] - p[0][0], p[2][1] - p[0][1], p[2][2] - p[0][2]];
+    const area = Math.hypot(e1[1] * e2[2] - e1[2] * e2[1], e1[2] * e2[0] - e1[0] * e2[2], e1[0] * e2[1] - e1[1] * e2[0]) / 2;
+    const r = Math.hypot((p[0][0] + p[1][0] + p[2][0]) / 3, (p[0][1] + p[1][1] + p[2][1]) / 3, (p[0][2] + p[1][2] + p[2][2]) / 3);
+    const du1 = (uv[2 * i[1]] - uv[2 * i[0]]) * texW;
+    const dv1 = (uv[2 * i[1] + 1] - uv[2 * i[0] + 1]) * texH;
+    const du2 = (uv[2 * i[2]] - uv[2 * i[0]]) * texW;
+    const dv2 = (uv[2 * i[2] + 1] - uv[2 * i[0] + 1]) * texH;
+    const texels = Math.abs(du1 * dv2 - du2 * dv1) / 2;
+    if (area > 0 && r > 0 && texels > 0) out.push(Math.sqrt(texels / (area / (r * r))));
+  }
+  if (!out.length) return 0;
+  out.sort((a, b) => a - b);
+  return out[out.length >> 1];
+}
+
+/** Release speed of a drag: the mean over the last `windowMs` of pointer samples, in px/s. Zero when the pointer had stopped. */
+export function releaseVelocity(samples: { x: number; y: number; t: number }[], now: number, windowMs = 90): { vx: number; vy: number } {
+  const recent = samples.filter((s) => now - s.t <= windowMs);
+  if (recent.length < 2) return { vx: 0, vy: 0 };
+  const a = recent[0];
+  const b = recent[recent.length - 1];
+  const dt = (b.t - a.t) / 1000;
+  // held still before letting go: no fling
+  if (dt <= 0 || now - b.t > 60) return { vx: 0, vy: 0 };
+  return { vx: (b.x - a.x) / dt, vy: (b.y - a.y) / dt };
+}

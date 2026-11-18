@@ -1831,6 +1831,24 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .simple .s-globe-leaders g[data-hot] circle { fill: var(--c-amber); }
 .simple .s-globe-label { position: absolute; z-index: 3; left: 0; top: 0; pointer-events: none; will-change: transform; }
 .simple .s-globe-label .s-hoverlabel { max-width: min(640px, calc(100vw - 16px)); }
+/* S12: the Moon is moved by hand. The pad is the surface that takes the pointer and the keyboard; its ring sits inside the
+   view's edge. Pins stay above it. */
+.simple .s-globe-view { touch-action: none; }
+.simple .s-globe-pad { position: absolute; inset: 0; cursor: grab; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+.simple .s-globe-pad:focus { outline: none; }
+.simple .s-globe-pad:focus-visible { outline: var(--focus-ring) solid var(--c-amber); outline-offset: -6px; }
+.simple .s-globe[data-dragging] .s-globe-pad, .simple .s-globe[data-dragging] .s-pin { cursor: grabbing; }
+.simple .s-globe[data-dragging] .s-globe-pins { pointer-events: none; }
+.simple .s-globe[data-dragging] .s-globe-pin { pointer-events: none; }
+.simple .s-globe-nav { position: absolute; z-index: 4; left: 0; right: 0; bottom: 14px; display: flex; justify-content: center; pointer-events: none; opacity: 0; transition: opacity var(--dur-press) var(--ease-standard-curve); }
+.simple .s-globe[data-shown='true'] .s-globe-nav[data-live='true'] { opacity: 1; transition: opacity 0.4s var(--ease-enter) 0.35s; }
+.simple .s-globe-nav > * { pointer-events: auto; }
+.simple .s-globe-home { background: rgba(20, 20, 19, 0.82); -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur)); animation: s-globe-home-in 0.2s var(--ease-enter) both; }
+@keyframes s-globe-home-in { from { opacity: 0; transform: translateY(4px) scale(0.97); } }
+.simple .s-globe-hint { margin: 0; padding: 4px 10px; font: 400 var(--text-base) / 1.4 var(--f-sans); color: var(--c-ash); text-shadow: 0 0 6px #000, 0 0 2px #000; pointer-events: none; }
+@media (min-width: 1024px) { .simple .s-globe-nav { transform: translateX(min(120px, 7.5vw)); } }
+@media (pointer: coarse) { .simple .s-globe-hint { visibility: hidden; } .simple .s-globe-hint::before { content: 'Drag to turn · pinch to zoom'; visibility: visible; } }
+@media (prefers-reduced-motion: reduce) { .simple .s-globe-home { animation: none; } }
 
 /* card: what this is, the sites and their one-line answers, what the shimmer means */
 .simple .s-globe-card {
@@ -1972,4 +1990,50 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
   .simple.s-shell[data-intro] .s-chrome, .simple.s-shell[data-intro] .s-chrome > .s-stepper, .simple.s-shell[data-intro] .s-more > a, .simple.s-shell[data-intro] .s-banner,
   .simple.s-shell[data-intro] .s-main > .s-credits, .simple.s-shell[data-intro] .s-globe-about, .simple.s-shell[data-intro] .s-globe-card { transition: none; }
   .simple.s-shell[data-intro='play'] .s-globe-card { transform: none; }
+}
+
+/* ==========================================================================================================
+   S12 (18 Nov 2026): the clickable site scene. One card slot on the left (the site's answer, or the card of the
+   ridge / Sun / Earth flown to); the scene moves its picture so the object is never under the card.
+   ========================================================================================================== */
+.simple .s-stepper[hidden] { display: none; }
+.simple .s-cardslot { position: absolute; z-index: 10; top: var(--s-panels-top); left: var(--s-pad); width: var(--s-left-w); max-height: calc(100% - var(--s-panels-top) - var(--s-bottom) - var(--s-band) - var(--s-pad)); display: flex; }
+.simple .s-cardslot .s-objcard { width: 100%; max-height: 100%; overflow-y: auto; overscroll-behavior: contain; padding: 20px; }
+.simple .s-cardslot .s-objcard-title { font-size: 28px; }
+.simple .s-sitecard-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
+.simple .s-sitecard-close { flex: none; margin: -4px -8px 0 0; }
+.simple .s-sitecard-foot { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--c-hairline); }
+.simple .s-answerpanel { transform-origin: 0 24px; }
+@starting-style { .simple .s-answerpanel { opacity: 0; transform: translateX(-12px) scale(0.98); } }
+.simple .simple-stage .s-show-answer { position: absolute; z-index: 9; top: var(--s-panels-top); left: var(--s-pad); background: rgba(20, 20, 19, 0.82); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+/* every clickable object as a button: a quiet row under the way back (keyboard path, and the way to an object out of frame) */
+.simple .s-objlist { position: absolute; z-index: 9; top: calc(var(--s-panels-top) + var(--ctl-sm) + var(--space-2)); left: calc(var(--s-pad) * 2 + var(--s-left-w)); right: calc(var(--s-pad) * 2 + var(--s-right-w)); display: flex; align-items: center; justify-content: center; gap: var(--space-2); pointer-events: none; }
+.simple .s-objlist { flex-wrap: wrap; }
+.simple .s-objlist-note { flex: 0 0 100%; margin: 0; text-align: center; font: 400 var(--text-base) / 1.4 var(--f-sans); color: var(--c-bone); text-shadow: 0 0 6px #000, 0 0 2px #000; pointer-events: auto; }
+.simple .s-objlist-lab { font: 400 var(--text-base) / 1 var(--f-sans); color: var(--c-ash); text-shadow: 0 0 6px #000, 0 0 2px #000; white-space: nowrap; }
+.simple .s-objlist ul { margin: 0; padding: 2px; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; border: 1px solid var(--c-hairline); border-radius: var(--radius-subtle); background: rgba(20, 20, 19, 0.72); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); pointer-events: auto; }
+.simple .s-objlist .s-btn { min-height: 28px; padding: 0 10px; border-color: transparent; font-size: var(--text-base); white-space: nowrap; }
+.simple .s-objlist .s-btn[aria-pressed='true'] { color: var(--c-base); background: var(--c-amber); }
+.simple .s-scene-label { position: absolute; z-index: 13; left: 0; top: 0; pointer-events: none; will-change: transform; }
+/* while a card is open the rest of the scene's own controls step back */
+.simple.s-shell[data-focus] .simple-stage .light-tag, .simple.s-shell[data-focus] .simple-stage .exag-pick { opacity: 0.45; transition: opacity var(--dur-anim) var(--ease-enter); }
+@media (max-width: 639px) {
+  .simple .s-cardslot { position: static; width: auto; max-height: none; display: block; }
+  .simple .s-cardslot .s-objcard { padding: 0 var(--space-4); background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; overflow: visible; gap: var(--space-3); }
+  .simple .s-cardslot .s-objcard-title { font-size: 22px; }
+  .simple .s-cardslot .s-objcard-head .s-btn { min-width: 40px; min-height: 40px; }
+  .simple .s-cardslot .s-objcard-foot .s-btn { min-height: 40px; }
+  .simple .s-sitecard-close { display: none; }
+  .simple .simple-stage .s-show-answer { display: none; }
+  /* phone (Sid, 18 Nov 2026): the row wraps, so every object is on screen and none is cut off at the edge */
+  .simple .s-objlist { left: 0; right: 0; top: calc(var(--s-top-h) + var(--s-banner-h) + 56px); justify-content: flex-start; align-items: flex-start; padding: 0 var(--s-pad); pointer-events: none; }
+  .simple .s-objlist-lab { padding-top: 12px; }
+  .simple .s-objlist ul { flex: 1 1 0; min-width: 0; flex-wrap: wrap; justify-content: flex-start; }
+  .simple .s-objlist-note { flex: 0 0 100%; text-align: left; }
+  .simple .s-objlist .s-btn { min-height: 36px; }
+  @starting-style { .simple .s-answerpanel { opacity: 1; transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .simple .s-answerpanel, .simple .s-cardslot .s-objcard { transition: none; }
+  @starting-style { .simple .s-answerpanel { opacity: 1; transform: none; } }
 }

@@ -4,7 +4,7 @@
  * Nothing here holds a number. Every value shown is passed in by the caller, which reads it from a bundle or sidecar.
  * All styles live in styles.css under `.simple`.
  */
-import { useId, type CSSProperties, type ReactNode } from 'react';
+import { useId, type CSSProperties, type ReactNode, type Ref } from 'react';
 
 type IconProps = { size?: number };
 const svg = (size: number, children: ReactNode) => (
@@ -48,6 +48,8 @@ export function HonestyTag({ href }: { href?: string }) {
 }
 
 export interface CardFact {
+  /** stable name of the fact (S12: tests and the phone sheet's collapsed line find a fact by it) */
+  id?: string;
   label: string;
   /** One line under the label saying what the metric means. */
   hint?: ReactNode;
@@ -70,7 +72,14 @@ export function ObjectCard({
   onBack,
   onClose,
   children,
+  heading: H = 'h3',
+  testId,
+  backRef,
 }: {
+  /** the card's heading level: h1 when the card is the page's main panel (S12), h3 inside a page that has its own */
+  heading?: 'h1' | 'h3';
+  testId?: string;
+  backRef?: Ref<HTMLButtonElement>;
   kind: string;
   title: ReactNode;
   facts: CardFact[];
@@ -82,10 +91,10 @@ export function ObjectCard({
   children?: ReactNode;
 }) {
   return (
-    <section className="s-panel s-objcard" data-origin={origin} aria-label={`${kind}: ${typeof title === 'string' ? title : ''}`}>
+    <section className="s-panel s-objcard" data-origin={origin} data-testid={testId} aria-label={`${kind}: ${typeof title === 'string' ? title : ''}`}>
       <header className="s-objcard-head">
         <div>
-          <h3 className="s-objcard-title">{title}</h3>
+          <H className="s-objcard-title">{title}</H>
           <p className="s-objcard-kind">{kind}</p>
         </div>
         <button type="button" className="s-btn s-btn--sm s-btn--icon s-btn--quiet" aria-label="Close card" onClick={onClose}>
@@ -94,7 +103,7 @@ export function ObjectCard({
       </header>
       <dl className="s-facts">
         {facts.map((f) => (
-          <div className="s-fact" key={f.label} data-tone={f.tone}>
+          <div className="s-fact" key={f.label} data-tone={f.tone} data-fact={f.id}>
             <dt>
               {f.label}
               {f.hint && <span className="s-fact-hint">{f.hint}</span>}
@@ -109,7 +118,7 @@ export function ObjectCard({
       {note && <p className="s-objcard-note">{note}</p>}
       {children}
       <footer className="s-objcard-foot">
-        <button type="button" className="s-btn s-btn--sm" onClick={onBack}>
+        <button type="button" className="s-btn s-btn--sm" onClick={onBack} ref={backRef} data-testid={testId ? `${testId}-back` : undefined}>
           <IconBack />
           Back
         </button>

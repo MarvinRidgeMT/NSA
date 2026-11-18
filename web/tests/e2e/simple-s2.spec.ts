@@ -71,11 +71,13 @@ test('mast stepper walks the sidecar heights only, and the numbers follow', asyn
   const down = page.getByTestId('simple-mast-down');
   // go to the lowest sampled height, then step up through every one
   await page.getByTestId(`simple-mast-${masts[0]}`).click();
+  // S12 (18 Nov): one mast control on screen at a time. The answer card's heights were used above; closing the card brings
+  // the top-bar stepper, on the same state. (Before S12 both were on screen together, and each step also checked the chip.)
+  await page.getByTestId('site-card-close').click();
   await expect(current).toHaveText(`${masts[0]} m`);
   await expect(down).toHaveAttribute('aria-disabled', 'true');
   for (const [i, m] of masts.entries()) {
     await expect(current).toHaveText(`${m} m`);
-    await expect(page.getByTestId(`simple-mast-${m}`)).toHaveAttribute('aria-checked', 'true');
     await expect(page.getByTestId('simple-stat-sun')).toHaveText(range(row(m, 'sun_centre_pct')));
     await expect(page.getByTestId('simple-stat-both')).toHaveText(range(row(m, 'both_centre_pct')));
     if (i < masts.length - 1) await up.click();
@@ -85,6 +87,17 @@ test('mast stepper walks the sidecar heights only, and the numbers follow', asyn
   await expect(current).toHaveText(`${masts[masts.length - 1]} m`);
   await down.click();
   await expect(current).toHaveText(`${masts[masts.length - 2]} m`);
+  // the card, opened again, is on the height the stepper left
+  await page.getByTestId('simple-show-answer').click();
+  await expect(page.getByTestId(`simple-mast-${masts[masts.length - 2]}`)).toHaveAttribute('aria-checked', 'true');
+  // the per-height chip check the stepper loop made before S12, now on the card's own heights: every sampled height is
+  // checked when picked, and the numbers follow
+  for (const m of masts) {
+    await page.getByTestId(`simple-mast-${m}`).click();
+    await expect(page.getByTestId(`simple-mast-${m}`)).toHaveAttribute('aria-checked', 'true');
+    await expect(page.getByTestId('simple-stat-sun')).toHaveText(range(row(m, 'sun_centre_pct')));
+    await expect(page.getByTestId('simple-stat-both')).toHaveText(range(row(m, 'both_centre_pct')));
+  }
 });
 
 test('site selector switches site and keeps to that site\'s sampled heights', async ({ page }) => {
@@ -126,18 +139,20 @@ test('keyboard: logical tab order, and Esc closes the limits panel', async ({ pa
     order.push(await page.evaluate(() => (document.activeElement as HTMLElement | null)?.dataset.testid ?? document.activeElement?.className ?? ''));
   }
   const picked = `simple-mast-${await page.getByTestId('simple-mast-picker').getByRole('radio', { checked: true }).innerText().then((t) => t.replace(' m', ''))}`;
+  // S12 (18 Nov): with the answer card open the mast heights are in the card, so the top-bar stepper (simple-mast-down,
+  // simple-mast-up before S12) is not on screen; the card's close button comes before its heights.
   expect(order).toEqual([
     'skip',
     'simple-site-select',
-    'simple-mast-down',
-    'simple-mast-up',
     'simple-open-decision',
     'simple-open-evidence',
     'simple-sound',
     'mode-expert',
     'mode-expert-banner',
     'simple-banner-dismiss',
+    'site-card-close',
     picked,
+    's-tag',
     's-tag',
   ]);
   // every stop shows the 2 px amber ring

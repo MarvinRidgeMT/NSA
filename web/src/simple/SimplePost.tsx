@@ -21,15 +21,16 @@ import type { IntroLink } from './introState';
  *   1. the scene is drawn into a half-float (HDR) buffer, scene-linear, not tone mapped;
  *   2. bloom (UnrealBloomPass) with a threshold only the Sun disc exceeds (quality.ts BLOOM_THRESHOLD), so only the Sun glows.
  *      It runs on a half-size copy of the picture and its result is added in step 3;
- *   3. the glow is added, then a soft six-point starburst centred on the Sun (lens diffraction; it falls off steadily from
- *      the disc, so there is no separate ghost disc anywhere), then the renderer's own AgX tone mapping and sRGB output (the
+ *   3. the glow is added (in the opening sequence only, also a six-point starburst centred on the Sun: see below), then the
+ *      renderer's own AgX tone mapping and sRGB output (the
  *      same functions the terrain material runs when it draws straight to the screen, so the ground keeps its brightness);
  *   4. FXAA on edges (large canvases; small ones multisample the HDR buffer instead, see MSAA_MAX_PIXELS), then zero-mean
  *      film grain in display space.
  * No haze, rays, colour wash, ambient occlusion or global illumination: the Moon has no air.
  *
  * OPENING SEQUENCE ONLY (S3): while `uIntro` is above 0 the third step also draws a lens's answer to a Sun in frame: a wide
- * glare, a thin horizontal streak, a few faint ghosts on the line through the picture's centre, and colour fringing that grows
+ * glare, a thin horizontal streak, a six-point starburst (lens diffraction, gated by the bundle flag through uFlare), a few
+ * faint ghosts on the line through the picture's centre, and colour fringing that grows
  * toward the edges (chromatic aberration). They are clearly cinematic, so they exist only in the intro: the globe passes
  * uIntro = 0 from the hand-off on and the terrain view never sets it, and with uIntro = 0 the shader takes exactly the path it
  * took before S3. They never lift a pixel above INTRO.WHITE_CAP of display white (no white-out), and their strength is ramped
@@ -45,7 +46,7 @@ const SUN_ANGULAR_RADIUS = (0.2665 * Math.PI) / 180;
  * device pixels), so the glow is the same size next to the Sun on every tier and pixel ratio.
  */
 const BLOOM_MIPS = [0.03, 0.06, 0.05, 0, 0];
-/** Starburst peak, in scene-linear units next to the disc (scene white is 1). */
+/** Starburst peak, in scene-linear units next to the disc (scene white is 1). Opening sequence only (the shader multiplies by uIntro). */
 const FLARE = 0.12;
 /** Grain amplitude in display units (full range of the +/- noise; 0.03 is about +/- 4 of 255). */
 const GRAIN = 0.03;
@@ -182,13 +183,15 @@ const FinalShader = {
         float onMoon = 1.0 - smoothstep(uMoon.z * 0.985, uMoon.z * 1.03, length((vUv - uMoon.xy) * vec2(uAspect, 1.0)));
         lens = uIntro * ef * ((halo + streak) * vec3(1.0, 0.985, 0.96) * (1.0 - 0.9 * onMoon) + gh * (1.0 - onMoon));
       }
-      if (vVis > 0.0) {
-        // six thin diffraction spikes from the Sun, brightest at the disc and gone within 18 Sun radii
+      if (vVis > 0.0 && uIntro > 0.0) {
+        // OPENING SEQUENCE ONLY (Sid, 18 Nov 2026: starburst is intro-only; after the hand-off the Sun keeps only its soft
+        // bloom). Six thin diffraction spikes from the Sun, brightest at the disc and gone within 18 Sun radii. Full strength
+        // from uIntro = 0.25 up (the intro's picture is as before), fading out with the intro's own ramp below that.
         vec2 d = (vUv - uSun) * vec2(uAspect, 1.0) / uSunR;
         float r = length(d);
         float spikes = pow(abs(cos(3.0 * atan(d.y, d.x) + 0.42)), 90.0);
         float fall = exp(-r / 4.5) * (1.0 - smoothstep(10.0, 18.0, r));
-        c += vVis * uFlare * (1.0 + 4.0 * uIntro) * ef * fall * spikes * vec3(1.0, 0.98, 0.95);
+        c += vVis * uFlare * (1.0 + 4.0 * uIntro) * min(1.0, 4.0 * uIntro) * ef * fall * spikes * vec3(1.0, 0.98, 0.95);
       }
       // the renderer's own AgX and sRGB functions (the ones the terrain material runs when it draws straight to the screen),
       // called explicitly because this pass draws into a buffer, where three.js leaves tone mapping off

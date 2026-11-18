@@ -23,6 +23,8 @@ import { ExaggerationPicker } from '../components/SurfaceLayer';
 import { StableLine } from './StableLine';
 import GlobalMoon from './GlobalMoon';
 import { qualityNote, type QualityTier } from '../simple/quality';
+import { ScenePicks } from './ScenePicks';
+import { placeSightBoxes } from '../simple/sightLayout';
 import { EARTH_HEX, EARTH_HIDDEN_OPACITY, EXPOSURE, postColors, SKY, SUN_HEX, SUN_HIDDEN_OPACITY } from '../simple/postColors';
 
 /** Section R: the Simple-mode post chain (bloom on the Sun, starburst, grain). Loaded only when Simple mode asks for it. */
@@ -133,7 +135,7 @@ type SightLabel = { k: string; m: string; a: string; r: string; state: string };
 const sightText: Record<'sun' | 'earth', SightLabel | null> = { sun: null, earth: null };
 const sightAnchor: Record<string, THREE.Object3D | null> = { sun: null, earth: null };
 const sightEl: Record<string, HTMLDivElement | null> = { sun: null, earth: null };
-const flipCache = { t: -1e9, limit: Infinity, min: 0, w: { sun: 0, earth: 0 } as Record<'sun' | 'earth', number> };
+const flipCache = { t: -1e9, limit: Infinity, min: 0, floor: Infinity, w: { sun: 0, earth: 0 } as Record<'sun' | 'earth', number>, h: { sun: 0, earth: 0 } as Record<'sun' | 'earth', number> };
 
 function LabelAnchor({ id, position }: { id: 'sun' | 'earth'; position: THREE.Vector3 }) {
   const ref = useRef<THREE.Object3D>(null);
@@ -146,11 +148,24 @@ function LabelAnchor({ id, position }: { id: 'sun' | 'earth'; position: THREE.Ve
   return <object3D ref={ref} position={position} />;
 }
 
+/**
+ * Simple mode only (S12, Sid 18 Nov 2026): the Sun and Earth labels never overlap. Each is placed beside its anchor as the CSS
+ * would place it (Sun above, Earth below, flipped left near a panel); when the two boxes would still touch, the lower one moves
+ * down until a gap of SIGHT_GAP px is left, or, with no room below, the upper one moves up. Sizes are the labels' own
+ * (offsetWidth / offsetHeight: the 250 ms layout cache, and read again on the frame a label appears or its text or side
+ * changes, so a size is never stale). Display only. The rule is simple/sightLayout.ts.
+ */
+type SightBox = { el: HTMLDivElement; id: 'sun' | 'earth'; flip: boolean; sx: number; sy: number; x: number; y: number; w: number; h: number };
+/** what each label showed when it was last measured (Simple mode): a change means its cached size is stale */
+const sightSig: Record<'sun' | 'earth', string> = { sun: '', earth: '' };
+
 /** Projects the label anchors to screen space each frame and moves the DOM labels (inside the Canvas tree, no DOM output). */
-function SightLabelDriver() {
+function SightLabelDriver({ separate = false }: { separate?: boolean }) {
   const { camera, size } = useThree();
   const p = useMemo(() => new THREE.Vector3(), []);
   useFrame(() => {
+    const boxes: SightBox[] = [];
+    let remeasure = false;
     for (const id of ['sun', 'earth'] as const) {
       const el = sightEl[id];
       const a = sightAnchor[id];
@@ -158,6 +173,7 @@ function SightLabelDriver() {
       if (!el) continue;
       if (!a || !t) {
         el.style.display = 'none';
+        sightSig[id] = '';
         continue;
       }
       a.getWorldPosition(p);
@@ -181,6 +197,19 @@ function SightLabelDriver() {
         flipCache.limit = limit;
         flipCache.w.sun = sightEl.sun?.offsetWidth ?? 0;
         flipCache.w.earth = sightEl.earth?.offsetWidth ?? 0;
+        if (separate) {
+          flipCache.h.sun = sightEl.sun?.offsetHeight ?? 0;
+          flipCache.h.earth = sightEl.earth?.offsetHeight ?? 0;
+          // the top of the stage's bottom controls (in the lower half of the stage), as a floor for the labels
+          let floor = size.height;
+          const stage = el.parentElement?.parentElement;
+          if (host && stage)
+            for (const c of stage.querySelectorAll(':scope > .light-tag, :scope > .exag-pick, :scope > details.scene-note')) {
+              const r = c.getBoundingClientRect();
+              if (r.width > 0 && r.top - host.top > size.height / 2) floor = Math.min(floor, r.top - host.top);
+            }
+          flipCache.floor = floor;
+        }
         flipCache.t = now;
       }
       // flip left when the label would run under the right-hand panel, unless that would put it under the left-hand one
@@ -198,7 +227,33 @@ function SightLabelDriver() {
         r.style.display = t.r ? '' : 'none';
       }
       el.className = `sight-tag ${id} ${t.state}${flip ? ' flip' : ''}`;
+      if (separate && on) {
+        // a label that has just appeared, or whose text or side changed, has no valid cached size: measure it below
+        const sig = `${el.className}|${t.k}|${t.m}|${t.a}|${t.r}`;
+        if (sightSig[id] !== sig) {
+          sightSig[id] = sig;
+          remeasure = true;
+        }
+        boxes.push({ el, id, flip, sx, sy: ((1 - p.y) / 2) * size.height, x: 0, y: 0, w: 0, h: 0 });
+      } else if (separate) sightSig[id] = '';
     }
+    if (!separate) return;
+    // (one layout read, only on the frame a label appears or changes; otherwise the 250 ms cache)
+    // (a size of 0 is one the cache read while the label was hidden)
+    if (remeasure || boxes.some((x) => !flipCache.w[x.id] || !flipCache.h[x.id]))
+      for (const b of boxes) {
+        flipCache.w[b.id] = b.el.offsetWidth;
+        flipCache.h[b.id] = b.el.offsetHeight;
+      }
+    for (const b of boxes) {
+      b.w = flipCache.w[b.id];
+      b.h = flipCache.h[b.id];
+      // the CSS placement (.sight-tag.sun / .earth / .flip), as offsets from the anchor
+      b.x = b.sx + (b.flip ? -b.w - 8 : 10);
+      b.y = b.sy + (b.id === 'sun' ? -1.05 * b.h : 0.06 * b.h);
+    }
+    placeSightBoxes(boxes, Math.min(flipCache.floor, size.height));
+    for (const b of boxes) b.el.style.transform = `translate(${Math.round(b.x - b.sx)}px, ${Math.round(b.y - b.sy)}px)`;
   });
   return null;
 }
@@ -488,7 +543,7 @@ interface SurfaceExtras {
   albedo: { texture: THREE.Texture; layer: VisualLayer } | null;
 }
 
-function Scene({ v, ctx, albedo, post }: { v: View; post?: QualityTier } & SurfaceExtras) {
+function Scene({ v, ctx, albedo, post, pick }: { v: View; post?: QualityTier; pick?: boolean } & SurfaceExtras) {
   // Simple mode, high or medium tier: camera effects on (simple/SimplePost.tsx). Undefined in Expert mode: nothing below changes.
   const fx = post === 'high' || post === 'medium' ? post : null;
   const pc = fx ? postColors() : null;
@@ -663,7 +718,8 @@ function Scene({ v, ctx, albedo, post }: { v: View; post?: QualityTier } & Surfa
       {mastPick !== null && mastPick !== obs.mast && camView !== 'mast' && <GhostMast key={mastPick} from={obs.mast} to={mastPick} />}
       <RidgeOnTerrain v={v} obs={obs} dem={dem} />
       <HeadingProbe toward={toward} />
-      <SightLabelDriver />
+      {/* Simple mode keeps the Sun and Earth labels apart (S12); Expert passes no `pick` and keeps its CSS placement */}
+      <SightLabelDriver separate={pick} />
       {camView !== 'mast' && (
         <>
           <Ray v={v} obs={obs} target="sun" edge={edge} ridgeNow={ridgeNowSun} />
@@ -688,6 +744,10 @@ function Scene({ v, ctx, albedo, post }: { v: View; post?: QualityTier } & Surfa
         ) : null,
       )}
       </group>
+      {/* S12, Simple mode only: the clickable objects (hit shapes, hover outlines, fly-to). Expert never passes `pick`. */}
+      {pick && (
+        <ScenePicks v={v} obs={obs} k={k} skyDist={skyDist} sunDisc={sunDisc} earthDisc={earthDisc} toward={toward} viewAz={openCrossLightAz(v)} demZ={(gx, gy) => demHeight(dem, gx, gy)} />
+      )}
       <Html position={north} center>
         <span className="tag3d">local N</span>
       </Html>
@@ -704,13 +764,13 @@ function Scene({ v, ctx, albedo, post }: { v: View; post?: QualityTier } & Surfa
   );
 }
 
-/** `post` is passed by Simple mode only (its quality tier); Expert mode leaves it undefined and draws exactly as before. */
-export default function Scene3D({ v, active = true, post }: { v: View; active?: boolean; post?: QualityTier }) {
+/** `post` and `pick` are passed by Simple mode only (its quality tier; the S12 clickable objects); Expert mode leaves them undefined and draws exactly as before. */
+export default function Scene3D({ v, active = true, post, pick }: { v: View; active?: boolean; post?: QualityTier; pick?: boolean }) {
   if (!v.dataset.dem) return <HorizonDome v={v} active={active} />;
-  return <DemScene v={v} active={active} post={post} />;
+  return <DemScene v={v} active={active} post={post} pick={pick} />;
 }
 
-function DemScene({ v, active, post }: { v: View; active: boolean; post?: QualityTier }) {
+function DemScene({ v, active, post, pick: picks }: { v: View; active: boolean; post?: QualityTier; pick?: boolean }) {
   const fx = post === 'high' || post === 'medium';
   const wrap = useRef<HTMLDivElement>(null);
   useWheelGuard(wrap);
@@ -785,7 +845,7 @@ function DemScene({ v, active, post }: { v: View; active: boolean; post?: Qualit
         gl={{ antialias: !fx, logarithmicDepthBuffer: true, toneMapping: THREE.AgXToneMapping, toneMappingExposure: EXPOSURE }}
         frameloop={active && !globe ? 'always' : 'never'}
       >
-        <Scene v={v} ctx={ctx} albedo={albedo} post={post} />
+        <Scene v={v} ctx={ctx} albedo={albedo} post={post} pick={picks} />
       </Canvas>
       {/* display-only vertical exaggeration, overlaid on the stage (out of the layout flow) */}
       {ctx && !globe && <ExaggerationPicker />}
@@ -813,6 +873,11 @@ function DemScene({ v, active, post }: { v: View; active: boolean; post?: Qualit
           : ''}
         {post && (
           <span data-testid="quality-note">{` ${qualityNote(post)}`}</span>
+        )}
+        {picks && (
+          <span data-testid="picks-note">
+            {' '}The thin rings, the bracket on the skyline and the pale dots that answer the pointer are interface marks, not light: the mast, the Sun, the Earth and the ridges the bundle holds responsible for lost hours can be opened. A ridge beyond this terrain is marked by its bearing only. The camera moves are display only.
+          </span>
         )}
       </details>
     </div>

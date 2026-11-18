@@ -22,7 +22,7 @@ test('software rendering gets the low tier: post off, and About this view says s
   await page.locator('.simple-stage details.scene-note summary').click();
   const note = page.getByTestId('quality-note');
   await expect(note).toContainText('Quality: low');
-  await expect(note).toContainText('Sun glow and flare: camera effect, display only');
+  await expect(note).toContainText('Sun glow: camera effect, display only; lens flare and starburst are in the opening sequence only');
 });
 
 test('?quality=high mounts the post chain, draws the scene and raises no error', async ({ page }) => {
@@ -36,7 +36,7 @@ test('?quality=high mounts the post chain, draws the scene and raises no error',
   await expect.poll(() => hasPost(page), { timeout: 20_000 }).toBe(true);
   await page.locator('.simple-stage details.scene-note summary').click();
   await expect(page.getByTestId('quality-note')).toContainText('Quality: high');
-  await expect(page.getByTestId('quality-note')).toContainText('Sun glow and flare: camera effect, display only');
+  await expect(page.getByTestId('quality-note')).toContainText('Sun glow: camera effect, display only; lens flare and starburst are in the opening sequence only');
   // the canvas is not blank: a picture of terrain under a black sky does not compress to a few hundred bytes
   await page.waitForTimeout(1500);
   const png = await page.locator('[data-testid=scene3d] canvas').screenshot();

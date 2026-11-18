@@ -228,3 +228,45 @@ Rejected, with the reason:
 Where the cinematic effects stop: the wide glare, the streak, the ghost ring and the colour fringing exist only while the
 Sun is in frame during the sequence (`uIntro` in `simple/SimplePost.tsx`). They are at zero before the interface comes
 in, and the globe and terrain views never set them.
+
+## S12 re-check: Planpoint's hover, click and card (18 Nov 2026)
+
+Opened again with the Playwright MCP at 1440 × 900, this time measuring the interaction instead of looking at it:
+computed styles, element boxes, canvas frames compared before and after each action. Captures in `tmp/s12/refs/`
+(git-ignored, as before). Craft only; nothing copied.
+
+| What | Planpoint does (measured unless marked seen) | S12 does |
+| --- | --- | --- |
+| Hover on an object | The unit loses its tint (seen); no outline. Cursor becomes a pointer, set on `body`. | A thin bone ring (mast, Sun, Earth), brighter dots (near ridge) or a brighter bracket (far ridge), eased over about 130 ms. Pointer cursor on the canvas. No tint: on our terrain a colour wash would read as data. |
+| Hover label | Two lines ("UNIT 4NE" / "Tap to see details"), 10 px right and below the pointer, tracks 1:1, appears and goes with no fade. | One line (name, then what a click does), 14 px right and 18 px below, moved by `transform` on every pointer move with no easing, 125 ms opacity fade. Flips at the window edge. |
+| Click | No camera move at all: frames from 2 ms to 5.4 s after the click are identical apart from the tint. A card slides in. | The camera eases to a framing for that object over 1.2 s (a cut under reduced motion), as Sid's decision asks. This is where we go further than the reference. |
+| Card | 450 × 608 px, fixed 20 px from the right edge, slides in 30 px over 0.3 s ease-out, leaves at once. Title, status badge, facts, one primary button, two secondary, a gallery. | One slot on the left, 380 px, the S1 object card: title, what it is, facts with one-line meanings, a note, Back, the honesty tag. Enters from the left over 0.3 s on the S1 ease-out; leaves at once. No gallery, no primary button: the card only reads the bundle. |
+| Object and card | The building stays visible left of the card (seen). | The picture's centre is moved to the middle of the space the card and the panels leave, so the object flown to is never under its card. Tested at 1440 × 900 and 390 × 844. |
+| Rest of the interface | The filter panel goes; Home and audio re-centre (seen). | The scene's own controls (vertical scale, light tag) dim to 45 %; the "Look at" row marks the open object. |
+| Way back | Only the close button. Esc and a click on empty sky do nothing. Closing leaves the camera where it is. | Back, the close button and Esc all return the camera to the framing the visitor had, to the last bit. |
+| Drag versus click | A 150 px drag orbits and never opens a card; a 6 px drag still counts as a click. | A press that travels more than 4 px in the site scene (4 px mouse, 8 px touch on the globe) is a drag and opens nothing. On the globe a drag may end over a pin, or begin on one, without flying. |
+| Keyboard and screen readers | None: the canvas has no tabindex or ARIA, six Tab presses never reached the card, the close button has no name. | Every clickable object is a named button in the "Look at" row; Tab moves along it, Enter flies, focus moves into the card and back to the button on return; a status line reads the card's values. The globe takes arrow keys, + and −, Home. |
+
+What S12 adapts from it: the label that says what a click will do before it is made; the card as a real panel docked to
+one side with the object left in view; the rest of the interface stepping back while a card is open; the pointer label
+moving with the pointer with no lag.
+
+What S12 rejects, with the reason:
+
+- Tinting the object under the pointer (and the green / yellow / orange availability wash): colour on terrain reads as
+  data here. Outlines only.
+- A card that can only be closed with its own button: Esc and Back must work, and the camera must come back.
+- No keyboard path: the plan requires one for every object.
+- An instant label: ours fades in 125 ms so it does not flicker as the pointer crosses the mast, which is a few pixels wide.
+
+One thing learned for our own build: the Sun, the Earth and the far ridges are often outside the picture at the Approach
+framing, so a pointer cannot reach them there. The "Look at" row is therefore visible, not hidden for keyboards only; it
+is the pointer's way to an object that is out of frame as well as the keyboard path.
+
+The globe's hand controls (drag, wheel or pinch, glide, "Back to south pole") have no counterpart in Planpoint, whose
+orbit is the stock three.js control. Ours follow the two-phase rule from the gestures skill: while the pointer is down the
+surface under it moves with it one for one (no easing); on release a short glide carries the release speed and dies away
+(time constant 320 ms), and there is none under reduced motion or when the pointer had stopped before letting go.
+
+Starburst, 18 Nov 2026 (Sid): the six-point starburst joins the intro-only effects above. It draws only while `uIntro` is
+above 0 (`simple/SimplePost.tsx`), so after the hand-off the globe and the site scene keep only the Sun's soft bloom.

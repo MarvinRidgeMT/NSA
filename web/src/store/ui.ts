@@ -20,6 +20,8 @@ interface UiState {
   guide: number | null;
   focus: boolean;
   exaggeration: number;
+  /** Simple mode only (S12): an attribution that names no scenario is read as the baseline's, never as the series on screen. Off in Expert, which keeps its submitted rule. */
+  attributionStrict: boolean;
   set: (p: Partial<Omit<UiState, 'set'>>) => void;
 }
-export const useUi = create<UiState>((set) => ({ mastPick: null, trueLight: false, returnTo: null, run: null, guide: null, focus: false, exaggeration: 1, set: (p) => set(p) }));
+export const useUi = create<UiState>((set) => ({ mastPick: null, trueLight: false, returnTo: null, run: null, guide: null, focus: false, exaggeration: 1, attributionStrict: false, set: (p) => set(p) }));
