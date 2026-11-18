@@ -79,7 +79,26 @@ def square_and_gsd(G, R, M, P0, Psc):
     return in_sq & np.isfinite(gsd), gsd
 
 
-def score_row(G, beauties, real, special, sat):
+def saturation_metrics(G, real, special, sat, rend, pred, in_sq, gsd, pos, offset=None):
+    """A10.4 secondary analysis (never the claim): the saturation mask as the observed lit class. Agreement and symmetric
+    edge errors between the predicted shadow and the non-saturated window pixels, on the same window and registration as
+    the §4 metrics. Keys are prefixed 'sat'."""
+    if offset is not None:
+        dy, dx = offset
+        rend, pred, in_sq = S.shift(rend, dy, dx), S.shift(pred, dy, dx), S.shift(in_sq, dy, dx)
+        gsd, pos = S.shift(gsd, dy, dx, order=0), S.shift(pos, dy, dx, order=0)
+    window = S.analysis_window(in_sq, special) & np.isfinite(real) & np.isfinite(rend)
+    if window.sum() < 500:
+        return {}
+    obs = window & ~sat
+    ag = S.agreement(pred & window, obs, window)
+    ed = S.edge_errors(pred & window, obs, window, gsd, pos=pos, sun_h=np.asarray(G['sunEnu']))
+    out = {'satIouShadow': ag['iouShadow'], 'satIouLit': ag['iouLit'], 'satKappa': ag['kappa'], 'satFrac': 1 - ag['obsShadowFrac']}
+    out.update({'sat' + k[0].upper() + k[1:]: v for k, v in ed.items()})
+    return out
+
+
+def score_row(G, beauties, real, special, sat, rule=None):
     M, P0, Psc = row_context(G)
     E = TSI / (G['sunDistM'] / AU) ** 2
     recs = []
@@ -90,8 +109,11 @@ def score_row(G, beauties, real, special, sat):
         pos = Rp['pos'].astype(np.float64)
         base = {'product_id': G['product_id'], 'site': G['site'], 'product': prod, 'photometry': phot, 'orbit': 'kplo',
                 'instrument': 'ShadowCam', 'track': G['track'], 'start_convention': G['start_convention'], 'flip': G['flip'],
-                'tdi': G['tdi'], 'saturationRule': SATURATION_RULE}
+                'tdi': G['tdi'], 'saturationRule': rule or SATURATION_RULE}
         u = metrics(G, real, special, sat, rend, pred, in_sq, gsd, pos)
+        lit_rule = (rule or SATURATION_RULE) == 'lit'
+        if lit_rule and u['status'] == 'scored':
+            u = {**u, **saturation_metrics(G, real, special, sat, rend, pred, in_sq, gsd, pos)}
         recs.append({**base, 'registered': False, **u})
         if u['status'] != 'scored':
             recs.append({**base, 'registered': True, **u})
@@ -104,8 +126,13 @@ def score_row(G, beauties, real, special, sat):
         mn = rend / (mm if mm > 0 else med_r)
         mn = np.where(np.isfinite(mn), mn, 0.0)
         gm = float(np.median(gsd[window]))
-        reg = S.register(rn, mn, window, max(3.0, REG_RADIUS_M / gm))
+        # A10: register on the valid non-saturated window pixels. Saturated blocks have no radiance and so no gradient of
+        # their own; inside them the render keeps its sunlit texture while the real image is a flat fill. Under the A8.5
+        # rule `sat` is empty, so nsm == window and the A8.5 registration is unchanged.
+        reg = S.register(rn, mn, nsm, max(3.0, REG_RADIUS_M / gm))
         r = metrics(G, real, special, sat, rend, pred, in_sq, gsd, pos, offset=(reg['dy'], reg['dx']))
+        if lit_rule and r['status'] == 'scored':
+            r = {**r, **saturation_metrics(G, real, special, sat, rend, pred, in_sq, gsd, pos, offset=(reg['dy'], reg['dx']))}
         g_al, g_x = ground_offset(pos, reg['dy'], reg['dx'], np.asarray(G['sunEnu']))
         off_m = math.hypot(g_al, g_x) if math.isfinite(g_al) else math.hypot(reg['dy'], reg['dx']) * gm
         recs.append({**base, 'registered': True, **r, 'regDyPx': reg['dy'], 'regDxPx': reg['dx'], 'regNcc': reg['ncc'],
@@ -134,7 +161,7 @@ def load_real(G, rule=None):
     raise ValueError(f'unknown saturation rule {rule!r}')
 
 
-def score_and_save(gpath, G, scores):
+def score_and_save(gpath, G, scores, keep_renders=False):
     out = SHC_RENDER_DIR / gpath.stem
     real, special, sat = load_real(G)
     beauties = []
@@ -147,11 +174,18 @@ def score_and_save(gpath, G, scores):
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')
         recs = score_row(G, beauties, real, special, sat)
-    with open(scores, 'a') as f:
-        for r in recs:
-            f.write(json.dumps(r, default=float) + '\n')
+        # A10.3: the same renders are also scored under the A8.5 rule (saturated blocks dropped), as a sensitivity record
+        alt = []
+        if SATURATION_RULE == 'lit':
+            r2, sp2, st2 = load_real(G, 'dropped')
+            alt = score_row(G, beauties, r2, sp2, st2, rule='dropped')
+    for path, rs in ((scores, recs), (scores.with_name(scores.stem + '_dropped.jsonl'), alt)):
+        if rs:
+            with open(path, 'a') as f:
+                for r in rs:
+                    f.write(json.dumps(r, default=float) + '\n')
     np.savez_compressed(out / 'real_binned.npz', iof=real.astype(np.float16), special=special)
-    for p in PRODUCTS:
+    for p in (() if keep_renders else PRODUCTS):
         reduce_npz(out / f'{p}.npz')
     return recs
 
@@ -164,6 +198,7 @@ def main(argv=None, required=()):
     ap.add_argument('--geometry', default='geometry.csv')
     ap.add_argument('--scores', default='scores.jsonl')
     ap.add_argument('--render-only', action='store_true')
+    ap.add_argument('--keep-renders', action='store_true', help='dev diagnosis only: keep the full render arrays')
     a = ap.parse_args(argv)
     check_frozen()
     rows = read_catalogue()
@@ -193,7 +228,7 @@ def main(argv=None, required=()):
                 if a.render_only:
                     print(f'{gp.stem}: rendered', flush=True)
                     continue
-                recs = score_and_save(gp, G, scores)
+                recs = score_and_save(gp, G, scores, keep_renders=a.keep_renders)
                 hp = next((r for r in recs if r['product'] == 'pgda78_5m' and r['photometry'] == 'hapke' and r['registered']), {})
                 print(f"{gp.stem}: {G['track']} IoU {hp.get('iouShadow')} SSIM {hp.get('ssim')} off ({hp.get('regDyPx')}, "
                       f"{hp.get('regDxPx')}) ncc {hp.get('regNcc')}", flush=True)

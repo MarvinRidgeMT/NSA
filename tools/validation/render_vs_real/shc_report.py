@@ -66,7 +66,8 @@ def thumb(key, rec):
     from scipy import ndimage
     d = WAC_RENDER_DIR / f'{key[0]}__{key[1]}'
     real = np.load(d / 'real_binned.npz')['iof'].astype(float)
-    rz = np.load(d / 'pgda78_5m.reduced.npz')
+    rp = d / 'pgda78_5m.reduced.npz'
+    rz = np.load(rp if rp.exists() else d / 'pgda78_5m.npz')    # dev --keep-renders keeps the full file
     ren = rz['beauty'].astype(float)
     dy, dx = rec.get('regDyPx', 0.0) or 0.0, rec.get('regDxPx', 0.0) or 0.0
     lit = ndimage.shift(rz['lit'].astype(float), (dy, dx), order=0) >= 0.5
@@ -183,14 +184,74 @@ def main(argv=None):
             w(f"| {s} | {c['n']} | {fmt(c['medianIouShadow'])} | {fmt(c['medianEdgeM'], 1)} ({c['nEdge']}) | {fmt(c['edgeLimitM'], 1)} | "
               f"{beat(c['fracBeatsControlIou'], c['nPairs'])} / {beat(c['fracBeatsControlEdge'], c['nPairs'])} | {verdict} |")
         w('')
+    sat_sum = {}
+    if any('satIouLit' in r for r in rr):
+        w('### Secondary analysis A10.4: the saturation mask as the observed lit class (never the claim)\n')
+        w('Directly sunlit ground saturates ShadowCam, so "saturated" is a threshold-free observed lit mask. Same window and '
+          'registration as above; PGDA 78, Hapke, registered, primary track. Edge = median symmetric distance between the '
+          'predicted shadow boundary and the saturation boundary; the limit is the §8 one (2 × the median analysis pixel). '
+          'Control = the flat sphere on the same rows.\n')
+        w('| site | n | sat. fraction median | IoU(sat, pred. lit) median | IoU(non-sat, pred. shadow) median | edge median m (n) | '
+          'edge px median | limit m | PGDA 78 beats control: lit IoU / edge |')
+        w('|---|---|---|---|---|---|---|---|---|')
+        F = {(r['product_id'], r['site']): r for r in hl(scores_all, 'flat')}
+
+        def e_(r):
+            x = r.get('satEdgeMedianM')
+            return x if isinstance(x, float) and math.isfinite(x) else math.inf
+        for s_ in SITES + ['all']:
+            x = rr if s_ == 'all' else [r for r in rr if r['site'] == s_]
+            if not x:
+                continue
+            pr = [(r, F[(r['product_id'], r['site'])]) for r in x if (r['product_id'], r['site']) in F]
+            bl = sum(r.get('satIouLit', 0) > f.get('satIouLit', 0) for r, f in pr)
+            be = sum(e_(r) < e_(f) for r, f in pr)
+            ed = [r.get('satEdgeMedianM') for r in x]
+            lim = 2 * q([r['gsdMedianM'] for r in x], 50)
+            sat_sum[s_] = {'n': len(x), 'lit': q([r.get('satIouLit') for r in x], 50), 'edge': q(ed, 50), 'limit': lim,
+                           'beatLit': bl / len(pr) if pr else float('nan'), 'beatEdge': be / len(pr) if pr else float('nan')}
+            w(f"| {s_} | {len(x)} | {fmt(q([r.get('satFrac') for r in x], 50), 2)} | {fmt(q([r.get('satIouLit') for r in x], 50))} | "
+              f"{fmt(q([r.get('satIouShadow') for r in x], 50))} | {fmt(q(ed, 50), 1)} "
+              f"({sum(1 for v in ed if isinstance(v, float) and math.isfinite(v))}) | {fmt(q([r.get('satEdgeMedianPx') for r in x], 50), 2)} | "
+              f"{fmt(lim, 1)} | {beat(bl / len(pr) if pr else float('nan'), len(pr))} / {beat(be / len(pr) if pr else float('nan'), len(pr))} |")
+        w('')
+    alt_name = Path(a.scores).stem + '_dropped.jsonl'
+    if (WAC_RESULTS / alt_name).exists():
+        alt = _primary(_load(WAC_RESULTS, alt_name)[0])
+        w('### Sensitivity: the same renders under the A8.5 rule (saturated blocks dropped from the window)\n')
+        w('Not the claim. Shown so that the effect of the A10 saturation rule can be read on the same rows.\n')
+        w('| site | n | median IoU | median edge m | limit m | beats control: IoU / edge | result |')
+        w('|---|---|---|---|---|---|---|')
+        cra = H.claim_rule(alt, native, sites=SITES, product='pgda78_5m')
+        for s_ in SITES:
+            c = cra[s_]
+            if not c['n']:
+                continue
+            w(f"| {s_} | {c['n']} | {fmt(c['medianIouShadow'])} | {fmt(c['medianEdgeM'], 1)} | {fmt(c['edgeLimitM'], 1)} | "
+              f"{beat(c['fracBeatsControlIou'], c['nPairs'])} / {beat(c['fracBeatsControlEdge'], c['nPairs'])} | "
+              f"{'met' if c['claim'] else 'not met: ' + ', '.join(c['failed'])} |")
+        w('')
     if WAC_SPLIT != 'dev':
         crs = {p: H.claim_rule(scores_all, native, sites=SITES, product=p) for p in ('pgda78_5m', 'lola_ldem875s_5m', 'pgda90_80m')}
         fail12 = all(not c['conditions']['iou'] and not c['conditions']['edge'] for cr in crs.values() for c in cr.values() if c['n'])
         cm = q([r.get('cmIouShadow') for r in rr], 50)
-        w('**Check of the A7.4 prediction (written before the run):** (a) the claim fails conditions 1 and 2 at every site for '
-          f"every product — **{'confirmed' if fail12 else 'NOT confirmed'}**; (b) count-matched shadow IoU median ≥ 0.9 — "
-          f"**{'confirmed' if cm >= 0.9 else 'NOT confirmed'}** ({fmt(cm)}). The claim is therefore not met for LROC WAC at any "
-          'site under the registered rule; the count-matched mask is a sensitivity result and is not a claim.\n')
+        ss = {k: v for k, v in sat_sum.items() if k != 'all'}
+        c_lit = bool(ss) and all(v['lit'] >= 0.85 for v in ss.values())
+        c_edge = bool(ss) and all(math.isfinite(v['edge']) and v['edge'] <= v['limit'] for v in ss.values())
+        c_beat = bool(ss) and all(v['beatLit'] >= 0.8 and v['beatEdge'] >= 0.8 for v in ss.values())
+
+        def ok(b):
+            return '**confirmed**' if b else '**NOT confirmed**'
+        w('**Check of the A10.4 prediction (written before the run):**')
+        w(f"- (a) the §8 claim fails conditions 1 and 2 at every site for every terrain product — {ok(fail12)}.")
+        w(f"- (b) count-matched shadow IoU median ≥ 0.90 (PGDA 78, all primary rows) — {ok(cm >= 0.9)} ({fmt(cm)}).")
+        lits = ', '.join(f"{k} {fmt(v['lit'])}" for k, v in ss.items())
+        edges = ', '.join(f"{k} {fmt(v['edge'], 1)}/{fmt(v['limit'], 1)} m" for k, v in ss.items())
+        w(f"- (c1) secondary analysis: IoU(saturated, predicted lit) median ≥ 0.85 at every site — {ok(c_lit)} ({lits}).")
+        w(f"- (c2) secondary analysis: saturation-edge median ≤ the §8 limit (2 × median pixel) at every site — {ok(c_edge)} "
+          f"({edges}).")
+        w(f"- (c3) secondary analysis: PGDA 78 beats the flat control on ≥ 80 % of rows for lit IoU and edge at every site — {ok(c_beat)}.")
+        w('\nThe claim is the §8 rule above; (b) and (c) are sensitivity and secondary results and are not claims.\n')
     # 3 distributions
     w('## 3. Score distributions — PGDA 78 5 m, Hapke, registered (headline)\n')
     w(table_dist(rr))
@@ -219,7 +280,7 @@ def main(argv=None):
     nd = hl(nac_dev)
     wd = hl(_load(HERE / 'results_wac')[0])
     cols = [('NAC dev', nd), ('WAC dev', wd)] + \
-        ([('ShadowCam dev', hl(_load(HERE / 'results_shc')[0]))] if WAC_SPLIT != 'dev' else []) + \
+        ([('ShadowCam dev (A10 rule)', hl(_load(HERE / 'results_shc', 'scores_a10.jsonl')[0]))] if WAC_SPLIT != 'dev' else []) + \
         [('ShadowCam ' + ('dev' if WAC_SPLIT == 'dev' else 'held-out'), rr)]
     w('| metric | ' + ' | '.join(f'{c} n | {c} median' for c, _ in cols) + ' |')
     w('|---|' + '---|---|' * len(cols))

@@ -132,3 +132,33 @@ class Saturation(unittest.TestCase):
     def test_dropped_rule_still_available_for_the_registered_a85_pilot(self):
         from tools.validation.render_vs_real import shc_run
         self.assertIn('dropped', shc_run.load_real.__code__.co_consts)
+
+
+class SaturationRegistrationAndMask(unittest.TestCase):
+    """A10: registration uses the non-saturated window pixels; the saturation mask is scored as a secondary observed lit
+    class. Dev regression: registering over the whole window (saturated fill included) dropped the NCC median 0.61 -> 0.10
+    and put 13 of 120 rows at the search bound."""
+
+    def test_registration_mask_excludes_saturated_pixels(self):
+        import inspect
+        from tools.validation.render_vs_real import shc_run
+        src = inspect.getsource(shc_run.score_row)
+        self.assertIn('S.register(rn, mn, nsm,', src)
+        self.assertIn('nsm = window & ~sat', src)
+
+    def test_saturation_metrics_on_a_known_boundary(self):
+        from tools.validation.render_vs_real.shc_run import saturation_metrics
+        H, W = 80, 100
+        sat = np.zeros((H, W), bool)
+        sat[:, 60:] = True                                      # lit (saturated) right of column 60
+        pred = np.ones((H, W), bool)
+        pred[:, 62:] = False                                    # render: lit right of column 62 (2 px late)
+        real = np.where(sat, 5.0, 1.0)
+        yy, xx = np.mgrid[0:H, 0:W].astype(float)
+        pos = np.stack([xx * 5.0, -yy * 5.0, np.zeros_like(xx)], -1)   # 5 m pixels, flat ground
+        G = {'sunEnu': [1.0, 0.0, 0.1]}
+        m = saturation_metrics(G, real, np.zeros_like(sat), sat, np.ones((H, W)), pred, np.ones((H, W), bool),
+                               np.full((H, W), 5.0), pos)
+        self.assertAlmostEqual(m['satIouLit'], 38 / 40, delta=0.03)     # border pixels trimmed by the window
+        self.assertAlmostEqual(m['satEdgeMedianM'], 10.0, delta=0.1)
+        self.assertAlmostEqual(m['satEdgeMedianPx'], 2.0, delta=0.01)
