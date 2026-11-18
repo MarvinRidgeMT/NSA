@@ -19,6 +19,7 @@ import sys
 from pathlib import Path
 
 import bpy
+import numpy as np
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -322,26 +323,42 @@ def everything_scene():
     globes = [('13', 'Moon', lambda o: o.type == 'MESH' and o.name.startswith('MOON | HD')),
               ('12', 'Mercury', lambda o: o.type == 'MESH' and o.name.startswith('MERCURY | HD')),
               ('11', 'Mars', lambda o: o.type == 'MESH' and o.name.startswith('MARS | HD')),
-              ('14', 'Earth', lambda o: o.type == 'MESH' and o.name.startswith('EARTH | HD'))]
-    kk = TILE / 13000.0                                              # Earth's diameter ~12 742 km fills one tile
+              ('19', 'Venus', lambda o: o.type == 'MESH' and o.name.startswith('VENUS | cloud deck')),
+              ('14', 'Earth', lambda o: o.type == 'MESH' and o.name.startswith('EARTH | HD')),
+              ('23', 'Neptune', lambda o: o.type == 'MESH' and o.name.startswith('NEPTUNE |')),
+              ('22', 'Uranus', lambda o: o.type == 'MESH' and o.name.startswith('URANUS |')),
+              ('21', 'Saturn', lambda o: o.type == 'MESH' and o.name.startswith('SATURN |')),
+              ('20', 'Jupiter', lambda o: o.type == 'MESH' and o.name.startswith('JUPITER |'))]
+    kk = TILE / 145_000.0                                            # Jupiter's diameter ~143 000 km fills one tile
     gx = x
-    for pref, nm, keep in globes:
+    prev_r = 0.0
+    for i, (pref, nm, keep) in enumerate(globes):
         src, objs = pick(pref, keep)
         if not objs:
             continue
         col = bpy.data.collections.new(f'ALL_same_scale_{nm}')
         for o in objs:
             col.objects.link(o)
+        def _radius(o):                       # from the mesh vertices and object scale (bounding boxes may be unevaluated)
+            n = len(o.data.vertices)
+            co = np.empty(n * 3, np.float32)
+            o.data.vertices.foreach_get('co', co)
+            co = co.reshape(-1, 3) * np.asarray(o.scale)
+            return float(np.max(np.hypot(co[:, 0], co[:, 1])))
+        r = kk * max(_radius(o) for o in objs)                                     # board units, rings included
+        cx = gx + prev_r + r + 3.0                                                   # centres spaced by the true radii
         em = bpy.data.objects.new(f'BOARD_same_scale_{nm}', None)
         em.instance_type = 'COLLECTION'
         em.instance_collection = col
         em.scale = (kk, kk, kk)
-        em.location = (gx + TILE / 2, -TILE / 2, 0.0)
+        em.location = (cx, -TILE / 2, 0.0)
         cb.objects.link(em)
-        text(ct, nm, (gx + TILE / 2 - 6, -TILE - 6, 0), 4.0, white, f'TXT_same_scale_{nm}')
-        gx += TILE * 1.05
+        ly = -TILE / 2 - max(r, 4.0) - 6.0 - (6.0 if (i % 2 and r < 10) else 0.0)  # stagger the small ones
+        text(ct, nm, (cx - 1.2 * len(nm), ly, 0), 3.0, white, f'TXT_same_scale_{nm}')
+        gx, prev_r = cx, r
+    gx += prev_r + 6.0
     if gx > x:
-        text(ct, 'Moon, Mercury, Mars, Earth at one common scale (true relative sizes; north up, seen from above the north pole)',
+        text(ct, 'Moon and all eight planets at one common scale (true relative sizes; north up, seen from above the north pole)',
              (x, 14.0, 0), 3.2, white, 'TXT_board_same_scale')
         heights.append(TILE + 10)
         x = gx + TILE * 0.1
@@ -399,7 +416,12 @@ def main():
             (hd / 'sun.blend', '15 Sun — true radius 695 700 km', 'emission, linear limb darkening u = 0.6 (MODEL)'),
             (hd / 'system.blend', '16 Earth–Moon–Sun — true scale and positions (J2000)', 'de421 positions, SPICE body rotations'),
             (d / 'site04_roi3_large.blend', '17 Site04 RoI3 — terrain to ±100 km (5 m / 20 m / 80 m)', 'build_scene.py --mid-half 100000'),
-            (d / 'site01_roi6_large.blend', '18 Site01 RoI6 — terrain to ±100 km (5 m / 20 m / 80 m)', 'build_scene.py --mid-half 100000')):
+            (d / 'site01_roi6_large.blend', '18 Site01 RoI6 — terrain to ±100 km (5 m / 20 m / 80 m)', 'build_scene.py --mid-half 100000'),
+            (hd / 'venus' / 'venus_hd.blend', '19 Venus — Magellan terrain under the cloud deck, true scale', 'USGS Magellan topography 4.6 km/px; hide the deck to see the surface'),
+            (hd / 'jupiter' / 'jupiter.blend', '20 Jupiter — true oblate shape, Hubble OPAL 2025 map', 'equatorial 71 492 km, polar 66 854 km'),
+            (hd / 'saturn' / 'saturn.blend', '21 Saturn — true oblate shape, rings, Hubble OPAL 2025 map', 'rings from fact-sheet radii + optical depths (MODEL)'),
+            (hd / 'uranus' / 'uranus.blend', '22 Uranus — true shape, Hubble OPAL 2024 map', 'Sun near the north pole (2028 solstice approaching)'),
+            (hd / 'neptune' / 'neptune.blend', '23 Neptune — true shape, Hubble OPAL 2025 map', 'pale greenish-blue as calibrated (Irwin et al. 2024)')):
         if p.exists():
             for sc_ in append_scenes(p, title):
                 if title.startswith(('17', '18')):

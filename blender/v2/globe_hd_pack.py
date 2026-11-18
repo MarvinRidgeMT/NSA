@@ -40,9 +40,13 @@ PROD = DATA / 'products'
 SPICE = DATA / 'render_vs_real' / 'spice'
 PYLIB = DATA / 'render_vs_real' / 'pylib'
 OUT = ROOT / 'blender' / 'output' / 'v2' / 'showcase' / 'hd'
-R = {'moon': 1_737_400.0, 'mars': 3_396_000.0, 'mercury': 2_439_400.0, 'earth': 6_371_000.0, 'sun': 695_700_000.0}
-FRAME = {'moon': 'MOON_ME', 'mars': 'IAU_MARS', 'mercury': 'IAU_MERCURY', 'earth': 'IAU_EARTH'}
-NAIF = {'moon': 'MOON', 'mars': 'MARS BARYCENTER', 'mercury': 'MERCURY', 'earth': 'EARTH', 'sun': 'SUN'}
+R = {'moon': 1_737_400.0, 'mars': 3_396_000.0, 'mercury': 2_439_400.0, 'earth': 6_371_000.0, 'sun': 695_700_000.0,
+     'venus': 6_051_000.0}
+FRAME = {'moon': 'MOON_ME', 'mars': 'IAU_MARS', 'mercury': 'IAU_MERCURY', 'earth': 'IAU_EARTH', 'venus': 'IAU_VENUS',
+         'jupiter': 'IAU_JUPITER', 'saturn': 'IAU_SATURN', 'uranus': 'IAU_URANUS', 'neptune': 'IAU_NEPTUNE'}
+NAIF = {'moon': 'MOON', 'mars': 'MARS BARYCENTER', 'mercury': 'MERCURY', 'earth': 'EARTH', 'sun': 'SUN', 'venus': 'VENUS',
+        'jupiter': 'JUPITER BARYCENTER', 'saturn': 'SATURN BARYCENTER', 'uranus': 'URANUS BARYCENTER',
+        'neptune': 'NEPTUNE BARYCENTER'}
 
 
 def sha(p):
@@ -134,6 +138,26 @@ def earth():
     return z, lon0 % 360.0, [str(p.relative_to(DATA))], 'NOAA ETOPO 2022 v1 60 arc-second surface (m above the geoid; on a 6 371 km sphere)'
 
 
+def venus():
+    import rasterio
+    p = PROD / 'outer_planets_maps/Venus_Magellan_Topography_Global_4641m_v02.tif'
+    with rasterio.open(p) as d:
+        a = d.read(1, masked=True).astype(np.float32)
+        a = a.filled(np.nan) * float(d.scales[0]) + float(d.offsets[0])
+        crs = d.crs.to_dict()
+        lon0 = (crs.get('lon_0', 0.0) + np.degrees(d.bounds.left / crs['R'])) % 360.0
+    gap = ~np.isfinite(a)
+    if gap.any():                                    # Magellan coverage gaps: nearest valid neighbour (recorded)
+        idx = ndimage.distance_transform_edt(gap, return_distances=False, return_indices=True)
+        a = a[tuple(idx)]
+    VENUS_GAP_FRACTION[0] = float(gap.mean())
+    return a, float(lon0), [str(p.relative_to(DATA))], (f'USGS Venus Magellan global topography 4641 m v2 (m above 6 051 km); '
+                                                      f'{100 * gap.mean():.2f} % gap pixels filled from the nearest valid pixel')
+
+
+VENUS_GAP_FRACTION = [0.0]
+
+
 def sample(a, lon0, la, lo):
     h, w = a.shape
     row = (90.0 - la) / 180.0 * h - 0.5
@@ -156,10 +180,12 @@ def geometry(utc):
     out = {'utc': utc, 'kernels': ['naif0012.tls', 'pck00010.tpc', 'moon_pa_de421_1900_2050.bpc', 'moon_080317.tf',
                                    'moon_assoc_me.tf', 'de421.bsp']}
     for body, frame in FRAME.items():
-        s, _ = sp.spkpos('SUN', et, frame, 'LT+S', NAIF[body])
-        e, _ = sp.spkpos('EARTH', et, frame, 'LT+S', NAIF[body]) if body != 'earth' else sp.spkpos('MOON', et, frame, 'LT+S', 'EARTH')
-        out[body] = {'sun': unit(s), 'sunRangeKm': float(np.linalg.norm(s)), 'viewer': unit(e),
-                     'viewerName': 'Earth' if body != 'earth' else 'Moon'}
+        # positions in J2000 (barycentres for the giant planets: within a few 1000 km of the planet), rotated to the body frame
+        s, _ = sp.spkpos('SUN', et, 'J2000', 'LT+S', NAIF[body])
+        e, _ = sp.spkpos('EARTH', et, 'J2000', 'LT+S', NAIF[body]) if body != 'earth' else sp.spkpos('MOON', et, 'J2000', 'LT+S', 'EARTH')
+        Rb = np.asarray(sp.pxform('J2000', frame, et))
+        out[body] = {'sun': unit(Rb @ np.asarray(s)), 'sunRangeKm': float(np.linalg.norm(s)), 'viewer': unit(Rb @ np.asarray(e)),
+                     'viewerName': 'Earth' if body != 'earth' else 'Moon', 'viewerRangeKm': float(np.linalg.norm(e))}
     m, _ = sp.spkpos('MOON', et, 'J2000', 'LT+S', 'EARTH')
     s, _ = sp.spkpos('SUN', et, 'J2000', 'LT+S', 'EARTH')
     out['system'] = {'frame': 'J2000, Earth-centred, km', 'moonPosKm': list(map(float, m)), 'sunPosKm': list(map(float, s)),
@@ -179,8 +205,8 @@ def main(argv=None):
     geo = geometry(a.utc)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / 'geometry.json').write_text(json.dumps(geo, indent=1) + '\n')
-    for body in a.bodies.split(','):
-        arr, lon0, files, desc = {'moon': moon, 'mars': mars, 'mercury': mercury, 'earth': earth}[body]()
+    for body in ([] if a.bodies == 'geometry' else a.bodies.split(',')):
+        arr, lon0, files, desc = {'moon': moon, 'mars': mars, 'mercury': mercury, 'earth': earth, 'venus': venus}[body]()
         d = OUT / body
         d.mkdir(parents=True, exist_ok=True)
         hmin, hmax = float(np.nanmin(arr)), float(np.nanmax(arr))
@@ -201,6 +227,8 @@ def main(argv=None):
                 'px_km_equator': 2 * np.pi * R[body] / 1e3 / arr.shape[1], 'geometry': geo[body]}
         (d / 'meta.json').write_text(json.dumps(meta, indent=1) + '\n')
         print(body, arr.shape, f'h {hmin:.0f}..{hmax:.0f} m', f"px {meta['px_km_equator']:.2f} km", flush=True)
+    if a.bodies == 'geometry':
+        return
 
 
 if __name__ == '__main__':

@@ -34,12 +34,25 @@ PROD = ROOT / 'data' / 'cache' / 'v2' / 'products'
 COLOUR = {'earth': (PROD / 'earth_bmng_200411/world.200411.3x21600x10800.jpg', 180.0),
           'mercury': (PROD / 'mercury_mdis_color_665m/Mercury_MESSENGER_MDIS_Basemap_EnhancedColor_Mosaic_Global_665m.tif', 180.0)}
 MARS_TINT = (0.30, 0.17, 0.10)
-NAME = {'moon': 'MOON', 'mars': 'MARS', 'mercury': 'MERCURY', 'earth': 'EARTH'}
+NAME = {'moon': 'MOON', 'mars': 'MARS', 'mercury': 'MERCURY', 'earth': 'EARTH', 'venus': 'VENUS', 'jupiter': 'JUPITER',
+        'saturn': 'SATURN', 'uranus': 'URANUS', 'neptune': 'NEPTUNE'}
+OUTER = PROD / 'outer_planets_maps'
+# IAU 2015 / NASA planetary fact sheet radii (km): equatorial, polar (1 bar level for the giant planets)
+GIANTS = {'jupiter': (71_492.0, 66_854.0, 'hlsp_opal_hst_wfc3-uvis_jupiter-2025b_f395n-f502n-f631n_v1_globalmap.tif', 'OPAL 2025b'),
+          'saturn': (60_268.0, 54_364.0, 'hlsp_opal_hst_wfc3-uvis_saturn-2025b_f395n-f502n-f631n_v1_globalmap.tif', 'OPAL 2025b'),
+          'uranus': (25_559.0, 24_973.0, 'hlsp_opal_hst_wfc3-uvis_uranus-2024b_f657n-f547m-f467m_v1_globalmap.tif', 'OPAL 2024b'),
+          'neptune': (24_764.0, 24_341.0, 'hlsp_opal_hst_wfc3-uvis_neptune-2025c_f467m-f547m-f657n_v1_globalmap.tif', 'OPAL 2025c')}
+# Saturn's rings (NASA Saturn fact sheet radii, km) with representative normal optical depths (Cuzzi et al. 2009 review);
+# MODEL: piecewise-constant tau, a colour per ring.
+SATURN_RINGS = [(66_900, 74_510, 0.01, (0.40, 0.38, 0.35)), (74_658, 92_000, 0.10, (0.48, 0.45, 0.40)),
+                (92_000, 117_580, 2.0, (0.86, 0.79, 0.66)), (117_580, 122_170, 0.10, (0.45, 0.42, 0.38)),
+                (122_170, 133_410, 0.50, (0.76, 0.71, 0.61)), (133_410, 133_740, 0.0, (0, 0, 0)),
+                (133_740, 136_775, 0.50, (0.74, 0.69, 0.60)), (140_130, 140_230, 0.5, (0.7, 0.66, 0.58))]
 
 
 def args():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--bodies', default='moon,mars,mercury,earth,sun,system')
+    ap.add_argument('--bodies', default='moon,mars,mercury,earth,venus,sun,system,jupiter,saturn,uranus,neptune')
     ap.add_argument('--qa', action='store_true')
     ap.add_argument('--samples', type=int, default=24)
     return ap.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else [])
@@ -147,6 +160,63 @@ def add_displacement(m, meta, d):
     m.max_vertex_displacement = max(abs(meta['hmax_m']), abs(meta['hmin_m'])) / 1000.0 + 1.0
 
 
+def uv_from_latlon(me, V, lon0_deg, ratio=1.0):
+    """Seam-corrected equirect UV per face corner (for Solid / Texture view; renders use the shader lookup)."""
+    x, y, z = V[:, 0], V[:, 1], V[:, 2]
+    lon = np.degrees(np.arctan2(y, x))
+    lat = np.degrees(np.arctan2(ratio * z, np.hypot(x, y)))
+    u = ((lon - lon0_deg) % 360.0) / 360.0
+    v = lat / 180.0 + 0.5
+    vi = np.empty(len(me.loops), np.int32)
+    me.loops.foreach_get('vertex_index', vi)
+    lu, lv = u[vi].reshape(-1, 4).copy(), v[vi].reshape(-1, 4)
+    wrap = (lu.max(axis=1) - lu.min(axis=1)) > 0.5
+    lu[wrap] = np.where(lu[wrap] < 0.5, lu[wrap] + 1.0, lu[wrap])
+    uvl = me.uv_layers.new(name='equirect')
+    uvl.data.foreach_set('uv', np.stack([lu.ravel(), lv.ravel()], 1).astype(np.float32).ravel())
+
+
+def _tex(nt, path, vector, colorspace=None, extension='REPEAT'):
+    tx = nt.nodes.new('ShaderNodeTexImage')
+    tx.image = bpy.data.images.load(str(path), check_existing=True)
+    if colorspace:
+        tx.image.colorspace_settings.name = colorspace
+    tx.extension = extension
+    nt.links.new(vector, tx.inputs['Vector'])
+    return tx
+
+
+def atmosphere(coll, name, R_km, top_km, H_km, sigma0, colour, anisotropy=0.0):
+    """Exponential scattering shell: density sigma0 * exp(-(r - R) / H) per km between R and R + top (MODEL)."""
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=128, ring_count=64, radius=R_km + top_km)
+    ob = bpy.context.active_object
+    for c in ob.users_collection:
+        c.objects.unlink(ob)
+    coll.objects.link(ob)
+    ob.name = name
+    ob.data.shade_smooth()
+    m = bpy.data.materials.new(name + ' | volume')
+    m.use_nodes = True
+    nt = m.node_tree
+    nt.nodes.clear()
+    out = nt.nodes.new('ShaderNodeOutputMaterial')
+    vs = nt.nodes.new('ShaderNodeVolumeScatter')
+    vs.inputs['Color'].default_value = (*colour, 1)
+    vs.inputs['Anisotropy'].default_value = anisotropy
+    tc = nt.nodes.new('ShaderNodeTexCoord')
+    ln = nt.nodes.new('ShaderNodeVectorMath')
+    ln.operation = 'LENGTH'
+    nt.links.new(tc.outputs['Object'], ln.inputs[0])
+    h = _math(nt, 'MAXIMUM', _math(nt, 'SUBTRACT', ln.outputs['Value'], R_km), 0.0)
+    dens = _math(nt, 'MULTIPLY', _math(nt, 'EXPONENT', _math(nt, 'DIVIDE', h, -H_km)), sigma0)
+    nt.links.new(dens, vs.inputs['Density'])
+    nt.links.new(vs.outputs['Volume'], out.inputs['Volume'])
+    m.diffuse_color = (*colour, 0.1)
+    ob.data.materials.append(m)
+    ob.display_type = 'WIRE'
+    return ob
+
+
 def surface(body, meta, d, V):
     if body == 'moon':
         from v2 import albedo, hapke, hapke_nodes
@@ -161,9 +231,44 @@ def surface(body, meta, d, V):
     out = nt.nodes.new('ShaderNodeOutputMaterial')
     bs = nt.nodes.new('ShaderNodeBsdfDiffuse')
     nt.links.new(bs.outputs['BSDF'], out.inputs['Surface'])
-    if body == 'mars':
+    if body == 'mars' and (d / 'colour.json').exists():
+        ci = json.loads((d / 'colour.json').read_text())
+        tx = _tex(nt, ci['path'], equirect_uv(nt, ci['lon0_deg']))
+        nt.links.new(tx.outputs['Color'], bs.inputs['Color'])
+        m.name = 'MARS | diffuse | Viking MDIM colour mosaic 925 m (USGS), VISUAL'
+        m.diffuse_color = (0.5, 0.5, 0.5, 1)
+    elif body == 'mars':
         bs.inputs['Color'].default_value = (*MARS_TINT, 1)
         m.diffuse_color = (*MARS_TINT, 1)
+    elif body == 'venus':
+        bs.inputs['Color'].default_value = (0.20, 0.17, 0.14, 1)
+        m.name = 'VENUS surface | uniform basalt tone (radar has no visible colour), VISUAL'
+        m.diffuse_color = (0.20, 0.17, 0.14, 1)
+    elif body == 'earth' and (d / 'day_colour.json').exists():
+        dc = json.loads((d / 'day_colour.json').read_text())
+        tx = _tex(nt, d / 'day_colour.png', equirect_uv(nt, dc['lon0_deg']))
+        nt.links.new(tx.outputs['Color'], bs.inputs['Color'])
+        m.name = 'EARTH | day: VIIRS true colour 2026-11-16 (real clouds) + Blue Marble fill | night: Black Marble 2016 | VISUAL'
+        # night lights on the dark side only (object-space normal . body-fixed Sun direction from SPICE)
+        bm = _tex(nt, PROD / 'earth_blackmarble_2016/BlackMarble_2016_3km_gray.jpg', equirect_uv(nt, 180.0), 'Non-Color')
+        tc = nt.nodes.new('ShaderNodeTexCoord')
+        dp = nt.nodes.new('ShaderNodeVectorMath')
+        dp.operation = 'DOT_PRODUCT'
+        nt.links.new(tc.outputs['Normal'], dp.inputs[0])
+        dp.inputs[1].default_value = tuple(meta['geometry']['sun'])
+        night = _math(nt, 'MINIMUM', _math(nt, 'MAXIMUM', _math(nt, 'MULTIPLY', _math(nt, 'SUBTRACT', 0.05, dp.outputs['Value']), 8.0), 0.0), 1.0)
+        em = nt.nodes.new('ShaderNodeEmission')
+        em.inputs['Color'].default_value = (1.0, 0.78, 0.45, 1)
+        sep = nt.nodes.new('ShaderNodeSeparateColor')
+        nt.links.new(bm.outputs['Color'], sep.inputs['Color'])
+        lights = _math(nt, 'POWER', sep.outputs['Red'], 2.2)
+        nt.links.new(_math(nt, 'MULTIPLY', _math(nt, 'MULTIPLY', lights, night), 40.0), em.inputs['Strength'])
+        add = nt.nodes.new('ShaderNodeAddShader')
+        nt.links.new(bs.outputs['BSDF'], add.inputs[0])
+        nt.links.new(em.outputs['Emission'], add.inputs[1])
+        nt.links.new(add.outputs['Shader'], out.inputs['Surface'])
+        nt.nodes.active = tx
+        m.diffuse_color = (0.5, 0.5, 0.5, 1)
     else:
         path, lon0 = COLOUR[body]
         tx = nt.nodes.new('ShaderNodeTexImage')
@@ -172,6 +277,10 @@ def surface(body, meta, d, V):
         nt.links.new(equirect_uv(nt, lon0), tx.inputs['Vector'])
         nt.links.new(tx.outputs['Color'], bs.inputs['Color'])
         m.diffuse_color = (0.5, 0.5, 0.5, 1)
+    for n in nt.nodes:                                          # Solid view shows the active image node with the UV map
+        if n.type == 'TEX_IMAGE' and 'Black' not in n.image.name and 'height' not in n.image.name:
+            nt.nodes.active = n
+            break
     return m, None
 
 
@@ -227,6 +336,33 @@ def globe(body, a):
         aw.data.foreach_set('value', np.asarray(w, np.float32))
     add_displacement(m, meta, d)
     me.materials.append(m)
+    lon0_uv = {'earth': 180.0, 'mercury': 180.0}.get(body, 0.0)
+    if body == 'mars' and (d / 'colour.json').exists():
+        lon0_uv = json.loads((d / 'colour.json').read_text())['lon0_deg']
+    uv_from_latlon(me, V, lon0_uv)
+    extras = []
+    if body == 'earth':     # Rayleigh scattering at sea level ~ (5.8, 13.5, 33.1) x 1e-6 /m, scale height 8.5 km (MODEL)
+        extras.append(atmosphere(coll, 'EARTH | atmosphere | Rayleigh, H = 8.5 km | MODEL', Rk, 100.0, 8.5, 0.0331,
+                                 (0.175, 0.408, 1.0)))
+    if body == 'mars':      # dust haze: vertical optical depth ~0.2 (clear season), scale height 11 km, forward scattering (MODEL)
+        extras.append(atmosphere(coll, 'MARS | dust haze | tau ~0.2 (clear season), H = 11 km | MODEL', Rk, 70.0, 11.0, 0.018,
+                                 (1.0, 0.72, 0.52), anisotropy=0.6))
+    deck = None
+    if body == 'venus':     # the visible Venus is its cloud deck (~70 km), uniform pale yellow at visible wavelengths
+        bpy.ops.mesh.primitive_uv_sphere_add(segments=192, ring_count=96, radius=Rk + 70.0)
+        deck = bpy.context.active_object
+        for c in deck.users_collection:
+            c.objects.unlink(deck)
+        coll.objects.link(deck)
+        deck.name = 'VENUS | cloud deck at ~70 km (hide it to see the Magellan surface) | VISUAL'
+        deck.data.shade_smooth()
+        dm = bpy.data.materials.new('Venus cloud tops | diffuse, Bond albedo ~0.77 | VISUAL')
+        dm.diffuse_color = (0.92, 0.86, 0.70, 1)
+        dm.use_nodes = True
+        dm.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.92, 0.86, 0.70, 1)
+        dm.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value = 1.0
+        deck.data.materials.append(dm)
+        extras.append(deck)
     mod = ob.modifiers.new('Adaptive detail (render)', 'SUBSURF')
     mod.subdivision_type = 'SIMPLE'
     mod.levels = 0
@@ -255,12 +391,155 @@ def globe(body, a):
     if a.qa:
         for cam, tag in ((disc, 'disc'), (close, 'closeup'), (coll.objects[f'CAM_{body}_sunlit_side'], 'sunlit')):
             sc.camera = cam
+            if deck is not None:
+                deck.hide_render = (tag == 'closeup')       # the close-up shows the Magellan surface under the deck
             sc.render.resolution_x, sc.render.resolution_y = (1280, 720) if tag == 'closeup' else (900, 900)
             sc.render.filepath = str(d / f'{body}_hd_{tag}.png')
             bpy.ops.render.render(write_still=True)
         sc.camera = disc
+        if deck is not None:
+            deck.hide_render = False
     bpy.ops.wm.save_as_mainfile(filepath=str(d / f'{body}_hd.blend'), compress=False)
     print(f'[POLARIS HD] {body}: {len(V)} viewport vertices, map {meta["width"]}x{meta["height"]}, wrote {body}_hd.blend', flush=True)
+
+
+def giant(body, a):
+    """Jupiter, Saturn, Uranus, Neptune: oblate spheroid at the true equatorial / polar radii (1 bar), the OPAL Hubble
+    global colour map (System III east longitude from 0 at the left edge, planetographic latitude), Sun from SPICE; Saturn
+    with its main rings (MODEL). No surface exists, so no terrain."""
+    Ra, Rb, tif, epoch = GIANTS[body]
+    geo = json.loads((HD / 'geometry.json').read_text())[body]
+    d = HD / body
+    d.mkdir(parents=True, exist_ok=True)
+    sc = new_file(f'{NAME[body]} globe, true radii')
+    coll = bpy.data.collections.new(f'COL_{body}')
+    sc.collection.children.link(coll)
+    n = 192
+    V, F, fid, uv, dropped = cubesphere.mesh(n, np.zeros((6, n + 1, n + 1), np.float32), radius_m=1.0, scale=1.0)
+    me = bpy.data.meshes.new(body)
+    me.from_pydata(V.tolist(), [], F.tolist())
+    me.update()
+    me.shade_smooth()
+    ratio = Ra / Rb
+    uv_from_latlon(me, V, 0.0, ratio)
+    ob = bpy.data.objects.new(f'{NAME[body]} | oblate spheroid a = {Ra:,.0f} km, b = {Rb:,.0f} km (1 bar) | {epoch} Hubble map', me)
+    ob.scale = (Ra, Ra, Rb)
+    coll.objects.link(ob)
+    m = bpy.data.materials.new(f'{NAME[body]} | Hubble OPAL {epoch} colour map (clouds of that epoch) | VISUAL')
+    m.use_nodes = True
+    nt = m.node_tree
+    nt.nodes.clear()
+    out = nt.nodes.new('ShaderNodeOutputMaterial')
+    bs = nt.nodes.new('ShaderNodeBsdfDiffuse')
+    nt.links.new(bs.outputs['BSDF'], out.inputs['Surface'])
+    tc = nt.nodes.new('ShaderNodeTexCoord')
+    sep = nt.nodes.new('ShaderNodeSeparateXYZ')
+    nt.links.new(tc.outputs['Object'], sep.inputs[0])
+    X, Y, Z = sep.outputs
+    lon = _math(nt, 'MULTIPLY', _math(nt, 'ARCTAN2', Y, X), 180.0 / math.pi)
+    u = _math(nt, 'FRACT', _math(nt, 'ADD', _math(nt, 'DIVIDE', lon, 360.0), 2.0))
+    rxy = _math(nt, 'SQRT', _math(nt, 'ADD', _math(nt, 'MULTIPLY', X, X), _math(nt, 'MULTIPLY', Y, Y)))
+    lat = _math(nt, 'ARCTAN2', _math(nt, 'MULTIPLY', Z, ratio), rxy)        # planetographic from the mesh (parametric) latitude
+    v = _math(nt, 'ADD', _math(nt, 'DIVIDE', lat, math.pi), 0.5)
+    c = nt.nodes.new('ShaderNodeCombineXYZ')
+    nt.links.new(u, c.inputs['X'])
+    nt.links.new(v, c.inputs['Y'])
+    filled = d / 'map.png'                                   # gap-filled by giants_pack.py (latitude-row medians)
+    tx = _tex(nt, filled if filled.exists() else OUTER / tif, c.outputs['Vector'], extension='EXTEND')
+    nt.links.new(tx.outputs['Color'], bs.inputs['Color'])
+    nt.nodes.active = tx
+    m.diffuse_color = (0.6, 0.55, 0.5, 1)
+    me.materials.append(m)
+    if body == 'saturn':
+        rings(coll)
+    E = sun_lamp(coll, geo['sun'], geo['sunRangeKm'], 'body-fixed')
+    sc.view_settings.exposure = math.log2(0.8 * math.pi / (0.85 * E))       # presentation exposure (VISUAL)
+    span = 2.5 * 140_300.0 if body == 'saturn' else 2.1 * Ra
+    v_ = Vector(geo['viewer']).normalized()
+    disc = camera(coll, f'CAM_{body}_from_Earth', v_ * 20 * Ra, (0, 0, 0), ortho=span, clip=80 * Ra)
+    s_ = Vector(geo['sun']).normalized()
+    side = (s_ * 0.85 + s_.cross(Vector((0, 0, 1))).normalized() * 0.5).normalized()
+    camera(coll, f'CAM_{body}_sunlit_side', side * 20 * Ra, (0, 0, 0), ortho=span, clip=80 * Ra)
+    sc.camera = disc
+    sc.cycles.samples = a.samples
+    sc['polaris'] = json.dumps({'builder': 'blender/v2/globe_hd.py', 'radii_km': [Ra, Rb], 'map': tif, 'geometry': geo})
+    if a.qa:
+        sc.render.resolution_x = sc.render.resolution_y = 900
+        for cam in [o for o in coll.objects if o.type == 'CAMERA']:
+            sc.camera = cam
+            sc.render.filepath = str(d / f'{body}_{cam.name.split("_", 2)[2]}.png')
+            bpy.ops.render.render(write_still=True)
+        sc.camera = disc
+    bpy.ops.wm.save_as_mainfile(filepath=str(d / f'{body}.blend'), compress=False)
+    print(f'[POLARIS HD] {body}: wrote {body}.blend', flush=True)
+
+
+def rings(coll):
+    r0, r1 = SATURN_RINGS[0][0], SATURN_RINGS[-1][1]
+    N = 4096
+    img = bpy.data.images.new('saturn_ring_profile', N, 1, alpha=True, float_buffer=True)
+    px = np.zeros((N, 4), np.float32)
+    rr = r0 + (np.arange(N) + 0.5) / N * (r1 - r0)
+    for a_, b_, tau, col in SATURN_RINGS:
+        k = (rr >= a_) & (rr < b_)
+        px[k, :3] = col
+        px[k, 3] = tau / 10.0                               # tau stored / 10 in alpha (tau <= 2)
+    img.pixels.foreach_set(px.ravel())
+    img.pack()
+    bpy.ops.mesh.primitive_circle_add(vertices=512, radius=r1, fill_type='NOTHING')
+    ob = bpy.context.active_object
+    for c in ob.users_collection:
+        c.objects.unlink(ob)
+    coll.objects.link(ob)
+    me = ob.data
+    import bmesh
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    inner = [bm.verts.new(v.co * (r0 / r1)) for v in list(bm.verts)]
+    outer = [v for v in bm.verts if v not in inner]
+    nv = len(outer)
+    for i in range(nv):
+        bm.faces.new((outer[i], outer[(i + 1) % nv], inner[(i + 1) % nv], inner[i]))
+    bm.to_mesh(me)
+    bm.free()
+    ob.name = 'SATURN | main rings D-F (fact-sheet radii, representative optical depths) | MODEL'
+    m = bpy.data.materials.new('Saturn rings | 1 - exp(-tau / mu) | MODEL')
+    m.use_nodes = True
+    m.blend_method = 'BLEND' if hasattr(m, 'blend_method') else None
+    nt = m.node_tree
+    nt.nodes.clear()
+    out = nt.nodes.new('ShaderNodeOutputMaterial')
+    tc = nt.nodes.new('ShaderNodeTexCoord')
+    ln = nt.nodes.new('ShaderNodeVectorMath')
+    ln.operation = 'LENGTH'
+    nt.links.new(tc.outputs['Object'], ln.inputs[0])
+    u = _math(nt, 'DIVIDE', _math(nt, 'SUBTRACT', ln.outputs['Value'], r0), r1 - r0)
+    cmb = nt.nodes.new('ShaderNodeCombineXYZ')
+    nt.links.new(u, cmb.inputs['X'])
+    cmb.inputs['Y'].default_value = 0.5
+    tx = nt.nodes.new('ShaderNodeTexImage')
+    tx.image = img
+    tx.interpolation = 'Closest'
+    tx.extension = 'EXTEND'
+    nt.links.new(cmb.outputs['Vector'], tx.inputs['Vector'])
+    geo = nt.nodes.new('ShaderNodeNewGeometry')
+    dp = nt.nodes.new('ShaderNodeVectorMath')
+    dp.operation = 'DOT_PRODUCT'
+    nt.links.new(geo.outputs['Normal'], dp.inputs[0])
+    nt.links.new(geo.outputs['Incoming'], dp.inputs[1])
+    mu = _math(nt, 'MAXIMUM', _math(nt, 'ABSOLUTE', dp.outputs['Value']), 0.02)
+    tau = _math(nt, 'MULTIPLY', tx.outputs['Alpha'], 10.0)
+    alpha = _math(nt, 'SUBTRACT', 1.0, _math(nt, 'EXPONENT', _math(nt, 'DIVIDE', _math(nt, 'MULTIPLY', tau, -1.0), mu)))
+    df = nt.nodes.new('ShaderNodeBsdfDiffuse')
+    nt.links.new(tx.outputs['Color'], df.inputs['Color'])
+    tr = nt.nodes.new('ShaderNodeBsdfTransparent')
+    mix = nt.nodes.new('ShaderNodeMixShader')
+    nt.links.new(alpha, mix.inputs['Fac'])
+    nt.links.new(tr.outputs['BSDF'], mix.inputs[1])
+    nt.links.new(df.outputs['BSDF'], mix.inputs[2])
+    nt.links.new(mix.outputs['Shader'], out.inputs['Surface'])
+    m.diffuse_color = (0.8, 0.75, 0.62, 1)
+    me.materials.append(m)
 
 
 def sun_material(name):
@@ -316,7 +595,7 @@ def system_scene(a):
     for body, key in (('earth', 'earthToJ2000'), ('moon', 'moonToJ2000')):
         p = HD / body / f'{body}_hd.blend'
         with bpy.data.libraries.load(str(p), link=False) as (src, dst):
-            dst.objects = [n for n in src.objects if n.startswith(NAME[body] + ' | HD')]
+            dst.objects = [n for n in src.objects if n.startswith(NAME[body] + ' |')]   # globe + atmosphere
         for ob in dst.objects:
             coll.objects.link(ob)
             Rm = Matrix(geo[key])
@@ -357,7 +636,9 @@ def system_scene(a):
 def main():
     a = args()
     for b in a.bodies.split(','):
-        if b in NAME:
+        if b in GIANTS:
+            giant(b, a)
+        elif b in NAME:
             globe(b, a)
         elif b == 'sun':
             sun_scene(a)
