@@ -86,6 +86,9 @@ for (const [name, opts] of cases) {
   const pin = page.locator('[data-testid=globe-pin-site04_roi3] button');
   if (touch) await pin.tap();
   else await pin.click();
+  // 18 Nov: a pin opens its card; the card's button flies down
+  if (touch) await page.getByTestId('pin-card-fly').tap();
+  else await page.getByTestId('pin-card-fly').click();
   await page.waitForSelector('[data-testid=simple-mode][data-place=site]', { timeout: 15_000 });
   await page.waitForSelector('[data-testid=scene3d][data-context=loaded]', { timeout: 45_000 }).catch(() => console.log(name, 'no terrain context'));
   await page.waitForFunction(() => !!window.__polarisScene, null, { timeout: 30_000 });

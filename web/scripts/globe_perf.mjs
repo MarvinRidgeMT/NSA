@@ -46,7 +46,7 @@ const inPage = async () => {
   const hook = window.__polarisGlobe;
   const glc = hook.gl.getContext();
   const pinBtn = document.querySelector('.s-globe-pin button');
-  const flyIn = await frames(1200, () => pinBtn.click());
+  const flyIn = await frames(1200, () => { pinBtn.click(); requestAnimationFrame(() => document.querySelector('[data-testid=pin-card-fly]')?.click()); }); // 18 Nov: a pin opens its card; the card's button flies
   await new Promise((r) => setTimeout(r, 2500));
   const back = document.querySelector('[data-testid=simple-back-moon]');
   const flyOut = await frames(1200, () => back.click());

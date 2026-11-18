@@ -44,7 +44,7 @@ test('a visitor first sees the globe, with one labelled pin per bundle site and 
   await expect(page.locator('.s-globe-pin')).toHaveCount(sites.length);
   for (const s of sites) {
     await expect(pin(page, s.id)).toHaveAccessibleName(new RegExp(`^${s.name.replace(/[()]/g, '\\$&')}\\. `));
-    await expect(pin(page, s.id)).toHaveAccessibleName(/Fly to this site\.$/);
+    await expect(pin(page, s.id)).toHaveAccessibleName(/Open this site’s card\.$/); // 18 Nov layout: a pin opens its card
   }
   const n = sunRow(STORY, sidecar.sites[STORY].sampled_masts_m[0])!.n_clones;
   await expect(page.getByTestId('globe-legend')).toContainText(`how much the ${n} terrain variants disagree (Sun in sight, max − min)`);
@@ -86,16 +86,16 @@ test('hovering a pin shows its site name and one-line answer', async ({ page }) 
   await expect(label.locator('.s-hoverlabel')).toHaveAttribute('data-visible', 'true');
   await expect(label).toContainText(sites.find((s) => s.id === STORY)!.name);
   await expect(label).toContainText(`Sun in sight ${range(sunRow(STORY, m)!)} at a ${m} m mast`);
-  // the label is inside the window and clear of the card
-  const [lb, cb, vp] = [await label.boundingBox(), await page.getByTestId('globe-card').boundingBox(), page.viewportSize()!];
+  // the label is inside the window and clear of the box along the bottom (18 Nov layout: the side card is gone)
+  const [lb, cb, vp] = [await label.boundingBox(), await page.getByTestId('spot-box').boundingBox(), page.viewportSize()!];
   expect(lb!.x >= 0 && lb!.x + lb!.width <= vp.width).toBe(true);
-  expect(lb!.x >= cb!.x + cb!.width || lb!.y >= cb!.y + cb!.height).toBe(true);
+  expect(lb!.y + lb!.height <= cb!.y || lb!.x >= cb!.x + cb!.width || lb!.x + lb!.width <= cb!.x).toBe(true);
 });
 
 test('keyboard: Tab reaches each pin, Enter flies in to that site, Back to the Moon returns to the same pin', async ({ page }) => {
   await openGlobe(page);
   // every pin is in the tab order, in bundle order
-  await page.getByTestId('globe-card').click({ position: { x: 5, y: 5 } });
+  await page.locator('#simple-main').focus();
   const reached: string[] = [];
   for (let i = 0; i < 40 && reached.length < sites.length; i++) {
     await page.keyboard.press('Tab');
@@ -105,6 +105,9 @@ test('keyboard: Tab reaches each pin, Enter flies in to that site, Back to the M
   expect(reached).toEqual(sites.map((s) => s.id));
   const last = sites[sites.length - 1];
   await expect(page.getByTestId('globe-hover-label')).toContainText(last.name);
+  // 18 Nov layout: a pin opens its card; the card's button flies down
+  await page.keyboard.press('Enter');
+  await expect(page.getByTestId('pin-card-fly')).toBeFocused();
   const t0 = Date.now();
   await page.keyboard.press('Enter');
   await expect(page.getByTestId('simple-mode')).toHaveAttribute('data-place', 'site', { timeout: 10_000 });
@@ -127,6 +130,8 @@ test('the mast picked on the globe is the mast at the site after flying in', asy
   for (let i = 0; i < steps; i++) await page.getByTestId('simple-mast-up').click();
   await expect.poll(() => spreadOf(page, STORY)).toBe(0);
   await pin(page, STORY).click();
+  // 18 Nov layout: a pin opens its card; the card's button flies down
+  await page.getByTestId('pin-card-fly').click();
   await expect(page.getByTestId('simple-mode')).toHaveAttribute('data-place', 'site', { timeout: 10_000 });
   await expect(page.getByTestId('simple-mast-current')).toHaveText(`${cert} m`);
   await expect(page.getByTestId('simple-stat-sun')).toHaveText(range(sunRow(STORY, cert)!));
@@ -144,6 +149,8 @@ test('reduced motion: pins are static rings, there is no drift, and flying in an
   await page.waitForTimeout(1500);
   expect(await at()).toBe(before);
   await pin(page, STORY).click();
+  // 18 Nov layout: a pin opens its card; the card's button flies down
+  await page.getByTestId('pin-card-fly').click();
   await expect(page.getByTestId('simple-mode')).toHaveAttribute('data-place', 'site', { timeout: 300 });
   await expect(page.getByTestId('simple-site')).toBeVisible();
   await page.getByTestId('simple-back-moon').click();
@@ -184,8 +191,10 @@ test('phone width: the lighter Moon, pins big enough to press and apart, nothing
     for (let j = i + 1; j < boxes.length; j++)
       expect(Math.hypot(boxes[i].x - boxes[j].x, boxes[i].y - boxes[j].y), 'pin centres at least 44 px apart').toBeGreaterThanOrEqual(44);
   expect(await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.scrollHeight])).toEqual([390, 844]);
-  // tapping a site's row in the card flies in as well
-  await page.getByTestId(`globe-row-${sites[0].id}`).click();
+  // 18 Nov layout: the rows are an off-screen list now; a pin's card (a sheet on a phone) flies in
+  await pin(page, sites[0].id).click();
+  await expect(page.getByTestId('pin-card')).toBeInViewport({ ratio: 1 });
+  await page.getByTestId('pin-card-fly').click();
   await expect(page.getByTestId('simple-site')).toHaveText(sites[0].name, { timeout: 15_000 });
 });
 
@@ -198,6 +207,9 @@ test('axe: the globe has no serious or critical issues', async ({ page }) => {
 test('Esc at a site goes back to the Moon, after closing anything open first', async ({ page }) => {
   await openGlobe(page);
   await pin(page, STORY).focus();
+  await page.keyboard.press('Enter');
+  // 18 Nov layout: a pin opens its card; the card's button flies down
+  await expect(page.getByTestId('pin-card-fly')).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.getByTestId('simple-mode')).toHaveAttribute('data-place', 'site', { timeout: 10_000 });
   await expect(page.getByTestId('scene3d')).toBeVisible({ timeout: 30_000 });
@@ -223,7 +235,7 @@ test('each pin says what the sidecar says for its site, and a site with no sidec
   for (const s of sites) {
     const row = sunRow(s.id, m);
     if (!sidecar.sites[s.id]) {
-      await expect(pin(page, s.id)).toHaveAccessibleName(`${s.name}. No answer: the certainty sidecar has no rows for this site. Fly to this site.`);
+      await expect(pin(page, s.id)).toHaveAccessibleName(`${s.name}. No answer: the certainty sidecar has no rows for this site. Open this site’s card.`); // 18 Nov layout: a pin opens its card
       await expect(page.getByTestId(`globe-pin-${s.id}`)).toHaveAttribute('data-nodata', 'true');
       await expect(page.getByTestId(`globe-row-${s.id}`).locator('.s-globe-site-line')).toHaveText('No answer: the certainty sidecar has no rows for this site');
       await expect(page.getByTestId(`globe-row-${s.id}`).locator('.s-globe-site-spread')).toHaveText('');
@@ -302,6 +314,9 @@ test('Esc on a pin does nothing; Esc at a site returns to the globe with focus b
   await pin(page, STORY).focus();
   await page.keyboard.press('Escape');
   await expect(page.getByTestId('simple-mode')).toHaveAttribute('data-place', 'globe');
+  await page.keyboard.press('Enter');
+  // 18 Nov layout: a pin opens its card; the card's button flies down
+  await expect(page.getByTestId('pin-card-fly')).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.getByTestId('simple-mode')).toHaveAttribute('data-place', 'site', { timeout: 10_000 });
   await expect(page.getByTestId('simple-back-moon')).toBeFocused({ timeout: 30_000 });

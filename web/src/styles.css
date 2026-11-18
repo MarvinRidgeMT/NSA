@@ -1840,41 +1840,144 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .simple .s-globe[data-dragging] .s-globe-pad, .simple .s-globe[data-dragging] .s-pin { cursor: grabbing; }
 .simple .s-globe[data-dragging] .s-globe-pins { pointer-events: none; }
 .simple .s-globe[data-dragging] .s-globe-pin { pointer-events: none; }
-.simple .s-globe-nav { position: absolute; z-index: 4; left: 0; right: 0; bottom: 14px; display: flex; justify-content: center; pointer-events: none; opacity: 0; transition: opacity var(--dur-press) var(--ease-standard-curve); }
+.simple .s-globe-nav { position: absolute; z-index: 4; left: 0; right: 0; top: 12px; display: flex; justify-content: center; pointer-events: none; opacity: 0; transition: opacity var(--dur-press) var(--ease-standard-curve); }
 .simple .s-globe[data-shown='true'] .s-globe-nav[data-live='true'] { opacity: 1; transition: opacity 0.4s var(--ease-enter) 0.35s; }
 .simple .s-globe-nav > * { pointer-events: auto; }
 .simple .s-globe-home { background: rgba(20, 20, 19, 0.82); -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur)); animation: s-globe-home-in 0.2s var(--ease-enter) both; }
 @keyframes s-globe-home-in { from { opacity: 0; transform: translateY(4px) scale(0.97); } }
 .simple .s-globe-hint { margin: 0; padding: 4px 10px; font: 400 var(--text-base) / 1.4 var(--f-sans); color: var(--c-ash); text-shadow: 0 0 6px #000, 0 0 2px #000; pointer-events: none; }
-@media (min-width: 1024px) { .simple .s-globe-nav { transform: translateX(min(120px, 7.5vw)); } }
-@media (pointer: coarse) { .simple .s-globe-hint { visibility: hidden; } .simple .s-globe-hint::before { content: 'Drag to turn · pinch to zoom'; visibility: visible; } }
+@media (pointer: coarse) { .simple .s-globe-hint--move { visibility: hidden; } .simple .s-globe-hint--move::before { content: 'Drag to turn · pinch to zoom'; visibility: visible; } }
 @media (prefers-reduced-motion: reduce) { .simple .s-globe-home { animation: none; } }
 
-/* card: what this is, the sites and their one-line answers, what the shimmer means */
-.simple .s-globe-card {
-  position: absolute; z-index: 10; left: var(--s-pad); top: var(--s-panels-top); width: var(--s-left-w);
-  max-height: calc(100% - var(--s-panels-top) - var(--s-credits-h) - var(--s-pad)); overflow-y: auto;
-  display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3);
-}
-.simple .s-globe-card h1 { margin: 0; font: 400 var(--text-3xl) / 1.1 var(--f-serif); letter-spacing: -0.01em; color: var(--c-bone); text-wrap: balance; }
-.simple .s-globe-lede { margin: 0; font: 400 var(--text-md) / var(--text-md-lh) var(--f-sans); color: var(--c-ash); text-wrap: pretty; }
-.simple .s-globe-sites { align-self: stretch; margin: var(--space-1) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--c-hairline); }
-.simple .s-globe-sites li {
-  display: grid; grid-template-columns: 8px minmax(0, 1fr); column-gap: var(--space-3); row-gap: 2px; align-items: baseline;
-  margin: 0 calc(var(--space-2) * -1); padding: 10px var(--space-2); border-bottom: 1px solid var(--c-hairline); cursor: pointer;
-  transition: background-color var(--dur-press) var(--ease-standard-curve);
-}
-.simple .s-globe-sites li > i { grid-row: 1 / span 3; align-self: start; width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; background: var(--c-amber); }
-.simple .s-globe-sites li[data-nodata] > i { background: var(--c-ash); }
-.simple .s-globe-sites li > span { grid-column: 2; }
-.simple .s-globe-sites li[data-hot] { background: rgba(236, 231, 221, 0.08); }
-.simple .s-globe-sites li:active { background: rgba(236, 231, 221, 0.12); }
+/* ---------- 18 Nov layout: no side panel. The Moon fills the view; a card opens beside a pressed pin or a checked spot;
+   "Check a spot" is a box along the bottom; the sites are also a list of buttons that is off screen until focused. ---------- */
 .simple .s-globe-site-name { font: 500 var(--text-md) / 1.35 var(--f-sans); color: var(--c-bone); }
 .simple .s-globe-site-line { font: 400 var(--text-base) / 1.4 var(--f-sans); color: var(--c-bone); }
-.simple .s-globe-site-spread { font: 400 var(--text-sm) / 1.4 var(--f-mono); font-variant-numeric: tabular-nums; color: var(--c-ash); }
+.simple .s-globe-site-spread { margin: 0; font: 400 var(--text-sm) / 1.4 var(--f-mono); font-variant-numeric: tabular-nums; color: var(--c-ash); }
 .simple .s-globe-site-spread:empty { display: none; }
 .simple .s-globe-legend { display: grid; grid-template-columns: 12px minmax(0, 1fr); column-gap: var(--space-2); margin: 0; font: 400 var(--text-base) / 1.45 var(--f-sans); color: var(--c-ash); }
 .simple .s-globe-legend-mark { width: 10px; height: 10px; margin-top: 4px; border-radius: 50%; border: 1px solid var(--c-amber); box-shadow: inset 0 0 0 2px var(--c-raised), inset 0 0 0 5px var(--c-amber); }
+
+/* the sites as buttons, for the keyboard and screen readers: clipped away until one of them has keyboard focus */
+.simple .s-globe-list {
+  position: absolute; z-index: 13; left: var(--s-pad); top: var(--s-panels-top); width: min(340px, calc(100% - 2 * var(--s-pad)));
+  display: grid; gap: var(--space-2); padding: var(--space-3);
+  border: 1px solid var(--glass-border); border-radius: var(--radius-subtle); background: rgba(20, 20, 19, 0.94); box-shadow: var(--shadow-elevation);
+}
+.simple .s-globe-list:not(:has(:focus-visible)) { width: 1px; height: 1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.simple .s-globe-list h1 { margin: 0; font: 400 var(--text-xl) / 1.2 var(--f-serif); letter-spacing: 0; color: var(--c-bone); }
+.simple .s-globe-lede { margin: 0; font: 400 var(--text-base) / 1.45 var(--f-sans); color: var(--c-ash); text-wrap: pretty; }
+.simple .s-globe-sites { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; }
+.simple .s-globe-sites button {
+  display: grid; gap: 2px; width: 100%; padding: 8px; border: 0; border-radius: var(--radius-subtle); background: transparent; color: inherit; text-align: left; cursor: pointer;
+}
+.simple .s-globe-sites button:focus-visible { background: rgba(236, 231, 221, 0.08); }
+
+/* cards: beside their pin or marker (placed by Globe.tsx each frame), inside the Moon's own area */
+.simple .s-gcard-layer { position: absolute; z-index: 12; inset: calc(var(--s-top-h) + var(--s-banner-h)) 0 var(--s-credits-h) 0; pointer-events: none; }
+.simple .s-gcard {
+  position: absolute; left: 0; top: 0; width: 340px; max-height: calc(100% - 160px); overflow-y: auto; overscroll-behavior: contain; pointer-events: auto;
+  display: grid; gap: var(--space-3); align-content: start; justify-items: start; padding: var(--space-4);
+  scrollbar-width: thin; scrollbar-color: rgba(236, 231, 221, 0.28) transparent; will-change: transform;
+  animation: s-gcard-in 0.2s var(--ease-enter) both;
+}
+.simple .s-gcard > * { min-width: 0; }
+@keyframes s-gcard-in { from { opacity: 0; } }
+.simple .s-gcard.s-spot { width: 372px; }
+.simple .s-gcard ::selection, .simple .s-spot-box ::selection { background: rgba(232, 165, 60, 0.35); color: var(--c-bone); }
+.simple .s-gcard-head { justify-self: stretch; display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
+.simple .s-gcard-head .s-btn { flex: none; margin: -4px -8px 0 0; }
+.simple .s-gcard-title { margin: 0; font: 400 var(--text-xl) / 1.2 var(--f-serif); letter-spacing: 0; text-transform: none; color: var(--c-bone); text-wrap: balance; }
+.simple .s-gcard-actions { justify-self: stretch; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+.simple .s-pincard-q { margin: calc(var(--space-2) * -1) 0 0; font: 400 var(--text-base) / 1.4 var(--f-sans); color: var(--c-ash); }
+.simple .s-pincard-line { margin: 0; font: 400 var(--text-lg) / 1.4 var(--f-sans); color: var(--c-bone); text-wrap: balance; }
+.simple .s-pincard[data-nodata] .s-pincard-line { font-size: var(--text-md); color: var(--c-ash); }
+.simple .s-pincard .s-gcard-actions { justify-content: space-between; padding-top: var(--space-1); }
+
+/* ---------- S13 "Check a spot": the box along the bottom, and the answer card's rows ---------- */
+.simple .s-spot-layer {
+  position: absolute; z-index: 10; left: 0; right: 0; bottom: calc(var(--s-credits-h) + var(--space-3)); display: flex; justify-content: center; padding: 0 var(--s-pad);
+  pointer-events: none; opacity: 0; transition: opacity var(--dur-press) var(--ease-standard-curve);
+}
+.simple .s-globe[data-shown='true'] .s-spot-layer[data-live='true'] { opacity: 1; transition: opacity 0.4s var(--ease-enter) 0.2s; }
+.simple .s-spot-dock { display: grid; justify-items: center; gap: var(--space-2); max-width: 100%; }
+.simple .s-spot-dock > * { pointer-events: auto; }
+.simple .s-globe-hints { display: grid; justify-items: center; gap: 0; pointer-events: none; }
+.simple .s-spot-box {
+  display: grid; grid-template-columns: auto 128px 128px auto; column-gap: var(--space-2); row-gap: 6px; align-items: end;
+  max-width: 100%; padding: var(--space-3) var(--space-4); margin: 0;
+}
+.simple .s-spot-box-title { display: inline-flex; align-items: center; gap: var(--space-2); height: var(--ctl-input); padding-right: var(--space-2); font: 500 var(--text-md) / 1 var(--f-sans); color: var(--c-bone); white-space: nowrap; }
+.simple .s-spot-box .s-field { gap: 4px; }
+.simple .s-spot-box .s-field > label { font-size: var(--text-sm); color: var(--c-ash); }
+.simple .s-spot-box .s-btn { min-height: var(--ctl-input); }
+.simple .s-spot-box .s-input { font-variant-numeric: tabular-nums; caret-color: var(--c-amber); }
+.simple .s-spot-help, .simple .s-spot-error { grid-column: 1 / -1; margin: 0; max-width: 46ch; text-wrap: pretty; }
+.simple .s-spot-help { font-size: var(--text-sm); }
+.simple .s-spot-answer { justify-self: stretch; display: grid; gap: var(--space-4); }
+.simple .s-spot .s-fact { padding: 8px 0; }
+.simple .s-spot[data-busy] .s-spot-answer { opacity: 0.55; }
+.simple .s-spot-point { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: var(--space-2); align-items: start; margin: 0; color: var(--c-bone); }
+.simple .s-spot-point svg { margin-top: 2px; }
+.simple .s-spot-point b { display: block; font: 500 var(--text-md) / 1.4 var(--f-mono); font-variant-numeric: tabular-nums; }
+.simple .s-spot-row { display: grid; gap: var(--space-2); justify-items: start; padding-top: var(--space-3); border-top: 1px solid var(--c-hairline); }
+.simple .s-spot-row > * { min-width: 0; }
+.simple .s-spot-row h3 { margin: 0; font: 400 var(--text-lg) / 1.2 var(--f-serif); letter-spacing: 0; text-transform: none; color: var(--c-bone); }
+.simple .s-spot-src { margin: 0; font: 400 var(--text-base) / 1.45 var(--f-sans); color: var(--c-bone); text-wrap: pretty; }
+.simple .s-spot-row .s-facts { justify-self: stretch; }
+.simple .s-spot-row .s-fact-hint { display: block; font: 400 var(--text-sm) / 1.35 var(--f-sans); color: var(--c-ash); }
+.simple .s-spot-site { font: 500 var(--text-md) / 1.3 var(--f-sans); color: var(--c-bone); text-align: right; text-wrap: balance; }
+.simple .s-spot-none, .simple .s-spot-fine { margin: 0; font: 400 var(--text-base) / 1.5 var(--f-sans); color: var(--c-ash); text-wrap: pretty; }
+.simple .s-spot-point .s-spot-fine { display: block; margin-top: 2px; }
+.simple .s-spot-foot {
+  position: sticky; bottom: calc(var(--space-4) * -1); z-index: 1; display: grid; gap: var(--space-2); margin: 0 calc(var(--space-4) * -1) calc(var(--space-4) * -1); padding: var(--space-3) var(--space-4) var(--space-4);
+  border-top: 1px solid var(--c-hairline); background: rgb(38, 38, 35);
+}
+/* a long card scrolls; Globe.tsx marks data-above / data-below, and that edge fades instead of cutting a line in half. The
+   head stays at the top while the card scrolls (laid out exactly as before at rest), and the fade sits under it; at the
+   bottom the fade sits over the spot card's foot (or the card's own lower edge). */
+.simple .s-gcard-head { position: sticky; top: calc(var(--space-4) * -1); z-index: 2; margin: calc(var(--space-4) * -1) calc(var(--space-4) * -1) 0; padding: var(--space-4) var(--space-4) 0; }
+.simple .s-gcard-head::after, .simple .s-spot-foot::before, .simple .s-pincard::after {
+  content: ''; position: absolute; left: 0; right: 0; height: 28px; pointer-events: none; opacity: 0; transition: opacity var(--dur-press) var(--ease-standard-curve);
+}
+.simple .s-gcard-head::after { top: 100%; background: linear-gradient(rgb(38, 38, 35), rgba(38, 38, 35, 0)); }
+.simple .s-gcard[data-above] .s-gcard-head { background: rgb(38, 38, 35); }
+.simple .s-gcard[data-above] .s-gcard-head::after { opacity: 1; }
+.simple .s-spot-foot::before { bottom: 100%; background: linear-gradient(rgba(38, 38, 35, 0), rgb(38, 38, 35)); }
+.simple .s-spot[data-below] .s-spot-foot::before { opacity: 1; }
+.simple .s-pincard::after { position: sticky; bottom: 0; margin: calc(-28px - var(--space-3)) calc(var(--space-4) * -1) 0; justify-self: stretch; background: linear-gradient(rgba(38, 38, 35, 0), rgb(38, 38, 35)); }
+.simple .s-pincard[data-below]::after { opacity: 1; }
+.simple .s-spot-here { font: 400 var(--text-sm) / 1 var(--f-sans); color: var(--c-ash); }
+/* the Moon takes clicks: a click drops a point */
+.simple .s-globe-pad { cursor: crosshair; }
+.simple .s-globe[data-dragging] .s-globe-pad { cursor: grabbing; }
+/* the checked point: an open ring with a centre dot, bone on a dark edge so it reads on lit and unlit ground */
+.simple .s-spot-mark { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none; will-change: transform; opacity: 0; }
+.simple .s-spot-mark[data-on] { opacity: 1; }
+.simple .s-spot-mark i { position: absolute; left: -11px; top: -11px; width: 22px; height: 22px; border: 1.5px solid var(--c-bone); border-radius: 50%; box-shadow: 0 0 0 1px rgba(5, 5, 5, 0.85), inset 0 0 0 1px rgba(5, 5, 5, 0.85); }
+.simple .s-spot-mark i::after { content: ''; position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px 0 0 -2px; border-radius: 50%; background: var(--c-bone); box-shadow: 0 0 0 1px rgba(5, 5, 5, 0.85); }
+.simple .s-spot-mark[data-on] i { animation: s-spot-drop 0.28s var(--ease-enter) both; }
+@keyframes s-spot-drop { from { opacity: 0; transform: scale(1.6); } }
+.simple .s-globe-about-tag { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.simple .s-globe-about .s-globe-legend { margin-top: var(--space-2); }
+@media (max-width: 639px) {
+  /* phones: the box sits above the credits and the Moon's view ends above the box, so the south pole is never under it */
+  .simple .s-spot-layer { bottom: var(--s-phone-foot); padding: 0; }
+  .simple .s-spot-dock { width: 100%; }
+  .simple .s-spot-box { width: 100%; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; padding: var(--space-3) var(--space-4); border-width: 1px 0 0; }
+  .simple .s-spot-box-title { grid-column: 1 / -1; height: auto; }
+  .simple .s-spot-box .s-btn { min-height: 44px; }
+  .simple .s-spot-box .s-input { height: 44px; }
+  /* cards are sheets along the bottom, in the box's place */
+  .simple .s-gcard-layer { inset: calc(var(--s-top-h) + var(--s-banner-h)) 0 var(--s-phone-foot) 0; }
+  .simple .s-gcard, .simple .s-gcard.s-spot { left: 0; right: 0; top: auto; bottom: 0; width: auto; max-height: 62%; transform: none !important; border-width: 1px 0 0; animation-name: s-gsheet-in; }
+  .simple .s-gcard.s-spot { height: 62%; }
+  .simple .s-globe[data-card] .s-spot-layer { display: none; }
+  .simple .s-globe[data-card='spot'] .s-globe-view { bottom: calc(var(--s-phone-foot) + (100% - var(--s-top-h) - var(--s-banner-h) - var(--s-phone-foot)) * 0.62); }
+  .simple .s-globe[data-card] .s-globe-about { display: none; }
+}
+@keyframes s-gsheet-in { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { .simple .s-gcard, .simple .s-spot-mark[data-on] i { animation: none; } }
 
 /* About this view: same place and manner as the terrain scene's note */
 .simple .s-globe-about {
@@ -1883,7 +1986,7 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
   border: 1px solid var(--c-hairline); border-radius: var(--radius-subtle); background: rgba(20, 20, 19, 0.72);
   font: 400 var(--text-base) / 1.5 var(--f-sans); color: var(--c-ash);
 }
-.simple .s-globe-card, .simple .s-globe-about { transition: opacity 0.3s var(--ease-enter); }
+.simple .s-globe-about { transition: opacity 0.3s var(--ease-enter); }
 .simple .s-globe-about[open] { width: min(420px, calc(100% - 32px)); padding-bottom: var(--space-3); background: rgba(20, 20, 19, 0.94); color: var(--c-bone); }
 .simple .s-globe-about summary { display: flex; align-items: center; min-height: 28px; list-style: none; font: 500 var(--text-base) / 1 var(--f-sans); color: var(--c-bone); cursor: pointer; }
 .simple .s-globe-about summary::-webkit-details-marker { display: none; }
@@ -1896,20 +1999,15 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
   background: var(--c-scrim); -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur));
 }
 
-@media (max-width: 1100px) { .simple .s-globe-card { width: 320px; } }
 @media (max-width: 639px) {
   /* phones: the Moon takes the upper part of the window (below the mast stepper), the card the rest */
-  .simple .s-globe-view { top: calc(var(--s-top-h) + var(--s-banner-h) + 56px); bottom: 320px; }
-  .simple .s-globe-card {
-    left: 0; right: 0; top: auto; bottom: 0; width: auto; height: 320px; max-height: none; gap: var(--space-2);
-    padding: var(--space-3) var(--space-4) 64px; border-width: 1px 0 0;
-  }
-  .simple .s-globe-card h1 { font-size: var(--text-2xl); }
-  .simple .s-globe-lede { display: none; }
-  .simple .s-globe-sites { margin-top: 0; }
-  .simple .s-globe-sites li { padding: 8px var(--space-2); }
-  .simple .s-globe-about { right: 12px; bottom: 330px; }
-  .simple .s-globe-about[open] { bottom: 12px; z-index: 12; max-height: 70%; }
+  /* phones: the Moon takes the window between the mast stepper and the Check-a-spot box */
+  .simple.s-shell { --s-phone-foot: 62px; --s-spot-box-h: 152px; }
+  .simple .s-globe-view { top: calc(var(--s-top-h) + var(--s-banner-h) + 56px); bottom: calc(var(--s-phone-foot) + var(--s-spot-box-h)); }
+  /* phones: About sits on the row under the top bar, left of the mast stepper, clear of the hints and the box */
+  .simple .s-globe-about { left: 12px; right: auto; top: calc(var(--s-top-h) + var(--s-banner-h) + 14px); bottom: auto; }
+  /* open: a full-width sheet below the mast stepper's row, over the Moon and the box, scrolling inside */
+  .simple .s-globe-about[open] { z-index: 14; left: 12px; right: 12px; width: auto; max-width: none; top: calc(var(--s-top-h) + var(--s-banner-h) + 60px); bottom: calc(var(--s-phone-foot) + 8px); max-height: none; overflow-y: auto; background: rgb(20, 20, 19); }
   .simple.s-shell:not([data-place='site']) .s-menu-btn { margin-left: auto; }
   .simple.s-shell:not([data-place='site']) .s-main > .s-credits {
     margin: 0; padding: var(--space-2) var(--space-4) calc(var(--space-2) + env(safe-area-inset-bottom));
@@ -1920,7 +2018,7 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
   .simple .simple-stage .s-back { top: calc(var(--s-top-h) + var(--s-banner-h) + 8px); left: var(--s-pad); right: auto; margin: 0; min-height: 40px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .simple .s-globe, .simple .s-globe[data-phase='hidden'], .simple .s-globe-canvas, .simple .s-globe-pins, .simple .s-globe[data-shown='true'] .s-globe-pins[data-live='true'], .simple .s-globe-card, .simple .s-globe-about { transition: none; }
+  .simple .s-globe, .simple .s-globe[data-phase='hidden'], .simple .s-globe-canvas, .simple .s-globe-pins, .simple .s-globe[data-shown='true'] .s-globe-pins[data-live='true'], .simple .s-spot-layer, .simple .s-globe[data-shown='true'] .s-spot-layer[data-live='true'], .simple .s-globe-about { transition: none; }
 }
 
 
@@ -1965,14 +2063,15 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .simple.s-shell[data-intro] .s-banner,
 .simple.s-shell[data-intro] .s-main > .s-credits,
 .simple.s-shell[data-intro] .s-globe-about { transition: opacity 0.5s var(--ease-enter) 0.1s, visibility 0s; }
-.simple.s-shell[data-intro] .s-globe-card { transition: opacity 0.7s var(--ease-enter), transform 0.7s var(--ease-enter), visibility 0s; }
+.simple.s-shell[data-intro] .s-globe .s-spot-layer { transition: opacity 0.7s var(--ease-enter), transform 0.7s var(--ease-enter), visibility 0s; }
 .simple.s-shell[data-intro='play'] .s-chrome > .s-stepper,
 .simple.s-shell[data-intro='play'] .s-more > a,
 .simple.s-shell[data-intro='play'] .s-banner,
 .simple.s-shell[data-intro='play'] .s-main > .s-credits,
 .simple.s-shell[data-intro='play'] .s-globe-about,
-.simple.s-shell[data-intro='play'] .s-globe-card { opacity: 0; visibility: hidden; transition: none; }
-.simple.s-shell[data-intro='play'] .s-globe-card { transform: translateY(10px); }
+/* the box shares the bottom centre with the sequence's caption, so it waits until the caption has gone ('settle' included) */
+.simple.s-shell[data-intro='play'] .s-globe .s-spot-layer, .simple.s-shell[data-intro='settle'] .s-globe .s-spot-layer { opacity: 0; visibility: hidden; transition: none; }
+.simple.s-shell[data-intro='play'] .s-globe .s-spot-layer, .simple.s-shell[data-intro='settle'] .s-globe .s-spot-layer { transform: translateY(10px); }
 /* the card's rows only pick a site once the globe is live (after the hand-off): until then they take no pointer */
 .simple.s-shell[data-intro] .s-globe-sites li { pointer-events: none; }
 /* the sequence has its own words for what is loading */
@@ -1988,8 +2087,8 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
   .simple .s-intro, .simple .s-intro-light { animation: none; }
   .simple .s-intro, .simple .s-intro-bar i,
   .simple.s-shell[data-intro] .s-chrome, .simple.s-shell[data-intro] .s-chrome > .s-stepper, .simple.s-shell[data-intro] .s-more > a, .simple.s-shell[data-intro] .s-banner,
-  .simple.s-shell[data-intro] .s-main > .s-credits, .simple.s-shell[data-intro] .s-globe-about, .simple.s-shell[data-intro] .s-globe-card { transition: none; }
-  .simple.s-shell[data-intro='play'] .s-globe-card { transform: none; }
+  .simple.s-shell[data-intro] .s-main > .s-credits, .simple.s-shell[data-intro] .s-globe-about, .simple.s-shell[data-intro] .s-globe .s-spot-layer { transition: none; }
+  .simple.s-shell[data-intro='play'] .s-globe .s-spot-layer, .simple.s-shell[data-intro='settle'] .s-globe .s-spot-layer { transform: none; }
 }
 
 /* ==========================================================================================================

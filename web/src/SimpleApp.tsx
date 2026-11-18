@@ -11,7 +11,7 @@ import { fmtPctRange, mastScenarioId, useChooseMast, useMastReading } from './co
 import { TimeBar } from './components/TimeBar';
 import { switchMode } from './mode';
 import { pickQuality, QUALITY_NOTE } from './simple/quality';
-import { GLOBE_8K, GLOBE_NAV, globePlan, moonDir, pinReading, skyDirFromSite } from './simple/globeMath';
+import { GLOBE_8K, GLOBE_NAV, globePlan, moonDir, pinReading, skyDirFromSite, type CurveRow } from './simple/globeMath';
 import type { GlobeSite } from './simple/Globe';
 import { Intro } from './simple/Intro';
 import { lightCaption } from './simple/introMath';
@@ -19,6 +19,7 @@ import { newIntroLink, useMoonLoad } from './simple/introState';
 import { IconArrow, IconBack, IconChevronDown, IconChevronUp, IconClose, IconMenu, SoundControl } from './simple/parts';
 import { SceneCard, SceneObjectList, useObjectCard } from './simple/SceneCards';
 import { useSceneFocus } from './simple/sceneFocus';
+import { matchDistanceM } from './simple/spotCheck';
 const Scene3D = lazy(() => import('./three/Scene3D'));
 const Globe = lazy(() => import('./simple/Globe'));
 
@@ -449,6 +450,8 @@ export default function SimpleApp() {
             ? `No answer at a ${r.mastM} m mast: this site was not sampled at that height`
             : `${verdictWord(sun.min, r.all100)}. Sun in sight ${fmtPctRange(sun)} at a ${r.mastM} m mast`;
       const spread = r?.spreadPts ?? null;
+      // the Sun + Earth row at the same mast (the row the terrain view's numbers panel shows)
+      const both = r ? (sidecar?.sites?.[d.siteId]?.certainty_curve as CurveRow[] | undefined)?.find((x) => x.mast_m === r.mastM && x.metric === 'both_centre_pct') : undefined;
       out.push({
         idx: i,
         id: d.siteId,
@@ -458,10 +461,33 @@ export default function SimpleApp() {
         spreadPts: spread,
         spreadText: sun && spread !== null ? (spread === 0 ? `all ${sun.n_clones} terrain variants agree` : `${sun.n_clones} terrain variants differ by ${spread.toFixed(1)} points`) : '',
         n: sun?.n_clones ?? null,
+        // S13: the same sidecar rows as words for "Check a spot", with the site's bundle coordinates
+        spot: {
+          id: d.siteId,
+          name: d.site.name,
+          lat: d.site.latitudePlanetocentricDeg,
+          lon: d.site.longitudeEastDeg,
+          result: r && sun ? { verdict: verdictWord(sun.min, r.all100), sun: fmtPctRange(sun), both: both ? fmtPctRange(both) : null, mastM: r.mastM, variants: sun.n_clones } : null,
+          why: line,
+        },
       });
     }
     return out;
   }, [loaded, datasetIdx, curSeriesMast, sidecar, mastPick]);
+  // S13: how close a typed point must be to a computed site (from the bundle's own position steps), and the window our
+  // results cover (the bundle's first and last sample)
+  const spotMatch = useMemo(() => {
+    const m = matchDistanceM(loaded?.bundle.datasets.flatMap((d) => d.derived?.scenarios ?? []));
+    return m && loaded ? { ...m, file: loaded.name } : null; // the card names the file the step was read from
+  }, [loaded]);
+  const spotWindow = useMemo(() => {
+    const samples = loaded?.bundle.datasets[0]?.ephemeris.samples;
+    if (!samples?.length) return null;
+    const day = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+    // the window's length is worked out from the same two samples, not typed in
+    const days = (Date.parse(samples[samples.length - 1].time) - Date.parse(samples[0].time)) / 86_400_000;
+    return `the ${Number.isInteger(days) ? days : days.toFixed(1)} days from ${day.format(new Date(samples[0].time))} to ${day.format(new Date(samples[samples.length - 1].time))} (UTC)`;
+  }, [loaded]);
   const variants = pins.find((p) => p.n !== null)?.n ?? null;
   const legend = `how much the ${variants ?? ''} terrain variants disagree (Sun in sight, max − min) at the mast height picked in the top bar. A still amber pin means they all agree; a grey pin has no sidecar answer at that height.`.replace('the  terrain', 'the terrain');
   const site = v?.dataset.site;
@@ -486,6 +512,7 @@ export default function SimpleApp() {
       `Pins: each line ends at the site's bundle latitude and longitude; the pins stand apart from it so they can be read and pressed. The slow drift is a display motion. ` +
       `You can turn the Moon by dragging and zoom with the wheel or a pinch; the zoom stops where one pixel of this Moon image would be drawn larger than ${GLOBE_NAV.MAX_TEXEL_CSS_PX} screen pixels, and "Back to south pole" returns to the sites. ` +
       `Quality: ${QUALITY_NOTE[quality.tier].replace('bloom, flare and grain off; the Sun keeps a plain glow', 'lighter Moon image, camera effects off').replace('camera effects on', 'film grain on, a camera effect')}. The Sun itself is outside this view, so there is no glow or flare here. ` +
+      `Check a spot: a click is placed on a smooth sphere at the pins' radius, not on the drawn relief, and only supplies coordinates; the values come from the files. ` +
       `Opening sequence: the same Moon and the same Sun direction, seen first from the night side; its glare, lens flare and colour fringing are camera effects, display only, and stop before this view.`
     : '';
 
@@ -782,6 +809,8 @@ export default function SimpleApp() {
                 visited={visited}
                 legend={legend}
                 about={about}
+                spotMatch={spotMatch}
+                spotWindow={spotWindow}
                 onPick={pickSite}
                 onArrive={() => setPlace((p) => (p === 'in' ? 'site' : p))}
                 onBack={() => setPlace((p) => (p === 'out' ? 'globe' : p))}

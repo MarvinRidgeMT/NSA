@@ -89,6 +89,8 @@ test.describe('the globe, moved by hand', () => {
     await page.getByTestId('globe-home').click();
     await expect(page.getByTestId('simple-globe')).not.toHaveAttribute('data-moved', 'true', { timeout: 5000 });
     await page.getByTestId(`globe-pin-${STORY}`).getByRole('button').click();
+    // 18 Nov layout: a pin opens its card; the card's button flies down
+    await page.getByTestId('pin-card-fly').click();
     await expect(page.getByTestId('simple-mode')).toHaveAttribute('data-place', /in|site/, { timeout: 5000 });
   });
 
@@ -151,8 +153,8 @@ test.describe('the globe, moved by hand', () => {
     await openGlobe(page);
     const pad = page.getByTestId('globe-pad');
     await expect(pad).toHaveAccessibleName(/Arrow keys turn it, plus and minus zoom/);
-    // reached by Tab, just before the site pins
-    await page.getByTestId('globe-card').click({ position: { x: 5, y: 5 } });
+    // reached by Tab, just before the site pins (18 Nov layout: the side card is gone, so Tab starts from the page's main region)
+    await page.locator('#simple-main').focus();
     let reached = false;
     for (let i = 0; i < 12 && !reached; i++) {
       await page.keyboard.press('Tab');

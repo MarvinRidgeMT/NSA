@@ -1,14 +1,16 @@
 import { addAfterEffect, Canvas, useFrame, useThree } from '@react-three/fiber';
-import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent as RKeyboardEvent, type MutableRefObject, type PointerEvent as RPointerEvent } from 'react';
+import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent as RKeyboardEvent, type MutableRefObject, type MouseEvent as RMouseEvent, type PointerEvent as RPointerEvent } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { easeCamera } from '../store/camera';
 import { EXPOSURE, postColors, SKY, SUN_HEX } from './postColors';
 import type { QualityTier } from './quality';
-import { DRIFT_DEG_PER_S, FLIGHT_MS, GLOBE_NAV, MODEL_HAS_RELIEF, MODEL_YAW_RAD, RELIEF_CAP_FROM_DEG, RELIEF_CAP_TO_DEG, RELIEF_SHADE, distanceForDisc, radPerPixel, releaseVelocity, reliefNormals, layoutPins, texelsPerRadian, zoomFloor, type Pt, type Vec3 } from './globeMath';
-import { HonestyTag, HoverLabel, IconBack, SitePin } from './parts';
+import { DRIFT_DEG_PER_S, FLIGHT_MS, GLOBE_NAV, MODEL_HAS_RELIEF, MODEL_YAW_RAD, RELIEF_CAP_FROM_DEG, RELIEF_CAP_TO_DEG, RELIEF_SHADE, distanceForDisc, radPerPixel, releaseVelocity, reliefNormals, layoutPins, moonDir, texelsPerRadian, zoomFloor, type Pt, type Vec3 } from './globeMath';
+import { HonestyTag, HoverLabel, IconArrow, IconBack, IconClose, SitePin } from './parts';
 import { arcAt, distAt, glareFor, glareOut, INTRO, openMs, peekDeg, peekStillDeg, smooth as smoothStep, sunClear, SUN_RADIUS_DEG, type Arc } from './introMath';
 import { newIntroLink, useMoonLoad, type IntroLink } from './introState';
+import { SpotBox, SpotCard, useSpotCheck, type SpotCardSite } from './SpotPanel';
+import { dirToLatLon } from './spotCheck';
 
 const SimplePost = lazy(() => import('./SimplePost'));
 
@@ -34,10 +36,16 @@ export interface GlobeSite {
   spreadPts: number | null;
   /** short text for the spread, e.g. "variants differ by 9.8 points" */
   spreadText: string;
+  /** S13: the site's bundle coordinates and its sidecar result as words, for "Check a spot" */
+  spot: SpotCardSite;
 }
 /** 'intro' is the opening sequence (S3): the same scene and camera, on its way to the 'idle' view. */
 export type GlobePhase = 'intro' | 'idle' | 'in' | 'hidden' | 'out';
 
+/** The first-visit hint stays gone on this browser once something on the Moon has been clicked. */
+const HINT_KEY = 'polaris-x.simple.globe-hint-seen';
+/** Cards on wide windows stay this far above the bottom of the view, clear of the Check-a-spot box. CSS px. */
+const CARD_CLEAR_BOTTOM = 148;
 const FOV = 30;
 /** Camera height above the site where the dive ends, in Moon radii (the terrain view takes over from here). */
 const ALT_END = 0.03;
@@ -77,14 +85,16 @@ interface GlobeNav {
   /** the slow drift stays off until this time (performance.now) */
   quietUntil: number;
   /** "Back to south pole" in progress */
-  home: { t0: number; q0: THREE.Quaternion; axis: THREE.Vector3; angle: number; z0: number } | null;
+  home: { t0: number; q0: THREE.Quaternion; axis: THREE.Vector3; angle: number; z0: number; z1: number } | null;
   goHome: boolean;
+  /** S13 "Zoom in here": asked to bring this point of the Moon under the camera and zoom to the closest this model allows */
+  goTo: THREE.Vector3 | null;
   /** written by the rig: radians per CSS pixel at the view centre now, and the zoom floor of the model on screen */
   radPerPx: number;
   zoomMin: number;
   moved: boolean;
 }
-const newNav = (): GlobeNav => ({ q: new THREE.Quaternion(), zoom: 1, zoomNow: 1, dx: 0, dy: 0, vx: 0, vy: 0, nx: 0, ny: 0, dragging: false, quietUntil: 0, home: null, goHome: false, radPerPx: 0, zoomMin: 1, moved: false });
+const newNav = (): GlobeNav => ({ q: new THREE.Quaternion(), zoom: 1, zoomNow: 1, dx: 0, dy: 0, vx: 0, vy: 0, nx: 0, ny: 0, dragging: false, quietUntil: 0, home: null, goHome: false, goTo: null, radPerPx: 0, zoomMin: 1, moved: false });
 
 function useReducedMotion(): boolean {
   const [r, setR] = useState(() => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -267,7 +277,12 @@ interface RigProps {
   onMoved: (moved: boolean) => void;
   wrap: MutableRefObject<HTMLDivElement | null>;
   fade: MutableRefObject<HTMLDivElement | null>;
-  place: MutableRefObject<((anchors: (Pt | null)[], w: number, h: number) => void) | null>;
+  place: MutableRefObject<((anchors: (Pt | null)[], w: number, h: number, spot: Pt | null) => void) | null>;
+  /** S13: the checked point (unit vector, model frame) and the marker element drawn over it; `pick` is set here to a function
+   *  that says which point of the unit-sphere Moon lies under a screen position (null = the position is off the Moon) */
+  spotDir: MutableRefObject<THREE.Vector3 | null>;
+  spotEl: MutableRefObject<HTMLDivElement | null>;
+  pick: MutableRefObject<((clientX: number, clientY: number) => Vec3 | null) | null>;
   ready: boolean;
   onArrive: () => void;
   onBack: () => void;
@@ -284,7 +299,7 @@ interface RigProps {
 }
 
 /** Camera (pole-on view, slow drift, the dive to a site and back) and the per-frame screen positions of the sites. */
-function Rig({ sunDir, dirs, phase, target, still, hold, nav, texelsPerRad, onMoved, wrap, fade, place, ready, onArrive, onBack, loaded, modelIn, fx, link, lights, props, snap, onIntroSettle, onIntroEnd }: RigProps) {
+function Rig({ sunDir, dirs, phase, target, still, hold, nav, texelsPerRad, onMoved, wrap, fade, place, spotDir, spotEl, pick, ready, onArrive, onBack, loaded, modelIn, fx, link, lights, props, snap, onIntroSettle, onIntroEnd }: RigProps) {
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
   const size = useThree((s) => s.size);
   const gl = useThree((s) => s.gl);
@@ -344,6 +359,21 @@ function Rig({ sunDir, dirs, phase, target, still, hold, nav, texelsPerRad, onMo
     [gl, link, snap],
   );
 
+  // S13: the point of the Moon under a screen position. The Moon is taken as the unit sphere the pins are placed on (the 8k
+  // model's drawn relief is display only), seen through this frame's camera, view shift included.
+  useEffect(() => {
+    const ray = new THREE.Raycaster();
+    const ball = new THREE.Sphere(new THREE.Vector3(), 1);
+    const hit = new THREE.Vector3();
+    pick.current = (cx, cy) => {
+      const r = gl.domElement.getBoundingClientRect();
+      if (r.width <= 0 || r.height <= 0) return null;
+      ray.setFromCamera(new THREE.Vector2(((cx - r.left) / r.width) * 2 - 1, -((cy - r.top) / r.height) * 2 + 1), camera);
+      return ray.ray.intersectSphere(ball, hit) ? [hit.x, hit.y, hit.z] : null;
+    };
+    return () => void (pick.current = null);
+  }, [gl, camera, pick]);
+
   useEffect(() => {
     (window as unknown as Record<string, unknown>).__polarisGlobe = { gl, scene, camera, advance, nav: nav.current };
     return () => {
@@ -370,21 +400,25 @@ function Rig({ sunDir, dirs, phase, target, still, hold, nav, texelsPerRad, onMo
     N.zoomNow = Math.min(1, Math.max(N.zoomMin, N.zoomNow));
     if (phase === 'idle') {
       const step = Math.min(dt, 0.1);
-      if (N.goHome) {
-        // "Back to south pole": the shortest turn that brings the pole back under the camera, and the zoom back out
+      if (N.goHome || N.goTo) {
+        // "Back to south pole": the shortest turn that brings the pole back under the camera, and the zoom back out.
+        // S13 "Zoom in here": the same turn toward the asked point, and the zoom in to the closest this model allows.
+        const to = N.goHome ? SOUTH : N.goTo!;
+        const z1 = N.goHome ? 1 : N.zoomMin;
         N.goHome = false;
+        N.goTo = null;
         tmp.home.copy(SOUTH).applyQuaternion(N.q);
-        const axis = new THREE.Vector3().crossVectors(tmp.home, SOUTH);
-        const angle = tmp.home.angleTo(SOUTH);
+        const axis = new THREE.Vector3().crossVectors(tmp.home, to);
+        const angle = tmp.home.angleTo(to);
         if (axis.lengthSq() < 1e-10) axis.copy(up0).applyQuaternion(N.q); // exactly opposite: any axis across the view
-        N.home = { t0: now, q0: N.q.clone(), axis: axis.normalize(), angle, z0: N.zoomNow };
+        N.home = { t0: now, q0: N.q.clone(), axis: axis.normalize(), angle, z0: N.zoomNow, z1 };
         N.dx = N.dy = N.vx = N.vy = N.nx = N.ny = 0;
       }
       if (N.home) {
         const kh = still ? 1 : Math.min(1, (now - N.home.t0) / GLOBE_NAV.HOME_MS);
         const eh = 1 - Math.pow(1 - kh, 3);
         N.q.copy(tmp.q.setFromAxisAngle(N.home.axis, N.home.angle * eh)).multiply(N.home.q0);
-        N.zoom = N.zoomNow = Math.exp(Math.log(N.home.z0) * (1 - eh));
+        N.zoom = N.zoomNow = N.home.z1 === 1 ? Math.exp(Math.log(N.home.z0) * (1 - eh)) : Math.exp(Math.log(N.home.z0) + (Math.log(N.home.z1) - Math.log(N.home.z0)) * eh);
         if (kh >= 1) N.home = null;
       } else {
         // the scale of a drag: the surface under the view centre moves with the pointer, one for one
@@ -456,8 +490,8 @@ function Rig({ sunDir, dirs, phase, target, still, hold, nav, texelsPerRad, onMo
     camera.lookAt(0, 0, 0);
     let near = Math.max(0.001, alt * 0.25);
     let far = D + 2;
-    // wide windows: the whole-Moon view stands right of the card; the shift eases away during the dive
-    let shift = size.width >= 1024 ? (Math.min(240, size.width * 0.15) / 2) * (1 - e) : 0;
+    // (until 18 Nov the whole-Moon view stood right of a card on wide windows; the card is gone and the Moon is centred)
+    let shift = 0;
 
     // ---- opening sequence (S3): the same camera on its way to the view above. Display only. ----
     const intro = phase === 'intro';
@@ -565,6 +599,22 @@ function Rig({ sunDir, dirs, phase, target, still, hold, nav, texelsPerRad, onMo
     const el = fade.current;
     if (el) el.style.opacity = phase === 'in' ? String(1 - smooth(0.6, 1, k)) : phase === 'out' ? String(smooth(0, 0.4, k)) : phase === 'hidden' ? '0' : '';
 
+    // S13: the marker of the checked point follows the Moon; hidden while the point is behind the limb
+    const mark = spotEl.current;
+    let spotAt: Pt | null = null;
+    const sd = spotDir.current;
+    if (sd && sd.dot(camera.position) > 1) {
+      tmp.p.copy(sd).project(camera);
+      spotAt = { x: (tmp.p.x * 0.5 + 0.5) * size.width, y: (-tmp.p.y * 0.5 + 0.5) * size.height };
+    }
+    if (mark) {
+      if (!spotAt) mark.style.visibility = 'hidden';
+      else {
+        mark.style.visibility = '';
+        mark.style.transform = `translate(${spotAt.x.toFixed(1)}px, ${spotAt.y.toFixed(1)}px)`;
+      }
+    }
+
     place.current?.(
       dirs.map((d) => {
         if (d.dot(camera.position) <= 1) return null; // behind the limb
@@ -573,6 +623,7 @@ function Rig({ sunDir, dirs, phase, target, still, hold, nav, texelsPerRad, onMo
       }),
       size.width,
       size.height,
+      spotAt,
     );
 
     if (ready && !s.marked) {
@@ -611,6 +662,9 @@ export interface GlobeProps {
   /** what the shimmer means, after "Shimmer = " (its numbers come from the sidecar) and the "About this view" text (its numbers come from the bundle) */
   legend: string;
   about: string;
+  /** S13 "Check a spot": how close counts as at a site, and the window our results cover (both read from the bundle) */
+  spotMatch?: { stepM: number; withinM: number; file: string } | null;
+  spotWindow?: string | null;
   onPick: (i: number) => void;
   onArrive: () => void;
   onBack: () => void;
@@ -639,7 +693,47 @@ function glowTexture(): THREE.Texture {
   return t;
 }
 
-export default function Globe({ file: first, upgrade = null, onModel, sites, sunDir, earthDir, tier, phase, target, cover, visited, legend, about, onPick, onArrive, onBack, intro, onIntroSettle, onIntroEnd }: GlobeProps) {
+/**
+ * The card that opens beside a pin: that site's answer (the same words and numbers its row in the old side panel had, from the
+ * certainty sidecar), what the shimmer means, and the way down to its terrain.
+ */
+function PinCard({ site, legend, cardRef, onFly, onClose }: { site: GlobeSite; legend: string; cardRef: (el: HTMLElement | null) => void; onFly: () => void; onClose: () => void }) {
+  const id = `s-pincard-${site.id}`;
+  return (
+    <section className="s-panel s-gcard s-pincard" ref={cardRef} aria-labelledby={id} data-testid="pin-card" data-site={site.id} data-nodata={site.spreadPts === null || undefined} style={{ visibility: 'hidden' }}>
+      <div className="s-gcard-head">
+        <h2 className="s-gcard-title" id={id}>
+          {site.name}
+        </h2>
+        <button type="button" className="s-btn s-btn--sm s-btn--icon s-btn--quiet" aria-label="Close this card" data-testid="pin-card-close" onClick={onClose}>
+          <IconClose />
+        </button>
+      </div>
+      <p className="s-pincard-q">Does a lander here keep the Sun?</p>
+      <p className="s-pincard-line" data-testid="pin-card-line">
+        {site.line}
+      </p>
+      {site.spreadText && (
+        <p className="s-globe-site-spread" data-testid="pin-card-spread">
+          {site.spreadText}
+        </p>
+      )}
+      <p className="s-globe-legend">
+        <span className="s-globe-legend-mark" aria-hidden="true" />
+        {legend}
+      </p>
+      <div className="s-gcard-actions">
+        <button type="button" className="s-btn s-btn--sm s-btn--primary" data-testid="pin-card-fly" onClick={onFly}>
+          Fly down to the terrain
+          <IconArrow />
+        </button>
+        <HonestyTag href="?mode=expert#evidence" />
+      </div>
+    </section>
+  );
+}
+
+export default function Globe({ file: first, upgrade = null, onModel, sites, sunDir, earthDir, tier, phase, target, cover, visited, legend, about, spotMatch = null, spotWindow = null, onPick, onArrive, onBack, intro, onIntroSettle, onIntroEnd }: GlobeProps) {
   const fx = tier === 'high' || tier === 'medium' ? tier : null;
   const lite = tier === 'low';
   const still = useReducedMotion();
@@ -688,7 +782,6 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
   const last = useRef<{ pins: Pt[]; centre: Pt; w: number; h: number; ring: number }>({ pins: [], centre: { x: 0, y: 0 }, w: 0, h: 0, ring: 0 });
   const hotRef = useRef(hot);
   hotRef.current = hot;
-  hold.current = hot >= 0;
   const liveRef = useRef(false);
   liveRef.current = phase === 'idle';
 
@@ -710,6 +803,143 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
       /* the pointer is already gone: the drag still ends on its pointerup or pointercancel */
     }
   };
+
+  // ---- 18 Nov layout: no side panel. One card at a time opens beside what was pressed: a pin's card (that site's answer and
+  // the way down to its terrain) or the S13 card of a checked spot (beside its marker). ----
+  const [card, setCard] = useState<{ kind: 'pin'; i: number } | { kind: 'spot' } | null>(null);
+  const cardRef = useRef(card);
+  cardRef.current = card;
+  hold.current = hot >= 0 || card !== null; // the slow drift waits while a pin is hovered or a card is open
+  const cardEl = useRef<HTMLElement | null>(null);
+  /** what had focus when a card was opened by keyboard: focus goes back there when the card closes */
+  const opener = useRef<HTMLElement | null>(null);
+  const [marked, setMarked] = useState(false);
+  const spotDir = useRef<THREE.Vector3 | null>(null);
+  const spotEl = useRef<HTMLDivElement | null>(null);
+  const pickAt = useRef<((clientX: number, clientY: number) => Vec3 | null) | null>(null);
+  const spotSites = useMemo(() => sites.map((s) => s.spot), [sites]);
+  const setSpotPoint = (p: { lat: number; lon: number } | null) => {
+    spotDir.current = p ? new THREE.Vector3(...moonDir(p.lat, p.lon)) : null;
+    setMarked(!!p);
+  };
+  const byKeys = () => !!document.activeElement?.matches(':focus-visible');
+  const spot = useSpotCheck(setSpotPoint, () => {
+    opener.current = byKeys() ? (document.activeElement as HTMLElement) : null;
+    setCard({ kind: 'spot' });
+  });
+  // the first-visit hint ("Click a pin or anywhere on the Moon") goes away after the first click, for good on this browser
+  const [hinted, setHinted] = useState(() => {
+    try {
+      return window.localStorage.getItem(HINT_KEY) === '1';
+    } catch {
+      return false;
+    }
+  });
+  const clicked = () => {
+    if (hinted) return;
+    setHinted(true);
+    try {
+      window.localStorage.setItem(HINT_KEY, '1');
+    } catch {
+      /* storage blocked: the hint is still gone until the next load */
+    }
+  };
+  const openPin = (i: number, el: HTMLElement | null) => {
+    if (!liveRef.current) return;
+    clicked();
+    opener.current = byKeys() || (el !== null && document.activeElement === el && el.matches(':focus-visible')) ? el : null;
+    if (cardRef.current?.kind === 'spot') spot.clear();
+    setCard({ kind: 'pin', i });
+  };
+  const closeCard = () => {
+    const c = cardRef.current;
+    if (!c) return;
+    // focus inside the card goes back to what opened it; a card opened by a click on the Moon has no such control, so the
+    // page's main region takes it instead of the document body
+    const back = cardEl.current?.contains(document.activeElement) ? (opener.current ?? document.getElementById('simple-main')) : null;
+    if (c.kind === 'spot') spot.clear();
+    setCard(null);
+    if (back) requestAnimationFrame(() => back.focus());
+  };
+  // a card opened by keyboard takes focus (its first action), so Enter again acts and Esc brings focus back
+  useEffect(() => {
+    if (!card || !opener.current) return;
+    if (card.kind === 'pin') (cardEl.current?.querySelector<HTMLElement>('.s-gcard-actions .s-btn') ?? cardEl.current?.querySelector<HTMLElement>('.s-gcard-head .s-btn'))?.focus();
+  }, [card]);
+  // the S13 card closes itself when its answer is cleared (an edit of the boxes, a failed load, not a coordinate)
+  useEffect(() => {
+    if (card?.kind === 'spot' && !spot.res && !spot.busy) setCard(null);
+  }, [card, spot.res, spot.busy]);
+  // a long card scrolls: it says when there is more above or below its visible part (data-above / data-below), so the CSS can
+  // fade that edge instead of cutting a line in half with no hint
+  useEffect(() => {
+    const el = cardEl.current;
+    if (!card || !el) return;
+    const mark = () => {
+      el.toggleAttribute('data-above', el.scrollTop > 1);
+      el.toggleAttribute('data-below', el.scrollHeight - el.clientHeight - el.scrollTop > 1);
+    };
+    mark();
+    el.addEventListener('scroll', mark, { passive: true });
+    const ro = new ResizeObserver(mark);
+    ro.observe(el);
+    const mo = new MutationObserver(() => {
+      for (const c of el.children) ro.observe(c);
+      mark();
+    });
+    for (const c of el.children) ro.observe(c);
+    mo.observe(el, { childList: true, subtree: true, characterData: true });
+    return () => {
+      el.removeEventListener('scroll', mark);
+      ro.disconnect();
+      mo.disconnect();
+    };
+  }, [card]);
+  // a flight to a site leaves no card behind on the globe
+  useEffect(() => {
+    if (phase !== 'idle' && cardRef.current) {
+      if (cardRef.current.kind === 'spot') spot.clear();
+      setCard(null);
+    }
+  }, [phase]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Esc closes the open card, after anything smaller that is open (a tooltip, the phone menu, a disclosure: SimpleApp's Esc)
+  useEffect(() => {
+    if (!card) return;
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape' || !liveRef.current) return;
+      if (document.querySelector('.s-shell details[open], .s-more[data-open="true"]') || document.activeElement?.closest('.s-tipwrap')) return;
+      closeCard();
+    };
+    // capture phase: this runs before SimpleApp's own Esc handler closes that smaller thing, so one press closes one thing
+    window.addEventListener('keydown', onEsc, true);
+    return () => window.removeEventListener('keydown', onEsc, true);
+  }, [card]); // eslint-disable-line react-hooks/exhaustive-deps
+  // A click on the Moon drops a point there and opens its card; a click on the sky closes whatever card is open. A press that
+  // turned into a drag never gets here: the view's capture handler below swallows the click that ends a drag.
+  const onPadClick = (e: RMouseEvent<HTMLDivElement>) => {
+    if (!liveRef.current || touch.current.noClick || nav.current.dragging) return;
+    const d = pickAt.current?.(e.clientX, e.clientY);
+    quiet();
+    clicked();
+    if (!d) {
+      closeCard();
+      return;
+    }
+    const { lat, lon } = dirToLatLon(d);
+    opener.current = null;
+    spot.drop(lat, lon, nav.current.radPerPx);
+  };
+  const zoomTo = (lat: number, lon: number) => {
+    nav.current.goTo = new THREE.Vector3(...moonDir(lat, lon));
+    nav.current.vx = nav.current.vy = 0;
+    quiet();
+    setUsed(true);
+  };
+  const flyTo = (siteId: string) => {
+    const i = sites.findIndex((x) => x.id === siteId);
+    if (i >= 0 && liveRef.current) onPick(i);
+  };
+
   const onDown = (e: RPointerEvent<HTMLDivElement>) => {
     if (!liveRef.current || (e.pointerType === 'mouse' && e.button !== 0)) return;
     const T = touch.current;
@@ -856,9 +1086,7 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
     const lw = el.offsetWidth;
     const lh = el.offsetHeight;
     // beside the pin, on the side away from the group; when that would run under the card or off the window, under the group
-    const view = el.parentElement?.getBoundingClientRect();
-    const card = wrap.current?.querySelector('.s-globe-card')?.getBoundingClientRect();
-    const minX = view && card && card.bottom > view.top + pin.y && card.right < view.left + L.w / 2 ? card.right - view.left + 8 : 8;
+    const minX = 8;
     let x = pin.x >= L.centre.x ? pin.x + 20 : pin.x - 20 - lw;
     let y = pin.y - lh / 2;
     if (L.w < 640 || x < minX || x + lw > L.w - 8) {
@@ -869,9 +1097,35 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
     el.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
   };
 
+  // The open card stands beside what it belongs to (a pin, or the checked spot's marker) and follows it as the Moon turns. On
+  // phones it is a sheet along the bottom instead (styles.css), so nothing is positioned here.
+  const lastSpot = useRef<Pt | null>(null);
+  const placeCard = () => {
+    const el = cardEl.current;
+    const c = cardRef.current;
+    const L = last.current;
+    if (!el || !c || !L.w) return;
+    if (L.w < 640) {
+      if (el.style.transform) el.style.transform = '';
+      el.style.visibility = '';
+      return;
+    }
+    const a = (c.kind === 'pin' ? L.pins[c.i] : lastSpot.current) ?? { x: L.w / 2, y: L.h / 2 }; // out of sight: mid-view
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    const gap = c.kind === 'pin' ? 30 : 24;
+    let x = c.kind === 'spot' || a.x >= L.centre.x ? a.x + gap : a.x - gap - w;
+    if (x + w > L.w - 12) x = a.x - gap - w;
+    if (x < 12) x = a.x + gap;
+    x = Math.min(Math.max(12, x), Math.max(12, L.w - w - 12));
+    // clear of the box along the bottom
+    const y = Math.min(Math.max(12, a.y - Math.min(h / 2, 96)), Math.max(12, L.h - CARD_CLEAR_BOTTOM - h));
+    el.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+    el.style.visibility = '';
+  };
   // called by the rig every frame with the sites' true screen positions
-  const place = useRef<((anchors: (Pt | null)[], w: number, h: number) => void) | null>(null);
-  place.current = (anchors, w, h) => {
+  const place = useRef<((anchors: (Pt | null)[], w: number, h: number, spot: Pt | null) => void) | null>(null);
+  place.current = (anchors, w, h, spotAt) => {
     const shown = anchors.map((a, i) => (a ? i : -1)).filter((i) => i >= 0);
     const ring = w < 640 ? 60 : 78;
     const { pins, centre } = layoutPins(shown.map((i) => anchors[i]!), ring, (50 * Math.PI) / 180);
@@ -910,9 +1164,12 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
       }
     });
     last.current = { pins: all, centre, w, h, ring };
+    lastSpot.current = spotAt;
     if (hotRef.current >= 0) placeLabel();
+    if (cardRef.current) placeCard();
   };
   useLayoutEffect(placeLabel, [hot]); // eslint-disable-line react-hooks/exhaustive-deps
+  useLayoutEffect(placeCard, [card, spot.res, spot.busy]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const live = phase === 'idle';
   // the label keeps its words while it fades out
@@ -924,7 +1181,7 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
   const shown = drawn && !playing;
 
   return (
-    <div className="s-globe" data-testid="simple-globe" data-phase={phase} data-cover={cover || undefined} data-state={state} data-shown={shown} data-asset={file} data-upgrade={upgrade && (up === 'wait' || up === 'loaded' || up === 'fading') ? upgrade : undefined} data-upgrade-state={upgrade ? up : undefined} data-still={still || undefined} data-moved={moved || undefined} ref={wrap}>
+    <div className="s-globe" data-testid="simple-globe" data-card={card?.kind} data-phase={phase} data-cover={cover || undefined} data-state={state} data-shown={shown} data-asset={file} data-upgrade={upgrade && (up === 'wait' || up === 'loaded' || up === 'fading') ? upgrade : undefined} data-upgrade-state={upgrade ? up : undefined} data-still={still || undefined} data-moved={moved || undefined} ref={wrap}>
       <div
         className="s-globe-view"
         ref={view}
@@ -1015,6 +1272,9 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
               wrap={wrap}
               fade={fade}
               place={place}
+              spotDir={spotDir}
+              spotEl={spotEl}
+              pick={pickAt}
               ready={drawn}
               onArrive={onArrive}
               onBack={onBack}
@@ -1058,9 +1318,10 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
         ref={pad}
         tabIndex={live ? 0 : -1}
         role="application"
-        aria-label="The Moon. Arrow keys turn it, plus and minus zoom, Home goes back to the south pole. The site buttons follow."
+        aria-label="The Moon. Arrow keys turn it, plus and minus zoom, Home goes back to the south pole. The site buttons follow. A click on the Moon checks that spot; the Check a spot boxes below do the same from typed coordinates."
         data-testid="globe-pad"
         inert={playing}
+        onClick={onPadClick}
       />
       {/* during the opening sequence the pins are unseen and do nothing: out of the tab order and the accessibility tree */}
         <div className="s-globe-pins" data-live={live} inert={playing}>
@@ -1086,54 +1347,95 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
             onFocus={() => setHot(i)}
             onBlur={() => setHot((h) => (h === i ? -1 : h))}
           >
-            <SitePin label={`${s.name}. ${s.line}. Fly to this site.`} spreadPts={s.spreadPts ?? 0} selected={visited === i} still={still} onClick={() => live && onPick(i)} />
+            <SitePin label={`${s.name}. ${s.line}. Open this site’s card.`} spreadPts={s.spreadPts ?? 0} selected={visited === i} still={still} onClick={(e) => openPin(i, e.currentTarget)} />
           </div>
         ))}
+        {/* S13: where the checked point is. A mark only; its coordinates and values are in the card beside it. */}
+        <div className="s-spot-mark" ref={spotEl} data-on={marked || undefined} data-testid="spot-mark" aria-hidden="true" style={{ visibility: 'hidden' }}>
+          <i />
+        </div>
         <div ref={labelEl} className="s-globe-label" data-testid="globe-hover-label">
-          <HoverLabel name={hotSite?.name ?? ''} hint={hotSite?.line} visible={hot >= 0 && live} style={{ position: 'static' }} />
+          <HoverLabel name={hotSite?.name ?? ''} hint={hotSite?.line} visible={hot >= 0 && live && !(card?.kind === 'pin' && card.i === hot)} style={{ position: 'static' }} />
         </div>
       </div>
-      {/* S12: how to move the Moon, until the visitor has; then, once the view has moved, the way back to the sites */}
+      {/* S12: once the view has moved, the way back to the sites */}
       <div className="s-globe-nav" data-live={live} inert={playing}>
-        {moved ? (
+        {moved && (
           <button type="button" className="s-btn s-btn--sm s-globe-home" data-testid="globe-home" ref={homeBtn} onClick={goHome}>
             <IconBack />
             Back to south pole
           </button>
-        ) : (
-          !used && (
-            <p className="s-globe-hint" data-testid="globe-hint" aria-hidden="true">
-              Drag to turn · scroll to zoom
-            </p>
-          )
         )}
       </div>
       </div>
 
-      <section className="s-panel s-globe-card" aria-labelledby="s-globe-h" data-testid="globe-card">
+      {/* The sites as a list of buttons, for the keyboard and screen readers: off screen until one of them has focus. Each
+          opens the same card as its pin. The page's heading and the question it answers live here too. */}
+      <nav className="s-globe-list" aria-labelledby="s-globe-h" data-testid="globe-sites" inert={playing}>
         <h1 id="s-globe-h">The Moon’s south pole</h1>
         <p className="s-globe-lede">Does a lander here keep the Sun? Pick a site to fly down to its terrain.</p>
         <ul className="s-globe-sites">
           {sites.map((s, i) => (
-            // pointer shortcut only: the pins are the buttons (keyboard and screen readers use those)
-            <li key={s.id} data-hot={hot === i || undefined} data-nodata={s.spreadPts === null || undefined} data-testid={`globe-row-${s.id}`} onClick={() => live && onPick(i)} onPointerEnter={(e) => e.pointerType === 'mouse' && setHot(i)} onPointerLeave={() => setHot((h) => (h === i ? -1 : h))}>
-              <i aria-hidden="true" />
-              <span className="s-globe-site-name">{s.name}</span>
-              <span className="s-globe-site-line">{s.line}</span>
-              <span className="s-globe-site-spread">{s.spreadText}</span>
+            <li key={s.id} data-hot={hot === i || undefined} data-nodata={s.spreadPts === null || undefined} data-testid={`globe-row-${s.id}`}>
+              <button type="button" aria-expanded={card?.kind === 'pin' && card.i === i} onClick={(e) => openPin(i, e.currentTarget)} onFocus={() => setHot(i)} onBlur={() => setHot((h) => (h === i ? -1 : h))}>
+                <span className="s-globe-site-name">{s.name}</span>
+                <span className="s-globe-site-line">{s.line}</span>
+                <span className="s-globe-site-spread">{s.spreadText}</span>
+              </button>
             </li>
           ))}
         </ul>
-        <p className="s-globe-legend" data-testid="globe-legend">
-          <span className="s-globe-legend-mark" aria-hidden="true" />
-          {still ? 'Ring width' : 'Shimmer'} = {legend}
-        </p>
-        <HonestyTag href="?mode=expert#evidence" />
-      </section>
+      </nav>
+
+      {/* the open card: beside its pin or marker on wide windows, a sheet along the bottom on phones */}
+      <div className="s-gcard-layer" data-live={live}>
+        {card?.kind === 'pin' && sites[card.i] && (
+          <PinCard
+            key={card.i}
+            site={sites[card.i]}
+            legend={`${still ? 'Ring width' : 'Shimmer'} = ${legend}`}
+            cardRef={(el) => void (cardEl.current = el)}
+            onFly={() => live && onPick(card.i)}
+            onClose={closeCard}
+          />
+        )}
+        {card?.kind === 'spot' && <SpotCard spot={spot} sites={spotSites} match={spotMatch} windowText={spotWindow} cardRef={(el) => void (cardEl.current = el)} onZoom={zoomTo} onFly={flyTo} onClose={closeCard} />}
+      </div>
+
+      {/* S13: the box along the bottom, with the hints above it until they have done their job */}
+      <div className="s-spot-layer" data-live={live} inert={playing}>
+        <SpotBox
+          spot={spot}
+          hint={
+            // both hints wait while a card is open: on wide windows the card would sit over them
+            !card && (!hinted || (!used && !moved)) && (
+              <div className="s-globe-hints">
+                {!hinted && (
+                  <p className="s-globe-hint" data-testid="spot-hint">
+                    Click a pin or anywhere on the Moon
+                  </p>
+                )}
+                {!used && !moved && (
+                  <p className="s-globe-hint s-globe-hint--move" data-testid="globe-hint" aria-hidden="true">
+                    Drag to turn · scroll to zoom
+                  </p>
+                )}
+              </div>
+            )
+          }
+        />
+      </div>
 
       <details className="s-globe-about" data-testid="globe-about">
         <summary>About this view</summary>
         <p>{about}</p>
+        <p className="s-globe-legend" data-testid="globe-legend">
+          <span className="s-globe-legend-mark" aria-hidden="true" />
+          {still ? 'Ring width' : 'Shimmer'} = {legend}
+        </p>
+        <p className="s-globe-about-tag">
+          Every site answer on this view is <HonestyTag href="?mode=expert#evidence" />
+        </p>
       </details>
     </div>
   );

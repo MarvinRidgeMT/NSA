@@ -53,16 +53,16 @@ test('the sequence plays on a visit to Simple mode: Skip, the progress line and 
   await expect(page.getByTestId('simple-sound')).toBeVisible();
   await expect(page.getByTestId('simple-sound')).toContainText('Sound: off');
   await expect(page.getByTestId('mode-expert')).toBeVisible();
-  // the globe's card, pins and credits wait unseen
+  // the globe's Check-a-spot box (18 Nov layout: it took the side card's place), pins and credits wait unseen
   await expect(page.getByTestId('simple-globe')).toHaveAttribute('data-phase', 'intro');
-  await expect(page.getByTestId('globe-card')).toBeHidden();
+  await expect(page.getByTestId('spot-box')).toBeHidden();
   await expect(page.getByTestId('simple-footer')).toBeHidden();
   await expect(globeShown(page)).toHaveCount(0);
   release();
   await expect(globeShown(page)).toBeVisible({ timeout: 45_000 });
   await expect(intro(page)).toHaveCount(0);
   await expect(shell(page)).not.toHaveAttribute('data-intro', /.+/);
-  await expect(page.getByTestId('globe-card')).toBeVisible();
+  await expect(page.getByTestId('spot-box')).toBeVisible();
   await expect(page.getByTestId('simple-footer')).toBeVisible();
   await expect(page.getByTestId('simple-sound')).toBeVisible();
 });
@@ -197,7 +197,7 @@ test('hand-off: the sequence ends on the globe view itself (camera over the sout
   await expect(page.getByTestId('intro-skip')).toBeVisible();
   const boxes = () =>
     page.evaluate(() =>
-      ['.s-chrome', '.s-banner', '.s-globe-view', '.s-globe-card', '.s-main > .s-credits', '[data-testid=simple-sound]'].map((q) => {
+      ['.s-chrome', '.s-banner', '.s-globe-view', '.s-spot-box', '.s-main > .s-credits', '[data-testid=simple-sound]'].map((q) => {
         // layout boxes (offset*), which a transform does not change: the card's short rise as it fades in is not a layout shift
         const el = document.querySelector<HTMLElement>(q)!;
         return [q, el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight];

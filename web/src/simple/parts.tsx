@@ -4,7 +4,7 @@
  * Nothing here holds a number. Every value shown is passed in by the caller, which reads it from a bundle or sidecar.
  * All styles live in styles.css under `.simple`.
  */
-import { useId, type CSSProperties, type ReactNode, type Ref } from 'react';
+import { useId, type CSSProperties, type MouseEvent, type ReactNode, type Ref } from 'react';
 
 type IconProps = { size?: number };
 const svg = (size: number, children: ReactNode) => (
@@ -155,7 +155,7 @@ export function SitePin({
   spreadPts: number;
   selected?: boolean;
   still?: boolean;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }) {
   return (
     <button

@@ -37,6 +37,9 @@ for (const [name, opts] of cases) {
   const before = await where();
   if (opts.hasTouch) await pin.tap();
   else await pin.click();
+  // 18 Nov: a pin opens its card; the card's button flies down
+  if (opts.hasTouch) await page.getByTestId('pin-card-fly').tap();
+  else await page.getByTestId('pin-card-fly').click();
   await page.waitForTimeout(520);
   await shot('mid-flight');
   await page.waitForSelector('[data-testid=simple-mode][data-place=site]', { timeout: 15_000 });
