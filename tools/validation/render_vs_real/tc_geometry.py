@@ -29,8 +29,11 @@ from .tc_common import SECONDARY_EL_DEG, TC_GEOM_DIR, TC_RESULTS, guard
 TARGET_GSD_M = 5.0
 # The SELENE CK is linearly interpolated between quaternions 2 s (~308 lines) apart, so its attitude has small kinks that
 # one polynomial often cannot follow to 0.1 px over TC's ~13 s windows: tc_camera.fit_piecewise tries one polynomial
-# (degrees 3..11), then 2-8 equal line segments. The gate itself (1 m, 0.1 binned pixel; A1.2/A2) is unchanged. In A12.
-DEFAULT = ('isis', False, 'label')     # the conventions used unless the A11.4 pipeline test decides otherwise (A12)
+# (degrees 3..11), then 2-16 equal line segments. The gate itself (1 m, 0.1 binned pixel; A1.2/A2) is unchanged. In A12.
+DEFAULT = ('isis', False, 'label')      # start, flip, orbit: the default conventions (no suffix in the tag)
+# A12 (the A11.4 pipeline test): no sample flip for satellite moving direction -1 (median offset 249 m vs 2,478 m flipped,
+# 7 rows, TC1 and TC2); no pipeline-test row had direction +1, so A11.4 gates those rows. Start time unresolved: 'isis'.
+FLIP_BY_DIRECTION = {-1: False}
 FIELDS = ['product_id', 'site', 'status', 'reason', 'track', 'camera', 'moving_direction', 'start_convention', 'flip', 'orbit',
           'orbit_solution', 'bin', 'l0', 'l1', 's0', 's1', 'render_w',
           'render_h', 'gsd_binned_m', 'sc_alt_km', 'emission_site_deg', 'sun_az_deg', 'sun_el_deg', 'cat_sun_az_deg',
@@ -77,11 +80,16 @@ def view_cone(cam, fit, l0, l1, h_lo, h0, s0, s1, b):
     return {'pos': Pm[0].tolist(), 'fwd': fwd.tolist(), 'cone': float(ang.max()) + 0.03, 'ifov': cam.ifov * b}
 
 
-def one(im, site, cat_row, start='isis', flip=False, orbit='label'):
+def one(im, site, cat_row, start='isis', flip=None, orbit='label'):
     pid = im['product_id']
     guard([pid])
     out = {'product_id': pid, 'site': site}
     lab = parse_label(tc_io.label(pid, im['label_url']))
+    if flip is None:                                    # A12: decided per moving direction
+        if lab['moving_direction'] not in FLIP_BY_DIRECTION:
+            return {**out, 'status': 'gated', 'moving_direction': lab['moving_direction'],
+                    'reason': f"sample axis not settled for satellite moving direction {lab['moving_direction']:+d} (A11.4, A12)"}
+        flip = FLIP_BY_DIRECTION[lab['moving_direction']]
     kern, krec = K.kernels_for(lab, orbit)
     if kern is None:
         return {**out, 'status': 'gated', 'reason': f"camera model: {krec['error']}"}
@@ -167,7 +175,7 @@ def main(argv=None):
     ap.add_argument('--limit', type=int, default=0)
     ap.add_argument('--only', default='')
     ap.add_argument('--start', default=DEFAULT[0], choices=['isis', 'label'])
-    ap.add_argument('--flip', default='no', choices=['yes', 'no'])
+    ap.add_argument('--flip', default='auto', choices=['auto', 'yes', 'no'], help='auto = A12 rule by moving direction')
     ap.add_argument('--orbit', default=DEFAULT[2], choices=list(K.ORBITS))
     ap.add_argument('--out', default='geometry.csv')
     ap.add_argument('--set', default='images', choices=['images', 'pipelineTestImages'])
@@ -186,7 +194,7 @@ def main(argv=None):
     recs = []
     for i, (im, site) in enumerate(todo):
         try:
-            rec = one(im, site, cat[(im['product_id'], site)], a.start, a.flip == 'yes', a.orbit)
+            rec = one(im, site, cat[(im['product_id'], site)], a.start, None if a.flip == 'auto' else a.flip == 'yes', a.orbit)
         except Exception as e:
             traceback.print_exc()
             rec = {'product_id': im['product_id'], 'site': site, 'status': 'failed', 'reason': f'{type(e).__name__}: {str(e)[:200]}'}

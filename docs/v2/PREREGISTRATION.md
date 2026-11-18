@@ -187,3 +187,15 @@ time and sample axis, and the dev pilot plan. The selection rule and the selecti
 | `docs/v2/RENDER_VS_REAL_PROTOCOL_A11.md` | `b0f970e1d0c463c6ba29d3836cb5a0d09afa788d434621d847dacb8d9041701b` |
 | `tools/validation/render_vs_real/tc_select.py` | `c21384dd03ef3a5fe3cdcecfebee3724ab9c730871243f6441296df43c46eee9` |
 | `tools/validation/render_vs_real/results_tc/selection.json` | `e062546545e35ed06f57abaaf0927fa8074e1f937222a3d5a75d3072edfe0ea1` |
+
+## Entry 13 — 18 Nov 2026, coordinating session (Kaguya TC pipeline-test outcome)
+
+State at freezing: the A11.4 pipeline test is done (8 dev rows, 7 readable, renders and registration offsets only,
+`results_tc/pipeline_test.json`); **no dev-pilot row has been scored.** A12 records the decisions: no sample flip for
+moving direction −1 (+1 gated), the `isis` start time, a 748 m registration radius, and the code changes found on real
+files before any score.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A12.md` | `cf4aa495c8c5d400275210b61d04eaf68116f93a918d3e4024ccc69cb0112e7d` |
+| `tools/validation/render_vs_real/results_tc/pipeline_test.json` | `615af7ab99c43839b33a9adf632dfa88c961755bb48af218dd2cd067bfd01760` |

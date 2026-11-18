@@ -34,7 +34,7 @@ from .tc_camera import eval_fit, parse_label
 from .tc_common import TC_GEOM_DIR, TC_RENDER_DIR, TC_RESULTS, guard
 
 TWIN = ROOT / 'tools/validation/render_vs_real/wac_twin.py'
-REG_RADIUS_M = 150.0          # A11: +- max(3 px, 150 m), to be confirmed by the A11.4 pipeline test (recorded in A12)
+REG_RADIUS_M = 747.6          # A12: max(150 m, 3 x the pipeline test's median |offset| 249.2 m) (A11.4 rule)
 
 
 def render_row(gpath, threads, products=None, variants=True):

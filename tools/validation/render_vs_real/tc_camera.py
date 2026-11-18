@@ -202,13 +202,13 @@ def corner_check(cam, radius_m=1_737_400.0):
     return {k: radius_m * np.radians(_gc(lat[i], lon[i], *ref[k])) for i, k in enumerate(pts)}
 
 
-SEGMENTS = (1, 2, 3, 4, 6, 8)
+SEGMENTS = (1, 2, 3, 4, 6, 8, 12, 16)
 
 
 def fit_piecewise(cam, l0, l1, M, P0, ang_lim_urad, pos_lim_m=1.0):
     """State fit for the OSL camera within the registered gate (A1.2/A2: 1 m, 0.1 binned pixel). One polynomial (degrees
     3..11) first; when the SELENE CK's 2 s linear-interpolation kinks defeat it, the window is split into K equal line
-    segments (K in SEGMENTS[1:]), each fitted with degrees 3..7 under the same gate. Returns the single fit dict (as
+    segments (K in SEGMENTS[1:], up to 16), each fitted with degrees 3..7 under the same gate. Returns the single fit dict (as
     nac_camera.fit_states) or {'segments': [...], 'bounds': [...]} with the worst residuals at the top level."""
     from .nac_camera import fit_states
 
