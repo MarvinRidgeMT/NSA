@@ -74,17 +74,27 @@ const SITE = 'site04_roi3';
 const SUN_IN_SIGHT = '2026-11-18T21:00:00Z';
 const SUN_BLOCKED = '2026-11-27T02:00:00Z';
 const flare = (page: Page) => page.evaluate(() => (window as unknown as { __polarisPost?: { final: { uniforms: { uFlare: { value: number } } } } }).__polarisPost?.final.uniforms.uFlare.value ?? null);
+const intro = (page: Page) => page.evaluate(() => (window as unknown as { __polarisPost?: { final: { uniforms: { uIntro: { value: number } } } } }).__polarisPost?.final.uniforms.uIntro.value ?? null);
+const fragment = (page: Page) => page.evaluate(() => (window as unknown as { __polarisPost: { final: { material: { fragmentShader: string } } } }).__polarisPost.final.material.fragmentShader);
 
-test('glow and starburst follow the bundle: on when the Sun is in sight, off when the bundle says blocked', async ({ page }) => {
+// Sid, 18 Nov 2026: the starburst is opening-sequence only. On the terrain, after the hand-off, the Sun keeps only its bloom:
+// the spikes are drawn only while uIntro > 0, and the terrain never sets uIntro, with the Sun in sight or blocked.
+test('the terrain draws no starburst after the hand-off: uIntro is 0 with the Sun in sight and with it blocked', async ({ page }) => {
   await openSimple(page, `&quality=high&cam=mast&site=${SITE}&t=${SUN_IN_SIGHT}`);
   await expect.poll(() => hasPost(page), { timeout: 20_000 }).toBe(true);
   await expect(page.getByTestId('plain-answer')).toContainText('Sun now in view');
+  expect(await fragment(page)).toContain('if (vVis > 0.0 && uIntro > 0.0)');
+  // the flare input still follows the bundle flag (on when the Sun is in sight); with uIntro at 0 it draws no spikes
   await expect.poll(() => flare(page), { timeout: 10_000 }).toBeGreaterThan(0);
+  await page.waitForTimeout(1000);
+  expect(await intro(page)).toBe(0);
   await openSimple(page, `&quality=high&cam=mast&site=${SITE}&t=${SUN_BLOCKED}`);
   await expect.poll(() => hasPost(page), { timeout: 20_000 }).toBe(true);
   // the bundle's own flag, as the answer beside the scene states it
   await expect(page.getByTestId('plain-answer')).toContainText('Sun now blocked');
   await page.waitForTimeout(1000);
+  expect(await intro(page)).toBe(0);
+  // and the bundle's blocked flag still turns the Sun's flare input off
   expect(await flare(page)).toBe(0);
 });
 
