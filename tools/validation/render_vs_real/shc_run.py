@@ -5,7 +5,8 @@
 
 Same products, photometry variants, render settings and §4 metrics as the NAC (run.py, frozen; imported):
   * renders: wac_twin.py (frozen with A7; camera-agnostic: OSL camera + the view cone in the geometry file);
-  * real image: radiance lines binned to the 5 m grid (shc_io), special and saturated blocks leave the window (A1.3 rule);
+  * real image: radiance lines binned to the 5 m grid (shc_io); invalid blocks leave the window. Saturated blocks: see
+    SATURATION_RULE (A8.5 dropped them; A10 restores protocol §4.1: they stay in the window and count as lit);
   * registration: S.register with radius REG_RADIUS_M (A9) on the binned grid;
   * pixel size on the ground: range x ShadowCam IFOV x bin.
 Records carry 'track' (primary | secondary, protocol §2); secondary rows are reported on SSIM and histogram only.
@@ -34,6 +35,9 @@ from .shc_common import SHC_GEOM_DIR, SHC_RENDER_DIR, SHC_RESULTS, guard
 
 TWIN = ROOT / 'tools/validation/render_vs_real/wac_twin.py'
 REG_RADIUS_M = 150.0          # A9: +- max(3 binned px, 150 m) (3 x 50 m; the dev label check put the centre pixel 51 m off)
+# A10: 'lit' = protocol §4.1 (saturated window pixels count as lit; Otsu, normalisation, SSIM and histograms use the
+# non-saturated pixels only). 'dropped' = the A8.5 dev pilot as registered (saturated blocks removed from the window).
+SATURATION_RULE = 'lit'
 
 
 def render_row(gpath, threads, products=None, variants=True):
@@ -86,7 +90,7 @@ def score_row(G, beauties, real, special, sat):
         pos = Rp['pos'].astype(np.float64)
         base = {'product_id': G['product_id'], 'site': G['site'], 'product': prod, 'photometry': phot, 'orbit': 'kplo',
                 'instrument': 'ShadowCam', 'track': G['track'], 'start_convention': G['start_convention'], 'flip': G['flip'],
-                'tdi': G['tdi']}
+                'tdi': G['tdi'], 'saturationRule': SATURATION_RULE}
         u = metrics(G, real, special, sat, rend, pred, in_sq, gsd, pos)
         recs.append({**base, 'registered': False, **u})
         if u['status'] != 'scored':
@@ -110,10 +114,24 @@ def score_row(G, beauties, real, special, sat):
     return recs
 
 
-def load_real(G):
+def saturation_fill(val, inv, sat):
+    """A10: saturated blocks carry no radiance (ISIS high-saturation special pixels), so they take the brightest valid
+    non-saturated value of the window -- a lower bound on their true radiance. Only registration (NCC), the count-matched
+    mask and the gallery see this value; every §4 metric that uses radiance excludes saturated pixels."""
+    ok = np.isfinite(val) & ~inv & ~sat
+    fill = float(np.max(val[ok])) if ok.any() else 1.0
+    return np.where(sat & ~inv, fill, val)
+
+
+def load_real(G, rule=None):
+    rule = rule or SATURATION_RULE
     lab = parse_label(shc_io.label(G['product_id'], G['labelUrl']), shc_io.header(G['product_id'], G['dataUrl']))
     val, inv, sat = shc_io.binned_window(lab, G['dataUrl'], G['l0'], G['l1'], G['bin'])
-    return val, inv | sat, np.zeros_like(sat)
+    if rule == 'lit':
+        return saturation_fill(val, inv, sat), inv, sat & ~inv
+    if rule == 'dropped':
+        return val, inv | sat, np.zeros_like(sat)
+    raise ValueError(f'unknown saturation rule {rule!r}')
 
 
 def score_and_save(gpath, G, scores):

@@ -75,3 +75,5 @@ docs/validation/render_vs_real/*.jpg
 docs/validation/render_vs_real_heldout/
 docs/validation/render_vs_real_wac/
 docs/validation/render_vs_real_wac_heldout/
+docs/validation/render_vs_real_shc/
+docs/validation/render_vs_real_shc_heldout/

@@ -95,3 +95,40 @@ class Frozen(unittest.TestCase):
         from tools.validation.render_vs_real import shc_common
         from tools.validation.render_vs_real.common import sha256_file
         self.assertEqual(sha256_file(shc_common.CATALOGUE_V2), shc_common.CATALOGUE_V2_SHA256)
+
+
+class Saturation(unittest.TestCase):
+    """A10: directly sunlit ground saturates ShadowCam. Protocol §4.1 counts saturated window pixels as lit; the A8.5 dev
+    pilot had dropped them from the window, which removed the lit class (dev: saturated 40 % of the window, predicted lit
+    39 %, IoU(saturated, predicted lit) 0.91 unregistered)."""
+
+    def test_saturated_blocks_count_as_lit(self):
+        from tools.validation.render_vs_real import score as S
+        from tools.validation.render_vs_real.shc_run import SATURATION_RULE, saturation_fill
+        self.assertEqual(SATURATION_RULE, 'lit')
+        rng = np.random.default_rng(0)
+        val = np.exp(rng.normal(-3.0, 0.5, (60, 80)))       # scattered-light shadow, log-normal radiance
+        val[:, :20] *= 0.2                                   # a darker strip inside the shadow (the A8.5 failure mode)
+        sat = np.zeros(val.shape, bool)
+        sat[:, 50:] = True                                   # directly sunlit -> saturated, no radiance
+        inv = np.zeros(val.shape, bool)
+        inv[0, :] = True
+        val[sat | inv] = np.nan
+        real = saturation_fill(val, inv, sat)
+        window = ~inv & np.isfinite(real)
+        self.assertTrue(window[1:, 50:].all(), 'saturated blocks must stay in the window')
+        self.assertEqual(float(real[5, 60]), float(np.nanmax(val[~sat & ~inv])))
+        ns = window & ~sat
+        rn, _ = S.normalise(real, ns)
+        obs, _ = S.observed_shadow(rn, window, sat)
+        self.assertFalse(obs[:, 50:].any(), 'saturated pixels are lit')
+        pred = np.zeros(val.shape, bool)
+        pred[:, :50] = True
+        a = S.agreement(pred, obs, window)
+        self.assertAlmostEqual(a['iouLit'], 0.5, delta=0.05)    # Otsu still splits the dark strip from the rest of the shadow
+        cm = S.agreement(pred, S.count_matched_shadow(rn, window, int((~pred & window).sum())), window)
+        self.assertGreater(cm['iouShadow'], 0.99)
+
+    def test_dropped_rule_still_available_for_the_registered_a85_pilot(self):
+        from tools.validation.render_vs_real import shc_run
+        self.assertIn('dropped', shc_run.load_real.__code__.co_consts)

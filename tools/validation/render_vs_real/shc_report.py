@@ -1,12 +1,13 @@
 """ShadowCam report from results_shc/ (A8/A9 dev pilot) or results_shc_heldout/ (A10). Adapted from wac_report.py.
 Primary-track rows (Sun >= -0.5 deg) carry every metric and the claim rule; secondary-track rows (protocol §2) are
 reported on SSIM and the histogram distances only. Formatting only: the claim rule and the
-near-total-shadow stratum come from the registered heldout.py (A5.5, A5.6), applied with the native WAC pixel.
+near-total-shadow stratum come from the registered heldout.py (A5.5, A5.6), applied unchanged; the edge limit is
+2 x the median analysis pixel (the ~5 m binned grid, A8.5), as for NAC.
 
-    python -m tools.validation.render_vs_real.wac_report [--gallery]
-    POLARIS_WAC_SPLIT=heldout python -m tools.validation.render_vs_real.wac_report [--gallery]
+    python -m tools.validation.render_vs_real.shc_report [--gallery]
+    POLARIS_SHC_SPLIT=heldout python -m tools.validation.render_vs_real.shc_report [--gallery]
 
---gallery writes local, git-ignored PNG thumbnails (crops of ShadowCam images, credit NASA/GSFC/Arizona State University).
+--gallery writes local, git-ignored PNG thumbnails (crops of ShadowCam images, credit NASA/KARI/Arizona State University).
 """
 from __future__ import annotations
 
@@ -25,15 +26,15 @@ import numpy as np
 from . import heldout as H
 from .common import ROOT, read_catalogue
 from .report import METRICS, PNAME, PRODUCTS, SITES, boot_ci, fmt, paired, q, table_dist
-from .shc_common import LABEL, SHC_RENDER_DIR as WAC_RENDER_DIR, SHC_RESULTS as WAC_RESULTS, SHC_SPLIT as WAC_SPLIT, guard
+from .shc_common import LABEL, SHC_RENDER_DIR as WAC_RENDER_DIR, SHC_RESULTS as WAC_RESULTS, SHC_SPLIT as WAC_SPLIT, eligible, guard, read_v2
 
 DOC = ROOT / 'docs' / 'validation' / ('RENDER_VS_REAL_SHC_DEV.md' if WAC_SPLIT == 'dev' else 'RENDER_VS_REAL_SHC_HELDOUT.md')
 GAL = ROOT / 'docs' / 'validation' / ('render_vs_real_shc' if WAC_SPLIT == 'dev' else 'render_vs_real_shc_heldout')
 HERE = Path(__file__).resolve().parent
 
 
-def _load(d):
-    s = [json.loads(l) for l in (d / 'scores.jsonl').read_text().splitlines() if l.strip()] if (d / 'scores.jsonl').exists() else []
+def _load(d, scores='scores.jsonl'):
+    s = [json.loads(l) for l in (d / scores).read_text().splitlines() if l.strip()] if (d / scores).exists() else []
     g = list(csv.DictReader(open(d / 'geometry.csv'))) if (d / 'geometry.csv').exists() else []
     sel = json.loads((d / 'selection.json').read_text()) if (d / 'selection.json').exists() else {}
     log = [json.loads(l) for l in (d / 'RUN_LOG.jsonl').read_text().splitlines() if l.strip()] if (d / 'RUN_LOG.jsonl').exists() else []
@@ -42,7 +43,7 @@ def _load(d):
 
 def hl(scores, product='pgda78_5m', phot='hapke', reg=True, track='primary'):
     return [r for r in scores if r.get('status') == 'scored' and r.get('product') == product and r.get('photometry') == phot
-            and r.get('registered') == reg and (track is None or r.get('track') == track)]
+            and r.get('registered') == reg and (track is None or r.get('track', 'primary') == track)]
 
 
 def _primary(scores):
@@ -88,28 +89,38 @@ def thumb(key, rec):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument('--gallery', action='store_true')
+    ap.add_argument('--scores', default='scores.jsonl', help='scores file in the results directory')
+    ap.add_argument('--doc', default='', help='output Markdown path (default: RENDER_VS_REAL_SHC_DEV/HELDOUT.md)')
+    ap.add_argument('--title', default='', help='title override')
     a = ap.parse_args(argv)
-    scores_all, geo, sel, log = _load(WAC_RESULTS)
+    doc = Path(a.doc) if a.doc else DOC
+    scores_all, geo, sel, log = _load(WAC_RESULTS, a.scores)
     nac_dev, *_ = _load(HERE / 'results')
-    rows = read_catalogue()
-    guard({r['product_id'] for r in scores_all} | {g['product_id'] for g in geo}, rows)
+    guard({r['product_id'] for r in scores_all} | {g['product_id'] for g in geo}, read_catalogue())
+    rows = read_v2()
     cat = {(r['product_id'], r['site']): r for r in rows}
-    secondary = hl(scores_all, track='secondary')
-    scores_all = _primary(scores_all)
+    raw = scores_all
+    secondary = hl(raw, track='secondary')
+    secondary_u = hl(raw, reg=False, track='secondary')
+    scores_all = _primary(raw)
     rr = hl(scores_all)
     native = {(r['product_id'], r['site']): float(cat[(r['product_id'], r['site'])]['pixel_scale_m']) for r in rr}
-    fdf = [r for r in scores_all if r.get('orbit') == 'fdf']
     L = []
     w = L.append
-    title = 'dev (training) pilot, Amendments A8–A9' if WAC_SPLIT == 'dev' else 'held-out run, Amendment A10'
+    title = a.title or ('dev (training) pilot, Amendments A8–A9' if WAC_SPLIT == 'dev' else 'held-out run, Amendment A10')
+    rule = collections.Counter(r.get('saturationRule', 'dropped (A8.5)') for r in raw)
     w(f'# Render vs real — ShadowCam (KPLO), {title}\n')
-    w(f'**{LABEL}.** Protocol `docs/v2/RENDER_VS_REAL_PROTOCOL.md` (frozen) + amendments A1–A6'
-      f"{'–A7' if WAC_SPLIT != 'dev' else ''} (hashes in `docs/v2/PREREGISTRATION.md`). Generated by "
-      '`tools/validation/render_vs_real/wac_report.py`. Camera model, grid and the framelet rule: A6.3–A6.4. A good score '
-      'validates render geometry only; it does not certify illumination power, DSN or link availability.\n')
-    w('Imagery: ShadowCam CAL, NASA PDS (KPLO ShadowCam archive, ASU) (public domain per the LROC terms, https://lroc.im-ldi.com/about/terms). Credit: '
-      '**NASA/GSFC/Arizona State University**. SPICE: USGS public KPLO kernels (usgs_data/kplo). Terrain: '
-      'LOLA (PGDA 78, PGDA 90, PDS LDEM).\n')
+    w(f'**{LABEL}.** Protocol `docs/v2/RENDER_VS_REAL_PROTOCOL.md` (frozen) + amendments A1–A9'
+      f"{' and A10' if WAC_SPLIT != 'dev' else ''} (hashes in `docs/v2/PREREGISTRATION.md`). Generated by "
+      '`tools/validation/render_vs_real/shc_report.py`. Catalogue v2 and the camera model: A8; TDI-B sample axis and start '
+      'time: A9. A good score validates render geometry only; it does not certify illumination power, DSN or link '
+      'availability.\n')
+    w('Imagery: ShadowCam CAL radiance, NASA PDS ShadowCam archive (ASU). Credit: '
+      '**NASA/KARI/Arizona State University**. SPICE: USGS public KPLO kernels (asc-isisdata `usgs_data/kplo`). Terrain: '
+      'LOLA (PGDA 78, PGDA 90, PDS LDEM). Photometry: Hapke 643 nm parameters applied to the 450–750 nm ShadowCam band '
+      '(an approximation, A8.5).\n')
+    w(f'Saturated blocks (directly sunlit ground saturates ShadowCam): {dict(rule)} — "dropped" = removed from the window '
+      '(A8.5 as registered); "lit" = kept in the window and counted as lit, the base protocol §4.1 rule (restored by A10).\n')
     # 1 accounting
     w('## 1. Every selected row\n')
     gs = collections.Counter(g['status'] for g in geo)
@@ -117,36 +128,43 @@ def main(argv=None):
       f"/ {sel.get('eligibleImages', '?')} images; gated by metadata: {sel.get('gatedByMetadata', {})}; not selected: "
       f"{sel.get('notSelectedRowsByReason', {})}.")
     w(f"- Geometry: {gs.get('ok', 0)} OK, {gs.get('gated', 0)} gated, {gs.get('failed', 0)} failed.")
-    hp_all = [r for r in scores_all if r.get('product') == 'pgda78_5m' and r.get('photometry') == 'hapke' and r.get('registered')]
+    hp_all = [r for r in raw if r.get('product') == 'pgda78_5m' and r.get('photometry') == 'hapke' and r.get('registered')]
     st = collections.Counter(r.get('status') for r in hp_all)
-    failed = [r for r in scores_all if r.get('status') == 'failed']
-    orb = collections.Counter(r.get('orbit') for r in hp_all if r.get('status') == 'scored')
-    w(f"- Scored (PGDA 78, Hapke, registered): {st.get('scored', 0)} rows ({orb.get('grgm900c', 0)} GRGM900C, "
-      f"{orb.get('fdf', 0)} FDF); gated at scoring: {st.get('gated', 0)}; failed: {len({(r['product_id'], r['site']) for r in failed})}.")
+    failed = [r for r in raw if r.get('status') == 'failed']
+    trk = collections.Counter((r.get('track'), r.get('tdi')) for r in hp_all if r.get('status') == 'scored')
+    w(f"- Scored (PGDA 78, Hapke, registered): {st.get('scored', 0)} rows — primary track {trk[('primary', 'A')]} TDI A + "
+      f"{trk[('primary', 'B')]} TDI B; secondary track {trk[('secondary', 'A')]} TDI A + {trk[('secondary', 'B')]} TDI B; "
+      f"gated at scoring: {st.get('gated', 0)}; failed: {len({(r['product_id'], r['site']) for r in failed})}. Orbit: KPLO "
+      'reconstructed SPK (USGS); every primary-track row enters the claim.')
+    sg_ = [r for r in raw if r.get('status') == 'gated']
+    if sg_:
+        w('- Gated at scoring (any product): ' + '; '.join(f"{r['product_id']} {r['site']} {r['product']} "
+                                                            f"{'reg' if r['registered'] else 'unreg'}: {r.get('reason', '')[:80]}" for r in sg_))
     if log:
         w(f"- Run log: started {log[0].get('utc')} at commit `{str(log[0].get('commit', ''))[:10]}`; "
           f"{sum(1 for x in log if x.get('event') == 'start')} start(s); last stop {next((x['utc'] for x in reversed(log) if x.get('event') == 'stop'), '—')}.")
     ok_geo = [g for g in geo if g['status'] == 'ok']
     if ok_geo:
-        gsd = [float(g['gsd_m']) for g in ok_geo]
+        gsd = [float(g['gsd_binned_m']) for g in ok_geo]
         em = [float(g['emission_site_deg']) for g in ok_geo]
-        w(f"- Pixel on the ground (range × IFOV at the site): median {q(gsd, 50):.1f} m (P10 {q(gsd, 10):.1f}, P90 {q(gsd, 90):.1f}); "
-          f"emission at the site median {q(em, 50):.1f}° (max {max(em):.1f}°). Centre vs ODE centre point: median "
-          f"{q([float(g['centre_vs_ode_m']) for g in ok_geo], 50):.0f} m (reported, not a gate; A6.3).")
-    w('\nStrata of the scored primary-track rows vs all eligible rows of this split:\n')
+        w(f"- Binned analysis pixel at the site: median {q(gsd, 50):.2f} m (P10 {q(gsd, 10):.2f}, P90 {q(gsd, 90):.2f}); bins "
+          f"{dict(collections.Counter(g['bin'] for g in ok_geo))}; emission at the site median {q(em, 50):.1f}° (max {max(em):.1f}°). "
+          f"Camera-model centre vs the label centre: median {q([float(g['centre_vs_label_m']) for g in ok_geo], 50):.0f} m; "
+          f"ISIS start time − label start median {q([float(g['timing_start_diff_ms']) for g in ok_geo], 50):.0f} ms "
+          f"(reported, not gates; A8, A9). SPICE fit position error max {max(float(g['fit_pos_err_m']) for g in ok_geo):.4f} m.")
+    w('\nStrata of the scored primary-track rows vs all eligible primary-track rows of this split (catalogue v2 gates):\n')
     keys = {(r['product_id'], r['site']) for r in rr}
     split = 'dev' if WAC_SPLIT == 'dev' else 'heldout'
-    elig = [r for r in rows if r['instrument'] == 'ShadowCam' and r['split'] == split and r['footprint_suspect'] != 'true'
-            and (r['covers_site_centre'] == 'true' or float(r['overlap_frac'] or 0) >= 0.25)]
+    elig = [r for r in rows if r['split'] == split and eligible(r)[0] and float(r['sun_el_deg']) >= -0.5]
     for col in ('site', 'el_bin', 'az_bin', 'em_bin'):
         ca = collections.Counter(r[col] for r in elig)
         cs = collections.Counter(cat[k][col] for k in keys)
         w(f"- **{col}**: " + ', '.join(f'{k} {cs.get(k, 0)}/{v}' for k, v in sorted(ca.items())))
     # 2 claim rule
-    w('\n## 2. Protocol §8 claim rule per site (A5.6 rule, native WAC pixel)\n')
+    w('\n## 2. Protocol §8 claim rule per site (A5.6 rule, binned analysis pixel)\n')
     w(('**Dry run on dev records — a code check, not a claim.** ' if WAC_SPLIT == 'dev' else '') +
       'Registered, Hapke, primary-track rows. Conditions: (1) median shadow IoU ≥ 0.80; (2) median edge error ≤ 2 × the median '
-      'pixel (for WAC the analysis pixel is the native pixel); (3) beats the flat-sphere control on ≥ 80 % of paired images for '
+      'binned analysis pixel (~5 m, A8.5); (3) beats the flat-sphere control on ≥ 80 % of paired images for '
       'IoU **and** for edge error.\n')
 
     def beat(f, n):
@@ -195,12 +213,14 @@ def main(argv=None):
         x = [r for r in rr if cat[(r['product_id'], r['site'])]['el_bin'] == b]
         w(f"| {b} | {len(x)} | {fmt(q([r['iouShadow'] for r in x], 50))} | {fmt(q([r['iouLit'] for r in x], 50))} | "
           f"{fmt(q([r['edgeMedianM'] for r in x], 50), 1)} | {fmt(q([r['obsShadowFrac'] for r in x], 50))} |")
-    # 4 NAC next to WAC
-    w('\n## 4. Next to the NAC dev pilot' + (' and the WAC dev pilot' if WAC_SPLIT != 'dev' else '') +
+    # 4 NAC and WAC next to ShadowCam
+    w('\n## 4. Next to the NAC and WAC dev pilots' + (' and the ShadowCam dev pilot' if WAC_SPLIT != 'dev' else '') +
       ' (PGDA 78, Hapke, registered; primary track; labelled; different images)\n')
     nd = hl(nac_dev)
-    cols = [('NAC dev', nd)] + ([('WAC dev', hl(_load(HERE / 'results_shc')[0]))] if WAC_SPLIT != 'dev' else []) + \
-        [('WAC ' + ('dev' if WAC_SPLIT == 'dev' else 'held-out'), rr)]
+    wd = hl(_load(HERE / 'results_wac')[0])
+    cols = [('NAC dev', nd), ('WAC dev', wd)] + \
+        ([('ShadowCam dev', hl(_load(HERE / 'results_shc')[0]))] if WAC_SPLIT != 'dev' else []) + \
+        [('ShadowCam ' + ('dev' if WAC_SPLIT == 'dev' else 'held-out'), rr)]
     w('| metric | ' + ' | '.join(f'{c} n | {c} median' for c, _ in cols) + ' |')
     w('|---|' + '---|---|' * len(cols))
     for k, name, d in METRICS + [('edgeMedianPx', 'edge median px', 2), ('gsdMedianM', 'pixel m', 1), ('cmIouShadow', 'count-matched shadow IoU', 3)]:
@@ -210,7 +230,7 @@ def main(argv=None):
             cells.append(f"{sum(1 for x in v if isinstance(x, (int, float)) and math.isfinite(x))} | {fmt(q(v, 50), d)}")
         w(f"| {name} | {' | '.join(cells)} |")
     # 5 products
-    w('\n## 5. Terrain products (paired on the same rows; Hapke, registered, GRGM900C)\n')
+    w('\n## 5. Terrain products (paired on the same rows; Hapke, registered, primary track)\n')
     w('| product | n | shadow IoU median | edge median m | edge unmatched | SSIM | W1 |')
     w('|---|---|---|---|---|---|---|')
     for p in PRODUCTS:
@@ -242,31 +262,53 @@ def main(argv=None):
         w(f"| {name} | {len(x)} | {fmt(q(iou, 50))} ({fmt(q(iou, 25))}–{fmt(q(iou, 75))}) | {fmt(q([r['iouLit'] for r in x], 50))} | "
           f"{fmt(q([r.get('cmIouShadow') for r in x], 50))} | {fmt(q([r.get('cmIouLit') for r in x], 50))} |")
     thr = [r.get('otsuThresholdLog10') for r in rr]
-    w(f"\n**Where the fixed Otsu rule puts the threshold on WAC:** median log10 I/F threshold {fmt(q(thr, 50), 2)} (IQR "
+    w(f"\n**Where the fixed Otsu rule puts the threshold on ShadowCam:** median log10 normalised-radiance threshold {fmt(q(thr, 50), 2)} (IQR "
       f"{fmt(q(thr, 25), 2)} to {fmt(q(thr, 75), 2)}); rows with the threshold within 0.1 of the -5 floor of "
       f"v = log10(max(I/F, 1e-5)): {sum(1 for t in thr if isinstance(t, float) and t <= -4.9)} of {len(rr)}. Observed shadow "
       f"fraction median {fmt(q([r['obsShadowFrac'] for r in rr], 50))} against predicted {fmt(q([r['predShadowFrac'] for r in rr], 50))}. "
-      'Shadowed WAC CDR pixels carry calibration noise and scattered light around I/F ~ 4e-4 with a negative tail, so the '
-      'rule separates the pixels at or below the floor from everything else; the count-matched mask (A5.5) does not depend '
-      'on that threshold.\n')
+      'ShadowCam is built to image permanently shadowed ground by light scattered from nearby sunlit terrain, so its '
+      'shadows are not dark at the floor; the render has no secondary illumination, so the fixed rule can separate lit '
+      'from shadowed ground differently in the two images. The count-matched mask (A5.5) does not depend on that '
+      'threshold.\n')
     w(f"\nWeak-bimodality rows: {sum(bool(r.get('weakBimodality')) for r in rr)}; render median zero (A1.4 fallback): "
       f"{sum(bool(r.get('renderMedianZero')) for r in rr)} of {len(rr)}.\n")
     # 7 registration
     w('## 7. Registration and orbit\n')
     off = [r['regOffsetM'] for r in rr]
     px = [math.hypot(r['regDyPx'], r['regDxPx']) for r in rr]
-    w(f"- Offset (GRGM900C rows; search ± 3 px on each image axis, A6.4): median {fmt(q(px, 50), 2)} px = {fmt(q(off, 50), 0)} m; "
+    w(f"- Offset ( primary track; search ± max(3 binned px, 150 m) on each image axis, A8.5): median {fmt(q(px, 50), 2)} px = {fmt(q(off, 50), 0)} m; "
       f"P90 {fmt(q(px, 90), 2)} px = {fmt(q(off, 90), 0)} m; at the search bound: {sum(bool(r['regAtBound']) for r in rr)}; "
       f"NCC median {fmt(q([r['regNcc'] for r in rr], 50))}; rows with NCC < 0.05: {sum(r['regNcc'] < 0.05 for r in rr)}.")
     w(f"- Along the Sun azimuth (real − render): median {fmt(q([r.get('regOffsetAlongSunM') for r in rr], 50), 0)} m; across: "
       f"median {fmt(q([r.get('regOffsetAcrossSunM') for r in rr], 50), 0)} m. Lines (dy) median {fmt(q([r['regDyPx'] for r in rr], 50), 2)} px, "
       f"samples (dx) median {fmt(q([r['regDxPx'] for r in rr], 50), 2)} px.")
-    fr = [r for r in fdf if r.get('status') == 'scored' and r['product'] == 'pgda78_5m' and r['photometry'] == 'hapke' and r['registered']]
-    if fr:
-        w(f"- FDF-orbit rows (never in the claim): {len(fr)}; shadow IoU median {fmt(q([r['iouShadow'] for r in fr], 50))}, "
-          f"edge median {fmt(q([r['edgeMedianM'] for r in fr], 50), 0)} m, offset median {fmt(q([r['regOffsetM'] for r in fr], 50), 0)} m.")
+    for t in ('A', 'B'):
+        x = [r for r in rr if r.get('tdi') == t]
+        if x:
+            w(f"- TDI {t}: {len(x)} rows; offset median {fmt(q([r['regOffsetM'] for r in x], 50), 0)} m, lines (dy) median "
+              f"{fmt(q([r['regDyPx'] for r in x], 50), 2)} px, samples (dx) median {fmt(q([r['regDxPx'] for r in x], 50), 2)} px; "
+              f"shadow IoU median {fmt(q([r['iouShadow'] for r in x], 50))}; edge median {fmt(q([r['edgeMedianM'] for r in x], 50), 1)} m.")
+    # 7.1 secondary track
+    w('\n### 7.1 Secondary-illumination track (Sun < −0.5° at the site; SSIM and histogram distances only, A8.5)\n')
+    w('Shadow metrics are not applicable to these rows and are not shown. The render has no light scattered from nearby '
+      'terrain, so these rows test only whether the scene geometry lines up with what ShadowCam sees in scattered light.\n')
+    w('| site | n | SSIM median registered (unregistered) | W1 median | JSD bits median | NCC median | offset median m |')
+    w('|---|---|---|---|---|---|---|')
+    for s in SITES + ['all']:
+        x = secondary if s == 'all' else [r for r in secondary if r['site'] == s]
+        xu = secondary_u if s == 'all' else [r for r in secondary_u if r['site'] == s]
+        if not x:
+            continue
+        w(f"| {s} | {len(x)} | {fmt(q([r['ssim'] for r in x], 50))} ({fmt(q([r['ssim'] for r in xu], 50))}) | "
+          f"{fmt(q([r['wasserstein1'] for r in x], 50))} | {fmt(q([r['jsdBits'] for r in x], 50))} | "
+          f"{fmt(q([r.get('regNcc') for r in x], 50))} | {fmt(q([r['regOffsetM'] for r in x], 50), 0)} |")
+    sp = {(r['product_id'], r['site']): r for r in raw if r.get('track') == 'secondary' and r.get('status') == 'scored'
+          and r['product'] == 'flat' and r['photometry'] == 'hapke' and r['registered']}
+    pr = [(r['ssim'], sp[(r['product_id'], r['site'])]['ssim']) for r in secondary if (r['product_id'], r['site']) in sp]
+    if pr:
+        w(f"\nSecondary-track PGDA 78 SSIM above the flat control on {sum(a > b for a, b in pr)} of {len(pr)} rows (descriptive).")
     # 8 photometry
-    w('\n## 8. Photometric models (PGDA 78, registered, GRGM900C)\n')
+    w('\n## 8. Photometric models (PGDA 78, registered, primary track)\n')
     w('| photometry | n | SSIM median | W1 median | JSD median | registration NCC median |')
     w('|---|---|---|---|---|---|')
     for ph in ('hapke', 'lunarlambert:0.5', 'lommel'):
@@ -288,7 +330,7 @@ def main(argv=None):
     w('\n## 10. Gallery (local only)\n')
     rnd = sorted(rr, key=lambda r: hashlib.sha256(f"polaris-x-v2-gallery:{r['product_id']}:{r['site']}".encode()).hexdigest())[:12]
     worst = sorted(rr, key=lambda r: r['iouShadow'])[:max(1, len(rr) // 10)]
-    w(f'Thumbnails (real | render | real with predicted shadow in blue) are crops of NASA ShadowCam images, so they are **not in '
+    w(f'Thumbnails (real | render | real with predicted shadow in blue) are crops of NASA/KARI/ASU ShadowCam images, so they are **not in '
       f'git**; `--gallery` writes them to `{GAL.relative_to(ROOT)}/`.\n')
     w('| set | product id | site | shadow IoU | edge median m | pred / obs shadow frac | offset px |')
     w('|---|---|---|---|---|---|---|')
@@ -298,8 +340,8 @@ def main(argv=None):
               f"{fmt(r['predShadowFrac'], 2)} / {fmt(r['obsShadowFrac'], 2)} | {fmt(math.hypot(r['regDyPx'], r['regDxPx']), 2)} |")
             if a.gallery:
                 thumb((r['product_id'], r['site']), r)
-    DOC.write_text('\n'.join(L) + '\n')
-    print(f'wrote {DOC}')
+    doc.write_text('\n'.join(L) + '\n')
+    print(f'wrote {doc}')
 
 
 if __name__ == '__main__':
