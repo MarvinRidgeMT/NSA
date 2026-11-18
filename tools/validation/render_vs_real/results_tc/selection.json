@@ -1,0 +1,2358 @@
+{
+ "rule": [
+  "Rule (fixed before any TC image is rendered; never uses image content or scores):",
+  "  1. dev TC rows (stereo and mono Level 2B0) of the frozen v1 catalogue passing the protocol \u00a72 gates (tc_common.eligible);",
+  "  2. order them by SHA-256(SEED:product_id:site);",
+  "  3. pipeline test (A11.4): the first PT_PER_CAMERA rows of each camera (TC1, TC2, from the product id) among rows with",
+  "     Sun elevation >= -0.5 deg;",
+  "  4. dev pilot: the first N_PILOT rows in that order (both tracks), excluding nothing (pipeline-test rows may recur)."
+ ],
+ "seed": "polaris-x-v2-kaguya-tc-dev-2026-11-18",
+ "devRows": 2071,
+ "eligibleRows": 1532,
+ "eligibleImages": 1045,
+ "gatedByMetadata": {
+  "overlap_frac < 0.25 and site centre not covered": 539
+ },
+ "cameraOfEligible": {
+  "TC1": 838,
+  "TC2": 694
+ },
+ "productOfEligible": {
+  "Kaguya_TC_stereo": 1476,
+  "Kaguya_TC_mono": 56
+ },
+ "pipelineTest": [
+  {
+   "product_id": "TC1W2B0_01_00968S893E2030",
+   "site": "site04_roi3"
+  },
+  {
+   "product_id": "TC1W2B0_01_00683S896E2170",
+   "site": "site01_roi6"
+  },
+  {
+   "product_id": "TC1W2B0_01_00895S894E3196",
+   "site": "site11_roi4"
+  },
+  {
+   "product_id": "TC1W2B0_01_00925S894E1897",
+   "site": "site01_roi6"
+  },
+  {
+   "product_id": "TC2W2B0_01_00841S893E1579",
+   "site": "site04_roi3"
+  },
+  {
+   "product_id": "TC2W2B0_01_01223S897E0119",
+   "site": "site04_roi3"
+  },
+  {
+   "product_id": "TC2W2B0_01_01705S892E1887",
+   "site": "site01_roi6"
+  },
+  {
+   "product_id": "TC2W2B0_01_00823S899E0979",
+   "site": "site01_roi6"
+  }
+ ],
+ "nImages": 144,
+ "nRows": 150,
+ "secondaryTrackRows": 12,
+ "images": [
+  {
+   "product_id": "TC1W2B0_01_00968S893E2030",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-27T19:14:10.075",
+   "utc_start": "2007-12-27T19:13:54.947",
+   "utc_stop": "2007-12-27T19:14:25.204",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC1W2B0_01_00968S893E2030.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC1W2B0_01_00968S893E2030.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00683S896E2170",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-04T12:16:07.671",
+   "utc_start": "2007-12-04T12:15:52.542",
+   "utc_stop": "2007-12-04T12:16:22.800",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071204/data/TC1W2B0_01_00683S896E2170.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071204/data/TC1W2B0_01_00683S896E2170.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00895S894E3196",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-21T20:02:57.104",
+   "utc_start": "2007-12-21T20:02:41.976",
+   "utc_stop": "2007-12-21T20:03:12.233",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071221/data/TC1W2B0_01_00895S894E3196.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071221/data/TC1W2B0_01_00895S894E3196.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00841S893E1579",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-17T10:05:19.982",
+   "utc_start": "2007-12-17T10:05:04.854",
+   "utc_stop": "2007-12-17T10:05:35.111",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071217/data/TC2W2B0_01_00841S893E1579.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071217/data/TC2W2B0_01_00841S893E1579.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00925S894E1897",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-24T06:53:47.346",
+   "utc_start": "2007-12-24T06:53:32.218",
+   "utc_stop": "2007-12-24T06:54:02.475",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071224/data/TC1W2B0_01_00925S894E1897.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071224/data/TC1W2B0_01_00925S894E1897.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00367S892E1774",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-11-08T16:23:41.365",
+   "utc_start": "2007-11-08T16:23:26.237",
+   "utc_stop": "2007-11-08T16:23:56.494",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071108/data/TC1W2B0_01_00367S892E1774.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071108/data/TC1W2B0_01_00367S892E1774.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01220S895E1079",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-17T08:54:05.193",
+   "utc_start": "2008-01-17T08:53:50.064",
+   "utc_stop": "2008-01-17T08:54:20.322",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC1W2B0_01_01220S895E1079.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC1W2B0_01_01220S895E1079.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SW|el[-0.5,0.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00891S896E3428",
+   "sites": [
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-21T12:12:06.104",
+   "utc_start": "2007-12-21T12:11:50.976",
+   "utc_stop": "2007-12-21T12:12:21.233",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071221/data/TC1W2B0_01_00891S896E3428.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071221/data/TC1W2B0_01_00891S896E3428.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|S|el[0.5,1.5)|em[5,15)|ssl<-0.75|ridge|res[5,20)m",
+    "site04_roi3": "Kaguya_TC_stereo|S|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01223S897E0119",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-17T14:45:55.647",
+   "utc_start": "2008-01-17T14:45:40.518",
+   "utc_stop": "2008-01-17T14:46:10.776",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC2W2B0_01_01223S897E0119.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC2W2B0_01_01223S897E0119.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01705S892E1887",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-26T00:14:55.694",
+   "utc_start": "2008-02-26T00:14:40.566",
+   "utc_stop": "2008-02-26T00:15:10.823",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080226/data/TC2W2B0_01_01705S892E1887.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080226/data/TC2W2B0_01_01705S892E1887.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00851S896E0373",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-18T05:43:43.147",
+   "utc_start": "2007-12-18T05:43:28.019",
+   "utc_stop": "2007-12-18T05:43:58.275",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071218/data/TC1W2B0_01_00851S896E0373.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071218/data/TC1W2B0_01_00851S896E0373.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00910S896E2215",
+   "sites": [
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-23T01:28:18.573",
+   "utc_start": "2007-12-23T01:28:03.445",
+   "utc_stop": "2007-12-23T01:28:33.702",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071223/data/TC1W2B0_01_00910S896E2215.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071223/data/TC1W2B0_01_00910S896E2215.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m",
+    "site04_roi3": "Kaguya_TC_stereo|S|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01081S886E0907",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-06T00:42:00.008",
+   "utc_start": "2008-01-06T00:41:44.879",
+   "utc_stop": "2008-01-06T00:42:15.137",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080106/data/TC1W2B0_01_01081S886E0907.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080106/data/TC1W2B0_01_01081S886E0907.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00932S893E1665",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-24T20:37:36.346",
+   "utc_start": "2007-12-24T20:37:21.218",
+   "utc_stop": "2007-12-24T20:37:51.475",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071224/data/TC1W2B0_01_00932S893E1665.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071224/data/TC1W2B0_01_00932S893E1665.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01195S897E1095",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-15T07:58:14.139",
+   "utc_start": "2008-01-15T07:57:59.010",
+   "utc_stop": "2008-01-15T07:58:29.268",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080115/data/TC1W2B0_01_01195S897E1095.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080115/data/TC1W2B0_01_01195S897E1095.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00823S899E0979",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-15T22:46:06.410",
+   "utc_start": "2007-12-15T22:45:51.282",
+   "utc_stop": "2007-12-15T22:46:21.539",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC2W2B0_01_00823S899E0979.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC2W2B0_01_00823S899E0979.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00851S893E1583",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-18T05:42:50.008",
+   "utc_start": "2007-12-18T05:42:34.879",
+   "utc_stop": "2007-12-18T05:43:05.137",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071218/data/TC2W2B0_01_00851S893E1583.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071218/data/TC2W2B0_01_00851S893E1583.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00893S895E3293",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-21T16:07:32.104",
+   "utc_start": "2007-12-21T16:07:16.976",
+   "utc_stop": "2007-12-21T16:07:47.233",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071221/data/TC1W2B0_01_00893S895E3293.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071221/data/TC1W2B0_01_00893S895E3293.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|S|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01053S892E1577",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-03T17:49:22.748",
+   "utc_start": "2008-01-03T17:49:07.619",
+   "utc_stop": "2008-01-03T17:49:37.877",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC2W2B0_01_01053S892E1577.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC2W2B0_01_01053S892E1577.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|NE|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m",
+    "site01_roi6": "Kaguya_TC_stereo|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1S2B0_01_05585S895E3039",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_mono",
+   "obs_utc": "2009-01-08T15:12:11.397",
+   "utc_start": "2009-01-08T15:11:56.270",
+   "utc_stop": "2009-01-08T15:12:26.525",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20090108/data/TC1S2B0_01_05585S895E3039.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20090108/data/TC1S2B0_01_05585S895E3039.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_mono|S|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01875S893E1206",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-03-10T22:03:33.976",
+   "utc_start": "2008-03-10T22:03:18.847",
+   "utc_stop": "2008-03-10T22:03:49.105",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080310/data/TC2W2B0_01_01875S893E1206.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080310/data/TC2W2B0_01_01875S893E1206.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|N|el[0.5,1.5)|em[15,30)|ssl[-0.75,0.75)|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01166S892E1749",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-12T23:11:00.941",
+   "utc_start": "2008-01-12T23:10:45.813",
+   "utc_stop": "2008-01-12T23:11:16.070",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080112/data/TC2W2B0_01_01166S892E1749.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080112/data/TC2W2B0_01_01166S892E1749.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00819S895E2171",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-15T14:54:50.966",
+   "utc_start": "2007-12-15T14:54:35.838",
+   "utc_stop": "2007-12-15T14:55:06.095",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC2W2B0_01_00819S895E2171.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC2W2B0_01_00819S895E2171.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01060S893E3117",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-04T07:31:49.232",
+   "utc_start": "2008-01-04T07:31:34.103",
+   "utc_stop": "2008-01-04T07:32:04.361",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080104/data/TC2W2B0_01_01060S893E3117.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080104/data/TC2W2B0_01_01060S893E3117.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01884S881E1370",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-03-11T15:42:36.424",
+   "utc_start": "2008-03-11T15:42:21.295",
+   "utc_stop": "2008-03-11T15:42:51.553",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080311/data/TC2W2B0_01_01884S881E1370.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080311/data/TC2W2B0_01_01884S881E1370.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|N|el[0.5,1.5)|em[15,30)|ssl[-0.75,0.75)|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01008S891E2203",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-31T01:38:15.425",
+   "utc_start": "2007-12-31T01:38:00.296",
+   "utc_stop": "2007-12-31T01:38:30.554",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071231/data/TC2W2B0_01_01008S891E2203.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071231/data/TC2W2B0_01_01008S891E2203.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|NE|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_02682S894E3153",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-05-15T23:46:36.176",
+   "utc_start": "2008-05-15T23:46:24.636",
+   "utc_stop": "2008-05-15T23:46:47.717",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080515/data/TC2W2B0_01_02682S894E3153.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080515/data/TC2W2B0_01_02682S894E3153.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el<-0.5|em[15,30)|ssl>=0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00964S896E1332",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-27T11:22:41.922",
+   "utc_start": "2007-12-27T11:22:26.794",
+   "utc_stop": "2007-12-27T11:22:57.051",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC2W2B0_01_00964S896E1332.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC2W2B0_01_00964S896E1332.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00829S897E1125",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-16T10:32:38.410",
+   "utc_start": "2007-12-16T10:32:23.282",
+   "utc_stop": "2007-12-16T10:32:53.539",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071216/data/TC2W2B0_01_00829S897E1125.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071216/data/TC2W2B0_01_00829S897E1125.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01886S888E1290",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-03-11T19:38:55.565",
+   "utc_start": "2008-03-11T19:38:40.437",
+   "utc_stop": "2008-03-11T19:39:10.693",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080311/data/TC1W2B0_01_01886S888E1290.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080311/data/TC1W2B0_01_01886S888E1290.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|N|el[0.5,1.5)|em[15,30)|ssl[-0.75,0.75)|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00909S896E2183",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-22T23:30:35.573",
+   "utc_start": "2007-12-22T23:30:20.445",
+   "utc_stop": "2007-12-22T23:30:50.702",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00909S896E2183.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00909S896E2183.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00956S885E0893",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-26T19:41:00.346",
+   "utc_start": "2007-12-26T19:40:45.218",
+   "utc_stop": "2007-12-26T19:41:15.475",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071226/data/TC2W2B0_01_00956S885E0893.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071226/data/TC2W2B0_01_00956S885E0893.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|SW|el[-0.5,0.5)|em[5,15)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01597S894E1825",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-17T03:58:05.187",
+   "utc_start": "2008-02-17T03:57:50.059",
+   "utc_stop": "2008-02-17T03:58:20.316",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080217/data/TC1W2B0_01_01597S894E1825.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080217/data/TC1W2B0_01_01597S894E1825.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[-0.5,0.5)|em[5,15)|ssl[-0.75,0.75)|crater_rim|res[5,20)m",
+    "site01_roi6": "Kaguya_TC_stereo|S|el<-0.5|em[5,15)|ssl[-0.75,0.75)|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00595S892E1570",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-11-27T07:45:44.261",
+   "utc_start": "2007-11-27T07:45:29.133",
+   "utc_stop": "2007-11-27T07:45:59.390",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071127/data/TC2W2B0_01_00595S892E1570.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071127/data/TC2W2B0_01_00595S892E1570.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|SW|el[-0.5,0.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00966S893E2057",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-27T15:18:53.072",
+   "utc_start": "2007-12-27T15:18:37.944",
+   "utc_stop": "2007-12-27T15:19:08.200",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC1W2B0_01_00966S893E2057.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC1W2B0_01_00966S893E2057.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01061S883E1366",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-04T09:30:41.944",
+   "utc_start": "2008-01-04T09:30:26.815",
+   "utc_stop": "2008-01-04T09:30:57.073",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080104/data/TC1W2B0_01_01061S883E1366.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080104/data/TC1W2B0_01_01061S883E1366.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00877S897E0637",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-20T08:44:16.631",
+   "utc_start": "2007-12-20T08:44:01.502",
+   "utc_stop": "2007-12-20T08:44:31.760",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071220/data/TC1W2B0_01_00877S897E0637.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071220/data/TC1W2B0_01_00877S897E0637.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00504S893E1598",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-11-19T21:16:50.428",
+   "utc_start": "2007-11-19T21:16:35.300",
+   "utc_stop": "2007-11-19T21:17:05.557",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071119/data/TC2W2B0_01_00504S893E1598.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071119/data/TC2W2B0_01_00504S893E1598.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00944S892E1435",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-25T20:09:48.401",
+   "utc_start": "2007-12-25T20:09:33.273",
+   "utc_stop": "2007-12-25T20:10:03.530",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071225/data/TC1W2B0_01_00944S892E1435.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071225/data/TC1W2B0_01_00944S892E1435.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|SW|el[-0.5,0.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01708S890E1800",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-26T06:08:35.693",
+   "utc_start": "2008-02-26T06:08:20.565",
+   "utc_stop": "2008-02-26T06:08:50.822",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080226/data/TC2W2B0_01_01708S890E1800.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080226/data/TC2W2B0_01_01708S890E1800.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01889S882E1337",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-03-12T01:31:13.424",
+   "utc_start": "2008-03-12T01:30:58.295",
+   "utc_stop": "2008-03-12T01:31:28.553",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080312/data/TC2W2B0_01_01889S882E1337.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080312/data/TC2W2B0_01_01889S882E1337.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|N|el[0.5,1.5)|em[15,30)|ssl[-0.75,0.75)|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00816S895E2321",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-15T09:01:29.967",
+   "utc_start": "2007-12-15T09:01:14.838",
+   "utc_stop": "2007-12-15T09:01:45.096",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC2W2B0_01_00816S895E2321.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC2W2B0_01_00816S895E2321.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00946S892E1430",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-26T00:05:11.398",
+   "utc_start": "2007-12-26T00:04:56.270",
+   "utc_stop": "2007-12-26T00:05:26.527",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071226/data/TC1W2B0_01_00946S892E1430.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071226/data/TC1W2B0_01_00946S892E1430.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01693S896E3022",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-25T00:40:01.686",
+   "utc_start": "2008-02-25T00:39:46.557",
+   "utc_stop": "2008-02-25T00:40:16.815",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080225/data/TC2W2B0_01_01693S896E3022.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080225/data/TC2W2B0_01_01693S896E3022.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SE|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01056S894E3062",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-03T23:42:09.802",
+   "utc_start": "2008-01-03T23:41:54.673",
+   "utc_stop": "2008-01-03T23:42:24.931",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC1W2B0_01_01056S894E3062.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC1W2B0_01_01056S894E3062.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01220S888E1307",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-17T08:53:12.053",
+   "utc_start": "2008-01-17T08:52:56.925",
+   "utc_stop": "2008-01-17T08:53:27.182",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC2W2B0_01_01220S888E1307.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC2W2B0_01_01220S888E1307.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01221S897E0132",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-17T10:51:04.627",
+   "utc_start": "2008-01-17T10:50:49.499",
+   "utc_stop": "2008-01-17T10:51:19.756",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC2W2B0_01_01221S897E0132.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC2W2B0_01_01221S897E0132.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1S2B0_01_04820S897E1646",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_mono",
+   "obs_utc": "2008-11-07T06:57:24.591",
+   "utc_start": "2008-11-07T06:57:09.463",
+   "utc_stop": "2008-11-07T06:57:39.720",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20081107/data/TC1S2B0_01_04820S897E1646.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20081107/data/TC1S2B0_01_04820S897E1646.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_mono|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00719S890E3142",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-07T10:46:31.851",
+   "utc_start": "2007-12-07T10:46:16.722",
+   "utc_stop": "2007-12-07T10:46:46.980",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071207/data/TC2W2B0_01_00719S890E3142.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071207/data/TC2W2B0_01_00719S890E3142.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|W|el[1.5,2.5)|em[5,15)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_04809S893E2322",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-11-06T09:21:27.592",
+   "utc_start": "2008-11-06T09:21:12.463",
+   "utc_stop": "2008-11-06T09:21:42.721",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20081106/data/TC1W2B0_01_04809S893E2322.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20081106/data/TC1W2B0_01_04809S893E2322.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01607S888E2368",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-17T23:37:47.643",
+   "utc_start": "2008-02-17T23:37:32.515",
+   "utc_stop": "2008-02-17T23:38:02.772",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080217/data/TC2W2B0_01_01607S888E2368.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080217/data/TC2W2B0_01_01607S888E2368.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|S|el<-0.5|em[15,30)|ssl[-0.75,0.75)|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00771S890E3168",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-11T16:40:19.929",
+   "utc_start": "2007-12-11T16:40:04.800",
+   "utc_stop": "2007-12-11T16:40:35.058",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071211/data/TC1W2B0_01_00771S890E3168.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071211/data/TC1W2B0_01_00771S890E3168.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00916S889E2605",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-23T13:14:13.005",
+   "utc_start": "2007-12-23T13:13:57.877",
+   "utc_stop": "2007-12-23T13:14:28.134",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071223/data/TC2W2B0_01_00916S889E2605.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071223/data/TC2W2B0_01_00916S889E2605.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|E|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01053S894E1639",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-03T17:49:49.316",
+   "utc_start": "2008-01-03T17:49:34.187",
+   "utc_stop": "2008-01-03T17:50:04.445",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC1W2B0_01_01053S894E1639.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC1W2B0_01_01053S894E1639.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_05177S888E1519",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-12-06T10:50:38.143",
+   "utc_start": "2008-12-06T10:50:23.015",
+   "utc_stop": "2008-12-06T10:50:53.272",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20081206/data/TC1W2B0_01_05177S888E1519.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20081206/data/TC1W2B0_01_05177S888E1519.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00570S895E2643",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-11-25T06:44:18.048",
+   "utc_start": "2007-11-25T06:44:02.919",
+   "utc_stop": "2007-11-25T06:44:33.177",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071125/data/TC2W2B0_01_00570S895E2643.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071125/data/TC2W2B0_01_00570S895E2643.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[5,15)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01597S892E2271",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-17T03:57:38.619",
+   "utc_start": "2008-02-17T03:57:23.491",
+   "utc_stop": "2008-02-17T03:57:53.748",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080217/data/TC2W2B0_01_01597S892E2271.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080217/data/TC2W2B0_01_01597S892E2271.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|S|el<-0.5|em[15,30)|ssl[-0.75,0.75)|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01052S893E3085",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-03T15:51:20.165",
+   "utc_start": "2008-01-03T15:51:05.037",
+   "utc_stop": "2008-01-03T15:51:35.294",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC2W2B0_01_01052S893E3085.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC2W2B0_01_01052S893E3085.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|NE|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1S2B0_01_05194S890E1437",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_mono",
+   "obs_utc": "2008-12-07T20:07:26.153",
+   "utc_start": "2008-12-07T20:07:11.024",
+   "utc_stop": "2008-12-07T20:07:41.282",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20081207/data/TC1S2B0_01_05194S890E1437.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20081207/data/TC1S2B0_01_05194S890E1437.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_mono|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00823S898E1782",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-15T22:46:32.978",
+   "utc_start": "2007-12-15T22:46:17.850",
+   "utc_stop": "2007-12-15T22:46:48.107",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC1W2B0_01_00823S898E1782.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC1W2B0_01_00823S898E1782.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01704S896E2172",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-25T22:17:28.260",
+   "utc_start": "2008-02-25T22:17:13.132",
+   "utc_stop": "2008-02-25T22:17:43.389",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080225/data/TC1W2B0_01_01704S896E2172.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080225/data/TC1W2B0_01_01704S896E2172.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[-0.5,0.5)|em[5,15)|ssl[-0.75,0.75)|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_04812S894E2243",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-11-06T15:14:55.599",
+   "utc_start": "2008-11-06T15:14:40.470",
+   "utc_stop": "2008-11-06T15:15:10.729",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20081106/data/TC1W2B0_01_04812S894E2243.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20081106/data/TC1W2B0_01_04812S894E2243.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01694S897E2834",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-25T02:37:57.686",
+   "utc_start": "2008-02-25T02:37:42.557",
+   "utc_stop": "2008-02-25T02:38:12.815",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080225/data/TC2W2B0_01_01694S897E2834.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080225/data/TC2W2B0_01_01694S897E2834.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SE|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01885S894E1105",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-03-11T17:40:45.996",
+   "utc_start": "2008-03-11T17:40:30.867",
+   "utc_stop": "2008-03-11T17:41:01.125",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080311/data/TC2W2B0_01_01885S894E1105.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080311/data/TC2W2B0_01_01885S894E1105.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|N|el[0.5,1.5)|em[15,30)|ssl[-0.75,0.75)|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00631S894E1893",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-11-30T06:21:52.505",
+   "utc_start": "2007-11-30T06:21:37.377",
+   "utc_stop": "2007-11-30T06:22:07.634",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071130/data/TC1W2B0_01_00631S894E1893.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071130/data/TC1W2B0_01_00631S894E1893.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_02917S892E2706",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-06-04T06:13:46.356",
+   "utc_start": "2008-06-04T06:13:31.227",
+   "utc_stop": "2008-06-04T06:14:01.485",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080604/data/TC1W2B0_01_02917S892E2706.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080604/data/TC1W2B0_01_02917S892E2706.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|NW|el<-0.5|em[15,30)|ssl>=0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00882S894E1195",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-20T18:31:55.487",
+   "utc_start": "2007-12-20T18:31:40.359",
+   "utc_stop": "2007-12-20T18:32:10.616",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071220/data/TC2W2B0_01_00882S894E1195.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071220/data/TC2W2B0_01_00882S894E1195.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|W|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01804S896E2942",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-03-05T02:42:46.418",
+   "utc_start": "2008-03-05T02:42:31.289",
+   "utc_stop": "2008-03-05T02:43:01.547",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080305/data/TC1W2B0_01_01804S896E2942.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080305/data/TC1W2B0_01_01804S896E2942.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|N|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_02686S894E2341",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-05-16T07:39:43.090",
+   "utc_start": "2008-05-16T07:39:34.513",
+   "utc_stop": "2008-05-16T07:39:51.667",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080516/data/TC2W2B0_01_02686S894E2341.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080516/data/TC2W2B0_01_02686S894E2341.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|S|el<-0.5|em[15,30)|ssl>=0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00901S891E2969",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-22T07:49:14.113",
+   "utc_start": "2007-12-22T07:48:58.985",
+   "utc_stop": "2007-12-22T07:49:29.242",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00901S891E2969.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00901S891E2969.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00958S892E2097",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-26T23:37:39.058",
+   "utc_start": "2007-12-26T23:37:23.930",
+   "utc_stop": "2007-12-26T23:37:54.187",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071226/data/TC1W2B0_01_00958S892E2097.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071226/data/TC1W2B0_01_00958S892E2097.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01178S894E1539",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-13T22:40:31.990",
+   "utc_start": "2008-01-13T22:40:16.861",
+   "utc_stop": "2008-01-13T22:40:47.119",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080113/data/TC2W2B0_01_01178S894E1539.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080113/data/TC2W2B0_01_01178S894E1539.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_02679S894E3102",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-05-15T17:52:00.178",
+   "utc_start": "2008-05-15T17:51:48.639",
+   "utc_stop": "2008-05-15T17:52:11.718",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080515/data/TC2W2B0_01_02679S894E3102.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080515/data/TC2W2B0_01_02679S894E3102.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el<-0.5|em[15,30)|ssl>=0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00734S885E1193",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-08T16:10:06.993",
+   "utc_start": "2007-12-08T16:09:51.865",
+   "utc_stop": "2007-12-08T16:10:22.121",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071208/data/TC2W2B0_01_00734S885E1193.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071208/data/TC2W2B0_01_00734S885E1193.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|NE|el[1.5,2.5)|em[5,15)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01052S893E1622",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-03T15:51:46.737",
+   "utc_start": "2008-01-03T15:51:31.609",
+   "utc_stop": "2008-01-03T15:52:01.866",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC2W2B0_01_01052S893E1622.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC2W2B0_01_01052S893E1622.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00787S893E3224",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-13T00:05:44.369",
+   "utc_start": "2007-12-13T00:05:29.241",
+   "utc_stop": "2007-12-13T00:05:59.498",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071213/data/TC1W2B0_01_00787S893E3224.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071213/data/TC1W2B0_01_00787S893E3224.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|SW|el[-0.5,0.5)|em[5,15)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01075S894E0778",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-05T12:55:42.869",
+   "utc_start": "2008-01-05T12:55:27.741",
+   "utc_stop": "2008-01-05T12:55:57.997",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080105/data/TC2W2B0_01_01075S894E0778.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080105/data/TC2W2B0_01_01075S894E0778.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01072S882E1134",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-05T07:03:25.385",
+   "utc_start": "2008-01-05T07:03:10.257",
+   "utc_stop": "2008-01-05T07:03:40.513",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080105/data/TC2W2B0_01_01072S882E1134.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080105/data/TC2W2B0_01_01072S882E1134.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[5,15)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01888S882E1340",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-03-11T23:33:30.424",
+   "utc_start": "2008-03-11T23:33:15.295",
+   "utc_stop": "2008-03-11T23:33:45.553",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080311/data/TC2W2B0_01_01888S882E1340.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080311/data/TC2W2B0_01_01888S882E1340.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|N|el[0.5,1.5)|em[15,30)|ssl[-0.75,0.75)|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00835S892E1692",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-16T22:18:51.974",
+   "utc_start": "2007-12-16T22:18:36.845",
+   "utc_stop": "2007-12-16T22:19:07.103",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071216/data/TC2W2B0_01_00835S892E1692.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071216/data/TC2W2B0_01_00835S892E1692.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01225S896E1108",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-17T18:41:14.241",
+   "utc_start": "2008-01-17T18:40:59.113",
+   "utc_stop": "2008-01-17T18:41:29.370",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC1W2B0_01_01225S896E1108.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC1W2B0_01_01225S896E1108.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|NW|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01060S894E1419",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-04T07:32:15.804",
+   "utc_start": "2008-01-04T07:32:00.675",
+   "utc_stop": "2008-01-04T07:32:30.933",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080104/data/TC2W2B0_01_01060S894E1419.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080104/data/TC2W2B0_01_01060S894E1419.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00840S894E1509",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-17T08:07:37.979",
+   "utc_start": "2007-12-17T08:07:22.851",
+   "utc_stop": "2007-12-17T08:07:53.108",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071217/data/TC2W2B0_01_00840S894E1509.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071217/data/TC2W2B0_01_00840S894E1509.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01226S890E3285",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-17T20:39:05.813",
+   "utc_start": "2008-01-17T20:38:50.685",
+   "utc_stop": "2008-01-17T20:39:20.942",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC1W2B0_01_01226S890E3285.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC1W2B0_01_01226S890E3285.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|SE|el[-0.5,0.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01083S885E3144",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-06T04:36:16.866",
+   "utc_start": "2008-01-06T04:36:01.737",
+   "utc_stop": "2008-01-06T04:36:31.995",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080106/data/TC1W2B0_01_01083S885E3144.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080106/data/TC1W2B0_01_01083S885E3144.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01213S896E0297",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-16T19:11:38.632",
+   "utc_start": "2008-01-16T19:11:23.504",
+   "utc_stop": "2008-01-16T19:11:53.761",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080116/data/TC2W2B0_01_01213S896E0297.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080116/data/TC2W2B0_01_01213S896E0297.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00872S883E1473",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-19T22:55:17.059",
+   "utc_start": "2007-12-19T22:55:01.930",
+   "utc_stop": "2007-12-19T22:55:32.188",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071219/data/TC1W2B0_01_00872S883E1473.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071219/data/TC1W2B0_01_00872S883E1473.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|W|el[1.5,2.5)|em[5,15)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00906S896E2482",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-22T17:36:56.999",
+   "utc_start": "2007-12-22T17:36:41.871",
+   "utc_stop": "2007-12-22T17:37:12.128",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC2W2B0_01_00906S896E2482.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC2W2B0_01_00906S896E2482.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1S2B0_01_05581S890E3121",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_mono",
+   "obs_utc": "2009-01-08T07:29:15.164",
+   "utc_start": "2009-01-08T07:29:04.976",
+   "utc_stop": "2009-01-08T07:29:25.353",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20090108/data/TC1S2B0_01_05581S890E3121.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20090108/data/TC1S2B0_01_05581S890E3121.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_mono|E|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01074S894E0793",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-05T10:58:07.869",
+   "utc_start": "2008-01-05T10:57:52.741",
+   "utc_stop": "2008-01-05T10:58:22.997",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080105/data/TC2W2B0_01_01074S894E0793.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080105/data/TC2W2B0_01_01074S894E0793.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|N|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01198S884E1567",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-15T13:50:08.589",
+   "utc_start": "2008-01-15T13:49:53.460",
+   "utc_stop": "2008-01-15T13:50:23.718",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080115/data/TC1W2B0_01_01198S884E1567.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080115/data/TC1W2B0_01_01198S884E1567.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01210S883E1419",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-16T13:19:23.628",
+   "utc_start": "2008-01-16T13:19:08.500",
+   "utc_stop": "2008-01-16T13:19:38.757",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080116/data/TC1W2B0_01_01210S883E1419.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080116/data/TC1W2B0_01_01210S883E1419.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00785S893E3298",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-12T20:09:34.801",
+   "utc_start": "2007-12-12T20:09:19.673",
+   "utc_stop": "2007-12-12T20:09:49.930",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071212/data/TC2W2B0_01_00785S893E3298.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071212/data/TC2W2B0_01_00785S893E3298.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|SW|el[-0.5,0.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00903S896E1616",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-22T11:44:14.532",
+   "utc_start": "2007-12-22T11:43:59.404",
+   "utc_stop": "2007-12-22T11:44:29.661",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00903S896E1616.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00903S896E1616.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|S|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01688S894E2110",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-24T14:50:45.256",
+   "utc_start": "2008-02-24T14:50:30.127",
+   "utc_stop": "2008-02-24T14:51:00.385",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080224/data/TC2W2B0_01_01688S894E2110.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080224/data/TC2W2B0_01_01688S894E2110.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00941S882E1075",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-25T14:16:19.829",
+   "utc_start": "2007-12-25T14:16:04.701",
+   "utc_stop": "2007-12-25T14:16:34.958",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071225/data/TC1W2B0_01_00941S882E1075.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071225/data/TC1W2B0_01_00941S882E1075.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|SW|el[-0.5,0.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00871S883E1487",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-19T20:57:35.059",
+   "utc_start": "2007-12-19T20:57:19.930",
+   "utc_stop": "2007-12-19T20:57:50.188",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071219/data/TC1W2B0_01_00871S883E1487.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071219/data/TC1W2B0_01_00871S883E1487.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|W|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01828S891E1916",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-03-07T01:49:42.247",
+   "utc_start": "2008-03-07T01:49:27.119",
+   "utc_stop": "2008-03-07T01:49:57.376",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080307/data/TC1W2B0_01_01828S891E1916.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080307/data/TC1W2B0_01_01828S891E1916.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|N|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_04814S894E2160",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-11-06T19:10:32.598",
+   "utc_start": "2008-11-06T19:10:17.468",
+   "utc_stop": "2008-11-06T19:10:47.728",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20081106/data/TC1W2B0_01_04814S894E2160.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20081106/data/TC1W2B0_01_04814S894E2160.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00619S894E1420",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-11-29T06:49:30.326",
+   "utc_start": "2007-11-29T06:49:15.197",
+   "utc_stop": "2007-11-29T06:49:45.455",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071129/data/TC2W2B0_01_00619S894E1420.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071129/data/TC2W2B0_01_00619S894E1420.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|S|el[-0.5,0.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1S2B0_01_05582S893E1076",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_mono",
+   "obs_utc": "2009-01-08T09:24:30.959",
+   "utc_start": "2009-01-08T09:24:15.830",
+   "utc_stop": "2009-01-08T09:24:46.088",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20090108/data/TC1S2B0_01_05582S893E1076.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20090108/data/TC1S2B0_01_05582S893E1076.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_mono|S|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00906S888E2863",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-22T17:37:50.139",
+   "utc_start": "2007-12-22T17:37:35.011",
+   "utc_stop": "2007-12-22T17:38:05.268",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00906S888E2863.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00906S888E2863.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01828S894E0585",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-03-07T01:50:08.818",
+   "utc_start": "2008-03-07T01:49:53.690",
+   "utc_stop": "2008-03-07T01:50:23.946",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080307/data/TC1W2B0_01_01828S894E0585.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080307/data/TC1W2B0_01_01828S894E0585.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|N|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01196S896E0367",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-15T09:55:14.575",
+   "utc_start": "2008-01-15T09:54:59.446",
+   "utc_stop": "2008-01-15T09:55:29.704",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080115/data/TC2W2B0_01_01196S896E0367.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080115/data/TC2W2B0_01_01196S896E0367.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00815S894E2333",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-15T07:04:11.533",
+   "utc_start": "2007-12-15T07:03:56.405",
+   "utc_stop": "2007-12-15T07:04:26.662",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC1W2B0_01_00815S894E2333.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC1W2B0_01_00815S894E2333.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00672S894E2352",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-03T14:43:00.664",
+   "utc_start": "2007-12-03T14:42:45.535",
+   "utc_stop": "2007-12-03T14:43:15.793",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071203/data/TC1W2B0_01_00672S894E2352.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071203/data/TC1W2B0_01_00672S894E2352.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|NE|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00582S894E2285",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-11-26T06:16:56.926",
+   "utc_start": "2007-11-26T06:16:41.798",
+   "utc_stop": "2007-11-26T06:17:12.055",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071126/data/TC1W2B0_01_00582S894E2285.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071126/data/TC1W2B0_01_00582S894E2285.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01607S892E2162",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-17T23:38:14.211",
+   "utc_start": "2008-02-17T23:37:59.083",
+   "utc_stop": "2008-02-17T23:38:29.340",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080217/data/TC1W2B0_01_01607S892E2162.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080217/data/TC1W2B0_01_01607S892E2162.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|S|el[-0.5,0.5)|em[5,15)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01706S892E1861",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-26T02:12:48.693",
+   "utc_start": "2008-02-26T02:12:33.564",
+   "utc_stop": "2008-02-26T02:13:03.822",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080226/data/TC2W2B0_01_01706S892E1861.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080226/data/TC2W2B0_01_01706S892E1861.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|E|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_02697S892E2002",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-05-17T05:19:47.205",
+   "utc_start": "2008-05-17T05:19:32.076",
+   "utc_stop": "2008-05-17T05:20:02.334",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080517/data/TC1W2B0_01_02697S892E2002.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080517/data/TC1W2B0_01_02697S892E2002.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|S|el<-0.5|em[15,30)|ssl>=0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_02681S894E2534",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-05-15T21:48:01.186",
+   "utc_start": "2008-05-15T21:47:46.057",
+   "utc_stop": "2008-05-15T21:48:16.315",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080515/data/TC1W2B0_01_02681S894E2534.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080515/data/TC1W2B0_01_02681S894E2534.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|S|el<-0.5|em[5,15)|ssl>=0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00958S892E1035",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-26T23:37:12.486",
+   "utc_start": "2007-12-26T23:36:57.358",
+   "utc_stop": "2007-12-26T23:37:27.615",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071226/data/TC1W2B0_01_00958S892E1035.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071226/data/TC1W2B0_01_00958S892E1035.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01079S885E3162",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-05T20:45:58.866",
+   "utc_start": "2008-01-05T20:45:43.737",
+   "utc_stop": "2008-01-05T20:46:13.995",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080105/data/TC1W2B0_01_01079S885E3162.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080105/data/TC1W2B0_01_01079S885E3162.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01883S887E1311",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-03-11T13:45:45.566",
+   "utc_start": "2008-03-11T13:45:30.437",
+   "utc_stop": "2008-03-11T13:46:00.695",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080311/data/TC1W2B0_01_01883S887E1311.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080311/data/TC1W2B0_01_01883S887E1311.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|N|el[0.5,1.5)|em[15,30)|ssl[-0.75,0.75)|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_04819S897E1212",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-11-07T04:59:11.025",
+   "utc_start": "2008-11-07T04:58:55.897",
+   "utc_stop": "2008-11-07T04:59:26.154",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20081107/data/TC2W2B0_01_04819S897E1212.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20081107/data/TC2W2B0_01_04819S897E1212.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_02917S896E2453",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-06-04T06:14:12.931",
+   "utc_start": "2008-06-04T06:13:57.803",
+   "utc_stop": "2008-06-04T06:14:28.059",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080604/data/TC2W2B0_01_02917S896E2453.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080604/data/TC2W2B0_01_02917S896E2453.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|NW|el<-0.5|em[15,30)|ssl>=0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01632S889E1019",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-20T00:46:44.515",
+   "utc_start": "2008-02-20T00:46:29.387",
+   "utc_stop": "2008-02-20T00:46:59.644",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080220/data/TC2W2B0_01_01632S889E1019.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080220/data/TC2W2B0_01_01632S889E1019.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|W|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00947S892E1384",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-26T02:02:51.399",
+   "utc_start": "2007-12-26T02:02:36.270",
+   "utc_stop": "2007-12-26T02:03:06.528",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071226/data/TC1W2B0_01_00947S892E1384.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071226/data/TC1W2B0_01_00947S892E1384.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|SW|el[-0.5,0.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00965S896E1316",
+   "sites": [
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-27T13:20:20.936",
+   "utc_start": "2007-12-27T13:20:05.807",
+   "utc_stop": "2007-12-27T13:20:36.065",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC2W2B0_01_00965S896E1316.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC2W2B0_01_00965S896E1316.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[5,15)|ssl<-0.75|ridge|res[5,20)m",
+    "site04_roi3": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00924S892E2308",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-24T04:55:39.778",
+   "utc_start": "2007-12-24T04:55:24.650",
+   "utc_stop": "2007-12-24T04:55:54.907",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071224/data/TC2W2B0_01_00924S892E2308.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071224/data/TC2W2B0_01_00924S892E2308.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|S|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01572S885E2859",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-15T02:48:29.854",
+   "utc_start": "2008-02-15T02:48:14.726",
+   "utc_stop": "2008-02-15T02:48:44.983",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080215/data/TC1W2B0_01_01572S885E2859.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080215/data/TC1W2B0_01_01572S885E2859.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|SE|el<-0.5|em[15,30)|ssl[-0.75,0.75)|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00814S893E2362",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-15T05:06:23.536",
+   "utc_start": "2007-12-15T05:06:08.408",
+   "utc_stop": "2007-12-15T05:06:38.665",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC1W2B0_01_00814S893E2362.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC1W2B0_01_00814S893E2362.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1S2B0_01_05578S886E1137",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_mono",
+   "obs_utc": "2009-01-08T01:41:00.634",
+   "utc_start": "2009-01-08T01:40:50.966",
+   "utc_stop": "2009-01-08T01:41:10.302",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20090108/data/TC1S2B0_01_05578S886E1137.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-s-level2b0-v1.0/20090108/data/TC1S2B0_01_05578S886E1137.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_mono|W|el[0.5,1.5)|em[15,30)|ssl[-0.75,0.75)|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00969S894E1988",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-27T21:11:47.523",
+   "utc_start": "2007-12-27T21:11:33.955",
+   "utc_stop": "2007-12-27T21:12:01.092",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC1W2B0_01_00969S894E1988.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC1W2B0_01_00969S894E1988.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00834S890E1788",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-16T20:21:34.543",
+   "utc_start": "2007-12-16T20:21:19.415",
+   "utc_stop": "2007-12-16T20:21:49.672",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071216/data/TC1W2B0_01_00834S890E1788.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071216/data/TC1W2B0_01_00834S890E1788.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01071S885E1137",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-05T05:06:18.958",
+   "utc_start": "2008-01-05T05:06:03.830",
+   "utc_stop": "2008-01-05T05:06:34.087",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080105/data/TC1W2B0_01_01071S885E1137.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080105/data/TC1W2B0_01_01071S885E1137.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00898S894E1356",
+   "sites": [
+    "site01_roi6",
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-22T01:55:37.532",
+   "utc_start": "2007-12-22T01:55:22.404",
+   "utc_stop": "2007-12-22T01:55:52.661",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00898S894E1356.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00898S894E1356.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|S|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m",
+    "site07_roi1": "Kaguya_TC_stereo|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01697S895E3132",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-25T08:32:07.254",
+   "utc_start": "2008-02-25T08:31:52.125",
+   "utc_stop": "2008-02-25T08:32:22.383",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080225/data/TC1W2B0_01_01697S895E3132.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080225/data/TC1W2B0_01_01697S895E3132.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01061S897E1410",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-04T09:30:15.372",
+   "utc_start": "2008-01-04T09:30:00.243",
+   "utc_stop": "2008-01-04T09:30:30.501",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080104/data/TC1W2B0_01_01061S897E1410.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080104/data/TC1W2B0_01_01061S897E1410.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00631S894E1044",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-11-30T06:20:59.365",
+   "utc_start": "2007-11-30T06:20:44.237",
+   "utc_stop": "2007-11-30T06:21:14.494",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071130/data/TC2W2B0_01_00631S894E1044.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071130/data/TC2W2B0_01_00631S894E1044.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|E|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_02611S889E1147",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-05-10T03:54:34.044",
+   "utc_start": "2008-05-10T03:54:18.916",
+   "utc_stop": "2008-05-10T03:54:49.173",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080510/data/TC2W2B0_01_02611S889E1147.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080510/data/TC2W2B0_01_02611S889E1147.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|N|el[-0.5,0.5)|em[15,30)|ssl>=0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00879S897E0428",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-20T12:39:41.630",
+   "utc_start": "2007-12-20T12:39:26.502",
+   "utc_stop": "2007-12-20T12:39:56.759",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071220/data/TC1W2B0_01_00879S897E0428.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071220/data/TC1W2B0_01_00879S897E0428.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|S|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01696S891E1904",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-25T06:34:38.826",
+   "utc_start": "2008-02-25T06:34:23.697",
+   "utc_stop": "2008-02-25T06:34:53.955",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080225/data/TC1W2B0_01_01696S891E1904.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080225/data/TC1W2B0_01_01696S891E1904.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01053S891E3110",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-03T17:49:22.744",
+   "utc_start": "2008-01-03T17:49:07.615",
+   "utc_stop": "2008-01-03T17:49:37.873",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC1W2B0_01_01053S891E3110.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080103/data/TC1W2B0_01_01053S891E3110.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00875S885E1423",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-20T04:48:25.059",
+   "utc_start": "2007-12-20T04:48:09.930",
+   "utc_stop": "2007-12-20T04:48:40.188",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071220/data/TC1W2B0_01_00875S885E1423.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071220/data/TC1W2B0_01_00875S885E1423.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|W|el[1.5,2.5)|em[5,15)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00876S896E0712",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-20T06:46:34.631",
+   "utc_start": "2007-12-20T06:46:19.502",
+   "utc_stop": "2007-12-20T06:46:49.760",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071220/data/TC1W2B0_01_00876S896E0712.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071220/data/TC1W2B0_01_00876S896E0712.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[5,15)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00908S896E2071",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-22T21:32:51.573",
+   "utc_start": "2007-12-22T21:32:36.445",
+   "utc_stop": "2007-12-22T21:33:06.702",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00908S896E2071.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071222/data/TC1W2B0_01_00908S896E2071.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01705S895E2069",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-26T00:15:22.262",
+   "utc_start": "2008-02-26T00:15:07.134",
+   "utc_stop": "2008-02-26T00:15:37.391",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080226/data/TC1W2B0_01_01705S895E2069.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080226/data/TC1W2B0_01_01705S895E2069.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[-0.5,0.5)|em[5,15)|ssl[-0.75,0.75)|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00655S895E2245",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-02T05:24:29.587",
+   "utc_start": "2007-12-02T05:24:14.459",
+   "utc_stop": "2007-12-02T05:24:44.715",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071202/data/TC1W2B0_01_00655S895E2245.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071202/data/TC1W2B0_01_00655S895E2245.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|NE|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01221S895E1087",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-17T10:51:31.195",
+   "utc_start": "2008-01-17T10:51:16.067",
+   "utc_stop": "2008-01-17T10:51:46.324",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC1W2B0_01_01221S895E1087.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC1W2B0_01_01221S895E1087.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00582S880E1274",
+   "sites": [
+    "site07_roi1"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-11-26T06:15:37.214",
+   "utc_start": "2007-11-26T06:15:22.086",
+   "utc_stop": "2007-11-26T06:15:52.343",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071126/data/TC2W2B0_01_00582S880E1274.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071126/data/TC2W2B0_01_00582S880E1274.lbl",
+   "strata": {
+    "site07_roi1": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[5,15)|ssl<-0.75|massif_peak|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00911S880E2837",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-23T03:26:01.577",
+   "utc_start": "2007-12-23T03:25:46.449",
+   "utc_stop": "2007-12-23T03:26:16.706",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071223/data/TC2W2B0_01_00911S880E2837.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071223/data/TC2W2B0_01_00911S880E2837.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_01106S888E3064",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-08T01:40:26.953",
+   "utc_start": "2008-01-08T01:40:11.825",
+   "utc_stop": "2008-01-08T01:40:42.082",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080108/data/TC1W2B0_01_01106S888E3064.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080108/data/TC1W2B0_01_01106S888E3064.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|W|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_02917S893E1399",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-06-04T06:13:19.784",
+   "utc_start": "2008-06-04T06:13:04.655",
+   "utc_stop": "2008-06-04T06:13:34.913",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080604/data/TC1W2B0_01_02917S893E1399.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080604/data/TC1W2B0_01_02917S893E1399.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|NW|el<-0.5|em[15,30)|ssl>=0.75|ridge|res[5,20)m"
+   }
+  }
+ ],
+ "pipelineTestImages": [
+  {
+   "product_id": "TC1W2B0_01_00968S893E2030",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-27T19:14:10.075",
+   "utc_start": "2007-12-27T19:13:54.947",
+   "utc_stop": "2007-12-27T19:14:25.204",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC1W2B0_01_00968S893E2030.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071227/data/TC1W2B0_01_00968S893E2030.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00683S896E2170",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-04T12:16:07.671",
+   "utc_start": "2007-12-04T12:15:52.542",
+   "utc_stop": "2007-12-04T12:16:22.800",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071204/data/TC1W2B0_01_00683S896E2170.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071204/data/TC1W2B0_01_00683S896E2170.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00895S894E3196",
+   "sites": [
+    "site11_roi4"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-21T20:02:57.104",
+   "utc_start": "2007-12-21T20:02:41.976",
+   "utc_stop": "2007-12-21T20:03:12.233",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071221/data/TC1W2B0_01_00895S894E3196.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071221/data/TC1W2B0_01_00895S894E3196.lbl",
+   "strata": {
+    "site11_roi4": "Kaguya_TC_stereo|E|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC1W2B0_01_00925S894E1897",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-24T06:53:47.346",
+   "utc_start": "2007-12-24T06:53:32.218",
+   "utc_stop": "2007-12-24T06:54:02.475",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071224/data/TC1W2B0_01_00925S894E1897.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071224/data/TC1W2B0_01_00925S894E1897.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00841S893E1579",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-17T10:05:19.982",
+   "utc_start": "2007-12-17T10:05:04.854",
+   "utc_stop": "2007-12-17T10:05:35.111",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071217/data/TC2W2B0_01_00841S893E1579.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071217/data/TC2W2B0_01_00841S893E1579.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01223S897E0119",
+   "sites": [
+    "site04_roi3"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-01-17T14:45:55.647",
+   "utc_start": "2008-01-17T14:45:40.518",
+   "utc_stop": "2008-01-17T14:46:10.776",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC2W2B0_01_01223S897E0119.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080117/data/TC2W2B0_01_01223S897E0119.lbl",
+   "strata": {
+    "site04_roi3": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|crater_rim|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_01705S892E1887",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2008-02-26T00:14:55.694",
+   "utc_start": "2008-02-26T00:14:40.566",
+   "utc_stop": "2008-02-26T00:15:10.823",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080226/data/TC2W2B0_01_01705S892E1887.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20080226/data/TC2W2B0_01_01705S892E1887.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|E|el[-0.5,0.5)|em[15,30)|ssl[-0.75,0.75)|ridge|res[5,20)m"
+   }
+  },
+  {
+   "product_id": "TC2W2B0_01_00823S899E0979",
+   "sites": [
+    "site01_roi6"
+   ],
+   "instrument": "Kaguya_TC_stereo",
+   "obs_utc": "2007-12-15T22:46:06.410",
+   "utc_start": "2007-12-15T22:45:51.282",
+   "utc_stop": "2007-12-15T22:46:21.539",
+   "data_file_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC2W2B0_01_00823S899E0979.img.gz",
+   "label_url": "https://data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-w-level2b0-v1.0/20071215/data/TC2W2B0_01_00823S899E0979.lbl",
+   "strata": {
+    "site01_roi6": "Kaguya_TC_stereo|SW|el[0.5,1.5)|em[15,30)|ssl<-0.75|ridge|res[5,20)m"
+   }
+  }
+ ]
+}

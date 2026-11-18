@@ -1,0 +1,96 @@
+{
+ "what": "model image corners and centre vs the Level 2B0 label corners and centre (JAXA geometry), sphere R = 1737.4 km; metadata only, no pixels",
+ "product_id": "TC1S2B0_01_04808S893E2361",
+ "split": "dev",
+ "camera": "TC1",
+ "swath": "NOMINAL",
+ "moving_direction": -1,
+ "labelMetakernel": "RGC_INF_TCv401IK_MIv200IK_SPv105IK_RISE100i_05_LongCK_D_V02_de421_110706.mk",
+ "distanceM": {
+  "RISE100i_05": {
+   "isis/noflip": [
+    209,
+    202,
+    220,
+    213,
+    219
+   ],
+   "isis/flip": [
+    28559,
+    28689,
+    28691,
+    28822,
+    219
+   ],
+   "label/noflip": [
+    259,
+    252,
+    269,
+    263,
+    268
+   ],
+   "label/flip": [
+    28559,
+    28689,
+    28692,
+    28822,
+    268
+   ]
+  },
+  "GRGM900C_L660": {
+   "isis/noflip": [
+    220,
+    214,
+    231,
+    225,
+    230
+   ],
+   "isis/flip": [
+    28574,
+    28672,
+    28707,
+    28805,
+    230
+   ],
+   "label/noflip": [
+    271,
+    266,
+    282,
+    277,
+    280
+   ],
+   "label/flip": [
+    28575,
+    28673,
+    28707,
+    28806,
+    280
+   ]
+  }
+ },
+ "order": [
+  "UPPER_LEFT",
+  "UPPER_RIGHT",
+  "LOWER_LEFT",
+  "LOWER_RIGHT",
+  "CENTER"
+ ],
+ "isisNoflipOffsetM": {
+  "alongTrack": [
+   -197,
+   -193,
+   -208,
+   -204,
+   -203
+  ],
+  "acrossTrack": [
+   71,
+   59,
+   72,
+   59,
+   81
+  ]
+ },
+ "pixelM": 8.94,
+ "reading": "no flip (flip swaps the corners, ~28.6 km); isis start 50 m closer than CORRECTED_START_TIME; a near-rigid ~200 m along-track offset remains (~22 lines, ~0.13 deg pitch or ~130 ms), unexplained; the label names IK v4.01, the public IK is SEL_TC_V01"
+}
