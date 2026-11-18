@@ -148,6 +148,47 @@ class Pixels(unittest.TestCase):
             IO.decode(L, b'\x00' * 100)
 
 
+class Incoming(unittest.TestCase):
+    """Files the project owner downloads into incoming/ are checked, copied into the cache and recorded."""
+
+    def setUp(self):
+        import tempfile
+        from pathlib import Path
+        self.tmp = Path(tempfile.mkdtemp())
+        self.saved = (IO.TC_DIR, IO.INCOMING)
+        IO.TC_DIR, IO.INCOMING = self.tmp, self.tmp / 'incoming'
+        (self.tmp / 'incoming' / 'sub').mkdir(parents=True)
+        from tools.validation.render_vs_real.tc_common import tc_rows
+        self.pid = next(r['product_id'] for r in tc_rows() if r['split'] == 'dev')
+
+    def tearDown(self):
+        import shutil
+        IO.TC_DIR, IO.INCOMING = self.saved
+        shutil.rmtree(self.tmp)
+
+    def test_missing_file_says_where_to_put_it(self):
+        with self.assertRaises(FileNotFoundError) as cm:
+            IO.label(self.pid, 'https://example.invalid/x.lbl')
+        self.assertIn('incoming', str(cm.exception))
+
+    def test_label_checked_copied_and_recorded(self):
+        (self.tmp / 'incoming' / 'sub' / f'{self.pid}.lbl').write_text(f'PDS_VERSION_ID = "PDS3"\nFILE_NAME = "{self.pid}.img"\n')
+        self.assertIn(self.pid, IO.label(self.pid, 'u'))
+        self.assertTrue((self.tmp / 'labels' / f'{self.pid}.lbl').exists())
+        import json
+        rec = json.loads((self.tmp / 'MANIFEST.jsonl').read_text().splitlines()[-1])
+        self.assertEqual((rec['kind'], rec['product_id'], rec['url']), ('label', self.pid, 'u'))
+        self.assertEqual(len(rec['sha256']), 64)
+
+    def test_wrong_label_and_non_gzip_image_refused(self):
+        (self.tmp / 'incoming' / f'{self.pid}.lbl').write_text('<html>Request Rejected</html>')
+        (self.tmp / 'incoming' / f'{self.pid}.img.gz').write_bytes(b'not gzip')
+        with self.assertRaises(RuntimeError):
+            IO.label(self.pid, 'u')
+        with self.assertRaises(RuntimeError):
+            IO.image_gz(self.pid, 'u')
+
+
 class Kernels(unittest.TestCase):
     def test_orbit_choice(self):
         self.assertEqual(K.spk_key({'spice_metakernel': 'X_RISE100h_02_Y.mk'}, 'label')[0], K.RISE_SPK['RISE100h_02'])

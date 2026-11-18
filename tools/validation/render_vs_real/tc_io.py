@@ -1,8 +1,10 @@
 """Kaguya TC Level 2B0 access (JAXA DARTS, public, no account): PDS3 labels and the image lines crossing a site, binned.
 
-Cache (git-ignored): $POLARIS_DATA/v2/imagery/tc/{labels/<id>.lbl, img/<id>.img.gz, windows/<id>_L<l0>_<l1>_b<b>.npz,
-MANIFEST.jsonl}. The products are gzip files, so HTTP byte ranges cannot be used: the whole .img.gz is fetched once and
-kept (5-13 MB each); every download is recorded in the manifest (URL, bytes, SHA-256, retrieval UTC).
+Cache (git-ignored): $POLARIS_DATA/v2/imagery/tc/{incoming/, labels/<id>.lbl, img/<id>.img.gz,
+windows/<id>_L<l0>_<l1>_b<b>.npz, MANIFEST.jsonl}. DARTS rejected this pipeline's automated requests (18 Nov 2026), so
+the pipeline fetches nothing: the project owner downloads the .lbl and .img.gz files into incoming/ (any subfolder), and
+each file is checked (PDS3 label of that product id; gzip), copied into the cache and recorded in the manifest (source
+URL, bytes, SHA-256, time). tc_download_list writes the URL list.
 Pixels (label IMAGE object): MSB 16-bit integers, radiance = DN x SCALING_FACTOR + OFFSET (W m-2 um-1 sr-1). Invalid
 codes (INVALID_TYPE / INVALID_VALUE): SATURATION -20000 -> saturated; MINUS -21000, DUMMY_DEFECT -22000, OTHER -23000 ->
 invalid (protocol §3.1 special pixels). Binning (A1.3 rule, as the NAC): b x b blocks aligned to the window's first line and
@@ -15,14 +17,16 @@ import datetime as dt
 import gzip
 import hashlib
 import json
+import shutil
 
 import numpy as np
 
-from . import fetch
 from .common import DATA, sha256_file
 from .tc_common import guard
 
 TC_DIR = DATA / 'v2' / 'imagery' / 'tc'
+INCOMING = TC_DIR / 'incoming'      # the project owner's downloads (DARTS, public); git-ignored
+SOURCE_NOTE = 'JAXA DARTS (public), downloaded by the project owner and placed in incoming/'
 
 
 def _record(rec):
@@ -32,32 +36,49 @@ def _record(rec):
         f.write(json.dumps(rec) + '\n')
 
 
+def _incoming(name):
+    """A file the project owner downloaded into INCOMING (any subfolder), or None."""
+    hits = sorted(INCOMING.rglob(name)) if INCOMING.exists() else []
+    return hits[0] if hits else None
+
+
+def _missing(pid, name, url):
+    return FileNotFoundError(f'{pid}: {name} not downloaded yet. Download {url} into {INCOMING}/ (DARTS rejects automated '
+                             'requests from this pipeline, so it does not fetch them itself).')
+
+
 def label(pid, url):
-    """PDS3 label text (metadata only)."""
+    """PDS3 label text (metadata only), from the cache or INCOMING; checked to be this product's PDS3 label."""
     guard([pid])
     p = TC_DIR / 'labels' / f'{pid}.lbl'
     if not p.exists():
-        p.parent.mkdir(parents=True, exist_ok=True)
-        body, final, _ = fetch._get(url)
+        src = _incoming(f'{pid}.lbl') or _incoming(f'{pid}.LBL')
+        if src is None:
+            raise _missing(pid, f'{pid}.lbl', url)
+        body = src.read_bytes()
         if b'PDS_VERSION_ID' not in body[:400] or pid.encode() not in body:
-            raise RuntimeError(f'{pid}: label response is not this PDS3 product label ({final})')
+            raise RuntimeError(f'{pid}: {src} is not this PDS3 product label')
+        p.parent.mkdir(parents=True, exist_ok=True)
         p.write_bytes(body)
-        _record({'product_id': pid, 'kind': 'label', 'url': final, 'bytes': len(body), 'sha256': sha256_file(p)})
+        _record({'product_id': pid, 'kind': 'label', 'url': url, 'source': SOURCE_NOTE, 'from_file': str(src),
+                 'bytes': len(body), 'sha256': sha256_file(p)})
     return p.read_text(encoding='latin-1')
 
 
 def image_gz(pid, data_url):
+    """The .img.gz, from the cache or INCOMING; checked to be gzip."""
     guard([pid])
     p = TC_DIR / 'img' / f'{pid}.img.gz'
     if not p.exists():
+        src = _incoming(f'{pid}.img.gz')
+        if src is None:
+            raise _missing(pid, f'{pid}.img.gz', data_url)
+        if src.read_bytes()[:2] != b'\x1f\x8b':
+            raise RuntimeError(f'{pid}: {src} is not gzip (a browser may have decompressed it or saved an error page)')
         p.parent.mkdir(parents=True, exist_ok=True)
-        part = p.with_suffix('.partial')
-        _b, final, code = fetch._get(data_url, stream_to=part, timeout=900)
-        if code != 200 or part.read_bytes()[:2] != b'\x1f\x8b':
-            part.unlink(missing_ok=True)
-            raise RuntimeError(f'{pid}: image request returned HTTP {code} or not gzip')
-        part.rename(p)
-        _record({'product_id': pid, 'kind': 'image-gz', 'url': final, 'bytes': p.stat().st_size, 'sha256': sha256_file(p)})
+        shutil.copyfile(src, p)
+        _record({'product_id': pid, 'kind': 'image-gz', 'url': data_url, 'source': SOURCE_NOTE, 'from_file': str(src),
+                 'bytes': p.stat().st_size, 'sha256': sha256_file(p)})
     return p
 
 

@@ -106,4 +106,11 @@ The pipeline test then runs on dev rows only:
   account).
 - **Problem:** on 18 Nov 2026 DARTS answered the pipeline's requests with a "Request Rejected" page. Nothing was
   fetched, and nothing was done to get around the refusal. The project owner decides how to obtain the files.
-- **Constraint:** whatever source is used, every file gets a manifest entry, and no JAXA image is committed.
+- **Decision (18 Nov 2026):** the project owner downloads the files from DARTS by hand.
+  - The pipeline fetches nothing from DARTS.
+  - `tc_download_list.py` writes the dev URL list (144 images, 288 files, about 908 MB).
+  - The owner places the files in `$POLARIS_DATA/v2/imagery/tc/incoming/`.
+  - `tc_io` checks each file (the product's PDS3 label; gzip), copies it into the cache and records it in the manifest
+    (source URL, bytes, SHA-256, time).
+  - Held-out files are listed only after A13 fixes the held-out sample.
+- **Constraint:** every file gets a manifest entry, and no JAXA image is committed.
