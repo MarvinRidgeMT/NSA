@@ -67,13 +67,17 @@ def fetch(key):
     if local.exists() and local.stat().st_size > 0:
         return local
     KDIR.mkdir(parents=True, exist_ok=True)
-    part = local.with_suffix(local.suffix + '.partial')
+    import os
+    part = local.with_suffix(local.suffix + f'.{os.getpid()}.partial')        # one temp file per process
     with _get(BUCKET + key) as r, open(part, 'wb') as f:
         while True:
             b = r.read(1 << 20)
             if not b:
                 break
             f.write(b)
+    if local.exists():                         # another process finished it first
+        part.unlink()
+        return local
     part.rename(local)
     with open(KDIR / 'MANIFEST.jsonl', 'a') as f:
         f.write(json.dumps({'file': local.name, 'url': BUCKET + key, 'bytes': local.stat().st_size, 'sha256': sha256_file(local),

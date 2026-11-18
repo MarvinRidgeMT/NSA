@@ -1507,3 +1507,8 @@ Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/P
 - Held-out run 22:44–23:43 UTC at f002ba7: 388 eligible rows; 385 scored, 3 gated, 0 failed. §8 claim not met at any site for any product (Otsu IoU 0.16–0.26, edge 1.0–1.9 km); the A7 prediction is confirmed on both counts (count-matched IoU 0.963). Results in results_wac_heldout/ (ids and numbers only); thumbnails git-ignored.
 - SPICE kernels for the held-out image times (21 files, ~4.7 GB) were fetched from catalogue times before A7; recorded in A7 and the kernel manifest.
 - 169626a Blender showcase (blender/v2/showcase_prep.py, showcase_v2.py): one .blend, 10 scenes; uses the blender-skills scene-assembly / camera / rendering / QA conventions, not its lighting recipes or its blender-mcp server.
+
+### POLARIS X v2 — showcase board; ShadowCam started — Claude (coordinator), 17 Nov 2026 ~19:20 EST
+- 1009ad7 showcase scene "10 Everything at once": all sections on one board (collection instances, Solid view); the .blend opens on it.
+- 6574c50 ShadowCam: camera model (ISIS ShadowCamCamera + USGS KPLO IK/IAK), USGS public KPLO kernels (no account), catalogue v2 footprint builder. Check on one dev label: sub-spacecraft 0.5 m, centre pixel 51 m from ASU's label geometry at the label reference time. Open: a 0.78 s start-time difference (ISIS SCLK vs label start) and the TDI-B sample flip; both bracketed in the v2 footprints.
+- Protocol §2 order kept: catalogue v2 (labels + SPICE only) is being built for all 4,815 ShadowCam rows; it will be hashed in A8 before any ShadowCam image is rendered. No ShadowCam image has been fetched or rendered. Nothing pushed.

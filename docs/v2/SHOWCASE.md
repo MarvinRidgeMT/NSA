@@ -19,6 +19,7 @@ Blender -b --python-exit-code 1 -P blender/v2/showcase_v2.py -- --qa
 | scene | what it shows | source | labels |
 |---|---|---|---|
 | 00 Index | the list below | — | — |
+| 10 Everything at once (opens here) | every section on one board: globe (south pole up), both site terrains, the Mars dome and the three galleries, each a scaled collection instance with its scale in the label; Solid view, no lamps | `showcase_v2.py` | as the sections |
 | 01 Whole Moon | cube-sphere globe from the pyramid level 0, Hapke shading with the WAC albedo, Sun from the bundle at 2026-11-21T02:00Z | `blender/v2/globe.py` | heights SOURCE-BASED · UNVALIDATED; photometry MODEL |
 | 02, 03 Site01 RoI6 / Site04 RoI3 — 1.7 m eye | PGDA 78 5 m near terrain + PGDA 90 80 m far terrain; Sun lamp, Sun disc and Earth from the bundle; sight lines and the bundle skyline | `blender/v2/build_scene.py --all-around` | terrain SOURCE-BASED · UNVALIDATED; assets ILLUSTRATIVE; stars VISUAL |
 | 04, 05 LROC NAC / WAC views | the same builder with the orbital camera presets | `build_scene.py` | as above |
