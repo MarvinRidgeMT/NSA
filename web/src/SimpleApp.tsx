@@ -13,6 +13,9 @@ import { switchMode } from './mode';
 import { pickQuality, QUALITY_NOTE } from './simple/quality';
 import { GLOBE_8K, globePlan, moonDir, pinReading, skyDirFromSite } from './simple/globeMath';
 import type { GlobeSite } from './simple/Globe';
+import { Intro } from './simple/Intro';
+import { lightCaption } from './simple/introMath';
+import { newIntroLink, useMoonLoad } from './simple/introState';
 import { IconArrow, IconBack, IconChevronDown, IconChevronUp, IconClose, IconMenu, SoundControl } from './simple/parts';
 const Scene3D = lazy(() => import('./three/Scene3D'));
 const Globe = lazy(() => import('./simple/Globe'));
@@ -25,7 +28,17 @@ const Globe = lazy(() => import('./simple/Globe'));
  * S4 (17 Nov 2026): a visitor first sees the Moon from over its south pole (simple/Globe.tsx) with the bundle's sites as pins.
  * Picking one flies down to that site's terrain view, which is the S2 shell above; "Back to the Moon" returns. A link that
  * names a site (?site=) or asks for the terrain (?view=terrain) opens the terrain view directly.
+ *
+ * S3 (17 Nov 2026): every visit that opens on the globe starts with the opening sequence, played in the globe's own canvas
+ * while the bundle and the Moon model load (simple/Globe.tsx phase 'intro', simple/Intro.tsx). It ends as soon as loading
+ * allows; Skip, Esc, Enter or a click ends it sooner. Expert mode never mounts this component, so it never shows there.
  */
+
+/**
+ * Opening sequence: 'play' while it runs, 'settle' once the interface is coming in over the last of the camera move, 'done'
+ * for a moment after the hand-off (the interface's fade-in finishes), then 'off'.
+ */
+type IntroState = 'play' | 'settle' | 'done' | 'off';
 
 /** Where the visitor is: on the globe, flying in, at a site's terrain, or flying back out. */
 type Place = 'globe' | 'in' | 'site' | 'out';
@@ -47,8 +60,11 @@ const DECISION_HREF = '?mode=expert#decision';
 const BANNER_KEY = 'polaris-x.simple.banner-dismissed';
 const PHONE = '(max-width: 639px)';
 
-class Guard extends Component<{ children: ReactNode }, { err: string | null }> {
+class Guard extends Component<{ children: ReactNode; onError?: () => void }, { err: string | null }> {
   state = { err: null as string | null };
+  componentDidCatch() {
+    this.props.onError?.();
+  }
   static getDerivedStateFromError(e: Error) {
     return { err: e.message };
   }
@@ -295,6 +311,12 @@ export default function SimpleApp() {
   const [sheet, setSheet] = useState(false); // phones: the answer sheet, collapsed to its verdict or open
   // S4: the globe comes first, unless the link asks for a site's terrain or there is no WebGL to draw a globe with
   const [place, setPlace] = useState<Place>(() => (gl && HAS_GLOBE && !opensOnTerrain(location.search) ? 'globe' : 'site'));
+  // S3: the opening sequence plays on every visit that opens on the globe
+  const [intro, setIntro] = useState<IntroState>(place === 'globe' ? 'play' : 'off');
+  const introLink = useRef(newIntroLink());
+  const introByKey = useRef(false); // the visitor used the keyboard during the sequence: focus goes to the globe at the hand-off
+  const moonFrac = useMoonLoad((s) => s.frac);
+  const moonFailed = useMoonLoad((s) => s.failed);
   const [globeOn, setGlobeOn] = useState(place === 'globe'); // mounted from its first showing on (paused while at a site)
   const [stageOn, setStageOn] = useState(place === 'site'); // the terrain scene: mounted while at a site and during the flight back
   const [target, setTarget] = useState(0);
@@ -322,6 +344,62 @@ export default function SimpleApp() {
     // fetch the post-effects chunk while the bundle loads, so the first frames already use it
     if (quality.tier !== 'low') void import('./simple/SimplePost');
   }, [quality]);
+
+  // ---- S3 opening sequence ----
+  const playing = intro === 'play' || intro === 'settle';
+  const skipIntro = () => {
+    introLink.current.skip = true;
+  };
+  useEffect(() => {
+    // through the whole sequence, the last of the camera move included ('settle': the Skip button has gone by then, the keys
+    // and a press on the picture still work)
+    if (intro !== 'play' && intro !== 'settle') return;
+    const onClick = (e: MouseEvent) => {
+      // 'play' has its own layer for presses; in 'settle' the interface is back and its controls keep their own jobs
+      if (intro === 'settle' && !(e.target as Element | null)?.closest?.('a, button, select, input, summary, details, .s-panel, .s-chrome, .s-banner')) skipIntro();
+    };
+    window.addEventListener('click', onClick);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Tab' || e.key === 'Escape' || e.key === 'Enter') introByKey.current = true;
+      if (e.key !== 'Escape' && e.key !== 'Enter') return;
+      // Enter on a control does that control's job (Skip's own job is to skip)
+      if (e.key === 'Enter' && (e.target as Element | null)?.closest?.('a, button, select, input, summary')) return;
+      skipIntro();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('click', onClick);
+    };
+  }, [intro]);
+  // nothing to hand over to when the bundle cannot be read: show the error instead
+  useEffect(() => {
+    if (loadError) setIntro('off');
+  }, [loadError]);
+  useEffect(() => {
+    if (intro !== 'done') return;
+    // A keyboard visitor (Tab, Esc or Enter during the sequence) lands on the globe: the pin of the site it opened on. By now the Skip
+    // button has unmounted, so focus is on <body> (or still on the intro layer); a control the visitor moved to is left alone.
+    // The pins are made visible by the globe's next frames, so this tries for a few frames. Pointer visitors are not focused
+    // anywhere (no ring or hover label appears on its own).
+    let raf = 0;
+    let tries = 0;
+    const land = () => {
+      const a = document.activeElement;
+      if (!introByKey.current || (a && a !== document.body && !a.closest('.s-intro'))) return;
+      // the site the visitor is on (the bundle's opening site), not the first pin
+      const pin = shellRef.current?.querySelector<HTMLElement>(`[data-testid="globe-pin-${pins[usePolaris.getState().datasetIdx]?.id}"] button`);
+      pin?.focus();
+      if (document.activeElement !== pin && ++tries < 30) raf = requestAnimationFrame(land);
+      else if (document.activeElement !== pin) document.getElementById('simple-main')?.focus();
+    };
+    land();
+    const t = window.setTimeout(() => setIntro('off'), 900);
+    return () => {
+      window.clearTimeout(t);
+      cancelAnimationFrame(raf);
+    };
+  }, [intro]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---- S4 globe: everything it shows is read here from the bundle and the certainty sidecar ----
   const curSeriesMast = v?.series?.observer?.mastM ?? null;
@@ -374,7 +452,8 @@ export default function SimpleApp() {
       `It is turned to true lunar axes, south pole toward you. ` +
       `Light: the Sun direction in the bundle at ${fmtUtc(v.utcMs)} (azimuth ${v.sun.az.toFixed(1)}°, elevation ${v.sun.el.toFixed(2)}° at ${v.dataset.site.name}). Brightness and the faint earthshine are display choices, and this shading never decides visible or blocked. ` +
       `Pins: each line ends at the site's bundle latitude and longitude; the pins stand apart from it so they can be read and pressed. The slow drift is a display motion. ` +
-      `Quality: ${QUALITY_NOTE[quality.tier].replace('bloom, flare and grain off; the Sun keeps a plain glow', 'lighter Moon image, camera effects off').replace('camera effects on', 'film grain on, a camera effect')}. The Sun itself is outside this view, so there is no glow or flare here.`
+      `Quality: ${QUALITY_NOTE[quality.tier].replace('bloom, flare and grain off; the Sun keeps a plain glow', 'lighter Moon image, camera effects off').replace('camera effects on', 'film grain on, a camera effect')}. The Sun itself is outside this view, so there is no glow or flare here. ` +
+      `Opening sequence: the same Moon and the same Sun direction, seen first from the night side; its glare, lens flare and colour fringing are camera effects, display only, and stop before this view.`
     : '';
 
   const pickSite = (i: number) => {
@@ -432,10 +511,10 @@ export default function SimpleApp() {
   }, [place, stageOn]);
   // fetch the terrain scene's code while the visitor looks at the globe, so the fly-in does not wait for it
   useEffect(() => {
-    if (place !== 'globe') return;
+    if (place !== 'globe' || playing) return; // not during the opening sequence: its frames come first
     const t = window.setTimeout(() => void import('./three/Scene3D'), 1500);
     return () => window.clearTimeout(t);
-  }, [place]);
+  }, [place, playing]);
   const onSite = place === 'site';
   // The terrain scene is built on arrival, not during the dive (building it takes the main thread for a few hundred
   // milliseconds, which would stutter the flight). Until its canvas has drawn, the globe layer stays up as plain black.
@@ -568,7 +647,7 @@ export default function SimpleApp() {
   const siteMissing = !!v && sidecar !== null && !reading;
 
   return (
-    <div className="simple s-shell" data-testid="simple-mode" data-banner={banner ? 'on' : 'off'} data-sheet={sheet ? 'open' : 'closed'} data-ready={v ? 'true' : 'false'} data-place={place} ref={shellRef}>
+    <div className="simple s-shell" data-testid="simple-mode" data-banner={banner ? 'on' : 'off'} data-sheet={sheet ? 'open' : 'closed'} data-ready={v ? 'true' : 'false'} data-place={place} data-intro={intro === 'off' ? undefined : intro} ref={shellRef}>
       <a className="skip" href="#simple-main">
         Skip to content
       </a>
@@ -646,7 +725,7 @@ export default function SimpleApp() {
           </div>
         )}
         {gl && globeOn && (
-          <Guard>
+          <Guard onError={() => setIntro('off')}>
             <Suspense fallback={null}>
               <Globe
                 file={moonPlan.first}
@@ -656,7 +735,10 @@ export default function SimpleApp() {
                 sunDir={sunDir}
                 earthDir={earthDir}
                 tier={quality.tier}
-                phase={place === 'globe' ? 'idle' : place === 'site' ? 'hidden' : place}
+                phase={place === 'globe' ? (playing ? 'intro' : 'idle') : place === 'site' ? 'hidden' : place}
+                intro={introLink}
+                onIntroSettle={() => setIntro((s) => (s === 'play' ? 'settle' : s))}
+                onIntroEnd={() => setIntro((s) => (s === 'play' || s === 'settle' ? 'done' : s))}
                 target={target}
                 cover={cover}
                 visited={visited}
@@ -668,6 +750,14 @@ export default function SimpleApp() {
               />
             </Suspense>
           </Guard>
+        )}
+        {playing && (
+          <Intro
+            parts={{ bundle: !!loaded, sidecar: sidecar !== null, moon: moonFrac, moonFailed }}
+            lightLine={v ? lightCaption(v.utcMs, v.sun.az, v.dataset.site.name) : null}
+            leaving={intro === 'settle'}
+            onSkip={skipIntro}
+          />
         )}
         {!onSite && <Credits />}
         {v && stageOn && (

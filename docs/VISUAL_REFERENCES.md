@@ -165,8 +165,7 @@ the globe is the point the camera flies into (S4 to S6), and the card opens from
 How it fits: `CameraRig` targets plus a card entrance that starts from the anchor side (`transform-origin` set from
 the object's screen position).
 Reject: the cookie panel, the white editorial page style, and anything about their brand type.
-Not yet studied: enno's Light and Pulztronic. They are light-and-material references for S3 and should be opened
-there.
+Not studied in S1: enno's Light and Pulztronic. See the S3 re-check at the end of this note.
 
 ## What S1 took from this study
 
@@ -184,3 +183,48 @@ Rejected across the board, with the reason: atmosphere effects on terrain (not p
 over terrain (would read as data), scroll-driven navigation (Sid chose click-to-explore), consent banners (nothing to
 consent to), pill and large-radius shapes (our radius is 2 px), and decorative glass (ours is only for panels over
 live terrain).
+
+## S3 re-check: how the references load and hand over (17 Nov 2026)
+
+Opened again with the Playwright MCP at 1440 × 900, this time for the loading sequence only: captures at about 0.5 s,
+1.8 s, 4.5 s and 9 s after navigation, in `tmp/s3/refs/` (git-ignored, as before). Craft only; nothing copied.
+
+| Reference | What its loading does | Seen this time |
+| --- | --- | --- |
+| igloo.inc | A flat field and one small row of glyphs in the centre that changes as files arrive. Nothing else on screen. | Loader at four points; it was still loading at 4.5 s |
+| oryzo.ai (Lusion) | The loader is the first drawing of the product: a small construction mark grows into the object's outline, so the loaded scene continues from the loader instead of replacing it. | Loader at two points, first view |
+| Ivress brand site | Black screen, one small mark, a serif percentage that counts real progress (it read 07 % at 4.5 s on this connection). | Loader, "click to start" gate |
+| Cartier Watches & Wonders 2024 | Wordmark inside three dotted rings on a flat field, then a curtain. | Loader, curtain |
+| Planpoint WebGPU, ArchiViz house | No sequence to speak of: the scene was interactive before the first capture could be taken. | First view only |
+| makemepulse, "Benno's Light" (the plan's "enno's Light") | Case-study page only: a monochrome, hard-lit 3D scene with one light direction and long shadows; the experience itself is not linked from the page. | Case-study page, three captures |
+| makemepulse, "Pulztronic" | Not found: the case-studies page listed eight projects and none by that name. | Nothing |
+
+What S3 adapts, and how it fits our stack:
+
+- **The loader is the first frame of the scene (oryzo).** Our sequence is drawn in the globe's own canvas with the
+  globe's own camera (`simple/Globe.tsx`, phase `intro`), so its last frame is the S4 view. There is no second canvas, no
+  curtain and no cross-fade at the hand-off (reduced motion aside, where a cross-fade is the whole transition).
+- **One small, exact progress mark; real numbers (igloo, Ivress).** One hairline along the bottom edge and a monospace
+  percentage. The figure comes from the loaders: the bundle read, the certainty sidecar read, and the Moon model's own
+  byte-progress events (`introMath.loadFraction`). It stops when loading stops.
+- **Dark base, light as the event (Ivress, Benno's Light).** The screen is black until the bundle's Sun comes out from
+  behind the Moon's dark limb; that is the one bright thing in the frame. One light direction, hard edge.
+- **Waiting is a held picture, not a spinner.** While the Moon model downloads, the camera holds on the Sun at the limb
+  and creeps, so a slow connection sees a composed frame; a fast one moves on after 0.9 s.
+- **Hand-off as one camera move (makemepulse's carried transitions, S1 note).** The camera swings from the night side
+  to the south-pole view and pushes in; the interface comes in over the last third of that move, so it reads as one
+  gesture.
+
+Rejected, with the reason:
+
+- A "click to start" gate (Ivress): the plan says the sequence never delays a visitor once the data is ready.
+- Curtains, wipes and brand cards (Cartier): a cut between two pictures; ours has to be one picture.
+- A full-screen white-out as the reveal: the plan caps any white-out at about 80 % with a ramp of at least 1 s. Our lens
+  effects never lift a pixel above 80 % of display white and ramp over 1.2 s (`introMath.INTRO`, unit-tested).
+- Warm or amber sunlight (the plan's first draft said "point of amber light"): the light truth table says sunlight on the
+  Moon is white, and amber stays an interface accent. The Sun, its glare and the lit crescent are white.
+- Tone washes and smoke (Benno's Light): atmosphere, which the Moon does not have.
+
+Where the cinematic effects stop: the wide glare, the streak, the ghost ring and the colour fringing exist only while the
+Sun is in frame during the sequence (`uIntro` in `simple/SimplePost.tsx`). They are at zero before the interface comes
+in, and the globe and terrain views never set them.

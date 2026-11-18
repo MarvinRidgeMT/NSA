@@ -1,12 +1,14 @@
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { addAfterEffect, Canvas, useFrame, useThree } from '@react-three/fiber';
 import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState, type MutableRefObject } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { easeCamera } from '../store/camera';
-import { EXPOSURE, postColors, SKY } from './postColors';
+import { EXPOSURE, postColors, SKY, SUN_HEX } from './postColors';
 import type { QualityTier } from './quality';
 import { DRIFT_DEG_PER_S, FLIGHT_MS, MODEL_HAS_RELIEF, MODEL_YAW_RAD, RELIEF_CAP_FROM_DEG, RELIEF_CAP_TO_DEG, RELIEF_SHADE, distanceForDisc, reliefNormals, layoutPins, type Pt, type Vec3 } from './globeMath';
 import { HonestyTag, HoverLabel, SitePin } from './parts';
+import { arcAt, distAt, glareFor, glareOut, INTRO, openMs, peekDeg, peekStillDeg, smooth as smoothStep, sunClear, SUN_RADIUS_DEG, type Arc } from './introMath';
+import { newIntroLink, useMoonLoad, type IntroLink } from './introState';
 
 const SimplePost = lazy(() => import('./SimplePost'));
 
@@ -33,7 +35,8 @@ export interface GlobeSite {
   /** short text for the spread, e.g. "variants differ by 9.8 points" */
   spreadText: string;
 }
-export type GlobePhase = 'idle' | 'in' | 'hidden' | 'out';
+/** 'intro' is the opening sequence (S3): the same scene and camera, on its way to the 'idle' view. */
+export type GlobePhase = 'intro' | 'idle' | 'in' | 'hidden' | 'out';
 
 const FOV = 30;
 /** Camera height above the site where the dive ends, in Moon radii (the terrain view takes over from here). */
@@ -43,6 +46,9 @@ const SUN_LIGHT = 9;
 const EARTHSHINE = 0.035;
 const EARTHSHINE_HEX = '#a9c1e6';
 const SOUTH = new THREE.Vector3(0, -1, 0);
+const RAD = Math.PI / 180;
+/** The intro's Sun disc stands this far away, in Moon radii (a display distance: only its direction is the bundle's). */
+const SUN_DIST = 400;
 const smooth = (a: number, b: number, x: number) => {
   const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
   return t * t * (3 - 2 * t);
@@ -95,7 +101,7 @@ const UPGRADE_FADE_MS = 600;
  * relief, which dips below the compact sphere in places, is not cut by it), 'over' faded in from transparent across
  * UPGRADE_FADE_MS, then `onFaded`.
  */
-function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, onFail, onFaded }: { file: string; lite: boolean; show?: boolean; layer?: 'solo' | 'under' | 'over'; run?: boolean; onReady: () => void; onFail: (m: string) => void; onFaded?: () => void }) {
+function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, onFail, onFaded, onProgress }: { file: string; lite: boolean; show?: boolean; layer?: 'solo' | 'under' | 'over'; run?: boolean; onReady: () => void; onFail: (m: string) => void; onFaded?: () => void; onProgress?: (frac: number) => void }) {
   const [model, setModel] = useState<THREE.Object3D | null>(null);
   const mats = useRef<THREE.Material[]>([]);
   // ms of fade done so far; -1 = not started, -2 = no fade (only advances while `run`, so it holds still during a flight)
@@ -193,7 +199,8 @@ function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, on
         setModel(m);
         onReady();
       },
-      undefined,
+      // the loader's own progress events (bytes received of bytes expected), for the opening sequence's progress line
+      (ev) => live && ev.lengthComputable && ev.total > 0 && onProgress?.(ev.loaded / ev.total),
       (e) => live && onFail(e instanceof Error ? e.message : String(e)),
     );
     return () => {
@@ -220,16 +227,26 @@ interface RigProps {
   ready: boolean;
   onArrive: () => void;
   onBack: () => void;
+  /** opening sequence: the Moon model has loaded or failed; it is in the scene; the post chain is in use */
+  loaded: boolean;
+  modelIn: boolean;
+  fx: boolean;
+  link: MutableRefObject<IntroLink>;
+  lights: MutableRefObject<{ sun: THREE.DirectionalLight | null; earth: THREE.DirectionalLight | null }>;
+  props: MutableRefObject<{ sun: THREE.Object3D | null; glow: THREE.Sprite | null; dark: THREE.Object3D | null }>;
+  snap: MutableRefObject<HTMLCanvasElement | null>;
+  onIntroSettle: () => void;
+  onIntroEnd: () => void;
 }
 
 /** Camera (pole-on view, slow drift, the dive to a site and back) and the per-frame screen positions of the sites. */
-function Rig({ sunDir, dirs, phase, target, still, hold, wrap, fade, place, ready, onArrive, onBack }: RigProps) {
+function Rig({ sunDir, dirs, phase, target, still, hold, wrap, fade, place, ready, onArrive, onBack, loaded, modelIn, fx, link, lights, props, snap, onIntroSettle, onIntroEnd }: RigProps) {
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
   const size = useThree((s) => s.size);
   const gl = useThree((s) => s.gl);
   const scene = useThree((s) => s.scene);
   const advance = useThree((s) => s.advance);
-  const st = useRef({ drift: 0, t0: 0, last: '' as GlobePhase | '', marked: false });
+  const st = useRef({ drift: 0, t0: 0, last: '' as GlobePhase | '', marked: false, i0: -1, loadedAt: -1, arc: null as Arc | null, psi0: 0, settled: false, done: false, snapAsked: false, fadeT0: -2 });
   const tmp = useMemo(() => ({ dir: new THREE.Vector3(), up: new THREE.Vector3(), p: new THREE.Vector3(), q: new THREE.Quaternion() }), []);
 
   // "up" on screen at the start: turned so the Sun stands to the upper left (display choice; the light itself is the bundle's)
@@ -242,6 +259,46 @@ function Rig({ sunDir, dirs, phase, target, still, hold, wrap, fade, place, read
     const right = new THREE.Vector3().crossVectors(f, a);
     return flat.dot(right) < 0 ? a : flat.clone().applyAxisAngle(f, -Math.PI / 4);
   }, [sunDir]);
+
+  // Opening sequence: a turn about this axis by `total` takes the south-pole view to the point opposite the Sun.
+  const turn = useMemo(() => {
+    const anti = sunDir.clone().negate();
+    const a = new THREE.Vector3().crossVectors(SOUTH, anti);
+    if (a.lengthSq() < 1e-8) a.set(1, 0, 0);
+    return { a: a.normalize(), total: SOUTH.angleTo(anti) };
+  }, [sunDir]);
+  const endCbs = useRef({ onIntroSettle, onIntroEnd });
+  endCbs.current = { onIntroSettle, onIntroEnd };
+  // Reduced motion: the still frame is copied (right after it is drawn, while the drawing buffer still holds it) onto a canvas
+  // laid over the view; the camera then goes to the globe view underneath and the copy fades away. A cross-fade, no movement.
+  useEffect(
+    () =>
+      addAfterEffect(() => {
+        const I = link.current;
+        if (!I.snap) return;
+        I.snap = false;
+        const c = snap.current;
+        const s = st.current;
+        try {
+          if (c) {
+            c.width = gl.domElement.width;
+            c.height = gl.domElement.height;
+            c.getContext('2d')?.drawImage(gl.domElement, 0, 0);
+            c.style.opacity = '1';
+            c.dataset.on = 'true';
+            s.fadeT0 = -1; // the frame loop fades it (below), starting once the globe view has been drawn underneath
+          }
+        } catch {
+          /* no copy: the view simply changes */
+        }
+        s.done = true;
+        s.settled = true;
+        I.fx = 0;
+        endCbs.current.onIntroSettle();
+        endCbs.current.onIntroEnd();
+      }),
+    [gl, link, snap],
+  );
 
   useEffect(() => {
     (window as unknown as Record<string, unknown>).__polarisGlobe = { gl, scene, camera, advance };
@@ -276,18 +333,111 @@ function Rig({ sunDir, dirs, phase, target, still, hold, wrap, fade, place, read
     camera.position.copy(tmp.dir).multiplyScalar(1 + alt);
     camera.up.copy(tmp.up);
     camera.lookAt(0, 0, 0);
-    const near = Math.max(0.001, alt * 0.25);
-    if (camera.fov !== FOV || Math.abs(camera.near - near) > near * 0.05 || camera.far !== D + 2) {
+    let near = Math.max(0.001, alt * 0.25);
+    let far = D + 2;
+    // wide windows: the whole-Moon view stands right of the card; the shift eases away during the dive
+    let shift = size.width >= 1024 ? (Math.min(240, size.width * 0.15) / 2) * (1 - e) : 0;
+
+    // ---- opening sequence (S3): the same camera on its way to the view above. Display only. ----
+    const intro = phase === 'intro';
+    const I = link.current;
+    let light = 1;
+    let introE = 1;
+    let tI = 0;
+    if (intro) {
+      const far0 = D * (size.width < 640 ? INTRO.FAR_NARROW : INTRO.FAR);
+      const moonDeg = Math.asin(1 / far0) / RAD;
+      if (s.i0 < 0 && (!fx || I.post)) s.i0 = now; // first light: on the post tiers, not before the post chain draws
+      tI = s.i0 < 0 ? 0 : now - s.i0;
+      if (loaded && s.i0 >= 0 && s.loadedAt < 0) s.loadedAt = now;
+      const peek = still ? peekStillDeg(moonDeg) : peekDeg(tI, moonDeg);
+      if (!s.done && s.loadedAt >= 0) {
+        if (still) {
+          if (!s.snapAsked) {
+            s.snapAsked = true;
+            s.psi0 = turn.total - peek * RAD;
+            I.snap = true; // finished by the after-frame effect above
+          }
+        } else if (!s.arc) {
+          if (I.skip || tI >= openMs(s.loadedAt - s.i0)) {
+            s.arc = { t0: now, durMs: I.skip ? INTRO.SKIP_MS : INTRO.ARC_MS, from: 0, skip: I.skip };
+            s.psi0 = turn.total - peek * RAD;
+          }
+        } else if (I.skip && !s.arc.skip) {
+          // Skip during the move: finish from where the camera is, quickly, without a cut
+          s.arc = { t0: now, durMs: INTRO.SKIP_MS, from: arcAt(s.arc, now, easeCamera).e, skip: true };
+        }
+      }
+      let ki = 0;
+      introE = 0;
+      if (s.done) introE = 1;
+      else if (s.arc) ({ e: introE, k: ki } = arcAt(s.arc, now, easeCamera));
+      const psi = (s.arc || s.done || s.snapAsked ? s.psi0 : turn.total - peek * RAD) * (1 - introE);
+      const dist = distAt(introE, far0, D);
+      tmp.q.setFromAxisAngle(turn.a, psi);
+      camera.position.copy(SOUTH).applyQuaternion(tmp.q).multiplyScalar(dist);
+      camera.up.copy(up0).applyQuaternion(tmp.q);
+      camera.lookAt(0, 0, 0);
+      near = Math.max(0.001, (dist - 1) * 0.25);
+      far = SUN_DIST + 10; // the Sun disc is in this scene
+      shift *= introE;
+      // sunlight comes up on the Moon once its model is in the scene (black on black until then), and is full by the hand-off
+      light = !modelIn || s.loadedAt < 0 ? 0 : still ? (s.done ? 1 : 0) : Math.max(smoothStep(0, INTRO.LIGHT_RAMP_MS, now - s.loadedAt), introE);
+      if (!s.settled && introE >= INTRO.CHROME_AT) {
+        s.settled = true;
+        onIntroSettle();
+      }
+      if (s.arc && ki >= 1 && !s.done) {
+        s.done = true;
+        onIntroEnd();
+      }
+    }
+    if (lights.current.sun) lights.current.sun.intensity = SUN_LIGHT * light;
+    if (lights.current.earth) lights.current.earth.intensity = EARTHSHINE * light;
+
+    if (camera.fov !== FOV || Math.abs(camera.near - near) > near * 0.05 || camera.far !== far) {
       camera.fov = FOV;
       camera.near = near;
-      camera.far = D + 2;
+      camera.far = far;
       camera.updateProjectionMatrix();
     }
-    // wide windows: the whole-Moon view stands right of the card; the shift eases away during the dive
-    const shift = size.width >= 1024 ? (Math.min(240, size.width * 0.15) / 2) * (1 - e) : 0;
     if (shift > 0.01) camera.setViewOffset(size.width, size.height, -shift, 0, size.width, size.height);
     else if (camera.view?.enabled) camera.clearViewOffset();
     camera.updateMatrixWorld();
+
+    // reduced motion: the still frame's copy fades away over the globe view (opacity only; set here because Simple mode's
+    // reduced-motion rule turns CSS transitions off)
+    if (s.fadeT0 > -2 && snap.current) {
+      if (s.fadeT0 === -1) s.fadeT0 = now + 34; // two frames of the globe view first
+      const a = 1 - Math.min(1, Math.max(0, (now - s.fadeT0) / INTRO.STILL_FADE_MS));
+      snap.current.style.opacity = a.toFixed(3);
+      if (a <= 0) {
+        s.fadeT0 = -2;
+        snap.current.dataset.on = 'done';
+        snap.current.width = snap.current.height = 1; // free the copy
+      }
+    }
+
+    // opening sequence: the Sun disc, the dark stand-in for a Moon that has not loaded yet, and the lens-effect strength
+    const P = props.current;
+    const lit = intro && s.i0 >= 0 && !s.done;
+    if (P.sun) P.sun.visible = lit;
+    if (P.dark) P.dark.visible = intro && !modelIn;
+    if (lit) {
+      const dist = camera.position.length();
+      const sunDeg = Math.acos(Math.min(1, Math.max(-1, -camera.position.dot(sunDir) / dist))) / RAD;
+      tmp.p.copy(sunDir).multiplyScalar(SUN_DIST).project(camera);
+      const edge = 1 - smoothStep(0.72, 1.0, Math.max(Math.abs(tmp.p.x), Math.abs(tmp.p.y)));
+      I.fx = glareFor(tI, still) * glareOut(introE) * sunClear(sunDeg, Math.asin(1 / dist) / RAD) * edge;
+      tmp.p.set(0, 0, 0).project(camera);
+      I.moonX = tmp.p.x * 0.5 + 0.5;
+      I.moonY = tmp.p.y * 0.5 + 0.5;
+      I.moonR = Math.tan(Math.asin(1 / dist)) / Math.tan((FOV * RAD) / 2) / 2;
+    } else I.fx = 0;
+    if (P.glow) {
+      P.glow.visible = lit && I.fx > 0.002;
+      P.glow.material.opacity = I.fx;
+    }
 
     // the Moon dips to black over the last part of the dive (the terrain view then opens from black) and returns over the
     // first part of the climb
@@ -343,9 +493,32 @@ export interface GlobeProps {
   onPick: (i: number) => void;
   onArrive: () => void;
   onBack: () => void;
+  /** opening sequence (phase 'intro'): Skip is read from `intro`; `onIntroSettle` when the interface may come in, `onIntroEnd` at the hand-off */
+  intro?: MutableRefObject<IntroLink>;
+  onIntroSettle?: () => void;
+  onIntroEnd?: () => void;
 }
 
-export default function Globe({ file: first, upgrade = null, onModel, sites, sunDir, earthDir, tier, phase, target, cover, visited, legend, about, onPick, onArrive, onBack }: GlobeProps) {
+/** Low tier (no post chain): the intro's Sun gets a plain soft glow, drawn once into a small image. Procedural. */
+function glowTexture(): THREE.Texture {
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const g = c.getContext('2d');
+  if (g) {
+    const grad = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    grad.addColorStop(0, 'rgba(255,250,240,0.9)');
+    grad.addColorStop(0.08, 'rgba(255,250,240,0.5)');
+    grad.addColorStop(0.3, 'rgba(255,250,240,0.12)');
+    grad.addColorStop(1, 'rgba(255,250,240,0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 128, 128);
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+export default function Globe({ file: first, upgrade = null, onModel, sites, sunDir, earthDir, tier, phase, target, cover, visited, legend, about, onPick, onArrive, onBack, intro, onIntroSettle, onIntroEnd }: GlobeProps) {
   const fx = tier === 'high' || tier === 'medium' ? tier : null;
   const lite = tier === 'low';
   const still = useReducedMotion();
@@ -367,6 +540,17 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
   const wrap = useRef<HTMLDivElement | null>(null);
   const fade = useRef<HTMLDivElement | null>(null);
   const hold = useRef(false);
+  const ownLink = useRef<IntroLink>(newIntroLink());
+  const link = intro ?? ownLink;
+  const lights = useRef<{ sun: THREE.DirectionalLight | null; earth: THREE.DirectionalLight | null }>({ sun: null, earth: null });
+  const introProps = useRef<{ sun: THREE.Object3D | null; glow: THREE.Sprite | null; dark: THREE.Object3D | null }>({ sun: null, glow: null, dark: null });
+  const snap = useRef<HTMLCanvasElement | null>(null);
+  const playing = phase === 'intro';
+  const glowMap = useMemo(() => (playing && !fx ? glowTexture() : null), []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => () => glowMap?.dispose(), [glowMap]);
+  useEffect(() => {
+    if (state !== 'loading') useMoonLoad.setState({ frac: 1, failed: state === 'failed' });
+  }, [state]);
   const pinEls = useRef<(HTMLDivElement | null)[]>([]);
   const lineEls = useRef<(SVGLineElement | null)[]>([]);
   const dotEls = useRef<(SVGCircleElement | null)[]>([]);
@@ -379,7 +563,7 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
   const sun = useMemo(() => (sunDir ? new THREE.Vector3(...sunDir) : null), [sunDir]);
   const earth = useMemo(() => (earthDir ? new THREE.Vector3(...earthDir) : null), [earthDir]);
   const dirs = useMemo(() => sites.map((s) => new THREE.Vector3(...s.dir)), [sites]);
-  const sunPos = useMemo(() => (sun ? sun.clone().multiplyScalar(50) : new THREE.Vector3(0, 0, -50)), [sun]);
+  const sunPos = useMemo(() => (sun ? sun.clone().multiplyScalar(SUN_DIST) : new THREE.Vector3(0, 0, -SUN_DIST)), [sun]);
   const sky = fx ? postColors().sky : SKY;
 
   const placeLabel = () => {
@@ -454,7 +638,9 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
   const lastHot = useRef(-1);
   if (hot >= 0) lastHot.current = hot;
   const hotSite = sites[hot >= 0 ? hot : lastHot.current];
-  const shown = state === 'ready' && !!sun;
+  const drawn = state === 'ready' && !!sun;
+  // "shown" is the globe as a place to use: not before the opening sequence has handed over
+  const shown = drawn && !playing;
 
   return (
     <div className="s-globe" data-testid="simple-globe" data-phase={phase} data-cover={cover || undefined} data-state={state} data-shown={shown} data-asset={file} data-upgrade={upgrade && (up === 'wait' || up === 'loaded' || up === 'fading') ? upgrade : undefined} data-upgrade-state={upgrade ? up : undefined} data-still={still || undefined} ref={wrap}>
@@ -467,21 +653,41 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
           frameloop={phase === 'hidden' ? 'never' : 'always'}
         >
           <color attach="background" args={[sky]} />
-          {sun && <directionalLight position={sun.clone().multiplyScalar(10)} intensity={SUN_LIGHT} color="#ffffff" />}
-          {earth && <directionalLight position={earth.clone().multiplyScalar(10)} intensity={EARTHSHINE} color={EARTHSHINE_HEX} />}
+          {sun && <directionalLight ref={(l) => void (lights.current.sun = l)} position={sun.clone().multiplyScalar(10)} intensity={playing ? 0 : SUN_LIGHT} color="#ffffff" />}
+          {earth && <directionalLight ref={(l) => void (lights.current.earth = l)} position={earth.clone().multiplyScalar(10)} intensity={playing ? 0 : EARTHSHINE} color={EARTHSHINE_HEX} />}
+          {playing && sun && (
+            <>
+              {/* Opening sequence only. The Sun disc at the bundle's direction (true angular size); white. */}
+              <mesh ref={(o) => void (introProps.current.sun = o)} position={sunPos} visible={false}>
+                <sphereGeometry args={[SUN_DIST * Math.tan(SUN_RADIUS_DEG * RAD), 24, 12]} />
+                <meshBasicMaterial color={fx ? postColors().sun : SUN_HEX} toneMapped={false} />
+              </mesh>
+              {glowMap && (
+                <sprite ref={(o) => void (introProps.current.glow = o)} position={sunPos} scale={SUN_DIST * Math.tan(3 * RAD) * 2} visible={false}>
+                  <spriteMaterial map={glowMap} transparent opacity={0} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
+                </sprite>
+              )}
+              {/* a sky-black ball where the Moon will be, so the Sun is hidden behind the Moon before its model has loaded */}
+              <mesh ref={(o) => void (introProps.current.dark = o)} visible={false}>
+                <sphereGeometry args={[0.98, 64, 32]} />
+                <meshBasicMaterial color={sky} toneMapped={false} />
+              </mesh>
+            </>
+          )}
           {file === first && (
             <Moon
               file={first}
               lite={lite}
               layer={up === 'fading' ? 'under' : 'solo'}
               onReady={() => setState('ready')}
+              onProgress={(f) => useMoonLoad.setState({ frac: f })}
               onFail={(m) => {
                 setWhy(m);
                 setState('failed');
               }}
             />
           )}
-          {upgrade && state === 'ready' && up !== 'failed' && (
+          {upgrade && state === 'ready' && up !== 'failed' && !playing && (
             <Moon
               file={upgrade}
               lite={lite}
@@ -493,14 +699,41 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
               onFaded={() => setUp('shown')}
             />
           )}
-          {sun && <Rig sunDir={sun} dirs={dirs} phase={phase} target={target} still={still} hold={hold} wrap={wrap} fade={fade} place={place} ready={shown} onArrive={onArrive} onBack={onBack} />}
+          {sun && (
+            <Rig
+              sunDir={sun}
+              dirs={dirs}
+              phase={phase}
+              target={target}
+              still={still}
+              hold={hold}
+              wrap={wrap}
+              fade={fade}
+              place={place}
+              ready={drawn}
+              onArrive={onArrive}
+              onBack={onBack}
+              loaded={state !== 'loading'}
+              modelIn={state === 'ready'}
+              fx={!!fx}
+              link={link}
+              lights={lights}
+              props={introProps}
+              snap={snap}
+              onIntroSettle={() => onIntroSettle?.()}
+              onIntroEnd={() => onIntroEnd?.()}
+            />
+          )}
           {fx && (
             <Suspense fallback={null}>
-              {/* the Sun stands about 90° off this view, so its disc is never in the picture: bloom has nothing to act on here */}
-              <SimplePost tier={fx} sunPos={sunPos} sunOn={false} />
+              {/* the Sun stands about 90° off the globe view, so its disc is never in that picture: bloom has nothing to act on
+                  there. Only the opening sequence has the Sun in frame, with its intro-only lens effects (link.fx). */}
+              <SimplePost tier={fx} sunPos={sunPos} sunOn={playing} intro={link} />
             </Suspense>
           )}
         </Canvas>
+        {/* reduced motion: the still frame of the opening sequence, fading away over the globe view */}
+        <canvas className="s-intro-still" ref={snap} />
       </div>
 
       {state === 'loading' && (
@@ -514,7 +747,8 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
         </p>
       )}
 
-      <div className="s-globe-pins" data-live={live}>
+      {/* during the opening sequence the pins are unseen and do nothing: out of the tab order and the accessibility tree */}
+        <div className="s-globe-pins" data-live={live} inert={playing}>
         <svg className="s-globe-leaders" aria-hidden="true" focusable="false">
           {sites.map((s, i) => (
             <g key={s.id} data-hot={hot === i || undefined}>

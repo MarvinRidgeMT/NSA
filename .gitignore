@@ -45,3 +45,6 @@ web/public/visual/site01_center_2km_1m_8bit.png
 data/visual/lroc_nac_pole_south_cm_avg/*.png
 blender/output/
 app/dist/
+
+# Playwright MCP session output (snapshots, console logs)
+.playwright-mcp/

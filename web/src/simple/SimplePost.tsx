@@ -1,5 +1,5 @@
 import { useFrame, useThree } from '@react-three/fiber';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, type MutableRefObject } from 'react';
 import * as THREE from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { FullScreenQuad, Pass } from 'three/examples/jsm/postprocessing/Pass.js';
@@ -9,6 +9,8 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import { BLOOM_THRESHOLD, SUN_DISC_RADIANCE, type QualityTier } from './quality';
+import { INTRO } from './introMath';
+import type { IntroLink } from './introState';
 
 /**
  * Section R: the Simple-mode post chain (WebGL, three's EffectComposer). Mounted inside the Simple canvas only, on the high
@@ -25,6 +27,13 @@ import { BLOOM_THRESHOLD, SUN_DISC_RADIANCE, type QualityTier } from './quality'
  *   4. FXAA on edges (large canvases; small ones multisample the HDR buffer instead, see MSAA_MAX_PIXELS), then zero-mean
  *      film grain in display space.
  * No haze, rays, colour wash, ambient occlusion or global illumination: the Moon has no air.
+ *
+ * OPENING SEQUENCE ONLY (S3): while `uIntro` is above 0 the third step also draws a lens's answer to a Sun in frame: a wide
+ * glare, a thin horizontal streak, a few faint ghosts on the line through the picture's centre, and colour fringing that grows
+ * toward the edges (chromatic aberration). They are clearly cinematic, so they exist only in the intro: the globe passes
+ * uIntro = 0 from the hand-off on and the terrain view never sets it, and with uIntro = 0 the shader takes exactly the path it
+ * took before S3. They never lift a pixel above INTRO.WHITE_CAP of display white (no white-out), and their strength is ramped
+ * by the caller over at least INTRO.GLARE_RAMP_MS (no flash).
  * The two tiers run the same chain; medium differs only in the canvas pixel ratio (at most 1.5, set in Scene3D).
  */
 const SUN_ANGULAR_RADIUS = (0.2665 * Math.PI) / 180;
@@ -91,6 +100,10 @@ const FinalShader = {
     uFlare: { value: 0 },
     toneMappingExposure: { value: 1 },
     uSunLevel: { value: SUN_DISC_RADIANCE * 0.5 },
+    uIntro: { value: 0 }, // opening sequence only: strength of the lens effects, 0-1
+    uCap: { value: INTRO.WHITE_CAP },
+    uEdge: { value: 0 }, // opening sequence only: 1 = the Sun's glow and starburst fade out toward the picture's edges
+    uMoon: { value: new THREE.Vector3(0.5, 0.5, 0) }, // opening sequence only: the Moon's disc (centre uv, radius in picture heights)
   },
   vertexShader: /* glsl */ `
     uniform sampler2D tDiffuse;
@@ -129,22 +142,63 @@ const FinalShader = {
     uniform float uSunR;
     uniform float uAspect;
     uniform float uFlare;
+    uniform float uIntro;
+    uniform float uCap;
+    uniform vec3 uMoon;
+    uniform float uEdge;
     varying vec2 vUv;
     varying float vVis;
     #include <tonemapping_pars_fragment>
+    // (smoothstep is only defined for edge0 < edge1, so falling edges are written as 1 - smoothstep)
+    float ghostDisc(vec2 p, float rad) { return 1.0 - smoothstep(rad * 0.55, rad, length(p)); }
     void main() {
-      vec3 c = texture2D(tDiffuse, vUv).rgb + texture2D(tBloom, vUv).rgb;
+      // opening sequence only (uEdge = 1): the globe's picture does not reach the window's edges, so there the Sun's glow
+      // and starburst fade out before the picture's edge instead of being cut by it
+      float ef = 1.0;
+      if (uEdge > 0.0) {
+        vec2 e2 = smoothstep(vec2(0.0), vec2(0.1), min(vUv, 1.0 - vUv));
+        ef = e2.x * e2.y;
+      }
+      vec3 c = texture2D(tDiffuse, vUv).rgb + texture2D(tBloom, vUv).rgb * ef;
+      vec3 lens = vec3(0.0);
+      if (uIntro > 0.0) {
+        // OPENING SEQUENCE ONLY. Colour fringing: red and blue are read a little apart, more toward the edges.
+        vec2 q = vUv - 0.5;
+        vec2 off = q * (0.05 * uIntro * dot(q, q));
+        c.r = texture2D(tDiffuse, vUv - off).r + texture2D(tBloom, vUv - off).r * ef;
+        c.b = texture2D(tDiffuse, vUv + off).b + texture2D(tBloom, vUv + off).b * ef;
+        // glare, streak and ghosts, placed from the Sun's position (lengths in picture heights)
+        vec2 d = (vUv - uSun) * vec2(uAspect, 1.0);
+        float r = length(d);
+        float halo = 1.1 * exp(-r / 0.016) + 0.14 * exp(-r / 0.075);
+        float streak = 0.42 * exp(-abs(d.y) / 0.0028) * exp(-abs(d.x) / 0.17);
+        vec2 ax = (vec2(0.5) - uSun) * vec2(uAspect, 1.0);
+        vec3 gh = ghostDisc(d - ax * 0.55, 0.014) * vec3(0.9, 1.0, 0.8) * 0.07
+                + ghostDisc(d - ax * 1.25, 0.03) * vec3(0.7, 0.85, 1.0) * 0.045
+                + ghostDisc(d - ax * 1.8, 0.011) * vec3(1.0, 0.8, 0.7) * 0.06;
+        // (no ring-shaped ghost: Sid, 17 Nov 2026, it read as a loading spinner)
+        // the Moon's dark disc is kept dark (most of the glare is held off it), so the Sun reads as coming out from behind
+        // it; and everything fades to nothing at the picture's edges, so the picture has no visible frame
+        float onMoon = 1.0 - smoothstep(uMoon.z * 0.985, uMoon.z * 1.03, length((vUv - uMoon.xy) * vec2(uAspect, 1.0)));
+        lens = uIntro * ef * ((halo + streak) * vec3(1.0, 0.985, 0.96) * (1.0 - 0.9 * onMoon) + gh * (1.0 - onMoon));
+      }
       if (vVis > 0.0) {
         // six thin diffraction spikes from the Sun, brightest at the disc and gone within 18 Sun radii
         vec2 d = (vUv - uSun) * vec2(uAspect, 1.0) / uSunR;
         float r = length(d);
         float spikes = pow(abs(cos(3.0 * atan(d.y, d.x) + 0.42)), 90.0);
         float fall = exp(-r / 4.5) * (1.0 - smoothstep(10.0, 18.0, r));
-        c += vVis * uFlare * fall * spikes * vec3(1.0, 0.98, 0.95);
+        c += vVis * uFlare * (1.0 + 4.0 * uIntro) * ef * fall * spikes * vec3(1.0, 0.98, 0.95);
       }
       // the renderer's own AgX and sRGB functions (the ones the terrain material runs when it draws straight to the screen),
       // called explicitly because this pass draws into a buffer, where three.js leaves tone mapping off
       gl_FragColor = sRGBTransferOETF(vec4(AgXToneMapping(c), 1.0));
+      if (uIntro > 0.0) {
+        // the lens effects go on in display space and stop at uCap: a pixel already brighter than that (the Sun's own disc
+        // and the glow at its edge) is left as it was, everything else stays at or under the cap
+        vec3 withLens = sRGBTransferOETF(vec4(AgXToneMapping(c + lens), 1.0)).rgb;
+        gl_FragColor.rgb = min(withLens, max(gl_FragColor.rgb, vec3(uCap)));
+      }
     }`,
 };
 
@@ -204,9 +258,11 @@ export interface SimplePostProps {
   sunPos: THREE.Vector3;
   /** false when the bundle says the Sun is blocked: the disc is then only a faint marker, with no glow and no starburst */
   sunOn: boolean;
+  /** opening sequence (globe only): told when the chain is drawing, and read every frame for the lens-effect strength */
+  intro?: MutableRefObject<IntroLink>;
 }
 
-export default function SimplePost({ tier, sunPos, sunOn }: SimplePostProps) {
+export default function SimplePost({ tier, sunPos, sunOn, intro }: SimplePostProps) {
   const gl = useThree((s) => s.gl);
   const scene = useThree((s) => s.scene);
   const camera = useThree((s) => s.camera);
@@ -276,6 +332,9 @@ export default function SimplePost({ tier, sunPos, sunOn }: SimplePostProps) {
     tmp.p.copy(sunPos).project(cam);
     const inFront = tmp.p.z < 1 && Math.abs(tmp.p.x) < 1.2 && Math.abs(tmp.p.y) < 1.2;
     u.uFlare.value = sunOn && inFront ? FLARE : 0;
+    u.uIntro.value = sunOn && inFront && intro ? intro.current.fx : 0;
+    u.uEdge.value = sunOn && intro ? 1 : 0;
+    if (intro) (u.uMoon.value as THREE.Vector3).set(intro.current.moonX, intro.current.moonY, intro.current.moonR);
     (u.uSun.value as THREE.Vector2).set(tmp.p.x * 0.5 + 0.5, tmp.p.y * 0.5 + 0.5);
     u.uSunR.value = (Math.tan(SUN_ANGULAR_RADIUS) / Math.tan((cam.fov * Math.PI) / 360)) * 0.5;
     u.uAspect.value = built.w / Math.max(built.h, 1);
@@ -284,6 +343,7 @@ export default function SimplePost({ tier, sunPos, sunOn }: SimplePostProps) {
     (last.uniforms.uSeed.value as THREE.Vector2).set((tick * 37) % 251, (tick * 91) % 241);
     (built.grainOnly.uniforms.uSeed.value as THREE.Vector2).copy(last.uniforms.uSeed.value as THREE.Vector2);
     composer.render();
+    if (intro) intro.current.post = true; // a frame has been drawn through the chain
   }, 1);
 
   return null;
