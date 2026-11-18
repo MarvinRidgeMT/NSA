@@ -73,7 +73,10 @@ def main():
     for im, site in rows:
         for start in ('isis', 'label'):
             for flip in (False, True):
-                rec = TG.one(im, site, cat[(im['product_id'], site)], start=start, flip=flip, orbit='label')
+                try:
+                    rec = TG.one(im, site, cat[(im['product_id'], site)], start=start, flip=flip, orbit='label')
+                except Exception as e:
+                    rec = {'status': 'failed', 'reason': f'{type(e).__name__}: {str(e)[:200]}'}
                 entry = {'product_id': im['product_id'], 'site': site, 'start': start, 'flip': flip,
                          'camera': rec.get('camera'), 'movingDirection': rec.get('moving_direction'),
                          'cornersVsLabelMaxM': rec.get('corners_vs_label_max_m'), 'geometry': rec['status'],
@@ -82,7 +85,10 @@ def main():
                     gp = TC_GEOM_DIR / f"{rec['tag']}.json"
                     G = render_row(gp, 16, products=['pgda78_5m'], variants=False)
                     G['tag'] = rec['tag']
-                    entry.update(offset(G))
+                    try:
+                        entry.update(offset(G))
+                    except Exception as e:
+                        entry.update({'status': 'failed', 'reason': f'{type(e).__name__}: {str(e)[:200]}'})
                 res.append(entry)
                 print(json.dumps(entry, default=str), flush=True)
 

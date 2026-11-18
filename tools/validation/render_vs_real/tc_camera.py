@@ -202,13 +202,66 @@ def corner_check(cam, radius_m=1_737_400.0):
     return {k: radius_m * np.radians(_gc(lat[i], lon[i], *ref[k])) for i, k in enumerate(pts)}
 
 
+SEGMENTS = (1, 2, 3, 4, 6, 8)
+
+
+def fit_piecewise(cam, l0, l1, M, P0, ang_lim_urad, pos_lim_m=1.0):
+    """State fit for the OSL camera within the registered gate (A1.2/A2: 1 m, 0.1 binned pixel). One polynomial (degrees
+    3..11) first; when the SELENE CK's 2 s linear-interpolation kinks defeat it, the window is split into K equal line
+    segments (K in SEGMENTS[1:]), each fitted with degrees 3..7 under the same gate. Returns the single fit dict (as
+    nac_camera.fit_states) or {'segments': [...], 'bounds': [...]} with the worst residuals at the top level."""
+    from .nac_camera import fit_states
+
+    def best(a, b, degrees):
+        f = None
+        for d in degrees:
+            f = fit_states(cam, a, b, M, P0, degree=d, nodes=max(41, 8 * (d + 1)))
+            if f['fitMaxPosErrM'] <= pos_lim_m and f['fitMaxAngErrUrad'] <= ang_lim_urad:
+                return f, True
+        return f, False
+    f, ok = best(l0, l1, range(3, 12))
+    if ok:
+        return f
+    worst = f
+    for k in SEGMENTS[1:]:
+        edges = np.linspace(l0 - 0.5, l1 + 0.5, k + 1)
+        segs, ok = [], True
+        for i in range(k):
+            g, good = best(edges[i] + 0.5, edges[i + 1] - 0.5, range(3, 8))
+            segs.append(g)
+            ok &= good
+        worst = {'segments': segs, 'bounds': edges.tolist(), 'lmid': (l0 + l1) / 2,
+                 'fitMaxPosErrM': max(g['fitMaxPosErrM'] for g in segs),
+                 'fitMaxAngErrUrad': max(g['fitMaxAngErrUrad'] for g in segs), 'degree': max(g['degree'] for g in segs)}
+        if ok:
+            return worst
+    return worst
+
+
+def eval_fit(fit, lines):
+    """Positions and rotations from a single or piecewise fit (nac_camera.eval_states per segment)."""
+    from .nac_camera import eval_states
+    if 'segments' not in fit:
+        return eval_states(fit, lines)
+    lines = np.atleast_1d(np.asarray(lines, float))
+    idx = np.clip(np.searchsorted(fit['bounds'], lines, side='right') - 1, 0, len(fit['segments']) - 1)
+    P = np.zeros((len(lines), 3))
+    R = np.zeros((len(lines), 3, 3))
+    for i, seg in enumerate(fit['segments']):
+        m = idx == i
+        if m.any():
+            P[m], R[m] = eval_states(seg, lines[m])
+    return P, R
+
+
 def osl_source(cam, fit, l0, nl_render_lines, b, s0=1, ns_render=None):
     """OSL push-broom camera for Cycles (as shc_camera.osl_source) with the TC detector, distortion and optional flip.
     Raster v = 1 is the first cropped line; raster u = 0 is the left edge of sample s0 (the cropped sample window)."""
     L, ik = cam.L, cam.ik
     ns = (ns_render if ns_render is not None else L['samples'] // b) * b
     nl = nl_render_lines * b
-    cp, cw, Rm = np.asarray(fit['posCoef']), np.asarray(fit['rotCoef']), np.asarray(fit['Rmid'])
+    segs = fit['segments'] if 'segments' in fit else [fit]
+    bounds = fit.get('bounds', [l0 - 0.5, l0 - 0.5 + nl])
 
     def poly(c, axis):
         terms = [f'{c[k, axis]:.10e}' for k in range(c.shape[0])]
@@ -217,7 +270,21 @@ def osl_source(cam, fit, l0, nl_render_lines, b, s0=1, ns_render=None):
             expr = f'({t} + tau * {expr})'
         return expr
 
-    rm = [f'{v:.15e}' for v in Rm.ravel()]
+    def block(f):
+        cp, cw, Rm = np.asarray(f['posCoef']), np.asarray(f['rotCoef']), np.asarray(f['Rmid'])
+        rm = [f'{v:.15e}' for v in Rm.ravel()]
+        return f'''    float tau = (line - {f["lmid"]:.6f}) / {f["half"]:.6f};
+    w = vector({poly(cw, 0)}, {poly(cw, 1)}, {poly(cw, 2)});
+    p = point({poly(cp, 0)}, {poly(cp, 1)}, {poly(cp, 2)});
+    m0 = vector({rm[0]}, {rm[1]}, {rm[2]});
+    m1 = vector({rm[3]}, {rm[4]}, {rm[5]});
+    m2 = vector({rm[6]}, {rm[7]}, {rm[8]});'''
+    sel = ''
+    for i, f in enumerate(segs):
+        cond = 'if' if i == 0 else 'else if'
+        sel += (f"  {cond} (line < {bounds[i + 1]:.6f}) {{\n" if i < len(segs) - 1 else '  else {\n') + block(f) + '\n  }\n'
+    if len(segs) == 1:
+        sel = '  {\n' + block(segs[0]) + '\n  }\n'
     det = (f'{float(L["first_pixel"] + L["valid_samples"]):.4f} - s' if cam.flip else f's - 1.0 + {float(L["first_pixel"]):.4f}')
     cx, cy = ik['cx'], ik['cy']
     bx, by = ik['boresight_xy']
@@ -227,25 +294,21 @@ shader camera(output point position = 0.0, output vector direction = 0.0, output
   point r = camera_shader_raster_position();
   float s = {s0 - 0.5:.1f} + r[0] * {float(ns)};
   float line = {l0 - 0.5:.6f} + (1.0 - r[1]) * {float(nl)};
-  float tau = (line - {fit["lmid"]:.6f}) / {fit["half"]:.6f};
-  float det = {det};
+  vector w; point p; vector m0; vector m1; vector m2;
+{sel}  float det = {det};
   float y = {-PIXEL_MM:.6e} * (det - {BORESIGHT_SAMPLE:.4f});
   float x = {-PIXEL_MM * (0.0 - BORESIGHT_LINE):.6e};
   float rr = sqrt(x * x + y * y);
   float xu = x + ({cx[0] + bx:.8e}) + ({cx[1]:.8e}) * rr + ({cx[2]:.8e}) * rr * rr + ({cx[3]:.8e}) * rr * rr * rr;
   float yu = y + ({cy[0] + by:.8e}) + ({cy[1]:.8e}) * rr + ({cy[2]:.8e}) * rr * rr + ({cy[3]:.8e}) * rr * rr * rr;
   vector lc = normalize(vector(xu, yu, {ik["focal_mm"]:.6f}));
-  vector w = vector({poly(cw, 0)}, {poly(cw, 1)}, {poly(cw, 2)});
   float th = length(w);
   vector lr = lc;
   if (th > 1e-15) {{
     vector k = w / th;
     lr = lc * cos(th) + cross(k, lc) * sin(th) + k * dot(k, lc) * (1.0 - cos(th));
   }}
-  vector d = vector({rm[0]} * lr[0] + {rm[1]} * lr[1] + {rm[2]} * lr[2],
-                    {rm[3]} * lr[0] + {rm[4]} * lr[1] + {rm[5]} * lr[2],
-                    {rm[6]} * lr[0] + {rm[7]} * lr[1] + {rm[8]} * lr[2]);
-  point p = point({poly(cp, 0)}, {poly(cp, 1)}, {poly(cp, 2)});
+  vector d = vector(dot(m0, lr), dot(m1, lr), dot(m2, lr));
   position = point(p[0], p[1], -p[2]);
   direction = normalize(vector(d[0], d[1], -d[2]));
 }}

@@ -28,9 +28,9 @@ import numpy as np
 from . import score as S
 from . import tc_io
 from .common import ROOT, check_frozen, read_catalogue
-from .nac_camera import enu_basis, eval_states, me_to_latlon, stereo_xy
+from .nac_camera import enu_basis, me_to_latlon, stereo_xy
 from .run import AU, BLENDER, BOUNCES, HALF_M, PHOTOMETRY_VARIANTS, PRODUCTS, SPP, TSI, ground_offset, metrics, reduce_npz
-from .tc_camera import parse_label
+from .tc_camera import eval_fit, parse_label
 from .tc_common import TC_GEOM_DIR, TC_RENDER_DIR, TC_RESULTS, guard
 
 TWIN = ROOT / 'tools/validation/render_vs_real/wac_twin.py'
@@ -61,7 +61,7 @@ def render_row(gpath, threads, products=None, variants=True):
 def row_context(G):
     M, P0 = enu_basis(G['enu']['lat'], G['enu']['lon'], G['enu']['h0'])
     b, H = G['bin'], G['render_h']
-    Psc, _ = eval_states(G['fit'], G['l0'] + np.arange(H) * b + (b - 1) / 2.0)
+    Psc, _ = eval_fit(G['fit'], G['l0'] + np.arange(H) * b + (b - 1) / 2.0)
     return M, P0, Psc
 
 

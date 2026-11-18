@@ -22,20 +22,19 @@ from tools.imagery.sites import SITES
 from . import tc_io, tc_kernels as K, terrain_products as tp
 from .common import check_frozen
 from .geometry import HALF_M, az_el
-from .nac_camera import enu_basis, eval_states, fit_states, window_lines
-from .tc_camera import SOURCES, TcCamera, corner_check, osl_source, parse_label
+from .nac_camera import enu_basis, window_lines
+from .tc_camera import SOURCES, TcCamera, corner_check, eval_fit, fit_piecewise, osl_source, parse_label
 from .tc_common import SECONDARY_EL_DEG, TC_GEOM_DIR, TC_RESULTS, guard
 
 TARGET_GSD_M = 5.0
-# The SELENE CK is linearly interpolated between quaternions 2 s (~308 lines) apart, so its attitude has small kinks that a
-# low-degree polynomial cannot follow to 0.1 px over TC's ~13 s windows; degrees up to 11 are tried. The gate itself
-# (1 m, 0.1 binned pixel; A1.2/A2) is unchanged. Recorded in A12.
-FIT_DEGREES = (3, 4, 5, 6, 7, 8, 9, 10, 11)
+# The SELENE CK is linearly interpolated between quaternions 2 s (~308 lines) apart, so its attitude has small kinks that
+# one polynomial often cannot follow to 0.1 px over TC's ~13 s windows: tc_camera.fit_piecewise tries one polynomial
+# (degrees 3..11), then 2-8 equal line segments. The gate itself (1 m, 0.1 binned pixel; A1.2/A2) is unchanged. In A12.
 DEFAULT = ('isis', False, 'label')     # the conventions used unless the A11.4 pipeline test decides otherwise (A12)
 FIELDS = ['product_id', 'site', 'status', 'reason', 'track', 'camera', 'moving_direction', 'start_convention', 'flip', 'orbit',
           'orbit_solution', 'bin', 'l0', 'l1', 's0', 's1', 'render_w',
           'render_h', 'gsd_binned_m', 'sc_alt_km', 'emission_site_deg', 'sun_az_deg', 'sun_el_deg', 'cat_sun_az_deg',
-          'cat_sun_el_deg', 'timing_start_diff_ms', 'centre_vs_label_m', 'corners_vs_label_max_m', 'fit_pos_err_m', 'fit_ang_err_urad', 'fit_degree',
+          'cat_sun_el_deg', 'timing_start_diff_ms', 'centre_vs_label_m', 'corners_vs_label_max_m', 'fit_pos_err_m', 'fit_ang_err_urad', 'fit_degree', 'fit_segments',
           'kernels']
 
 
@@ -64,14 +63,14 @@ def window_samples(cam, l0, l1, site_xy, half_m, h_lo, h_hi, margin_m, step=16):
 def view_cone(cam, fit, l0, l1, h_lo, h0, s0, s1, b):
     ll = np.array([l0, l0, (l0 + l1) / 2, l1, l1, (l0 + l1) / 2])
     ss = np.array([s0 - 0.5, s1 + 0.5, s0 - 0.5, s0 - 0.5, s1 + 0.5, s1 + 0.5])
-    Pp, Rr = eval_states(fit, ll)
+    Pp, Rr = eval_fit(fit, ll)
     dd = np.einsum('nij,nj->ni', Rr, cam.look_cam(ss))
     C = np.array([0.0, 0.0, -(1_737_400.0 + h0)])
     oc = Pp - C
     bq = np.einsum('ij,ij->i', oc, dd)
     tt = -bq - np.sqrt(np.maximum(bq * bq - (np.einsum('ij,ij->i', oc, oc) - (1_737_400.0 + h_lo) ** 2), 0))
     X = Pp + tt[:, None] * dd
-    Pm, Rm = eval_states(fit, [fit['lmid']])
+    Pm, Rm = eval_fit(fit, [fit['lmid']])
     fwd = Rm[0] @ np.array([0.0, 0.0, 1.0])
     vv = X - Pm[0]
     ang = np.arccos(np.clip(vv @ fwd / np.linalg.norm(vv, axis=1), -1, 1))
@@ -122,10 +121,7 @@ def one(im, site, cat_row, start='isis', flip=False, orbit='label'):
         nsr = (s1 - s0 + 1) // b
         s1 = s0 + nsr * b - 1
         ang_lim = 0.1 * cam.ifov * 1e6 * b
-        for degree in FIT_DEGREES:
-            fit = fit_states(cam, l0, l1, M, P0, degree=degree, nodes=max(41, 8 * (degree + 1)))
-            if fit['fitMaxPosErrM'] <= 1.0 and fit['fitMaxAngErrUrad'] <= ang_lim:
-                break
+        fit = fit_piecewise(cam, l0, l1, M, P0, ang_lim)
         if fit['fitMaxPosErrM'] > 1.0 or fit['fitMaxAngErrUrad'] > ang_lim:
             return {**out, 'status': 'gated', 'reason': f"camera model: state-polynomial fit error {fit['fitMaxPosErrM']:.3f} m / "
                                                         f"{fit['fitMaxAngErrUrad']:.2f} urad (limit 1 m / {ang_lim:.2f} urad)"}
@@ -150,7 +146,7 @@ def one(im, site, cat_row, start='isis', flip=False, orbit='label'):
                'cat_sun_el_deg': float(cat_row['sun_el_deg']), 'timing_start_diff_ms': round(tc['startDiffS'] * 1000, 3),
                'centre_vs_label_m': round(d_lab, 1), 'corners_vs_label_max_m': round(max(corners.values()), 1),
                'fit_pos_err_m': round(fit['fitMaxPosErrM'], 5),
-               'fit_ang_err_urad': round(fit['fitMaxAngErrUrad'], 4), 'fit_degree': fit['degree'],
+               'fit_ang_err_urad': round(fit['fitMaxAngErrUrad'], 4), 'fit_degree': fit['degree'], 'fit_segments': len(fit.get('segments', [fit])),
                'kernels': ' '.join(krec['kernels'])}
         detail = {**rec, 'instrument': 'Kaguya_TC', 'cornersVsLabelM': corners, 'label': dict(lab), 'fit': fit,
                   'view': view_cone(cam, fit, l0, l1, h_lo, h0, s0, s1, b), 'sunEnu': sun_enu.tolist(),

@@ -140,6 +140,31 @@ class Look(unittest.TestCase):
         self.assertGreater(v[0, 1], v[1, 1])                       # y = -0.007 (det - 2048): first sample has +y
 
 
+class PiecewiseFit(unittest.TestCase):
+    """eval_fit picks the segment by line (the OSL camera's if-chain uses the same bounds)."""
+
+    def seg(self, lmid, half, x):
+        return {'lmid': lmid, 'half': half, 'degree': 0, 'posCoef': [[x, 0.0, 0.0]], 'rotCoef': [[0.0, 0.0, 0.0]],
+                'Rmid': np.eye(3).tolist()}
+
+    def test_segment_selection(self):
+        f = {'segments': [self.seg(50, 50, 1.0), self.seg(150, 50, 2.0)], 'bounds': [0.5, 100.5, 200.5]}
+        P, R = C.eval_fit(f, [1, 100, 100.6, 200, 250])
+        self.assertEqual(P[:, 0].tolist(), [1.0, 1.0, 2.0, 2.0, 2.0])
+        np.testing.assert_allclose(R[0], np.eye(3))
+
+    def test_osl_has_one_branch_per_segment(self):
+        cam = C.TcCamera.__new__(C.TcCamera)
+        cam.L = C.parse_label(synthetic_label())
+        cam.ik, cam.flip = C.IK['TC1'], False
+        f = {'segments': [self.seg(50, 50, 1.0), self.seg(150, 50, 2.0), self.seg(250, 50, 3.0)],
+             'bounds': [0.5, 100.5, 200.5, 300.5]}
+        src = C.osl_source(cam, f, 1, 300, 1, s0=11, ns_render=100)
+        self.assertEqual(src.count('if (line < '), 2)
+        self.assertEqual(src.count('else {'), 1)
+        self.assertIn('float s = 10.5 + r[0] * 100.0;', src)
+
+
 class Pixels(unittest.TestCase):
     def test_decode_codes_and_scale(self):
         L = C.parse_label(synthetic_label(lines=2, samples=3208))

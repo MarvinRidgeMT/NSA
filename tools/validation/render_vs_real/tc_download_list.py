@@ -27,7 +27,8 @@ def wanted(sel):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument('--set', default='dev', choices=['dev'])
-    ap.parse_args(argv)
+    ap.add_argument('--check', action='store_true', help='test every .img.gz in incoming/ and list the damaged ones')
+    a = ap.parse_args(argv)
     if TC_SPLIT != 'dev':
         raise SystemExit('dev list only (the held-out list comes with A13)')
     sel = json.loads((TC_RESULTS / 'selection.json').read_text())
@@ -40,6 +41,22 @@ def main(argv=None):
             cached = (TC_DIR / ('labels' if name.endswith('.lbl') else 'img') / name).exists()
             if not cached and not any(INCOMING.rglob(name) if INCOMING.exists() else []):
                 missing += 1
+    if a.check:
+        import subprocess
+        from .tc_io import gzip_problem
+        busy = subprocess.run(['pgrep', '-fl', 'curl'], capture_output=True, text=True).stdout
+        bad = []
+        for pid, im in ims.items():
+            for f in (INCOMING.rglob(f'{pid}.img.gz') if INCOMING.exists() else []):
+                if f.name in busy:
+                    print(f'still downloading: {f.name}')
+                    continue
+                why = gzip_problem(f)
+                if why:
+                    bad.append(im['data_file_url'])
+                    print(f'damaged: {f.name}: {why}')
+        (TC_RESULTS / 'redownload_dev.txt').write_text(''.join(u + '\n' for u in bad))
+        print(f'{len(bad)} damaged image(s) listed in {TC_RESULTS / "redownload_dev.txt"} (delete them, then download again)')
     out = TC_RESULTS / 'download_dev.txt'
     out.write_text('\n'.join(urls) + '\n')
     INCOMING.mkdir(parents=True, exist_ok=True)

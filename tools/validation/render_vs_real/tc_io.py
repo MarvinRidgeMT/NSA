@@ -18,6 +18,8 @@ import gzip
 import hashlib
 import json
 import shutil
+import zlib
+from pathlib import Path
 
 import numpy as np
 
@@ -40,6 +42,19 @@ def _incoming(name):
     """A file the project owner downloaded into INCOMING (any subfolder), or None."""
     hits = sorted(INCOMING.rglob(name)) if INCOMING.exists() else []
     return hits[0] if hits else None
+
+
+def gzip_problem(path):
+    """None if `path` is a complete gzip stream, else what is wrong (DARTS sometimes ends a transfer early without the
+    client noticing, leaving a truncated file)."""
+    b = Path(path).read_bytes()
+    if b[:2] != b'\x1f\x8b':
+        return 'is not gzip (a browser may have decompressed it or saved an error page)'
+    try:
+        gzip.decompress(b)
+    except (EOFError, OSError, zlib.error) as e:
+        return f'is a damaged or truncated gzip ({type(e).__name__}: {str(e)[:80]})'
+    return None
 
 
 def _missing(pid, name, url):
@@ -73,8 +88,9 @@ def image_gz(pid, data_url):
         src = _incoming(f'{pid}.img.gz')
         if src is None:
             raise _missing(pid, f'{pid}.img.gz', data_url)
-        if src.read_bytes()[:2] != b'\x1f\x8b':
-            raise RuntimeError(f'{pid}: {src} is not gzip (a browser may have decompressed it or saved an error page)')
+        bad = gzip_problem(src)
+        if bad:
+            raise RuntimeError(f'{pid}: {src} {bad}; download it again (tc_download_list --check lists every such file)')
         p.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(src, p)
         _record({'product_id': pid, 'kind': 'image-gz', 'url': data_url, 'source': SOURCE_NOTE, 'from_file': str(src),
