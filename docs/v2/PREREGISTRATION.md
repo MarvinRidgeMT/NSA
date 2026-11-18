@@ -151,3 +151,26 @@ row has been scored.** A9 records the decisions: TDI B without sample flip; the 
 | file | sha256 |
 |---|---|
 | `docs/v2/RENDER_VS_REAL_PROTOCOL_A9.md` | `2120b569a00ec037ec8fd952fae4a28d941a93803adb770b8ef6fea78f8d57ff` |
+
+## Entry 11 — 18 Nov 2026, coordinating session (held-out run, ShadowCam)
+
+State at freezing: **no held-out ShadowCam image or cube header has been fetched, rendered, looked at or scored.** Only
+catalogue metadata and the 828 held-out PDS4 labels read for the catalogue v2 footprints (Entry 9) have been used. The dev
+pilot is complete under A8.5 (c39c722) and re-scored under the A10 saturation rule (d60ca16). Amendment A10 defines the
+single held-out run for ShadowCam: 183 eligible held-out rows (129 primary track), saturated blocks counted as lit
+(protocol §4.1), registration on non-saturated pixels, the Otsu rule unchanged, a secondary saturation-mask analysis
+that is not a claim, and a prediction written before the run. The ShadowCam code that the run executes is frozen here; the
+NAC and WAC code it imports is frozen in Entries 6 and 8. `shc_heldout.py` refuses to start if any row differs.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A10.md` | `84f36385da7c7e28097f299bb16280a357ebbab526dc6693d206bdc7530d2877` |
+| `tools/validation/render_vs_real/shc_camera.py` | `699455613ffd284aa56fdd0de19147f8e642f1c2d9b7d7c7e5040959dd911162` |
+| `tools/validation/render_vs_real/shc_kernels.py` | `0c5cb9204af80bf712a8651aae9163445719008adace8b987b9ef59bfbd88eca` |
+| `tools/validation/render_vs_real/shc_catalogue.py` | `21aa23ccaa933023ea168febea335640247f2f98a528dcff45c628d9f69ef758` |
+| `tools/validation/render_vs_real/shc_common.py` | `8fb231f365366834230baf05b2a0da938986f7e5bf75b62750a446e239d3ecba` |
+| `tools/validation/render_vs_real/shc_io.py` | `72e9555c855486a3d44a8f12df6cfb262ebbd975cc9cfcad5ed13df5e83e192d` |
+| `tools/validation/render_vs_real/shc_geometry.py` | `a66ed3f75d69fa40187f7011ee5af5780486028c672eda72734e805e1abf7546` |
+| `tools/validation/render_vs_real/shc_run.py` | `76303e891d89adc40a603cf463f73b67e854554a66dd62b78431fd4f42dc7bea` |
+| `tools/validation/render_vs_real/shc_select.py` | `099a1cabd802a3acd317b8e05886101836d00a864ac6d126dce403085df4fd99` |
+| `tools/validation/render_vs_real/shc_heldout.py` | `ad4da0aab1be5289b940d8e420e7ec997dc4c08d5981c6df01e3673bf5e34227` |
