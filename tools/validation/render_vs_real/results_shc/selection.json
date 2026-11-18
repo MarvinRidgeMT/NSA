@@ -1,0 +1,2147 @@
+{
+ "rule": [
+  "Rule (fixed before any ShadowCam image is rendered; never uses image content or scores):",
+  "  1. dev rows of catalogue v2 passing the protocol \u00a72 gates (shc_common.eligible);",
+  "  2. order them by SHA-256(SEED:product_id:site);",
+  "  3. pipeline test (A8.4): the first PT_PER_GROUP rows of each TDI direction among rows with Sun elevation >= -0.5 deg;",
+  "  4. dev pilot: the first N_PILOT rows in that order (both tracks), excluding nothing (pipeline-test rows may recur)."
+ ],
+ "seed": "polaris-x-v2-shadowcam-dev-2026-11-17",
+ "devRows": 3374,
+ "eligibleRows": 423,
+ "eligibleImages": 378,
+ "gatedByMetadata": {
+  "overlap_frac < 0.25 and site centre not covered (catalogue v2, every convention)": 2951
+ },
+ "tdiOfEligible": {
+  "B": 234,
+  "A": 189
+ },
+ "pipelineTest": [
+  {
+   "product_id": "M044734172SC",
+   "site": "site04_roi3",
+   "tdi": "A"
+  },
+  {
+   "product_id": "M035048283SC",
+   "site": "site07_roi1",
+   "tdi": "A"
+  },
+  {
+   "product_id": "M064985032SC",
+   "site": "site11_roi4",
+   "tdi": "A"
+  },
+  {
+   "product_id": "M021623073SC",
+   "site": "site04_roi3",
+   "tdi": "B"
+  },
+  {
+   "product_id": "M017119267SC",
+   "site": "site01_roi6",
+   "tdi": "B"
+  },
+  {
+   "product_id": "M047621722SC",
+   "site": "site01_roi6",
+   "tdi": "B"
+  }
+ ],
+ "nImages": 142,
+ "nRows": 150,
+ "secondaryTrackRows": 29,
+ "images": [
+  {
+   "product_id": "M028117711SC",
+   "sites": [
+    "site11_roi4",
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-06-26T09:37:29.623Z",
+   "utc_start": "2023-06-26T09:36:32.200331Z",
+   "utc_stop": "2023-06-26T09:38:27.047563Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/177/M028117711S/M028117711SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/177/M028117711S/M028117711SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|SE|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m",
+    "site07_roi1": "ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M044734172SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2024-01-04T17:18:22.580Z",
+   "utc_start": "2024-01-04T17:17:32.994609Z",
+   "utc_stop": "2024-01-04T17:19:12.167525Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/004/M044734172S/M044734172SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/004/M044734172S/M044734172SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M021623073SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-04-12T05:33:06.125Z",
+   "utc_start": "2023-04-12T05:32:34.057330Z",
+   "utc_stop": "2023-04-12T05:33:38.193624Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/102/M021623073S/M021623073SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/102/M021623073S/M021623073SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M017119267SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-02-19T02:29:36.052Z",
+   "utc_start": "2023-02-19T02:29:07.946942Z",
+   "utc_stop": "2023-02-19T02:30:04.159115Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/050/M017119267S/M017119267SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/050/M017119267S/M017119267SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M035048283SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-09-14T14:46:56.352Z",
+   "utc_start": "2023-09-14T14:46:04.059838Z",
+   "utc_stop": "2023-09-14T14:47:48.646744Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/257/M035048283S/M035048283SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/257/M035048283S/M035048283SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M064985032SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-08-26T02:32:38.848Z",
+   "utc_start": "2024-08-26T02:31:52.906802Z",
+   "utc_stop": "2024-08-26T02:33:24.791653Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/239/M064985032S/M064985032SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/239/M064985032S/M064985032SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M043468570SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-12-21T01:45:01.220Z",
+   "utc_start": "2023-12-21T01:44:11.009662Z",
+   "utc_stop": "2023-12-21T01:45:51.431960Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/355/M043468570S/M043468570SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/355/M043468570S/M043468570SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M047621722SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-02-07T03:24:15.139Z",
+   "utc_start": "2024-02-07T03:23:23.054821Z",
+   "utc_stop": "2024-02-07T03:25:07.225265Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/038/M047621722S/M047621722SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/038/M047621722S/M047621722SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M063415483SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-08-07T22:33:35.393Z",
+   "utc_start": "2024-08-07T22:32:44.037259Z",
+   "utc_stop": "2024-08-07T22:34:26.750091Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/220/M063415483S/M063415483SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/220/M063415483S/M063415483SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M043291798SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-12-19T00:38:41.543Z",
+   "utc_start": "2023-12-19T00:37:58.829029Z",
+   "utc_stop": "2023-12-19T00:39:24.258737Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/353/M043291798S/M043291798SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/353/M043291798S/M043291798SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M066017224SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-09-07T01:15:54.047Z",
+   "utc_start": "2024-09-07T01:15:04.982066Z",
+   "utc_stop": "2024-09-07T01:16:43.113829Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/251/M066017224S/M066017224SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/251/M066017224S/M066017224SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M044748316SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2024-01-04T21:14:06.580Z",
+   "utc_start": "2024-01-04T21:13:16.994609Z",
+   "utc_stop": "2024-01-04T21:14:56.167525Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/004/M044748316S/M044748316SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/004/M044748316S/M044748316SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M017161695SC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-02-19T14:16:43.924Z",
+   "utc_start": "2023-02-19T14:16:15.941925Z",
+   "utc_stop": "2023-02-19T14:17:11.908235Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/050/M017161695S/M017161695SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/050/M017161695S/M017161695SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m",
+    "site01_roi6": "ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M035232104SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-09-16T17:50:34.367Z",
+   "utc_start": "2023-09-16T17:49:44.989592Z",
+   "utc_stop": "2023-09-16T17:51:23.746046Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/259/M035232104S/M035232104SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/259/M035232104S/M035232104SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M064037700SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-08-15T03:23:51.860Z",
+   "utc_start": "2024-08-15T03:23:01.024715Z",
+   "utc_stop": "2024-08-15T03:24:42.696395Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/228/M064037700S/M064037700SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/228/M064037700S/M064037700SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|S|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M062538858SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-07-28T19:03:03.782Z",
+   "utc_start": "2024-07-28T19:02:18.881714Z",
+   "utc_stop": "2024-07-28T19:03:48.684261Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/210/M062538858S/M062538858SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/210/M062538858S/M062538858SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M062100516SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-07-23T17:17:20.289Z",
+   "utc_start": "2024-07-23T17:16:36.846590Z",
+   "utc_stop": "2024-07-23T17:18:03.733912Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/205/M062100516S/M062100516SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/205/M062100516S/M062100516SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M040357907SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-11-15T01:40:41.205Z",
+   "utc_start": "2023-11-15T01:39:48.079909Z",
+   "utc_stop": "2023-11-15T01:41:34.332658Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/319/M040357907S/M040357907SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/319/M040357907S/M040357907SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M036547198SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-10-01T23:08:44.848Z",
+   "utc_start": "2023-10-01T23:07:58.906802Z",
+   "utc_stop": "2023-10-01T23:09:30.791653Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/274/M036547198S/M036547198SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/274/M036547198S/M036547198SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M065649586SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-09-02T19:08:38.393Z",
+   "utc_start": "2024-09-02T19:07:47.037259Z",
+   "utc_stop": "2024-09-02T19:09:29.750091Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/246/M065649586S/M065649586SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/246/M065649586S/M065649586SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M047664131SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-02-07T15:11:02.327Z",
+   "utc_start": "2024-02-07T15:10:12.012171Z",
+   "utc_stop": "2024-02-07T15:11:52.642699Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/038/M047664131S/M047664131SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/038/M047664131S/M047664131SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M062849969SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-08-01T09:28:15.102Z",
+   "utc_start": "2024-08-01T09:27:29.889240Z",
+   "utc_stop": "2024-08-01T09:29:00.316478Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/214/M062849969S/M062849969SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/214/M062849969S/M062849969SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|N|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M043305936SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-12-19T04:34:19.543Z",
+   "utc_start": "2023-12-19T04:33:36.829029Z",
+   "utc_stop": "2023-12-19T04:35:02.258737Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/353/M043305936S/M043305936SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/353/M043305936S/M043305936SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M065875810SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-09-05T09:58:58.448Z",
+   "utc_start": "2024-09-05T09:58:10.944434Z",
+   "utc_stop": "2024-09-05T09:59:45.952741Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/249/M065875810S/M065875810SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/249/M065875810S/M065875810SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030565693SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-24T17:37:02.561Z",
+   "utc_start": "2023-07-24T17:36:13.984574Z",
+   "utc_stop": "2023-07-24T17:37:51.139749Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/205/M030565693S/M030565693SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/205/M030565693S/M030565693SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M039947802SC",
+   "sites": [
+    "site11_roi4",
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-11-10T07:45:32.580Z",
+   "utc_start": "2023-11-10T07:44:42.994609Z",
+   "utc_stop": "2023-11-10T07:46:22.167525Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/314/M039947802S/M039947802SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/314/M039947802S/M039947802SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m",
+    "site07_roi1": "ShadowCam|E|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M028359730SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-06-29T04:50:59.772Z",
+   "utc_start": "2023-06-29T04:50:10.989592Z",
+   "utc_stop": "2023-06-29T04:51:48.556210Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/180/M028359730S/M028359730SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/180/M028359730S/M028359730SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|W|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M031831309SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-08-08T09:10:34.873Z",
+   "utc_start": "2023-08-08T09:09:49.896766Z",
+   "utc_stop": "2023-08-08T09:11:19.851685Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/220/M031831309S/M031831309SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/220/M031831309S/M031831309SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M048130656SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-02-13T00:46:22.529Z",
+   "utc_start": "2024-02-13T00:45:36.899275Z",
+   "utc_stop": "2024-02-13T00:47:08.159435Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/044/M048130656S/M048130656SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/044/M048130656S/M048130656SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M036872481SC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-10-05T17:30:05.805Z",
+   "utc_start": "2023-10-05T17:29:21.884222Z",
+   "utc_stop": "2023-10-05T17:30:49.726065Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/278/M036872481S/M036872481SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/278/M036872481S/M036872481SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m",
+    "site01_roi6": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M035316958SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-09-17T17:24:48.580Z",
+   "utc_start": "2023-09-17T17:23:58.994609Z",
+   "utc_stop": "2023-09-17T17:25:38.167525Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/260/M035316958S/M035316958SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/260/M035316958S/M035316958SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M036617915SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-10-02T18:47:21.529Z",
+   "utc_start": "2023-10-02T18:46:35.899275Z",
+   "utc_stop": "2023-10-02T18:48:07.159435Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/275/M036617915S/M036617915SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/275/M036617915S/M036617915SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M013364009SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-01-06T15:21:43.327Z",
+   "utc_start": "2023-01-06T15:21:29.961995Z",
+   "utc_stop": "2023-01-06T15:21:56.693515Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/006/M013364009S/M013364009SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/006/M013364009S/M013364009SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|S|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M040400327SC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-11-15T13:27:40.246Z",
+   "utc_start": "2023-11-15T13:26:48.057330Z",
+   "utc_stop": "2023-11-15T13:28:32.436005Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/319/M040400327S/M040400327SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/319/M040400327S/M040400327SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m",
+    "site01_roi6": "ShadowCam|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M065691995SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-09-03T06:55:27.926Z",
+   "utc_start": "2024-09-03T06:54:36.049803Z",
+   "utc_stop": "2024-09-03T06:56:19.803787Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/247/M065691995S/M065691995SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/247/M065691995S/M065691995SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M034991731SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-09-13T23:04:24.246Z",
+   "utc_start": "2023-09-13T23:03:32.057330Z",
+   "utc_stop": "2023-09-13T23:05:16.436005Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/256/M034991731S/M034991731SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/256/M034991731S/M034991731SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M065932374SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-09-06T01:41:42.554Z",
+   "utc_start": "2024-09-06T01:40:54.946942Z",
+   "utc_stop": "2024-09-06T01:42:30.163480Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/250/M065932374S/M065932374SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/250/M065932374S/M065932374SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M045123108SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-01-09T05:20:41.139Z",
+   "utc_start": "2024-01-09T05:19:49.054821Z",
+   "utc_stop": "2024-01-09T05:21:33.225265Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/009/M045123108S/M045123108SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/009/M045123108S/M045123108SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M066003083SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-09-06T21:20:12.514Z",
+   "utc_start": "2024-09-06T21:19:23.969521Z",
+   "utc_stop": "2024-09-06T21:21:01.060133Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/250/M066003083S/M066003083SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/250/M066003083S/M066003083SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M045738163SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-01-16T08:11:28.142Z",
+   "utc_start": "2024-01-16T08:10:43.866661Z",
+   "utc_stop": "2024-01-16T08:12:12.419826Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/016/M045738163S/M045738163SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/016/M045738163S/M045738163SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|W|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M045073639SC",
+   "sites": [
+    "site01_roi6",
+    "site04_roi3"
+   ],
+   "obs_utc": "2024-01-08T15:36:13.419Z",
+   "utc_start": "2024-01-08T15:35:20.084926Z",
+   "utc_stop": "2024-01-08T15:37:06.754136Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/008/M045073639S/M045073639SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/008/M045073639S/M045073639SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[1,5)m",
+    "site04_roi3": "ShadowCam|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M045625061SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-01-15T00:46:28.062Z",
+   "utc_start": "2024-01-15T00:45:41.911819Z",
+   "utc_stop": "2024-01-15T00:47:14.213131Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/015/M045625061S/M045625061SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/015/M045625061S/M045625061SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|S|el[-0.5,0.5)|em[15,30)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030502071SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-23T23:56:40.456Z",
+   "utc_start": "2023-07-23T23:55:51.982066Z",
+   "utc_stop": "2023-07-23T23:57:28.931518Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030502071S/M030502071SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030502071S/M030502071SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M016291850SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-02-09T12:39:24.595Z",
+   "utc_start": "2023-02-09T12:38:50.999627Z",
+   "utc_stop": "2023-02-09T12:39:58.192459Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/040/M016291850S/M016291850SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/040/M016291850S/M016291850SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|N|el>=2.5|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030240490SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-20T23:17:01.879Z",
+   "utc_start": "2023-07-20T23:16:11.039768Z",
+   "utc_stop": "2023-07-20T23:17:52.720817Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/201/M030240490S/M030240490SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/201/M030240490S/M030240490SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M040329627SC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-11-14T17:49:21.312Z",
+   "utc_start": "2023-11-14T17:48:28.082418Z",
+   "utc_stop": "2023-11-14T17:50:14.543397Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/318/M040329627S/M040329627SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/318/M040329627S/M040329627SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m",
+    "site01_roi6": "ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M064928462SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-08-25T10:49:48.102Z",
+   "utc_start": "2024-08-25T10:49:02.889240Z",
+   "utc_stop": "2024-08-25T10:50:33.316478Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/238/M064928462S/M064928462SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/238/M064928462S/M064928462SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M057901337SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-06-05T02:51:03.742Z",
+   "utc_start": "2024-06-05T02:50:17.904293Z",
+   "utc_stop": "2024-06-05T02:51:49.580914Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/157/M057901337S/M057901337SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/157/M057901337S/M057901337SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|W|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M044819031SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2024-01-05T16:52:41.580Z",
+   "utc_start": "2024-01-05T16:51:51.994609Z",
+   "utc_stop": "2024-01-05T16:53:31.167525Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/005/M044819031S/M044819031SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/005/M044819031S/M044819031SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M040442749SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-11-16T01:14:32.463Z",
+   "utc_start": "2023-11-16T01:13:50.047294Z",
+   "utc_stop": "2023-11-16T01:15:14.879960Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/320/M040442749S/M040442749SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/320/M040442749S/M040442749SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|W|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M061690493SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-07-18T23:23:44.540Z",
+   "utc_start": "2024-07-18T23:22:54.017189Z",
+   "utc_stop": "2024-07-18T23:24:35.064178Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/200/M061690493S/M061690493SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/200/M061690493S/M061690493SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|S|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M035161394SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-09-15T22:12:04.794Z",
+   "utc_start": "2023-09-15T22:11:14.999627Z",
+   "utc_stop": "2023-09-15T22:12:54.589003Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/258/M035161394S/M035161394SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/258/M035161394S/M035161394SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M040315488SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-11-14T13:53:42.099Z",
+   "utc_start": "2023-11-14T13:52:49.077400Z",
+   "utc_stop": "2023-11-14T13:54:35.121918Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/318/M040315488S/M040315488SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/318/M040315488S/M040315488SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030304095SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-21T16:57:07.617Z",
+   "utc_start": "2023-07-21T16:56:16.057330Z",
+   "utc_stop": "2023-07-21T16:57:59.178430Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/202/M030304095S/M030304095SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/202/M030304095S/M030304095SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M041587990SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-11-29T07:21:54.929Z",
+   "utc_start": "2023-11-29T07:21:10.861643Z",
+   "utc_stop": "2023-11-29T07:22:38.998347Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/333/M041587990S/M041587990SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/333/M041587990S/M041587990SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|SE|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M016970789SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-02-17T09:15:20.774Z",
+   "utc_start": "2023-02-17T09:14:30.037259Z",
+   "utc_stop": "2023-02-17T09:16:11.512587Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/048/M016970789S/M016970789SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/048/M016970789S/M016970789SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M062142926SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-07-24T05:04:09.436Z",
+   "utc_start": "2024-07-24T05:03:26.826520Z",
+   "utc_stop": "2024-07-24T05:04:52.047998Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/206/M062142926S/M062142926SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/206/M062142926S/M062142926SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M028989030SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-07-06T11:39:16.190Z",
+   "utc_start": "2023-07-06T11:38:30.904293Z",
+   "utc_stop": "2023-07-06T11:40:01.476376Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/187/M028989030S/M028989030SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/187/M028989030S/M028989030SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M046696674SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-01-27T10:26:43.621Z",
+   "utc_start": "2024-01-27T10:25:54.972030Z",
+   "utc_stop": "2024-01-27T10:27:32.270872Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/027/M046696674S/M046696674SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/027/M046696674S/M046696674SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M013970508SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-01-13T15:49:58.160Z",
+   "utc_start": "2023-01-13T15:49:49.094962Z",
+   "utc_stop": "2023-01-13T15:50:07.227851Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/013/M013970508S/M013970508SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/013/M013970508S/M013970508SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M044776602SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2024-01-05T05:05:32.580Z",
+   "utc_start": "2024-01-05T05:04:42.994609Z",
+   "utc_stop": "2024-01-05T05:06:22.167525Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/005/M044776602S/M044776602SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/005/M044776602S/M044776602SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M022117811SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-04-17T22:58:44.248Z",
+   "utc_start": "2023-04-17T22:58:11.861643Z",
+   "utc_stop": "2023-04-17T22:59:16.636811Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/107/M022117811S/M022117811SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/107/M022117811S/M022117811SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M065918233SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-09-05T21:46:01.554Z",
+   "utc_start": "2024-09-05T21:45:13.946942Z",
+   "utc_stop": "2024-09-05T21:46:49.163480Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/249/M065918233S/M065918233SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/249/M065918233S/M065918233SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M065960658SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-09-06T09:33:06.661Z",
+   "utc_start": "2024-09-06T09:32:18.949451Z",
+   "utc_stop": "2024-09-06T09:33:54.374219Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/250/M065960658S/M065960658SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/250/M065960658S/M065960658SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M046724847SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-01-27T18:16:17.687Z",
+   "utc_start": "2024-01-27T18:15:27.997118Z",
+   "utc_stop": "2024-01-27T18:17:07.378264Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/027/M046724847S/M046724847SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/027/M046724847S/M046724847SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|SW|el[0.5,1.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M040386187SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-11-15T09:32:00.672Z",
+   "utc_start": "2023-11-15T09:31:08.067365Z",
+   "utc_stop": "2023-11-15T09:32:53.278961Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/319/M040386187S/M040386187SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/319/M040386187S/M040386187SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030403081SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-22T20:26:52.036Z",
+   "utc_start": "2023-07-22T20:26:02.019697Z",
+   "utc_stop": "2023-07-22T20:27:42.054974Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/203/M030403081S/M030403081SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/203/M030403081S/M030403081SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M015110927SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-01-26T20:37:33.927Z",
+   "utc_start": "2023-01-26T20:36:47.921854Z",
+   "utc_stop": "2023-01-26T20:38:19.933989Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/026/M015110927S/M015110927SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/026/M015110927S/M015110927SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M028960747SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-07-06T03:47:53.822Z",
+   "utc_start": "2023-07-06T03:47:07.919346Z",
+   "utc_stop": "2023-07-06T03:48:39.725758Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/187/M028960747S/M028960747SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/187/M028960747S/M028960747SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M021587716SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-04-11T19:43:55.175Z",
+   "utc_start": "2023-04-11T19:43:17.049803Z",
+   "utc_stop": "2023-04-11T19:44:33.302731Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/101/M021587716S/M021587716SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/101/M021587716S/M021587716SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|NE|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M045101922SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-01-08T23:27:35.459Z",
+   "utc_start": "2024-01-08T23:26:43.062347Z",
+   "utc_stop": "2024-01-08T23:28:27.857483Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/008/M045101922S/M045101922SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/008/M045101922S/M045101922SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|N|el[1.5,2.5)|em[15,30)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M047289442SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-02-03T07:06:17.378Z",
+   "utc_start": "2024-02-03T07:05:23.107506Z",
+   "utc_stop": "2024-02-03T07:07:11.650789Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/034/M047289442S/M047289442SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/034/M047289442S/M047289442SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|SE|el[0.5,1.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M062581284SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-07-29T06:50:10.102Z",
+   "utc_start": "2024-07-29T06:49:24.889240Z",
+   "utc_stop": "2024-07-29T06:50:55.316478Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/211/M062581284S/M062581284SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/211/M062581284S/M062581284SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M013963372SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-01-13T13:51:02.181Z",
+   "utc_start": "2023-01-13T13:50:53.097470Z",
+   "utc_stop": "2023-01-13T13:51:11.265483Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/013/M013963372S/M013963372SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/013/M013963372S/M013963372SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M035034145SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-09-14T10:51:18.459Z",
+   "utc_start": "2023-09-14T10:50:26.062347Z",
+   "utc_stop": "2023-09-14T10:52:10.857483Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/257/M035034145S/M035034145SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/257/M035034145S/M035034145SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030452552SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-23T10:11:21.878Z",
+   "utc_start": "2023-07-23T10:10:32.992101Z",
+   "utc_stop": "2023-07-23T10:12:10.764440Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030452552S/M030452552SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030452552S/M030452552SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M063330656SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-08-06T22:59:49.139Z",
+   "utc_start": "2024-08-06T22:58:57.054821Z",
+   "utc_stop": "2024-08-06T23:00:41.225265Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/219/M063330656S/M063330656SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/219/M063330656S/M063330656SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030707123SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-26T08:54:14.142Z",
+   "utc_start": "2023-07-26T08:53:24.022206Z",
+   "utc_stop": "2023-07-26T08:55:04.263205Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/207/M030707123S/M030707123SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/207/M030707123S/M030707123SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NW|el<-0.5|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M040287207SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-11-14T06:02:20.139Z",
+   "utc_start": "2023-11-14T06:01:28.054821Z",
+   "utc_stop": "2023-11-14T06:03:12.225265Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/318/M040287207S/M040287207SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/318/M040287207S/M040287207SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M065819249SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-09-04T18:16:18.194Z",
+   "utc_start": "2024-09-04T18:15:29.961995Z",
+   "utc_stop": "2024-09-04T18:17:06.427915Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/248/M065819249S/M065819249SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/248/M065819249S/M065819249SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M040428607SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-11-15T21:18:59.713Z",
+   "utc_start": "2023-11-15T21:18:08.044786Z",
+   "utc_stop": "2023-11-15T21:19:51.382309Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/319/M040428607S/M040428607SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/319/M040428607S/M040428607SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M023955966SC",
+   "sites": [
+    "site04_roi3",
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-05-09T05:34:36.779Z",
+   "utc_start": "2023-05-09T05:34:07.014680Z",
+   "utc_stop": "2023-05-09T05:35:06.545995Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/129/M023955966S/M023955966SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/129/M023955966S/M023955966SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m",
+    "site01_roi6": "ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M029116278SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-07-07T23:00:00.607Z",
+   "utc_start": "2023-07-07T22:59:18.818993Z",
+   "utc_stop": "2023-07-07T23:00:42.396542Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/188/M029116278S/M029116278SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/188/M029116278S/M029116278SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M054161420SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-04-22T19:59:10.580Z",
+   "utc_start": "2024-04-22T19:58:20.994609Z",
+   "utc_stop": "2024-04-22T20:00:00.167525Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/113/M054161420S/M054161420SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/113/M054161420S/M054161420SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|SE|el<-0.5|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M063571025SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-08-09T17:45:54.621Z",
+   "utc_start": "2024-08-09T17:45:05.972030Z",
+   "utc_stop": "2024-08-09T17:46:43.270872Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/222/M063571025S/M063571025SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/222/M063571025S/M063571025SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|W|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030551549SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-24T13:41:18.456Z",
+   "utc_start": "2023-07-24T13:40:29.982066Z",
+   "utc_stop": "2023-07-24T13:42:06.931518Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/205/M030551549S/M030551549SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/205/M030551549S/M030551549SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M029498084SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-07-12T09:03:29.241Z",
+   "utc_start": "2023-07-12T09:02:44.881714Z",
+   "utc_stop": "2023-07-12T09:04:13.602302Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/193/M029498084S/M029498084SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/193/M029498084S/M029498084SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030466694SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-23T14:07:03.772Z",
+   "utc_start": "2023-07-23T14:06:14.989592Z",
+   "utc_stop": "2023-07-23T14:07:52.556210Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030466694S/M030466694SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030466694S/M030466694SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M045837135SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-01-17T11:41:02.488Z",
+   "utc_start": "2024-01-17T11:40:15.921854Z",
+   "utc_stop": "2024-01-17T11:41:49.056088Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/017/M045837135S/M045837135SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/017/M045837135S/M045837135SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el>=2.5|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M028925390SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-07-05T17:58:37.243Z",
+   "utc_start": "2023-07-05T17:57:50.929381Z",
+   "utc_stop": "2023-07-05T17:59:23.558680Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/186/M028925390S/M028925390SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/186/M028925390S/M028925390SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M035175537SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-09-16T02:07:47.580Z",
+   "utc_start": "2023-09-16T02:06:57.994609Z",
+   "utc_stop": "2023-09-16T02:08:37.167525Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/259/M035175537S/M035175537SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/259/M035175537S/M035175537SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M057858911SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-06-04T15:03:57.315Z",
+   "utc_start": "2024-06-04T15:03:11.894258Z",
+   "utc_stop": "2024-06-04T15:04:42.737957Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/156/M057858911S/M057858911SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/156/M057858911S/M057858911SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|W|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030332386SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-22T00:48:38.512Z",
+   "utc_start": "2023-07-22T00:47:47.054821Z",
+   "utc_stop": "2023-07-22T00:49:29.970200Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/203/M030332386S/M030332386SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/203/M030332386S/M030332386SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M047791347SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-02-09T02:31:15.235Z",
+   "utc_start": "2024-02-09T02:30:27.939416Z",
+   "utc_stop": "2024-02-09T02:32:02.531262Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/040/M047791347S/M047791347SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/040/M047791347S/M047791347SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M063500317SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-08-08T22:07:27.261Z",
+   "utc_start": "2024-08-08T22:06:37.987083Z",
+   "utc_stop": "2024-08-08T22:08:16.535307Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/221/M063500317S/M063500317SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/221/M063500317S/M063500317SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M055532907SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-05-08T16:57:13.848Z",
+   "utc_start": "2024-05-08T16:56:27.906802Z",
+   "utc_stop": "2024-05-08T16:57:59.791653Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/129/M055532907S/M055532907SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/129/M055532907S/M055532907SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|SW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M017034418SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-02-18T02:55:47.140Z",
+   "utc_start": "2023-02-18T02:54:58.974539Z",
+   "utc_stop": "2023-02-18T02:56:35.306827Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/049/M017034418S/M017034418SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/049/M017034418S/M017034418SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M043263524SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-12-18T16:47:27.863Z",
+   "utc_start": "2023-12-18T16:46:44.836555Z",
+   "utc_stop": "2023-12-18T16:48:10.890955Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/352/M043263524S/M043263524SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/352/M043263524S/M043263524SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|S|el[-0.5,0.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030438411SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-23T06:15:40.983Z",
+   "utc_start": "2023-07-23T06:14:51.994609Z",
+   "utc_stop": "2023-07-23T06:16:29.972670Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030438411S/M030438411SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030438411S/M030438411SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M064970891SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-08-25T22:36:57.742Z",
+   "utc_start": "2024-08-25T22:36:11.904293Z",
+   "utc_stop": "2024-08-25T22:37:43.580914Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/238/M064970891S/M064970891SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/238/M064970891S/M064970891SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M028911249SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-07-05T14:02:56.348Z",
+   "utc_start": "2023-07-05T14:02:09.931890Z",
+   "utc_stop": "2023-07-05T14:03:42.766910Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/186/M028911249S/M028911249SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/186/M028911249S/M028911249SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M016928363SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-02-16T21:28:15.722Z",
+   "utc_start": "2023-02-16T21:27:24.059838Z",
+   "utc_stop": "2023-02-16T21:29:07.386661Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/047/M016928363S/M016928363SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/047/M016928363S/M016928363SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M028074838SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-06-25T21:42:57.466Z",
+   "utc_start": "2023-06-25T21:41:59.220402Z",
+   "utc_stop": "2023-06-25T21:43:55.713406Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/176/M028074838S/M028074838SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/176/M028074838S/M028074838SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M031612105SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-08-05T20:17:11.506Z",
+   "utc_start": "2023-08-05T20:16:25.911819Z",
+   "utc_stop": "2023-08-05T20:17:57.101067Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/217/M031612105S/M031612105SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/217/M031612105S/M031612105SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M016603040SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-02-13T03:06:11.669Z",
+   "utc_start": "2023-02-13T03:05:21.034750Z",
+   "utc_stop": "2023-02-13T03:07:02.304357Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/044/M016603040S/M016603040SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/044/M016603040S/M016603040SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|SE|el[-0.5,0.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030395991SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-22T18:28:42.247Z",
+   "utc_start": "2023-07-22T18:27:52.024715Z",
+   "utc_stop": "2023-07-22T18:29:32.471435Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/203/M030395991S/M030395991SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/203/M030395991S/M030395991SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M043454432SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-12-20T21:49:23.007Z",
+   "utc_start": "2023-12-20T21:48:33.004645Z",
+   "utc_stop": "2023-12-20T21:50:13.010482Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/354/M043454432S/M043454432SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/354/M043454432S/M043454432SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NW|el[1.5,2.5)|em[15,30)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030480836SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-23T18:02:45.667Z",
+   "utc_start": "2023-07-23T18:01:56.987083Z",
+   "utc_stop": "2023-07-23T18:03:34.347979Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030480836S/M030480836SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030480836S/M030480836SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M062086378SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-07-23T13:21:42.716Z",
+   "utc_start": "2024-07-23T13:20:58.856626Z",
+   "utc_stop": "2024-07-23T13:22:26.576869Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/205/M062086378S/M062086378SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/205/M062086378S/M062086378SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M063486177SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-08-08T18:11:47.367Z",
+   "utc_start": "2024-08-08T18:10:57.989592Z",
+   "utc_stop": "2024-08-08T18:12:36.746046Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/221/M063486177S/M063486177SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/221/M063486177S/M063486177SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M040372047SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-11-15T05:36:20.992Z",
+   "utc_start": "2023-11-15T05:35:28.074891Z",
+   "utc_stop": "2023-11-15T05:37:13.911179Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/319/M040372047S/M040372047SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/319/M040372047S/M040372047SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M022775379SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-04-25T13:38:10.880Z",
+   "utc_start": "2023-04-25T13:37:39.851608Z",
+   "utc_stop": "2023-04-25T13:38:41.910923Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/115/M022775379S/M022775379SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/115/M022775379S/M022775379SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|W|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M017395015SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-02-22T07:05:39.293Z",
+   "utc_start": "2023-02-22T07:04:55.859134Z",
+   "utc_stop": "2023-02-22T07:06:22.728229Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/053/M017395015S/M017395015SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/053/M017395015S/M017395015SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M029469795SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-07-12T01:12:00.557Z",
+   "utc_start": "2023-07-12T01:11:15.889240Z",
+   "utc_stop": "2023-07-12T01:12:45.226993Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/193/M029469795S/M029469795SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/193/M029469795S/M029469795SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030523263SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-24T05:49:52.561Z",
+   "utc_start": "2023-07-24T05:49:03.984574Z",
+   "utc_stop": "2023-07-24T05:50:41.139749Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/205/M030523263S/M030523263SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/205/M030523263S/M030523263SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M064942605SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-08-25T14:45:31.209Z",
+   "utc_start": "2024-08-25T14:44:45.891749Z",
+   "utc_stop": "2024-08-25T14:46:16.527217Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/238/M064942605S/M064942605SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/238/M064942605S/M064942605SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M017444512SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-02-22T20:50:38.190Z",
+   "utc_start": "2023-02-22T20:49:52.904293Z",
+   "utc_stop": "2023-02-22T20:51:23.476376Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/053/M017444512S/M017444512SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/053/M017444512S/M017444512SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M065677859SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-09-03T02:59:51.820Z",
+   "utc_start": "2024-09-03T02:59:00.047294Z",
+   "utc_stop": "2024-09-03T03:00:43.593048Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/247/M065677859S/M065677859SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/247/M065677859S/M065677859SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M028939532SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-07-05T21:54:19.033Z",
+   "utc_start": "2023-07-05T21:53:32.924363Z",
+   "utc_stop": "2023-07-05T21:55:05.142219Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/186/M028939532S/M028939532SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/186/M028939532S/M028939532SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M040273067SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-11-14T02:06:39.286Z",
+   "utc_start": "2023-11-14T02:05:48.034750Z",
+   "utc_stop": "2023-11-14T02:07:30.539352Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/318/M040273067S/M040273067SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/318/M040273067S/M040273067SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NW|el[0.5,1.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030297043SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-21T14:59:35.722Z",
+   "utc_start": "2023-07-21T14:58:44.059838Z",
+   "utc_stop": "2023-07-21T15:00:27.386661Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/202/M030297043S/M030297043SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/202/M030297043S/M030297043SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M041234453SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-11-25T05:09:39.742Z",
+   "utc_start": "2023-11-25T05:08:53.904293Z",
+   "utc_stop": "2023-11-25T05:10:25.580914Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/329/M041234453S/M041234453SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/329/M041234453S/M041234453SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|E|el[0.5,1.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M062553000SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-07-28T22:58:45.889Z",
+   "utc_start": "2024-07-28T22:58:00.884222Z",
+   "utc_stop": "2024-07-28T22:59:30.895000Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/210/M062553000S/M062553000SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/210/M062553000S/M062553000SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M017154624SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-02-19T12:18:52.924Z",
+   "utc_start": "2023-02-19T12:18:24.941925Z",
+   "utc_stop": "2023-02-19T12:19:20.908235Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/050/M017154624S/M017154624SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/050/M017154624S/M017154624SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M062567142SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-07-29T02:54:28.102Z",
+   "utc_start": "2024-07-29T02:53:42.889240Z",
+   "utc_stop": "2024-07-29T02:55:13.316478Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/211/M062567142S/M062567142SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/211/M062567142S/M062567142SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030424270SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-23T02:20:00.299Z",
+   "utc_start": "2023-07-23T02:19:11.002136Z",
+   "utc_stop": "2023-07-23T02:20:49.597361Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030424270S/M030424270SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030424270S/M030424270SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M035189678SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-09-16T06:03:28.367Z",
+   "utc_start": "2023-09-16T06:02:38.989592Z",
+   "utc_stop": "2023-09-16T06:04:17.746046Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/259/M035189678S/M035189678SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/259/M035189678S/M035189678SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M028897108SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-07-05T10:07:15.665Z",
+   "utc_start": "2023-07-05T10:06:28.939416Z",
+   "utc_stop": "2023-07-05T10:08:02.391602Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/186/M028897108S/M028897108SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/186/M028897108S/M028897108SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030261681SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-21T05:10:13.301Z",
+   "utc_start": "2023-07-21T05:09:22.049803Z",
+   "utc_stop": "2023-07-21T05:11:04.553739Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/202/M030261681S/M030261681SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/202/M030261681S/M030261681SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M029533456SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-07-12T18:53:01.663Z",
+   "utc_start": "2023-07-12T18:52:16.891749Z",
+   "utc_stop": "2023-07-12T18:53:46.435224Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/193/M029533456S/M029533456SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/193/M029533456S/M029533456SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M013920556SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-01-13T01:57:23.074Z",
+   "utc_start": "2023-01-13T01:57:17.122558Z",
+   "utc_stop": "2023-01-13T01:57:29.027787Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/013/M013920556S/M013920556SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/013/M013920556S/M013920556SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|E|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030459644SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-23T12:09:33.772Z",
+   "utc_start": "2023-07-23T12:08:44.989592Z",
+   "utc_stop": "2023-07-23T12:10:22.556210Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030459644S/M030459644SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/204/M030459644S/M030459644SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M062072241SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-07-23T09:26:06.249Z",
+   "utc_start": "2024-07-23T09:25:21.869169Z",
+   "utc_stop": "2024-07-23T09:26:50.630565Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/205/M062072241S/M062072241SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/205/M062072241S/M062072241SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M062128789SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-07-24T01:08:32.543Z",
+   "utc_start": "2024-07-24T01:07:49.829029Z",
+   "utc_stop": "2024-07-24T01:09:15.258737Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/206/M062128789S/M062128789SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/206/M062128789S/M062128789SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|E|el<-0.5|em[0,5)|ssl>=0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030275820SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-21T09:05:52.512Z",
+   "utc_start": "2023-07-21T09:05:01.054821Z",
+   "utc_stop": "2023-07-21T09:06:43.970200Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/202/M030275820S/M030275820SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/202/M030275820S/M030275820SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M065889951SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2024-09-05T13:54:39.448Z",
+   "utc_start": "2024-09-05T13:53:51.944434Z",
+   "utc_stop": "2024-09-05T13:55:26.952741Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/249/M065889951S/M065889951SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/249/M065889951S/M065889951SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M043489759SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-12-21T07:38:06.701Z",
+   "utc_start": "2023-12-21T07:37:19.926872Z",
+   "utc_stop": "2023-12-21T07:38:53.477566Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/355/M043489759S/M043489759SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/355/M043489759S/M043489759SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M029476880SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2023-07-12T03:10:05.347Z",
+   "utc_start": "2023-07-12T03:09:20.884222Z",
+   "utc_stop": "2023-07-12T03:10:49.810533Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/193/M029476880S/M029476880SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/193/M029476880S/M029476880SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|NW|el<-0.5|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M019403184SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-03-17T12:55:12.402Z",
+   "utc_start": "2023-03-17T12:54:24.956978Z",
+   "utc_stop": "2023-03-17T12:55:59.849214Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/076/M019403184S/M019403184SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/076/M019403184S/M019403184SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|N|el[0.5,1.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M030558642SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-07-24T15:39:31.140Z",
+   "utc_start": "2023-07-24T15:38:42.974539Z",
+   "utc_stop": "2023-07-24T15:40:19.306827Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/205/M030558642S/M030558642SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/205/M030558642S/M030558642SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NW|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M036900765SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-10-06T01:21:29.805Z",
+   "utc_start": "2023-10-06T01:20:45.884222Z",
+   "utc_stop": "2023-10-06T01:22:13.726065Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/279/M036900765S/M036900765SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/279/M036900765S/M036900765SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M022181509SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-04-18T16:40:09.737Z",
+   "utc_start": "2023-04-18T16:39:49.901784Z",
+   "utc_stop": "2023-04-18T16:40:29.574821Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/108/M022181509S/M022181509SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/108/M022181509S/M022181509SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|massif_peak|res[1,5)m"
+   }
+  }
+ ],
+ "pipelineTestImages": [
+  {
+   "product_id": "M044734172SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2024-01-04T17:18:22.580Z",
+   "utc_start": "2024-01-04T17:17:32.994609Z",
+   "utc_stop": "2024-01-04T17:19:12.167525Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/004/M044734172S/M044734172SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/004/M044734172S/M044734172SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|NE|el[1.5,2.5)|em[0,5)|ssl<-0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M035048283SC",
+   "sites": [
+    "site07_roi1"
+   ],
+   "obs_utc": "2023-09-14T14:46:56.352Z",
+   "utc_start": "2023-09-14T14:46:04.059838Z",
+   "utc_stop": "2023-09-14T14:47:48.646744Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/257/M035048283S/M035048283SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/257/M035048283S/M035048283SC.xml",
+   "strata": {
+    "site07_roi1": "ShadowCam|NE|el[-0.5,0.5)|em[0,5)|ssl>=0.75|massif_peak|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M064985032SC",
+   "sites": [
+    "site11_roi4"
+   ],
+   "obs_utc": "2024-08-26T02:32:38.848Z",
+   "utc_start": "2024-08-26T02:31:52.906802Z",
+   "utc_stop": "2024-08-26T02:33:24.791653Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/239/M064985032S/M064985032SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/239/M064985032S/M064985032SC.xml",
+   "strata": {
+    "site11_roi4": "ShadowCam|N|el[-0.5,0.5)|em[0,5)|ssl>=0.75|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M021623073SC",
+   "sites": [
+    "site04_roi3"
+   ],
+   "obs_utc": "2023-04-12T05:33:06.125Z",
+   "utc_start": "2023-04-12T05:32:34.057330Z",
+   "utc_stop": "2023-04-12T05:33:38.193624Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/102/M021623073S/M021623073SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/102/M021623073S/M021623073SC.xml",
+   "strata": {
+    "site04_roi3": "ShadowCam|E|el[-0.5,0.5)|em[0,5)|ssl[-0.75,0.75)|crater_rim|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M017119267SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2023-02-19T02:29:36.052Z",
+   "utc_start": "2023-02-19T02:29:07.946942Z",
+   "utc_stop": "2023-02-19T02:30:04.159115Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2023/050/M017119267S/M017119267SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2023/050/M017119267S/M017119267SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|NW|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  },
+  {
+   "product_id": "M047621722SC",
+   "sites": [
+    "site01_roi6"
+   ],
+   "obs_utc": "2024-02-07T03:24:15.139Z",
+   "utc_start": "2024-02-07T03:23:23.054821Z",
+   "utc_stop": "2024-02-07T03:25:07.225265Z",
+   "data_file_url": "https://pds.shadowcam.im-ldi.com/observation/2024/038/M047621722S/M047621722SC.cub",
+   "label_url": "https://pds.shadowcam.im-ldi.com/observation/2024/038/M047621722S/M047621722SC.xml",
+   "strata": {
+    "site01_roi6": "ShadowCam|N|el[1.5,2.5)|em[0,5)|ssl<-0.75|ridge|res[1,5)m"
+   }
+  }
+ ]
+}

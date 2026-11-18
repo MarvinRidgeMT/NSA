@@ -142,3 +142,12 @@ any ShadowCam render.
 |---|---|
 | `docs/v2/RENDER_VS_REAL_PROTOCOL_A8.md` | `256bf8dda2f510ad3f5286ee5000c37a89a5647f0aaf5b2b5f1882512e2bc554` |
 | `imagery/catalogue_shadowcam_v2.csv.gz` | `c21e3ddd7cb0d4d82b2cf20e1e5d565e4ab13b44975ac45bb8d1ff532c6584d3` |
+
+## Entry 10 — 17 Nov 2026, coordinating session (ShadowCam pipeline-test outcome)
+
+State at freezing: the A8.4 pipeline test is done (6 dev rows, renders only, `results_shc/pipeline_test.json`); **no dev-pilot
+row has been scored.** A9 records the decisions: TDI B without sample flip; the ISIS start-time convention.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A9.md` | `2120b569a00ec037ec8fd952fae4a28d941a93803adb770b8ef6fea78f8d57ff` |

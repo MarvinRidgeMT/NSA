@@ -64,7 +64,7 @@ def main():
                          'geometry': rec['status'], 'reason': rec.get('reason', '')}
                 if rec['status'] == 'ok':
                     gp = SHC_GEOM_DIR / f"{rec['tag']}.json"
-                    G = render_row(gp, 8)
+                    G = render_row(gp, 16, products=['pgda78_5m'], variants=False)
                     G['tag'] = rec['tag']
                     entry.update(offset(G))
                 res.append(entry)

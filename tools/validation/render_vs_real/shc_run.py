@@ -36,18 +36,19 @@ TWIN = ROOT / 'tools/validation/render_vs_real/wac_twin.py'
 REG_RADIUS_M = 150.0          # A9: +- max(3 binned px, 150 m) (3 x 50 m; the dev label check put the centre pixel 51 m off)
 
 
-def render_row(gpath, threads):
+def render_row(gpath, threads, products=None, variants=True):
+    """products / variants: the A8.4 pipeline test renders PGDA 78 with Hapke only."""
     G = json.loads(gpath.read_text())
     out = SHC_RENDER_DIR / gpath.stem
     osl = gpath.with_suffix('.osl')
-    todo = [p for p in PRODUCTS if not (out / f'{p}.npz').exists() and not (out / f'{p}.reduced.npz').exists()]
+    todo = [p for p in (products or PRODUCTS) if not (out / f'{p}.npz').exists() and not (out / f'{p}.reduced.npz').exists()]
     base = [BLENDER, '-b', '--factory-startup', '--python-exit-code', '1', '-P', str(TWIN), '--', '--geometry', str(gpath),
             '--osl', str(osl), '--out', str(out), '--spp', str(SPP), '--bounces', str(BOUNCES), '--threads', str(threads)]
     if todo:
         r = subprocess.run(base + ['--products', ','.join(todo)], capture_output=True, text=True, timeout=7200)
         if r.returncode:
             raise RuntimeError(f'blender failed for {gpath.stem}: {r.stderr[-800:]}')
-    for ph in PHOTOMETRY_VARIANTS:
+    for ph in (PHOTOMETRY_VARIANTS if variants else []):
         if not (out / f'pgda78_5m__{ph.replace(":", "")}.npz').exists():
             r = subprocess.run(base + ['--products', 'pgda78_5m', '--photometry', ph, '--beauty-only'], capture_output=True,
                                text=True, timeout=7200)
