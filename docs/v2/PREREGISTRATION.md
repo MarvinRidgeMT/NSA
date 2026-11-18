@@ -174,3 +174,16 @@ NAC and WAC code it imports is frozen in Entries 6 and 8. `shc_heldout.py` refus
 | `tools/validation/render_vs_real/shc_run.py` | `76303e891d89adc40a603cf463f73b67e854554a66dd62b78431fd4f42dc7bea` |
 | `tools/validation/render_vs_real/shc_select.py` | `099a1cabd802a3acd317b8e05886101836d00a864ac6d126dce403085df4fd99` |
 | `tools/validation/render_vs_real/shc_heldout.py` | `ad4da0aab1be5289b940d8e420e7ec997dc4c08d5981c6df01e3673bf5e34227` |
+
+## Entry 12 — 18 Nov 2026, coordinating session (Kaguya TC camera model and dev plan)
+
+State at freezing: **no Kaguya TC image has been rendered, displayed or scored on any split.** The project owner is
+downloading the dev files by hand (DARTS rejects this pipeline's requests; A11.7); the first files were opened only to
+check their format. Amendment A11 fixes the TC camera model, the orbit rule, the pipeline-test rule that settles the start
+time and sample axis, and the dev pilot plan. The selection rule and the selection it produced are frozen with it.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A11.md` | `b0f970e1d0c463c6ba29d3836cb5a0d09afa788d434621d847dacb8d9041701b` |
+| `tools/validation/render_vs_real/tc_select.py` | `c21384dd03ef3a5fe3cdcecfebee3724ab9c730871243f6441296df43c46eee9` |
+| `tools/validation/render_vs_real/results_tc/selection.json` | `e062546545e35ed06f57abaaf0927fa8074e1f937222a3d5a75d3072edfe0ea1` |

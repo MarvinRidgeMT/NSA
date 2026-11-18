@@ -1,12 +1,16 @@
 # Render-vs-real protocol — Amendment A11 (Kaguya TC: camera model, conventions test, dev pilot plan)
 
-**DRAFT — not registered.** Written 18 Nov 2026 by the coordinating session (Claude). It will be registered (SHA-256 in
-`docs/v2/PREREGISTRATION.md`) before any Kaguya TC image is rendered. It is not registered yet because the image source
-is unresolved (A11.7).
+Written 18 Nov 2026 by the coordinating session (Claude), **before any Kaguya TC image is rendered, displayed or
+scored**. Its SHA-256, and those of `tc_select.py` and the selection it wrote, are recorded in `docs/v2/PREREGISTRATION.md`
+(Entry 12) in the same commit. The TC code is not frozen here (as A8 did not freeze the ShadowCam code); A13 freezes it
+before the held-out run.
 
 **State at writing.**
-- No Kaguya TC image has been fetched, rendered, displayed or scored on any split.
-- One dev Level 2B0 label (TC1S2B0_01_04808S893E2361) was read for the camera model. No held-out TC label has been read.
+- No Kaguya TC image has been rendered, displayed or scored on any split.
+- One dev Level 2B0 label (TC1S2B0_01_04808S893E2361) was read for the camera model and the label-corner check (A11.4).
+  No held-out TC label or image has been read.
+- The project owner is downloading the 288 dev files of `results_tc/download_dev.txt` (144 images) into the incoming
+  folder (A11.7). The first files were opened only to check that they are gzip and PDS3 labels.
 - The SELENE kernels come from the USGS public ISIS data bucket (`usgs_data/kaguya/kernels/`), recorded in
   `$POLARIS_DATA/v2/render_vs_real/spice_selene/MANIFEST.jsonl`.
 
@@ -101,7 +105,7 @@ The pipeline test then runs on dev rows only:
   (A5) was also a sample.
 - **Before the run:** A13 freezes the TC code and states its prediction.
 
-## A11.7 Image source (unresolved)
+## A11.7 Image source
 - **Labels and images:** JAXA DARTS (`data.darts.isas.jaxa.jp/pub/pds3/sln-l-tc-3-*-level2b0-v1.0/`, public, no
   account).
 - **Problem:** on 18 Nov 2026 DARTS answered the pipeline's requests with a "Request Rejected" page. Nothing was
