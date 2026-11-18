@@ -57,6 +57,8 @@ def parse(argv=None):
                         '(via blender/v2/pack.py in the project venv; run automatically when the pack is missing)')
     p.add_argument('--pack', default=None, help='--terrain stack: use this pack directory instead of building/looking one up')
     p.add_argument('--near-half', type=float, default=None, help='--terrain stack: near window half-width (m); default min(25 km, 1600 px)')
+    p.add_argument('--mid-half', type=float, default=None, help='--terrain stack: optional middle window half-width (m), e.g. 100000')
+    p.add_argument('--mid-res', type=float, default=None, help='--terrain stack: middle window posting (m), default 20')
     p.add_argument('--albedo', default='wac', choices=['wac', 'none'],
                    help='wac: Hapke w per vertex from the LROC WAC 643 nm map (70N-70S; regional median poleward); none: regional constant')
     p.add_argument('--hapke-region', default='SOUTH_60_70', choices=sorted(hapke.PARAMS_643NM),
@@ -199,12 +201,14 @@ def project_python():
     raise SystemExit('--terrain stack needs the project venv (rasterio); set POLARIS_PYTHON')
 
 
-def ensure_site_pack(lat, lon, site_id, near_half=None, skyline=False):
+def ensure_site_pack(lat, lon, site_id, near_half=None, skyline=False, mid_half=None, mid_res=None):
     """Run blender/v2/pack.py site (returns at once when the pack exists) and return its directory."""
     import subprocess
     cmd = [project_python(), str(HERE / 'pack.py'), 'site', '--lat', repr(lat), '--lon', repr(lon), '--id', str(site_id)]
     if near_half:
         cmd += ['--near-half', repr(near_half)]
+    if mid_half:
+        cmd += ['--mid-half', repr(mid_half), '--mid-res', repr(mid_res or 20.0)]
     if skyline:
         cmd += ['--skyline']
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=str(ROOT))
@@ -213,7 +217,7 @@ def ensure_site_pack(lat, lon, site_id, near_half=None, skyline=False):
     return Path(json.loads(r.stdout.strip().splitlines()[-1])['pack'])
 
 
-def load_levels(sp, mode, cfg_pack=None, near_half=None):
+def load_levels(sp, mode, cfg_pack=None, near_half=None, mid_half=None, mid_res=None):
     site = sp['site']['id']
     if mode == 'committed':
         key = site.split('_')[0]
@@ -222,7 +226,8 @@ def load_levels(sp, mode, cfg_pack=None, near_half=None):
         f, ds = COMMITTED_TERRAIN[key]
         return [T.load_bundle_v2_level(ROOT / f, ds, name=f'committed PGDA 90 80 m crop ({ds})')]
     if mode == 'stack':
-        pack_dir = Path(cfg_pack) if cfg_pack else ensure_site_pack(sp['site']['latDeg'], sp['site']['lonEastDeg'], site, near_half)
+        pack_dir = Path(cfg_pack) if cfg_pack else ensure_site_pack(sp['site']['latDeg'], sp['site']['lonEastDeg'], site, near_half,
+                                                                    mid_half=mid_half, mid_res=mid_res)
         levels, meta = T.load_pack_levels(pack_dir)
         for lv in levels:
             lv.info['packId'] = meta['id']
@@ -394,7 +399,7 @@ def build(cfg):
 
     # --- terrain -----------------------------------------------------------------------------------------------------
     t0 = time.time()
-    levels = load_levels(sp, cfg.terrain, cfg.pack, cfg.near_half)
+    levels = load_levels(sp, cfg.terrain, cfg.pack, cfg.near_half, cfg.mid_half, cfg.mid_res)
     south_grid = levels[0].proj == 'sp'
     gx, gy = sp['site']['gridXM'], sp['site']['gridYM']
     if gx is None or not south_grid:

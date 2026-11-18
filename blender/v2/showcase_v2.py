@@ -277,8 +277,11 @@ def everything_scene():
         ('01', 'Whole Moon (globe.py)', lambda o: o.type == 'MESH' and o.name.startswith('MOON |'), 'fit'),
         ('02', 'Site01 RoI6 near terrain, PGDA 78 5 m', lambda o: o.type == 'MESH' and ('near' in o.name or o.name.startswith('ASSET')), 'fit'),
         ('03', 'Site04 RoI3 near terrain, PGDA 78 5 m', lambda o: o.type == 'MESH' and ('near' in o.name or o.name.startswith('ASSET')), 'fit'),
-        ('11', 'Mars, full globe (true radius 3 396 km)', lambda o: o.type == 'MESH' and o.name.startswith('MARS |'), 'fit'),
-        ('12', 'Mercury, full globe (true radius 2 439.4 km)', lambda o: o.type == 'MESH' and o.name.startswith('MERCURY |'), 'fit'),
+        ('13', 'Moon HD globe (true radius 1 737.4 km)', lambda o: o.type == 'MESH' and o.name.startswith('MOON | HD'), 'fit'),
+        ('14', 'Earth HD globe (true radius 6 371 km)', lambda o: o.type == 'MESH' and o.name.startswith('EARTH | HD'), 'fit'),
+        ('11', 'Mars HD globe (true radius 3 396 km)', lambda o: o.type == 'MESH' and o.name.startswith('MARS | HD'), 'fit'),
+        ('12', 'Mercury HD globe (true radius 2 439.4 km)', lambda o: o.type == 'MESH' and o.name.startswith('MERCURY | HD'), 'fit'),
+        ('17', 'Site04 terrain to +-100 km', lambda o: o.type == 'MESH' and o.name.startswith('TERRAIN'), 'fit'),
         ('08', 'Mars Jezero rim: relay sky dome', lambda o: o.type in ('CURVE', 'FONT'), 'fit'),
         ('06', 'Render vs real: LROC NAC held-out (A5)', lambda o: o.type in ('MESH', 'FONT'), 'fit'),
         ('07', 'Render vs real: LROC WAC dev (A6)', lambda o: o.type in ('MESH', 'FONT'), 'fit'),
@@ -316,10 +319,11 @@ def everything_scene():
              (x, 14.0, 0), 3.2, white, f'TXT_board_{pref}')
         x += TILE * 1.15
     # one tile with the three globes at a single common scale (true relative sizes)
-    globes = [('01', 'Moon', lambda o: o.type == 'MESH' and o.name.startswith('MOON |')),
-              ('12', 'Mercury', lambda o: o.type == 'MESH' and o.name.startswith('MERCURY |')),
-              ('11', 'Mars', lambda o: o.type == 'MESH' and o.name.startswith('MARS |'))]
-    kk = TILE / 7000.0                                               # Mars' diameter ~6 790 km fills one tile
+    globes = [('13', 'Moon', lambda o: o.type == 'MESH' and o.name.startswith('MOON | HD')),
+              ('12', 'Mercury', lambda o: o.type == 'MESH' and o.name.startswith('MERCURY | HD')),
+              ('11', 'Mars', lambda o: o.type == 'MESH' and o.name.startswith('MARS | HD')),
+              ('14', 'Earth', lambda o: o.type == 'MESH' and o.name.startswith('EARTH | HD'))]
+    kk = TILE / 13000.0                                              # Earth's diameter ~12 742 km fills one tile
     gx = x
     for pref, nm, keep in globes:
         src, objs = pick(pref, keep)
@@ -337,7 +341,7 @@ def everything_scene():
         text(ct, nm, (gx + TILE / 2 - 6, -TILE - 6, 0), 4.0, white, f'TXT_same_scale_{nm}')
         gx += TILE * 1.05
     if gx > x:
-        text(ct, 'Moon, Mercury, Mars at one common scale (true relative sizes; north up, seen from above the north pole)',
+        text(ct, 'Moon, Mercury, Mars, Earth at one common scale (true relative sizes; north up, seen from above the north pole)',
              (x, 14.0, 0), 3.2, white, 'TXT_board_same_scale')
         heights.append(TILE + 10)
         x = gx + TILE * 0.1
@@ -386,14 +390,34 @@ def main():
             sections.append((title, desc))
         else:
             sections.append((title, f'not built ({f} missing)'))
-    for w, title in (('mars', '11 Mars — full globe, true scale (MOLA 16 ppd)'),
-                     ('mercury', '12 Mercury — full globe, true scale (USGS DEM 665 m + MDIS colour)')):
-        p = d / 'planets' / w / f'{w}_globe.blend'
+    hd = d / 'hd'
+    for p, title, desc in (
+            (hd / 'mars' / 'mars_hd.blend', '11 Mars — HD full globe, true scale', 'MOLA 128 ppd -> 0.93 km/px map, adaptive displacement'),
+            (hd / 'mercury' / 'mercury_hd.blend', '12 Mercury — HD full globe, true scale', 'USGS DEM 665 m (0.67 km/px) + MDIS colour'),
+            (hd / 'moon' / 'moon_hd.blend', '13 Moon — HD full globe, true scale', 'SLDEM2015 + LOLA, 0.47 km/px map, Hapke + WAC w'),
+            (hd / 'earth' / 'earth_hd.blend', '14 Earth — HD full globe, true scale', 'ETOPO 2022 60" (1.85 km/px) + Blue Marble Nov 2004'),
+            (hd / 'sun.blend', '15 Sun — true radius 695 700 km', 'emission, linear limb darkening u = 0.6 (MODEL)'),
+            (hd / 'system.blend', '16 Earth–Moon–Sun — true scale and positions (J2000)', 'de421 positions, SPICE body rotations'),
+            (d / 'site04_roi3_large.blend', '17 Site04 RoI3 — terrain to ±100 km (5 m / 20 m / 80 m)', 'build_scene.py --mid-half 100000'),
+            (d / 'site01_roi6_large.blend', '18 Site01 RoI6 — terrain to ±100 km (5 m / 20 m / 80 m)', 'build_scene.py --mid-half 100000')):
         if p.exists():
-            append_scenes(p, title)
-            sections.append((title, 'planet_globe.py: cube-sphere at the true radius, 1 unit = 1 km; Sun from the world bundle'))
+            for sc_ in append_scenes(p, title):
+                if title.startswith(('17', '18')):
+                    overview_camera(sc_)
+            sections.append((title, desc))
         else:
             sections.append((title, f'not built ({p.name} missing)'))
+    for m in bpy.data.materials:                      # Solid/Texture view shows the material's active image node
+        if not m.use_nodes or m.node_tree is None:
+            continue
+        nodes = m.node_tree.nodes
+        colour = [n for n in nodes if n.type == 'TEX_IMAGE' and n.image and 'height' not in n.image.name.lower()]
+        heightish = [n for n in nodes if n.type == 'TEX_IMAGE' and n.image and 'height' in n.image.name.lower()]
+        if colour:
+            nodes.active = colour[0]
+        elif heightish:
+            bs = [n for n in nodes if n.type.startswith('BSDF') or n.type in ('EMISSION', 'GROUP')]
+            nodes.active = bs[0] if bs else None
     M = json.loads((d / 'showcase_inputs.json').read_text())
     g = M['galleries']
     if g.get('nac_heldout'):

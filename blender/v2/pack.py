@@ -143,7 +143,9 @@ class SouthGridView:
 
 
 def site_pack(lat, lon, near_half=None, far_half=290_000.0, far_res=80.0, mast_m=1.0, skyline=False, out_root=None, force=False,
-              site_id=None):
+              site_id=None, mid_half=None, mid_res=None):
+    """mid_half / mid_res (optional): a third window between near and far (e.g. +-100 km at 20 m), for the large-area
+    showcase scenes; absent from the pack request when not used, so existing pack ids are unchanged."""
     from science.terrain.stack import TerrainStack
     t0 = time.time()
     lat, lon = round(float(lat), 7), round((float(lon) + 180.0) % 360.0 - 180.0, 7)   # 1e-7 deg ~ 2 cm: float noise -> same pack
@@ -155,6 +157,8 @@ def site_pack(lat, lon, near_half=None, far_half=290_000.0, far_res=80.0, mast_m
         near_half = min(25_000.0, 1600 * native)
     req = {'lat': lat, 'lon': lon, 'nearHalfM': near_half, 'nearRes': 'native', 'farHalfM': far_half, 'farResM': far_res,
            'fillCoarser': True, 'pyramidIndexSha256': index_sha, 'packVersion': 1}
+    if mid_half:
+        req.update(midHalfM=float(mid_half), midResM=float(mid_res or 20.0))
     pid = f'site_{lat:+.5f}_{lon:+.5f}_' + hashlib.sha256(json.dumps(req, sort_keys=True).encode()).hexdigest()[:12]   # label-free
     out = Path(out_root or packs_root()) / pid
     if (out / 'pack.json').exists() and not force and (not skyline or (out / 'skyline.json').exists()):
@@ -162,10 +166,13 @@ def site_pack(lat, lon, near_half=None, far_half=290_000.0, far_res=80.0, mast_m
     out.mkdir(parents=True, exist_ok=True)
     near = stack_window(stack, lat, lon, near_half, None)
     t_near = time.time() - t0
+    mid = stack_window(stack, lat, lon, float(mid_half), float(mid_res or 20.0)) if mid_half else None
     far = stack_window(stack, lat, lon, far_half, far_res)
     t_far = time.time() - t0 - t_near
     levels = []
-    for name, d in (('near', near), ('far', far)):
+    for name, d in (('near', near), ('mid', mid), ('far', far)):
+        if d is None:
+            continue
         f = _save(out, f'{name}.npy', np.asarray(d.Z, dtype=np.float64))
         meta = {k: v for k, v in d.meta.items() if isinstance(v, (str, int, float, list, type(None))) and k != 'crs_wkt'}
         levels.append({'name': f'{name} (S3 pyramid {d.meta.get("zone")} L{d.meta.get("level")}, {d.step:g} m)', **f,
@@ -316,6 +323,8 @@ def main(argv=None):
     s.add_argument('--near-half', type=float, default=None)
     s.add_argument('--far-half', type=float, default=290_000.0)
     s.add_argument('--far-res', type=float, default=80.0)
+    s.add_argument('--mid-half', type=float, default=None)
+    s.add_argument('--mid-res', type=float, default=None)
     s.add_argument('--mast', type=float, default=1.0)
     s.add_argument('--skyline', action='store_true')
     s.add_argument('--force', action='store_true')
@@ -326,7 +335,8 @@ def main(argv=None):
     g.add_argument('--force', action='store_true')
     a = p.parse_args(argv)
     if a.cmd == 'site':
-        out, pk = site_pack(a.lat, a.lon, a.near_half, a.far_half, a.far_res, a.mast, a.skyline, force=a.force, site_id=a.id)
+        out, pk = site_pack(a.lat, a.lon, a.near_half, a.far_half, a.far_res, a.mast, a.skyline, force=a.force, site_id=a.id,
+                            mid_half=a.mid_half, mid_res=a.mid_res)
     else:
         out, pk = globe_pack(tuple(int(v) for v in a.faces.split(',')), a.supersample, a.texture, force=a.force)
     print(json.dumps({'pack': str(out), 'id': pk['id'], 'timingsS': pk.get('timingsS')}))
