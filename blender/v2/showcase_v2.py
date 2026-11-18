@@ -277,6 +277,8 @@ def everything_scene():
         ('01', 'Whole Moon (globe.py)', lambda o: o.type == 'MESH' and o.name.startswith('MOON |'), 'fit'),
         ('02', 'Site01 RoI6 near terrain, PGDA 78 5 m', lambda o: o.type == 'MESH' and ('near' in o.name or o.name.startswith('ASSET')), 'fit'),
         ('03', 'Site04 RoI3 near terrain, PGDA 78 5 m', lambda o: o.type == 'MESH' and ('near' in o.name or o.name.startswith('ASSET')), 'fit'),
+        ('11', 'Mars, full globe (true radius 3 396 km)', lambda o: o.type == 'MESH' and o.name.startswith('MARS |'), 'fit'),
+        ('12', 'Mercury, full globe (true radius 2 439.4 km)', lambda o: o.type == 'MESH' and o.name.startswith('MERCURY |'), 'fit'),
         ('08', 'Mars Jezero rim: relay sky dome', lambda o: o.type in ('CURVE', 'FONT'), 'fit'),
         ('06', 'Render vs real: LROC NAC held-out (A5)', lambda o: o.type in ('MESH', 'FONT'), 'fit'),
         ('07', 'Render vs real: LROC WAC dev (A6)', lambda o: o.type in ('MESH', 'FONT'), 'fit'),
@@ -313,6 +315,32 @@ def everything_scene():
         text(ct, f'{pref}  {title}' + (' (south pole up)' if flip else '') + f'\n(scale {sc_txt} of its scene units)',
              (x, 14.0, 0), 3.2, white, f'TXT_board_{pref}')
         x += TILE * 1.15
+    # one tile with the three globes at a single common scale (true relative sizes)
+    globes = [('01', 'Moon', lambda o: o.type == 'MESH' and o.name.startswith('MOON |')),
+              ('12', 'Mercury', lambda o: o.type == 'MESH' and o.name.startswith('MERCURY |')),
+              ('11', 'Mars', lambda o: o.type == 'MESH' and o.name.startswith('MARS |'))]
+    kk = TILE / 7000.0                                               # Mars' diameter ~6 790 km fills one tile
+    gx = x
+    for pref, nm, keep in globes:
+        src, objs = pick(pref, keep)
+        if not objs:
+            continue
+        col = bpy.data.collections.new(f'ALL_same_scale_{nm}')
+        for o in objs:
+            col.objects.link(o)
+        em = bpy.data.objects.new(f'BOARD_same_scale_{nm}', None)
+        em.instance_type = 'COLLECTION'
+        em.instance_collection = col
+        em.scale = (kk, kk, kk)
+        em.location = (gx + TILE / 2, -TILE / 2, 0.0)
+        cb.objects.link(em)
+        text(ct, nm, (gx + TILE / 2 - 6, -TILE - 6, 0), 4.0, white, f'TXT_same_scale_{nm}')
+        gx += TILE * 1.05
+    if gx > x:
+        text(ct, 'Moon, Mercury, Mars at one common scale (true relative sizes; north up, seen from above the north pole)',
+             (x, 14.0, 0), 3.2, white, 'TXT_board_same_scale')
+        heights.append(TILE + 10)
+        x = gx + TILE * 0.1
     text(ct, 'POLARIS X v2 — everything at once (Solid view; each tile has its own scale; galleries are NASA crops, local only)',
          (0, 30, 0), 4.5, white, 'TXT_board_title')
     H = max(heights + [TILE]) + 40
@@ -358,6 +386,14 @@ def main():
             sections.append((title, desc))
         else:
             sections.append((title, f'not built ({f} missing)'))
+    for w, title in (('mars', '11 Mars — full globe, true scale (MOLA 16 ppd)'),
+                     ('mercury', '12 Mercury — full globe, true scale (USGS DEM 665 m + MDIS colour)')):
+        p = d / 'planets' / w / f'{w}_globe.blend'
+        if p.exists():
+            append_scenes(p, title)
+            sections.append((title, 'planet_globe.py: cube-sphere at the true radius, 1 unit = 1 km; Sun from the world bundle'))
+        else:
+            sections.append((title, f'not built ({p.name} missing)'))
     M = json.loads((d / 'showcase_inputs.json').read_text())
     g = M['galleries']
     if g.get('nac_heldout'):
