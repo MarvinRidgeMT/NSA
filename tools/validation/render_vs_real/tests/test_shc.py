@@ -79,3 +79,19 @@ class Label(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class Frozen(unittest.TestCase):
+    def test_held_out_run_freezes_every_shadowcam_module_it_executes(self):
+        from pathlib import Path
+        from tools.validation.render_vs_real import shc_heldout
+        here = Path(shc_heldout.__file__).parent
+        mods = {f'tools/validation/render_vs_real/{p.name}' for p in here.glob('shc_*.py')
+                if p.name not in ('shc_report.py', 'shc_pipeline_test.py')}
+        self.assertEqual(mods - set(shc_heldout.FROZEN_CODE), set())
+        self.assertIn('tools/validation/render_vs_real/wac_twin.py', shc_heldout.FROZEN_CODE)
+
+    def test_catalogue_v2_hash_is_pinned(self):
+        from tools.validation.render_vs_real import shc_common
+        from tools.validation.render_vs_real.common import sha256_file
+        self.assertEqual(sha256_file(shc_common.CATALOGUE_V2), shc_common.CATALOGUE_V2_SHA256)
