@@ -1,0 +1,25 @@
+{
+ "built_from": "imagery/catalogue.csv.gz",
+ "built_from_sha256": "4b941d61f1ecb06155a2b0ffcc7f9a5f9ea1dc5b41ef6918ff1f69f424515e01",
+ "rows": 4815,
+ "images": 2760,
+ "sha256": "c21e3ddd7cb0d4d82b2cf20e1e5d565e4ab13b44975ac45bb8d1ff532c6584d3",
+ "method": [
+  "    python -m tools.validation.render_vs_real.shc_catalogue [--limit N]",
+  "",
+  "Rows: exactly the ShadowCam image x site rows of the frozen catalogue v1 (SHA-256 4b941d61...), every column kept, split",
+  "kept. Recomputed per row, with the v1 definitions (tools/imagery/ode.py site_filter: the 10 km x 10 km south-polar",
+  "stereographic square, overlap_frac = overlap area / square area, covers_site_centre = square centre inside the footprint):",
+  "  footprint_source, footprint_area_km2, footprint_width_km, overlap_frac, covers_site_centre, footprint_suspect.",
+  "Footprint: the image outline (64 points per long side, 8 per short side) from shc_camera on the IAU sphere R = 1737.4 km,",
+  "using only the PDS4 label (metadata) and KPLO SPICE. No image pixel is read.",
+  "Unresolved conventions are bracketed, and a row covers only under every one of them (A8.3):",
+  "  start time   ISIS (SCLK ExecutionSpacecraftTime + StartTimeOffset + TDI offset)  |  label start_date_time + TDI offset",
+  "  sample axis  as ISIS (no flip)  |  flipped (ALE driver, TDI direction B)",
+  "  first pixel  SampleFirstPixel 0  |  72 (3144 - 3072 detector samples)",
+  "  -> overlap_frac = the minimum, covers_site_centre = all, plus the max overlap and the number of conventions covering.",
+  "footprint_suspect = true only when the camera model cannot resolve (no KPLO CK / SPK, label unreadable), with the reason.",
+  "Writes imagery/catalogue_shadowcam_v2.csv.gz and .provenance.json. Labels: $POLARIS_DATA/v2/imagery/shc/labels (manifest)."
+ ],
+ "kernels": "tools/validation/render_vs_real/shc_kernels.py (USGS usgs_data/kplo)"
+}

@@ -130,3 +130,15 @@ executes is frozen here; the NAC code it imports is frozen in Entry 6. `wac_held
 | `tools/validation/render_vs_real/wac_twin.py` | `00fce37f3ef3785f3239752ac120ead21de84219cccd0e3fac5b437a7984efa0` |
 | `tools/validation/render_vs_real/wac_select.py` | `550640c577ec60df773b54ef158fb5398127f8eb328076029b7aa6bc26440baa` |
 | `tools/validation/render_vs_real/wac_heldout.py` | `09a0ac581eae5494697a108f667548575763e963622eb59a279b1d64c18bb284` |
+
+## Entry 9 — 17 Nov 2026, coordinating session (ShadowCam catalogue v2 and dev plan)
+
+State at freezing: **no ShadowCam image has been rendered or scored on any split.** Catalogue v2 (camera-model footprints
+for the 4,815 ShadowCam rows of v1, split unchanged; built by `shc_catalogue.py` at commit f172d6c from labels and KPLO SPICE
+only) and Amendment A8 (camera model, convention test rule, dev pilot plan) are frozen here, as protocol §2 requires before
+any ShadowCam render.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A8.md` | `256bf8dda2f510ad3f5286ee5000c37a89a5647f0aaf5b2b5f1882512e2bc554` |
+| `imagery/catalogue_shadowcam_v2.csv.gz` | `c21e3ddd7cb0d4d82b2cf20e1e5d565e4ab13b44975ac45bb8d1ff532c6584d3` |

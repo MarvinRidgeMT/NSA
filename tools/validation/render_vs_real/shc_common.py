@@ -27,7 +27,7 @@ SHC_RENDER_DIR = SHC_WORK / 'renders'
 SHC_RESULTS = HERE / ('results_shc' if SHC_SPLIT == 'dev' else 'results_shc_heldout')
 INSTRUMENT = 'ShadowCam'
 CATALOGUE_V2 = ROOT / 'imagery' / 'catalogue_shadowcam_v2.csv.gz'
-CATALOGUE_V2_SHA256 = None            # set by A8 (the amendment that registers catalogue v2)
+CATALOGUE_V2_SHA256 = 'c21e3ddd7cb0d4d82b2cf20e1e5d565e4ab13b44975ac45bb8d1ff532c6584d3'   # registered by A8 (Entry 9)
 CATALOGUE_AMENDMENT = 'docs/v2/RENDER_VS_REAL_PROTOCOL_A8.md'
 HELDOUT_AMENDMENT = 'docs/v2/RENDER_VS_REAL_PROTOCOL_A10.md'
 LABEL = ('SOURCE-BASED · UNVALIDATED · ShadowCam dev (training) split only — not a held-out result' if SHC_SPLIT == 'dev' else
