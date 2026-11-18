@@ -1512,3 +1512,17 @@ Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/P
 - 1009ad7 showcase scene "10 Everything at once": all sections on one board (collection instances, Solid view); the .blend opens on it.
 - 6574c50 ShadowCam: camera model (ISIS ShadowCamCamera + USGS KPLO IK/IAK), USGS public KPLO kernels (no account), catalogue v2 footprint builder. Check on one dev label: sub-spacecraft 0.5 m, centre pixel 51 m from ASU's label geometry at the label reference time. Open: a 0.78 s start-time difference (ISIS SCLK vs label start) and the TDI-B sample flip; both bracketed in the v2 footprints.
 - Protocol §2 order kept: catalogue v2 (labels + SPICE only) is being built for all 4,815 ShadowCam rows; it will be hashed in A8 before any ShadowCam image is rendered. No ShadowCam image has been fetched or rendered. Nothing pushed.
+
+### POLARIS X v2 — ShadowCam render vs real done (A8–A10) — Claude (coordinator), 18 Nov 2026 ~11:20 EST
+- f172d6c pipeline; 69ead1e A8 + catalogue v2 (camera-model footprints) registered before any ShadowCam render; 9dd2da5 A9
+  (TDI B without sample flip, ISIS start time) registered before the dev pilot.
+- c39c722 dev pilot as registered (A8.5): 149 rows, claim not met (IoU 0.58–0.72, edge 136–214 m). Saturated blocks had
+  been dropped, which removed nearly all directly lit ground (ShadowCam saturates there).
+- d60ca16 dev re-score under the A10 rule: saturated blocks count as lit (base protocol §4.1); registration on
+  non-saturated pixels (a first try registered on the fill value, NCC 0.10; kept for the record); saturation-mask
+  secondary analysis. 6702c23 A10 + Entry 11 (A10 and nine ShadowCam modules) registered with a prediction.
+- Held-out run 11:33–16:11 UTC at 6702c23: 183 rows, 0 gated, 0 failed. §8 claim not met at any site (IoU 0.60–0.67,
+  edge 87–185 m). Every A10 prediction confirmed: claim fails conditions 1–2; count-matched IoU 0.950; saturated vs
+  predicted lit IoU 0.86–0.94 by site, saturation edge 7.4–7.8 m (limit ~10 m), beats flat control ≥ 83 % per site.
+  `docs/validation/RENDER_VS_REAL_SHC_HELDOUT.md`; results_shc_heldout/ holds ids and numbers only; thumbnails
+  git-ignored. Nothing pushed.

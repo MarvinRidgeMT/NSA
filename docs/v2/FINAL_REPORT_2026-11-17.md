@@ -25,7 +25,7 @@ solver is `TERRAIN_STACK_CONTRACT.md`; it was changed only through dated amendme
 | §4 decision tools | partial | Robust choice, regret, value of information, landing search and Pareto, all for the two precomputed sites only. Not run across the whole Moon. |
 | §5 Blender | done, partial in places | Whole-Moon globe: a 2.0 MB Draco GLB that passes the glTF provenance proof. Pyramid close-ups anywhere. WAC albedo, shadow-free. Hapke shading. Blender run_all 14/14. |
 | §6.1, 6.3 imagery, protocol | done (orbital metadata only) | Catalogue of 7,298 images. Protocol pre-registered. |
-| §6.2, 6.4–6.5 render vs real | partial: LROC NAC and LROC WAC (643 nm) dev pilots and held-out runs done; ShadowCam and Kaguya TC not scored | See §3, §3a and §3b. |
+| §6.2, 6.4–6.5 render vs real | partial: LROC NAC, LROC WAC (643 nm) and ShadowCam dev pilots and held-out runs done; Kaguya TC not scored | See §3, §3a, §3b and §3c. |
 | §7 NASA-user features, gates | partial | Exports, solver API (OpenAPI, 14 routes) and gates exist. All gates pass after the 17 Nov fixes (accessibility and 390 px: `GATES.md` §8). Single long frames traced; the shader-compile stalls are fixed (`GATES.md` §9). AI planner not built. |
 
 ## 3. Render vs real (R4), dev split only, not the held-out headline
@@ -94,6 +94,29 @@ Reports: `docs/validation/RENDER_VS_REAL_WAC_DEV.md` and `RENDER_VS_REAL_WAC_HEL
   - Registration offset median 0.25 pixel (24 m).
 - **Products:** at WAC scale the 5 m and 80 m terrain products give nearly identical masks, so WAC cannot tell them apart.
 
+## 3c. Render vs real, ShadowCam (Amendments A8–A10, 17–18 Nov 2026)
+Reports: `docs/validation/RENDER_VS_REAL_SHC_DEV_A8.md`, `RENDER_VS_REAL_SHC_DEV.md` and `RENDER_VS_REAL_SHC_HELDOUT.md`.
+SOURCE-BASED · UNVALIDATED.
+- **Camera model:** ISIS ShadowCamCamera re-implemented with the USGS KPLO IK/IAK and public KPLO SPICE (no account).
+  Catalogue v2 replaces ODE's browse-map footprints with camera-model footprints (A8). The pipeline test fixed the TDI-B
+  sample axis (no flip) and the ISIS start time (A9).
+- **Dev pilot:** 149 rows, 0 failed. Under A8.5 (saturated blocks dropped) the lit class almost vanished, because
+  ShadowCam saturates on directly sunlit ground. A10 restores the base protocol rule (saturated blocks count as lit) and
+  registers on non-saturated pixels; both A8.5 and A10 numbers are reported.
+- **Held-out run (A10, registered before any held-out image):** 183 rows (129 primary track, 54 secondary), 0 gated,
+  0 failed, run at the registered commit 6702c23.
+- **§8 claim: not met at any site, for any product.** Median Otsu shadow IoU 0.60–0.67 (needs ≥ 0.80); median edge
+  87–185 m (limit ~10 m). Predicted in A10.
+- **Why:** ShadowCam images shadowed ground by scattered light, so its shadows are not dark. The fixed Otsu rule (never
+  tuned) splits them (observed shadow fraction 0.43 vs 0.68 predicted). The render has no scattered light (SSIM 0.06).
+- **What the render gets right** (secondary and sensitivity results, not claims; all predicted in A10 and confirmed):
+  - Saturated (directly sunlit) ground vs the predicted lit area: IoU median 0.92 (0.86–0.94 by site).
+  - Saturation boundary vs the predicted shadow boundary: median 7.5 m (1.4 binned pixels), inside the 2-pixel limit at
+    every site; better than the flat control on 98 % of rows.
+  - Count-matched shadow IoU 0.950; registration offset median 28 m.
+- **Limits:** the saturation mask grows the lit class by up to one binned pixel along sunlit edges (stated in A10, not
+  corrected). Hapke 643 nm parameters are applied to the 450–750 nm band. Secondary-track rows test geometry only.
+
 ## 4. Tests on the final branch (17 Nov ~03:00 EST)
 - pytest `science tools`: 779 passed, 3 skipped.
 - Blender `run_all.py`: 14/14, with `POLARIS_PYTHON` set to the project venv.
@@ -122,7 +145,7 @@ Reports: `docs/validation/RENDER_VS_REAL_WAC_DEV.md` and `RENDER_VS_REAL_WAC_HEL
 2. ~~Fix the accessibility and 390 px mobile gate failures.~~ **Done 17 Nov:** axe 0 serious, 390 px 5/5 (`GATES.md` §8).
    Adding axe-core as a devDependency still needs your OK.
 3. ~~Move the 10.3 MB Mars bundle JSON out of git, or compress it.~~ **Done 17 Nov:** stored gzipped, 1.6 MB (content unchanged).
-4. ~~Before the held-out render-vs-real run: register A5 (Otsu on near-total-shadow windows), then run it.~~ **Done 17 Nov** (§3a). ~~Score WAC~~ **(done 17 Nov, A6/A7, §3b: claim not met under the registered threshold rule)**. Score ShadowCam and Kaguya TC (each needs its own camera model, amendment and held-out run; ShadowCam first needs a catalogue version with real footprints). ~~Wire `RealVsModel.tsx` into the app.~~ **Done 17 Nov:** on the Evidence page; images rebuilt locally (not in git).
+4. ~~Before the held-out render-vs-real run: register A5 (Otsu on near-total-shadow windows), then run it.~~ **Done 17 Nov** (§3a). ~~Score WAC~~ **(done 17 Nov, A6/A7, §3b: claim not met under the registered threshold rule)**. ~~Score ShadowCam~~ **(done 18 Nov, A8–A10, §3c: claim not met under the registered threshold rule; the saturation boundary matches to 7.5 m, a secondary result)**. Score Kaguya TC (needs its own camera model, amendment and held-out run). ~~Wire `RealVsModel.tsx` into the app.~~ **Done 17 Nov:** on the Evidence page; images rebuilt locally (not in git).
 5. ~~Mars relays~~ **(geometry done 17 Nov, `MARS_RELAYS.md`; MAVEN has no trajectory for the window)** and the Mars sky model. Clone members for Mercury and Mars, so they can have a cube and Decision Card. Decision tools across the whole Moon.
 6. Rerun the Moon precompute: the legacy eq caches now include SLDEM2015.
 
