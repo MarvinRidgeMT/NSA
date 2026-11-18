@@ -30,6 +30,8 @@ Blender -b --python-exit-code 1 -P blender/v2/showcase_v2.py -- --qa
 | 15 Sun | sphere at the IAU nominal radius 695 700 km, emission with linear limb darkening u = 0.6 | `globe_hd.py` | MODEL |
 | 16 Earth–Moon–Sun system | Earth, Moon and Sun at true size and de421 positions (J2000, Earth-centred), each body rotated by its SPICE body-fixed → J2000 matrix; cameras: Earth's day side, both bodies at true distance from the sunward side, Earth's night side from near the Moon (the Moon is near full) | `globe_hd.py` | positions SOURCE-BASED; Sun sphere MODEL (casts no shadow, so it does not block its own lamp) |
 | 17, 18 Site04 RoI3, Site01 RoI6 — terrain to ±100 km | three levels instead of two: 5 m near, a new 20 m middle level to ±100 km (10× the earlier ±8–11 km of detailed terrain), 80 m to ±290 km; all-around tiles, ~10.7 M vertices | `build_scene.py --terrain stack --mid-half 100000 --mid-res 20` | terrain SOURCE-BASED · UNVALIDATED |
+| 19 Venus | USGS Magellan topography (4.6 km/px, gaps filled from the nearest pixel) under a cloud deck at ~70 km — the visible Venus; hide the deck object to see the surface | `globe_hd.py` | terrain SOURCE-BASED; deck and surface tone VISUAL |
+| 20–23 Jupiter, Saturn, Uranus, Neptune | true equatorial / polar radii (1 bar), IAU orientation and SPICE Sun; Hubble OPAL 2024–25 global colour maps (STScI MAST, DOI 10.17909/T9G593), unobserved pixels filled from their latitude row (6 %, 7 %, 38 %, 13 %); Saturn's rings from fact-sheet radii and representative optical depths, transparency 1 − exp(−τ/μ) | `giants_pack.py`, `globe_hd.py` | maps VISUAL (cloud features of the OPAL epoch); rings MODEL |
 | 08 Mars — Jezero rim relay sky dome | the bundle's terrain skyline (orange) and MRO, TGO and Mars Express per-minute tracks over the first 24 h; bright = above the skyline, dim = hidden | `showcase_prep.py` (cached Horizons) | relay geometry SOURCE-BASED · UNVALIDATED (geometry only); dome layout VISUAL |
 
 - **Cameras:** each site scene keeps the builder's camera. `CAM_Overview_Oblique_<nn>` is added as a navigation view, 45°
@@ -49,6 +51,32 @@ Blender -b --python-exit-code 1 -P blender/v2/showcase_v2.py -- --qa
   - The Mars track colours saturated: emission lowered, distinct hues used.
   - Overview cameras on the eye-level scenes showed missing tiles, because the builder plans tiles for the scene camera
     only. Fixed by rebuilding with `--all-around`.
+
+## Upgrades on 17 Nov (evening)
+- **Earth:**
+  - Day side: NASA GIBS VIIRS true colour (NOAA-21, then NOAA-20) of 2026-11-16, gaps filled from 11-15 and 11-14, so
+    84 % of the globe shows real clouds of those days. Blue Marble November 2004 fills only the polar night (16 %).
+  - Night side: Black Marble 2016 city lights, masked by the SPICE Sun direction.
+  - Rayleigh atmosphere shell (MODEL): sea-level scattering (5.8, 13.5, 33.1) × 10⁻⁶ m⁻¹, scale height 8.5 km.
+- **Mars:** USGS Viking MDIM colour mosaic at 925 m, plus a dust-haze shell (MODEL: τ ≈ 0.2, scale height 11 km).
+- **UV maps:** every globe has a seam-corrected equirectangular UV map, so its colour shows in Solid view. Mercury is the
+  exception: its 23,040 px mosaic exceeds the GPU texture limit and reads grey there.
+
+## What is still not exact (stated, not hidden)
+- **Clouds and weather:** they are those of 14–16 Nov 2026, not of the scene time 2026-11-21 02:00 UTC, which is in the
+  future of every image.
+- **The giant planets:** their cloud features are from the Hubble OPAL epochs (2024–25). Their longitudes are read as
+  System III east from the map's left edge (the OPAL convention), so where storms like the Great Red Spot sit on 21 Nov
+  2026 is not reproduced.
+- **Neptune:** pale greenish-blue, as in the OPAL composite and the 2024 recalibration (Irwin et al.), not the
+  saturated blue of older processed images.
+- **Mars:** the dark regions look bluish because the Viking colourised mosaic does. The dust loading on the scene date
+  is not known; τ ≈ 0.2 is a clear-season value.
+- **Venus:** the surface tone under the clouds is a uniform basalt colour. Radar images have no visible-light colour.
+- **Atmospheres:** single-component shells. There is no Mie aerosol on Earth, no clouds with height, and no limb
+  refraction.
+- **Faint rings and moons:** the faint rings of Jupiter, Uranus and Neptune, and moons other than our Moon, are not
+  modelled.
 
 ## Not in the showcase
 - **Atmospheres** (Earth, Mars) and the Earth's clouds and night lights are not modelled.
