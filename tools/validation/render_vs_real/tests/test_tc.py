@@ -101,6 +101,15 @@ class Label(unittest.TestCase):
         self.assertEqual(L['moving_direction'], -1)
         self.assertEqual(K.rise_solution(L['spice_metakernel']), 'RISE100i_05')
 
+    def test_dct_padding(self):
+        """DCT products pad lines to a multiple of 8 samples after the last detector pixel (seen on a dev stereo label:
+        3496 samples for detector 297..3788)."""
+        lab = synthetic_label().replace('LINE_SAMPLES                     = 3208', 'LINE_SAMPLES                     = 3212')
+        L = C.parse_label(lab)
+        self.assertEqual((L['samples'], L['valid_samples'], L['pad_samples']), (3212, 3208, 4))
+        with self.assertRaises(ValueError):
+            C.parse_label(synthetic_label().replace('LINE_SAMPLES                     = 3208', 'LINE_SAMPLES                     = 3216'))
+
     def test_swath_first_pixel_must_match_isis(self):
         with self.assertRaises(ValueError):
             C.parse_label(synthetic_label(swath='FULL', first=297))

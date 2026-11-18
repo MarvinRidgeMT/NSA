@@ -105,15 +105,16 @@ def decode(lab, raw):
     return val, inv, sat, hashlib.sha256(raw).hexdigest()
 
 
-def binned_window(lab, data_url, l0, l1, b):
-    """(radiance mean, invalid, saturated) of lines l0..l1 (1-based, inclusive), binned b x b."""
+def binned_window(lab, data_url, l0, l1, b, s0=1, s1=None):
+    """(radiance mean, invalid, saturated) of lines l0..l1 and samples s0..s1 (1-based, inclusive), binned b x b."""
     pid = lab['product_id']
     guard([pid])
-    p = TC_DIR / 'windows' / f'{pid}_L{l0}_{l1}_b{b}.npz'
+    s1 = s1 or lab['samples']
+    p = TC_DIR / 'windows' / f'{pid}_L{l0}_{l1}_S{s0}_{s1}_b{b}.npz'
     if not p.exists():
         p.parent.mkdir(parents=True, exist_ok=True)
         val, inv, sat, h = read_image(lab, data_url)
-        val, inv, sat = val[l0 - 1:l1], inv[l0 - 1:l1], sat[l0 - 1:l1]
+        val, inv, sat = (a[l0 - 1:l1, s0 - 1:s1] for a in (val, inv, sat))
         nl, nsb = (val.shape[0] // b) * b, (val.shape[1] // b) * b
 
         def blocks(x, fn):
@@ -124,7 +125,7 @@ def binned_window(lab, data_url, l0, l1, b):
             mean = blocks(val, np.nanmean) if b > 1 else val[:nl, :nsb].copy()
         mean[binv | bsat] = np.nan
         np.savez_compressed(p, value=mean.astype(np.float32), invalid=binv, saturated=bsat)
-        _record({'product_id': pid, 'kind': 'window', 'lines': [l0, l1], 'bin': b, 'sha256_decompressed_image': h,
+        _record({'product_id': pid, 'kind': 'window', 'lines': [l0, l1], 'samples': [s0, s1], 'bin': b, 'sha256_decompressed_image': h,
                  'kept': f'binned {b}x{b} window (the .img.gz is cached alongside)'})
     z = np.load(p)
     return z['value'].astype(np.float64), z['invalid'], z['saturated']

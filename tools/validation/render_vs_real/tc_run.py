@@ -132,7 +132,7 @@ def saturation_fill(val, inv, sat):
 
 def load_real(G):
     lab = parse_label(tc_io.label(G['product_id'], G['labelUrl']))
-    val, inv, sat = tc_io.binned_window(lab, G['dataUrl'], G['l0'], G['l1'], G['bin'])
+    val, inv, sat = tc_io.binned_window(lab, G['dataUrl'], G['l0'], G['l1'], G['bin'], G['s0'], G['s1'])
     return saturation_fill(val, inv, sat), inv, sat & ~inv
 
 

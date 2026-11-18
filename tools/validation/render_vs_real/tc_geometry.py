@@ -27,17 +27,43 @@ from .tc_camera import SOURCES, TcCamera, corner_check, osl_source, parse_label
 from .tc_common import SECONDARY_EL_DEG, TC_GEOM_DIR, TC_RESULTS, guard
 
 TARGET_GSD_M = 5.0
+# The SELENE CK is linearly interpolated between quaternions 2 s (~308 lines) apart, so its attitude has small kinks that a
+# low-degree polynomial cannot follow to 0.1 px over TC's ~13 s windows; degrees up to 11 are tried. The gate itself
+# (1 m, 0.1 binned pixel; A1.2/A2) is unchanged. Recorded in A12.
+FIT_DEGREES = (3, 4, 5, 6, 7, 8, 9, 10, 11)
 DEFAULT = ('isis', False, 'label')     # the conventions used unless the A11.4 pipeline test decides otherwise (A12)
 FIELDS = ['product_id', 'site', 'status', 'reason', 'track', 'camera', 'moving_direction', 'start_convention', 'flip', 'orbit',
-          'orbit_solution', 'bin', 'l0', 'l1', 'render_w',
+          'orbit_solution', 'bin', 'l0', 'l1', 's0', 's1', 'render_w',
           'render_h', 'gsd_binned_m', 'sc_alt_km', 'emission_site_deg', 'sun_az_deg', 'sun_el_deg', 'cat_sun_az_deg',
           'cat_sun_el_deg', 'timing_start_diff_ms', 'centre_vs_label_m', 'corners_vs_label_max_m', 'fit_pos_err_m', 'fit_ang_err_urad', 'fit_degree',
           'kernels']
 
 
-def view_cone(cam, fit, l0, l1, h_lo, h0, ns, b):
+def window_samples(cam, l0, l1, site_xy, half_m, h_lo, h_hi, margin_m, step=16):
+    """1-based [s0, s1] of the samples whose rays (lines l0..l1, 33 across) hit the square site_xy +- (half + margin) on
+    spheres R + h_lo and R + h_hi (as nac_camera.window_lines, across track). Cropping the render to these samples
+    changes no metric: pixels outside the square never enter the analysis window. None if no sample does."""
+    from .nac_camera import R_MOON_M, me_to_latlon, sphere_hit, stereo_xy
+    ns = cam.L['samples']
+    samples = np.arange(1, ns + 1, step, dtype=float)
+    lines = np.linspace(l0 - 0.5, l1 + 0.5, 33)
+    LL, SS = np.meshgrid(lines, samples, indexing='ij')
+    P, d = cam.rays_me(LL, SS)
+    hit = np.zeros(len(samples), bool)
+    for h in (h_lo, h_hi):
+        lat, lon = me_to_latlon(sphere_hit(P, d, R_MOON_M + h))
+        x, y = stereo_xy(lat, lon)
+        inside = (np.abs(x - site_xy[0]) <= half_m + margin_m) & (np.abs(y - site_xy[1]) <= half_m + margin_m)
+        hit |= inside.reshape(LL.shape).any(axis=0)
+    if not hit.any():
+        return None
+    idx = np.flatnonzero(hit)
+    return max(1, int(samples[idx[0]]) - step), min(ns, int(samples[idx[-1]]) + step)
+
+
+def view_cone(cam, fit, l0, l1, h_lo, h0, s0, s1, b):
     ll = np.array([l0, l0, (l0 + l1) / 2, l1, l1, (l0 + l1) / 2])
-    ss = np.array([0.5, ns + 0.5, 0.5, 0.5, ns + 0.5, ns + 0.5])
+    ss = np.array([s0 - 0.5, s1 + 0.5, s0 - 0.5, s0 - 0.5, s1 + 0.5, s1 + 0.5])
     Pp, Rr = eval_states(fit, ll)
     dd = np.einsum('nij,nj->ni', Rr, cam.look_cam(ss))
     C = np.array([0.0, 0.0, -(1_737_400.0 + h0)])
@@ -89,9 +115,14 @@ def one(im, site, cat_row, start='isis', flip=False, orbit='label'):
         l0, l1 = wl
         nlr = (l1 - l0 + 1) // b
         l1 = l0 + nlr * b - 1
-        nsr = lab['samples'] // b
+        sw = window_samples(cam, l0, l1, (cx, cy), HALF_M, h_lo, h_hi, margin)
+        if sw is None:
+            return {**out, 'status': 'gated', 'reason': 'no image sample reaches the site square (camera model footprint)'}
+        s0, s1 = sw
+        nsr = (s1 - s0 + 1) // b
+        s1 = s0 + nsr * b - 1
         ang_lim = 0.1 * cam.ifov * 1e6 * b
-        for degree in (3, 4, 5, 6, 7):
+        for degree in FIT_DEGREES:
             fit = fit_states(cam, l0, l1, M, P0, degree=degree, nodes=max(41, 8 * (degree + 1)))
             if fit['fitMaxPosErrM'] <= 1.0 and fit['fitMaxAngErrUrad'] <= ang_lim:
                 break
@@ -113,7 +144,7 @@ def one(im, site, cat_row, start='isis', flip=False, orbit='label'):
         gsd = cam.ifov * b * float(np.linalg.norm(Pm - P0))
         track = 'secondary' if sun_el < SECONDARY_EL_DEG else 'primary'
         rec = {**out, 'status': 'ok', 'reason': '', 'track': track, 'camera': lab['instrument_id'], 'moving_direction': lab['moving_direction'],
-               'start_convention': start, 'flip': cam.flip, 'orbit': orbit, 'orbit_solution': krec['orbitSolution'], 'bin': b, 'l0': l0, 'l1': l1, 'render_w': nsr, 'render_h': nlr, 'gsd_binned_m': round(gsd, 3),
+               'start_convention': start, 'flip': cam.flip, 'orbit': orbit, 'orbit_solution': krec['orbitSolution'], 'bin': b, 'l0': l0, 'l1': l1, 's0': s0, 's1': s1, 'render_w': nsr, 'render_h': nlr, 'gsd_binned_m': round(gsd, 3),
                'sc_alt_km': round(alt / 1000, 3), 'emission_site_deg': round(emission, 3), 'sun_az_deg': round(sun_az, 4),
                'sun_el_deg': round(sun_el, 4), 'cat_sun_az_deg': float(cat_row['sun_az_deg']),
                'cat_sun_el_deg': float(cat_row['sun_el_deg']), 'timing_start_diff_ms': round(tc['startDiffS'] * 1000, 3),
@@ -122,14 +153,14 @@ def one(im, site, cat_row, start='isis', flip=False, orbit='label'):
                'fit_ang_err_urad': round(fit['fitMaxAngErrUrad'], 4), 'fit_degree': fit['degree'],
                'kernels': ' '.join(krec['kernels'])}
         detail = {**rec, 'instrument': 'Kaguya_TC', 'cornersVsLabelM': corners, 'label': dict(lab), 'fit': fit,
-                  'view': view_cone(cam, fit, l0, l1, h_lo, h0, lab['samples'], b), 'sunEnu': sun_enu.tolist(),
+                  'view': view_cone(cam, fit, l0, l1, h_lo, h0, s0, s1, b), 'sunEnu': sun_enu.tolist(),
                   'sunDistM': sun_dist, 'etMid': et_mid, 'enu': {'lat': lat0, 'lon': lon0, 'h0': h0}, 'siteXY': [cx, cy],
                   'heightRange': [h_lo, h_hi], 'marginM': margin, 'scPosEnuMid': ((Pm - P0) @ M.T).tolist(), 'timing': tc,
                   'sources': SOURCES, 'dataUrl': im['data_file_url'], 'labelUrl': im['label_url']}
         TC_GEOM_DIR.mkdir(parents=True, exist_ok=True)
         tag = f'{pid}__{site}' + ('' if (start, cam.flip, orbit) == DEFAULT else f'__{start}{"_flip" if cam.flip else ""}_{orbit}')
         (TC_GEOM_DIR / f'{tag}.json').write_text(json.dumps(detail, indent=1, default=str))
-        (TC_GEOM_DIR / f'{tag}.osl').write_text(osl_source(cam, fit, l0, nlr, b))
+        (TC_GEOM_DIR / f'{tag}.osl').write_text(osl_source(cam, fit, l0, nlr, b, s0=s0, ns_render=nsr))
         return {**rec, 'tag': tag}
     finally:
         cam.close()
