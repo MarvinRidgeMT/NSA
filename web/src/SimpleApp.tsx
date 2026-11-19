@@ -20,6 +20,7 @@ import { IconArrow, IconBack, IconChevronDown, IconChevronUp, IconClose, IconMen
 import { SceneCard, SceneObjectList, useObjectCard } from './simple/SceneCards';
 import { useSceneFocus } from './simple/sceneFocus';
 import { matchDistanceM } from './simple/spotCheck';
+import { ANYSITE_CREDIT } from './simple/anySite';
 const Scene3D = lazy(() => import('./three/Scene3D'));
 const Globe = lazy(() => import('./simple/Globe'));
 
@@ -470,6 +471,7 @@ export default function SimpleApp() {
           result: r && sun ? { verdict: verdictWord(sun.min, r.all100), sun: fmtPctRange(sun), both: both ? fmtPctRange(both) : null, mastM: r.mastM, variants: sun.n_clones } : null,
           why: line,
         },
+        mastM: r?.mastM ?? null,
       });
     }
     return out;
@@ -513,6 +515,7 @@ export default function SimpleApp() {
       `You can turn the Moon by dragging and zoom with the wheel or a pinch; the zoom stops where one pixel of this Moon image would be drawn larger than ${GLOBE_NAV.MAX_TEXEL_CSS_PX} screen pixels, and "Back to south pole" returns to the sites. ` +
       `Quality: ${QUALITY_NOTE[quality.tier].replace('bloom, flare and grain off; the Sun keeps a plain glow', 'lighter Moon image, camera effects off').replace('camera effects on', 'film grain on, a camera effect')}. The Sun itself is outside this view, so there is no glow or flare here. ` +
       `Check a spot: a click is placed on a smooth sphere at the pins' radius, not on the drawn relief, and only supplies coordinates; the values come from the files. ` +
+      `${ANYSITE_CREDIT}: the nearest-computed-point answers and slope in Check a spot, and Earth in sight and longest Sun gap on the pin cards. SOURCE-BASED · UNVALIDATED. ` +
       `Opening sequence: the same Moon and the same Sun direction, seen first from the night side; its glare, lens flare and colour fringing are camera effects, display only, and stop before this view.`
     : '';
 
@@ -811,6 +814,7 @@ export default function SimpleApp() {
                 about={about}
                 spotMatch={spotMatch}
                 spotWindow={spotWindow}
+                topMastM={pins[datasetIdx]?.mastM ?? null}
                 onPick={pickSite}
                 onArrive={() => setPlace((p) => (p === 'in' ? 'site' : p))}
                 onBack={() => setPlace((p) => (p === 'out' ? 'globe' : p))}

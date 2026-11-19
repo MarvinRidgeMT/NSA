@@ -19,6 +19,7 @@ import {
   type SpotValues,
   type TileGetter,
 } from './spotCheck';
+import { cloneRanges, gridSpacingM, hours, hoursRange, loadAnySite, mastLabel, nearestPoint, pct, pctRange, pointLabel, slopeText, type AnySite } from './anySite';
 
 /**
  * S13 "Check a spot" (18 Nov 2026; layout changed the same day): a box centred at the bottom of the globe takes a latitude and
@@ -45,6 +46,8 @@ interface Checked {
   values: SpotValues | null;
   failed: string | null;
 }
+/** How long a finished check waits for the any-site file before showing the answer without it. A display choice, ms. */
+export const ANY_WAIT_MS = 2500;
 export type SpotError = { field: 'lat' | 'lon' | 'both' | 'none'; message: string };
 
 export const IconSpot = () => (
@@ -80,6 +83,27 @@ export function useSpotCheck(onPoint: (p: { lat: number; lon: number } | null) =
   const tiles = useRef<TileGetter | null>(null);
   const loading = useRef<Promise<SpotManifest> | null>(null);
   const run = useRef(0);
+  // S14: the any-site results (anySite.ts), fetched on the same first use as the map copy, or when a pin card first opens
+  const [any, setAny] = useState<AnySite | null>(null);
+  const [anyFailed, setAnyFailed] = useState<string | null>(null);
+  const anyLoading = useRef<Promise<AnySite> | null>(null);
+  /** Resolves when the any-site file is in (or has failed: then `anyFailed` says why and the next use tries again). Never rejects. */
+  const warmAny = (): Promise<void> => {
+    // a new try (the first, or after a failure) is "loading" again, not the old failure, until it answers
+    if (!anyLoading.current) setAnyFailed(null);
+    anyLoading.current ??= loadAnySite().then((a) => {
+      setAny(a);
+      setAnyFailed(null);
+      return a;
+    });
+    return anyLoading.current.then(
+      () => undefined,
+      (e: unknown) => {
+        anyLoading.current = null;
+        setAnyFailed(e instanceof Error ? e.message : String(e));
+      },
+    );
+  };
   useEffect(() => () => void run.current++, []); // unmounted: a check still in flight is dropped when it returns
 
   const getManifest = () => {
@@ -92,6 +116,7 @@ export function useSpotCheck(onPoint: (p: { lat: number; lon: number } | null) =
   };
   /** Fetch the map copy's manifest ahead of the first check (called when the box takes focus). */
   const warm = () => {
+    void warmAny();
     getManifest().catch((e: unknown) => {
       loading.current = null;
       setMapFailed(e instanceof Error ? e.message : String(e));
@@ -112,6 +137,7 @@ export function useSpotCheck(onPoint: (p: { lat: number; lon: number } | null) =
     onPoint({ lat, lon });
     setBusy(true);
     onAnswer();
+    const anyIn = warmAny(); // alongside the map copy; the answer waits for both
     let m: SpotManifest;
     try {
       m = await getManifest();
@@ -133,6 +159,8 @@ export function useSpotCheck(onPoint: (p: { lat: number; lon: number } | null) =
         failed = `This part of the NASA map copy could not be loaded (${e instanceof Error ? e.message : String(e)}), so no NASA value is shown. Nothing is substituted.`;
       }
     }
+    // the any-site file is an extra: the answer waits for it only so long, then shows without it and fills in when it arrives
+    await Promise.race([anyIn, new Promise<void>((done) => setTimeout(done, ANY_WAIT_MS))]);
     if (mine !== run.current) return; // a newer check, an edit or a close has taken over
     setBusy(false);
     setRes({ lat, lon, radPerPx, cov, values, failed });
@@ -186,7 +214,7 @@ export function useSpotCheck(onPoint: (p: { lat: number; lon: number } | null) =
     setLonText(b);
     void check(Number(a), Number(b), radPerPx);
   };
-  return { latText, lonText, error, manifest, mapFailed, busy, res, warm, clear, submit, paste, edit, drop };
+  return { latText, lonText, error, manifest, mapFailed, busy, res, any, anyFailed, warm, warmAny, clear, submit, paste, edit, drop };
 }
 export type SpotCheckState = ReturnType<typeof useSpotCheck>;
 
@@ -280,6 +308,7 @@ export function SpotCard({
   sites,
   match,
   windowText,
+  topMastM = null,
   cardRef,
   onZoom,
   onFly,
@@ -291,6 +320,8 @@ export function SpotCard({
   match: { stepM: number; withinM: number; file: string } | null;
   /** the window our own results cover, from the bundle's first and last sample */
   windowText: string | null;
+  /** S14: the mast height shown in the top bar (the current site's reading); null = none shown */
+  topMastM?: number | null;
   cardRef?: Ref<HTMLElement>;
   onZoom: (lat: number, lon: number) => void;
   /** fly down to this site's terrain */
@@ -298,10 +329,29 @@ export function SpotCard({
   onClose: () => void;
 }) {
   const id = useId();
-  const { res, manifest: m, busy } = spot;
+  const { res, manifest: m, busy, any } = spot;
+  // S14: the nearest point of the any-site file that has a result, wherever on the Moon the spot is
+  const np = res && m && any ? nearestPoint(m.grid.radiusM, any.points, res.lat, res.lon) : null;
+  const npName = np ? pointLabel(np.point) : '';
+  const npSpacing = np && m && any ? gridSpacingM(m.grid.radiusM, any.points, np.point) : null;
+  const npClones = np ? cloneRanges(np.point) : null;
+  const npWhere = np ? `${npName}, ${fmtDistance(np.distM)} from your spot` : '';
+  const anyNone = spot.anyFailed ? `The any-site results could not be loaded (${spot.anyFailed}), so no nearest computed point is shown. Nothing is substituted.` : '';
+  // still on its way (a slow connection): the rest of the answer is shown meanwhile
+  const anyWait = !any && !spot.anyFailed ? 'Still loading the nearest computed point…' : '';
   const near = res && m ? nearestSite(m.grid.radiusM, sites, res.lat, res.lon) : null;
   const at = near && match && near.distM <= match.withinM ? near : null;
   const v = res?.values ?? null;
+  // S14: the any-site values are for a 1 m mast. The mast they sit beside is the matched site's (its result row above them),
+  // or the top bar's; when that is another height, each of them says it is for 1 m (anySite.mastLabel)
+  const ml = any ? mastLabel(any, at?.site.result?.mastM ?? topMastM) : null;
+  const mastHint = (key: string) =>
+    ml && !ml.same ? (
+      <span className="s-fact-hint" data-testid={`spot-near-${key}-mast`}>
+        {ml.label}
+      </span>
+    ) : null;
+  const mastWords = ml ? (ml.same ? `for ${ml.window}, ${ml.label}` : `${ml.label}, ${ml.window}`) : '';
   // how coarse a click is: the ground under one screen pixel, on the map's sphere
   const pxKm = res && m && res.radPerPx !== null && res.radPerPx > 0 ? (res.radPerPx * m.grid.radiusM) / 1000 : null;
   const cells = v ? Math.min(v.sun.cells, v.earth.cells) : 0;
@@ -324,10 +374,17 @@ export function SpotCard({
           at
             ? `Our results: ${fmtDistance(at.distM)} from ${at.site.name}. ${at.site.result ? `${at.site.result.verdict}. Sun in sight ${at.site.result.sun} at a ${at.site.result.mastM} metre mast.` : at.site.why}`
             : near
-              ? `Our results: none for this spot. The nearest site we computed is ${near.site.name}, ${fmtDistance(near.distM)} away.`
-              : 'Our results: none.',
+              ? np
+                ? 'Our results:'
+                : `Our results: none for this spot. The nearest site we computed is ${near.site.name}, ${fmtDistance(near.distM)} away.`
+              : np
+                ? 'Our results:'
+                : 'Our results: none.',
+          np && any
+            ? `Nearest computed point: ${npWhere}. Not your spot itself. There, ${mastWords}: Sun in sight ${pct(np.point.sun_pct)}, Earth in sight ${pct(np.point.earth_pct)}, Sun and Earth together ${pct(np.point.sun_earth_pct)}, longest Sun gap ${hours(np.point.longest_sun_gap_h)}.`
+            : anyNone || anyWait,
           v ? `NASA long-term average: Sun ${valueText(m, v.sun.raw)} here, ${rangeText(m, v.sun)}. Earth ${valueText(m, v.earth.raw)} here, ${rangeText(m, v.earth)}.` : `NASA long-term average: ${res.failed ?? outside ?? ''}`,
-          'Slope: not yet available.',
+          np ? `Slope at the nearest computed point: ${slopeText(np.point.slope_deg)}.` : anyWait ? '' : 'Slope: not yet available.',
           at ? '' : terrainOnly,
         ]
           .filter(Boolean)
@@ -370,7 +427,7 @@ export function SpotCard({
           <section className="s-spot-row" aria-labelledby={`${id}-ours`} data-testid="spot-ours" data-match={at ? at.site.id : 'none'}>
             <h3 id={`${id}-ours`}>Our results</h3>
             <p className="s-spot-src">
-              Our own calculation{windowText ? ` for ${windowText}` : ''}. Single sites only.
+              Our own calculation{windowText ? ` for ${windowText}` : ''}. Single computed points only, not areas.
             </p>
             {at ? (
               <>
@@ -428,15 +485,112 @@ export function SpotCard({
                 <p className="s-spot-fine">
                   The site’s own result, not your point’s. Shown within {fmtDistance(match!.withinM)} of a site: {stepSource}. Line of sight to the disc centre, not power or communications.
                 </p>
-                {at.site.result && <HonestyTag href="?mode=expert#evidence" />}
+                {at.site.result && !np && <HonestyTag href="?mode=expert#evidence" />}
+              </>
+            ) : null}
+            {np && any ? (
+              <>
+                <dl className="s-facts" data-testid="spot-near" data-point={np.point.id} data-dist-m={np.distM}>
+                  <div className="s-fact">
+                    <dt>Nearest computed point</dt>
+                    <dd>
+                      <span className="s-spot-site" data-testid="spot-near-name">
+                        {npName}
+                      </span>
+                      <span className="s-fact-sub" data-testid="spot-near-distance">
+                        {fmtDistance(np.distM)} from your spot
+                      </span>
+                      <span className="s-fact-sub" data-testid="spot-near-spacing">
+                        {npSpacing !== null ? `grid spacing there ${fmtDistance(npSpacing)}` : 'a single named point, not on a grid'}
+                      </span>
+                    </dd>
+                  </div>
+                  <div className="s-fact" data-tone="sun">
+                    <dt>
+                      Sun in sight
+                      {mastHint('sun')}
+                    </dt>
+                    <dd>
+                      <span className="s-fact-value" data-testid="spot-near-sun">
+                        {pct(np.point.sun_pct)}
+                      </span>
+                      {npClones && (
+                        <span className="s-fact-sub" data-testid="spot-near-sun-clones">
+                          {pctRange(npClones.sun_center_visible_pct_hourly_samples)} across {npClones.sun_center_visible_pct_hourly_samples.n} terrain variants
+                        </span>
+                      )}
+                    </dd>
+                  </div>
+                  <div className="s-fact" data-tone="earth">
+                    <dt>
+                      Earth in sight
+                      {mastHint('earth')}
+                    </dt>
+                    <dd>
+                      <span className="s-fact-value" data-testid="spot-near-earth">
+                        {pct(np.point.earth_pct)}
+                      </span>
+                      {npClones && (
+                        <span className="s-fact-sub" data-testid="spot-near-earth-clones">
+                          {pctRange(npClones.earth_center_visible_pct_hourly_samples)} across {npClones.earth_center_visible_pct_hourly_samples.n} terrain variants
+                        </span>
+                      )}
+                    </dd>
+                  </div>
+                  <div className="s-fact" data-tone="earth">
+                    <dt>
+                      Sun + Earth together
+                      {mastHint('both')}
+                    </dt>
+                    <dd>
+                      <span className="s-fact-value" data-testid="spot-near-both">
+                        {pct(np.point.sun_earth_pct)}
+                      </span>
+                      {npClones && (
+                        <span className="s-fact-sub" data-testid="spot-near-both-clones">
+                          {pctRange(npClones.sun_and_earth_center_visible_pct_hourly_samples)} across {npClones.sun_and_earth_center_visible_pct_hourly_samples.n} terrain variants
+                        </span>
+                      )}
+                    </dd>
+                  </div>
+                  <div className="s-fact">
+                    <dt>
+                      Longest Sun gap
+                      {mastHint('gap')}
+                    </dt>
+                    <dd>
+                      <span className="s-fact-value" data-testid="spot-near-gap">
+                        {hours(np.point.longest_sun_gap_h)}
+                      </span>
+                      {npClones && (
+                        <span className="s-fact-sub" data-testid="spot-near-gap-clones">
+                          {hoursRange(npClones.longest_sun_center_hidden_h)} across {npClones.longest_sun_center_hidden_h.n} terrain variants
+                        </span>
+                      )}
+                    </dd>
+                  </div>
+                </dl>
+                <p className="s-spot-fine" data-testid="spot-near-note">
+                  This is the nearest point we computed, {fmtDistance(np.distM)} away, not your spot itself. {ml!.same ? `For ${ml!.window}, ${ml!.label}` : `All four ${ml!.label}, ${ml!.window}`}. Line of sight to the disc centre, not power or communications. {any.file.credit}.
+                </p>
+                <HonestyTag href="?mode=expert#evidence" />
               </>
             ) : (
-              <p className="s-spot-none" data-testid="spot-ours-none">
+              (anyNone || anyWait) && (
+                <p className="s-spot-none" data-testid={anyNone ? 'spot-near-failed' : 'spot-near-wait'}>
+                  {anyNone || anyWait}
+                </p>
+              )
+            )}
+            {!at && (
+              <p className={np ? 's-spot-fine' : 's-spot-none'} data-testid="spot-ours-none">
                 {near
                   ? match
-                    ? `None for this spot. The nearest site we computed is ${near.site.name}, ${fmtDistance(near.distM)} away; a site’s result is shown only within ${fmtDistance(match.withinM)} of it: ${stepSource}.`
-                    : `None for this spot. The nearest site we computed is ${near.site.name}, ${fmtDistance(near.distM)} away, and the loaded bundle does not say how far a site’s result may be carried.`
-                  : 'None: no computed sites are loaded.'}
+                    ? `${np ? `Not one of the ${sites.length} sites with a detailed answer.` : 'None for this spot.'} The nearest site we computed is ${near.site.name}, ${fmtDistance(near.distM)} away; a site’s detailed result is shown only within ${fmtDistance(match.withinM)} of it: ${stepSource}.`
+                    : `${np ? `Not one of the ${sites.length} sites with a detailed answer.` : 'None for this spot.'} The nearest site we computed is ${near.site.name}, ${fmtDistance(near.distM)} away, and the loaded bundle does not say how far a site’s result may be carried.`
+                  : np
+                    ? 'No sites with a detailed answer are loaded.'
+                    : 'None: no computed sites are loaded.'}
               </p>
             )}
           </section>
@@ -496,7 +650,33 @@ export function SpotCard({
           {/* ---- row 3: slope ---- */}
           <section className="s-spot-row" aria-labelledby={`${id}-slope`} data-testid="spot-slope">
             <h3 id={`${id}-slope`}>Slope</h3>
-            <p className="s-spot-none">Not yet available. It needs a slope map made from the same terrain data, which is not in the files yet.</p>
+            {np && any ? (
+              <>
+                <dl className="s-facts">
+                  <div className="s-fact">
+                    <dt>
+                      Slope at the nearest computed point
+                      <span className="s-fact-hint" data-testid="spot-slope-where">
+                        {npWhere}
+                      </span>
+                    </dt>
+                    <dd>
+                      <span className="s-fact-value" data-testid="spot-slope-value">
+                        {slopeText(np.point.slope_deg)}
+                      </span>
+                    </dd>
+                  </div>
+                </dl>
+                <p className="s-spot-fine" data-testid="spot-slope-note">
+                  This is the slope at the nearest point we computed, not at your spot itself: the local slope of the terrain map that calculation used there (slope_deg in the any-site file). A slope map of the ground around your spot is not yet available. {any.file.credit}.
+                </p>
+                <HonestyTag href="?mode=expert#evidence" />
+              </>
+            ) : (
+              <p className="s-spot-none" data-testid="spot-slope-none">
+                {anyWait || `Not yet available. ${anyNone || 'It needs a slope map made from the same terrain data, which is not in the files yet.'}`}
+              </p>
+            )}
           </section>
 
           {/* ---- what can be done from here: always in reach at the foot of the card ---- */}

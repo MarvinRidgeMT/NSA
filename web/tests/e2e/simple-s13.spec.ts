@@ -26,6 +26,14 @@ const sidecar = JSON.parse(readFileSync(resolve(__dirname, '../../public/certain
 const bundle = JSON.parse(readFileSync(resolve(__dirname, '../../../data/viewer/polaris-x5d-roi-2026-11-14-v2.json'), 'utf8')) as {
   datasets: { siteId: string; site: { name: string; latitudePlanetocentricDeg: number; longitudeEastDeg: number }; derived: { scenarios: { kind?: string; observer?: { mastM: number }; samples?: unknown; parameters?: { east_m?: number; north_m?: number } }[] } }[];
 };
+// S14: the any-site file (original, not the web copy) and its done row nearest to a point, found by largest dot product
+const anySite = JSON.parse(readFileSync(resolve(__dirname, '../../../data/anysite/precompute_summary.json'), 'utf8')) as { sites: { id: string; status: string; lat: number; lon: number; slope_deg: number }[] };
+function nearestAnySite(lat: number, lon: number) {
+  const v = (la: number, lo: number) => [Math.cos((la * Math.PI) / 180) * Math.cos((lo * Math.PI) / 180), Math.cos((la * Math.PI) / 180) * Math.sin((lo * Math.PI) / 180), Math.sin((la * Math.PI) / 180)];
+  const q = v(lat, lon);
+  const dot = (s: { lat: number; lon: number }) => v(s.lat, s.lon).reduce((n, x, i) => n + x * q[i], 0);
+  return anySite.sites.filter((s) => s.status === 'done').reduce((a, b) => (dot(b) > dot(a) ? b : a));
+}
 const pct = (raw: number) => `${(raw * manifest.grid.scale * 100).toFixed(1)} %`;
 /** what the card says beside a value: the lowest and highest of the cells around it, e.g. "6.3–85.2 % within one 60 m cell" */
 const span = (r: [number, number]) => `${(r[0] * manifest.grid.scale * 100).toFixed(1)}–${(r[1] * manifest.grid.scale * 100).toFixed(1)} % within one ${manifest.grid.cellM} m cell`;
@@ -273,13 +281,18 @@ test.describe('S13 Check a spot', () => {
         await expect(page.getByTestId('spot-ours-none')).toContainText('the certainty sidecar has no rows for this site');
         await expect(page.getByTestId('spot-ours-sun')).toHaveCount(0);
       }
-      await expect(page.getByTestId('spot-slope')).toContainText('Not yet available');
+      // S14 Part A (18 Nov 2026, Sid): the slope row is now filled from the nearest computed point of the any-site file, in
+      // the nearest-point wording. This replaces the S13 assertion that it read "Not yet available" (simple-s14.spec.ts holds
+      // the rest: the row's point and distance, and "Not yet available" when the file cannot be loaded).
+      const nearSlope = nearestAnySite(d.site.latitudePlanetocentricDeg, d.site.longitudeEastDeg);
+      await expect(page.getByTestId('spot-slope-value')).toHaveText(`${nearSlope.slope_deg.toFixed(1)}°`);
+      await expect(page.getByTestId('spot-slope')).toContainText('not at your spot itself');
       // screen readers hear the values when the check finishes
       const spoken = page.getByTestId('spot-spoken');
       await expect(spoken).toHaveAttribute('role', 'status');
       await expect(spoken).toContainText(`Sun ${pct(k.sunRaw)}`);
       await expect(spoken).toContainText(`Earth ${pct(k.earthRaw)}`);
-      await expect(spoken).toContainText('Slope: not yet available.');
+      await expect(spoken).toContainText(`Slope at the nearest computed point: ${nearSlope.slope_deg.toFixed(1)}°.`); // S14: was 'Slope: not yet available.'
       // the marker is down and the card stands next to it
       await expect(page.getByTestId('spot-mark')).toHaveAttribute('data-on', 'true');
       // (both are placed by the globe's next drawn frame)

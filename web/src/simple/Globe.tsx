@@ -11,6 +11,7 @@ import { arcAt, distAt, glareFor, glareOut, INTRO, openMs, peekDeg, peekStillDeg
 import { newIntroLink, useMoonLoad, type IntroLink } from './introState';
 import { SpotBox, SpotCard, useSpotCheck, type SpotCardSite } from './SpotPanel';
 import { dirToLatLon } from './spotCheck';
+import { cloneRanges, hours, hoursRange, mastLabel, pct, pctRange, siteRow, type AnySite } from './anySite';
 
 const SimplePost = lazy(() => import('./SimplePost'));
 
@@ -38,6 +39,8 @@ export interface GlobeSite {
   spreadText: string;
   /** S13: the site's bundle coordinates and its sidecar result as words, for "Check a spot" */
   spot: SpotCardSite;
+  /** S14: the mast height this card's line is for (the one picked in the top bar, or the site's own); null = no sidecar row */
+  mastM: number | null;
 }
 /** 'intro' is the opening sequence (S3): the same scene and camera, on its way to the 'idle' view. */
 export type GlobePhase = 'intro' | 'idle' | 'in' | 'hidden' | 'out';
@@ -665,6 +668,8 @@ export interface GlobeProps {
   /** S13 "Check a spot": how close counts as at a site, and the window our results cover (both read from the bundle) */
   spotMatch?: { stepM: number; withinM: number; file: string } | null;
   spotWindow?: string | null;
+  /** S14: the mast height shown in the top bar, for the spot card's any-site rows (anySite.mastLabel) */
+  topMastM?: number | null;
   onPick: (i: number) => void;
   onArrive: () => void;
   onBack: () => void;
@@ -697,8 +702,14 @@ function glowTexture(): THREE.Texture {
  * The card that opens beside a pin: that site's answer (the same words and numbers its row in the old side panel had, from the
  * certainty sidecar), what the shimmer means, and the way down to its terrain.
  */
-function PinCard({ site, legend, cardRef, onFly, onClose }: { site: GlobeSite; legend: string; cardRef: (el: HTMLElement | null) => void; onFly: () => void; onClose: () => void }) {
+function PinCard({ site, legend, any, anyFailed, topMastM, cardRef, onFly, onClose }: { site: GlobeSite; legend: string; any: AnySite | null; anyFailed: string | null; topMastM: number | null; cardRef: (el: HTMLElement | null) => void; onFly: () => void; onClose: () => void }) {
   const id = `s-pincard-${site.id}`;
+  // S14: Earth in sight and the longest Sun gap from this site's own row of the any-site file (same id, same coordinates)
+  const row = any ? siteRow(any.points, site.id, site.spot.lat, site.spot.lon) : null;
+  const clones = row ? cloneRanges(row) : null;
+  // the file is for a 1 m mast; when the card's line (or, with no line for a mast, the top bar) is for another mast, every
+  // any-site row says so beside its value
+  const ml = any ? mastLabel(any, site.mastM ?? topMastM) : null;
   return (
     <section className="s-panel s-gcard s-pincard" ref={cardRef} aria-labelledby={id} data-testid="pin-card" data-site={site.id} data-nodata={site.spreadPts === null || undefined} style={{ visibility: 'hidden' }}>
       <div className="s-gcard-head">
@@ -718,6 +729,68 @@ function PinCard({ site, legend, cardRef, onFly, onClose }: { site: GlobeSite; l
           {site.spreadText}
         </p>
       )}
+      {any &&
+        (row ? (
+          <>
+            <dl className="s-facts" data-testid="pin-card-any" data-point={row.id}>
+              <div className="s-fact" data-tone="earth">
+                <dt>
+                  Earth in sight
+                  {ml && !ml.same && (
+                    <span className="s-fact-hint" data-testid="pin-card-earth-mast">
+                      {ml.label}
+                    </span>
+                  )}
+                </dt>
+                <dd>
+                  <span className="s-fact-value" data-testid="pin-card-earth">
+                    {pct(row.earth_pct)}
+                  </span>
+                  {clones && (
+                    <span className="s-fact-sub" data-testid="pin-card-earth-clones">
+                      {pctRange(clones.earth_center_visible_pct_hourly_samples)} across {clones.earth_center_visible_pct_hourly_samples.n} terrain variants
+                    </span>
+                  )}
+                </dd>
+              </div>
+              <div className="s-fact">
+                <dt>
+                  Longest Sun gap
+                  {ml && !ml.same && (
+                    <span className="s-fact-hint" data-testid="pin-card-gap-mast">
+                      {ml.label}
+                    </span>
+                  )}
+                </dt>
+                <dd>
+                  <span className="s-fact-value" data-testid="pin-card-gap">
+                    {hours(row.longest_sun_gap_h)}
+                  </span>
+                  {clones && (
+                    <span className="s-fact-sub" data-testid="pin-card-gap-clones">
+                      {hoursRange(clones.longest_sun_center_hidden_h)} across {clones.longest_sun_center_hidden_h.n} terrain variants
+                    </span>
+                  )}
+                </dd>
+              </div>
+            </dl>
+            <p className="s-pincard-fine" data-testid="pin-card-any-note" data-same-mast={ml!.same}>
+              {ml!.same ? `Both for ${ml!.window}, ${ml!.label}.` : `Both ${ml!.label}, ${ml!.window}.`} Line of sight to the disc centre, not power or communications. {any.file.credit}.
+            </p>
+          </>
+        ) : (
+          <p className="s-pincard-fine" data-testid="pin-card-any-none">
+            Earth in sight and longest Sun gap: the any-site file has no row for this site.
+          </p>
+        ))}
+      {!any && (
+        // the file is still on its way, or did not load (then opening a pin card or checking a spot asks again)
+        <p className="s-pincard-fine" data-testid={anyFailed ? 'pin-card-any-failed' : 'pin-card-any-wait'}>
+          {anyFailed
+            ? `Earth in sight and longest Sun gap could not be loaded (${anyFailed}), so they are not shown. Nothing is substituted; opening a card again tries again.`
+            : 'Loading Earth in sight and longest Sun gap…'}
+        </p>
+      )}
       <p className="s-globe-legend">
         <span className="s-globe-legend-mark" aria-hidden="true" />
         {legend}
@@ -733,7 +806,7 @@ function PinCard({ site, legend, cardRef, onFly, onClose }: { site: GlobeSite; l
   );
 }
 
-export default function Globe({ file: first, upgrade = null, onModel, sites, sunDir, earthDir, tier, phase, target, cover, visited, legend, about, spotMatch = null, spotWindow = null, onPick, onArrive, onBack, intro, onIntroSettle, onIntroEnd }: GlobeProps) {
+export default function Globe({ file: first, upgrade = null, onModel, sites, sunDir, earthDir, tier, phase, target, cover, visited, legend, about, spotMatch = null, spotWindow = null, topMastM = null, onPick, onArrive, onBack, intro, onIntroSettle, onIntroEnd }: GlobeProps) {
   const fx = tier === 'high' || tier === 'medium' ? tier : null;
   const lite = tier === 'low';
   const still = useReducedMotion();
@@ -849,6 +922,7 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
     clicked();
     opener.current = byKeys() || (el !== null && document.activeElement === el && el.matches(':focus-visible')) ? el : null;
     if (cardRef.current?.kind === 'spot') spot.clear();
+    void spot.warmAny(); // S14: the pin card's Earth and Sun-gap rows come from the any-site file
     setCard({ kind: 'pin', i });
   };
   const closeCard = () => {
@@ -1394,12 +1468,15 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
             key={card.i}
             site={sites[card.i]}
             legend={`${still ? 'Ring width' : 'Shimmer'} = ${legend}`}
+            any={spot.any}
+            anyFailed={spot.anyFailed}
+            topMastM={topMastM}
             cardRef={(el) => void (cardEl.current = el)}
             onFly={() => live && onPick(card.i)}
             onClose={closeCard}
           />
         )}
-        {card?.kind === 'spot' && <SpotCard spot={spot} sites={spotSites} match={spotMatch} windowText={spotWindow} cardRef={(el) => void (cardEl.current = el)} onZoom={zoomTo} onFly={flyTo} onClose={closeCard} />}
+        {card?.kind === 'spot' && <SpotCard spot={spot} sites={spotSites} match={spotMatch} windowText={spotWindow} topMastM={topMastM} cardRef={(el) => void (cardEl.current = el)} onZoom={zoomTo} onFly={flyTo} onClose={closeCard} />}
       </div>
 
       {/* S13: the box along the bottom, with the hints above it until they have done their job */}

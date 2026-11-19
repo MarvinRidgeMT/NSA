@@ -1893,6 +1893,14 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .simple .s-pincard-line { margin: 0; font: 400 var(--text-lg) / 1.4 var(--f-sans); color: var(--c-bone); text-wrap: balance; }
 .simple .s-pincard[data-nodata] .s-pincard-line { font-size: var(--text-md); color: var(--c-ash); }
 .simple .s-pincard .s-gcard-actions { justify-content: space-between; padding-top: var(--space-1); }
+/* S14: the any-site rows on a pin card (Earth in sight, longest Sun gap) and the line saying what they are for */
+.simple .s-pincard .s-fact { padding: 8px 0; }
+.simple .s-pincard-fine { margin: 0; font: 400 var(--text-sm) / 1.45 var(--f-sans); color: var(--c-ash); text-wrap: pretty; }
+/* with those rows the pin card can be taller than a phone's sheet: its actions stay at the foot while the card scrolls (as the
+   spot card's foot does), and the fade that marks "more below" sits over them instead of at the card's own lower edge */
+.simple .s-pincard .s-gcard-actions { position: sticky; bottom: calc(var(--space-4) * -1); z-index: 1; margin: 0 calc(var(--space-4) * -1) calc(var(--space-4) * -1); padding: var(--space-3) var(--space-4) var(--space-4); border-top: 1px solid var(--c-hairline); background: rgb(38, 38, 35); }
+.simple .s-pincard .s-gcard-actions::before { content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: 28px; pointer-events: none; opacity: 0; transition: opacity var(--dur-press) var(--ease-standard-curve); background: linear-gradient(rgba(38, 38, 35, 0), rgb(38, 38, 35)); }
+.simple .s-pincard[data-below] .s-gcard-actions::before { opacity: 1; }
 
 /* ---------- S13 "Check a spot": the box along the bottom, and the answer card's rows ---------- */
 .simple .s-spot-layer {
@@ -1935,9 +1943,9 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 }
 /* a long card scrolls; Globe.tsx marks data-above / data-below, and that edge fades instead of cutting a line in half. The
    head stays at the top while the card scrolls (laid out exactly as before at rest), and the fade sits under it; at the
-   bottom the fade sits over the spot card's foot (or the card's own lower edge). */
+   bottom the fade sits over the card's foot (the spot card's, or the pin card's actions). */
 .simple .s-gcard-head { position: sticky; top: calc(var(--space-4) * -1); z-index: 2; margin: calc(var(--space-4) * -1) calc(var(--space-4) * -1) 0; padding: var(--space-4) var(--space-4) 0; }
-.simple .s-gcard-head::after, .simple .s-spot-foot::before, .simple .s-pincard::after {
+.simple .s-gcard-head::after, .simple .s-spot-foot::before {
   content: ''; position: absolute; left: 0; right: 0; height: 28px; pointer-events: none; opacity: 0; transition: opacity var(--dur-press) var(--ease-standard-curve);
 }
 .simple .s-gcard-head::after { top: 100%; background: linear-gradient(rgb(38, 38, 35), rgba(38, 38, 35, 0)); }
@@ -1945,8 +1953,6 @@ details.scene-note[open] { background: var(--scrim-strong); padding: 10px 14px; 
 .simple .s-gcard[data-above] .s-gcard-head::after { opacity: 1; }
 .simple .s-spot-foot::before { bottom: 100%; background: linear-gradient(rgba(38, 38, 35, 0), rgb(38, 38, 35)); }
 .simple .s-spot[data-below] .s-spot-foot::before { opacity: 1; }
-.simple .s-pincard::after { position: sticky; bottom: 0; margin: calc(-28px - var(--space-3)) calc(var(--space-4) * -1) 0; justify-self: stretch; background: linear-gradient(rgba(38, 38, 35, 0), rgb(38, 38, 35)); }
-.simple .s-pincard[data-below]::after { opacity: 1; }
 .simple .s-spot-here { font: 400 var(--text-sm) / 1 var(--f-sans); color: var(--c-ash); }
 /* the Moon takes clicks: a click drops a point */
 .simple .s-globe-pad { cursor: crosshair; }
