@@ -1,0 +1,4 @@
+{"utc": "2026-11-19T00:27:44Z", "event": "start", "stage": "select", "commit": "b083733082a80290e4c81e4a86a5b18e1caa8005", "workers": 4, "threads": 4, "resumed": false}
+{"utc": "2026-11-19T00:27:45Z", "event": "stop", "stage": "select"}
+{"utc": "2026-11-19T00:27:45Z", "event": "start", "stage": "list", "commit": "b083733082a80290e4c81e4a86a5b18e1caa8005", "workers": 4, "threads": 4, "resumed": false}
+{"utc": "2026-11-19T00:27:45Z", "event": "stop", "stage": "list"}
