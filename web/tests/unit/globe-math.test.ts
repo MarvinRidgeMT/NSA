@@ -1,8 +1,8 @@
 import { existsSync, readFileSync } from 'node:fs';
-import { execSync } from 'node:child_process';
+import { execFileSync, execSync } from 'node:child_process';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { GLOBE_8K, GLOBE_FULL, GLOBE_LITE, MODEL_YAW_RAD, RELIEF_CAP_FROM_DEG, RELIEF_CAP_TO_DEG, distanceForDisc, globePlan, reliefNormals, globeAsset, layoutPins, moonDir, pinReading, skyDirFromSite, type CurveRow, type SidecarSite } from '../../src/simple/globeMath';
+import { GLOBE_8K, GLOBE_FULL, GLOBE_LITE, GLOBE_V2, MODEL_YAW_RAD, RELIEF_CAP_FROM_DEG, RELIEF_CAP_TO_DEG, distanceForDisc, globePlan, reliefNormals, globeAsset, layoutPins, moonDir, pinReading, skyDirFromSite, type CurveRow, type SidecarSite } from '../../src/simple/globeMath';
 
 /** S4 globe arithmetic. Expected values are read from the sidecar and the bundle files, never typed in. */
 const sidecarPath = resolve(__dirname, '../../public/certainty/sidecar.json');
@@ -175,8 +175,9 @@ describe('relief shading of a model with relief', () => {
   });
 });
 
-// A clean clone has only the files git tracks: the compact model must be one of them (so the globe draws), and the 8k model
-// (81.5 MB, over the 50 MB kept in git) must not be.
+// A clean clone has only the files git tracks. Since S14 Part B (19 Nov 2026, Sid's decision) exactly two Moon models are
+// tracked: the POLARIS v2 globe (the default) and the compact NASA SVS model (?globe=svs). The 8k model (81.5 MB, over the
+// 50 MB kept in git) never is, and no tracked model may reach that size.
 const tracked = (() => {
   try {
     return execSync('git ls-files public/globe', { cwd: resolve(__dirname, '../..'), encoding: 'utf8' }).split('\n').filter(Boolean).map((f) => f.replace('public/globe/', ''));
@@ -185,11 +186,16 @@ const tracked = (() => {
   }
 })();
 describe.skipIf(tracked === null)('a clean clone', () => {
-  it('has the compact Moon model in git and not the 8k one; its globe plan draws the compact model with nothing to bring in', () => {
+  it('has exactly the v2 globe and the compact model in git, never the 8k one, each under 50 MB; its plan draws the v2 globe with nothing to bring in', () => {
+    const glbs = tracked!.filter((f) => f.endsWith('.glb'));
     expect(tracked).toContain(GLOBE_FULL);
     expect(tracked).not.toContain(GLOBE_8K);
-    expect(tracked!.filter((f) => f.endsWith('.glb'))).toEqual([GLOBE_FULL]);
-    expect(globePlan(tracked!.filter((f) => f.endsWith('.glb')), false)).toEqual({ first: GLOBE_FULL, then: null });
-    expect(globePlan(tracked!.filter((f) => f.endsWith('.glb')), true)).toEqual({ first: GLOBE_FULL, then: null });
+    expect([...glbs].sort()).toEqual([GLOBE_FULL, GLOBE_V2].sort());
+    // size as git stores it (the blob in the index), so a large file staged under an allowed name is caught too
+    for (const f of glbs) {
+      const bytes = Number(execFileSync('git', ['cat-file', '-s', `:./public/globe/${f}`], { cwd: resolve(__dirname, '../..'), encoding: 'utf8' }).trim());
+      expect(bytes, f).toBeLessThan(50 * 1024 * 1024);
+    }
+    for (const lite of [false, true]) expect(globePlan(glbs, lite)).toEqual({ first: GLOBE_V2, then: null });
   });
 });

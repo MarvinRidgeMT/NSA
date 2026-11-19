@@ -30,6 +30,11 @@ export interface DeviceFacts {
 const SOFTWARE = /swiftshader|llvmpipe|software|basic render/i;
 const STRONG_GPU = /apple m\d|apple gpu|nvidia|geforce|rtx|gtx|radeon (rx|pro)|\barc\b/i;
 
+/** Software rendering (SwiftShader, llvmpipe and the like): no GPU. The Moon model choice (globeMath.globeAsset) reads it. */
+export function isSoftwareRenderer(renderer: string): boolean {
+  return SOFTWARE.test(renderer);
+}
+
 export function tierFor(f: DeviceFacts): QualityTier {
   if (!f.renderer || SOFTWARE.test(f.renderer)) return 'low';
   if (!f.floatTargets) return 'low'; // no WebGL2 half-float render target: post chain cannot run

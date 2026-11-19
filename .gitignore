@@ -36,10 +36,13 @@ data/visual/**/*.rows
 # NASA SVS globe GLB, LROC NAC crops). Not committed: NASA rasters stay out of git.
 web/public/context/**/*.bin
 data/visual/terrain_context/**/*.bin
-# (web/public/globe: only NASA_SVS_moon_small.glb, 13.8 MB, is force-tracked so a clean clone draws the globe. The 8k model
-# NASA_SVS_Moon_NASA_LRO_8k_Topo_Small.glb is 81.5 MB, over the 50 MB kept in git, and moon_lite.glb is rebuilt by
-# web/scripts/make_globe_lite.mjs; both stay local.)
+# (web/public/globe: two models are tracked so a clean clone draws the globe: polaris_moon_globe.glb, the POLARIS v2 globe
+# (2.0 MB, the default since S14 Part B, 19 Nov 2026; SHA-256 in globe_manifest.json and docs/DATA_PROVENANCE.md), and
+# NASA_SVS_moon_small.glb (13.8 MB, ?globe=svs), force-tracked since S4. The 8k model NASA_SVS_Moon_NASA_LRO_8k_Topo_Small.glb
+# is 81.5 MB, over the 50 MB kept in git, and moon_lite.glb is rebuilt by web/scripts/make_globe_lite.mjs; both stay local.
+# web/tests/unit/globe-math.test.ts checks this list.)
 web/public/globe/*.glb
+!web/public/globe/polaris_moon_globe.glb
 app/assets/nasa/*.glb
 web/public/visual/site01_center_2km_1m_8bit.png
 data/visual/lroc_nac_pole_south_cm_avg/*.png

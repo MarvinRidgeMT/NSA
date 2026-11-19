@@ -344,7 +344,8 @@ for (const reduce of [false, true]) {
     test.setTimeout(180_000);
     if (reduce) await page.emulateMedia({ reducedMotion: 'reduce' });
     await trackUpgrade(page);
-    await openGlobe(page, '?quality=medium');
+    // S14 Part B: the 8k model is brought in only when the link asks for it
+    await openGlobe(page, '?quality=medium&globe=8k');
     await expect(page.getByTestId('simple-globe')).toHaveAttribute('data-upgrade-state', 'shown', { timeout: 150_000 });
     await expect(page.getByTestId('simple-globe')).toHaveAttribute('data-asset', 'NASA_SVS_Moon_NASA_LRO_8k_Topo_Small.glb');
     const seen = await upgradeSeen(page);

@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { easeCamera } from '../store/camera';
 import { EXPOSURE, postColors, SKY, SUN_HEX } from './postColors';
 import type { QualityTier } from './quality';
-import { DRIFT_DEG_PER_S, FLIGHT_MS, GLOBE_NAV, MODEL_HAS_RELIEF, MODEL_YAW_RAD, RELIEF_CAP_FROM_DEG, RELIEF_CAP_TO_DEG, RELIEF_SHADE, distanceForDisc, radPerPixel, releaseVelocity, reliefNormals, layoutPins, moonDir, texelsPerRadian, zoomFloor, type Pt, type Vec3 } from './globeMath';
+import { DRIFT_DEG_PER_S, FLIGHT_MS, GLOBE_NAV, GLOBE_V2, MODEL_HAS_RELIEF, MODEL_YAW_RAD, RELIEF_CAP_FROM_DEG, RELIEF_CAP_TO_DEG, RELIEF_SHADE, distanceForDisc, radPerPixel, releaseVelocity, reliefNormals, layoutPins, moonDir, texelsPerRadian, zoomFloor, type Pt, type Vec3 } from './globeMath';
 import { HonestyTag, HoverLabel, IconArrow, IconBack, IconClose, SitePin } from './parts';
 import { arcAt, distAt, glareFor, glareOut, INTRO, openMs, peekDeg, peekStillDeg, smooth as smoothStep, sunClear, SUN_RADIUS_DEG, type Arc } from './introMath';
 import { newIntroLink, useMoonLoad, type IntroLink } from './introState';
@@ -18,7 +18,8 @@ const SimplePost = lazy(() => import('./SimplePost'));
 /**
  * Simple-mode landing view (S4, 17 Nov 2026): the Moon seen from over its south pole, with the bundle's ROI sites as pins.
  *
- * VISUAL CONTEXT ONLY. The Moon is the NASA SVS 14959 model with its LROC image; nothing here is sampled by a calculation and
+ * VISUAL CONTEXT ONLY. The Moon is the POLARIS v2 globe (Anish Meruva; heights SOURCE-BASED · UNVALIDATED, base colour the LROC
+ * WAC mosaic, VISUAL) or, when the link asks, a NASA SVS model (globeMath.globeAsset); nothing here is sampled by a calculation and
  * the shading never decides a visible / blocked state. What is real: the model is turned to true lunar axes (globeMath.ts), the
  * light comes from the Sun direction the bundle gives for the sample on the clock, and each pin's line ends at its site's
  * bundle latitude and longitude. What is a display choice: brightness, the faint earthshine, the slow drift, the pin spacing.
@@ -137,6 +138,15 @@ function equirectPerPixel(mat: THREE.Material) {
   mat.customProgramCacheKey = () => 'moon-equirect';
 }
 
+/**
+ * S14 Part B: what the v2 globe's manifest says that drawing it needs. `yawRad` is worked out from the manifest's axes
+ * sentence (globeMath.yawFromAxes); `draco` says its mesh needs the Draco decoder.
+ */
+export interface GlobeV2 {
+  yawRad: number;
+  draco: boolean;
+}
+
 /** How long the 8k model takes to fade in over the compact one (none under reduced motion). */
 const UPGRADE_FADE_MS = 600;
 
@@ -146,7 +156,7 @@ const UPGRADE_FADE_MS = 600;
  * relief, which dips below the compact sphere in places, is not cut by it), 'over' faded in from transparent across
  * UPGRADE_FADE_MS, then `onFaded`.
  */
-function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, onFail, onFaded, onProgress }: { file: string; lite: boolean; show?: boolean; layer?: 'solo' | 'under' | 'over'; run?: boolean; onReady: (texelsPerRad: number) => void; onFail: (m: string) => void; onFaded?: () => void; onProgress?: (frac: number) => void }) {
+function Moon({ file, lite, v2 = null, show = true, layer = 'solo', run = true, onReady, onFail, onFaded, onProgress }: { file: string; lite: boolean; v2?: GlobeV2 | null; show?: boolean; layer?: 'solo' | 'under' | 'over'; run?: boolean; onReady: (texelsPerRad: number) => void; onFail: (m: string) => void; onFaded?: () => void; onProgress?: (frac: number) => void }) {
   const [model, setModel] = useState<THREE.Object3D | null>(null);
   const mats = useRef<THREE.Material[]>([]);
   // ms of fade done so far; -1 = not started, -2 = no fade (only advances while `run`, so it holds still during a flight)
@@ -178,15 +188,34 @@ function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, on
   useEffect(() => {
     let live = true;
     let made: { geo: THREE.BufferGeometry[]; mat: THREE.Material[]; tex: THREE.Texture[] } = { geo: [], mat: [], tex: [] };
-    new GLTFLoader().load(
+    const isV2 = file === GLOBE_V2;
+    const onError = (e: unknown) => live && onFail(e instanceof Error ? e.message : String(e));
+    // the v2 globe is drawn only with its manifest's axes; its mesh is Draco-compressed, so the decoder (three.js's own, served
+    // as draco/*) is fetched first, and only for this model
+    if (isV2 && !v2) {
+      onError(new Error('the v2 globe has no manifest entry'));
+      return;
+    }
+    const start = async () => {
+      const loader = new GLTFLoader();
+      let dracoLoader: { dispose(): void } | null = null;
+      if (isV2 && v2!.draco) {
+        const { DRACOLoader } = await import('three/examples/jsm/loaders/DRACOLoader.js');
+        const d = new DRACOLoader().setDecoderPath('draco/');
+        loader.setDRACOLoader(d);
+        dracoLoader = d;
+      }
+      loader.load(
       `globe/${file}`,
       (gltf) => {
+        dracoLoader?.dispose();
         const m = gltf.scene;
         m.updateMatrixWorld(true);
         // scale to a mean radius of 1 about the model's centre. The compact model is a cube-sphere, round to under 1 %, centred
         // on its box. The 8k model has relief in its mesh, which skews the box, so its centre is the mesh origin.
+        // The v2 globe is centred on its origin too (kilometres from the Moon's centre), with heights at true scale in its mesh.
         const relief = !!MODEL_HAS_RELIEF[file];
-        const centre = relief ? new THREE.Vector3() : new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3());
+        const centre = relief || isV2 ? new THREE.Vector3() : new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3());
         let sum = 0;
         let n = 0;
         let tpr = 0; // image pixels per radian of surface (S12 zoom limit), measured from this model
@@ -204,6 +233,8 @@ function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, on
           if (relief) {
             // smoothed and toned-down relief shading, smooth caps at the poles (globeMath.reliefNormals says why)
             reliefNormals(pos.array, nrm.array, RELIEF_SHADE, RELIEF_CAP_FROM_DEG, RELIEF_CAP_TO_DEG);
+          } else if (isV2) {
+            // the v2 globe keeps its own normals: smooth, from its true-scale heights
           } else {
             // The compact model's normals are per facet, which draws the day-night line as a staircase. That mesh is a sphere
             // with no relief of its own, so the smooth normal is the direction from its centre.
@@ -238,7 +269,7 @@ function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, on
           made.mat.push(mat);
         });
         const s = n ? n / sum : 1;
-        const yaw = MODEL_YAW_RAD[file] ?? 0;
+        const yaw = isV2 ? v2!.yawRad : (MODEL_YAW_RAD[file] ?? 0);
         m.scale.setScalar(s);
         m.rotation.y = yaw;
         m.position.copy(centre).applyAxisAngle(new THREE.Vector3(0, 1, 0), yaw).multiplyScalar(-s);
@@ -254,8 +285,13 @@ function Moon({ file, lite, show = true, layer = 'solo', run = true, onReady, on
       },
       // the loader's own progress events (bytes received of bytes expected), for the opening sequence's progress line
       (ev) => live && ev.lengthComputable && ev.total > 0 && onProgress?.(ev.loaded / ev.total),
-      (e) => live && onFail(e instanceof Error ? e.message : String(e)),
-    );
+      (e) => {
+        dracoLoader?.dispose();
+        onError(e);
+      },
+      );
+    };
+    start().catch(onError);
     return () => {
       live = false;
       made.geo.forEach((g) => g.dispose());
@@ -660,6 +696,10 @@ export interface GlobeProps {
   /** the Moon model to draw first (a file in public/globe), and a better one to bring in after it, if any (globeMath.globePlan) */
   file: string;
   upgrade?: string | null;
+  /** S14 Part B: the v2 globe's turn and decoder need, from its manifest; null when it has no manifest entry */
+  v2?: GlobeV2 | null;
+  /** S14 Part B: the model to draw instead when the v2 globe fails to load (globeMath.globeFallback); null = none */
+  fallback?: string | null;
   /** told which model is on screen, each time it changes */
   onModel?: (file: string) => void;
   /** what the shimmer means, after "Shimmer = " (its numbers come from the sidecar) and the "About this view" text (its numbers come from the bundle) */
@@ -806,11 +846,14 @@ function PinCard({ site, legend, any, anyFailed, topMastM, cardRef, onFly, onClo
   );
 }
 
-export default function Globe({ file: first, upgrade = null, onModel, sites, sunDir, earthDir, tier, phase, target, cover, visited, legend, about, spotMatch = null, spotWindow = null, topMastM = null, onPick, onArrive, onBack, intro, onIntroSettle, onIntroEnd }: GlobeProps) {
+export default function Globe({ file: asked, upgrade = null, v2 = null, fallback = null, onModel, sites, sunDir, earthDir, tier, phase, target, cover, visited, legend, about, spotMatch = null, spotWindow = null, topMastM = null, onPick, onArrive, onBack, intro, onIntroSettle, onIntroEnd }: GlobeProps) {
   const fx = tier === 'high' || tier === 'medium' ? tier : null;
   const lite = tier === 'low';
   const still = useReducedMotion();
   const [state, setState] = useState<'loading' | 'ready' | 'failed'>('loading');
+  // S14 Part B: when the v2 globe (or its decoder) fails, the light SVS model takes its place instead of an empty view
+  const [fellBack, setFellBack] = useState(false);
+  const first = fellBack && fallback ? fallback : asked;
   // the better model loads after the first one is on screen and takes its place while the view is at rest (never mid-flight):
   // it fades in over the first one for UPGRADE_FADE_MS (an instant cut under reduced motion), then the first one is dropped.
   // If it fails to load the first model simply stays.
@@ -1305,6 +1348,7 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
             <Moon
               file={first}
               lite={lite}
+              v2={v2}
               layer={up === 'fading' ? 'under' : 'solo'}
               onReady={(t) => {
                 setTpr((m) => ({ ...m, [first]: t }));
@@ -1312,6 +1356,13 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
               }}
               onProgress={(f) => useMoonLoad.setState({ frac: f })}
               onFail={(m) => {
+                if (first === GLOBE_V2 && fallback && !fellBack) {
+                  // eslint-disable-next-line no-console
+                  console.warn(`POLARIS: the v2 globe did not load (${m}); drawing ${fallback} instead`);
+                  wrap.current?.setAttribute('data-fallback-from', GLOBE_V2);
+                  setFellBack(true);
+                  return;
+                }
                 setWhy(m);
                 setState('failed');
               }}
@@ -1321,6 +1372,7 @@ export default function Globe({ file: first, upgrade = null, onModel, sites, sun
             <Moon
               file={upgrade}
               lite={lite}
+              v2={v2}
               show={up === 'fading' || up === 'shown'}
               layer={up === 'shown' ? 'solo' : 'over'}
               run={phase === 'idle'}

@@ -16,6 +16,12 @@
  * the image layout checked against the compact model above: sampled at the compact model's vertices through both frames the
  * two images correlate 0.968, and 0.92 after half a degree of shift either way (web/scripts/globe_orientation_8k.mjs).
  * A quarter turn about +Y (MODEL_YAW_RAD) brings it into the model frame used here, so pins and light need no second path.
+ *
+ * The POLARIS v2 globe (polaris_moon_globe.glb, S14 Part B, 19 Nov 2026; built by blender/v2/globe.py on Anish Meruva's Mac)
+ * states its own axes in public/globe/globe_manifest.json: "+Y north, +Z lon 0, +X lon 90 E". Its turn is worked out from
+ * that sentence (yawFromAxes: half a turn about +Y), not typed in, and the model is not drawn without it. Its image is six
+ * cube faces in the builder's equal-angle layout (cubeFaceTexel below repeats blender/v2/cubesphere.py so a test can check the
+ * mesh against it).
  */
 export type Vec3 = [number, number, number];
 const RAD = Math.PI / 180;
@@ -141,12 +147,14 @@ export const FLIGHT_MS = 1200;
 export const DRIFT_DEG_PER_S = 0.5;
 
 /**
- * Moon models, best first. Only the compact one is in the repository; the 8k model is 81.5 MB, over the size kept in git, so a
- * clean clone draws the compact model and a machine that has the 8k file draws that.
+ * Moon models. In the repository: the POLARIS v2 globe (2 MB, the default) and the compact NASA SVS model (13.8 MB). The 8k
+ * model is 81.5 MB, over the size kept in git, so only a machine that has the file can show it (?globe=8k).
  */
 export const GLOBE_8K = 'NASA_SVS_Moon_NASA_LRO_8k_Topo_Small.glb';
 export const GLOBE_FULL = 'NASA_SVS_moon_small.glb';
 export const GLOBE_LITE = 'moon_lite.glb';
+/** S14 Part B: Anish Meruva's whole-Moon globe, the default model on every device since 19 Nov 2026 (globeAsset). */
+export const GLOBE_V2 = 'polaris_moon_globe.glb';
 /** Turn about +Y that brings each model's own axes into the model frame above (see the header). */
 export const MODEL_YAW_RAD: Record<string, number> = { [GLOBE_8K]: Math.PI / 2 };
 /** Models whose mesh carries relief (their centre is the mesh origin; their normals go through reliefNormals). */
@@ -219,14 +227,25 @@ export function reliefNormals(pos: ArrayLike<number>, nrm: { [i: number]: number
 }
 
 /**
- * Which model to draw. Phones and software rendering (`lite`) never get the 8k model while a lighter one is present: the
- * reduced image if it has been built, else the compact model. Everything else gets the 8k model when it is present.
- * `prefer: 'compact'` (the link's ?globe=compact, for measurements) asks for the compact model on any device.
+ * Which model to draw (S14 Part B, 19 Nov 2026: Sid's decision, the POLARIS v2 globe is the default on desktops and phones).
+ *   no choice, 'v2'   the POLARIS v2 globe (2 MB) when it is present; the 81.5 MB 8k model is then never fetched
+ *   '8k'              the 8k model, brought in over the compact one (globePlan), on any device
+ *   'svs' / 'compact' the compact NASA SVS model; phones and software rendering (`lite`) get its reduced image when built
+ * A choice whose model is not present changes nothing. Without the v2 globe (a checkout that lacks it, or a manifest that
+ * does not match it) the choice falls back to the rule before S14 Part B: phones the reduced or compact model, everything
+ * else the 8k model when present.
+ * `software` (no GPU: SwiftShader, llvmpipe) keeps the reduced SVS model unless the link asks for v2 or 8k: the v2 globe's
+ * 442,368 triangles take about 133 ms a frame there against 33 ms for the reduced model (measured 19 Nov 2026, SwiftShader on
+ * the Mac), while on a GPU, phone or desktop, both draw within the 8.3 ms frame.
  */
-export function globeAsset(present: readonly string[], lite: boolean, prefer?: string | null): string {
+export function globeAsset(present: readonly string[], lite: boolean, prefer?: string | null, software = false): string {
   const has = (f: string) => present.includes(f);
+  if (prefer === '8k' && has(GLOBE_8K)) return GLOBE_8K;
+  // an SVS choice (asked for, or software rendering) counts only when an SVS image is there to draw: never the 8k model instead
+  const svs = (prefer === 'svs' || prefer === 'compact' || (software && prefer !== 'v2')) && (has(GLOBE_FULL) || has(GLOBE_LITE));
+  if (!svs && has(GLOBE_V2)) return GLOBE_V2;
   if (lite) return has(GLOBE_LITE) ? GLOBE_LITE : has(GLOBE_FULL) || !has(GLOBE_8K) ? GLOBE_FULL : GLOBE_8K;
-  if (prefer === 'compact' && has(GLOBE_FULL)) return GLOBE_FULL;
+  if (svs) return has(GLOBE_FULL) ? GLOBE_FULL : GLOBE_LITE;
   return has(GLOBE_8K) ? GLOBE_8K : GLOBE_FULL;
 }
 
@@ -235,10 +254,118 @@ export function globeAsset(present: readonly string[], lite: boolean, prefer?: s
  * (`best`) opens on the compact model and swaps once the 8k one has loaded; `then` is null when there is nothing better to
  * bring in, and the 8k model is drawn first only when it is the only model present.
  */
-export function globePlan(present: readonly string[], lite: boolean, prefer?: string | null): { first: string; then: string | null } {
-  const best = globeAsset(present, lite, prefer);
+export function globePlan(present: readonly string[], lite: boolean, prefer?: string | null, software = false): { first: string; then: string | null } {
+  const best = globeAsset(present, lite, prefer, software);
   if (best === GLOBE_8K && present.includes(GLOBE_FULL)) return { first: GLOBE_FULL, then: GLOBE_8K };
   return { first: best, then: null };
+}
+
+/**
+ * What to draw if the v2 globe (or its Draco decoder) fails to load: the compact NASA SVS model, or its reduced image on a
+ * phone, when one is present; never the 81.5 MB 8k model. Null when there is nothing light to fall back to.
+ */
+export function globeFallback(present: readonly string[], lite: boolean): string | null {
+  const has = (f: string) => present.includes(f);
+  if (lite && has(GLOBE_LITE)) return GLOBE_LITE;
+  return has(GLOBE_FULL) ? GLOBE_FULL : has(GLOBE_LITE) ? GLOBE_LITE : null;
+}
+
+/* ---------- S14 Part B: the v2 globe's own statement of its frame and image layout (19 Nov 2026). Display only. ---------- */
+
+/** One globe of public/globe/globe_manifest.json (schema polaris-globe-manifest-v1), as far as this view reads it. */
+export interface GlobeManifestEntry {
+  url: string;
+  kind: string;
+  sha256: string;
+  bytes: number;
+  draco: boolean;
+  builder: string | null;
+  axes: string | null;
+  labels: { heights: string; webBaseColour: string } | null;
+  heightsSource: string | null;
+  textureCredit: string | null;
+}
+
+/** The manifest's entry for a model file, or null (no manifest, or the file is not in it). */
+export function manifestEntry(manifest: { globes?: GlobeManifestEntry[] } | null | undefined, file: string): GlobeManifestEntry | null {
+  return manifest?.globes?.find((g) => g.url === `globe/${file}`) ?? null;
+}
+
+/**
+ * Turn about +Y (radians, as MODEL_YAW_RAD) that brings a model into the model frame of this file, read from the model's own
+ * sentence about its axes, e.g. "glTF +Y north, +Z lon 0, +X lon 90 E". Null when the sentence does not name the three
+ * axes, when north is not +Y (a turn about +Y could not fix that), or when the axes are not a right-handed lunar frame
+ * (longitude 0, 90° E, north): such a model is not drawn rather than drawn in the wrong place.
+ */
+export function yawFromAxes(axes: string | null | undefined): number | null {
+  if (!axes) return null;
+  const axis = (what: string): Vec3 | null => {
+    const m = new RegExp(`([+\\-−])\\s*([XYZ])\\s+${what}(?![\\d.])`, 'i').exec(axes);
+    if (!m) return null;
+    const v: Vec3 = [0, 0, 0];
+    v['XYZ'.indexOf(m[2].toUpperCase())] = m[1] === '+' ? 1 : -1;
+    return v;
+  };
+  const n = axis('north');
+  const a0 = axis('lon(?:gitude)?\\s*0(?:\\s*°)?');
+  const a90 = axis('lon(?:gitude)?\\s*90(?:\\s*°)?\\s*E');
+  if (!n || !a0 || !a90 || n[1] !== 1) return null;
+  // right-handed: (longitude 0) × (90° E) = north
+  const c: Vec3 = [a0[1] * a90[2] - a0[2] * a90[1], a0[2] * a90[0] - a0[0] * a90[2], a0[0] * a90[1] - a0[1] * a90[0]];
+  if (c[0] !== n[0] || c[1] !== n[1] || c[2] !== n[2]) return null;
+  // a turn by t about +Y takes (x, y, z) to (x cos t + z sin t, y, −x sin t + z cos t); longitude 0 must land on −Z
+  const t = Math.atan2(a0[0], -a0[2]);
+  return t === 0 ? 0 : t; // (no −0)
+}
+
+/** A direction of the model frame of this file, in a model's own axes (the inverse of its turn about +Y). */
+export function toModelAxes(d: Vec3, yawRad: number): Vec3 {
+  const c = Math.cos(yawRad);
+  const s = Math.sin(yawRad);
+  return [d[0] * c - d[2] * s, d[1], d[0] * s + d[2] * c];
+}
+
+/**
+ * Faces of the v2 globe's cube map in Moon-fixed axes (x = longitude 0, y = 90° E, z = north): centre, the direction its
+ * image's u grows in, the direction its v grows in. Order as the model's materials: 0 +X, 1 +Y, 2 −X, 3 −Y, 4 +Z, 5 −Z.
+ * Copied from blender/v2/cubesphere.py FACES (origin/feature/v2-whole-moon), which is the builder's rule.
+ */
+const CUBE_FACES: readonly (readonly [Vec3, Vec3, Vec3])[] = [
+  [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+  [[0, 1, 0], [-1, 0, 0], [0, 0, 1]],
+  [[-1, 0, 0], [0, -1, 0], [0, 0, 1]],
+  [[0, -1, 0], [1, 0, 0], [0, 0, 1]],
+  [[0, 0, 1], [0, 1, 0], [-1, 0, 0]],
+  [[0, 0, -1], [0, 1, 0], [1, 0, 0]],
+];
+const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+
+/**
+ * Where the builder put a latitude / longitude in the v2 globe's image: the cube face and the position in that face's
+ * n × n image (x from the left, y from the top, in pixels; pixel centres at half-integers). Equal-angle map: a face
+ * parameter a in [−1, 1] stands at tan(a π/4) across the face.
+ */
+export function cubeFaceTexel(latDeg: number, lonEastDeg: number, n: number): { face: number; x: number; y: number } {
+  const lat = latDeg * RAD;
+  const lon = lonEastDeg * RAD;
+  const m: Vec3 = [Math.cos(lat) * Math.cos(lon), Math.cos(lat) * Math.sin(lon), Math.sin(lat)];
+  let face = 0;
+  for (let f = 1; f < 6; f++) if (dot(m, CUBE_FACES[f][0]) > dot(m, CUBE_FACES[face][0])) face = f;
+  const [c, eu, ev] = CUBE_FACES[face];
+  const w = dot(m, c);
+  const a = (Math.atan(dot(m, eu) / w) * 4) / Math.PI;
+  const b = (Math.atan(dot(m, ev) / w) * 4) / Math.PI;
+  return { face, x: ((a + 1) / 2) * n, y: (1 - (b + 1) / 2) * n };
+}
+
+/** The inverse: latitude and east longitude (degrees) the builder drew at a position of a face's n × n image. */
+export function cubeFaceLatLon(face: number, x: number, y: number, n: number): { lat: number; lon: number } {
+  const [c, eu, ev] = CUBE_FACES[face];
+  const u = Math.tan((((x / n) * 2 - 1) * Math.PI) / 4);
+  const v = Math.tan((((1 - y / n) * 2 - 1) * Math.PI) / 4);
+  const d: Vec3 = [c[0] + u * eu[0] + v * ev[0], c[1] + u * eu[1] + v * ev[1], c[2] + u * eu[2] + v * ev[2]];
+  const r = Math.hypot(d[0], d[1], d[2]);
+  return { lat: Math.asin(d[2] / r) / RAD, lon: Math.atan2(d[1], d[0]) / RAD };
 }
 
 /* ---------- S12: moving the Moon by hand (18 Nov 2026). Display only; nothing here feeds a number. ---------- */

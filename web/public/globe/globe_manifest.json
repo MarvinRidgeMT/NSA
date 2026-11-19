@@ -1,0 +1,47 @@
+{
+ "schema": "polaris-globe-manifest-v1",
+ "writtenBy": "web/scripts/sync-globe.mjs",
+ "globes": [
+  {
+   "url": "globe/polaris_moon_globe.glb",
+   "role": "primary",
+   "kind": "blender",
+   "sha256": "9e9c0d638116795c022237cd1719a6873449cf845351ef8c5f62c4aabe4fb22f",
+   "bytes": 2041900,
+   "generator": "Khronos glTF Blender I/O v5.3.43",
+   "draco": true,
+   "builder": "blender/v2/globe.py",
+   "tag": "moon_globe",
+   "blender": "5.3.0",
+   "units": "km",
+   "axes": "glTF +Y north, +Z lon 0, +X lon 90 E (Moon-fixed ME, rotated for the web viewer)",
+   "radiusKm": 1737.4,
+   "labels": {
+    "heights": "SOURCE-BASED · UNVALIDATED (S3 pyramid level 0, box-filtered)",
+    "photometry": "MODEL (Hapke 2012, WAC 643 nm)",
+    "albedo": "MODEL: Hapke w from the LROC WAC 643 nm parameter map (1 deg), bilinear; regional median poleward of 70.5 deg",
+    "webBaseColour": "VISUAL base colour: WAC MORPHOLOGIC mosaic, topographic shading baked in; not an albedo for photometry"
+   },
+   "heightsSource": "S3 pyramid level 0 (eq 947 m, polar 1280 m) via blender/v2/pack.py",
+   "textureCredit": "LROC WAC global morphologic mosaic 100 m (June 2013): NASA/GSFC/Arizona State University (LROC SOC); distributed by USGS Astrogeology. Speyerer et al. 2011 (LPSC 42, 2387); Wagner et al. 2015 (LPSC 46, 1473)."
+  },
+  {
+   "url": "globe/NASA_SVS_moon_small.glb",
+   "role": "fallback",
+   "kind": "svs",
+   "sha256": "12d3b0bb7fe214903f51447d1bc61710f442e92a11c703fcaca6d4e7ff8e67d4",
+   "bytes": 13799876,
+   "generator": "Khronos glTF Blender I/O v5.0.21",
+   "draco": false,
+   "builder": null,
+   "tag": null,
+   "blender": null,
+   "units": null,
+   "axes": null,
+   "radiusKm": null,
+   "labels": null,
+   "heightsSource": null,
+   "textureCredit": null
+  }
+ ]
+}

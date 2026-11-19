@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { pickQuality, tierFor, type DeviceFacts } from '../../src/simple/quality';
+import { isSoftwareRenderer, pickQuality, tierFor, type DeviceFacts } from '../../src/simple/quality';
 
 const desk = (renderer: string): DeviceFacts => ({ renderer, coarsePointer: false, shortSidePx: 982, floatTargets: true });
 
@@ -38,5 +38,16 @@ describe('Simple-mode quality tier (display only)', () => {
       expect(pickQuality(q, noGl)).toEqual({ tier: 'low', source: 'device' });
     }
     expect(pickQuality('?quality=low', noGl)).toEqual({ tier: 'low', source: 'link' });
+  });
+});
+
+describe('software rendering, for the Moon model choice (S14 Part B)', () => {
+  it('SwiftShader and llvmpipe are software; Apple, NVIDIA and Intel GPUs are not', () => {
+    expect(isSoftwareRenderer('ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)')).toBe(true);
+    expect(isSoftwareRenderer('llvmpipe (LLVM 15.0.7, 256 bits)')).toBe(true);
+    expect(isSoftwareRenderer('ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)')).toBe(false);
+    expect(isSoftwareRenderer('Apple GPU')).toBe(false);
+    expect(isSoftwareRenderer('ANGLE (NVIDIA, NVIDIA GeForce RTX 4070 Direct3D11 vs_5_0 ps_5_0, D3D11)')).toBe(false);
+    expect(isSoftwareRenderer('ANGLE (Intel, Intel(R) UHD Graphics 620 Direct3D11 vs_5_0 ps_5_0, D3D11)')).toBe(false);
   });
 });

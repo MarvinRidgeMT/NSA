@@ -10,8 +10,8 @@ import { PlainAnswer, verdictWord } from './components/PlainAnswer';
 import { fmtPctRange, mastScenarioId, useChooseMast, useMastReading } from './components/MastInstrument';
 import { TimeBar } from './components/TimeBar';
 import { switchMode } from './mode';
-import { pickQuality, QUALITY_NOTE } from './simple/quality';
-import { GLOBE_8K, GLOBE_NAV, globePlan, moonDir, pinReading, skyDirFromSite, type CurveRow } from './simple/globeMath';
+import { deviceFacts, isSoftwareRenderer, pickQuality, QUALITY_NOTE } from './simple/quality';
+import { GLOBE_8K, GLOBE_LITE, GLOBE_NAV, GLOBE_V2, globeFallback, globePlan, manifestEntry, moonDir, pinReading, skyDirFromSite, yawFromAxes, type CurveRow } from './simple/globeMath';
 import type { GlobeSite } from './simple/Globe';
 import { Intro } from './simple/Intro';
 import { lightCaption } from './simple/introMath';
@@ -52,6 +52,15 @@ type Place = 'globe' | 'in' | 'site' | 'out';
  * and offers no "Back to the Moon".
  */
 const HAS_GLOBE = __GLOBE_FILES__.length > 0;
+/**
+ * S14 Part B: the POLARIS v2 globe's entry in public/globe/globe_manifest.json (labels, credit, axes), and what drawing it
+ * needs. The turn comes from the manifest's axes sentence; with no entry, or axes this view cannot read, the v2 globe is not
+ * offered and ?globe=v2 changes nothing.
+ */
+const V2_ENTRY = manifestEntry(__GLOBE_MANIFEST__, GLOBE_V2);
+const V2_YAW = yawFromAxes(V2_ENTRY?.axes);
+const V2_DRAW = V2_ENTRY && V2_YAW !== null ? { yawRad: V2_YAW, draco: V2_ENTRY.draco } : null;
+const GLOBE_FILES = __GLOBE_FILES__.filter((f) => f !== GLOBE_V2 || V2_DRAW !== null);
 function opensOnTerrain(search: string): boolean {
   const p = new URLSearchParams(search);
   return p.has('site') || p.get('view') === 'terrain';
@@ -329,7 +338,11 @@ export default function SimpleApp() {
   const reading = !!(v && sidecar?.sites?.[v.dataset.siteId]);
   const [gl] = useState(webglAvailable);
   // render quality tier, picked once at start (display only; simple/quality.ts)
-  const [quality] = useState(() => pickQuality(location.search));
+  // the device is read once: its tier, and whether it renders in software (no GPU), which keeps the light Moon model (S14 Part B)
+  const [quality] = useState(() => {
+    const facts = deviceFacts();
+    return { ...pickQuality(location.search, () => facts), software: isSoftwareRenderer(facts.renderer) };
+  });
   const [banner, setBanner] = useState(() => !bannerDismissed());
   const [menu, setMenu] = useState(false); // phones: the "more" menu in the top row
   const [sheet, setSheet] = useState(false); // phones: the answer sheet, collapsed to its verdict or open
@@ -501,19 +514,24 @@ export default function SimpleApp() {
   const lon = site?.longitudeEastDeg;
   const sunDir = useMemo(() => (lat !== undefined && lon !== undefined && sunAz !== undefined && sunEl !== undefined ? skyDirFromSite(lat, lon, sunAz, sunEl) : null), [lat, lon, sunAz, sunEl]);
   const earthDir = useMemo(() => (lat !== undefined && lon !== undefined && earthAz !== undefined && earthEl !== undefined ? skyDirFromSite(lat, lon, earthAz, earthEl) : null), [lat, lon, earthAz, earthEl]);
-  // which Moon model this device draws first and which it brings in after (globeMath.globePlan); ?globe=compact keeps the
-  // compact one, for measurements. `moonFile` is the one on screen now.
-  const moonPlan = useMemo(() => globePlan(__GLOBE_FILES__, quality.tier === 'low', new URLSearchParams(location.search).get('globe')), [quality]);
+  // which Moon model this device draws first and which it brings in after (globeMath.globePlan): the POLARIS v2 globe unless
+  // the link says ?globe=8k or ?globe=svs, or the device renders in software. `moonFile` is the one on screen now.
+  const moonPlan = useMemo(() => globePlan(GLOBE_FILES, quality.tier === 'low', new URLSearchParams(location.search).get('globe'), quality.software), [quality]);
   const [moonFile, setMoonFile] = useState(moonPlan.first);
   const about = v
-    ? (moonFile === GLOBE_8K
+    ? (moonFile === GLOBE_V2 && V2_ENTRY
+        ? // every label and the credit are the manifest's own words (public/globe/globe_manifest.json)
+          `Globe: POLARIS v2 (Anish Meruva), built by ${V2_ENTRY.builder}. Heights: ${V2_ENTRY.labels?.heights}, from ${V2_ENTRY.heightsSource}, drawn at true scale. ` +
+          `${V2_ENTRY.labels?.webBaseColour}. Credit: ${V2_ENTRY.textureCredit} ` +
+          `VISUAL: display only, never sampled by a calculation. The shadows in that image were there when each strip was photographed; they are not cast by the Sun shown here. `
+        : moonFile === GLOBE_8K
         ? `Moon: NASA SVS / LRO model with relief in its mesh and its LROC albedo image. VISUAL: display only, never sampled by a calculation; the relief is drawn taller than the real Moon's and its shading is not a shadow calculation. `
         : `Moon: NASA SVS / LRO compact model (SVS 14959) with its LROC albedo image. VISUAL: display only, never sampled by a calculation; the source notes artifacts near the poles of this model. `) +
       `It is turned to true lunar axes, south pole toward you. ` +
       `Light: the Sun direction in the bundle at ${fmtUtc(v.utcMs)} (azimuth ${v.sun.az.toFixed(1)}°, elevation ${v.sun.el.toFixed(2)}° at ${v.dataset.site.name}). Brightness and the faint earthshine are display choices, and this shading never decides visible or blocked. ` +
       `Pins: each line ends at the site's bundle latitude and longitude; the pins stand apart from it so they can be read and pressed. The slow drift is a display motion. ` +
       `You can turn the Moon by dragging and zoom with the wheel or a pinch; the zoom stops where one pixel of this Moon image would be drawn larger than ${GLOBE_NAV.MAX_TEXEL_CSS_PX} screen pixels, and "Back to south pole" returns to the sites. ` +
-      `Quality: ${QUALITY_NOTE[quality.tier].replace('bloom, flare and grain off; the Sun keeps a plain glow', 'lighter Moon image, camera effects off').replace('camera effects on', 'film grain on, a camera effect')}. The Sun itself is outside this view, so there is no glow or flare here. ` +
+      `Quality: ${QUALITY_NOTE[quality.tier].replace('bloom, flare and grain off; the Sun keeps a plain glow', moonFile === GLOBE_LITE ? 'lighter Moon image, camera effects off' : 'camera effects off').replace('camera effects on', 'film grain on, a camera effect')}. The Sun itself is outside this view, so there is no glow or flare here. ` +
       `Check a spot: a click is placed on a smooth sphere at the pins' radius, not on the drawn relief, and only supplies coordinates; the values come from the files. ` +
       `${ANYSITE_CREDIT}: the nearest-computed-point answers and slope in Check a spot, and Earth in sight and longest Sun gap on the pin cards. SOURCE-BASED · UNVALIDATED. ` +
       `Opening sequence: the same Moon and the same Sun direction, seen first from the night side; its glare, lens flare and colour fringing are camera effects, display only, and stop before this view.`
@@ -798,6 +816,8 @@ export default function SimpleApp() {
               <Globe
                 file={moonPlan.first}
                 upgrade={moonPlan.then}
+                v2={V2_DRAW}
+                fallback={moonPlan.first === GLOBE_V2 ? globeFallback(GLOBE_FILES, quality.tier === 'low') : null}
                 onModel={setMoonFile}
                 sites={pins}
                 sunDir={sunDir}
