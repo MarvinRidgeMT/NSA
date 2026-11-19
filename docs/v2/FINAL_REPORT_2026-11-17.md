@@ -25,7 +25,7 @@ solver is `TERRAIN_STACK_CONTRACT.md`; it was changed only through dated amendme
 | §4 decision tools | partial | Robust choice, regret, value of information, landing search and Pareto, all for the two precomputed sites only. Not run across the whole Moon. |
 | §5 Blender | done, partial in places | Whole-Moon globe: a 2.0 MB Draco GLB that passes the glTF provenance proof. Pyramid close-ups anywhere. WAC albedo, shadow-free. Hapke shading. Blender run_all 14/14. |
 | §6.1, 6.3 imagery, protocol | done (orbital metadata only) | Catalogue of 7,298 images. Protocol pre-registered. |
-| §6.2, 6.4–6.5 render vs real | partial: LROC NAC, LROC WAC (643 nm) and ShadowCam dev pilots and held-out runs done; Kaguya TC not scored | See §3, §3a, §3b and §3c. |
+| §6.2, 6.4–6.5 render vs real | partial: LROC NAC, LROC WAC (643 nm) and ShadowCam dev pilots and held-out runs done; Kaguya TC dev pilot done, held-out run in progress | See §3, §3a, §3b, §3c and §3d. |
 | §7 NASA-user features, gates | partial | Exports, solver API (OpenAPI, 14 routes) and gates exist. All gates pass after the 17 Nov fixes (accessibility and 390 px: `GATES.md` §8). Single long frames traced; the shader-compile stalls are fixed (`GATES.md` §9). AI planner not built. |
 
 ## 3. Render vs real (R4), dev split only, not the held-out headline
@@ -117,6 +117,22 @@ SOURCE-BASED · UNVALIDATED.
 - **Limits:** the saturation mask grows the lit class by up to one binned pixel along sunlit edges (stated in A10, not
   corrected). Hapke 643 nm parameters are applied to the 450–750 nm band. Secondary-track rows test geometry only.
 
+## 3d. Render vs real, Kaguya TC (Amendments A11–A13, 18 Nov 2026)
+Reports: `docs/validation/RENDER_VS_REAL_TC_DEV.md` (dev); `RENDER_VS_REAL_TC_HELDOUT.md` when the held-out run ends.
+SOURCE-BASED · UNVALIDATED · dev numbers only so far.
+- **Camera model:** ISIS KaguyaTcCamera re-implemented with the USGS public SELENE kernels; headline orbit = the RISE
+  solution named in each label (A11). JAXA DARTS rejects scripted requests, so the project owner downloads the images by
+  hand; nothing was done to get around the refusal (A11.7).
+- **Pipeline test (A12):** no sample flip for moving direction −1 (+1 gated); ISIS start time; registration ± 748 m.
+- **Dev pilot:** 150 rows, 141 scored (137 primary track), 9 gated (+1), 0 failed. Dry-run §8 rule (not a claim): met at
+  all four sites for PGDA 78 (median IoU 0.955–0.983, edge 10.0–10.8 m vs ~20 m) and LDEM_875S; PGDA 90 fails edge.
+- **Systematic offset:** the real images sit ~250 m (≈ 22 lines, along track) from the public camera model, as JAXA's
+  own label geometry does; cause not established (IK version?). Unregistered edge 42–68 m: the claim rests on one rigid
+  shift per image. Low-Sun rows hit the Otsu floor (IoU 0.27, count-matched 0.97); 6 mono rows register ~1.1 km off.
+- **Held-out (A13, registered at b083733 before any held-out file was listed):** 50 rows per site, 200 rows / 182 images;
+  prediction (a)–(f) stated, headline: §8 met at every site for PGDA 78. The owner's download and the scoring were
+  running at the time of writing; no held-out number is reported here.
+
 ## 4. Tests on the final branch (17 Nov ~03:00 EST)
 - pytest `science tools`: 779 passed, 3 skipped.
 - Blender `run_all.py`: 14/14, with `POLARIS_PYTHON` set to the project venv.
@@ -145,7 +161,7 @@ SOURCE-BASED · UNVALIDATED.
 2. ~~Fix the accessibility and 390 px mobile gate failures.~~ **Done 17 Nov:** axe 0 serious, 390 px 5/5 (`GATES.md` §8).
    Adding axe-core as a devDependency still needs your OK.
 3. ~~Move the 10.3 MB Mars bundle JSON out of git, or compress it.~~ **Done 17 Nov:** stored gzipped, 1.6 MB (content unchanged).
-4. ~~Before the held-out render-vs-real run: register A5 (Otsu on near-total-shadow windows), then run it.~~ **Done 17 Nov** (§3a). ~~Score WAC~~ **(done 17 Nov, A6/A7, §3b: claim not met under the registered threshold rule)**. ~~Score ShadowCam~~ **(done 18 Nov, A8–A10, §3c: claim not met under the registered threshold rule; the saturation boundary matches to 7.5 m, a secondary result)**. Score Kaguya TC (needs its own camera model, amendment and held-out run). ~~Wire `RealVsModel.tsx` into the app.~~ **Done 17 Nov:** on the Evidence page; images rebuilt locally (not in git).
+4. ~~Before the held-out render-vs-real run: register A5 (Otsu on near-total-shadow windows), then run it.~~ **Done 17 Nov** (§3a). ~~Score WAC~~ **(done 17 Nov, A6/A7, §3b: claim not met under the registered threshold rule)**. ~~Score ShadowCam~~ **(done 18 Nov, A8–A10, §3c: claim not met under the registered threshold rule; the saturation boundary matches to 7.5 m, a secondary result)**. Score Kaguya TC **(dev done 18 Nov, A11–A12; A13 registered; held-out run in progress, §3d)**. ~~Wire `RealVsModel.tsx` into the app.~~ **Done 17 Nov:** on the Evidence page; images rebuilt locally (not in git).
 5. ~~Mars relays~~ **(geometry done 17 Nov, `MARS_RELAYS.md`; MAVEN has no trajectory for the window)** and the Mars sky model. Clone members for Mercury and Mars, so they can have a cube and Decision Card. Decision tools across the whole Moon.
 6. Rerun the Moon precompute: the legacy eq caches now include SLDEM2015.
 

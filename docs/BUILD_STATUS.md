@@ -1526,3 +1526,14 @@ Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/P
   predicted lit IoU 0.86–0.94 by site, saturation edge 7.4–7.8 m (limit ~10 m), beats flat control ≥ 83 % per site.
   `docs/validation/RENDER_VS_REAL_SHC_HELDOUT.md`; results_shc_heldout/ holds ids and numbers only; thumbnails
   git-ignored. Nothing pushed.
+
+### POLARIS X v2 — Kaguya TC render vs real: dev done, held-out running (A11–A13) — Claude (coordinator), 18 Nov 2026 ~19:45 EST
+- 488a72b A11 (camera model, orbit rule, pipeline-test rule, dev selection) registered before any TC render; 5196723 A12
+  (no flip for direction −1, +1 gated, ISIS start, ± 748 m registration; DCT padding, piecewise attitude fit, sample crop,
+  gzip checks) registered before any dev score. DARTS rejects scripted requests: the project owner downloads by hand.
+- c1536d6 dev pilot: 141/150 rows scored, 9 gated, 0 failed. Dry-run §8 met at all four sites for PGDA 78 and LDEM_875S
+  (PGDA 90 fails edge). Registered offset median 249 m (~22 lines along track; cause open); unregistered edge 42–68 m.
+  GRGM900C comparison on 11 rows: no change in IoU or edge.
+- b083733 A13 + Entry 14 (A13 and nine TC modules frozen) before any held-out file was listed; a5ecf27 held-out selection
+  (200 rows / 182 images, 50 per site) and download list. Held-out run started at a5ecf27, following the owner's
+  download; report to follow. Frozen refs unchanged. Nothing pushed.
