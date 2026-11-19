@@ -2,3 +2,5 @@
 {"utc": "2026-11-19T00:27:45Z", "event": "stop", "stage": "select"}
 {"utc": "2026-11-19T00:27:45Z", "event": "start", "stage": "list", "commit": "b083733082a80290e4c81e4a86a5b18e1caa8005", "workers": 4, "threads": 4, "resumed": false}
 {"utc": "2026-11-19T00:27:45Z", "event": "stop", "stage": "list"}
+{"utc": "2026-11-19T00:27:55Z", "event": "start", "stage": "run", "commit": "a5ecf27e6ed437b0a722c80f63e236c609227e16", "workers": 4, "threads": 4, "resumed": false}
+{"utc": "2026-11-19T02:11:10Z", "event": "stopped_by_owner", "stage": "run", "reason": "project owner decided to stop the held-out run before completion (18 Nov 2026 ~20:45 EST); no claim is made", "rowsScored": 66, "rowsWithGeometry": 127, "rowsSelected": 200}

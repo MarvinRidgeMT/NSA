@@ -1537,3 +1537,7 @@ Branch `claude/v2-t2-web-fdb776` (contains 13551d0). Plan + as built: `docs/v2/P
 - b083733 A13 + Entry 14 (A13 and nine TC modules frozen) before any held-out file was listed; a5ecf27 held-out selection
   (200 rows / 182 images, 50 per site) and download list. Held-out run started at a5ecf27, following the owner's
   download; report to follow. Frozen refs unchanged. Nothing pushed.
+- 18 Nov ~21:10 EST: the project owner stopped the TC held-out run before completion (all 364 files downloaded; 66 of
+  200 rows scored, 122 geometry OK, 5 gated, 73 not processed, 0 failed). Logged `stopped_by_owner`;
+  `docs/validation/RENDER_VS_REAL_TC_HELDOUT.md` gives accounting only, no metric and no claim. Partial ids and numbers
+  committed for the record. Pushed on the owner's request.
