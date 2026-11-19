@@ -1,14 +1,15 @@
 """The single pre-registered held-out run for Kaguya TC (Amendment A13).
 
-    python -m tools.validation.render_vs_real.tc_heldout verify|select|list|check|run [--workers 4 --threads 4]
+    python -m tools.validation.render_vs_real.tc_heldout verify|select|list|check|run|orbit [--workers 4 --threads 4]
 
 Refuses to start unless the frozen protocol and catalogue match and every file registered in docs/v2/PREREGISTRATION.md
 matches its SHA-256, with A11, A12, A13 and all of FROZEN_CODE among them. Stages run in a child process with
 POLARIS_TC_SPLIT=heldout (tc_common.py): outputs in results_tc_heldout/ and $POLARIS_DATA/v2/render_vs_real/tc_heldout/.
-  select  A13.2: the first N_HELDOUT eligible held-out rows in SHA-256(SEED:product_id:site) order (metadata only)
+  select  A13.2: per site, the first PER_SITE eligible held-out rows in SHA-256(SEED:product_id:site) order (metadata only)
   list    the URLs the project owner downloads (DARTS rejects this pipeline's requests; A11.7) -> download_heldout.txt
   check   damaged or missing downloads -> redownload_heldout.txt
   run     tc_pilot: geometry, render and score rows as their files arrive (resumable; scored rows are never re-scored)
+  orbit   comparison only (A11.3): the GRGM900C orbit on the rows it covers -> geometry_grgm900c.csv, scores_grgm900c.jsonl
 Conventions as A12: ISIS start time; no sample flip for moving direction -1; +1 gated; registration +- 747.6 m.
 """
 from __future__ import annotations
@@ -29,7 +30,7 @@ FROZEN_CODE = W.FROZEN_CODE + [f'tools/validation/render_vs_real/{m}.py' for m i
 AMENDMENTS = ('docs/v2/RENDER_VS_REAL_PROTOCOL_A11.md', 'docs/v2/RENDER_VS_REAL_PROTOCOL_A12.md',
               'docs/v2/RENDER_VS_REAL_PROTOCOL_A13.md')
 SEED = 'polaris-x-v2-kaguya-tc-heldout-2026-11-18'
-N_HELDOUT = 200
+PER_SITE = 50                          # A13.2: equal allocation over the four sites (the §8 claim is per site)
 
 
 def verify():
@@ -47,15 +48,21 @@ def _log(event, **kw):
 
 
 def select():
+    import collections
     import hashlib
     from .tc_common import TC_RESULTS, guard
     from .tc_select import choose, images_of
     cat = C.read_catalogue()
     rows, elig, gated = choose(cat, 'heldout')
     elig.sort(key=lambda r: hashlib.sha256(f"{SEED}:{r['product_id']}:{r['site']}".encode()).hexdigest())
-    pick = elig[:N_HELDOUT]
+    sites = sorted({r['site'] for r in elig})
+    pick = [r for s in sites for r in [x for x in elig if x['site'] == s][:PER_SITE]]
+    pick.sort(key=lambda r: hashlib.sha256(f"{SEED}:{r['product_id']}:{r['site']}".encode()).hexdigest())
     guard([r['product_id'] for r in pick], cat, required=FROZEN_CODE)
-    sel = {'rule': f'A13.2: the first {N_HELDOUT} eligible held-out TC rows in SHA-256(seed:product_id:site) order; metadata only',
+    sel = {'rule': f'A13.2: per site, the first {PER_SITE} eligible held-out TC rows in SHA-256(seed:product_id:site) order; '
+                   'metadata only', 'perSite': PER_SITE, 'eligibleRowsBySite': dict(collections.Counter(r['site'] for r in elig)),
+           'rowsBySite': dict(collections.Counter(r['site'] for r in pick)),
+           'productOfRows': dict(collections.Counter(r['instrument'] for r in pick)),
            'seed': SEED, 'heldoutRows': len(rows), 'eligibleRows': len(elig),
            'eligibleImages': len({r['product_id'] for r in elig}), 'gatedByMetadata': dict(gated),
            'nImages': len({r['product_id'] for r in pick}), 'nRows': len(pick),
@@ -85,12 +92,17 @@ def _child(a):
     elif a.stage == 'run':
         from . import tc_pilot
         tc_pilot.main(['--workers', str(a.workers), '--threads', str(a.threads), '--idle-minutes', str(a.idle_minutes)])
+    elif a.stage == 'orbit':
+        from . import tc_geometry, tc_run
+        tc_geometry.main(['--orbit', 'grgm900c', '--out', 'geometry_grgm900c.csv'])
+        tc_run.main(['--workers', str(a.workers), '--threads', str(a.threads), '--geometry', 'geometry_grgm900c.csv',
+                     '--scores', 'scores_grgm900c.jsonl'], required=FROZEN_CODE)
     _log('stop', stage=a.stage)
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument('stage', choices=['verify', 'select', 'list', 'check', 'run'])
+    ap.add_argument('stage', choices=['verify', 'select', 'list', 'check', 'run', 'orbit'])
     ap.add_argument('--workers', type=int, default=4)
     ap.add_argument('--threads', type=int, default=4)
     ap.add_argument('--idle-minutes', type=float, default=120)

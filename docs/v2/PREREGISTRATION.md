@@ -199,3 +199,26 @@ files before any score.
 |---|---|
 | `docs/v2/RENDER_VS_REAL_PROTOCOL_A12.md` | `cf4aa495c8c5d400275210b61d04eaf68116f93a918d3e4024ccc69cb0112e7d` |
 | `tools/validation/render_vs_real/results_tc/pipeline_test.json` | `615af7ab99c43839b33a9adf632dfa88c961755bb48af218dd2cd067bfd01760` |
+
+## Entry 14 — 18 Nov 2026, coordinating session (held-out run, Kaguya TC)
+
+State at freezing: **no held-out Kaguya TC label or image has been listed for download, fetched, read, rendered, looked at
+or scored.** Only catalogue metadata has been used; the TC manifest and cache hold no held-out product. The dev pilot is
+complete (A11/A12, commit c1536d6: 141 rows scored, 9 gated, 0 failed). Amendment A13 defines the single held-out run for
+Kaguya TC: 50 eligible held-out rows per site in seeded order (200 rows, metadata only), the A12 conventions, the Otsu
+rule unchanged, the project owner downloading the files by hand, and a prediction written before the run. The TC code
+that the run executes is frozen here; `tc_select.py` is frozen in Entry 12 and the NAC and WAC code it imports in
+Entries 6 and 8. `tc_heldout.py` refuses to start if any row differs.
+
+| file | sha256 |
+|---|---|
+| `docs/v2/RENDER_VS_REAL_PROTOCOL_A13.md` | `44e0e4a17b4222f642e0a0466ec6ec64d1f88bbd3098c251848b90d9352cb39c` |
+| `tools/validation/render_vs_real/tc_camera.py` | `7995604909c743b71bd449ca00f33f82bfbb237f8b1722991edd2d08406dcf5d` |
+| `tools/validation/render_vs_real/tc_kernels.py` | `d86438fe39bd8ff8cf054ed3ab7e1a0e883d061e4268f7c3ee9aab1e82a4ad9c` |
+| `tools/validation/render_vs_real/tc_common.py` | `208b93aa6b785ed8d7679db6da4a19f4cf5c8c3afe7e0e1d2f1760cf37d5129d` |
+| `tools/validation/render_vs_real/tc_io.py` | `b43713324c15de554e34b0042642a545583a7fd19b8af5840c961b919ad78e98` |
+| `tools/validation/render_vs_real/tc_geometry.py` | `56dfb6e79918658be16c4ab89bfde83372c88115a975a68c63a2ece0d642141c` |
+| `tools/validation/render_vs_real/tc_run.py` | `7999ae362984d13ea12a1fdfbb0ba29ab0f64b7154888954873614641890bcfc` |
+| `tools/validation/render_vs_real/tc_pilot.py` | `c56db837f166214f3c3f7a863f7f90b5bcf239c85f938596fda1d1d0f8583c8e` |
+| `tools/validation/render_vs_real/tc_download_list.py` | `0aa4eb886fa6812afe1509885f661e3caca4590bdac2f6a2c3eda546bf41ff10` |
+| `tools/validation/render_vs_real/tc_heldout.py` | `e452f31801c9c524364224188bcf522f6f624f982eac36a8579fbfff38e0f33f` |
