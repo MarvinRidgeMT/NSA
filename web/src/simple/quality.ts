@@ -25,14 +25,28 @@ export interface DeviceFacts {
    * draws the scene into one. Without it the post chain is not used. Optional so older callers default to "not known" = false.
    */
   floatTargets?: boolean;
+  /**
+   * The browser refused a WebGL context asked for with failIfMajorPerformanceCaveat (it would be software or otherwise very
+   * slow) while it gave an ordinary one. Catches software renderers whose name is not known here or is hidden. Optional:
+   * unknown = false.
+   */
+  perfCaveat?: boolean;
 }
 
-const SOFTWARE = /swiftshader|llvmpipe|software|basic render/i;
+const SOFTWARE = /swiftshader|llvmpipe|lavapipe|softpipe|software|basic render|\bwarp\b|mesa offscreen/i;
 const STRONG_GPU = /apple m\d|apple gpu|nvidia|geforce|rtx|gtx|radeon (rx|pro)|\barc\b/i;
 
-/** Software rendering (SwiftShader, llvmpipe and the like): no GPU. The Moon model choice (globeMath.globeAsset) reads it. */
+/** A renderer name of software rendering (SwiftShader, llvmpipe, lavapipe, softpipe, WARP, Basic Render, …): no GPU. */
 export function isSoftwareRenderer(renderer: string): boolean {
   return SOFTWARE.test(renderer);
+}
+
+/**
+ * No GPU to speak of: a software renderer by name, or the browser's own "major performance caveat" signal (see DeviceFacts).
+ * The Moon model choice (globeMath.globeAsset) reads it to keep the light model.
+ */
+export function isSoftwareDevice(f: DeviceFacts): boolean {
+  return isSoftwareRenderer(f.renderer) || f.perfCaveat === true;
 }
 
 export function tierFor(f: DeviceFacts): QualityTier {
@@ -46,6 +60,7 @@ export function tierFor(f: DeviceFacts): QualityTier {
 export function deviceFacts(): DeviceFacts {
   let renderer = '';
   let floatTargets = false;
+  let perfCaveat = false;
   try {
     const c = document.createElement('canvas');
     const gl2 = c.getContext('webgl2');
@@ -55,13 +70,17 @@ export function deviceFacts(): DeviceFacts {
       renderer = String(ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
       floatTargets = !!gl2 && !!(gl2.getExtension('EXT_color_buffer_float') ?? gl2.getExtension('EXT_color_buffer_half_float'));
       gl.getExtension('WEBGL_lose_context')?.loseContext();
+      // the same request again, refusing a slow context: refused while the ordinary one was given = software or blocklisted
+      const strict = document.createElement('canvas').getContext('webgl', { failIfMajorPerformanceCaveat: true }) as WebGLRenderingContext | null;
+      perfCaveat = !strict;
+      strict?.getExtension('WEBGL_lose_context')?.loseContext();
     }
   } catch {
     /* renderer stays '' -> low */
   }
   const coarsePointer = typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;
   const shortSidePx = typeof screen !== 'undefined' ? Math.min(screen.width, screen.height) : 0;
-  return { renderer, coarsePointer, shortSidePx, floatTargets };
+  return { renderer, coarsePointer, shortSidePx, floatTargets, perfCaveat };
 }
 
 export interface QualityChoice {

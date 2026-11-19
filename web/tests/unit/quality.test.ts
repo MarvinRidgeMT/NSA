@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isSoftwareRenderer, pickQuality, tierFor, type DeviceFacts } from '../../src/simple/quality';
+import { isSoftwareDevice, isSoftwareRenderer, pickQuality, tierFor, type DeviceFacts } from '../../src/simple/quality';
 
 const desk = (renderer: string): DeviceFacts => ({ renderer, coarsePointer: false, shortSidePx: 982, floatTargets: true });
 
@@ -49,5 +49,28 @@ describe('software rendering, for the Moon model choice (S14 Part B)', () => {
     expect(isSoftwareRenderer('Apple GPU')).toBe(false);
     expect(isSoftwareRenderer('ANGLE (NVIDIA, NVIDIA GeForce RTX 4070 Direct3D11 vs_5_0 ps_5_0, D3D11)')).toBe(false);
     expect(isSoftwareRenderer('ANGLE (Intel, Intel(R) UHD Graphics 620 Direct3D11 vs_5_0 ps_5_0, D3D11)')).toBe(false);
+  });
+  it('other software renderers by name: lavapipe, softpipe, WARP, Basic Render, Mesa OffScreen, Apple Software Renderer', () => {
+    for (const r of [
+      'llvmpipe (LLVM 17.0.6, 256 bits)',
+      'ANGLE (Mesa, Vulkan 1.3 (llvmpipe (LLVM 17.0.6, 256 bits) (0x00000000)), lavapipe)',
+      'softpipe',
+      'ANGLE (Microsoft, Microsoft Basic Render Driver Direct3D11 vs_5_0 ps_5_0, D3D11)',
+      'ANGLE (Microsoft, WARP Direct3D11)',
+      'Mesa OffScreen',
+      'Apple Software Renderer',
+    ])
+      expect(isSoftwareRenderer(r), r).toBe(true);
+    expect(isSoftwareRenderer('ANGLE (NVIDIA, NVIDIA GeForce GTX 1080 Ti Direct3D11 vs_5_0 ps_5_0, D3D11)')).toBe(false);
+    expect(isSoftwareRenderer('Adreno (TM) 740')).toBe(false);
+    expect(isSoftwareRenderer('Mali-G78')).toBe(false);
+  });
+  it('a hidden or unknown renderer name counts as software when the browser reports a major performance caveat', () => {
+    const f = (renderer: string, perfCaveat?: boolean): DeviceFacts => ({ renderer, coarsePointer: false, shortSidePx: 982, floatTargets: true, perfCaveat });
+    expect(isSoftwareDevice(f('WebKit WebGL', true))).toBe(true);
+    expect(isSoftwareDevice(f('WebKit WebGL', false))).toBe(false);
+    expect(isSoftwareDevice(f('WebKit WebGL'))).toBe(false);
+    expect(isSoftwareDevice(f('ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)', false))).toBe(true);
+    expect(isSoftwareDevice(f('ANGLE (Apple, ANGLE Metal Renderer: Apple M4 Pro, Unspecified Version)', false))).toBe(false);
   });
 });

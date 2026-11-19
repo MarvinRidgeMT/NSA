@@ -10,7 +10,7 @@ import { PlainAnswer, verdictWord } from './components/PlainAnswer';
 import { fmtPctRange, mastScenarioId, useChooseMast, useMastReading } from './components/MastInstrument';
 import { TimeBar } from './components/TimeBar';
 import { switchMode } from './mode';
-import { deviceFacts, isSoftwareRenderer, pickQuality, QUALITY_NOTE } from './simple/quality';
+import { deviceFacts, isSoftwareDevice, pickQuality, QUALITY_NOTE } from './simple/quality';
 import { GLOBE_8K, GLOBE_LITE, GLOBE_NAV, GLOBE_V2, globeFallback, globePlan, manifestEntry, moonDir, pinReading, skyDirFromSite, yawFromAxes, type CurveRow } from './simple/globeMath';
 import type { GlobeSite } from './simple/Globe';
 import { Intro } from './simple/Intro';
@@ -341,7 +341,7 @@ export default function SimpleApp() {
   // the device is read once: its tier, and whether it renders in software (no GPU), which keeps the light Moon model (S14 Part B)
   const [quality] = useState(() => {
     const facts = deviceFacts();
-    return { ...pickQuality(location.search, () => facts), software: isSoftwareRenderer(facts.renderer) };
+    return { ...pickQuality(location.search, () => facts), software: isSoftwareDevice(facts) };
   });
   const [banner, setBanner] = useState(() => !bannerDismissed());
   const [menu, setMenu] = useState(false); // phones: the "more" menu in the top row

@@ -245,11 +245,17 @@ test('About this view: with the v2 globe on screen, its labels and credit are th
 
 /**
  * The test browser renders in software (SwiftShader), where the light SVS model stays the default. To see what a desktop or
- * a phone with a GPU gets, the page is told a GPU's name (WEBGL_debug_renderer_info only; the drawing is still SwiftShader)
- * and ?quality=low keeps the post chain off, as on a phone.
+ * a phone with a GPU gets, the page is told a GPU's name (WEBGL_debug_renderer_info only; the drawing is still SwiftShader),
+ * its "major performance caveat" refusal is switched off, and ?quality=low keeps the post chain off, as on a phone.
  */
 const asGpu = (page: Page, name: string) =>
   page.addInitScript((name) => {
+    // a GPU gives a context even when a slow one is refused: drop that flag, which SwiftShader would otherwise trip
+    const getContext = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, kind: string, opts?: Record<string, unknown>) {
+      if (opts && 'failIfMajorPerformanceCaveat' in opts) opts = { ...opts, failIfMajorPerformanceCaveat: false };
+      return (getContext as any).call(this, kind, opts);
+    } as typeof getContext;
     for (const C of [WebGLRenderingContext, WebGL2RenderingContext]) {
       const get = C.prototype.getParameter;
       C.prototype.getParameter = function (p: number) {
